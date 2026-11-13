@@ -1,0 +1,63 @@
+@page "/notes"
+@implements IDisposable
+@inject NoteStore Store
+
+<PageTitle>Notes</PageTitle>
+
+<h1>Notes</h1>
+<p class="text-muted">Example feature slice — copy this folder's pattern, then delete it.</p>
+
+<EditForm Model="_input" OnValidSubmit="Add" FormName="add-note" class="d-flex gap-2 mb-3">
+    <DataAnnotationsValidator />
+    <InputText @bind-Value="_input.Text" class="form-control" placeholder="Write something…" data-testid="note-input" />
+    <button type="submit" class="btn btn-primary" data-testid="note-add">Add</button>
+</EditForm>
+
+@if (_notes.Count == 0)
+{
+    <EmptyState Message="No notes yet." />
+}
+else
+{
+    <ul class="list-group" data-testid="note-list">
+        @foreach (var note in _notes)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center" @key="note.Id">
+                <span>@note.Text</span>
+                <button class="btn btn-sm btn-outline-danger" @onclick="() => Store.RemoveAsync(note.Id)">Delete</button>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private readonly NoteInput _input = new();
+    private IReadOnlyList<Note> _notes = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        Store.Changed += OnStoreChanged;
+        _notes = await Store.AllAsync();
+    }
+
+    private async Task Add()
+    {
+        await Store.AddAsync(_input.Text!);
+        _input.Text = string.Empty;
+    }
+
+    // Store events may fire from another user's circuit → marshal onto ours.
+    private void OnStoreChanged() => InvokeAsync(async () =>
+    {
+        _notes = await Store.AllAsync();
+        StateHasChanged();
+    });
+
+    public void Dispose() => Store.Changed -= OnStoreChanged;
+
+    private sealed class NoteInput
+    {
+        [System.ComponentModel.DataAnnotations.Required, System.ComponentModel.DataAnnotations.StringLength(500)]
+        public string? Text { get; set; }
+    }
+}

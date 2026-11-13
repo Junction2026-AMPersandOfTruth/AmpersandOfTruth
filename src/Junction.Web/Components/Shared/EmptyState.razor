@@ -1,0 +1,7 @@
+<div class="text-center text-muted py-5 border rounded" data-testid="empty-state">
+    @Message
+</div>
+
+@code {
+    [Parameter, EditorRequired] public string Message { get; set; } = "";
+}
