@@ -1,0 +1,795 @@
+@page "/articles/{PageId:long}/at"
+@implements IDisposable
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations
+@using AmpersandOfTruth.Web.Features.Investigations.Fixtures
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.Extensions.Options
+@inject TimeMachineService TimeMachine
+@inject IIncidentSource IncidentSource
+@inject IOptions<InvestigationSourceOptions> SourceOptions
+@inject IServiceProvider Services
+@inject NavigationManager Nav
+
+<PageTitle>@BuildPageTitle()</PageTitle>
+
+<div class="aot-page aot-stack" data-testid="timemachine-page">
+    <nav class="aot-crumbs" aria-label="Breadcrumb">
+        <a href="@ArticleHref()">← Article timeline</a>
+        <span aria-hidden="true">›</span>
+        <span>Read as of a date</span>
+    </nav>
+
+    @if (_loading)
+    {
+        <div class="aot-stack" role="status" aria-label="Loading historical revision" data-testid="tm-loading">
+            <span class="aot-skel" style="width:260px;height:28px"></span>
+            <span class="aot-skel" style="width:180px;height:14px"></span>
+            <span class="aot-skel" style="width:100%;height:120px"></span>
+        </div>
+    }
+    else if (_hasError)
+    {
+        <StatusBanner Kind="StatusKind.Error"
+                      Title="The Wikipedia data is not reachable right now."
+                      Detail="@_errorDetail"
+                      OnRetry="RetryAsync"
+                      TestId="tm-unavailable" />
+    }
+    else if (_snapshot is null)
+    {
+        <EmptyState Title="We don't have this article."
+                    Message="Our dataset covers 19,742 Finnish Wikipedia articles on the history of Finland." />
+    }
+    else
+    {
+        <header class="aot-stack">
+            <h1 class="aot-h1">
+                @if (!string.IsNullOrWhiteSpace(_snapshot.TitleEn) &&
+                     !string.Equals(_snapshot.TitleEn, _snapshot.TitleFi, StringComparison.Ordinal))
+                {
+                    <span>@_snapshot.TitleEn</span>
+                    @if (!string.IsNullOrWhiteSpace(_snapshot.TitleFi))
+                    {
+                        <span class="aot-muted aot-small" style="margin-left:8px">
+                            FI <span lang="fi">@_snapshot.TitleFi</span>
+                        </span>
+                    }
+                }
+                else if (!string.IsNullOrWhiteSpace(_snapshot.TitleFi))
+                {
+                    <span lang="fi">@_snapshot.TitleFi</span>
+                }
+                else
+                {
+                    <span>Article @PageId.ToString(CultureInfo.InvariantCulture)</span>
+                }
+            </h1>
+            <p class="aot-small aot-muted" style="margin:0">
+                Cleaned prose of the Finnish Wikipedia revision current on the selected UTC date ·
+                <span class="aot-num">@_snapshot.Range.Count.ToString("N0", CultureInfo.InvariantCulture)</span>
+                @(_snapshot.Range.Count == 1 ? "revision" : "revisions")
+                (@FormatMonthYear(_snapshot.Range.First) – @FormatMonthYear(_snapshot.Range.Last))
+            </p>
+        </header>
+
+        @if (_incidents.Count > 0 && SourceOptions.Value.IsSampleData)
+        {
+            <SampleDataBanner />
+        }
+
+        <section class="aot-panel aot-stack" aria-label="Date controls">
+            <div class="tm-controls">
+                <div class="tm-field">
+                    <label class="aot-label" for="tm-date-field">As of date (UTC)</label>
+                    <input id="tm-date-field"
+                           type="date"
+                           class="tm-date-input"
+                           value="@FormatIsoDate(_snapshot.SelectedDate)"
+                           @onchange="HandleDateChangedAsync"
+                           data-testid="tm-date-input" />
+                </div>
+
+                <div class="tm-field tm-field--slider">
+                    <label class="aot-label" for="tm-month-slider">
+                        Article lifetime (@FormatMonthYear(_snapshot.Range.First) – @FormatMonthYear(_snapshot.Range.Last))
+                    </label>
+                    <div class="tm-slider-row">
+                        <span class="aot-num aot-muted">@_snapshot.Range.First.Year.ToString(CultureInfo.InvariantCulture)</span>
+                        <input id="tm-month-slider"
+                               type="range"
+                               min="0"
+                               max="@MaxSliderMonths.ToString(CultureInfo.InvariantCulture)"
+                               step="1"
+                               value="@CurrentSliderMonth.ToString(CultureInfo.InvariantCulture)"
+                               @onchange="HandleSliderChangedAsync"
+                               aria-label="Month in article history"
+                               data-testid="tm-slider" />
+                        <span class="aot-num aot-muted">@_snapshot.Range.Last.Year.ToString(CultureInfo.InvariantCulture)</span>
+                    </div>
+                </div>
+
+                <div class="tm-field">
+                    <label class="aot-label" for="tm-compare-field">Compare with date</label>
+                    <div class="aot-row">
+                        <input id="tm-compare-field"
+                               type="date"
+                               class="tm-date-input"
+                               value="@(_snapshot.Comparison is { } cmp ? FormatIsoDate(cmp.DateB) : "")"
+                               @onchange="HandleCompareChangedAsync"
+                               data-testid="tm-compare-input" />
+                        @if (_snapshot.Comparison is not null)
+                        {
+                            <button type="button" class="aot-btn aot-btn--sm" @onclick="ClearCompareAsync">Clear</button>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            @if (_incidents.Count > 0)
+            {
+                <div class="aot-stack" style="gap:var(--space-2);border-top:1px solid var(--line);padding-top:var(--space-2)">
+                    <span class="aot-label">Jump to incident insertion</span>
+                    <div class="aot-row">
+                        @foreach (var jump in _incidents)
+                        {
+                            var active = string.Equals(_activeHighlightId, jump.Incident.Id, StringComparison.Ordinal);
+                            <button type="button"
+                                    class="aot-chip"
+                                    aria-pressed="@(active ? "true" : "false")"
+                                    @onclick="() => HandleIncidentJumpAsync(jump)"
+                                    data-testid="tm-incident-jump">
+                                <span class="aot-num">@FormatShortDate(jump.InsertedAtUtc)</span>
+                                <span>· @jump.Label</span>
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+        </section>
+
+        @if (_snapshot.Comparison is not null)
+        {
+            <TimeMachineDiffView Comparison="_snapshot.Comparison" OnClear="ClearCompareAsync" />
+        }
+
+        @if (_snapshot.BeforeFirst || _snapshot.Revision is null)
+        {
+            <div data-testid="tm-before-first">
+                <EmptyState Icon="info"
+                            Title="This article did not exist yet on that date."
+                            Message="@($"The earliest revision in our dataset is from {FormatDate(_snapshot.Range.First)}.")" />
+            </div>
+        }
+        else
+        {
+            var rev = _snapshot.Revision;
+            var editor = EditorDisplay.For(rev.User);
+
+            <div class="aot-panel aot-row aot-small aot-muted" style="justify-content:space-between" data-testid="tm-revision-meta">
+                <div class="aot-row" style="gap:var(--space-3)">
+                    <span class="aot-num">@FormatTimestamp(rev.Ts)</span>
+                    <span>·</span>
+                    <EditorTag Label="@editor" />
+                    <span>·</span>
+                    <span class="aot-num">@FormatBytes(rev.Bytes)</span>
+                </div>
+                <a href="@WikipediaLinks.Revision(rev.RevId).AbsoluteUri"
+                   target="_blank"
+                   rel="noopener"
+                   data-testid="tm-wiki-link">Original revision on fi.wikipedia ↗</a>
+            </div>
+
+            @if (_snapshot.Highlight is { FoundInProse: false, FallbackText.Length: > 0 } fallback)
+            {
+                <div class="aot-panel aot-stack" style="gap:var(--space-1)" data-testid="tm-highlight-fallback">
+                    <span class="aot-label">Inserted passage (outside cleaned article prose)</span>
+                    <p class="aot-serif" style="margin:0" lang="fi">
+                        <mark class="aot-ev" data-testid="tm-highlight">@fallback.FallbackText</mark>
+                    </p>
+                </div>
+            }
+
+            <article class="tm-prose" lang="fi" data-testid="tm-prose">
+                @if (_snapshot.Blocks.Count == 0)
+                {
+                    <p class="aot-small aot-muted" lang="en">This revision has no running prose (for example, a redirect or template-only revision).</p>
+                }
+                else
+                {
+                    @RenderBlocks(_snapshot.Blocks)
+                }
+
+                @if (_snapshot.IsTruncated)
+                {
+                    <p class="aot-small aot-muted" lang="en" style="margin-top:var(--space-4)">
+                        Showing the first @TimeMachineService.MaxProseChars.ToString("N0", CultureInfo.InvariantCulture) characters —
+                        <a href="@WikipediaLinks.Revision(rev.RevId).AbsoluteUri" target="_blank" rel="noopener">continue on Wikipedia ↗</a>
+                    </p>
+                }
+            </article>
+        }
+    }
+</div>
+
+@code {
+    private sealed record IncidentJump(
+        IncidentView Incident,
+        DateTime InsertedAtUtc,
+        long? InsertingRevId,
+        long? ParentRevId,
+        string Label);
+
+    private readonly record struct LoadKey(
+        long PageId,
+        DateOnly? Date,
+        DateOnly? Compare,
+        long? RevId,
+        string? HighlightId,
+        string? TopicSlug);
+
+    private CancellationTokenSource? _cts;
+    private bool _loading = true;
+    private bool _hasError;
+    private string? _errorDetail;
+    private LoadKey? _loadedKey;
+
+    private TimeMachineSnapshot? _snapshot;
+    private IReadOnlyList<IncidentJump> _incidents = [];
+    private long? _incidentsPageId;
+    private string? _incidentsTopicKey;
+    private string? _activeHighlightId;
+
+    [Parameter]
+    public long PageId { get; set; }
+
+    [SupplyParameterFromQuery(Name = "date")]
+    public string? Date { get; set; }
+
+    [SupplyParameterFromQuery(Name = "compare")]
+    public string? Compare { get; set; }
+
+    [SupplyParameterFromQuery(Name = "rev")]
+    public long? Rev { get; set; }
+
+    [SupplyParameterFromQuery(Name = "highlight")]
+    public string? Highlight { get; set; }
+
+    [SupplyParameterFromQuery(Name = "topic")]
+    public string? Topic { get; set; }
+
+    private int MaxSliderMonths => _snapshot is null
+        ? 0
+        : Math.Max(0, MonthIndex(_snapshot.Range.Last) - MonthIndex(_snapshot.Range.First));
+
+    private int CurrentSliderMonth
+    {
+        get
+        {
+            if (_snapshot is null) return 0;
+            var firstIdx = MonthIndex(_snapshot.Range.First);
+            var selectedIdx = (_snapshot.SelectedDate.Year * 12) + (_snapshot.SelectedDate.Month - 1);
+            return Math.Clamp(selectedIdx - firstIdx, 0, MaxSliderMonths);
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await SyncAsync(forceReload: false);
+    }
+
+    private async Task SyncAsync(bool forceReload)
+    {
+        var key = CurrentLoadKey();
+        if (!forceReload && _loadedKey == key && !_hasError)
+        {
+            return;
+        }
+
+        var ct = ResetCancellation();
+        if (_snapshot is null || _snapshot.PageId != PageId || forceReload)
+        {
+            _loading = true;
+        }
+
+        _hasError = false;
+        _errorDetail = null;
+
+        try
+        {
+            var incidents = await LoadIncidentsAsync(PageId, key.TopicSlug, ct);
+            if (ct.IsCancellationRequested) return;
+            _incidents = incidents;
+            _activeHighlightId = key.HighlightId;
+
+            var matchedJump = key.HighlightId is { Length: > 0 } hid
+                ? incidents.FirstOrDefault(j => string.Equals(j.Incident.Id, hid, StringComparison.Ordinal))
+                : null;
+
+            DateTime? targetUtc = null;
+            if (key.RevId is not null && matchedJump is not null)
+            {
+                targetUtc = matchedJump.InsertedAtUtc;
+            }
+            else if (key.Date is DateOnly d)
+            {
+                targetUtc = TimeMachineService.EndOfUtcDay(d);
+            }
+            else if (matchedJump is not null)
+            {
+                targetUtc = matchedJump.InsertedAtUtc;
+            }
+
+            var effectiveRevId = key.RevId ?? matchedJump?.InsertingRevId;
+            var highlightRevId = key.HighlightId is not null
+                ? (matchedJump?.InsertingRevId ?? key.RevId)
+                : null;
+            var highlightParentRevId = matchedJump?.ParentRevId;
+            var fallbackDiff = matchedJump?.Incident.Passage?.Diff;
+
+            var snapshot = await TimeMachine.ReadAtAsync(
+                pageId: PageId,
+                atUtc: targetUtc,
+                revId: effectiveRevId,
+                highlightRevId: highlightRevId,
+                highlightParentRevId: highlightParentRevId,
+                fallbackHighlightDiff: fallbackDiff,
+                compareDate: key.Compare,
+                ct: ct);
+
+            if (ct.IsCancellationRequested) return;
+
+            if (snapshot is not null && _incidents.Count == 0 && string.IsNullOrWhiteSpace(key.TopicSlug))
+            {
+                var byTitle = await TryLoadIncidentsByTitleAsync(PageId, snapshot.TitleEn, snapshot.TitleFi, ct);
+                if (byTitle.Count > 0)
+                {
+                    _incidents = byTitle;
+                    if (matchedJump is null &&
+                        key.HighlightId is { Length: > 0 } hidAfter &&
+                        byTitle.FirstOrDefault(j => string.Equals(j.Incident.Id, hidAfter, StringComparison.Ordinal)) is { } lateJump)
+                    {
+                        var lateTargetUtc = key.Date is DateOnly explicitDate
+                            ? TimeMachineService.EndOfUtcDay(explicitDate)
+                            : lateJump.InsertedAtUtc;
+                        snapshot = await TimeMachine.ReadAtAsync(
+                            pageId: PageId,
+                            atUtc: lateTargetUtc,
+                            revId: key.RevId ?? (key.Date is null ? lateJump.InsertingRevId : null),
+                            highlightRevId: lateJump.InsertingRevId ?? key.RevId,
+                            highlightParentRevId: lateJump.ParentRevId,
+                            fallbackHighlightDiff: lateJump.Incident.Passage?.Diff,
+                            compareDate: key.Compare,
+                            ct: ct);
+                        if (ct.IsCancellationRequested) return;
+                    }
+                }
+            }
+
+            _snapshot = snapshot;
+            _loadedKey = key;
+        }
+        catch (CorpusUnavailableException ex)
+        {
+            _hasError = true;
+            _errorDetail = ex.Message;
+            _snapshot = null;
+            _loadedKey = null;
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        finally
+        {
+            if (!ct.IsCancellationRequested)
+            {
+                _loading = false;
+            }
+        }
+    }
+
+    private async Task<IReadOnlyList<IncidentJump>> LoadIncidentsAsync(
+        long pageId,
+        string? topicSlug,
+        CancellationToken ct)
+    {
+        var cacheKey = topicSlug ?? "";
+        if (_incidentsPageId == pageId && string.Equals(_incidentsTopicKey, cacheKey, StringComparison.Ordinal) && _incidents.Count > 0)
+        {
+            return _incidents;
+        }
+
+        var slugsToTry = new List<string>();
+        if (!string.IsNullOrWhiteSpace(topicSlug))
+        {
+            slugsToTry.Add(topicSlug);
+        }
+        else if (Services.GetService<SampleIncidents>() is { } samples)
+        {
+            foreach (var t in samples.Topics)
+            {
+                if (t.Incidents.Any(i => i.PageId == pageId))
+                {
+                    slugsToTry.Add(t.Slug);
+                }
+            }
+        }
+
+        var found = await CollectIncidentJumpsAsync(pageId, slugsToTry, ct);
+        _incidentsPageId = pageId;
+        _incidentsTopicKey = cacheKey;
+        return found;
+    }
+
+    private async Task<IReadOnlyList<IncidentJump>> TryLoadIncidentsByTitleAsync(
+        long pageId,
+        string? titleEn,
+        string? titleFi,
+        CancellationToken ct)
+    {
+        var slugs = new List<string>();
+        if (!string.IsNullOrWhiteSpace(titleEn))
+        {
+            var s = TopicSlug.From(titleEn);
+            if (s.Length > 0) slugs.Add(s);
+        }
+
+        if (!string.IsNullOrWhiteSpace(titleFi))
+        {
+            var s = TopicSlug.From(titleFi);
+            if (s.Length > 0 && !slugs.Contains(s, StringComparer.Ordinal)) slugs.Add(s);
+        }
+
+        return slugs.Count == 0 ? [] : await CollectIncidentJumpsAsync(pageId, slugs, ct);
+    }
+
+    private async Task<IReadOnlyList<IncidentJump>> CollectIncidentJumpsAsync(
+        long pageId,
+        IReadOnlyList<string> slugs,
+        CancellationToken ct)
+    {
+        var jumps = new List<IncidentJump>();
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+
+        foreach (var slug in slugs)
+        {
+            try
+            {
+                var list = await IncidentSource.ForTopicAsync(slug, ct);
+                if (list is null) continue;
+
+                foreach (var inc in list)
+                {
+                    if (!inc.Articles.Any(a => a.PageId == pageId) && inc.Source.PageId != pageId)
+                    {
+                        continue;
+                    }
+
+                    if (!seen.Add(inc.Id))
+                    {
+                        continue;
+                    }
+
+                    jumps.Add(BuildIncidentJump(pageId, inc));
+                }
+            }
+            catch (OperationCanceledException) when (ct.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch
+            {
+                // Degrade gracefully if incident source fails while reading an article.
+            }
+        }
+
+        return jumps;
+    }
+
+    private static IncidentJump BuildIncidentJump(long pageId, IncidentView inc)
+    {
+        var firstInsert = inc.Edits
+            .Where(e => e.PageId == pageId && e.Action == EditAction.Inserted)
+            .OrderBy(e => e.Timestamp)
+            .FirstOrDefault()
+            ?? inc.Edits
+                .Where(e => e.PageId == pageId)
+                .OrderBy(e => e.Timestamp)
+                .FirstOrDefault();
+
+        var tsUtc = firstInsert?.Timestamp.UtcDateTime ?? inc.FirstSeen.UtcDateTime;
+        long? revId = firstInsert?.RevId
+            ?? (inc.Source.PageId == pageId && inc.Source.InsertingRevIds.Count > 0 ? inc.Source.InsertingRevIds[0] : null);
+        long? parentId = firstInsert?.ParentRevId
+            ?? (inc.Passage is { } p && p.RevId == revId ? p.ParentRevId : null);
+
+        var rawHeadline = !string.IsNullOrWhiteSpace(inc.ClaimEn)
+            ? inc.ClaimEn!
+            : !string.IsNullOrWhiteSpace(inc.ClaimOriginal)
+                ? inc.ClaimOriginal!
+                : $"Incident {inc.Id}";
+        var label = rawHeadline.Length > 64 ? rawHeadline[..61].TrimEnd() + "…" : rawHeadline;
+
+        return new IncidentJump(inc, tsUtc, revId, parentId, label);
+    }
+
+    private async Task HandleDateChangedAsync(ChangeEventArgs e)
+    {
+        if (!TryParseIsoDate(e.Value?.ToString(), out var picked))
+        {
+            return;
+        }
+
+        var key = CurrentLoadKey();
+        var uri = BuildUri(date: picked, compare: key.Compare, rev: null, highlight: null, topicSlug: key.TopicSlug);
+        Nav.NavigateTo(uri, replace: true);
+        await SyncAsync(forceReload: false);
+    }
+
+    private async Task HandleSliderChangedAsync(ChangeEventArgs e)
+    {
+        if (_snapshot is null || !int.TryParse(e.Value?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var monthOffset))
+        {
+            return;
+        }
+
+        var clamped = Math.Clamp(monthOffset, 0, MaxSliderMonths);
+        var firstMonthIdx = MonthIndex(_snapshot.Range.First);
+        var targetMonthIdx = firstMonthIdx + clamped;
+        var year = targetMonthIdx / 12;
+        var month = (targetMonthIdx % 12) + 1;
+        var endOfMonth = new DateOnly(year, month, DateTime.DaysInMonth(year, month));
+        var lastDate = DateOnly.FromDateTime(_snapshot.Range.Last);
+        var firstDate = DateOnly.FromDateTime(_snapshot.Range.First);
+        var picked = endOfMonth > lastDate ? lastDate : (endOfMonth < firstDate ? firstDate : endOfMonth);
+
+        var key = CurrentLoadKey();
+        var uri = BuildUri(date: picked, compare: key.Compare, rev: null, highlight: null, topicSlug: key.TopicSlug);
+        Nav.NavigateTo(uri, replace: true);
+        await SyncAsync(forceReload: false);
+    }
+
+    private async Task HandleCompareChangedAsync(ChangeEventArgs e)
+    {
+        var raw = e.Value?.ToString();
+        DateOnly? compare = TryParseIsoDate(raw, out var parsed) ? parsed : null;
+        var key = CurrentLoadKey();
+        var baseDate = key.Date ?? _snapshot?.SelectedDate;
+        var uri = BuildUri(date: baseDate, compare: compare, rev: key.RevId, highlight: key.HighlightId, topicSlug: key.TopicSlug);
+        Nav.NavigateTo(uri, replace: true);
+        await SyncAsync(forceReload: false);
+    }
+
+    private async Task ClearCompareAsync()
+    {
+        var key = CurrentLoadKey();
+        var baseDate = key.Date ?? _snapshot?.SelectedDate;
+        var uri = BuildUri(date: baseDate, compare: null, rev: key.RevId, highlight: key.HighlightId, topicSlug: key.TopicSlug);
+        Nav.NavigateTo(uri, replace: true);
+        await SyncAsync(forceReload: false);
+    }
+
+    private async Task HandleIncidentJumpAsync(IncidentJump jump)
+    {
+        var key = CurrentLoadKey();
+        var date = DateOnly.FromDateTime(jump.InsertedAtUtc);
+        var uri = BuildUri(
+            date: date,
+            compare: null,
+            rev: jump.InsertingRevId,
+            highlight: jump.Incident.Id,
+            topicSlug: key.TopicSlug);
+        Nav.NavigateTo(uri, replace: true);
+        await SyncAsync(forceReload: false);
+    }
+
+    private async Task RetryAsync()
+    {
+        await SyncAsync(forceReload: true);
+    }
+
+    private LoadKey CurrentLoadKey()
+    {
+        var hasQueryInUri = Uri.TryCreate(Nav.Uri, UriKind.Absolute, out var uri) &&
+                            (!string.IsNullOrEmpty(uri.Query) || uri.AbsolutePath.EndsWith("/at", StringComparison.OrdinalIgnoreCase));
+
+        var dateRaw = hasQueryInUri ? ReadQueryParam(Nav.Uri, "date") : (Date ?? ReadQueryParam(Nav.Uri, "date"));
+        var compareRaw = hasQueryInUri ? ReadQueryParam(Nav.Uri, "compare") : (Compare ?? ReadQueryParam(Nav.Uri, "compare"));
+        var revRaw = hasQueryInUri ? ReadQueryParam(Nav.Uri, "rev") : (Rev?.ToString(CultureInfo.InvariantCulture) ?? ReadQueryParam(Nav.Uri, "rev"));
+        var highlightRaw = hasQueryInUri ? ReadQueryParam(Nav.Uri, "highlight") : (Highlight ?? ReadQueryParam(Nav.Uri, "highlight"));
+        var topicRaw = hasQueryInUri ? ReadQueryParam(Nav.Uri, "topic") : (Topic ?? ReadQueryParam(Nav.Uri, "topic"));
+
+        DateOnly? date = TryParseIsoDate(dateRaw, out var d) ? d : null;
+        DateOnly? compare = TryParseIsoDate(compareRaw, out var c) ? c : null;
+        long? revId = long.TryParse(revRaw, NumberStyles.Integer, CultureInfo.InvariantCulture, out var r) && r > 0 ? r : null;
+        string? highlightId = !string.IsNullOrWhiteSpace(highlightRaw) ? highlightRaw.Trim() : null;
+        string? topicSlug = !string.IsNullOrWhiteSpace(topicRaw) && TopicSlug.From(topicRaw) is { Length: > 0 } s ? s : null;
+
+        return new LoadKey(PageId, date, compare, revId, highlightId, topicSlug);
+    }
+
+    private string BuildUri(DateOnly? date, DateOnly? compare, long? rev, string? highlight, string? topicSlug)
+    {
+        var query = new List<string>(5);
+        if (date is DateOnly d)
+        {
+            query.Add($"date={FormatIsoDate(d)}");
+        }
+
+        if (compare is DateOnly c)
+        {
+            query.Add($"compare={FormatIsoDate(c)}");
+        }
+
+        if (rev is long r && r > 0)
+        {
+            query.Add($"rev={r.ToString(CultureInfo.InvariantCulture)}");
+        }
+
+        if (!string.IsNullOrWhiteSpace(highlight))
+        {
+            query.Add($"highlight={Uri.EscapeDataString(highlight)}");
+        }
+
+        if (!string.IsNullOrWhiteSpace(topicSlug))
+        {
+            query.Add($"topic={Uri.EscapeDataString(topicSlug)}");
+        }
+
+        var path = $"/articles/{PageId.ToString(CultureInfo.InvariantCulture)}/at";
+        return query.Count > 0 ? $"{path}?{string.Join("&", query)}" : path;
+    }
+
+    private string ArticleHref()
+    {
+        var key = CurrentLoadKey();
+        var path = $"/articles/{PageId.ToString(CultureInfo.InvariantCulture)}";
+        return !string.IsNullOrWhiteSpace(key.TopicSlug)
+            ? $"{path}?topic={Uri.EscapeDataString(key.TopicSlug)}"
+            : path;
+    }
+
+    private string BuildPageTitle()
+    {
+        if (_snapshot is { TitleEn.Length: > 0 } sEn)
+        {
+            return $"{sEn.TitleEn} ({FormatShortDate(sEn.SelectedDate)}) · Ampersand of Truth";
+        }
+
+        if (_snapshot is { TitleFi.Length: > 0 } sFi)
+        {
+            return $"{sFi.TitleFi} ({FormatShortDate(sFi.SelectedDate)}) · Ampersand of Truth";
+        }
+
+        return "Article time machine · Ampersand of Truth";
+    }
+
+    private static RenderFragment RenderBlocks(IReadOnlyList<ProseBlock> blocks) => __builder =>
+    {
+        var i = 0;
+        while (i < blocks.Count)
+        {
+            var block = blocks[i];
+            switch (block.Kind)
+            {
+                case ProseBlockKind.Heading2:
+                    <h2 class="aot-h2">@RenderPieces(block.Pieces)</h2>
+                    i++;
+                    break;
+
+                case ProseBlockKind.Heading3:
+                    <h3 class="aot-h3">@RenderPieces(block.Pieces)</h3>
+                    i++;
+                    break;
+
+                case ProseBlockKind.BulletItem:
+                    <ul>
+                        @while (i < blocks.Count && blocks[i].Kind == ProseBlockKind.BulletItem)
+                        {
+                            var item = blocks[i];
+                            <li>@RenderPieces(item.Pieces)</li>
+                            i++;
+                        }
+                    </ul>
+                    break;
+
+                case ProseBlockKind.NumberedItem:
+                    <ol>
+                        @while (i < blocks.Count && blocks[i].Kind == ProseBlockKind.NumberedItem)
+                        {
+                            var item = blocks[i];
+                            <li>@RenderPieces(item.Pieces)</li>
+                            i++;
+                        }
+                    </ol>
+                    break;
+
+                default:
+                    <p>@RenderPieces(block.Pieces)</p>
+                    i++;
+                    break;
+            }
+        }
+    };
+
+    private static RenderFragment RenderPieces(IReadOnlyList<ProsePiece> pieces) => __builder =>
+    {
+        foreach (var piece in pieces)
+        {
+            if (piece.Highlighted)
+            {
+                <mark class="aot-ev" data-testid="tm-highlight">@piece.Text</mark>
+            }
+            else
+            {
+                @piece.Text
+            }
+        }
+    };
+
+    private static bool TryParseIsoDate(string? raw, out DateOnly date)
+    {
+        date = default;
+        return !string.IsNullOrWhiteSpace(raw) &&
+               DateOnly.TryParseExact(raw.Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out date);
+    }
+
+    private static string? ReadQueryParam(string uriString, string targetKey)
+    {
+        if (!Uri.TryCreate(uriString, UriKind.Absolute, out var uri) || string.IsNullOrEmpty(uri.Query))
+        {
+            return null;
+        }
+
+        foreach (var part in uri.Query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var eq = part.IndexOf('=');
+            if (eq <= 0) continue;
+            var key = Uri.UnescapeDataString(part[..eq]);
+            if (string.Equals(key, targetKey, StringComparison.OrdinalIgnoreCase))
+            {
+                return Uri.UnescapeDataString(part[(eq + 1)..]);
+            }
+        }
+
+        return null;
+    }
+
+    private static int MonthIndex(DateTime dt) => (dt.Year * 12) + (dt.Month - 1);
+
+    private static string FormatIsoDate(DateOnly d) => d.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+    private static string FormatShortDate(DateOnly d) => d.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+
+    private static string FormatShortDate(DateTime utc) => utc.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+
+    private static string FormatDate(DateTime utc) => utc.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+
+    private static string FormatMonthYear(DateTime utc) => utc.ToString("MMM yyyy", CultureInfo.InvariantCulture);
+
+    private static string FormatTimestamp(DateTime ts)
+    {
+        var utc = ts.Kind == DateTimeKind.Local ? ts.ToUniversalTime() : DateTime.SpecifyKind(ts, DateTimeKind.Utc);
+        return utc.ToString("d MMM yyyy, HH:mm 'UTC'", CultureInfo.InvariantCulture);
+    }
+
+    private static string FormatBytes(int bytes) =>
+        $"{bytes.ToString("N0", CultureInfo.InvariantCulture)} {(bytes == 1 ? "byte" : "bytes")}";
+
+    private CancellationToken ResetCancellation()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = new CancellationTokenSource();
+        return _cts.Token;
+    }
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+}

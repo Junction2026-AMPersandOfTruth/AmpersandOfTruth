@@ -68,11 +68,15 @@ public sealed class LayoutTests : BunitContext
         Assert.Empty(searchSlot.Children);
 
         var navLinks = cut.FindAll("header.aot-appbar nav a");
-        Assert.Equal(2, navLinks.Count);
+        Assert.Equal(4, navLinks.Count);
         Assert.Equal("/", navLinks[0].GetAttribute("href"));
         Assert.Equal("Investigate", navLinks[0].TextContent.Trim());
         Assert.Equal("/methodology", navLinks[1].GetAttribute("href"));
         Assert.Equal("How this works", navLinks[1].TextContent.Trim());
+        Assert.Equal("/library", navLinks[2].GetAttribute("href"));
+        Assert.Equal("Library", navLinks[2].TextContent.Trim());
+        Assert.Equal("/hotspots", navLinks[3].GetAttribute("href"));
+        Assert.Equal("Hot spots", navLinks[3].TextContent.Trim());
 
         var themeToggle = cut.Find("header.aot-appbar [data-testid=theme-toggle]");
         Assert.Equal("Theme: System", themeToggle.GetAttribute("aria-label"));

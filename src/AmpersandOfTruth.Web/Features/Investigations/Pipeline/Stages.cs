@@ -71,4 +71,17 @@ public sealed record EditReading(
     /// re-insertion rule, every occurrence rather than only the first. Oldest first; identical consecutive revisions count once.
     /// </summary>
     public IReadOnlyList<RevisionRow> Reinsertions { get; init; } = [];
+
+    /// <summary>
+    /// P1.S4 (#31): the precomputed conflict episodes that hold a revision of the span or the revert. Empty = none, or
+    /// the signal is switched off. Null = the episode tables could not be read, so it is unknown (such a reading is not
+    /// cached). <see cref="EditWar"/> applies the tier rule.
+    /// </summary>
+    public IReadOnlyList<ConflictEpisode>? Conflicts { get; init; } = [];
+
+    /// <summary>P1.S8 (#35): citations the edit removed or replaced (<see cref="SourceChangeDetector"/>).</summary>
+    public IReadOnlyList<SourceChange> SourceChanges { get; init; } = [];
+
+    /// <summary>The episode that makes this edit part of a back-and-forth (<see cref="EditWars.Of"/>), or null.</summary>
+    public ConflictEpisode? EditWar => EditWars.Of(Conflicts, Span, Edit.Revert.RevId);
 }

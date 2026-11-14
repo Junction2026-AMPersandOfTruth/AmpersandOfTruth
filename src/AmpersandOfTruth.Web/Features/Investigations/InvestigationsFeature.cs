@@ -19,6 +19,7 @@ public static class InvestigationsFeature
         services.AddSingleton<IRevisionStore, MariaDbRevisionStore>();
         services.AddSingleton<IIncidentCorpus, MariaDbIncidentCorpus>();
         services.AddSingleton<IContestSignals, MariaDbContestSignals>();
+        services.AddSingleton<IConflictEpisodes, MariaDbConflictEpisodes>();   // P1.S4's precomputed episodes (research.s4_*)
 
         // Pipeline stages (#39). Each is swapped for the winning P1 experiment without touching the rest.
         services.AddSingleton<ITopicSearch, VectorTopicSearch>();

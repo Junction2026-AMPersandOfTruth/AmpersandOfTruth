@@ -19,7 +19,8 @@ internal readonly record struct WikiToken(
 
 /// <summary>
 /// Markup-aware tokenizer for one block of wikitext. Atomic tokens: a whole <c>&lt;ref&gt;…&lt;/ref&gt;</c> (its prose is the
-/// flattened citation), a category, interwiki or file link, a comment, an HTML tag. Templates are tokenized inside, so an
+/// flattened citation; an unclosed <c>&lt;ref&gt;</c> is just a tag, see <see cref="RefTags"/>), a category, interwiki or
+/// file link, a comment, an HTML tag. Templates are tokenized inside, so an
 /// infobox edit is reported word by word; values of a multi-line template (an infobox) count as prose, inline templates
 /// (<c>{{Lähde}}</c>, <c>{{Viitteet}}</c>) do not. Link labels are prose, link targets markup. Everything else is words,
 /// whitespace and single punctuation characters.
@@ -412,11 +413,11 @@ internal sealed class WikitextTokenizer
         return -1;
     }
 
+    /// <summary>End of the reference that starts at <paramref name="i"/>, or -1: not a <c>&lt;ref&gt;</c>, or one that is
+    /// never closed (<see cref="RefTags"/>) — its opening tag is then markup and what follows is ordinary text.</summary>
     private int RefEnd(int i, int end)
     {
-        if (!AtIgnoreCase(i, "<ref") || i + 4 >= end || _budget.Left <= 0) return -1;
-        char after = _s[i + 4];
-        if (after != '>' && after != '/' && !char.IsWhiteSpace(after)) return -1;
+        if (_budget.Left <= 0 || !RefTags.OpensAt(_s, i, end)) return -1;
         int gt = _s.IndexOf('>', i + 4, end - (i + 4));
         if (gt < 0)
         {
@@ -424,10 +425,9 @@ internal sealed class WikitextTokenizer
             return -1;
         }
         if (_s[gt - 1] == '/') return gt + 1;
-        int close = _s.IndexOf("</ref", gt + 1, end - (gt + 1), StringComparison.OrdinalIgnoreCase);
-        int gt2 = close < 0 ? -1 : _s.IndexOf('>', close, end - close);
-        _budget.Left -= (gt2 < 0 ? end : gt2) - i;
-        return gt2 < 0 ? -1 : gt2 + 1;
+        int close = RefTags.CloseOf(_s, gt + 1, end, out int scannedTo);
+        _budget.Left -= scannedTo - i;
+        return close;
     }
 
     private int TagEnd(int i, int end)

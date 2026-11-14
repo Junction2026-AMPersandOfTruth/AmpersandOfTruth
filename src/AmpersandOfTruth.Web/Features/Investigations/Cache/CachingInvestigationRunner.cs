@@ -33,6 +33,7 @@ public sealed class PipelineFingerprint(
         return $"pipeline={InvestigationPipeline.Version};reader={CorpusEditReader.Version};wikidiff={WikitextDiff.Contract};" +
                $"prompt={prompts.Get(ClassifyEditPrompt.Id).FullVersion};model={model};" +
                $"limits={o.ArticleLimit},{o.RevertsPerArticle},{o.MaxCandidates},{o.MaxSpanRevisions},{o.MaxPromptChars};" +
+               $"signals={(o.EditWarSignal ? "edit_war" : "")},{(o.SourceChangeSignal ? "source_change" : "")};" +
                $"tiers={TierThresholds.Default}";
     }
 

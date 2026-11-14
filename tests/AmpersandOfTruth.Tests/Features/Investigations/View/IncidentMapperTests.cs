@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using AmpersandOfTruth.Web.Features.Evidence;
 using AmpersandOfTruth.Web.Features.Investigations;
 using AmpersandOfTruth.Web.Features.Investigations.Pipeline;
@@ -222,15 +221,19 @@ public class IncidentMapperTests
     public async Task MapAsync_fetches_articles_and_revisions_concurrently()
     {
         SeedEdit(700, 701, 702, "Ennen.", "Ennen. Jälkeen.");
-        _corpus.Delay = TimeSpan.FromMilliseconds(180);
 
-        var view = await _mapper.MapAsync(SampleRecord(701, 702), rank: 1);
+        // Both lookups are held open, so the second is in flight only if it was started before the first returned.
+        // One after the other would stop at 1 and fail the wait.
+        _corpus.Calls.Hold();
+        var mapping = _mapper.MapAsync(SampleRecord(701, 702), rank: 1);
+        await _corpus.Calls.WaitForAsync(2);
+        _corpus.Calls.Release();
+        var view = await mapping;
 
         Assert.NotNull(view.Passage);
         Assert.Equal(1, _corpus.ArticleCalls);
         Assert.Equal(1, _corpus.RevisionCalls);
-        // Both lookups were in flight at once (asserted without wall-clock timing, which flakes on a busy machine).
-        Assert.Equal(2, _corpus.MaxInFlight);
+        Assert.Equal(2, _corpus.Calls.Max);
     }
 
     private void SeedEdit(long parentRevId, long insertRevId, long removeRevId, string before, string after)

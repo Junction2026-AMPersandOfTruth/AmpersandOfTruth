@@ -8,8 +8,6 @@ public sealed class FakeIncidentCorpus : IIncidentCorpus
 {
     private int _revisionCalls;
     private int _articleCalls;
-    private int _inFlight;
-    private int _maxInFlight;
 
     public List<RevisionRow> Revisions { get; } = [];
     public Dictionary<long, ArticleRef> Articles { get; } = [];
@@ -19,29 +17,18 @@ public sealed class FakeIncidentCorpus : IIncidentCorpus
     public int RevisionCalls => Volatile.Read(ref _revisionCalls);
     public int ArticleCalls => Volatile.Read(ref _articleCalls);
 
-    /// <summary>Most article/revision lookups that were in flight at the same time (concurrency proof without wall-clock timing).</summary>
-    public int MaxInFlight => Volatile.Read(ref _maxInFlight);
-
-    private async Task DelayAsync(CancellationToken ct)
-    {
-        var now = Interlocked.Increment(ref _inFlight);
-        int seen;
-        while (now > (seen = Volatile.Read(ref _maxInFlight)) && Interlocked.CompareExchange(ref _maxInFlight, now, seen) != seen) { }
-        try
-        {
-            if (Delay > TimeSpan.Zero) await Task.Delay(Delay, ct);
-        }
-        finally
-        {
-            Interlocked.Decrement(ref _inFlight);
-        }
-    }
+    /// <summary>Article and revision lookups in flight, counted together.</summary>
+    public InFlightCalls Calls { get; } = new();
 
     public async Task<IReadOnlyList<RevisionRow>> RevisionsAsync(
         long pageId, IReadOnlyCollection<long> revIds, CancellationToken ct = default)
     {
         Interlocked.Increment(ref _revisionCalls);
-        await DelayAsync(ct);
+        using var call = await Calls.EnterAsync(ct);
+        if (Delay > TimeSpan.Zero)
+        {
+            await Task.Delay(Delay, ct);
+        }
 
         ThrowIfDown();
         return Revisions
@@ -55,7 +42,11 @@ public sealed class FakeIncidentCorpus : IIncidentCorpus
         IReadOnlyCollection<long> pageIds, CancellationToken ct = default)
     {
         Interlocked.Increment(ref _articleCalls);
-        await DelayAsync(ct);
+        using var call = await Calls.EnterAsync(ct);
+        if (Delay > TimeSpan.Zero)
+        {
+            await Task.Delay(Delay, ct);
+        }
 
         ThrowIfDown();
         var dict = new Dictionary<long, ArticleRef>();

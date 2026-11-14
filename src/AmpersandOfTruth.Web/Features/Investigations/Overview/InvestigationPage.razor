@@ -7,6 +7,7 @@
 @using AmpersandOfTruth.Web.Features.Investigations
 @using AmpersandOfTruth.Web.Features.Investigations.Pipeline
 @using AmpersandOfTruth.Web.Features.Investigations.View
+@using AmpersandOfTruth.Web.Features.Library
 @using Microsoft.AspNetCore.WebUtilities
 @using Microsoft.Extensions.Diagnostics.HealthChecks
 @using Microsoft.Extensions.Options
@@ -31,12 +32,27 @@
 <div class="aot-stack" style="gap:20px" data-testid="investigation-page">
     <SampleDataBanner />
 
+    @if (EffectiveSavedId is not null && _progress.Failure is null && _completedAnalysedAt is { } savedAnalysedAt)
+    {
+        <SavedInvestigationBanner AnalysedAt="savedAnalysedAt"
+                                  Running="_progress.IsRunning"
+                                  OnRerunLatest="RerunAsync" />
+    }
+
     <div data-testid="summary-header">
         <div class="aot-row" style="justify-content:space-between">
             <h1 class="aot-h1" data-testid="topic-title">@TopicText</h1>
-            <button type="button" class="aot-btn aot-btn--sm" data-testid="copy-link" @onclick="CopyLinkAsync">
-                @(_copied ? "Copied" : "Copy link")
-            </button>
+            <div class="aot-row" style="gap:6px">
+                <SaveInvestigationButton Topic="@TopicText"
+                                         Articles="@_progress.Articles"
+                                         Incidents="@_completedIncidents"
+                                         AnalysedAt="@_completedAnalysedAt"
+                                         SavedId="@EffectiveSavedId"
+                                         OnSaved="HandleSaved" />
+                <button type="button" class="aot-btn aot-btn--sm" data-testid="copy-link" @onclick="CopyLinkAsync">
+                    @(_copied ? "Copied" : "Copy link")
+                </button>
+            </div>
         </div>
 
         <div class="aot-row aot-small" style="margin-top:4px;gap:6px 12px">
@@ -204,14 +220,26 @@
             {
                 @if (visibleIncidents.Count > 0)
                 {
-                    @foreach (var incident in visibleIncidents)
+                    @if (EffectiveSavedId is { } savedId)
                     {
-                        <IncidentCard Incident="incident"
-                                      Topic="@EffectiveSlug"
-                                      Query="@queryString"
-                                      Highlighted="@string.Equals(_hotId, incident.Id, StringComparison.Ordinal)"
-                                      OnHover="SetHotId"
-                                      @key="incident.Id" />
+                        <SavedIncidentList SavedId="savedId"
+                                           Incidents="visibleIncidents"
+                                           Topic="@EffectiveSlug"
+                                           Query="@queryString"
+                                           HotId="@_hotId"
+                                           OnHover="SetHotId" />
+                    }
+                    else
+                    {
+                        @foreach (var incident in visibleIncidents)
+                        {
+                            <IncidentCard Incident="incident"
+                                          Topic="@EffectiveSlug"
+                                          Query="@queryString"
+                                          Highlighted="@string.Equals(_hotId, incident.Id, StringComparison.Ordinal)"
+                                          OnHover="SetHotId"
+                                          @key="incident.Id" />
+                        }
                     }
                 }
                 else
@@ -323,6 +351,8 @@
     private OverviewFilter _filter = OverviewFilter.Default;
     private string _sortValue = "relevance";
     private List<IncidentView> _incidents = [];
+    private IReadOnlyList<IncidentRecord>? _completedIncidents;
+    private DateTimeOffset? _completedAnalysedAt;
     private CancellationTokenSource? _cts;
     private ITimer? _slowTimer;
     private bool _hasRendered;
@@ -330,6 +360,7 @@
     private bool _wasSlow;
     private bool _copied;
     private string? _activeSlug;
+    private Guid? _activeSavedId;
     private string? _hotId;
     private StageFailureKind? _prerenderFailureKind;
     private string? _prerenderFailureDetail;
@@ -341,12 +372,15 @@
 
     [Parameter] public string Topic { get; set; } = "";
 
+    [SupplyParameterFromQuery(Name = "saved")] public Guid? SavedQuery { get; set; }
     [SupplyParameterFromQuery(Name = "sort")] public string? SortQuery { get; set; }
     [SupplyParameterFromQuery(Name = "tier")] public string? TierQuery { get; set; }
     [SupplyParameterFromQuery(Name = "signal")] public string? SignalQuery { get; set; }
     [SupplyParameterFromQuery(Name = "article")] public long? ArticleQuery { get; set; }
     [SupplyParameterFromQuery(Name = "from")] public int? FromQuery { get; set; }
     [SupplyParameterFromQuery(Name = "to")] public int? ToQuery { get; set; }
+
+    private Guid? EffectiveSavedId => SavedQuery ?? TryParseSavedFromUri(Nav.Uri);
 
     private string TopicText => Services.GetService<AmpersandOfTruth.Web.Features.Investigations.Fixtures.SampleIncidents>()?.Match(Topic ?? "")?.Title
         ?? (TopicSlug.ToQuery(Topic ?? "") is { Length: > 0 } q ? char.ToUpperInvariant(q[0]) + q[1..] : "");
@@ -366,6 +400,7 @@
     protected override void OnInitialized()
     {
         _progress = new RunProgress(Time);
+        Nav.LocationChanged += HandleLocationChanged;
     }
 
     protected override async Task OnInitializedAsync()
@@ -417,9 +452,11 @@
         if (_hasRendered)
         {
             var nextSlug = EffectiveSlug;
-            if (!string.Equals(_activeSlug, nextSlug, StringComparison.Ordinal))
+            var nextSaved = EffectiveSavedId;
+            if (!string.Equals(_activeSlug, nextSlug, StringComparison.Ordinal) || nextSaved != _activeSavedId)
             {
                 _activeSlug = nextSlug;
+                _activeSavedId = nextSaved;
                 _ = StartRunAsync();
             }
         }
@@ -467,6 +504,7 @@
         {
             _hasRendered = true;
             _activeSlug = EffectiveSlug;
+            _activeSavedId = EffectiveSavedId;
             _ = StartRunAsync();
         }
 
@@ -482,7 +520,14 @@
         var runCts = _cts = new CancellationTokenSource();
         var ct = runCts.Token;
 
+        var savedId = EffectiveSavedId;
+
         _incidents = [];
+        _completedIncidents = null;
+        if (!refresh || savedId is null)
+        {
+            _completedAnalysedAt = null;
+        }
         _mappedById.Clear();
         _articleTitlesEn.Clear();
         _sparklines.Clear();
@@ -499,10 +544,14 @@
 
         var query = TopicSlug.ToQuery(Topic ?? "");
         var slug = EffectiveSlug;
+        var replay = !refresh && savedId is not null ? Services.GetService<SavedReplay>() : null;
+        var events = replay is not null && savedId is { } replayId
+            ? replay.EventsAsync(replayId, ct)
+            : Runner.RunAsync(query, refresh, ct);
 
         try
         {
-            await foreach (var evt in Runner.RunAsync(query, refresh, ct))
+            await foreach (var evt in events.WithCancellation(ct))
             {
                 if (!ReferenceEquals(runCts, _cts) || _disposed) return;
 
@@ -551,9 +600,17 @@
 
                     case Completed done:
                         StopSlowMonitor();
+                        var analysedAt = done.AnalysedAt != default ? done.AnalysedAt : Time.GetUtcNow();
+                        _completedIncidents = done.Incidents;
+                        _completedAnalysedAt = analysedAt;
                         RecentRuns.Record(slug, done.Incidents);
                         await SyncFinalIncidentsAsync(done.Incidents, ct);
                         if (!ReferenceEquals(runCts, _cts) || _disposed) return;
+                        if (refresh && savedId is { } updateId)
+                        {
+                            await TryAutosaveSnapshotAsync(updateId, done.Incidents, analysedAt, ct);
+                            if (!ReferenceEquals(runCts, _cts) || _disposed) return;
+                        }
                         await RenderNowAsync();
                         _ = LoadSparklinesAsync(_progress.Articles, runCts, ct);
                         break;
@@ -920,7 +977,18 @@
     {
         _filter = next;
         _sortValue = FormatSortValue(next.Sort);
-        var uri = $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}{next.ToQueryString()}";
+        var filterQuery = next.ToQueryString();
+        string uri;
+        if (EffectiveSavedId is { } savedId)
+        {
+            var suffix = string.IsNullOrEmpty(filterQuery) ? "" : "&" + filterQuery.TrimStart('?');
+            uri = $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}?saved={savedId}{suffix}";
+        }
+        else
+        {
+            uri = $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}{filterQuery}";
+        }
+
         Nav.NavigateTo(uri, replace: true);
     }
 
@@ -1062,6 +1130,59 @@
         _ => "relevance",
     };
 
+    private void HandleSaved(Guid id)
+    {
+        _activeSavedId = id;
+        _completedAnalysedAt ??= Time.GetUtcNow();
+    }
+
+    private async Task TryAutosaveSnapshotAsync(
+        Guid savedId,
+        IReadOnlyList<IncidentRecord> incidents,
+        DateTimeOffset analysedAt,
+        CancellationToken ct)
+    {
+        var store = Services.GetService<LibraryStore>();
+        var ownerKey = Services.GetService<OwnerKey>();
+        if (store is null || ownerKey is null) return;
+
+        var owner = await ownerKey.GetOrCreateAsync(ct);
+        var snapshot = new SavedSnapshot(TopicText, _progress.Articles, incidents, analysedAt);
+        await store.UpdateSnapshotAsync(savedId, owner, snapshot, ct);
+    }
+
+    private void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        if (_disposed || !_hasRendered) return;
+        _ = InvokeAsync(() =>
+        {
+            if (_disposed) return;
+            var nextSaved = EffectiveSavedId;
+            if (nextSaved != _activeSavedId)
+            {
+                _activeSavedId = nextSaved;
+                _ = StartRunAsync();
+            }
+            else
+            {
+                StateHasChanged();
+            }
+        });
+    }
+
+    private static Guid? TryParseSavedFromUri(string uri)
+    {
+        if (!Uri.TryCreate(uri, UriKind.Absolute, out var abs) || string.IsNullOrEmpty(abs.Query))
+        {
+            return null;
+        }
+
+        var query = QueryHelpers.ParseQuery(abs.Query);
+        return query.TryGetValue("saved", out var raw) && Guid.TryParse(raw.ToString(), out var id)
+            ? id
+            : null;
+    }
+
     private void CancelCurrentRunTokens()
     {
         StopSlowMonitor();
@@ -1073,6 +1194,7 @@
     public void Dispose()
     {
         _disposed = true;
+        Nav.LocationChanged -= HandleLocationChanged;
         CancelCurrentRunTokens();
     }
 }

@@ -193,7 +193,7 @@ public class WikitextDiffTests
 
     public static TheoryData<string> Cases => new(
         "small-insertion", "paragraph-rewrite", "moved-section", "reference-swap", "template-only", "infobox-value", "page-blanking",
-        "section-blanking", "category-interwiki-only", "finnish-name-swap", "markup-only", "whitespace-only", "first-revision");
+        "section-blanking", "category-interwiki-only", "finnish-name-swap", "markup-only", "whitespace-only", "first-revision", "unclosed-ref");
 
     [Theory]
     [MemberData(nameof(Cases))]
