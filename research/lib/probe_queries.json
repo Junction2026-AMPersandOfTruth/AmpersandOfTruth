@@ -1,0 +1,21 @@
+{
+  "_note": "Eyeball probes for building variants BEFORE the golden set exists (P1.E1 #20). Not a score: never tune to these. From the P0.6 demo shortlist (research/profiling/prof_top/findings.md §3) plus out-of-corpus controls. expect = fi titles a good answer should contain near the top.",
+  "queries": [
+    {"id": "civil-war.en", "text": "1918 Finnish Civil War: war of liberation or class war", "expect": ["Suomen sisällissota", "Suomen sisällissodan nimet", "Punakaarti", "Suojeluskunta"]},
+    {"id": "civil-war.fi", "text": "Suomen sisällissota vapaussota vai luokkasota", "expect": ["Suomen sisällissota", "Suomen sisällissodan nimet"]},
+    {"id": "civil-war.broad", "text": "Reds and Whites in Finland", "expect": ["Suomen sisällissota", "Punakaarti", "Suojeluskunta"]},
+    {"id": "continuation-war.en", "text": "Continuation War separate war thesis and alliance with Nazi Germany", "expect": ["Jatkosota", "Risto Ryti", "Sotasyyllisyysoikeudenkäynti"]},
+    {"id": "continuation-war.sv", "text": "Fortsättningskriget och samarbetet med Tyskland", "expect": ["Jatkosota"]},
+    {"id": "winter-war.en", "text": "Winter War causes and the Mainila shelling", "expect": ["Talvisota", "Mainilan laukaukset", "Talvisodan tausta"]},
+    {"id": "winter-war.fi", "text": "Talvisodan syyt", "expect": ["Talvisota", "Talvisodan tausta", "Mainilan laukaukset"]},
+    {"id": "karelia.en", "text": "Ceded Karelia: ceded or occupied territories", "expect": ["Karjala-kysymys", "Luovutettu Karjala", "Karjala", "Suur-Suomi"]},
+    {"id": "karelia.broad", "text": "Soviet narratives about Karelia", "expect": ["Karjala-kysymys", "Luovutettu Karjala"]},
+    {"id": "nato.en", "text": "Finland's NATO membership debate", "expect": ["Suomen Nato-keskustelu"]},
+    {"id": "finlandization.en", "text": "Finlandization and Kekkonen's relations with the Soviet Union", "expect": ["Suomettuminen", "Urho Kekkonen", "Suomi–Neuvostoliitto-Seura"]},
+    {"id": "swedish.en", "text": "Swedish language politics and mandatory Swedish in Finland", "expect": ["Fennomania", "Suomalaisuuden liitto", "Axel Olof Freudenthal"]},
+    {"id": "sami.en", "text": "Are the Sámi the indigenous people of Finland?", "expect": ["Saamelaiset", "Saamelaisten historia", "Metsäsaamelaiset"]},
+    {"id": "lapua.fi", "text": "Lapuan liike ja fasismi", "expect": ["Lapuanliike", "Isänmaallinen kansanliike"]},
+    {"id": "oos.bitcoin", "text": "Bitcoin price history", "expect": [], "out_of_corpus": true},
+    {"id": "oos.kpop", "text": "K-pop fandom culture in South Korea", "expect": [], "out_of_corpus": true}
+  ]
+}
