@@ -172,4 +172,52 @@ public class EditorDisplayTests
         Assert.Equal("Matti Meikäläinen", named.PlainText);
         Assert.False(named.IsAnonymous);
     }
+
+    [Theory]
+    [InlineData(
+        "Käyttäjän [[Special:Contributions/85.76.123.45|85.76.123.45]] muokkaukset kumottiin ja sivu palautettiin käyttäjän [[User:Matti|Matti]] tekemään versioon.",
+        "Käyttäjän 85.76.x.x muokkaukset kumottiin ja sivu palautettiin käyttäjän Matti tekemään versioon.")]
+    [InlineData(
+        "Kumottu muokkaus [[Special:Diff/23181977|23181977]], jonka teki [[Special:Contributions/2001:14BB:51:D813:A1B9:8F12:23B6:8D13|2001:14BB:51:D813:A1B9:8F12:23B6:8D13]] ([[User talk:2001:14BB:51:D813:A1B9:8F12:23B6:8D13|keskustelu]])",
+        "Kumottu muokkaus 23181977, jonka teki 2001:14BB:… (keskustelu)")]
+    [InlineData("[[Toiminnot:Muokkaukset/10.0.0.1|10.0.0.1]]", "10.0.x.x")]
+    [InlineData("85.76.1.2.", "85.76.x.x.")]
+    [InlineData("2001:db8::1:", "2001:DB8:…:")]
+    [InlineData("fe80::1", "FE80:0:…")]
+    [InlineData("[[User talk:2001:db8::1]]", "User talk:2001:DB8:…")]
+    [InlineData("Special:Contributions/2001:db8::1", "Special:Contributions/2001:DB8:…")]
+    [InlineData("klo 12:30:45", "klo 12:30:45")]
+    [InlineData("999.1.1.1", "999.1.1.1")]
+    [InlineData("[[Talvisota]]", "Talvisota")]
+    [InlineData(null, "")]
+    [InlineData("", "")]
+    [InlineData("   ", "")]
+    public void MaskComment_flattens_wikilinks_and_masks_ips(string? comment, string expected)
+    {
+        var result = EditorDisplay.MaskComment(comment);
+        Assert.Equal(expected, result);
+    }
+
+    [Fact]
+    public void MaskComment_never_leaks_raw_ip_or_tail_or_wikilink_delimiters()
+    {
+        var input6 = "Kumottu muokkaus [[Special:Diff/23181977|23181977]], jonka teki [[Special:Contributions/2001:14BB:51:D813:A1B9:8F12:23B6:8D13|2001:14BB:51:D813:A1B9:8F12:23B6:8D13]] ([[User talk:2001:14BB:51:D813:A1B9:8F12:23B6:8D13|keskustelu]])";
+        var masked6 = EditorDisplay.MaskComment(input6);
+        Assert.DoesNotContain("2001:14BB:51:D813:A1B9:8F12:23B6:8D13", masked6);
+        Assert.DoesNotContain("23B6:8D13", masked6);
+        Assert.DoesNotContain("[[", masked6);
+        Assert.DoesNotContain("]]", masked6);
+        Assert.Contains("2001:14BB:…", masked6);
+        Assert.Contains("23181977", masked6);
+        Assert.Contains("keskustelu", masked6);
+
+        var input4 = "Käyttäjän [[Special:Contributions/85.76.123.45|85.76.123.45]] muokkaukset kumottiin ja sivu palautettiin käyttäjän [[User:Matti|Matti]] tekemään versioon.";
+        var masked4 = EditorDisplay.MaskComment(input4);
+        Assert.DoesNotContain("85.76.123.45", masked4);
+        Assert.DoesNotContain("123.45", masked4);
+        Assert.DoesNotContain("[[", masked4);
+        Assert.DoesNotContain("]]", masked4);
+        Assert.Contains("85.76.x.x", masked4);
+        Assert.Contains("Matti", masked4);
+    }
 }

@@ -32,9 +32,14 @@ public sealed class FakeInvestigationCorpus : IInvestigationCorpus
         if (Unavailable) throw new CorpusUnavailableException("fake corpus is down");
     }
 
-    public static RevertEvent Revert(long pageId, long revId, string user = "Reverter", string comment = "Hylättiin muutokset") =>
+    public static RevertEvent Revert(
+        long pageId,
+        long revId,
+        string? user = "Reverter",
+        string? comment = "Hylättiin muutokset",
+        string? revertedUser = "192.0.2.1") =>
         new(pageId, revId, new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc).AddMinutes(revId), user, comment,
-            RestoredRevId: revId - 2, RevertedCount: 1, RevertedRevId: revId - 1, RevertedUser: "192.0.2.1");
+            RestoredRevId: revId - 2, RevertedCount: 1, RevertedRevId: revId - 1, RevertedUser: revertedUser);
 
     /// <summary>Talvisota (fi, with reverts), Jatkosota (fi, none), Winter War (en, no history).</summary>
     public static FakeInvestigationCorpus WithWinterWar()

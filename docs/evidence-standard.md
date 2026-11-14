@@ -106,6 +106,7 @@ Rules:
 - **Counting editors uses the same masking.** IPs in one masked range (IPv4 /16, IPv6 /32) count as one editor for Level 3 (`EditorLabel.GroupingKey`). Shared and reassigned addresses would otherwise fake "multiple accounts". This errs low, on purpose.
 - **Model prompts never contain usernames or IPs.** Editors become "Editor 1", "Editor 2", … plus their kind (named, anonymous, temporary). This keeps personal data out of the third-party API and keeps names from biasing the assessment.
 - Storage and pipeline keep the raw `user` string. It is public data and is needed for clustering. Masking is a display rule applied in exactly one place (`EditorDisplay`) and in every export.
+- **Edit summaries are shown as plain text with every IP address masked** (`EditorDisplay.MaskComment`). fi.wikipedia's revert summaries name the reverted editor, so masking only the user columns is not enough.
 
 ## 4. Golden set (P1.E1): labels and what counts as a true positive
 
