@@ -299,6 +299,86 @@ namespace AmpersandOfTruth.Web.Data.Migrations
                     b.ToTable("SavedInvestigations", (string)null);
                 });
 
+            modelBuilder.Entity("AmpersandOfTruth.Web.Features.WebSpread.Store.WebCacheEntry", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasMaxLength(64)
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CreatedAt")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Kind")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Request")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ResponseJson")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Key");
+
+                    b.HasIndex("Kind");
+
+                    b.ToTable("WebSpreadCache", (string)null);
+                });
+
+            modelBuilder.Entity("AmpersandOfTruth.Web.Features.WebSpread.Store.WebCallRecord", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("At")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Error")
+                        .HasMaxLength(1000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("FromCache")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Kind")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("LatencyMs")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Live")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Outcome")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Request")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Scope")
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("At");
+
+                    b.HasIndex("Scope");
+
+                    b.ToTable("WebSpreadCalls", (string)null);
+                });
+
             modelBuilder.Entity("AmpersandOfTruth.Web.Features.Library.PinnedIncident", b =>
                 {
                     b.HasOne("AmpersandOfTruth.Web.Features.Library.SavedInvestigation", null)
