@@ -64,6 +64,10 @@ public sealed class GeminiOptions
 
     public bool CacheEnabled { get; set; } = true;
 
+    /// <summary>Show the "try a prompt" playground on /analysis. Off by default so a deployed demo can't be used to spend
+    /// money; on in appsettings.Development.json.</summary>
+    public bool PlaygroundEnabled { get; set; }
+
     public string ModelFor(AnalysisJob job) =>
         Models.TryGetValue(job.ToString(), out var model) && !string.IsNullOrWhiteSpace(model) ? model : DefaultModel;
 }
