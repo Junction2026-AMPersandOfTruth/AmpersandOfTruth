@@ -139,6 +139,10 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   The app's runner is `CachingInvestigationRunner`; `refresh: true` (the page's Re-run) bypasses it. Runs with a degraded
   candidate (LLM down/over budget) are never cached. Bump `InvestigationPipeline.Version` / `CorpusEditReader.Version` when
   their output changes. Score the pipeline: `research/eval/run pipeline --name p1-app -- scripts/investigate.sh variant`.
+- Latency (#40): `Parallelism` = 20 candidates in flight (4 left a 40-candidate topic at ~50 s cold; 40 is slower again — VPS
+  contention). Cold-run variance comes from the corpus link (tunnel + 2-vCPU VPS), not Gemini (~5 s per classify call either way);
+  the corpus `Connection Timeout=15` makes a slow connect delay a read instead of degrading it. Demo topics must be warmed
+  (`scripts/warm.sh`, needs `Gemini:ApiKey` — without it every candidate is degraded and nothing is cached); warm replays are instant.
 - Tests: `PipelineKit` = the real stages over fakes (`FakeInvestigationCorpus`, `FakeRevisionStore`, `FakeAnalysisModel`, `FakeQueryEmbedder`).
 
 ## LLM analysis (Gemini, `Features/Analysis`, issue #16)
