@@ -1,0 +1,582 @@
+{
+  "slug": "austerity-politics",
+  "title": "Austerity politics",
+  "aliases": [
+    "austerity",
+    "leikkauspolitiikka",
+    "talouskuripolitiikka",
+    "säästöpolitiikka"
+  ],
+  "incidents": [
+    {
+      "id": "aus-01",
+      "page_id": 926229,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        15903090,
+        15933764
+      ],
+      "removing_rev_ids": [
+        15904616,
+        15933767
+      ],
+      "tier": "contested",
+      "score": 0.89,
+      "claim_en": "Honorary chair Paavo Väyrynen stated that the Centre Party under Juha Sipilä is controlled by Laestadians allied with the far right.",
+      "claim_fi": "puoluetta hallitsevat äärioikeiston kanssa liittoutuneet saarnamies Lars Levi Laestadiuksen kannattajat.",
+      "summary_en": "Two newly active accounts inserted and restored a passage on Juha Sipilä's biography citing Paavo Väyrynen's claim that Laestadians allied with the far right controlled the Centre Party; both edits were removed.",
+      "narrative": "Sipilä cabinet coalition and Centre Party leadership",
+      "category": "pov_push",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 926229,
+          "title_fi": "Juha Sipilä",
+          "title_en": "Juha Sipilä"
+        }
+      ],
+      "first_inserted_at": "2016-08-22T12:40:54Z",
+      "last_removed_at": "2016-09-05T18:36:11Z",
+      "total_exposure_seconds": 39443,
+      "reinsertion_count": 1,
+      "edits": [
+        {
+          "rev_id": 15903090,
+          "parent_rev_id": 15899425,
+          "page_id": 926229,
+          "user_display": "Heikkovirta-Laeastadius",
+          "is_anonymous": false,
+          "timestamp": "2016-08-22T12:40:54Z",
+          "role": "inserted",
+          "summary": "Paavo Väyrysen kommentit lisätty. Miksi sinä Juha täällä kusetat odotuksilla ja kyykytät kansaa? Sinun herrasi on Pajalasta.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15903090",
+          "flags": []
+        },
+        {
+          "rev_id": 15904616,
+          "parent_rev_id": 15904344,
+          "page_id": 926229,
+          "user_display": "Htm",
+          "is_anonymous": false,
+          "timestamp": "2016-08-22T23:37:22Z",
+          "role": "removed",
+          "summary": "Hylättiin viimeiset 2 tekstimuutosta ja palautettiin versio 15899425, jonka on tehnyt ComradeUranium: rv,",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15904616",
+          "flags": []
+        },
+        {
+          "rev_id": 15933764,
+          "parent_rev_id": 15916696,
+          "page_id": 926229,
+          "user_display": "Lestan Tesla",
+          "is_anonymous": false,
+          "timestamp": "2016-09-05T18:35:16Z",
+          "role": "reinserted",
+          "summary": "Kumottu muokkaus 15904616, jonka teki Htm (keskustelu)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15933764",
+          "flags": []
+        },
+        {
+          "rev_id": 15933767,
+          "parent_rev_id": 15933764,
+          "page_id": 926229,
+          "user_display": "Nitraus",
+          "is_anonymous": false,
+          "timestamp": "2016-09-05T18:36:11Z",
+          "role": "removed",
+          "summary": "Käyttäjän Lestan Tesla muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän Nvidia tekemään versioon.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15933767",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Restored verbatim 14 days after the first removal by a second single-issue account."
+        },
+        {
+          "kind": "multiple_editors",
+          "label": "Multiple editors",
+          "evidence": "Inserted by Heikkovirta-Laeastadius and restored two weeks later by Lestan Tesla."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Inserts a partisan allegation tying Prime Minister Sipilä's religious background to far-right control of the Centre Party."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: put back once after removal, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 4,
+        "what_changed_en": "Adds a paragraph to the 2015 government-formation section citing an incomplete book reference by Paavo Väyrynen claiming the Centre Party is ruled by Laestadians allied with the far right.",
+        "quotes": [
+          "puoluetta hallitsevat äärioikeiston kanssa liittoutuneet saarnamies Lars Levi Laestadiuksen kannattajat."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": null,
+        "historical_note_en": "Juha Sipilä formed a centre-right coalition with the National Coalition Party and the Finns Party in May 2015; party veteran Paavo Väyrynen publicly broke with the leadership in 2015–2016."
+      },
+      "confidence_note": "Two accounts participated, but with only one re-insertion on one article and no citation swap, TierRules keeps this just below Level 3."
+    },
+    {
+      "id": "aus-02",
+      "page_id": 1121620,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        19809508,
+        19809967
+      ],
+      "removing_rev_ids": [
+        19809564,
+        19821820
+      ],
+      "tier": "contested",
+      "score": 0.84,
+      "claim_en": "Former Prime Minister Jyrki Katainen said he had used a similar tax-free grocery benefit while living at Kesäranta.",
+      "claim_fi": "Ainakin entinen pääministeri [[Jyrki Katainen]] on kertonut käyttäneensä vastaavaa palvelua asuessaan Kesärannassa.",
+      "summary_en": "During the June 2021 controversy over Prime Minister Sanna Marin's Kesäranta meal allowance, two editors added and restored a comparison to Jyrki Katainen's earlier residence benefit; two editors removed it.",
+      "narrative": "Ministerial benefits and fiscal restraint debates",
+      "category": "content_dispute",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 1121620,
+          "title_fi": "Sanna Marin",
+          "title_en": "Sanna Marin"
+        }
+      ],
+      "first_inserted_at": "2021-06-02T04:17:09Z",
+      "last_removed_at": "2021-06-08T20:00:23Z",
+      "total_exposure_seconds": 557173,
+      "reinsertion_count": 1,
+      "edits": [
+        {
+          "rev_id": 19809508,
+          "parent_rev_id": 19809260,
+          "page_id": 1121620,
+          "user_display": "87.95.x.x",
+          "is_anonymous": true,
+          "timestamp": "2021-06-02T04:17:09Z",
+          "role": "inserted",
+          "summary": "/* Kritiikkiä */ Lipponen on kiistänyt asian, mutta Katainen on itse kertonut käyttäneensä palvelua, joten asia ei ole hänen kohdallaan kiistanalainen.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19809508",
+          "flags": []
+        },
+        {
+          "rev_id": 19809564,
+          "parent_rev_id": 19809508,
+          "page_id": 1121620,
+          "user_display": "VanhaMartta",
+          "is_anonymous": false,
+          "timestamp": "2021-06-02T05:20:36Z",
+          "role": "removed",
+          "summary": "Poistin pari kohtaa jotka eivät pidä paikkaansa",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19809564",
+          "flags": []
+        },
+        {
+          "rev_id": 19809967,
+          "parent_rev_id": 19809564,
+          "page_id": 1121620,
+          "user_display": "Tvkosone",
+          "is_anonymous": false,
+          "timestamp": "2021-06-02T10:17:37Z",
+          "role": "reinserted",
+          "summary": "Kumottu muokkaus 19809564, jonka teki VanhaMartta (keskustelu) - Molemmat tiedot oli lähteistetty, joten niitä ei ollut syytä poistaa.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19809967",
+          "flags": []
+        },
+        {
+          "rev_id": 19821820,
+          "parent_rev_id": 19821477,
+          "page_id": 1121620,
+          "user_display": "Htm",
+          "is_anonymous": false,
+          "timestamp": "2021-06-08T20:00:23Z",
+          "role": "removed",
+          "summary": "Hylättiin viimeiset 7 tekstimuutosta ja palautettiin versio 19808563, jonka on tehnyt Tvkosone: rv, tapahtumakohtaisia yksittäisiä lausuntoja. Voi lisätä artikkeliin SDP:stä tai kuntavaaleista 2021. Kataisen aamiaiset katainen artikkeliin tai sitten oma artikkeli ahmiaiskohusta",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19821820",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "First removal summary: 'Poistin pari kohtaa jotka eivät pidä paikkaansa' ('Removed a couple of points that are not true')."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Restored five hours after the first removal by a named editor arguing both claims had press citations."
+        },
+        {
+          "kind": "multiple_editors",
+          "label": "Multiple editors",
+          "evidence": "Added by 87.95.x.x and restored by named account Tvkosone."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Frames the 2021 Kesäranta benefit dispute by comparing Marin's allowance to Katainen's earlier practice."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edit",
+          "evidence": "Initial insertion came from unregistered IPv4 address 87.95.x.x."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed as inaccurate, put back once after removal, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "content_dispute",
+        "confidence": 4,
+        "what_changed_en": "Adds a sentence citing Ilta-Sanomat to state that former prime minister Jyrki Katainen had used a comparable grocery service at Kesäranta.",
+        "quotes": [
+          "Ainakin entinen pääministeri [[Jyrki Katainen]] on kertonut käyttäneensä vastaavaa palvelua asuessaan Kesärannassa."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "Ilta-Sanomat did report Katainen's ~300 EUR/month benefit, though the National Audit Office and tax authorities later examined differences in scale and guidance.",
+        "historical_note_en": "In May–June 2021, Finland's Tax Administration ruled that Prime Minister Marin's Kesäranta meal benefit was taxable income, prompting Marin to repay the sum."
+      },
+      "confidence_note": "Two editors added or restored the sentence on one article within a single day without a second coordination signal, keeping this at Level 2."
+    },
+    {
+      "id": "aus-03",
+      "page_id": 10858,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        6885781
+      ],
+      "removing_rev_ids": [
+        6887385
+      ],
+      "tier": "contested",
+      "score": 0.79,
+      "claim_en": "Removed: sourced passages on Katainen's 2007 nurse-pay pledge, patient-safety law, and move to the political centre.",
+      "claim_fi": "Toimimalla oikein nyt, vältämme lähitulevaisuudessa vielä paljon raskaammat toimet",
+      "summary_en": "A broad rewrite of Jyrki Katainen's biography deleted sourced critical passages on the 2007 nurses' pay dispute and employer Kela-fee debt while moving an analysnorden.org citation onto an unrelated sentence.",
+      "narrative": "Record of the 2007–2011 public-finance and labour disputes",
+      "category": "source_manipulation",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 10858,
+          "title_fi": "Jyrki Katainen",
+          "title_en": "Jyrki Katainen"
+        }
+      ],
+      "first_inserted_at": "2009-06-15T13:04:39Z",
+      "last_removed_at": "2009-06-15T17:36:41Z",
+      "total_exposure_seconds": 16322,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 6885781,
+          "parent_rev_id": 6880886,
+          "page_id": 10858,
+          "user_display": "Evelii",
+          "is_anonymous": false,
+          "timestamp": "2009-06-15T13:04:39Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=6885781",
+          "flags": []
+        },
+        {
+          "rev_id": 6887385,
+          "parent_rev_id": 6887277,
+          "page_id": 10858,
+          "user_display": "Mikko Paananen",
+          "is_anonymous": false,
+          "timestamp": "2009-06-15T17:36:41Z",
+          "role": "removed",
+          "summary": "perustelemattomia poistoja, joilla on sotkettu lähteet, esim. analysnorden.org:sta otetti tieto on poistettu ja lähde siirretty toiseen paikkaan",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=6887385",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'perustelemattomia poistoja, joilla on sotkettu lähteet, esim. analysnorden.org:sta otetti tieto on poistettu ja lähde siirretty toiseen paikkaan'."
+        },
+        {
+          "kind": "source_change",
+          "label": "Sources changed alongside the claim",
+          "evidence": "Deleted the sentence supported by analysnorden.org and attached that footnote to a party-congress sentence, while dropping several critical press refs."
+        },
+        {
+          "kind": "citation_removed",
+          "label": "Citation removed",
+          "evidence": "Removed Turun Sanomat, Kaleva, and Helsingin Sanomat citations covering the 500-euro nurse-raise dispute and Kela-fee borrowing."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Replaces critical labour-dispute and fiscal-borrowing passages with Katainen's own quotes on structural reforms."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed for lack of a reliable source, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "source_manipulation",
+        "confidence": 4,
+        "what_changed_en": "Deletes sourced passages on nurses' 500-euro raise expectations, the 2007 patient-safety law, Kela-fee debt financing, and Kokoomus's move toward the centre (leaving its analysnorden.org footnote attached to another sentence), while adding Katainen's own quotes.",
+        "quotes": [
+          "Toimimalla oikein nyt, vältämme lähitulevaisuudessa vielä paljon raskaammat toimet",
+          "Kataisen johdolla Kokoomus määritteli itsensä Joensuun puoluekokouksessa 2006 keskustaoikeistolaiseksi kansanpuolueeksi.<ref>http://www.analysnorden.org/analysnorden/artikkel.asp?id=445 </ref>"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": null,
+        "historical_note_en": "The autumn 2007 Tehy nurses' industrial dispute over pre-election equal-pay promises led Vanhanen's second cabinet, with Katainen as finance minister, to pass an emergency patient-safety act."
+      },
+      "confidence_note": "Includes citation displacement and deletion, but by a single account on one article without re-insertion, so it stays at Level 2."
+    },
+    {
+      "id": "aus-04",
+      "page_id": 10858,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        21467444
+      ],
+      "removing_rev_ids": [
+        21467496
+      ],
+      "tier": "contested",
+      "score": 0.73,
+      "claim_en": "Katainen's 2007–2011 tenure as finance minister caused the 2011 Finns Party surge as voters signalled he was unwanted.",
+      "claim_fi": "Kataisen toiminta valtiovarainministerinä 2007–2011 johti [[Perussuomalaiset]]-puolueen vuoden 2011 \"jytkyyn\".",
+      "summary_en": "An anonymous IPv6 edit asserted without sources that Jyrki Katainen's record as finance minister caused the 2011 Finns Party electoral breakthrough because voters wanted him out of politics; removed after 42 minutes.",
+      "narrative": "Causes of the 2011 'jytky' election result",
+      "category": "pov_push",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 10858,
+          "title_fi": "Jyrki Katainen",
+          "title_en": "Jyrki Katainen"
+        }
+      ],
+      "first_inserted_at": "2023-04-21T12:26:39Z",
+      "last_removed_at": "2023-04-21T13:08:16Z",
+      "total_exposure_seconds": 2497,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 21467444,
+          "parent_rev_id": 21447210,
+          "page_id": 10858,
+          "user_display": "2001:14BA:…",
+          "is_anonymous": true,
+          "timestamp": "2023-04-21T12:26:39Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=21467444",
+          "flags": []
+        },
+        {
+          "rev_id": 21467496,
+          "parent_rev_id": 21467444,
+          "page_id": 10858,
+          "user_display": "Risukarhi",
+          "is_anonymous": false,
+          "timestamp": "2023-04-21T13:08:16Z",
+          "role": "removed",
+          "summary": "Kumottu muokkaus 21467444, jonka teki 2001:14BA:… (keskustelu) - Lähteetöntä spekulointia.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=21467496",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'Lähteetöntä spekulointia' ('Unsourced speculation')."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Attributes the 2011 parliamentary election shift to personal voter rejection of Katainen without citations."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edit",
+          "evidence": "Inserted from IPv6 address 2001:14BA:…."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed for lack of a reliable source, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 4,
+        "what_changed_en": "Inserts an unsourced three-sentence paragraph stating that Katainen's 2007–2011 term as finance minister drove the 2011 Finns Party surge as a personal protest vote.",
+        "quotes": [
+          "Kataisen toiminta valtiovarainministerinä 2007–2011 johti [[Perussuomalaiset]]-puolueen vuoden 2011 \"jytkyyn\".",
+          "Äänestämällä perussuomalaisia kansalaiset antoivat äänensä signaloidakseen, että Katainen on epätoivottu henkilö politiikassa."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": null,
+        "historical_note_en": "In the April 2011 parliamentary election, Katainen's National Coalition Party actually finished first (20.4%) and Katainen became prime minister, while the Finns Party surged to 19.1% amid eurozone bailout debates."
+      },
+      "confidence_note": "Single anonymous insertion removed within an hour for lacking sources."
+    },
+    {
+      "id": "aus-05",
+      "page_id": 11396,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        14377989
+      ],
+      "removing_rev_ids": [
+        14377994
+      ],
+      "tier": "contested",
+      "score": 0.68,
+      "claim_en": "Under Alexander Stubb's cabinet, Finland's economy sank deeper while the government focused on patronising citizens and bans.",
+      "claim_fi": "Stubbin hallituksen aikana talous onkin mennyt vain syvemmälle ja hallitus käyttää resursseja enemmän kansalaisten holhoamiseen ja erilaisten kieltojen keksimiseen kuin työllisyyden parantamiseen",
+      "summary_en": "An anonymous edit to Alexander Stubb's biography claimed the economy worsened under his premiership because the cabinet spent its energy on bans and patronising citizens rather than employment; removed in two minutes.",
+      "narrative": "Assessments of the 2014–2015 Stubb cabinet",
+      "category": "pov_push",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 11396,
+          "title_fi": "Alexander Stubb",
+          "title_en": "Alexander Stubb"
+        }
+      ],
+      "first_inserted_at": "2014-10-16T11:39:51Z",
+      "last_removed_at": "2014-10-16T11:42:14Z",
+      "total_exposure_seconds": 143,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 14377989,
+          "parent_rev_id": 14339973,
+          "page_id": 11396,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2014-10-16T11:39:51Z",
+          "role": "inserted",
+          "summary": "/* Yksityiselämä */",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=14377989",
+          "flags": []
+        },
+        {
+          "rev_id": 14377994,
+          "parent_rev_id": 14377989,
+          "page_id": 11396,
+          "user_display": "Zache",
+          "is_anonymous": false,
+          "timestamp": "2014-10-16T11:42:14Z",
+          "role": "removed",
+          "summary": "rv, aika vahvoja väitteitä ja mielipiteitä jotka vaatisivat lähteet tuekseen.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=14377994",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'rv, aika vahvoja väitteitä ja mielipiteitä jotka vaatisivat lähteet tuekseen' ('quite strong claims and opinions that would need sources')."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Asserts unsourced causal claims and opinionated criticism about Stubb's economic and regulatory record."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edit",
+          "evidence": "Inserted from unregistered IPv4 address 85.76.x.x."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed for lack of a reliable source, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 4,
+        "what_changed_en": "Adds an unsourced paragraph criticising Stubb's social-media use and asserting that the economy declined while his cabinet prioritised bans over employment, attributing this to unspecified 'opinion calculations'.",
+        "quotes": [
+          "Stubbin hallituksen aikana talous onkin mennyt vain syvemmälle ja hallitus käyttää resursseja enemmän kansalaisten holhoamiseen ja erilaisten kieltojen keksimiseen kuin työllisyyden parantamiseen"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": null,
+        "historical_note_en": "Alexander Stubb led Finland's five- and later four-party coalition cabinet from June 2014 to May 2015 during a prolonged post-2008 economic stagnation."
+      },
+      "confidence_note": "Single anonymous insertion removed after 143 seconds for lacking sources."
+    },
+    {
+      "id": "aus-06",
+      "page_id": 9059,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        10021446
+      ],
+      "removing_rev_ids": [
+        10021779
+      ],
+      "tier": "reverted",
+      "score": 0.51,
+      "claim_en": "A SATA committee proposal to cut youth income support by up to 40 percent is known as 'Lex Soininvaara'.",
+      "claim_fi": "\"Nuorten toimeentulotuen leikkaaminen jopa 40 prosentilla kulkee nimillä Lex Soininvaara.",
+      "summary_en": "An anonymous editor pasted a quote and bare blog URL from Left Alliance leader Paavo Arhinmäki dubbing a proposed youth income-support sanction 'Lex Soininvaara'; removed 85 minutes later without a dispute summary.",
+      "narrative": "SATA social-security reform and youth benefit sanctions",
+      "category": null,
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 9059,
+          "title_fi": "Osmo Soininvaara",
+          "title_en": "Osmo Soininvaara"
+        }
+      ],
+      "first_inserted_at": "2011-04-06T19:01:31Z",
+      "last_removed_at": "2011-04-06T20:26:15Z",
+      "total_exposure_seconds": 5084,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 10021446,
+          "parent_rev_id": 9817186,
+          "page_id": 9059,
+          "user_display": "87.93.x.x",
+          "is_anonymous": true,
+          "timestamp": "2011-04-06T19:01:31Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=10021446",
+          "flags": []
+        },
+        {
+          "rev_id": 10021779,
+          "parent_rev_id": 10021446,
+          "page_id": 9059,
+          "user_display": "Harriv",
+          "is_anonymous": false,
+          "timestamp": "2011-04-06T20:26:15Z",
+          "role": "removed",
+          "summary": "Käyttäjän 87.93.x.x (keskustelu) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän Mikko Paananen tekemään versioon.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=10021779",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed after 85 minutes by named editor Harriv via standard rollback."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edit",
+          "evidence": "Inserted from unregistered IPv4 address 87.93.x.x."
+        }
+      ],
+      "tier_reason": "Removed by Wikipedia editors — because: taken out by another editor.",
+      "assessment": null,
+      "confidence_note": "Automated assessment was unavailable and the rollback summary gave no explicit dispute reason, keeping this at Level 1."
+    }
+  ]
+}

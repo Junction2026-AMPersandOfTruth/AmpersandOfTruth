@@ -1,0 +1,818 @@
+{
+  "slug": "ceded-karelia",
+  "title": "Ceded Karelia",
+  "aliases": [
+    "luovutettu karjala",
+    "karelia",
+    "karjala",
+    "karjala-kysymys",
+    "karelian question",
+    "luovutetut alueet"
+  ],
+  "incidents": [
+    {
+      "id": "ck-01",
+      "page_id": 6626,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        11749366,
+        11753859,
+        11756188,
+        11756598,
+        11759237,
+        11759814
+      ],
+      "removing_rev_ids": [
+        11751445,
+        11753943,
+        11756197,
+        11756733,
+        11759294,
+        11763010
+      ],
+      "tier": "contested",
+      "score": 0.91,
+      "claim_en": "Karelia's geographic definition spans all territory between the Gulf of Finland, Saimaa, Ladoga, Onega, and the White Sea.",
+      "claim_fi": "maantieteellinen alue [[Suomenlahti|Suomenlahden]], [[Saimaa]]n, [[Laatokka|Laatokan]], [[Ääninen|Äänisen]] ja [[Vienanmeri|Vienanmeren]] välillä",
+      "summary_en": "Six edits from two anonymous ranges redefined Karelia by its outer boundary waters ahead of a cited research-institute definition; editors removed the wording six times for misrepresenting the cited source.",
+      "narrative": "Karelia's historical and geographic boundaries",
+      "category": "content_dispute",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 6626,
+          "title_fi": "Karjala",
+          "title_en": "Karelia"
+        }
+      ],
+      "first_inserted_at": "2012-06-12T16:36:56Z",
+      "last_removed_at": "2012-06-16T10:37:56Z",
+      "total_exposure_seconds": 139546,
+      "reinsertion_count": 5,
+      "edits": [
+        {
+          "rev_id": 11749366,
+          "parent_rev_id": 11634197,
+          "page_id": 6626,
+          "user_display": "193.64.x.x",
+          "is_anonymous": true,
+          "timestamp": "2012-06-12T16:36:56Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=11749366",
+          "flags": []
+        },
+        {
+          "rev_id": 11751445,
+          "parent_rev_id": 11749366,
+          "page_id": 6626,
+          "user_display": "Esamatti1",
+          "is_anonymous": false,
+          "timestamp": "2012-06-13T09:21:10Z",
+          "role": "removed",
+          "summary": "Kumottu muokkaus 11749366, jonka teki 193.64.x.x (keskustelu)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=11751445",
+          "flags": []
+        },
+        {
+          "rev_id": 11753859,
+          "parent_rev_id": 11751445,
+          "page_id": 6626,
+          "user_display": "193.64.x.x",
+          "is_anonymous": true,
+          "timestamp": "2012-06-13T20:27:26Z",
+          "role": "reinserted",
+          "summary": "Kumottu muokkaus 11751445, jonka teki Esamatti1 (keskustelu)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=11753859",
+          "flags": []
+        },
+        {
+          "rev_id": 11753943,
+          "parent_rev_id": 11753859,
+          "page_id": 6626,
+          "user_display": "ML",
+          "is_anonymous": false,
+          "timestamp": "2012-06-13T20:54:18Z",
+          "role": "removed",
+          "summary": "Kumottu muokkaus 11753859, jonka teki 193.64.x.x (keskustelu)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=11753943",
+          "flags": []
+        },
+        {
+          "rev_id": 11756188,
+          "parent_rev_id": 11753943,
+          "page_id": 6626,
+          "user_display": "193.64.x.x",
+          "is_anonymous": true,
+          "timestamp": "2012-06-14T14:54:44Z",
+          "role": "reinserted",
+          "summary": "Lisätty Karjalan alueen \"reunavesistöt\".",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=11756188",
+          "flags": []
+        },
+        {
+          "rev_id": 11756197,
+          "parent_rev_id": 11756188,
+          "page_id": 6626,
+          "user_display": "Nitraus",
+          "is_anonymous": false,
+          "timestamp": "2012-06-14T14:56:48Z",
+          "role": "removed",
+          "summary": "Käyttäjän 193.64.x.x (keskustelu) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän ML tekemään versioon.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=11756197",
+          "flags": []
+        },
+        {
+          "rev_id": 11756598,
+          "parent_rev_id": 11756197,
+          "page_id": 6626,
+          "user_display": "193.64.x.x",
+          "is_anonymous": true,
+          "timestamp": "2012-06-14T17:20:00Z",
+          "role": "reinserted",
+          "summary": "Kumottu muokkaus 11756197, jonka teki MiPe (keskustelu)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=11756598",
+          "flags": []
+        },
+        {
+          "rev_id": 11756733,
+          "parent_rev_id": 11756598,
+          "page_id": 6626,
+          "user_display": "Urjanhai",
+          "is_anonymous": false,
+          "timestamp": "2012-06-14T17:58:36Z",
+          "role": "removed",
+          "summary": "Kumottu muokkaus 11756188, jonka teki 193.64.x.x (keskustelu)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=11756733",
+          "flags": []
+        },
+        {
+          "rev_id": 11759237,
+          "parent_rev_id": 11756733,
+          "page_id": 6626,
+          "user_display": "212.226.x.x",
+          "is_anonymous": true,
+          "timestamp": "2012-06-15T11:07:02Z",
+          "role": "reinserted",
+          "summary": "Miksi Karjalan suuria 'reunavesistöjä' ei saisi luetella?",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=11759237",
+          "flags": []
+        },
+        {
+          "rev_id": 11759294,
+          "parent_rev_id": 11759237,
+          "page_id": 6626,
+          "user_display": "Esamatti1",
+          "is_anonymous": false,
+          "timestamp": "2012-06-15T11:18:15Z",
+          "role": "removed",
+          "summary": "Kumottu muokkaus 11759237, jonka teki 212.226.x.x (keskustelu) ei sisälly lähteeseen, vääristää ajatusta",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=11759294",
+          "flags": []
+        },
+        {
+          "rev_id": 11759814,
+          "parent_rev_id": 11759294,
+          "page_id": 6626,
+          "user_display": "212.226.x.x",
+          "is_anonymous": true,
+          "timestamp": "2012-06-15T13:55:09Z",
+          "role": "reinserted",
+          "summary": "Ei sisälly lähteeseen, vääristää ajatusta?! Höpö, höpö!",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=11759814",
+          "flags": []
+        },
+        {
+          "rev_id": 11763010,
+          "parent_rev_id": 11759814,
+          "page_id": 6626,
+          "user_display": "Esamatti1",
+          "is_anonymous": false,
+          "timestamp": "2012-06-16T10:37:56Z",
+          "role": "removed",
+          "summary": "Kumottu muokkaus 11759814, jonka teki 212.226.x.x (keskustelu)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=11763010",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'ei sisälly lähteeseen, vääristää ajatusta' ('not in the source, distorts the idea')."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Put back five times across four days after named editors removed the wording."
+        },
+        {
+          "kind": "edit_war",
+          "label": "Back-and-forth edits",
+          "evidence": "Twelve alternating insertions and removals on the opening definition between 12 and 16 June 2012."
+        },
+        {
+          "kind": "multiple_editors",
+          "label": "Multiple editors",
+          "evidence": "Added from two distinct anonymous address ranges (193.64.x.x and 212.226.x.x)."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Redefines Karelia's boundaries in a sentence footnoted to the Institute for the Languages of Finland."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edit",
+          "evidence": "All six insertions were made from unregistered IPv4 addresses."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed as inaccurate, put back 5 times after removal, part of a back-and-forth over this passage, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "content_dispute",
+        "confidence": 4,
+        "what_changed_en": "Replaces the opening geographic definition of Karelia as an area in eastern Fennoscandia with a wider five-waterway boundary formula while keeping the existing Kotus citation attached.",
+        "quotes": [
+          "maantieteellinen alue [[Suomenlahti|Suomenlahden]], [[Saimaa]]n, [[Laatokka|Laatokan]], [[Ääninen|Äänisen]] ja [[Vienanmeri|Vienanmeren]] välillä"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "The named waterways do border parts of Karelia, so the dispute concerns whether the added boundary formula matches the cited scholarly definition.",
+        "historical_note_en": "Definitions of Karelia vary between Finnish historical provinces, the Republic of Karelia, and broader cultural-linguistic regions."
+      },
+      "confidence_note": "Two anonymous ranges added the passage, but all six edits happened within four days on one article without source replacement, keeping this at Level 2."
+    },
+    {
+      "id": "ck-02",
+      "page_id": 6626,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        5652352,
+        5672664,
+        5677215,
+        5677668
+      ],
+      "removing_rev_ids": [
+        5656784,
+        5673239,
+        5677229,
+        5677882
+      ],
+      "tier": "contested",
+      "score": 0.86,
+      "claim_en": "The Republic of Karelia's modern administrative districts correspond directly to Aunus, Ladoga, Puutoinen, and Viena Karelia.",
+      "claim_fi": "{{legend|#000FFF|[[Aunuksen Karjala]], nykyään 10 [[Karjalan tasavallan hallinnollinen jako|piiriä]]}}",
+      "summary_en": "An account inserted a custom map equating modern districts of the Republic of Karelia with historical Karelian subregions four times; three editors removed it as geographically inaccurate.",
+      "narrative": "Karelia's historical and geographic boundaries",
+      "category": "content_dispute",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 6626,
+          "title_fi": "Karjala",
+          "title_en": "Karelia"
+        }
+      ],
+      "first_inserted_at": "2008-10-14T00:35:24Z",
+      "last_removed_at": "2008-10-18T22:12:58Z",
+      "total_exposure_seconds": 87978,
+      "reinsertion_count": 3,
+      "edits": [
+        {
+          "rev_id": 5652352,
+          "parent_rev_id": 5623210,
+          "page_id": 6626,
+          "user_display": "WPK",
+          "is_anonymous": false,
+          "timestamp": "2008-10-14T00:35:24Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5652352",
+          "flags": []
+        },
+        {
+          "rev_id": 5656784,
+          "parent_rev_id": 5652352,
+          "page_id": 6626,
+          "user_display": "Kyzyl",
+          "is_anonymous": false,
+          "timestamp": "2008-10-14T20:00:41Z",
+          "role": "removed",
+          "summary": "virheellinen kartta pois, katso tarkemmin keskustelusivu",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5656784",
+          "flags": []
+        },
+        {
+          "rev_id": 5672664,
+          "parent_rev_id": 5665563,
+          "page_id": 6626,
+          "user_display": "WPK",
+          "is_anonymous": false,
+          "timestamp": "2008-10-17T21:35:03Z",
+          "role": "reinserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5672664",
+          "flags": []
+        },
+        {
+          "rev_id": 5673239,
+          "parent_rev_id": 5672664,
+          "page_id": 6626,
+          "user_display": "Wikisijä",
+          "is_anonymous": false,
+          "timestamp": "2008-10-18T00:54:20Z",
+          "role": "removed",
+          "summary": "Käyttäjän WPK (keskustelu) muokkaus 5672664 kumottiin. Käsitteellä \"Aunuksen Karjala\" ei ole mitään tekemistä Karjalan tasavallan kanssa",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5673239",
+          "flags": []
+        },
+        {
+          "rev_id": 5677215,
+          "parent_rev_id": 5673239,
+          "page_id": 6626,
+          "user_display": "WPK",
+          "is_anonymous": false,
+          "timestamp": "2008-10-18T19:08:31Z",
+          "role": "reinserted",
+          "summary": "Aunuksen Karjala on Venäjän Karjalan eli Karjalan tasavallan suurin historiallinen alue.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5677215",
+          "flags": []
+        },
+        {
+          "rev_id": 5677229,
+          "parent_rev_id": 5677215,
+          "page_id": 6626,
+          "user_display": "ML",
+          "is_anonymous": false,
+          "timestamp": "2008-10-18T19:11:38Z",
+          "role": "removed",
+          "summary": "Käyttäjän WPK (keskustelu) muokkaus 5677215 kumottiin",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5677229",
+          "flags": []
+        },
+        {
+          "rev_id": 5677668,
+          "parent_rev_id": 5677229,
+          "page_id": 6626,
+          "user_display": "WPK",
+          "is_anonymous": false,
+          "timestamp": "2008-10-18T20:34:21Z",
+          "role": "reinserted",
+          "summary": "Mm. Aunuksen Karjala ja Vienan Karjala ovat Venäjän Karjalan eli Kerjalan tasavallan historiallisia alueita.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5677668",
+          "flags": []
+        },
+        {
+          "rev_id": 5677882,
+          "parent_rev_id": 5677668,
+          "page_id": 6626,
+          "user_display": "Wikisijä",
+          "is_anonymous": false,
+          "timestamp": "2008-10-18T22:12:58Z",
+          "role": "removed",
+          "summary": "Käyttäjän WPK (keskustelu) muokkaus 5677668 kumottiin. Huoh. Lue keskustelusivu ajatuksella läpi.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5677882",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'virheellinen kartta pois' ('incorrect map out') and 'Käsitteellä \"Aunuksen Karjala\" ei ole mitään tekemistä Karjalan tasavallan kanssa'."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Put back three times over four days after removals by three named editors."
+        },
+        {
+          "kind": "edit_war",
+          "label": "Back-and-forth edits",
+          "evidence": "Four insertions and four removals over the lead map and district breakdown in October 2008."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Maps modern administrative districts of the Republic of Karelia onto historical Karelian subregions and drops a citation-needed tag."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed as inaccurate, put back 3 times after removal, part of a back-and-forth over this passage, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "content_dispute",
+        "confidence": 4,
+        "what_changed_en": "Adds a custom map and legend partitioning the Republic of Karelia's administrative districts into Aunus, Ladoga, Puutoinen, and Viena Karelia, and removes a citation-needed tag.",
+        "quotes": [
+          "Venäjän Karjala eli [[Karjalan tasavalta]]:",
+          "{{legend|#000FFF|[[Aunuksen Karjala]], nykyään 10 [[Karjalan tasavallan hallinnollinen jako|piiriä]]}}"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": null,
+        "historical_note_en": "Historical Karelian regions such as Olonets (Aunus) and White Karelia (Viena) do not follow the boundaries of modern Russian municipal districts."
+      },
+      "confidence_note": "Single named account on one article over four days stays at Level 2."
+    },
+    {
+      "id": "ck-03",
+      "page_id": 19086,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        1017438,
+        1019509
+      ],
+      "removing_rev_ids": [
+        1018667,
+        1019516
+      ],
+      "tier": "contested",
+      "score": 0.81,
+      "claim_en": "Critics who call Karelia-return pollsters provocateurs mirror Soviet-era efforts to brand Baltic independence advocates provocateurs.",
+      "claim_fi": "Toisaalta myös Baltian maiden miehityksen vastustajat pyrittiin aikanaan leimaamaan provokaattoreiksi.{{Ref|Vanhanen}}",
+      "summary_en": "An anonymous editor added an analogy comparing Russian criticism of Karelia-return polls to Soviet labelling of Baltic anti-occupation activists, citing a 1985 article hosted on kavkaz.fi; removed twice because source and claim did not match.",
+      "narrative": "Post-Soviet debate over returning ceded Karelia",
+      "category": "pov_push",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 19086,
+          "title_fi": "Karjala-kysymys",
+          "title_en": "Karelian question"
+        }
+      ],
+      "first_inserted_at": "2006-04-15T13:54:41Z",
+      "last_removed_at": "2006-04-16T07:35:13Z",
+      "total_exposure_seconds": 21471,
+      "reinsertion_count": 1,
+      "edits": [
+        {
+          "rev_id": 1017438,
+          "parent_rev_id": 990181,
+          "page_id": 19086,
+          "user_display": "83.102.x.x",
+          "is_anonymous": true,
+          "timestamp": "2006-04-15T13:54:41Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=1017438",
+          "flags": []
+        },
+        {
+          "rev_id": 1018667,
+          "parent_rev_id": 1017438,
+          "page_id": 19086,
+          "user_display": "Mikko Paananen",
+          "is_anonymous": false,
+          "timestamp": "2006-04-15T19:44:53Z",
+          "role": "removed",
+          "summary": "Käyttäjän 83.102.x.x (keskustelu) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän Kahkonen tekemään versioon.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=1018667",
+          "flags": []
+        },
+        {
+          "rev_id": 1019509,
+          "parent_rev_id": 1018667,
+          "page_id": 19086,
+          "user_display": "83.102.x.x",
+          "is_anonymous": true,
+          "timestamp": "2006-04-16T07:27:34Z",
+          "role": "reinserted",
+          "summary": "Poistot kannattaa perustella, ettei tule palautuksia, kuten tässä tapauksessa.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=1019509",
+          "flags": []
+        },
+        {
+          "rev_id": 1019516,
+          "parent_rev_id": 1019509,
+          "page_id": 19086,
+          "user_display": "ML",
+          "is_anonymous": false,
+          "timestamp": "2006-04-16T07:35:13Z",
+          "role": "removed",
+          "summary": "\"lähde\" ja väite eivät täsmää",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=1019516",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Second removal summary: '\"lähde\" ja väite eivät täsmää' ('the \"source\" and the claim do not match')."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Restored the next morning from the same IPv4 range after an initial removal."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Draws a historical analogy equating criticism of Karelia-return polls with Soviet treatment of Baltic occupation opponents."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edit",
+          "evidence": "Both insertions came from the 83.102.x.x IPv4 range."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed for lack of a reliable source, put back once after removal, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 4,
+        "what_changed_en": "Appends a counter-argument after Sergei Lavrov's 2005 remark on Karelia-return polls, comparing it to the labelling of Baltic anti-occupation activists and citing a kavkaz.fi link.",
+        "quotes": [
+          "Toisaalta myös Baltian maiden miehityksen vastustajat pyrittiin aikanaan leimaamaan provokaattoreiksi.{{Ref|Vanhanen}}",
+          "# {{Note|Vanhanen}} Matti Vanhasen artikkeli Suomenmaa-lehdessä vuonna [[1985]]. [http://kavkaz.fi/vanhanen.html]"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": null,
+        "historical_note_en": "Whereas the Soviet annexation of the Baltic states was never recognised by most Western governments, Finland ceded parts of Karelia under the 1940 and 1947 peace treaties."
+      },
+      "confidence_note": "Both insertions share one 83.102.x.x prefix on a single article within 18 hours, so this remains Level 2."
+    },
+    {
+      "id": "ck-04",
+      "page_id": 24094,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        349583,
+        392859
+      ],
+      "removing_rev_ids": [
+        351793,
+        392863
+      ],
+      "tier": "contested",
+      "score": 0.76,
+      "claim_en": "Supporters of Greater Finland sought to save kindred Finnic peoples in East Karelia from Soviet ethnic cleansing.",
+      "claim_fi": "Suur-Suomen kannattajilla on usein motiivina sukulaiskielisten alueiden pelastaminen hallitsevan valtion harjoittamalta etnisiltä puhdistuksilta.",
+      "summary_en": "An anonymous editor added a section framing Greater Finland irredentism as a humanitarian effort to protect kindred peoples from Stalinist purges and later restored a modified version with a dispute tag.",
+      "narrative": "Framing of Greater Finland and East Karelia",
+      "category": "pov_push",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 24094,
+          "title_fi": "Suur-Suomi",
+          "title_en": "Greater Finland"
+        }
+      ],
+      "first_inserted_at": "2005-08-04T06:08:25Z",
+      "last_removed_at": "2005-08-27T16:56:25Z",
+      "total_exposure_seconds": 100772,
+      "reinsertion_count": 1,
+      "edits": [
+        {
+          "rev_id": 349583,
+          "parent_rev_id": 348485,
+          "page_id": 24094,
+          "user_display": "130.233.x.x",
+          "is_anonymous": true,
+          "timestamp": "2005-08-04T06:08:25Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=349583",
+          "flags": []
+        },
+        {
+          "rev_id": 351793,
+          "parent_rev_id": 351774,
+          "page_id": 24094,
+          "user_display": "ML",
+          "is_anonymous": false,
+          "timestamp": "2005-08-05T10:06:26Z",
+          "role": "removed",
+          "summary": "puppua poistettu, tämä ei ole pamflettisivusto",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=351793",
+          "flags": []
+        },
+        {
+          "rev_id": 392859,
+          "parent_rev_id": 392765,
+          "page_id": 24094,
+          "user_display": "130.233.x.x",
+          "is_anonymous": true,
+          "timestamp": "2005-08-27T16:54:54Z",
+          "role": "reinserted",
+          "summary": "palautettu (Kahkonen  25. elokuuta 2005 kello 07.52) syy: alkuperäinen sivu palautettava keskustelun ajaksi",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=392859",
+          "flags": []
+        },
+        {
+          "rev_id": 392863,
+          "parent_rev_id": 392859,
+          "page_id": 24094,
+          "user_display": "ML",
+          "is_anonymous": false,
+          "timestamp": "2005-08-27T16:56:25Z",
+          "role": "removed",
+          "summary": "Palautettu, kiistanalaisuuden esittäjä blokattu = kiistanalaisuus tältä erää ohi.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=392863",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'puppua poistettu, tämä ei ole pamflettisivusto' ('nonsense removed, this is not a pamphlet site')."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Re-inserted in revised wording with a {{kiistanalainen}} tag 23 days after the first removal."
+        },
+        {
+          "kind": "dispute_template",
+          "label": "Dispute tag added",
+          "evidence": "Second insertion placed {{kiistanalainen}} at the top of the article during the dispute."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Presents Greater Finland expansionism primarily as protection of kindred Finnic minorities without citations."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edit",
+          "evidence": "Added twice from the 130.233.x.x IPv4 range."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed as not neutral, put back once after removal, the article was marked as disputed, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 4,
+        "what_changed_en": "Adds an unsourced section on the motives of Greater Finland supporters, stating their aim was rescuing kindred Finnic populations in East Karelia from liquidation and Russification.",
+        "quotes": [
+          "Suur-Suomen kannattajilla on usein motiivina sukulaiskielisten alueiden pelastaminen hallitsevan valtion harjoittamalta etnisiltä puhdistuksilta."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": null,
+        "historical_note_en": "Stalin's Great Terror heavily targeted Finns and Karelians in Soviet Karelia in 1937–1938, while Finnish Greater Finland ideology also encompassed nationalist, strategic, and territorial expansion aims dating back to the 1910s."
+      },
+      "confidence_note": "Both edits came from the same 130.233.x.x range on one article, keeping this at Level 2."
+    },
+    {
+      "id": "ck-05",
+      "page_id": 9895,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        8974672
+      ],
+      "removing_rev_ids": [
+        10488546
+      ],
+      "tier": "contested",
+      "score": 0.7,
+      "claim_en": "Real estate in ceded Karelia still legally belongs to the original Finnish owners and their heirs because the USSR never nationalised it.",
+      "claim_fi": "Kun Neuvostoliitto ei kansallistanut tätä omaisuutta, se kuuluu edelleen alkuperäisille omistajille ja heidän perijöilleen.",
+      "summary_en": "An unsourced legal claim on Luovutettu Karjala asserted that Paris Peace Treaty Article 27 left private land ownership in ceded Karelia with pre-war Finnish owners; it remained live for 11 months before removal.",
+      "narrative": "Post-Soviet debate over returning ceded Karelia",
+      "category": "false_factual_claim",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 9895,
+          "title_fi": "Luovutettu Karjala",
+          "title_en": null
+        }
+      ],
+      "first_inserted_at": "2010-08-30T11:47:19Z",
+      "last_removed_at": "2011-07-30T16:30:11Z",
+      "total_exposure_seconds": 28874572,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 8974672,
+          "parent_rev_id": 8940883,
+          "page_id": 9895,
+          "user_display": "91.156.x.x",
+          "is_anonymous": true,
+          "timestamp": "2010-08-30T11:47:19Z",
+          "role": "inserted",
+          "summary": "/* Kiinteistöjen omistusoikeudet */",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8974672",
+          "flags": []
+        },
+        {
+          "rev_id": 10488546,
+          "parent_rev_id": 10472993,
+          "page_id": 9895,
+          "user_display": "83.148.x.x",
+          "is_anonymous": true,
+          "timestamp": "2011-07-30T16:30:11Z",
+          "role": "removed",
+          "summary": "Erittäin radikaali väite ilman lähdettä. Ei pidä huolia artikkeliin jollei kelvollista lähdettä löydy",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=10488546",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'Erittäin radikaali väite ilman lähdettä' ('Very radical claim without a source')."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Asserts continuing private Finnish legal title to land in ceded Karelia under the 1947 Paris Peace Treaty."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edit",
+          "evidence": "Inserted from unregistered IPv4 address 91.156.x.x."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed for lack of a reliable source, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "false_factual_claim",
+        "confidence": 4,
+        "what_changed_en": "Adds a paragraph arguing that Article 27 of the 1947 Paris Peace Treaty restored property rights and that because the USSR never nationalised the handed-over land register, title still rests with Finnish owners.",
+        "quotes": [
+          "Suomi ei poistanut kiinteistöjärjestelmää, vaan luovutti luovutettujen alueiden kiinteistörekisterin Neuvostoliitolle (40 rautatievaunullista asiapapereita).",
+          "Kun Neuvostoliitto ei kansallistanut tätä omaisuutta, se kuuluu edelleen alkuperäisille omistajille ja heidän perijöilleen."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": null,
+        "historical_note_en": "Territory ceded under the 1940 Moscow Peace Treaty and 1944 Moscow Armistice passed under Soviet sovereignty and Soviet state land ownership; Finland compensated displaced Karelian owners domestically through post-war indemnity legislation."
+      },
+      "confidence_note": "Single anonymous insertion on one article, though live for 334 days before another reader removed it for lacking sources."
+    },
+    {
+      "id": "ck-06",
+      "page_id": 12374,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        21450265
+      ],
+      "removing_rev_ids": [
+        21578484
+      ],
+      "tier": "reverted",
+      "score": 0.52,
+      "claim_en": "Käkisalmi (Priozersk) was ceded to Finland after the Winter and Continuation Wars and lies in Finnish territory.",
+      "claim_fi": "Kaupunki kuului Suomelle vuosina 1812–1940 ja 1941–1944, mutta jouduttiin [[Luovutetut alueet|luovuttamaan]] [[Suomelle|Suomelle]] talvi- ja jatkosodan myötä.",
+      "summary_en": "An anonymous edit changed Käkisalmi's country and map from Russia and Leningrad Oblast to Finland and rewrote the lead to say the town was ceded to Finland; removed after 38 days without an edit summary.",
+      "narrative": "Status of towns in ceded Karelia",
+      "category": null,
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 12374,
+          "title_fi": "Käkisalmi",
+          "title_en": "Priozersk"
+        }
+      ],
+      "first_inserted_at": "2023-04-15T11:04:36Z",
+      "last_removed_at": "2023-05-23T16:06:47Z",
+      "total_exposure_seconds": 3301331,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 21450265,
+          "parent_rev_id": 21337339,
+          "page_id": 12374,
+          "user_display": "84.250.x.x",
+          "is_anonymous": true,
+          "timestamp": "2023-04-15T11:04:36Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=21450265",
+          "flags": []
+        },
+        {
+          "rev_id": 21578484,
+          "parent_rev_id": 21525215,
+          "page_id": 12374,
+          "user_display": "Talvipäivänseisaus",
+          "is_anonymous": false,
+          "timestamp": "2023-05-23T16:06:47Z",
+          "role": "removed",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=21578484",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Taken out by named editor Talvipäivänseisaus after 38 days."
+        },
+        {
+          "kind": "number_changed",
+          "label": "Figures changed without a source",
+          "evidence": "Changed the infobox founding year from 1944 to 1941 alongside the country fields."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edit",
+          "evidence": "Inserted from unregistered IPv4 address 84.250.x.x."
+        }
+      ],
+      "tier_reason": "Removed by Wikipedia editors — because: taken out by another editor.",
+      "assessment": null,
+      "confidence_note": "Automated assessment was unavailable for this edit and the removal carried no summary, so it stays at Level 1 from edit history alone."
+    }
+  ]
+}

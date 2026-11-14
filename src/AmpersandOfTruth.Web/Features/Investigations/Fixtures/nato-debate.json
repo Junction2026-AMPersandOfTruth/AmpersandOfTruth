@@ -1,0 +1,722 @@
+{
+  "slug": "nato-debate",
+  "title": "NATO debate",
+  "aliases": [
+    "nato",
+    "suomen nato-keskustelu",
+    "finnish nato debate",
+    "nato-optio",
+    "suomen nato-jäsenyys"
+  ],
+  "incidents": [
+    {
+      "id": "nato-01",
+      "page_id": 2979,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        7425332,
+        7457275,
+        7461676,
+        7461686,
+        7461695,
+        7522928,
+        7523673
+      ],
+      "removing_rev_ids": [
+        7446079,
+        7458950,
+        7464225,
+        7521036,
+        7523075,
+        7523675
+      ],
+      "tier": "campaign",
+      "score": 0.95,
+      "claim_en": "Finland's post-2002 participation in NATO-led ISAF operations in Afghanistan makes the Afghan war one of Finland's wars.",
+      "claim_fi": "*[[2002]]– [[Afganistanin sota (2001–)|Afganistanin sota]]: Suomi on osallistunut",
+      "summary_en": "Across 22 days, one named account and two anonymous ranges added and restored the post-2002 War in Afghanistan to Finland's list of wars, citing a 1995 parliamentary report for a 2002 NATO-led operation; removed six times.",
+      "narrative": "Whether NATO-led ISAF peacekeeping made Finland a belligerent in Afghanistan",
+      "category": "pov_push",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 2979,
+          "title_fi": "Luettelo Suomen historian sodista",
+          "title_en": "List of wars involving Finland"
+        }
+      ],
+      "first_inserted_at": "2009-10-07T18:20:16Z",
+      "last_removed_at": "2009-10-29T15:22:31Z",
+      "total_exposure_seconds": 512579,
+      "reinsertion_count": 6,
+      "edits": [
+        {
+          "rev_id": 7425332,
+          "parent_rev_id": 7384741,
+          "page_id": 2979,
+          "user_display": "89.27.x.x",
+          "is_anonymous": true,
+          "timestamp": "2009-10-07T18:20:16Z",
+          "role": "inserted",
+          "summary": "Kumottu muokkaus 7384725, jonka teki 130.234.x.x (keskustelu)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7425332",
+          "flags": []
+        },
+        {
+          "rev_id": 7446079,
+          "parent_rev_id": 7425332,
+          "page_id": 2979,
+          "user_display": "130.234.x.x",
+          "is_anonymous": true,
+          "timestamp": "2009-10-12T11:45:12Z",
+          "role": "removed",
+          "summary": "ei tuo edelleenkään kuulune joukkoon",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7446079",
+          "flags": []
+        },
+        {
+          "rev_id": 7457275,
+          "parent_rev_id": 7446739,
+          "page_id": 2979,
+          "user_display": "Ural",
+          "is_anonymous": false,
+          "timestamp": "2009-10-14T19:23:41Z",
+          "role": "reinserted",
+          "summary": "\"sodan kaltaiset sotatoimet\" Puolustusvaliokunnan lausunnon mukaisesti.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7457275",
+          "flags": []
+        },
+        {
+          "rev_id": 7458950,
+          "parent_rev_id": 7458938,
+          "page_id": 2979,
+          "user_display": "195.237.x.x",
+          "is_anonymous": true,
+          "timestamp": "2009-10-15T07:48:03Z",
+          "role": "removed",
+          "summary": "kumottu vääristelevä lähteen käyttö ja oma tutkimus sodan kaltaisista sotatoimista (lähde vuodelta 1995 ei puhu vuonna 2002 alkaneesta operaatiosta)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7458950",
+          "flags": []
+        },
+        {
+          "rev_id": 7461676,
+          "parent_rev_id": 7458957,
+          "page_id": 2979,
+          "user_display": "89.27.x.x",
+          "is_anonymous": true,
+          "timestamp": "2009-10-15T17:51:52Z",
+          "role": "reinserted",
+          "summary": "Kumottu muokkaus 7458950, jonka teki 195.237.x.x (keskustelu)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7461676",
+          "flags": []
+        },
+        {
+          "rev_id": 7461686,
+          "parent_rev_id": 7461676,
+          "page_id": 2979,
+          "user_display": "89.27.x.x",
+          "is_anonymous": true,
+          "timestamp": "2009-10-15T17:53:50Z",
+          "role": "reinserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7461686",
+          "flags": []
+        },
+        {
+          "rev_id": 7461695,
+          "parent_rev_id": 7461686,
+          "page_id": 2979,
+          "user_display": "89.27.x.x",
+          "is_anonymous": true,
+          "timestamp": "2009-10-15T17:55:16Z",
+          "role": "reinserted",
+          "summary": "/* Itsenäisyyden aika */",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7461695",
+          "flags": []
+        },
+        {
+          "rev_id": 7464225,
+          "parent_rev_id": 7464220,
+          "page_id": 2979,
+          "user_display": "130.234.x.x",
+          "is_anonymous": true,
+          "timestamp": "2009-10-16T09:42:43Z",
+          "role": "removed",
+          "summary": "edelleen harhaanjohtavaa lähteen käyttöä.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7464225",
+          "flags": []
+        },
+        {
+          "rev_id": 7521036,
+          "parent_rev_id": 7521020,
+          "page_id": 2979,
+          "user_display": "ML",
+          "is_anonymous": false,
+          "timestamp": "2009-10-28T20:48:26Z",
+          "role": "removed",
+          "summary": "/* Luettelon ulkopuolelle jääneet konfliktit */ tähän artikkeliin ei kuulu valtava palopuhe afganistanin sodasta",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7521036",
+          "flags": []
+        },
+        {
+          "rev_id": 7522928,
+          "parent_rev_id": 7521036,
+          "page_id": 2979,
+          "user_display": "137.163.x.x",
+          "is_anonymous": true,
+          "timestamp": "2009-10-29T12:18:51Z",
+          "role": "reinserted",
+          "summary": "Kumottu muokkaus 7521036, jonka teki ML (keskustelu)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7522928",
+          "flags": []
+        },
+        {
+          "rev_id": 7523075,
+          "parent_rev_id": 7522928,
+          "page_id": 2979,
+          "user_display": "195.237.x.x",
+          "is_anonymous": true,
+          "timestamp": "2009-10-29T13:00:58Z",
+          "role": "removed",
+          "summary": "artikkeliin vain lyhyt esitys, yksityiskohdat käsitellään muualla",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7523075",
+          "flags": []
+        },
+        {
+          "rev_id": 7523673,
+          "parent_rev_id": 7523096,
+          "page_id": 2979,
+          "user_display": "Ural",
+          "is_anonymous": false,
+          "timestamp": "2009-10-29T15:21:48Z",
+          "role": "reinserted",
+          "summary": "Kumottu muokkaus 7523096, jonka teki 195.237.x.x (keskustelu)palautettu",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7523673",
+          "flags": []
+        },
+        {
+          "rev_id": 7523675,
+          "parent_rev_id": 7523673,
+          "page_id": 2979,
+          "user_display": "Kaikenlaisia",
+          "is_anonymous": false,
+          "timestamp": "2009-10-29T15:22:31Z",
+          "role": "removed",
+          "summary": "rv, yhdenmukaistetaan artikkelin muun sisälölön kanssa.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7523675",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "multiple_editors",
+          "label": "Multiple editors",
+          "evidence": "Inserted and restored by named account Ural and two distinct anonymous ranges (89.27.x.x and 137.163.x.x)."
+        },
+        {
+          "kind": "persistence",
+          "label": "Repeated across days",
+          "evidence": "Re-inserted across a 22-day span from 7 October to 29 October 2009."
+        },
+        {
+          "kind": "source_change",
+          "label": "Sources changed alongside the claim",
+          "evidence": "Attached a 1995 parliamentary Defence Committee report to characterise a post-2002 ISAF deployment as warlike combat."
+        },
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'kumottu vääristelevä lähteen käyttö ja oma tutkimus sodan kaltaisista sotatoimista (lähde vuodelta 1995 ei puhu vuonna 2002 alkaneesta operaatiosta)'."
+        },
+        {
+          "kind": "edit_war",
+          "label": "Back-and-forth edits",
+          "evidence": "Seven insertions and six removals on the post-independence war list during October 2009."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Classifies Finland's UN-mandated, NATO-led ISAF crisis-management deployment as a war fought by Finland."
+        }
+      ],
+      "tier_reason": "Pattern consistent with a coordinated attempt — because: added by 3 different editors, put back 6 times over 21 days, came with changes to the cited sources, removed as inaccurate, part of a back-and-forth over this passage, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 5,
+        "what_changed_en": "Adds the post-2002 War in Afghanistan to the list of wars involving Finland on the basis of Finnish participation in NATO-led ISAF forces, later citing a 1995 Defence Committee opinion.",
+        "quotes": [
+          "*[[2002]]– [[Afganistanin sota (2001–)|Afganistanin sota]]: Suomi on osallistunut",
+          "Suomi on osallistunut sotatoimiin Naton alaisissa [[ISAF]]-joukoissa Afganistanin sisällissodassa vuodesta 2002."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "Public figures in 2009 did debate whether clashes in northern Afghanistan amounted to armed conflict, but editors noted that a 1995 parliamentary report could not verify claims about a 2002 operation.",
+        "historical_note_en": "Finland participated in the UN-mandated, NATO-led ISAF crisis-management operation in Afghanistan from 2002 to 2014 under Finland's military crisis-management legislation rather than a state of war."
+      },
+      "confidence_note": "Meets Level 3 thresholds on editor count (three distinct editor keys), 22-day persistence span, and disputed source application."
+    },
+    {
+      "id": "nato-02",
+      "page_id": 128998,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        2823556,
+        2823600,
+        2845380
+      ],
+      "removing_rev_ids": [
+        2845398
+      ],
+      "tier": "contested",
+      "score": 0.86,
+      "claim_en": "The term 'NATO option' is misleading because nobody has granted Finland a right to join, while nearly all experts back membership.",
+      "claim_fi": "NATO-optio on terminä sinänsä harjaanjohtava, ettei kukaan ole antanut Suomelle oikeutta eli optiota liittyä tarpeenvaatiessa NATO:on.",
+      "summary_en": "Three edits over four days by one named account added unsourced arguments calling Finland's 'NATO option' misleading and stating nearly all security experts backed membership; removed as polemical and unsourced.",
+      "narrative": "Meaning and credibility of Finland's 'NATO option'",
+      "category": "pov_push",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 128998,
+          "title_fi": "Suomen Nato-keskustelu",
+          "title_en": null
+        }
+      ],
+      "first_inserted_at": "2007-05-11T11:23:32Z",
+      "last_removed_at": "2007-05-15T11:26:26Z",
+      "total_exposure_seconds": 345774,
+      "reinsertion_count": 2,
+      "edits": [
+        {
+          "rev_id": 2823556,
+          "parent_rev_id": 2778215,
+          "page_id": 128998,
+          "user_display": "Alex Krycek",
+          "is_anonymous": false,
+          "timestamp": "2007-05-11T11:23:32Z",
+          "role": "inserted",
+          "summary": "/* NATO-optio */",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2823556",
+          "flags": []
+        },
+        {
+          "rev_id": 2823600,
+          "parent_rev_id": 2823556,
+          "page_id": 128998,
+          "user_display": "Alex Krycek",
+          "is_anonymous": false,
+          "timestamp": "2007-05-11T11:32:01Z",
+          "role": "reinserted",
+          "summary": "/* Yleistä */",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2823600",
+          "flags": []
+        },
+        {
+          "rev_id": 2845380,
+          "parent_rev_id": 2823600,
+          "page_id": 128998,
+          "user_display": "Alex Krycek",
+          "is_anonymous": false,
+          "timestamp": "2007-05-15T11:23:44Z",
+          "role": "reinserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2845380",
+          "flags": []
+        },
+        {
+          "rev_id": 2845398,
+          "parent_rev_id": 2845380,
+          "page_id": 128998,
+          "user_display": "128.214.x.x",
+          "is_anonymous": true,
+          "timestamp": "2007-05-15T11:26:26Z",
+          "role": "removed",
+          "summary": "ev, epäselviä, poleemisia väitteitä ilman lähdettä",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2845398",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'ev, epäselviä, poleemisia väitteitä ilman lähdettä' ('unclear, polemical claims without a source')."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Declares in Wikipedia's voice that the term 'NATO option' is misleading and that almost all security experts favour NATO entry."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed as not neutral, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 4,
+        "what_changed_en": "Adds unsourced commentary stating that the 'NATO option' is a misleading term because NATO has granted no automatic entry right, and later adds that nearly all security-policy experts support Finnish membership.",
+        "quotes": [
+          "NATO-optio on terminä sinänsä harjaanjohtava, ettei kukaan ole antanut Suomelle oikeutta eli optiota liittyä tarpeenvaatiessa NATO:on."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": null,
+        "historical_note_en": "Before 2022, Finnish government security reports used the 'NATO option' formulation to mean retaining national freedom of choice to apply for membership under Article 10 of the North Atlantic Treaty."
+      },
+      "confidence_note": "Three edits by a single named account before a single removal stay at Level 2."
+    },
+    {
+      "id": "nato-03",
+      "page_id": 128998,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        14209522
+      ],
+      "removing_rev_ids": [
+        14209423,
+        14210530
+      ],
+      "tier": "contested",
+      "score": 0.8,
+      "claim_en": "NATO requires acceding countries to sign a secret protocol creating an anti-communist citizens' cadre even against voters' will.",
+      "claim_fi": "On myös sanottu, että NATOlla on salainen lisäpöytäkirja, jonka liittyvä maa joutuu allekirjoittamaan.",
+      "summary_en": "After a named editor trimmed fringe claims and broken links from the NATO disadvantages list, an anonymous editor restored assertions of a secret anti-communist NATO protocol and Operation Gladio links while stripping two mainstream citations.",
+      "narrative": "Secret-protocol and Operation Gladio claims in the NATO debate",
+      "category": "false_factual_claim",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 128998,
+          "title_fi": "Suomen Nato-keskustelu",
+          "title_en": null
+        }
+      ],
+      "first_inserted_at": "2014-08-06T05:41:04Z",
+      "last_removed_at": "2014-08-06T16:13:03Z",
+      "total_exposure_seconds": 37919,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 14209423,
+          "parent_rev_id": 14189694,
+          "page_id": 128998,
+          "user_display": "Weirdo10o4",
+          "is_anonymous": false,
+          "timestamp": "2014-08-05T23:31:15Z",
+          "role": "removed",
+          "summary": "WP:IRI, WP:FRINGE, WP:RELIABLE, WP:404 - Poistin epäluotettavia sekä epäolennaisia lähteitä ja jätin loogisimmat vasta-argumentit suomen Nato jäsenyydelle.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=14209423",
+          "flags": []
+        },
+        {
+          "rev_id": 14209522,
+          "parent_rev_id": 14209423,
+          "page_id": 128998,
+          "user_display": "109.240.x.x",
+          "is_anonymous": true,
+          "timestamp": "2014-08-06T05:41:04Z",
+          "role": "inserted",
+          "summary": "Kumottu muokkaus 14209423, jonka teki Weirdo10o4 (keskustelu)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=14209522",
+          "flags": []
+        },
+        {
+          "rev_id": 14210530,
+          "parent_rev_id": 14209522,
+          "page_id": 128998,
+          "user_display": "Weirdo10o4",
+          "is_anonymous": false,
+          "timestamp": "2014-08-06T16:13:03Z",
+          "role": "removed",
+          "summary": "Kumottu muokkaus 14209522, jonka teki 109.240.x.x (keskustelu)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=14210530",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Initial removal cited 'WP:IRI, WP:FRINGE, WP:RELIABLE, WP:404 - Poistin epäluotettavia sekä epäolennaisia lähteitä'."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Restored six hours after Weirdo10o4's cleanup and removed again ten hours later."
+        },
+        {
+          "kind": "citation_removed",
+          "label": "Citation removed",
+          "evidence": "The rollback restoration dropped the NATO treaty text link (nato.int) and academic journal citation added in the prior cleanup."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Asserts that NATO accession involves a secret protocol requiring domestic anti-communist paramilitary cadres."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edit",
+          "evidence": "Re-inserted from unregistered IPv4 address 109.240.x.x."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed for lack of a reliable source, put back once after removal, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "false_factual_claim",
+        "confidence": 5,
+        "what_changed_en": "Restores an older version of the NATO disadvantages section claiming states joining NATO must sign a secret additional protocol establishing an anti-communist cadre, plus links to Operation Gladio and blog sources.",
+        "quotes": [
+          "On myös sanottu, että NATOlla on salainen lisäpöytäkirja, jonka liittyvä maa joutuu allekirjoittamaan.",
+          "Asiakirjassa luvataan perustaa salainen kommunismin vastainen kansalaisten kaaderi jo ennen NATOon liittymistä."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": null,
+        "historical_note_en": "Cold War 'stay-behind' networks in Western Europe (such as Italy's Gladio) existed during the Cold War, but historians and archival inquiries have found no secret North Atlantic Treaty accession protocol mandating domestic political warfare."
+      },
+      "confidence_note": "Single anonymous re-insertion on one article stays at Level 2."
+    },
+    {
+      "id": "nato-04",
+      "page_id": 1137,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        5194059
+      ],
+      "removing_rev_ids": [
+        5194107
+      ],
+      "tier": "contested",
+      "score": 0.74,
+      "claim_en": "Sauli Niinistö received 15,000 euros in 2007 campaign support from Kehittyvien maakuntien Suomi and later backed an honour for its patron.",
+      "claim_fi": "[[Eduskuntavaalit 2007|Eduskuntavaaleissa]] häntä tuki mm. [[Kehittyvien maakuntien Suomi]] ry 15 000 €:lla.",
+      "summary_en": "A named editor restored sourced sentences on Sauli Niinistö's 2007 Kehittyvien maakuntien Suomi campaign funding and Kyösti Kakkonen's title application; an anonymous user removed them 12 minutes later, accusing the editor of ideological bias.",
+      "narrative": "Campaign-finance scrutiny of leading Finnish foreign-policy figures",
+      "category": "content_dispute",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 1137,
+          "title_fi": "Sauli Niinistö",
+          "title_en": "Sauli Niinistö"
+        }
+      ],
+      "first_inserted_at": "2008-07-31T22:37:17Z",
+      "last_removed_at": "2008-07-31T22:49:45Z",
+      "total_exposure_seconds": 748,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 5194059,
+          "parent_rev_id": 5194032,
+          "page_id": 1137,
+          "user_display": "Mikko Paananen",
+          "is_anonymous": false,
+          "timestamp": "2008-07-31T22:37:17Z",
+          "role": "inserted",
+          "summary": "Käyttäjän 87.94.x.x (keskustelu) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän Mikko Paananen tekemään versioon.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5194059",
+          "flags": []
+        },
+        {
+          "rev_id": 5194107,
+          "parent_rev_id": 5194059,
+          "page_id": 1137,
+          "user_display": "87.94.x.x",
+          "is_anonymous": true,
+          "timestamp": "2008-07-31T22:49:45Z",
+          "role": "removed",
+          "summary": "Katsokaapas Mikko Paanasen tekemiä/muokkaamia artikkeleita joissa käsitellään paljon marxilais-leniläisiä artikkeleita yms. vasemmisto-ideologiaa niin ymmärrätte hänen Niinistö-dissaukset.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5194107",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with a summary alleging ideological bias ('vasemmisto-ideologiaa niin ymmärrätte hänen Niinistö-dissaukset')."
+        },
+        {
+          "kind": "citation_removed",
+          "label": "Citation removed",
+          "evidence": "The removal deleted two Ilta-Sanomat citations supporting the KMS funding passage."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Links Niinistö's 2007 KMS campaign donation to a subsequent honorary-title petition for businessman Kyösti Kakkonen."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed as not neutral, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "content_dispute",
+        "confidence": 4,
+        "what_changed_en": "Restores three Ilta-Sanomat-sourced sentences noting that Kehittyvien maakuntien Suomi gave Niinistö 15,000 euros in 2007 and that Niinistö later joined a petition for an honorary title for KMS backer Kyösti Kakkonen.",
+        "quotes": [
+          "[[Eduskuntavaalit 2007|Eduskuntavaaleissa]] häntä tuki mm. [[Kehittyvien maakuntien Suomi]] ry 15 000 €:lla.",
+          "Myöhemmin hän oli mukana anomassa yhdistyksen taustalla olleelle [[Kyösti Kakkonen|Kyösti Kakkoselle]] vuorineuvoksen arvonimeä"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "The underlying news facts were reported in Ilta-Sanomat during the 2008 campaign-finance scandal; editors disputed prominence and framing in the career overview.",
+        "historical_note_en": " Finland's 2008 Kehittyvien maakuntien Suomi (KMS) campaign-finance disclosures affected candidates across major parties and prompted reforms to election-funding transparency laws."
+      },
+      "confidence_note": "Single contested exchange in the window on one article stays at Level 2."
+    },
+    {
+      "id": "nato-05",
+      "page_id": 128998,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        20086351,
+        20086353
+      ],
+      "removing_rev_ids": [
+        20144577
+      ],
+      "tier": "reverted",
+      "score": 0.58,
+      "claim_en": "The National Coalition Party has supported Finnish NATO membership since its 2006 party congress.",
+      "claim_fi": "[[Kansallinen Kokoomus|Kokoomus]] on vuoden 2006 puoluekokouksesta lähtien kannattanut Suomen Nato-",
+      "summary_en": "An anonymous editor added an unsourced opening sentence stating that Kokoomus had backed Finnish NATO membership since its 2006 congress; it stayed live for 31 days before removal for lacking a source.",
+      "narrative": "Party positions in the Finnish NATO debate",
+      "category": "good_faith_error",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 128998,
+          "title_fi": "Suomen Nato-keskustelu",
+          "title_en": null
+        }
+      ],
+      "first_inserted_at": "2021-11-01T06:32:56Z",
+      "last_removed_at": "2021-12-02T10:52:18Z",
+      "total_exposure_seconds": 2693962,
+      "reinsertion_count": 1,
+      "edits": [
+        {
+          "rev_id": 20086351,
+          "parent_rev_id": 18868154,
+          "page_id": 128998,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2021-11-01T06:32:56Z",
+          "role": "inserted",
+          "summary": "/* Poliittiset puolueet */",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=20086351",
+          "flags": []
+        },
+        {
+          "rev_id": 20086353,
+          "parent_rev_id": 20086351,
+          "page_id": 128998,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2021-11-01T06:33:45Z",
+          "role": "reinserted",
+          "summary": "/* Poliittiset puolueet */",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=20086353",
+          "flags": []
+        },
+        {
+          "rev_id": 20144577,
+          "parent_rev_id": 20086353,
+          "page_id": 128998,
+          "user_display": "Sjmantyl",
+          "is_anonymous": false,
+          "timestamp": "2021-12-02T10:52:18Z",
+          "role": "removed",
+          "summary": "Hylättiin viimeisimmät 2 tekstimuutosta (tehnyt 85.76.x.x) ja palautettiin versio 18868154, jonka on tehnyt So categorical: En löytänyt mitään viittetä puolesta/vastaan.. Pitäisi olla lähde väittteelle.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=20144577",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed after 31 days by named editor Sjmantyl because no source was cited in the edit."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edit",
+          "evidence": "Inserted in two back-to-back edits from 85.76.x.x."
+        }
+      ],
+      "tier_reason": "Removed by Wikipedia editors — because: taken out by another editor.",
+      "assessment": {
+        "category": "good_faith_error",
+        "confidence": 4,
+        "what_changed_en": "Adds an unsourced sentence ahead of the Kokoomus section stating the party has backed Finnish NATO membership since its 2006 party congress (fixing a spelling slip in a second edit 49 seconds later).",
+        "quotes": [
+          "[[Kansallinen Kokoomus|Kokoomus]] on vuoden 2006 puoluekokouksesta lähtien kannattanut Suomen Nato-"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "Kokoomus party congresses from 2006 onward did pass resolutions favouring NATO membership, so the statement lacked an inline citation rather than being fabricated.",
+        "historical_note_en": "The National Coalition Party (Kokoomus) was the first major Finnish parliamentary party whose party congress endorsed NATO membership in June 2006."
+      },
+      "confidence_note": "Assessed as an unreferenced good-faith addition rather than a contested slant, keeping this at Level 1."
+    },
+    {
+      "id": "nato-06",
+      "page_id": 128998,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        20427576
+      ],
+      "removing_rev_ids": [
+        20434133
+      ],
+      "tier": "reverted",
+      "score": 0.49,
+      "claim_en": "MP and former Foreign Minister Erkki Tuomioja doubted NATO membership would strengthen Finnish security given frontline risk.",
+      "claim_fi": "Kansanedustaja ja entinen ulkoministeri [[Erkki Tuomioja]] on epäillyt, ettei Nato-jäsenyys vahvistaisi Suomen turvallisuutta, koska sodan syttyessä Suomi olisi etulinjassa.",
+      "summary_en": "A sentence summarising Erkki Tuomioja's Yle radio remarks on frontline risk in the SDP section was swept out three days later in a broad 19-edit grammar rollback.",
+      "narrative": "Social Democratic debate during spring 2022 NATO deliberations",
+      "category": null,
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 128998,
+          "title_fi": "Suomen Nato-keskustelu",
+          "title_en": null
+        }
+      ],
+      "first_inserted_at": "2022-04-17T09:49:17Z",
+      "last_removed_at": "2022-04-20T12:36:27Z",
+      "total_exposure_seconds": 269230,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 20427576,
+          "parent_rev_id": 20427558,
+          "page_id": 128998,
+          "user_display": "Markus Laakso",
+          "is_anonymous": false,
+          "timestamp": "2022-04-17T09:49:17Z",
+          "role": "inserted",
+          "summary": "/* Poliittiset puolueet */ Erkki Tuomioja",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=20427576",
+          "flags": []
+        },
+        {
+          "rev_id": 20434133,
+          "parent_rev_id": 20433671,
+          "page_id": 128998,
+          "user_display": "Sullay",
+          "is_anonymous": false,
+          "timestamp": "2022-04-20T12:36:27Z",
+          "role": "removed",
+          "summary": "Hylättiin viimeiset 19 tekstimuutosta ja palautettiin versio 20420745, jonka on tehnyt 213.28.x.x: Useita kieliopillisesti oikein kirjoitettuja asioita uudelleenkirjoitettu jostain syystä kieliopillisesti väärin.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=20434133",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed three days later when editor Sullay rolled back 19 consecutive edits on grammar grounds."
+        }
+      ],
+      "tier_reason": "Removed by Wikipedia editors — because: taken out by another editor.",
+      "assessment": null,
+      "confidence_note": "Automated assessment was unavailable and the multi-edit rollback addressed grammar across other edits, leaving this at Level 1."
+    }
+  ]
+}
