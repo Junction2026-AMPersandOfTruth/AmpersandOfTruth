@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import ipaddress
 import json
+import re
 import os
 import pathlib
 import sys
@@ -76,7 +77,8 @@ def assert_no_raw_identities(
                 if " " in u:
                     candidates.append(u.replace(" ", "_"))
                 for cand in candidates:
-                    if cand in val:
+                    # Whole-word match; names under 3 chars (e.g. "8", "Jo") occur by chance in any text.
+                    if len(cand) >= 3 and re.search(r"(?<!\w)" + re.escape(cand) + r"(?!\w)", val):
                         raise ValueError(
                             f"{prefix}privacy violation: raw account name (len={len(u)}) of an involved revision appears in '{fname}'"
                         )

@@ -209,6 +209,14 @@ Worker-only rules are in `GEMINI.md`. API key: `~/.gemini/.env` (outside the rep
 **Known limitation:** inside the macOS seatbelt sandbox `dotnet` can't start (CoreCLR needs `sysctl` reads the profile denies), so
 workers write code without compiling; `run.sh`'s own `verify.sh` (outside the sandbox) is the real check — review its log, and expect
 a feedback round for compile errors. Workers also can't run `dotnet ef`/`dotnet sln` (they may hand-write the output — re-generate to confirm).
+**Research workers (Python under `research/`):** they *can* reach the corpus (`:3307`) and run Python + `research/eval/run` in the
+sandbox, but not `scripts/wikidiff.sh` / `scripts/analyze.sh` (dotnet). So: diffs come precomputed from `research.s3_diff`
+(`research/30-s3-extract/diffcache.py`, all golden pages); LLM batches are run by the orchestrator with
+`research/22-judge/analyze.sh` (= `analyze.sh` + the workers' key + `research/eval/prompts`; add `Gemini__PromptDirectory=` for other prompt dirs).
+Export `CORPUS_PW` (+ `CORPUS_*`) before `run.sh`; `GEMINI_MODEL=gemini-4-carbon` works in the CLI and beats "auto" (flash) for research.
+Seen 2026-11-14: rounds that end with an empty summary before README/tests (send a short feedback round), file writes that turn
+`"\n"` escapes into raw line breaks (`python3 -m py_compile` everything before landing), and web fetches failing inside the
+sandbox (put API shapes in the spec instead of asking the worker to read docs).
 
 ## Gotchas
 
