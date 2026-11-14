@@ -103,7 +103,8 @@ public sealed class AnalysisLedger(IDbContextFactory<AppDbContext> dbFactory)
             query = query.Where(r => r.Scope == scope);
         }
 
-        var summary = await query
+        // GroupBy constant = one aggregate row; ToList (not FirstOrDefault) avoids EF's "First without OrderBy" warning.
+        var rows = await query
             .GroupBy(_ => 1)
             .Select(g => new UsageSummary(
                 g.Count(),
@@ -119,10 +120,10 @@ public sealed class AnalysisLedger(IDbContextFactory<AppDbContext> dbFactory)
                 g.Sum(r => !r.FromCache && r.Outcome != AnalysisOutcome.BudgetExceeded ? (long)r.OutputTokens : 0L),
                 g.Sum(r => !r.FromCache && r.Outcome != AnalysisOutcome.BudgetExceeded ? (long)r.ThoughtTokens : 0L),
                 g.Sum(r => !r.FromCache && r.Outcome != AnalysisOutcome.BudgetExceeded ? r.EstimatedCostUsd : 0.0)))
-            .FirstOrDefaultAsync(ct)
+            .ToListAsync(ct)
             .ConfigureAwait(false);
 
-        return summary ?? new UsageSummary(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        return rows.Count > 0 ? rows[0] : new UsageSummary(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
     /// <summary>Live calls only, grouped by model, ordered by estimated cost descending.</summary>
