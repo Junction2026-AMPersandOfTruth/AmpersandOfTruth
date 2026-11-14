@@ -27,11 +27,13 @@ public sealed class InvestigationPipeline(
     IOptions<InvestigationPipelineOptions> options,
     TimeProvider time,
     ILogger<InvestigationPipeline> log,
-    TopicRelevance? relevance = null) : IInvestigationRunner
+    TopicRelevance? relevance = null,
+    IRevisionStore? revisions = null) : IInvestigationRunner
 {
     /// <summary>Bump when the pipeline's logic changes what a run produces; part of the run-cache fingerprint.</summary>
-    public const int Version = 5;   // 2: S10 evidence; 3: S10 B+rel ranking; 4: stage 2 ranks reverts by S3 formula 3;
-                                    // 5: one incident per inserted content (IncidentMerger, S3-A)
+    public const int Version = 6;   // 2: S10 evidence; 3: S10 B+rel ranking; 4: stage 2 ranks reverts by S3 formula 3;
+                                    // 5: one incident per inserted content (IncidentMerger, S3-A);
+                                    // 6: kept-in-latest exclusion, block-evasion reverts procedural, no names in the prompt
 
     /// <inheritdoc />
     /// <remarks><paramref name="refresh"/> is a no-op here: this class caches nothing at the run level.</remarks>
@@ -146,6 +148,7 @@ public sealed class InvestigationPipeline(
         string topic, IReadOnlyList<RemovedEdit> edits, string scope, long runStarted, ChannelWriter<InvestigationEvent> writer, CancellationToken ct)
     {
         var incidents = new List<IncidentMerger.Item>();
+        var latest = revisions is not null && options.Value.KeptSignal ? new KeptInLatest.RunCache(revisions) : null;
         var gate = new Lock();
         int done = 0, failed = 0, unassessed = 0, unranked = 0;
         TimeSpan? firstIncident = null;
@@ -158,7 +161,7 @@ public sealed class InvestigationPipeline(
                 Outcome outcome;
                 try
                 {
-                    outcome = await ScoreAsync(topic, edit, scope, token);
+                    outcome = await ScoreAsync(topic, edit, scope, latest, token);
                 }
                 catch (Exception ex) when (ex is not OperationCanceledException || !token.IsCancellationRequested)
                 {
@@ -199,20 +202,28 @@ public sealed class InvestigationPipeline(
         public string? ProseKey { get; init; }
     }
 
-    private async Task<Outcome> ScoreAsync(string topic, RemovedEdit edit, string scope, CancellationToken ct)
+    private async Task<Outcome> ScoreAsync(string topic, RemovedEdit edit, string scope, KeptInLatest.RunCache? latest, CancellationToken ct)
     {
         var reading = await reader.ReadAsync(edit, ct);
-        var outcome = await ScoreReadingAsync(topic, reading, scope, ct);
+        var outcome = await ScoreReadingAsync(topic, reading, scope, latest, ct);
         return outcome.Incident is null ? outcome : outcome with { ProseKey = IncidentMerger.ProseKey(reading.Diff.AddedProse) };
     }
 
-    private async Task<Outcome> ScoreReadingAsync(string topic, EditReading reading, string scope, CancellationToken ct)
+    private async Task<Outcome> ScoreReadingAsync(
+        string topic, EditReading reading, string scope, KeptInLatest.RunCache? latest, CancellationToken ct)
     {
-
         // Exclusions that need no assessment can't be lifted by one, so don't spend an LLM call on them.
         var unassessed = IncidentAssembler.Assemble(reading, null);
         if (unassessed.Incident is null)
             return new Outcome(null, ExclusionId(unassessed.Assessment), false);
+
+        // Kept (the added content is still in the article) is one of them; read the latest revision only when it can matter.
+        var kept = await IsKeptAsync(reading, latest, ct);
+        if (kept)
+        {
+            var excluded = IncidentAssembler.Assemble(reading, null, keptInLatest: true);
+            return new Outcome(null, ExclusionId(excluded.Assessment), false);
+        }
 
         var classification = await classifier.ClassifyAsync(reading, scope, ct);
         if (classification is null)
@@ -234,6 +245,12 @@ public sealed class InvestigationPipeline(
             Incident = incident with { Score = IncidentAssembler.Rank(incident.Tier, result.WithinTier, rel ?? 1) },
             Unranked = rel is null,
         };
+    }
+
+    private static async Task<bool> IsKeptAsync(EditReading reading, KeptInLatest.RunCache? latest, CancellationToken ct)
+    {
+        if (latest is null || KeptInLatest.LongestAddedSentence(reading.Diff) is not { } sentence) return false;
+        return await latest.GetAsync(reading.Edit.Article.PageId, ct) is { } page && KeptInLatest.Contains(page, sentence);
     }
 
     private static string? ExclusionId(Evidence.TierAssessment a) => a.Exclusion is { } x ? IncidentJson.Id(x) : null;

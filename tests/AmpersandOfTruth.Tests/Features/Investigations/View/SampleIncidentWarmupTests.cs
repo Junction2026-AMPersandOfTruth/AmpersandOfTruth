@@ -352,6 +352,8 @@ public class SampleIncidentWarmupTests
         public Task<int> RevisionCountAsync(IReadOnlyCollection<long> pageIds, CancellationToken ct = default) =>
             Task.FromResult(0);
 
+        public Task<string?> LatestTextAsync(long pageId, CancellationToken ct = default) => Task.FromResult<string?>(null);
+
         public Task<IReadOnlyList<RevisionRow>> SpanAsync(
             long pageId, long restoredRevId, long lastRevId, int limit, CancellationToken ct = default) =>
             Task.FromResult<IReadOnlyList<RevisionRow>>([]);

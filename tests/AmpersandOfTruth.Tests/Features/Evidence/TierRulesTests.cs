@@ -257,6 +257,27 @@ public sealed class TierRulesTests
     }
 
     [Fact]
+    public void Assess_reinsertion_after_a_procedural_removal_is_no_dispute()
+    {
+        var evidence = CreateContestedEvidence() with
+        {
+            RemovalReason = RemovalReason.Other,
+            ProceduralRemoval = true,
+            ReinsertionCount = 1,
+            InEditWar = false,
+            DisputeTemplateAdded = false,
+        };
+
+        var result = TierRules.Assess(evidence);
+
+        Assert.Equal(EvidenceTier.Reverted, result.Tier);
+        Assert.Equal(TierReasonKind.RemovedByOthers, Assert.Single(result.Reasons).Kind);
+
+        // A later back-and-forth over the passage is still an edit war.
+        Assert.Equal(EvidenceTier.Contested, TierRules.Assess(evidence with { InEditWar = true }).Tier);
+    }
+
+    [Fact]
     public void Assess_reinsertion_alone_with_claim_is_contested()
     {
         var evidence = CreateContestedEvidence() with

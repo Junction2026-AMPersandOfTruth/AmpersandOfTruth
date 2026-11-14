@@ -40,6 +40,9 @@ public class RevertReasonsTests
     [InlineData("kh", RemovalReason.Other)]
     [InlineData("Hylättiin viimeisin tekstimuutos (tehnyt 192.0.2.1) ja palautettiin versio 123 käyttäjältä Matti", RemovalReason.None)]
     [InlineData(null, RemovalReason.None)]
+    [InlineData("rv, eston kiertoa", RemovalReason.Other)]
+    [InlineData("rv, eston kiertoa, lähteetöntä ja väärää tietoa", RemovalReason.Other)]
+    [InlineData("sukkanukke, puolueellista", RemovalReason.Other)]
     public void Maps_categories_to_the_evidence_standard_removal_reason(string? comment, RemovalReason expected) =>
         Assert.Equal(expected, RevertReasons.Of(comment));
 
@@ -50,4 +53,14 @@ public class RevertReasonsTests
 
         Assert.Equal(RemovalReason.None, RevertReasons.Of(rollback));
     }
+
+    [Theory]
+    [InlineData("rv, eston kiertoa ([[Käyttäjä:Estetty|Estetty]])", true)]
+    [InlineData("Käyttäjän Estetty (keskustelu) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän Matti tekemään versioon. Sukkanukke", true)]
+    [InlineData("Estetyn käyttäjän muokkaus", true)]
+    [InlineData("Reverted edits by Sock (talk): block evasion", true)]
+    [InlineData("rv, väärää tietoa", false)]
+    [InlineData(null, false)]
+    public void Block_evasion_reverts_are_procedural(string? comment, bool expected) =>
+        Assert.Equal(expected, RevertReasons.IsProcedural(comment));
 }

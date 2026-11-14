@@ -72,7 +72,8 @@ public static class TierRules
                 or ContentCategory.SourceManipulation;
 
         // 4. dispute reasons, in this order:
-        //    RemovalReason ∈ {Accuracy, Neutrality, Sourcing}; ReinsertionCount >= 1; InEditWar; DisputeTemplateAdded.
+        //    RemovalReason ∈ {Accuracy, Neutrality, Sourcing}; ReinsertionCount >= 1 && !ProceduralRemoval; InEditWar;
+        //    DisputeTemplateAdded.
         var disputeReasons = new List<TierReason>();
 
         switch (evidence.RemovalReason)
@@ -88,7 +89,9 @@ public static class TierRules
                 break;
         }
 
-        if (evidence.ReinsertionCount >= 1)
+        // A put-back after a procedural removal (block evasion) restores an edit undone for who made it, not for what it
+        // says: no disagreement about the content (#38 red team). A later back-and-forth still counts as an edit war.
+        if (evidence.ReinsertionCount >= 1 && !evidence.ProceduralRemoval)
         {
             string reinsertedText = evidence.ReinsertionCount == 1
                 ? "put back once after removal"

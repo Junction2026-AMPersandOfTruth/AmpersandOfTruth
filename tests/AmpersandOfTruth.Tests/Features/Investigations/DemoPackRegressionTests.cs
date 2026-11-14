@@ -61,7 +61,8 @@ public class DemoPackRegressionTests(AppFactory app) : IClassFixture<AppFactory>
                 options,
                 TimeProvider.System,
                 NullLogger<InvestigationPipeline>.Instance,
-                relevance);
+                relevance,
+                revisions);
 
             var events = await PipelineKit.Collect(pipeline.RunAsync(topic.Topic));
             AssertTopicRegression(pack.TopN, topic, events);

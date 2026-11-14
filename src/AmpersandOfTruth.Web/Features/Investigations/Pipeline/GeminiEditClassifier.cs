@@ -26,8 +26,9 @@ public sealed class GeminiEditClassifier(IAnalysisModel model, IOptions<Investig
     {
         var first = reading.FirstInsert;
         var revert = reading.Edit.Revert;
+        var editors = PromptEditors.For(reading);   // no account names in the prompt (evidence standard §3)
         var summaries = reading.Span
-            .Select(r => EditorDisplay.MaskComment(r.Comment))
+            .Select(r => editors.Mask(r.Comment))
             .Where(c => !string.IsNullOrWhiteSpace(c))
             .Distinct()
             .ToList();
@@ -38,7 +39,7 @@ public sealed class GeminiEditClassifier(IAnalysisModel model, IOptions<Investig
             editorKind: EditorKind(first.User),
             exposure: Exposure(revert.Timestamp - first.Timestamp),
             editSummary: summaries.Count == 0 ? "(none)" : string.Join(" | ", summaries),
-            revertSummary: string.IsNullOrWhiteSpace(revert.Comment) ? "(none)" : EditorDisplay.MaskComment(revert.Comment),
+            revertSummary: editors.Mask(revert.Comment) is { Length: > 0 } masked ? masked : "(none)",
             removedText: Text(reading.RemovedText, maxChars),
             insertedText: Text(reading.InsertedText, maxChars),
             context: reading.Context.Length == 0 ? "(none)" : reading.Context);

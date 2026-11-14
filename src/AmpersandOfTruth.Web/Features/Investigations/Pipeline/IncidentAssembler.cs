@@ -11,9 +11,11 @@ namespace AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 /// One edit = one incident here: its re-insertions are exact restores of its own content, so everything counted is on the
 /// claim's side (the frozen contract's claim-side counting, CONTRACT.md §3) without S7 clusters. A re-insertion chain
 /// reverted several times gives one incident per revert; <see cref="IncidentMerger"/> folds them into one after stage 4.
-/// Wired: removal reason (S5, <see cref="RevertReasons"/>), re-insertion (S1 identity restores), distinct editors, passage-level
-/// edit war (S10, <see cref="EditWars.Passage"/>), source change (S8 citations removed/swapped, or an assessment of source
-/// manipulation, as S10). Not yet (left at their "no evidence" default): dispute template, multiple articles, kept-in-latest.
+/// Wired: removal reason (S5, <see cref="RevertReasons"/>; a block-evasion revert is procedural, so its put-backs are no
+/// dispute), re-insertion (S1 identity restores), distinct editors, passage-level edit war (S10, <see cref="EditWars.Passage"/>),
+/// source change (S8 citations removed/swapped, or an assessment of source manipulation, as S10), kept in the latest revision
+/// (S10, <see cref="KeptInLatest"/>, passed in by the pipeline). Not yet (left at their "no evidence" default): dispute
+/// template, multiple articles.
 /// Pure and thread-safe.
 /// </summary>
 public static partial class IncidentAssembler
@@ -21,7 +23,9 @@ public static partial class IncidentAssembler
 /// <param name="WithinTier">P1.S10's additive score <see cref="ScoreA"/>; the pipeline multiplies it by topic relevance.</param>
     public sealed record Result(IncidentRecord? Incident, TierAssessment Assessment, double WithinTier = 0);
 
-    public static Result Assemble(EditReading reading, EditClassification? classification)
+    /// <param name="keptInLatest">The added content is still in the page's latest revision (<see cref="KeptInLatest"/>):
+    /// the evidence standard's <c>kept</c> exclusion. The pipeline checks it once per edit, before the LLM call.</param>
+    public static Result Assemble(EditReading reading, EditClassification? classification, bool keptInLatest = false)
     {
         var edit = reading.Edit;
         var revert = edit.Revert;
@@ -42,10 +46,12 @@ public static partial class IncidentAssembler
             RemovedByOtherAccount = revert.User is null || !span.All(r => EditorDisplay.For(r.User).GroupingKey == reverterKey),
             InsertedByBot = span.All(r => IsBot(r.User)),
             IsBlanking = diff.Stats.IsBlanking,
+            KeptInLatestRevision = keptInLatest,
             Assessment = assessment is null
                 ? null
                 : new ContentAssessment(assessment.Category, assessment.Confidence, assessment.HasVerifiedQuote),
             RemovalReason = removalReason,
+            ProceduralRemoval = RevertReasons.IsProcedural(revert.Comment),
             ReinsertionCount = reinsertions.Count,
             InsertionSpan = reinsertions.Count == 0 ? TimeSpan.Zero : reinsertions[^1].Timestamp - span[0].Timestamp,
             DistinctInsertingEditors = Math.Max(1, inserters.Select(r => EditorDisplay.For(r.User).GroupingKey).Distinct().Count()),
