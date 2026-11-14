@@ -1,9 +1,17 @@
 @inherits LayoutComponentBase
+@implements IDisposable
+@using AmpersandOfTruth.Web.Features.Search
+@inject NavigationManager Nav
 
 <div class="aot-shell">
     <header class="aot-appbar">
         <a class="aot-brand" href="/"><em>&amp;</em> Ampersand of Truth</a>
-        <div class="aot-appbar__search" data-testid="appbar-search-slot"></div>
+        <div class="aot-appbar__search" data-testid="appbar-search-slot">
+            @if (!IsLanding())
+            {
+                <TopicSearch Compact />
+            }
+        </div>
         <NavMenu />
     </header>
 
@@ -19,3 +27,20 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code {
+    protected override void OnInitialized() => Nav.LocationChanged += OnLocationChanged;
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e) =>
+        _ = InvokeAsync(StateHasChanged);
+
+    private bool IsLanding()
+    {
+        var rel = Nav.ToBaseRelativePath(Nav.Uri);
+        var end = rel.IndexOfAny(['?', '#']);
+        if (end >= 0) rel = rel[..end];
+        return rel.Trim('/').Length == 0;
+    }
+
+    public void Dispose() => Nav.LocationChanged -= OnLocationChanged;
+}

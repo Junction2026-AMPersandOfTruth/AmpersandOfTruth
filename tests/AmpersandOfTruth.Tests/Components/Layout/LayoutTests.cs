@@ -1,8 +1,9 @@
 using System.Text.RegularExpressions;
 using AmpersandOfTruth.Web.Components.Layout;
-using AmpersandOfTruth.Web.Components.Pages;
 using AmpersandOfTruth.Web.Features.Evidence;
+using AmpersandOfTruth.Web.Features.Search;
 using Bunit;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AmpersandOfTruth.Tests.Components.Layout;
 
@@ -91,7 +92,11 @@ public sealed class LayoutTests : BunitContext
     [Fact]
     public void Home_renders_display_heading_placeholder()
     {
-        var cut = Render<Home>();
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        Services.AddHealthChecks();
+        Services.AddSearchFeature();
+
+        var cut = Render<LandingPage>();
 
         var heading = cut.Find("h1.t-display");
         Assert.Equal("What was pushed into Wikipedia?", heading.TextContent.Trim());
