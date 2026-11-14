@@ -2,8 +2,10 @@
 @{
     var info = EvidenceTiers.Get(Tier);
     var href = string.IsNullOrWhiteSpace(WhyHref) ? "/methodology#levels" : WhyHref;
+    var title = Short ? $"{info.Label} — {info.Meaning}" : info.Meaning;
+    var ariaLabel = Short ? info.Label : null;
 }
-<span class="aot-tier aot-tier--@info.Id" title="@info.Meaning" data-testid="tier-badge" data-tier="@info.Id"><span class="aot-tier__pips" aria-hidden="true">@for (var i = 1; i <= 3; i++) { <i class="@(i <= info.Level ? "on" : null)"></i> }</span>@(Short ? info.ShortLabel : info.Label)@if (ShowWhy) { <text> </text><span class="aot-tier__why">· <a href="@href" style="color:inherit" data-testid="tier-why">why this level?</a></span> }</span>
+<span class="aot-tier aot-tier--@info.Id" title="@title" aria-label="@ariaLabel" data-testid="tier-badge" data-tier="@info.Id"><span class="aot-tier__pips" aria-hidden="true">@for (var i = 1; i <= 3; i++) { <i class="@(i <= info.Level ? "on" : null)"></i> }</span>@(Short ? info.ShortLabel : info.Label)@if (ShowWhy) { <text> </text><span class="aot-tier__why">· <a href="@href" style="color:inherit" data-testid="tier-why">why this level?</a></span> }</span>
 
 @code {
     [Parameter, EditorRequired] public EvidenceTier Tier { get; set; }

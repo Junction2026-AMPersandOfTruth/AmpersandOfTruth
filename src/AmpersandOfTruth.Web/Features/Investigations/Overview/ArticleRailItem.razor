@@ -4,14 +4,14 @@
 
 @if (Article.HasHistory)
 {
-    var hasDistinctEn = !string.IsNullOrWhiteSpace(TitleEn)
-        && !string.Equals(TitleEn, Article.Title, StringComparison.OrdinalIgnoreCase);
+    var effectiveTitleEn = !string.IsNullOrWhiteSpace(TitleEn) ? TitleEn : TimelineData?.TitleEn;
+    var hasKnownEn = !string.IsNullOrWhiteSpace(effectiveTitleEn);
     var contestLine = ContestSignals.FormatRailLine(Contest);
 
     <div class="aot-art" data-testid="article-rail-item" data-page-id="@Article.PageId">
-        @if (hasDistinctEn)
+        @if (hasKnownEn)
         {
-            <a class="aot-art__title" href="/articles/@Article.PageId">@TitleEn</a>
+            <a class="aot-art__title" href="/articles/@Article.PageId">@effectiveTitleEn</a>
         }
         else
         {
@@ -29,18 +29,15 @@
         </button>
 
         <div class="aot-art__why">
-            @if (hasDistinctEn)
+            @if (hasKnownEn)
             {
                 <span lang="fi">@Article.Title</span>
                 <text> · @EffectiveMatchReason</text>
             }
-            else if (string.IsNullOrWhiteSpace(TitleEn))
-            {
-                <text>Finnish Wikipedia · @EffectiveMatchReason</text>
-            }
             else
             {
-                @EffectiveMatchReason
+                <span class="aot-muted" data-testid="rail-fi-tag">Finnish Wikipedia</span>
+                <text> · @EffectiveMatchReason</text>
             }
         </div>
 

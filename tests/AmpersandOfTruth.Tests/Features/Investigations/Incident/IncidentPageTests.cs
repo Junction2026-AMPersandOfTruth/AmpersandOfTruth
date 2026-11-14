@@ -356,6 +356,79 @@ public sealed class IncidentPageTests : BunitContext
         Assert.Equal("2", dds[3]);
     }
 
+    [Fact]
+    public void Header_places_Machine_translation_label_above_English_headline_cleans_FI_markup_and_omits_MT_when_ClaimEn_null()
+    {
+        var withWikiAndEntities = FakeIncidentSource.BuildIncident(
+            id: "cw-01",
+            rank: 1,
+            claimEn: "Lenin's book \"The State and Revolution\" contained a direct call to terror.",
+            claimOriginal: "| teos = Leninin kirja \"[[Valtio ja vallankumous]]\" &amp; '''muut'''&nbsp;lähteet");
+        var withoutModelHeadline = FakeIncidentSource.BuildIncident(
+            id: "cw-02",
+            rank: 2,
+            claimEn: null,
+            claimOriginal: "[[Suomen sisällissota|Sisällissota]] 1918");
+
+        _source.WithTopic("civil-war-1918", [withWikiAndEntities, withoutModelHeadline]);
+
+        var cut = Render<IncidentPage>(p => p
+            .Add(x => x.Topic, "civil-war-1918")
+            .Add(x => x.IncidentId, "cw-01"));
+
+        var headerHtml = cut.Find("[data-testid=incident-header]").InnerHtml;
+        var mtPos = headerHtml.IndexOf("data-testid=\"claim-mt\"", StringComparison.Ordinal);
+        var h1Pos = headerHtml.IndexOf("data-testid=\"incident-claim\"", StringComparison.Ordinal);
+        var origPos = headerHtml.IndexOf("data-testid=\"claim-original\"", StringComparison.Ordinal);
+
+        Assert.True(mtPos >= 0 && mtPos < h1Pos, "MT label must precede the English h1 headline.");
+        Assert.True(h1Pos < origPos, "FI original must follow the English h1 headline.");
+        Assert.DoesNotContain("aot-mt", headerHtml[(origPos + 1)..], StringComparison.Ordinal);
+
+        var claimMt = cut.Find("[data-testid=claim-mt]");
+        Assert.Contains("English headline:", claimMt.TextContent);
+        Assert.Contains("Machine translation", claimMt.TextContent);
+
+        var orig = cut.Find("[data-testid=claim-original]");
+        Assert.Equal("Leninin kirja \"Valtio ja vallankumous\" & muut lähteet", orig.TextContent);
+        Assert.DoesNotContain("[[", orig.TextContent);
+        Assert.DoesNotContain("'''", orig.TextContent);
+        Assert.DoesNotContain("| teos =", orig.TextContent);
+        Assert.DoesNotContain("&nbsp;", orig.TextContent);
+        Assert.DoesNotContain("&amp;", orig.TextContent);
+
+        var fallbackCut = Render<IncidentPage>(p => p
+            .Add(x => x.Topic, "civil-war-1918")
+            .Add(x => x.IncidentId, "cw-02"));
+
+        Assert.Empty(fallbackCut.FindAll("[data-testid=claim-mt]"));
+        Assert.Equal("Sisällissota 1918", fallbackCut.Find("[data-testid=claim-original]").TextContent);
+    }
+
+    [Fact]
+    public void Mobile_css_wraps_breadcrumbs_without_ellipsis_and_enforces_32px_tap_targets()
+    {
+        var dir = new DirectoryInfo(AppContext.BaseDirectory);
+        while (dir is not null && !File.Exists(Path.Combine(dir.FullName, "AmpersandOfTruth.sln")))
+        {
+            dir = dir.Parent;
+        }
+        Assert.NotNull(dir);
+
+        var incidentCss = File.ReadAllText(Path.Combine(
+            dir.FullName, "src", "AmpersandOfTruth.Web", "Features", "Investigations", "Incident", "IncidentPage.razor.css"));
+        Assert.DoesNotContain("text-overflow: ellipsis", incidentCss, StringComparison.Ordinal);
+        Assert.Contains("flex-wrap: wrap", incidentCss, StringComparison.Ordinal);
+
+        var appCss = File.ReadAllText(Path.Combine(
+            dir.FullName, "src", "AmpersandOfTruth.Web", "wwwroot", "app.css"));
+        Assert.Contains("@media (max-width: 767.98px)", appCss, StringComparison.Ordinal);
+        Assert.Contains(".aot-tier__why a { display: inline-flex; align-items: center; min-height: 32px; }", appCss, StringComparison.Ordinal);
+        Assert.Contains(".aot-seq__live a { display: inline-flex; align-items: center; min-height: 32px; }", appCss, StringComparison.Ordinal);
+        Assert.Contains(".aot-seg button { min-height: 32px;", appCss, StringComparison.Ordinal);
+        Assert.Contains("a.aot-card:hover { border-color: var(--line-strong); text-decoration: none; }", appCss, StringComparison.Ordinal);
+    }
+
     private sealed class CapturingLoggerProvider : ILoggerProvider
     {
         public List<string> Messages { get; } = [];

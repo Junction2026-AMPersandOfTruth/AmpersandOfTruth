@@ -8,7 +8,10 @@
         <h3 class="aot-h3">Related</h3>
         @foreach (var item in related)
         {
-            <IncidentCard Incident="item" Topic="@Topic" Query="@Query" Compact="true" @key="item.Id" />
+            var cleaned = string.IsNullOrWhiteSpace(item.ClaimOriginal)
+                ? item
+                : item with { ClaimOriginal = DiffModel.CleanProse(item.ClaimOriginal) };
+            <IncidentCard Incident="cleaned" Topic="@Topic" Query="@Query" Compact="true" @key="item.Id" />
         }
     </section>
 }

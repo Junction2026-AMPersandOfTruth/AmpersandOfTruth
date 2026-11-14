@@ -269,4 +269,41 @@ public sealed class IncidentSubcomponentsTests : BunitContext
         Assert.DoesNotContain("ww-02", ids);
         Assert.Equal(ids.Count, ids.Distinct().Count());
     }
+
+    [Fact]
+    public void AssessmentNote_and_RelatedIncidents_strip_wiki_infobox_markup_and_decode_entities()
+    {
+        var view = new AssessmentView(
+            Category: ContentCategory.FalseFactualClaim,
+            Confidence: 4,
+            Reasoning: "Unsupported book quote and figure change.",
+            Quotes:
+            [
+                "Leninin Helsingissä kirjoittama kirja \"[[Valtio ja vallankumous]]\"",
+                "| tappiot2 = 1&nbsp;000–1&nbsp;500 &amp; '''muut'''",
+            ],
+            HasVerifiedQuote: true,
+            Uncertainty: null);
+
+        var assessCut = Render<AssessmentNote>(p => p.Add(x => x.Assessment, view));
+        var quotes = assessCut.FindAll("q[data-testid=assessment-quote]");
+        Assert.Equal(2, quotes.Count);
+        Assert.Equal("Leninin Helsingissä kirjoittama kirja \"Valtio ja vallankumous\"", quotes[0].TextContent);
+        Assert.Equal("1 000–1 500 & muut", quotes[1].TextContent);
+
+        var six = FakeIncidentSource.BuildSix();
+        var current = six[0];
+        var relatedWithMarkup = six[1] with
+        {
+            ClaimOriginal = "| kenttä = [[Valtio ja vallankumous|Valtio]] &amp; '''valta'''",
+        };
+
+        var relCut = Render<RelatedIncidents>(p => p
+            .Add(x => x.Current, current)
+            .Add(x => x.Incidents, [current, relatedWithMarkup])
+            .Add(x => x.Topic, "civil-war-1918"));
+
+        var cardOrig = relCut.Find("[data-testid=incident-card] .aot-original");
+        Assert.Equal("Valtio & valta", cardOrig.TextContent);
+    }
 }

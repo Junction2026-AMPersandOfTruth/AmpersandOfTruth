@@ -124,6 +124,57 @@ public sealed class IncidentCardTests : BunitContext
         Assert.Null(hovered);
     }
 
+    [Fact]
+    public void Renders_wikipedia_diff_link_for_first_inserting_revision_outside_main_link_without_nested_anchors()
+    {
+        var incident = MakeView(
+            id: "inc-wiki",
+            tier: EvidenceTier.Contested,
+            kind: IncidentKind.Insertion,
+            claimEn: "Disputed statement.",
+            claimOriginal: "Kiistanalainen väite.");
+
+        var cut = Render<IncidentCard>(p => p
+            .Add(x => x.Incident, incident)
+            .Add(x => x.Topic, "winter-war"));
+
+        Assert.Empty(cut.FindAll("a a"));
+
+        var mainLink = cut.Find("[data-testid=incident-card]");
+        Assert.Null(mainLink.QuerySelector("[data-testid=incident-wiki-diff]"));
+
+        var wikiLink = cut.Find("[data-testid=incident-wiki-diff]");
+        Assert.Equal("View on Wikipedia \u2197", wikiLink.TextContent.Trim());
+        Assert.Equal(WikipediaLinks.Diff(1001).AbsoluteUri, wikiLink.GetAttribute("href"));
+        Assert.Equal("_blank", wikiLink.GetAttribute("target"));
+        Assert.Equal("noopener noreferrer", wikiLink.GetAttribute("rel"));
+        Assert.Empty(CopyRules.FindViolations(wikiLink.TextContent, includeJargon: true));
+    }
+
+    [Fact]
+    public void Compact_mode_adds_compact_class_and_omits_facts_and_wikipedia_diff_link()
+    {
+        var incident = MakeView(
+            id: "inc-compact",
+            tier: EvidenceTier.Campaign,
+            kind: IncidentKind.Insertion,
+            claimEn: "Compact claim.",
+            claimOriginal: "Tiivis väite.",
+            signals: ["removed_by_others", "multiple_editors"]);
+
+        var cut = Render<IncidentCard>(p => p
+            .Add(x => x.Incident, incident)
+            .Add(x => x.Topic, "winter-war")
+            .Add(x => x.Compact, true));
+
+        var articleEl = cut.Find("article.aot-card");
+        Assert.Contains("aot-card--compact", articleEl.ClassList);
+        Assert.Equal("/investigate/winter-war/incidents/inc-compact", cut.Find("[data-testid=incident-card]").GetAttribute("href"));
+        Assert.Empty(cut.FindAll("[data-testid=incident-facts]"));
+        Assert.Empty(cut.FindAll("[data-testid=incident-wiki-diff]"));
+        Assert.Empty(cut.FindAll("[data-testid=signal-chip]"));
+    }
+
     private static IncidentView MakeView(
         string id,
         EvidenceTier tier,

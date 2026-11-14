@@ -1,3 +1,5 @@
+using AmpersandOfTruth.Web.Features.Investigations.Incident;
+using AmpersandOfTruth.Web.Features.Translation;
 using System.Diagnostics;
 using AmpersandOfTruth.Web.Features.Articles;
 using System.Collections.Concurrent;
@@ -575,5 +577,70 @@ public class SampleIncidentWarmupTests
         public Task<IReadOnlyList<ArticleRevision>> RevisionsAsync(
             long pageId, DateRange range, int limit = 500, CancellationToken ct = default) =>
             Task.FromResult<IReadOnlyList<ArticleRevision>>([]);
+    }
+
+    [Fact]
+    public async Task Warmup_pretranslates_passages_and_edit_summaries_for_each_sample_incident()
+    {
+        var (corpus, revisions, records) = BuildSixIncidentFixture(TimeSpan.Zero);
+        var samples = SampleIncidents.From(
+            new SampleTopic("winter-war", "Winter War", [], records.Take(2).ToList()),
+            new SampleTopic("continuation-war", "Continuation War", [], records.Skip(2).Take(1).ToList()));
+        var source = new FixtureIncidentSource(samples, new IncidentMapper(corpus, revisions));
+        var translator = new RecordingEvidenceTranslator();
+        var clock = new SignalingTimeProvider();
+        var logger = new CapturingLogger<SampleIncidentWarmup>();
+
+        using var warmup = new SampleIncidentWarmup(
+            samples,
+            source,
+            Options.Create(new InvestigationSourceOptions { Source = IncidentSourceKind.Fixtures }),
+            BuildConfig(),
+            clock,
+            logger,
+            translator: translator);
+
+        await warmup.StartAsync(CancellationToken.None);
+        await clock.TimerCreated.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        clock.Advance(TimeSpan.FromMilliseconds(2100));
+        Assert.NotNull(warmup.ExecuteTask);
+        await warmup.ExecuteTask.WaitAsync(TimeSpan.FromSeconds(5));
+        await warmup.StopAsync(CancellationToken.None);
+
+        // 3 incidents total across 2 topics: 3 passage translations + 3 per-incident summary batch translations.
+        Assert.Equal(3, translator.PassageScopes.Count);
+        Assert.Equal(3, translator.SummaryBatches.Count);
+        Assert.Equal(
+            ["continuation-war", "winter-war", "winter-war"],
+            translator.PassageScopes.OrderBy(static s => s).ToArray());
+        Assert.All(translator.SummaryBatches, batch => Assert.Equal(["lisäys", "kumottu"], batch.Texts));
+    }
+
+    private sealed class RecordingEvidenceTranslator : IEvidenceTranslator
+    {
+        public ConcurrentBag<string> PassageScopes { get; } = [];
+        public ConcurrentBag<(string[] Texts, string? Scope)> SummaryBatches { get; } = [];
+
+        public Task<TranslationResult> TranslateAsync(string text, string sourceLang = "fi", string? scope = null, CancellationToken ct = default) =>
+            Task.FromResult(new TranslationResult(text, $"[EN] {text}", Ok: true));
+
+        public Task<IReadOnlyList<TranslationResult>> TranslateManyAsync(IReadOnlyList<string> texts, string sourceLang = "fi", string? scope = null, CancellationToken ct = default)
+        {
+            SummaryBatches.Add((texts.ToArray(), scope));
+            return Task.FromResult<IReadOnlyList<TranslationResult>>(texts.Select(t => new TranslationResult(t, $"[EN] {t}", Ok: true)).ToArray());
+        }
+
+        public Task<AlignedTranslation> TranslatePassageAsync(
+            string before,
+            string after,
+            IReadOnlyList<(int Start, int Length)> changedInAfter,
+            IReadOnlyList<(int Start, int Length)> changedInBefore,
+            string sourceLang = "fi",
+            string? scope = null,
+            CancellationToken ct = default)
+        {
+            PassageScopes.Add(scope ?? "");
+            return Task.FromResult(new AlignedTranslation(before, after, changedInAfter, changedInBefore, Aligned: true, Ok: true));
+        }
     }
 }

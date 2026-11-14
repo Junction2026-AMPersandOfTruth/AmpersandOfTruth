@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Net;
 using System.Text;
 using AmpersandOfTruth.Web.Features.Investigations.View;
 using AmpersandOfTruth.Web.Features.Translation;
@@ -65,6 +66,8 @@ public sealed record DiffModel(
     IReadOnlyList<DiffBlock> Blocks,
     IReadOnlyList<DiffItem> Items)
 {
+    public IReadOnlyList<DiffItem> ChangedOnlyItems { get; init; } = [];
+
     private const int MaxBlockEdits = 2000;
     private const int MaxTokenEdits = 2000;
     private const double MinSharedWords = 0.3;
@@ -116,7 +119,47 @@ public sealed record DiffModel(
             blocks.Add(new DiffBlock(oi, ni, IsChanged: hasTokenDiff, tokens));
         }
 
-        return new DiffModel(textMode, blocks, FoldBlocks(blocks));
+        var items = textMode == DiffTextMode.Prose
+            ? FoldProseBlocks(blocks, maxContextSentences: 1)
+            : FoldBlocks(blocks, contextBlocks: 1);
+
+        var changedOnlyItems = textMode == DiffTextMode.Prose
+            ? FoldProseBlocks(blocks, maxContextSentences: 0)
+            : FoldBlocks(blocks, contextBlocks: 0);
+
+        return new DiffModel(textMode, blocks, items)
+        {
+            ChangedOnlyItems = changedOnlyItems,
+        };
+    }
+
+    /// <summary>
+    /// Cleans a snippet (claim_fi, FI summary, assessment quote) for prose display: HTML-decodes entities
+    /// (<c>&amp;nbsp;</c> → space, <c>&amp;amp;</c> → <c>&amp;</c>) and strips infobox/wiki markup
+    /// (<c>| field = value</c> → <c>value</c>, <c>[[a|b]]</c> → <c>b</c>, <c>[[a]]</c> → <c>a</c>, <c>'''</c>, <c>''</c>),
+    /// while preserving literal non-formatting tags such as <c>&lt;script&gt;</c> so callers render safely as plain text.
+    /// </summary>
+    public static string CleanProse(string? raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+        {
+            return "";
+        }
+
+        var stripped = StripInfoboxFieldPrefixes(raw);
+        var prose = ExtractBlockProse(stripped).Prose;
+        if (prose.Length > 0)
+        {
+            return prose;
+        }
+
+        var templateValues = ExtractTemplateValues(raw);
+        if (templateValues.Length > 0)
+        {
+            return templateValues;
+        }
+
+        return TextUtil.Collapse(WebUtility.HtmlDecode(stripped));
     }
 
     public static TranslationPassageInput BuildTranslationInput(DiffPassage passage)
@@ -129,7 +172,18 @@ public sealed record DiffModel(
         var changedBefore = new List<(int Start, int Length)>();
         var changedAfter = new List<(int Start, int Length)>();
 
-        foreach (var block in proseModel.Blocks.Where(b => b.IsChanged))
+        var changedBlocks = proseModel.Items
+            .OfType<DiffBlockItem>()
+            .Select(static i => i.Block)
+            .Where(static b => b.IsChanged)
+            .ToList();
+
+        if (changedBlocks.Count == 0)
+        {
+            changedBlocks = proseModel.Blocks.Where(static b => b.IsChanged).ToList();
+        }
+
+        foreach (var block in changedBlocks)
         {
             bool hasBefore = block.Tokens.Any(t => t.Kind != DiffTokenKind.Added && t.Text.Length > 0);
             bool hasAfter = block.Tokens.Any(t => t.Kind != DiffTokenKind.Removed && t.Text.Length > 0);
@@ -200,12 +254,8 @@ public sealed record DiffModel(
         ArgumentNullException.ThrowIfNull(tokens);
         if (tokens.Count == 0) return [];
 
-        var quotes = evidenceQuotes?
-            .Where(static q => !string.IsNullOrWhiteSpace(q))
-            .Distinct(StringComparer.Ordinal)
-            .ToArray();
-
-        if (quotes is null || quotes.Length == 0)
+        var quotes = ExpandHighlightQuotes(evidenceQuotes);
+        if (quotes.Length == 0)
         {
             return tokens
                 .Where(static t => t.Text.Length > 0)
@@ -384,11 +434,11 @@ public sealed record DiffModel(
         return pairs;
     }
 
-    private static IReadOnlyList<DiffItem> FoldBlocks(IReadOnlyList<DiffBlock> blocks)
+    private static IReadOnlyList<DiffItem> FoldBlocks(IReadOnlyList<DiffBlock> blocks, int contextBlocks)
     {
         if (blocks.Count == 0) return [];
 
-        bool anyChanged = blocks.Any(b => b.IsChanged);
+        bool anyChanged = blocks.Any(static b => b.IsChanged);
         var keepVisible = new bool[blocks.Count];
 
         if (!anyChanged)
@@ -401,8 +451,11 @@ public sealed record DiffModel(
             {
                 if (!blocks[i].IsChanged) continue;
                 keepVisible[i] = true;
-                if (i > 0) keepVisible[i - 1] = true;
-                if (i + 1 < blocks.Count) keepVisible[i + 1] = true;
+                for (int d = 1; d <= contextBlocks; d++)
+                {
+                    if (i - d >= 0) keepVisible[i - d] = true;
+                    if (i + d < blocks.Count) keepVisible[i + d] = true;
+                }
             }
         }
 
@@ -424,6 +477,600 @@ public sealed record DiffModel(
         }
 
         return items;
+    }
+
+    // ── Sentence-level Prose folding (R1-09, R1-01b) ───────────────────────────────────────────────────────────────
+
+    private static readonly HashSet<string> Abbreviations = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "n", "noin", "esim", "mm", "ks", "vrt", "ns", "ko", "ts", "jne", "yms", "ym",
+        "s", "ss", "p", "pp", "v", "os", "synt", "ent", "nyk", "alk", "joht", "klo",
+        "ev", "kenr", "maj", "kapt", "luutn", "prof", "tri", "dr", "mr", "mrs", "ms", "st", "ca", "cf", "al", "et",
+    };
+
+    private sealed record TrimmedChangedBlock(
+        IReadOnlyList<DiffBlock> FoldedBefore,
+        DiffBlock VisibleBlock,
+        IReadOnlyList<DiffBlock> FoldedAfter,
+        int LeftContextSentences,
+        int RightContextSentences);
+
+    private static IReadOnlyList<DiffItem> FoldProseBlocks(IReadOnlyList<DiffBlock> blocks, int maxContextSentences)
+    {
+        if (blocks.Count == 0) return [];
+        if (!blocks.Any(static b => b.IsChanged))
+        {
+            return FoldBlocks(blocks, contextBlocks: 0);
+        }
+
+        var trimmed = new TrimmedChangedBlock?[blocks.Count];
+        for (int i = 0; i < blocks.Count; i++)
+        {
+            if (blocks[i].IsChanged)
+            {
+                trimmed[i] = TrimChangedBlockSentences(blocks[i], maxContextSentences);
+            }
+        }
+
+        var seq = new List<(DiffBlock Block, bool Visible)>(blocks.Count * 2);
+        for (int i = 0; i < blocks.Count; i++)
+        {
+            if (blocks[i].IsChanged)
+            {
+                var t = trimmed[i]!;
+                foreach (var fb in t.FoldedBefore) seq.Add((fb, Visible: false));
+                seq.Add((t.VisibleBlock, Visible: true));
+                foreach (var fa in t.FoldedAfter) seq.Add((fa, Visible: false));
+                continue;
+            }
+
+            bool needRight = i > 0
+                && blocks[i - 1].IsChanged
+                && trimmed[i - 1]!.RightContextSentences < maxContextSentences;
+            bool needLeft = i + 1 < blocks.Count
+                && blocks[i + 1].IsChanged
+                && trimmed[i + 1]!.LeftContextSentences < maxContextSentences;
+
+            if (!needRight && !needLeft)
+            {
+                seq.Add((blocks[i], Visible: false));
+                continue;
+            }
+
+            var sentences = SplitIntoSentences(blocks[i].AfterText);
+            if (sentences.Count <= 1)
+            {
+                seq.Add((blocks[i], Visible: true));
+            }
+            else if (needRight && !needLeft)
+            {
+                seq.Add((MakeSameBlock(blocks[i], sentences[0]), Visible: true));
+                for (int k = 1; k < sentences.Count; k++)
+                {
+                    seq.Add((MakeSameBlock(blocks[i], sentences[k]), Visible: false));
+                }
+            }
+            else if (!needRight && needLeft)
+            {
+                for (int k = 0; k < sentences.Count - 1; k++)
+                {
+                    seq.Add((MakeSameBlock(blocks[i], sentences[k]), Visible: false));
+                }
+                seq.Add((MakeSameBlock(blocks[i], sentences[^1]), Visible: true));
+            }
+            else if (sentences.Count == 2)
+            {
+                seq.Add((blocks[i], Visible: true));
+            }
+            else
+            {
+                seq.Add((MakeSameBlock(blocks[i], sentences[0]), Visible: true));
+                for (int k = 1; k < sentences.Count - 1; k++)
+                {
+                    seq.Add((MakeSameBlock(blocks[i], sentences[k]), Visible: false));
+                }
+                seq.Add((MakeSameBlock(blocks[i], sentences[^1]), Visible: true));
+            }
+        }
+
+        var items = new List<DiffItem>();
+        int foldId = 0;
+        int cursor = 0;
+        while (cursor < seq.Count)
+        {
+            if (seq[cursor].Visible)
+            {
+                items.Add(new DiffBlockItem(seq[cursor].Block));
+                cursor++;
+                continue;
+            }
+
+            var folded = new List<DiffBlock>();
+            while (cursor < seq.Count && !seq[cursor].Visible)
+            {
+                folded.Add(seq[cursor].Block);
+                cursor++;
+            }
+            items.Add(new DiffFoldItem(foldId++, folded));
+        }
+
+        return items;
+    }
+
+    private static DiffBlock MakeSameBlock(DiffBlock source, string text) =>
+        new(source.OldParagraph, source.NewParagraph, IsChanged: false, [new DiffToken(text, DiffTokenKind.Same)]);
+
+    private static TrimmedChangedBlock TrimChangedBlockSentences(DiffBlock block, int maxContextSentences)
+    {
+        var tokens = block.Tokens;
+        int firstDiff = -1, lastDiff = -1;
+        for (int i = 0; i < tokens.Count; i++)
+        {
+            if (tokens[i].Kind != DiffTokenKind.Same)
+            {
+                if (firstDiff < 0) firstDiff = i;
+                lastDiff = i;
+            }
+        }
+
+        if (firstDiff < 0)
+        {
+            return new TrimmedChangedBlock([], block, [], 0, 0);
+        }
+
+        var foldedBefore = new List<DiffBlock>();
+        var foldedAfter = new List<DiffBlock>();
+        int leftCtx = 0;
+        int rightCtx = 0;
+
+        string? keptLeading = null;
+        bool trimFirstDiffLeadingSpace = false;
+
+        if (firstDiff > 0)
+        {
+            var leadingSame = string.Concat(tokens.Take(firstDiff).Select(static t => t.Text));
+            var firstDiffText = tokens[firstDiff].Text;
+            var chunks = SplitIntoSentences(leadingSame, preserveEdges: true);
+
+            if (chunks.Count > 0)
+            {
+                bool endsComplete = EndsWithCompleteSentence(leadingSame, firstDiffText);
+                int completeCount = endsComplete ? chunks.Count : chunks.Count - 1;
+                string prefixFragment = endsComplete ? "" : chunks[^1];
+                bool hadTrailingSpace = leadingSame.Length > 0 && char.IsWhiteSpace(leadingSame[^1]);
+
+                int keepCount = Math.Min(completeCount, maxContextSentences);
+                int dropCount = completeCount - keepCount;
+
+                if (dropCount == 0)
+                {
+                    keptLeading = leadingSame;
+                }
+                else
+                {
+                    for (int k = 0; k < dropCount; k++)
+                    {
+                        var foldedText = chunks[k].Trim();
+                        if (foldedText.Length > 0)
+                        {
+                            foldedBefore.Add(MakeSameBlock(block, foldedText));
+                        }
+                    }
+
+                    var sb = new StringBuilder();
+                    for (int k = dropCount; k < completeCount; k++)
+                    {
+                        if (sb.Length > 0) sb.Append(' ');
+                        sb.Append(chunks[k].Trim());
+                    }
+
+                    if (prefixFragment.Length > 0)
+                    {
+                        if (sb.Length > 0 && !char.IsWhiteSpace(prefixFragment[0])) sb.Append(' ');
+                        sb.Append(sb.Length == 0 ? prefixFragment.TrimStart() : prefixFragment);
+                    }
+                    else if (sb.Length > 0 && hadTrailingSpace)
+                    {
+                        sb.Append(' ');
+                    }
+
+                    keptLeading = sb.ToString();
+                    if (keptLeading.Length == 0 && firstDiffText.Length > 0 && char.IsWhiteSpace(firstDiffText[0]))
+                    {
+                        trimFirstDiffLeadingSpace = true;
+                    }
+                }
+
+                leftCtx = keepCount;
+            }
+        }
+
+        string? keptTrailing = null;
+        bool trimLastDiffTrailingSpace = false;
+        if (lastDiff < tokens.Count - 1)
+        {
+            var trailingSame = string.Concat(tokens.Skip(lastDiff + 1).Select(static t => t.Text));
+            var lastDiffText = tokens[lastDiff].Text;
+            bool diffEndedSentence = EndsWithCompleteSentence(lastDiffText, trailingSame);
+
+            var chunks = SplitIntoSentences(trailingSame, preserveEdges: true);
+            if (chunks.Count > 0)
+            {
+                string suffixFragment = diffEndedSentence ? "" : chunks[0];
+                int afterStartIdx = diffEndedSentence ? 0 : 1;
+                int completeAfterCount = chunks.Count - afterStartIdx;
+                int keepAfter = Math.Min(completeAfterCount, maxContextSentences);
+                int dropAfterStart = afterStartIdx + keepAfter;
+
+                if (dropAfterStart >= chunks.Count)
+                {
+                    keptTrailing = trailingSame;
+                }
+                else
+                {
+                    bool hadLeadingSpace = trailingSame.Length > 0 && char.IsWhiteSpace(trailingSame[0]);
+                    var sb = new StringBuilder();
+                    if (suffixFragment.Length > 0)
+                    {
+                        sb.Append(suffixFragment.TrimEnd());
+                    }
+
+                    for (int k = afterStartIdx; k < dropAfterStart; k++)
+                    {
+                        if (sb.Length > 0) sb.Append(' ');
+                        else if (hadLeadingSpace) sb.Append(' ');
+                        sb.Append(chunks[k].Trim());
+                    }
+
+                    keptTrailing = sb.ToString();
+                    if (keptTrailing.Length == 0 && lastDiffText.Length > 0 && char.IsWhiteSpace(lastDiffText[^1]))
+                    {
+                        trimLastDiffTrailingSpace = true;
+                    }
+
+                    for (int k = dropAfterStart; k < chunks.Count; k++)
+                    {
+                        var foldedText = chunks[k].Trim();
+                        if (foldedText.Length > 0)
+                        {
+                            foldedAfter.Add(MakeSameBlock(block, foldedText));
+                        }
+                    }
+                }
+
+                rightCtx = keepAfter;
+            }
+        }
+
+        if (foldedBefore.Count == 0 && foldedAfter.Count == 0)
+        {
+            return new TrimmedChangedBlock([], block, [], leftCtx, rightCtx);
+        }
+
+        var updatedTokens = new List<DiffToken>();
+        if (!string.IsNullOrEmpty(keptLeading))
+        {
+            updatedTokens.Add(new DiffToken(keptLeading, DiffTokenKind.Same));
+        }
+
+        for (int i = firstDiff; i <= lastDiff; i++)
+        {
+            var tok = tokens[i];
+            var text = tok.Text;
+            if (i == firstDiff && trimFirstDiffLeadingSpace)
+            {
+                text = text.TrimStart();
+            }
+            if (i == lastDiff && trimLastDiffTrailingSpace)
+            {
+                text = text.TrimEnd();
+            }
+            if (text.Length > 0)
+            {
+                updatedTokens.Add(text.Length == tok.Text.Length ? tok : new DiffToken(text, tok.Kind));
+            }
+        }
+
+        if (!string.IsNullOrEmpty(keptTrailing))
+        {
+            updatedTokens.Add(new DiffToken(keptTrailing, DiffTokenKind.Same));
+        }
+
+        var visibleBlock = new DiffBlock(block.OldParagraph, block.NewParagraph, IsChanged: true, updatedTokens);
+        return new TrimmedChangedBlock(foldedBefore, visibleBlock, foldedAfter, leftCtx, rightCtx);
+    }
+
+    private static List<string> SplitIntoSentences(string text, bool preserveEdges = false)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            return [];
+        }
+
+        var result = new List<string>();
+        int start = 0;
+        int i = 0;
+
+        while (i < text.Length)
+        {
+            char c = text[i];
+            if (c is '.' or '!' or '?')
+            {
+                int punctEnd = i + 1;
+                while (punctEnd < text.Length && text[punctEnd] is '.' or '!' or '?') punctEnd++;
+                while (punctEnd < text.Length && IsClosingQuoteOrBracket(text[punctEnd])) punctEnd++;
+
+                if (punctEnd < text.Length && char.IsWhiteSpace(text[punctEnd])
+                    && (c != '.' || !IsNonSentencePeriod(text, i)))
+                {
+                    int nextStart = punctEnd;
+                    while (nextStart < text.Length && char.IsWhiteSpace(text[nextStart])) nextStart++;
+
+                    if (nextStart < text.Length && StartsSentenceChar(text, nextStart))
+                    {
+                        var slice = preserveEdges ? text[start..punctEnd] : text[start..punctEnd].Trim();
+                        if (slice.Length > 0) result.Add(slice);
+                        start = nextStart;
+                        i = nextStart;
+                        continue;
+                    }
+                }
+            }
+
+            i++;
+        }
+
+        if (start < text.Length)
+        {
+            var tail = preserveEdges ? text[start..] : text[start..].Trim();
+            if (tail.Length > 0) result.Add(tail);
+        }
+
+        return result;
+    }
+
+    private static bool EndsWithCompleteSentence(string text, string followingText)
+    {
+        var span = text.AsSpan().TrimEnd();
+        if (span.IsEmpty) return false;
+
+        if (span[^1] == ']')
+        {
+            int citeIdx = span.LastIndexOf("[citation", StringComparison.Ordinal);
+            if (citeIdx > 0)
+            {
+                span = span[..citeIdx].TrimEnd();
+                if (span.IsEmpty) return false;
+            }
+        }
+
+        int end = span.Length;
+        while (end > 0 && IsClosingQuoteOrBracket(span[end - 1])) end--;
+        if (end == 0) return false;
+
+        char punct = span[end - 1];
+        if (punct is not ('.' or '!' or '?')) return false;
+
+        if (punct == '.' && IsNonSentencePeriod(span, end - 1))
+        {
+            return false;
+        }
+
+        bool hasBoundarySpace = char.IsWhiteSpace(text[^1])
+            || followingText.Length == 0
+            || char.IsWhiteSpace(followingText[0]);
+        if (!hasBoundarySpace) return false;
+
+        var followTrim = followingText.AsSpan().TrimStart();
+        if (!followTrim.IsEmpty)
+        {
+            int k = 0;
+            while (k < followTrim.Length && IsOpeningQuoteOrBracket(followTrim[k])) k++;
+            if (k < followTrim.Length && char.IsLower(followTrim[k]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool IsNonSentencePeriod(ReadOnlySpan<char> text, int periodIndex)
+    {
+        int wStart = periodIndex;
+        while (wStart > 0 && char.IsLetterOrDigit(text[wStart - 1])) wStart--;
+        var word = text[wStart..periodIndex];
+        if (word.IsEmpty) return false;
+
+        if (word.Length == 1 && char.IsLetter(word[0]))
+        {
+            return true;
+        }
+
+        if (word.Length <= 2)
+        {
+            bool allDigits = true;
+            foreach (char ch in word)
+            {
+                if (!char.IsDigit(ch)) { allDigits = false; break; }
+            }
+            if (allDigits) return true;
+        }
+
+        return Abbreviations.Contains(word.ToString());
+    }
+
+    private static bool StartsSentenceChar(string text, int index)
+    {
+        int k = index;
+        while (k < text.Length && IsOpeningQuoteOrBracket(text[k])) k++;
+        return k < text.Length && char.IsUpper(text[k]);
+    }
+
+    private static bool IsClosingQuoteOrBracket(char c) =>
+        c is '"' or '\'' or '\u201D' or '\u2019' or '\u00BB' or ')' or ']';
+
+    private static bool IsOpeningQuoteOrBracket(char c) =>
+        c is '"' or '\'' or '\u201C' or '\u2018' or '\u00AB' or '(' or '[';
+
+    private static string[] ExpandHighlightQuotes(IReadOnlyList<string>? evidenceQuotes)
+    {
+        if (evidenceQuotes is null || evidenceQuotes.Count == 0)
+        {
+            return [];
+        }
+
+        var set = new HashSet<string>(StringComparer.Ordinal);
+        var ordered = new List<string>(evidenceQuotes.Count * 2);
+        foreach (var raw in evidenceQuotes)
+        {
+            if (string.IsNullOrWhiteSpace(raw)) continue;
+            if (set.Add(raw)) ordered.Add(raw);
+
+            var cleaned = CleanProse(raw);
+            if (!string.IsNullOrWhiteSpace(cleaned) && set.Add(cleaned))
+            {
+                ordered.Add(cleaned);
+            }
+        }
+
+        return ordered.ToArray();
+    }
+
+    private static string StripInfoboxFieldPrefixes(string raw)
+    {
+        var normalized = TextUtil.NormalizeNewlines(raw);
+        var sb = new StringBuilder(normalized.Length);
+        int i = 0;
+        int bracketDepth = 0;
+        int braceDepth = 0;
+        bool strippedAnyField = false;
+
+        while (i < normalized.Length)
+        {
+            if (i + 1 < normalized.Length && normalized[i] == '[' && normalized[i + 1] == '[')
+            {
+                bracketDepth++;
+                sb.Append("[[");
+                i += 2;
+                continue;
+            }
+            if (i + 1 < normalized.Length && normalized[i] == ']' && normalized[i + 1] == ']' && bracketDepth > 0)
+            {
+                bracketDepth--;
+                sb.Append("]]");
+                i += 2;
+                continue;
+            }
+            if (i + 1 < normalized.Length && normalized[i] == '{' && normalized[i + 1] == '{')
+            {
+                braceDepth++;
+                sb.Append("{{");
+                i += 2;
+                continue;
+            }
+            if (i + 1 < normalized.Length && normalized[i] == '}' && normalized[i + 1] == '}' && braceDepth > 0)
+            {
+                braceDepth--;
+                sb.Append("}}");
+                i += 2;
+                continue;
+            }
+
+            if (bracketDepth == 0 && braceDepth == 0 && normalized[i] == '|'
+                && TryMatchInfoboxFieldPrefix(normalized, i, out int afterEquals))
+            {
+                strippedAnyField = true;
+                TrimTrailingWhitespaceOnly(sb);
+                if (sb.Length > 0 && sb[^1] is not ('\n' or ';'))
+                {
+                    sb.Append("; ");
+                }
+                i = afterEquals;
+                continue;
+            }
+
+            sb.Append(normalized[i]);
+            i++;
+        }
+
+        if (strippedAnyField)
+        {
+            TrimTrailingWhitespaceOnly(sb);
+            if (sb.Length >= 2 && sb[^2] == '}' && sb[^1] == '}' && braceDepth == 0)
+            {
+                sb.Length -= 2;
+            }
+        }
+
+        return sb.ToString();
+    }
+
+    private static bool TryMatchInfoboxFieldPrefix(string s, int barIndex, out int afterEquals)
+    {
+        afterEquals = -1;
+        int k = barIndex + 1;
+        while (k < s.Length && s[k] is ' ' or '\t') k++;
+
+        int nameStart = k;
+        int limit = Math.Min(s.Length, nameStart + 60);
+        while (k < limit && s[k] is not ('=' or '|' or '\n' or '[' or ']' or '{' or '}' or '<' or '>'))
+        {
+            k++;
+        }
+
+        if (k <= nameStart || k >= s.Length || s[k] != '=')
+        {
+            return false;
+        }
+
+        var fieldName = s.AsSpan(nameStart, k - nameStart).Trim();
+        if (fieldName.IsEmpty || !ContainsLetter(fieldName))
+        {
+            return false;
+        }
+
+        int after = k + 1;
+        while (after < s.Length && s[after] is ' ' or '\t') after++;
+        afterEquals = after;
+        return true;
+    }
+
+    private static bool ContainsLetter(ReadOnlySpan<char> span)
+    {
+        foreach (char c in span)
+        {
+            if (char.IsLetter(c)) return true;
+        }
+        return false;
+    }
+
+    private static void TrimTrailingWhitespaceOnly(StringBuilder sb)
+    {
+        while (sb.Length > 0 && sb[^1] is ' ' or '\t' or '\n')
+        {
+            sb.Length--;
+        }
+    }
+
+    private static string ExtractTemplateValues(string raw)
+    {
+        var text = TextUtil.NormalizeNewlines(raw);
+        var tokens = new List<WikiToken>();
+        var sb = new StringBuilder();
+        foreach (var block in WikitextBlocks.Split(text))
+        {
+            tokens.Clear();
+            WikitextTokenizer.Tokenize(text, block.Start, block.End, block.Index, tokens);
+            foreach (var t in tokens)
+            {
+                if (t.Prose.Length > 0)
+                {
+                    sb.Append(t.Prose);
+                }
+            }
+        }
+        return TextUtil.CleanValues(sb.ToString());
     }
 
     // ── Prose extraction per changed block ─────────────────────────────────────────────────────────────────────────

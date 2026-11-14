@@ -10,7 +10,10 @@
     else
     {
         var (steps, word) = MapConfidence(Assessment.Confidence);
-        var quotes = Assessment.Quotes.Where(static q => !string.IsNullOrWhiteSpace(q)).ToList();
+        var quotes = Assessment.Quotes
+            .Select(DiffModel.CleanProse)
+            .Where(static q => !string.IsNullOrWhiteSpace(q))
+            .ToList();
         <p style="margin:8px 0 0"><b>Category:</b> @MapCategory(Assessment.Category)</p>
         @if (!string.IsNullOrWhiteSpace(Assessment.Reasoning))
         {

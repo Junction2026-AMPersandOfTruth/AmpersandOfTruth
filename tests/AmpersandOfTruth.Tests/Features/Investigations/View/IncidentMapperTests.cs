@@ -89,6 +89,32 @@ public class IncidentMapperTests
     }
 
     [Fact]
+    public async Task Short_digit_segments_with_range_to_approximate_qualifier_map_NumberChange_before_Deletion()
+    {
+        SeedEdit(
+            parentRevId: 410,
+            insertRevId: 411,
+            removeRevId: 412,
+            before: "Tappiot olivat 1 000–1 500 miestä.",
+            after: "Tappiot olivat n. 2000 miestä.");
+
+        var proseView = await _mapper.MapAsync(SampleRecord(411, 412), rank: 1);
+        Assert.NotNull(proseView.Passage);
+        Assert.Equal(IncidentKind.NumberChange, proseView.Kind);
+
+        SeedEdit(
+            parentRevId: 420,
+            insertRevId: 421,
+            removeRevId: 422,
+            before: "{{Sota\n| tappiot2 = 1 000–1 500\n}}",
+            after: "{{Sota\n| tappiot2 = n. 2000\n}}");
+
+        var infoboxView = await _mapper.MapAsync(SampleRecord(421, 422), rank: 2);
+        Assert.NotNull(infoboxView.Passage);
+        Assert.Equal(IncidentKind.NumberChange, infoboxView.Kind);
+    }
+
+    [Fact]
     public async Task Masks_ip_editor_and_edit_comments_and_builds_fallback_tier_reason()
     {
         var t0 = new DateTime(2024, 3, 3, 14, 0, 0, DateTimeKind.Utc);
