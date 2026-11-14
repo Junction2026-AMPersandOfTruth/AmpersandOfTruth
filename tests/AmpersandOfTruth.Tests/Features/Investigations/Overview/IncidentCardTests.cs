@@ -76,6 +76,21 @@ public sealed class IncidentCardTests : BunitContext
 
         Assert.Equal("Removed: casualty figures from the opening paragraph", cutDel.Find("[data-testid=incident-claim]").TextContent);
         Assert.Empty(cutDel.FindAll("[data-testid=incident-original]"));
+
+        var insertionWithRemovedPrefix = MakeView(
+            id: "inc-rem-prefix",
+            tier: EvidenceTier.Contested,
+            kind: IncidentKind.Insertion,
+            claimEn: "Removed: Finland's defeat from the summary box.",
+            claimOriginal: null)
+            with { Articles = [new ArticleRef(250972, "Suomen sisällissodan nimet", null)] };
+
+        var cutRemPrefix = Render<IncidentCard>(p => p
+            .Add(x => x.Incident, insertionWithRemovedPrefix)
+            .Add(x => x.Topic, "civil-war-1918"));
+
+        Assert.Equal("Removed: Finland's defeat from the summary box.", cutRemPrefix.Find("[data-testid=incident-claim]").TextContent);
+        Assert.Contains("Suomen sisällissodan nimet (Finnish Wikipedia)", cutRemPrefix.Find("[data-testid=incident-card]").TextContent);
     }
 
     [Fact]

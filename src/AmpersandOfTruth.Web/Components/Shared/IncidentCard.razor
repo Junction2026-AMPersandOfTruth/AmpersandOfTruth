@@ -16,6 +16,10 @@
             {
                 <text> (@Incident.PrimaryArticle.TitleEn)</text>
             }
+            else if (string.IsNullOrWhiteSpace(Incident.PrimaryArticle.TitleEn))
+            {
+                <text> (Finnish Wikipedia)</text>
+            }
         </span>
     </div>
 
@@ -92,7 +96,7 @@
         builder.AddAttribute(1, "class", "aot-card aot-card--skeleton");
         builder.AddAttribute(2, "data-testid", "incident-skeleton");
         builder.AddAttribute(3, "aria-busy", "true");
-        builder.AddAttribute(4, "aria-label", "Scoring incident…");
+        builder.AddAttribute(4, "aria-label", "Loading incident…");
 
         builder.OpenElement(5, "span");
         builder.AddAttribute(6, "class", "aot-skel");
@@ -155,7 +159,8 @@
         }
 
         var trimmed = incident.ClaimEn.Trim();
-        if (incident.Kind == IncidentKind.Deletion)
+        if (incident.Kind == IncidentKind.Deletion
+            || trimmed.StartsWith("Removed:", StringComparison.OrdinalIgnoreCase))
         {
             return trimmed.StartsWith("Removed:", StringComparison.OrdinalIgnoreCase)
                 ? trimmed

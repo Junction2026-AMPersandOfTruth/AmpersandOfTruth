@@ -14,12 +14,15 @@
               OnSubmit="HandleSubmit"
               FormName="topic-search-compact">
         <div class="aot-search" style="padding:2px 2px 2px 12px">
-            <InputText @bind-Value="_model.Topic"
-                       placeholder="What topic do you want to investigate?"
+            <InputText Value="@_model.Topic"
+                       ValueChanged="OnTopicChanged"
+                       ValueExpression="() => _model.Topic"
+                       disabled="@(!CanType)"
+                       placeholder="Search a topic"
                        aria-label="Topic"
                        data-testid="topic-input"
                        style="font-size:14px;line-height:22px" />
-            <button type="submit" class="aot-btn aot-btn--primary aot-btn--sm" data-testid="topic-submit">Investigate</button>
+            <button type="submit" class="aot-btn aot-btn--primary aot-btn--sm" data-testid="topic-submit" disabled="@(!CanType)">Investigate</button>
         </div>
         <ValidationMessage For="() => _model.Topic" />
     </EditForm>
@@ -31,11 +34,14 @@ else
                   OnSubmit="HandleSubmit"
                   FormName="topic-search">
             <div class="aot-search">
-                <InputText @bind-Value="_model.Topic"
+                <InputText Value="@_model.Topic"
+                           ValueChanged="OnTopicChanged"
+                           ValueExpression="() => _model.Topic"
+                           disabled="@(!CanType)"
                            placeholder="What topic do you want to investigate?"
                            aria-label="Topic"
                            data-testid="topic-input" />
-                <button type="submit" class="aot-btn aot-btn--primary" data-testid="topic-submit">Investigate</button>
+                <button type="submit" class="aot-btn aot-btn--primary" data-testid="topic-submit" disabled="@(!CanType)">Investigate</button>
             </div>
             <ValidationMessage For="() => _model.Topic" />
         </EditForm>
@@ -100,6 +106,7 @@ else
 
 @code {
     [Parameter] public bool Compact { get; set; }
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public string? Initial { get; set; }
     [Parameter] public EventCallback<OutOfScopeTopic> OnOutOfScope { get; set; }
 
@@ -130,6 +137,14 @@ else
         }
     }
 
+    private void OnTopicChanged(string? value)
+    {
+        _model.Topic = value;
+        _validationMessages.Clear();
+        _editContext.NotifyValidationStateChanged();
+    }
+
+
     private void OnFieldChanged(object? sender, FieldChangedEventArgs e)
     {
         _validationMessages.Clear();
@@ -138,8 +153,31 @@ else
 
     private void SetMinTier(EvidenceTier tier) => _minTier = tier;
 
+    /// <summary>
+    /// The box is disabled until the circuit is interactive: Blazor rebuilds the prerendered DOM when the circuit starts, which
+    /// silently threw away anything typed in that first moment (and a button click then submitted an empty form).
+    /// </summary>
+    private bool CanType => !Disabled && _interactive;
+
+    private bool _interactive;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        // Runs only once the circuit is interactive (never during prerender).
+        if (firstRender && !_interactive)
+        {
+            _interactive = true;
+            StateHasChanged();
+        }
+    }
+
     private async Task HandleSubmit()
     {
+        if (!CanType)
+        {
+            return;
+        }
+
         _validationMessages.Clear();
         var trimmed = (_model.Topic ?? "").Trim();
 
@@ -174,7 +212,20 @@ else
 
         _editContext.NotifyValidationStateChanged();
 
-        var scope = await ScopeCheck.CheckAsync(trimmed);
+        ScopeResult scope;
+        try
+        {
+            scope = await ScopeCheck.CheckAsync(trimmed);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        catch
+        {
+            // Degrade to in-scope navigation if scope checking fails so the overview page renders its status banner.
+            scope = new ScopeResult(true, []);
+        }
         if (Compact)
         {
             if (scope.InScope)

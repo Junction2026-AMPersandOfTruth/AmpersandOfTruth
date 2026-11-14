@@ -1,5 +1,6 @@
 @implements IDisposable
 @using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
 @using AmpersandOfTruth.Web.Features.Investigations.Overview
 @using AmpersandOfTruth.Web.Features.Investigations.View
 @using AmpersandOfTruth.Web.Features.Translation
@@ -35,15 +36,12 @@
                 }
                 else if (_translations.TryGetValue(edit.Summary, out var translated) && !string.IsNullOrWhiteSpace(translated))
                 {
-                    <div class="aot-seq__summary">
-                        <MtLabel Text="@translated" Original="@edit.Summary" Lang="fi" Stacked="true" />
-                    </div>
+                    <div class="aot-seq__summary" data-testid="mt-label" title="@Attribution.MachineTranslationNotice">@FormatQuotedSummary(translated)</div>
+                    <div class="aot-original" lang="fi" data-testid="mt-original">@edit.Summary</div>
                 }
                 else
                 {
-                    <div class="aot-seq__summary">
-                        <div class="aot-original" lang="fi">@edit.Summary</div>
-                    </div>
+                    <div class="aot-original" lang="fi" title="Original Finnish edit summary">@edit.Summary</div>
                 }
             </div>
             <span class="aot-seq__live">
@@ -51,7 +49,7 @@
                 {
                     <text>live @OverviewState.Duration(live)</text><br />
                 }
-                <a class="aot-ext" href="@edit.DiffUrl.AbsoluteUri" target="_blank" rel="noopener" data-testid="wiki-diff-link">diff</a>
+                <a class="aot-ext" href="@edit.DiffUrl.AbsoluteUri" target="_blank" rel="noopener" data-testid="wiki-diff-link">View change</a>
             </span>
         </li>
     }
@@ -140,6 +138,12 @@
 
     private string BuildSignature() =>
         $"{Scope ?? ""}|{string.Join("\u001F", Edits.Select(static e => $"{e.RevId}:{e.Summary ?? ""}"))}";
+
+    private static string FormatQuotedSummary(string translated)
+    {
+        var trimmed = translated.Trim().Trim('"', '\u201C', '\u201D');
+        return $"\u201C{trimmed}\u201D";
+    }
 
     private static string ActionWord(EditAction action) => action switch
     {

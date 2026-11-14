@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace AmpersandOfTruth.Web.Components.Shared;
 
+public sealed record ConflictBand(DateTime From, DateTime To, string Kind, string Label);
+
 public partial class ArticleTimeline : ComponentBase
 {
     private const double FullWidth = 900;
@@ -38,6 +40,9 @@ public partial class ArticleTimeline : ComponentBase
 
     [Parameter]
     public IReadOnlyList<IncidentMark>? Marks { get; set; }
+
+    [Parameter]
+    public IReadOnlyList<ConflictBand>? Bands { get; set; }
 
     [Parameter]
     public EventCallback<DateRange> OnRangeSelected { get; set; }
@@ -166,6 +171,40 @@ public partial class ArticleTimeline : ComponentBase
         if (x2 <= x1) return null;
 
         return (x1, x2 - x1);
+    }
+
+    private static bool IsBurstBand(ConflictBand band) =>
+        string.Equals(band.Kind, "burst", StringComparison.OrdinalIgnoreCase);
+
+    private static (double X, double Width)? ComputeBandPixels(LayoutMetrics layout, ConflictBand band)
+    {
+        if (layout.Months.Count == 0) return null;
+
+        var startDate = band.From.Date;
+        var endExclusive = (band.To.Date >= startDate ? band.To.Date : startDate).AddDays(1);
+
+        double startFrac = (Math.Max(1, startDate.Day) - 1) / 31.0;
+        double endFrac = (Math.Max(1, endExclusive.Day) - 1) / 31.0;
+
+        double rawX1 = layout.Left + ((MonthIdx(startDate.Year, startDate.Month) - layout.MinMonthIdx + startFrac) * layout.BarSlotWidth);
+        double rawX2 = layout.Left + ((MonthIdx(endExclusive.Year, endExclusive.Month) - layout.MinMonthIdx + endFrac) * layout.BarSlotWidth);
+
+        if (rawX2 <= layout.Left || rawX1 >= layout.Right) return null;
+
+        double x1 = Math.Clamp(rawX1, layout.Left, layout.Right);
+        double x2 = Math.Clamp(rawX2, layout.Left, layout.Right);
+        double minWidth = IsBurstBand(band)
+            ? 2.0
+            : Math.Max(3.0, Math.Min(layout.BarSlotWidth, 6.0));
+        double width = Math.Max(minWidth, x2 - x1);
+        width = Math.Min(width, layout.Right - layout.Left);
+
+        if (x1 + width > layout.Right)
+        {
+            x1 = Math.Max(layout.Left, layout.Right - width);
+        }
+
+        return (x1, width);
     }
 
     private async Task HandleBarClickAsync(MonthBucket clicked, MouseEventArgs e)

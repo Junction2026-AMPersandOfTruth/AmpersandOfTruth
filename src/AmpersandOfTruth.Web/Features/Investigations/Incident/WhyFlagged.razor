@@ -3,7 +3,10 @@
 
 <section class="aot-panel aot-why" id="why" data-testid="why-flagged">
     <h3 class="aot-h3">Why this is flagged</h3>
-    <p class="aot-why__lead" data-testid="why-lead">@Incident.TierReason</p>
+    <div class="aot-why__lead">
+        <TierBadge Tier="Incident.Tier" />
+        <p class="aot-small" style="margin:6px 0 0" data-testid="why-lead">@FormatLead(Incident.TierReason)</p>
+    </div>
     @for (var i = 0; i < Incident.Signals.Count; i++)
     {
         var signal = Incident.Signals[i];
@@ -12,16 +15,16 @@
         <details open="@(i == 0)" data-testid="why-signal">
             <summary>@signal.Phrase.Chip</summary>
             <div>
-                @if (hasWhy)
+                @if (hasWhy && hasEvidence)
+                {
+                    <span>@signal.Phrase.Why</span>@(" ")<span>@signal.Evidence</span>
+                }
+                else if (hasWhy)
                 {
                     <span>@signal.Phrase.Why</span>
                 }
-                @if (hasEvidence)
+                else if (hasEvidence)
                 {
-                    @if (hasWhy)
-                    {
-                        <text> </text>
-                    }
                     <span>@signal.Evidence</span>
                 }
             </div>
@@ -34,4 +37,34 @@
 
 @code {
     [Parameter, EditorRequired] public IncidentView Incident { get; set; } = default!;
+
+    private static string FormatLead(string? tierReason)
+    {
+        if (string.IsNullOrWhiteSpace(tierReason))
+        {
+            return "";
+        }
+
+        var text = tierReason.Trim();
+        var dashIndex = text.IndexOf('\u2014');
+        if (dashIndex >= 0 && dashIndex + 1 < text.Length)
+        {
+            text = text[(dashIndex + 1)..].TrimStart();
+        }
+        else
+        {
+            var becauseIndex = text.IndexOf("because", StringComparison.OrdinalIgnoreCase);
+            if (becauseIndex > 0)
+            {
+                text = text[becauseIndex..];
+            }
+        }
+
+        if (text.Length > 0 && char.IsLower(text[0]))
+        {
+            text = char.ToUpperInvariant(text[0]) + text[1..];
+        }
+
+        return text;
+    }
 }

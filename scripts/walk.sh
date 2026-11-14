@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Walks the P2 demo flow in headless Chrome/Chromium at 1280x720 and 390x844, saving screenshots + report.md.
-# Usage: scripts/walk.sh [--url http://localhost:PORT] [--out DIR]
+# Usage: scripts/walk.sh [--url http://localhost:PORT] [--out DIR] [--degraded]
 set -euo pipefail
 
 CALLER_PWD="$PWD"
@@ -8,6 +8,7 @@ cd "$(dirname "$0")/.."
 
 URL=""
 OUT=""
+DEGRADED=""
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -27,32 +28,44 @@ while [ $# -gt 0 ]; do
       OUT="${1#--out=}"
       shift
       ;;
+    --degraded)
+      DEGRADED=1
+      shift
+      ;;
     -h|--help)
-      echo "Usage: scripts/walk.sh [--url http://localhost:PORT] [--out DIR]"
+      echo "Usage: scripts/walk.sh [--url http://localhost:PORT] [--out DIR] [--degraded]"
       exit 0
       ;;
     *)
       echo "Unknown option: $1" >&2
-      echo "Usage: scripts/walk.sh [--url http://localhost:PORT] [--out DIR]" >&2
+      echo "Usage: scripts/walk.sh [--url http://localhost:PORT] [--out DIR] [--degraded]" >&2
       exit 1
       ;;
   esac
 done
 
 if [ -z "$OUT" ]; then
-  OUT="research/review-rounds/$(date -u +%Y%m%d-%H%M)"
+  if [ -n "$DEGRADED" ]; then
+    OUT="research/review-rounds/$(date -u +%Y%m%d-%H%M)-degraded"
+  else
+    OUT="research/review-rounds/$(date -u +%Y%m%d-%H%M)"
+  fi
 elif [[ "$OUT" != /* ]]; then
   OUT="$CALLER_PWD/$OUT"
 fi
 
 APP_PID=""
 LOG=""
+TEMP_DB=""
 cleanup() {
   if [ -n "$APP_PID" ]; then
     kill "$APP_PID" 2>/dev/null || true
   fi
   if [ -n "$LOG" ] && [ -f "$LOG" ]; then
     rm -f "$LOG"
+  fi
+  if [ -n "$TEMP_DB" ] && [ -f "$TEMP_DB" ]; then
+    rm -f "$TEMP_DB" "${TEMP_DB}-shm" "${TEMP_DB}-wal"
   fi
 }
 trap cleanup EXIT
@@ -63,7 +76,18 @@ if [ -z "$URL" ]; then
   URL="http://localhost:$PORT"
 
   dotnet build --nologo -v quiet -clp:ErrorsOnly src/AmpersandOfTruth.Web
-  ASPNETCORE_ENVIRONMENT=Development dotnet run --no-build --project src/AmpersandOfTruth.Web --no-launch-profile --urls "$URL" > "$LOG" 2>&1 &
+  if [ -n "$DEGRADED" ]; then
+    TEMP_DB=$(mktemp -t ampersandoftruth-walk-db.XXXXXX)
+    ASPNETCORE_ENVIRONMENT=Development \
+      ConnectionStrings__App="Data Source=$TEMP_DB;Pooling=False" \
+      ConnectionStrings__Corpus="Server=127.0.0.1;Port=1;Database=corpus;User ID=corpus_ro;Password=none;Connection Timeout=1;Default Command Timeout=2" \
+      Embedding__OllamaUrl="http://127.0.0.1:1" \
+      Embedding__FallbackOllamaUrl="http://127.0.0.1:1" \
+      Gemini__ApiKey="" \
+      dotnet run --no-build --project src/AmpersandOfTruth.Web --no-launch-profile --urls "$URL" > "$LOG" 2>&1 &
+  else
+    ASPNETCORE_ENVIRONMENT=Development dotnet run --no-build --project src/AmpersandOfTruth.Web --no-launch-profile --urls "$URL" > "$LOG" 2>&1 &
+  fi
   APP_PID=$!
 
   healthy=0
@@ -91,4 +115,8 @@ if [ ! -d scripts/walk/node_modules ]; then
 fi
 
 mkdir -p "$OUT"
-node scripts/walk/walk.mjs --url "$URL" --out "$OUT"
+WALK_ARGS=(--url "$URL" --out "$OUT")
+if [ -n "$DEGRADED" ]; then
+  WALK_ARGS+=(--degraded)
+fi
+node scripts/walk/walk.mjs "${WALK_ARGS[@]}"

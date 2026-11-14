@@ -87,9 +87,15 @@
                 <g class="@(isHot ? "aot-mark is-hot" : "aot-mark")"
                    data-testid="timeline-mark"
                    data-incident="@incident.Id"
+                   tabindex="0"
+                   role="button"
+                   aria-label="@($"Incident {incident.Rank}: {incident.FirstSeen.UtcDateTime.ToString("d MMM yyyy", CultureInfo.InvariantCulture)}")"
                    style="cursor:pointer"
                    @onclick="@(() => HandleMarkClickAsync(incident.Id))"
                    @onclick:stopPropagation="true"
+                   @onkeydown="@(e => HandleMarkKeyDownAsync(e, incident.Id))"
+                   @onfocus="@(() => HandleHoverAsync(incident.Id))"
+                   @onblur="@(() => HandleHoverAsync(null))"
                    @onmouseenter="@(() => HandleHoverAsync(incident.Id))"
                    @onmouseleave="@(() => HandleHoverAsync(null))">
                     <title>@incident.FirstSeen.UtcDateTime.ToString("d MMM yyyy", CultureInfo.InvariantCulture)</title>
@@ -210,6 +216,9 @@
 
     private Task HandleMarkClickAsync(string id) =>
         OnMarkClick.HasDelegate ? OnMarkClick.InvokeAsync(id) : Task.CompletedTask;
+
+    private Task HandleMarkKeyDownAsync(KeyboardEventArgs e, string id) =>
+        e.Key is "Enter" or " " or "Spacebar" ? HandleMarkClickAsync(id) : Task.CompletedTask;
 
     private Task HandleHoverAsync(string? id) =>
         OnHover.HasDelegate ? OnHover.InvokeAsync(id) : Task.CompletedTask;
