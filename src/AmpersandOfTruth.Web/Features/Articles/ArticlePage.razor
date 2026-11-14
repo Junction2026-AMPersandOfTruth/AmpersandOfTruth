@@ -73,8 +73,10 @@
                        data-testid="wiki-article-link">fi.wikipedia ↗</a>
                 }
             </h1>
-            <div class="aot-row aot-small aot-muted">
+            <div class="aot-row aot-small aot-muted" style="justify-content:space-between">
                 <span class="aot-num" data-testid="article-revision-count">@FormatHeaderCounts(_aggregates)</span>
+                <a class="aot-btn aot-btn--sm"
+                   href="@(ResolveTopicSlug() is { } slug ? $"/articles/{PageId.ToString(CultureInfo.InvariantCulture)}/at?topic={Uri.EscapeDataString(slug)}" : $"/articles/{PageId.ToString(CultureInfo.InvariantCulture)}/at")">Read as of a date</a>
             </div>
         </header>
 
