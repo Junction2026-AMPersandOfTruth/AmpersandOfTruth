@@ -1,0 +1,50 @@
+.pipeline-diagram {
+    width: 100%;
+}
+
+.pipeline-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    font-family: var(--font-sans);
+}
+
+.pipeline-svg--narrow {
+    display: none;
+}
+
+.pipeline-box__rect {
+    fill: var(--surface-sunken);
+    stroke: var(--line);
+    stroke-width: 1;
+}
+
+.pipeline-box__title {
+    fill: var(--ink);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.pipeline-box__caption {
+    fill: var(--ink);
+    fill-opacity: 0.72;
+    font-size: 11.5px;
+}
+
+.pipeline-arrow {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+@media (max-width: 599.98px) {
+    .pipeline-svg--wide {
+        display: none;
+    }
+
+    .pipeline-svg--narrow {
+        display: block;
+    }
+}

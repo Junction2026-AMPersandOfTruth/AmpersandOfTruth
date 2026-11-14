@@ -1,0 +1,80 @@
+@using System.Globalization
+
+<div class="pipeline-diagram"
+     role="img"
+     aria-label="How a topic becomes findings: Topic, Articles, Edit history, Signals, Assessment."
+     data-testid="pipeline-diagram">
+    <svg class="pipeline-svg pipeline-svg--wide"
+         viewBox="0 0 1036 86"
+         aria-hidden="true"
+         focusable="false"
+         data-testid="pipeline-svg-wide">
+        @for (var i = 0; i < Steps.Count; i++)
+        {
+            var step = Steps[i];
+            var boxX = 4 + (i * 212);
+            var centerX = boxX + 90;
+            <g class="pipeline-box" data-testid="pipeline-box" data-step="@step.Id">
+                <rect x="@Inv(boxX)" y="8" width="180" height="44" rx="2" class="pipeline-box__rect" />
+                <text x="@Inv(centerX)" y="35" text-anchor="middle" class="pipeline-box__title">@step.Title</text>
+                <text x="@Inv(centerX)" y="72" text-anchor="middle" class="pipeline-box__caption">@step.Caption</text>
+            </g>
+            @if (i < Steps.Count - 1)
+            {
+                var lineStart = boxX + 185;
+                var lineEnd = boxX + 205;
+                var tipX = boxX + 206;
+                var wingX = boxX + 200;
+                <g class="pipeline-arrow-group" data-testid="pipeline-arrow">
+                    <line x1="@Inv(lineStart)" y1="30" x2="@Inv(lineEnd)" y2="30" class="pipeline-arrow" />
+                    <polyline points="@($"{Inv(wingX)},25 {Inv(tipX)},30 {Inv(wingX)},35")" class="pipeline-arrow" />
+                </g>
+            }
+        }
+    </svg>
+
+    <svg class="pipeline-svg pipeline-svg--narrow"
+         viewBox="0 0 320 440"
+         aria-hidden="true"
+         focusable="false"
+         data-testid="pipeline-svg-narrow">
+        @for (var i = 0; i < Steps.Count; i++)
+        {
+            var step = Steps[i];
+            var boxY = 6 + (i * 92);
+            var titleY = boxY + 25;
+            var captionY = boxY + 56;
+            <g class="pipeline-box-narrow">
+                <rect x="16" y="@Inv(boxY)" width="288" height="40" rx="2" class="pipeline-box__rect" />
+                <text x="160" y="@Inv(titleY)" text-anchor="middle" class="pipeline-box__title">@step.Title</text>
+                <text x="160" y="@Inv(captionY)" text-anchor="middle" class="pipeline-box__caption">@step.Caption</text>
+            </g>
+            @if (i < Steps.Count - 1)
+            {
+                var arrowStart = boxY + 66;
+                var arrowEnd = boxY + 85;
+                var wingY = boxY + 80;
+                var tipY = boxY + 86;
+                <g class="pipeline-arrow-narrow">
+                    <line x1="160" y1="@Inv(arrowStart)" x2="160" y2="@Inv(arrowEnd)" class="pipeline-arrow" />
+                    <polyline points="@($"155,{Inv(wingY)} 160,{Inv(tipY)} 165,{Inv(wingY)}")" class="pipeline-arrow" />
+                </g>
+            }
+        }
+    </svg>
+</div>
+
+@code {
+    private sealed record DiagramStep(string Id, string Title, string Caption);
+
+    private static readonly IReadOnlyList<DiagramStep> Steps =
+    [
+        new("topic", "Topic", "entered in any language"),
+        new("articles", "Articles", "vector search over article text"),
+        new("history", "Edit history", "20 years of revisions"),
+        new("signals", "Signals", "removed, put back, sources changed"),
+        new("assessment", "Assessment", "automated, labelled"),
+    ];
+
+    private static string Inv(int value) => value.ToString(CultureInfo.InvariantCulture);
+}
