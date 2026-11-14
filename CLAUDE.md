@@ -184,6 +184,7 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   stdout, logs on stderr), the golden-set file, judge/review files, metric definitions. Field names live in `research/eval/schemas/`.
 - An incident is matched on its **inserting rev ids** only; `tier` ids are the `EvidenceTiers` ids. Required incident fields
   (`page_id, inserting_rev_ids, removing_rev_ids, tier, score`) are frozen; the rest of `incident.schema.json` is the #37 draft.
+  Known `signals[].kind` ids = the `examples` of `kind` in that schema (an open set; the first ten are `TierReasonKind`). New id → add it there.
 - Experiments: folder `research/<issue>-<slug>/`, scratch tables `research.<issue>_*`, corpus access from env
   (`CORPUS_HOST/PORT/USER/PW/DB`). The test split is sealed (`EVAL_ALLOW_TEST=1`, decision issues only).
 - Changing a frozen shape = schema + example + CONTRACT.md in one commit; `research/eval/tests` must pass (not part of `verify.sh`).
@@ -194,6 +195,7 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
 ## Testing
 
 - DB tests: `using var db = new TestDb();` gives a real in-memory SQLite DB with migrations applied. `db.Factory` for services, `db.AddTo(Services)` for bUnit.
+  Every context opens its own connection, as in the app, so code that queries from parallel tasks is safe (#106: never share one `SqliteConnection` between contexts).
 - bUnit 2.x API: test class inherits `BunitContext`; use `Render<T>()`, `Services.Add...`, `cut.Find(...)`, `.Change()`, `.Click()`, `.Submit()`.
 - Async data loading → use `cut.WaitForElement(...)` / `cut.WaitForAssertion(...)`, not immediate `Find`.
 - Every new page: add its route to `AppSmokeTests` `InlineData` — this catches DI and routing breakage cheaply.
@@ -227,6 +229,14 @@ Worker-only rules are in `GEMINI.md`. API key: `~/.gemini/.env` (outside the rep
 **Known limitation:** inside the macOS seatbelt sandbox `dotnet` can't start (CoreCLR needs `sysctl` reads the profile denies), so
 workers write code without compiling; `run.sh`'s own `verify.sh` (outside the sandbox) is the real check — review its log, and expect
 a feedback round for compile errors. Workers also can't run `dotnet ef`/`dotnet sln` (they may hand-write the output — re-generate to confirm).
+**Research workers (Python under `research/`):** they *can* reach the corpus (`:3307`) and run Python + `research/eval/run` in the
+sandbox, but not `scripts/wikidiff.sh` / `scripts/analyze.sh` (dotnet). So: diffs come precomputed from `research.s3_diff`
+(`research/30-s3-extract/diffcache.py`, all golden pages); LLM batches are run by the orchestrator with
+`research/22-judge/analyze.sh` (= `analyze.sh` + the workers' key + `research/eval/prompts`; add `Gemini__PromptDirectory=` for other prompt dirs).
+Export `CORPUS_PW` (+ `CORPUS_*`) before `run.sh`; `GEMINI_MODEL=gemini-4-carbon` works in the CLI and beats "auto" (flash) for research.
+Seen 2026-11-14: rounds that end with an empty summary before README/tests (send a short feedback round), file writes that turn
+`"\n"` escapes into raw line breaks (`python3 -m py_compile` everything before landing), and web fetches failing inside the
+sandbox (put API shapes in the spec instead of asking the worker to read docs).
 
 ## Gotchas
 

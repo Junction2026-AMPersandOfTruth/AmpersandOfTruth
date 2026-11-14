@@ -62,12 +62,38 @@
         "required": ["kind"],
         "additionalProperties": true,
         "properties": {
-          "kind": { "type": "string", "description": "Machine id of the signal, e.g. removal_reason, reinserted, edit_war, multiple_editors." },
-          "label": { "type": ["string", "null"] },
-          "evidence": { "type": ["string", "null"] }
+          "kind": {
+            "type": "string",
+            "description": "Machine id of the signal. `examples` lists the known ids: first the ten tier reasons (TierReasonKind in snake_case, what TierRules produces and the app's pipeline emits), then four signals that do not move the tier. The set is open: a variant may add an id, and a consumer that does not know one shows `label`.",
+            "examples": [
+              "removed_by_others", "removal_reason", "reinserted", "edit_war", "dispute_template", "claim_content",
+              "multiple_editors", "multiple_articles", "persistence", "source_change",
+              "citation_removed", "number_changed", "new_accounts", "anonymous"
+            ]
+          },
+          "label": { "type": ["string", "null"], "description": "The signal in words, e.g. the TierRules reason text. Wording per docs/evidence-standard.md." },
+          "evidence": { "type": ["string", "null"], "description": "Short supporting text with every IP address masked: the removal reason for removal_reason, the first quote for claim_content." }
         }
       }
     },
-    "confidence_note": { "type": ["string", "null"] }
+    "confidence_note": { "type": ["string", "null"] },
+
+    "tier_reason": { "type": ["string", "null"], "description": "Why the incident has its tier, as one sentence: TierRules.Assess(...).BecauseSentence = '<tier label> — because: <reason>, <reason>.' The same reasons are in `signals`." },
+    "assessment": {
+      "type": ["object", "null"],
+      "description": "The automated content assessment of the inserted text (P1.S9). null = not run, failed or over budget; the tier is then at most `reverted`.",
+      "required": ["category", "confidence"],
+      "additionalProperties": true,
+      "properties": {
+        "category": { "enum": ["vandalism", "test_or_nonsense", "good_faith_error", "content_dispute", "pov_push", "false_factual_claim", "source_manipulation", "other"] },
+        "confidence": { "type": "integer", "minimum": 1, "maximum": 5, "description": "How sure the assessment is of the category: 1 = a guess, 5 = certain." },
+        "what_changed_en": { "type": ["string", "null"] },
+        "quotes": { "type": "array", "items": { "type": "string" }, "description": "The spans the model quoted from the inserted text, as it returned them. Not every quote is verbatim: a consumer that highlights them skips the ones it cannot find." },
+        "has_verified_quote": { "type": "boolean", "description": "At least one of `quotes` occurs verbatim in the inserted text. TierRules needs this for level 2." },
+        "uncertainty_note": { "type": ["string", "null"] },
+        "historical_note_en": { "type": ["string", "null"] }
+      }
+    },
+    "cluster_id": { "type": ["string", "null"], "description": "Claim cluster (P1.S7, #34): incidents with the same id repeat one claim. Always a string: write a numeric research.s7_cluster id as a string. null = not clustered." }
   }
 }

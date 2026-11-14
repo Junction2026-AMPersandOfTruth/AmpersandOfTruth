@@ -35,6 +35,23 @@ public class IncidentRecordTests
         var article = json["articles"]!.AsArray()[0]!.AsObject();
         foreach (var (name, _) in properties["articles"]!["items"]!["properties"]!.AsObject())
             Assert.True(article.ContainsKey(name), $"articles[] property '{name}' is not serialised");
+        var signal = json["signals"]!.AsArray()[0]!.AsObject();
+        foreach (var (name, _) in properties["signals"]!["items"]!["properties"]!.AsObject())
+            Assert.True(signal.ContainsKey(name), $"signals[] property '{name}' is not serialised");
+        var assessment = json["assessment"]!.AsObject();
+        foreach (var (name, _) in properties["assessment"]!["properties"]!.AsObject())
+            Assert.True(assessment.ContainsKey(name), $"assessment property '{name}' is not serialised");
+    }
+
+    [Fact]
+    public async Task Signal_ids_are_the_known_ids_of_the_schema()
+    {
+        var known = Schema["properties"]!["signals"]!["items"]!["properties"]!["kind"]!["examples"]!.AsArray()
+            .Select(n => n!.GetValue<string>()).ToList();
+
+        Assert.Equal(known.Count, known.Distinct().Count());
+        Assert.Equal(Enum.GetValues<TierReasonKind>().Select(IncidentJson.Id), known.Take(Enum.GetValues<TierReasonKind>().Length));
+        Assert.All((await PipelineIncident()).Signals, s => Assert.Contains(s.Kind, known));
     }
 
     [Fact]
@@ -56,6 +73,10 @@ public class IncidentRecordTests
         Assert.Equal(
             Enum.GetValues<IncidentEditRole>().Select(IncidentJson.Id),
             Values(properties["edits"]!["items"]!["properties"]!["role"]!));
+        Assert.Equal(
+            Enum.GetValues<ContentCategory>().Select(IncidentJson.Id),
+            Values(properties["assessment"]!["properties"]!["category"]!));
+        Assert.Equal("false_factual_claim", json["assessment"]!["category"]!.GetValue<string>());
     }
 
     [Fact]
