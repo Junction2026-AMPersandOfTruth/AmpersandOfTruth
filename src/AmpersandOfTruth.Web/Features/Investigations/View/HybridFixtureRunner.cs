@@ -34,13 +34,14 @@ public sealed class HybridFixtureRunner(
         var sample = samples.Match(trimmed);
 
         IReadOnlyList<TopicArticle>? articles = null;
+        TopicSearchResult? found = null;
         StageFailed? stageOneFailure = null;
         try
         {
             // A sample topic searches with its proper title ("winter war" slug text → "Winter War") and always lists the
             // samples' own articles first, so the rail and its incident counts match the cards.
-            var found = await search.FindArticlesAsync(sample?.Title ?? trimmed, ct);
-            articles = sample is null ? found : WithSampleArticles(sample, found);
+            found = await search.SearchAsync(sample?.Title ?? trimmed, ct);
+            articles = sample is null ? found.Articles : WithSampleArticles(sample, found.Articles);
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
         {
@@ -57,7 +58,7 @@ public sealed class HybridFixtureRunner(
             yield break;
         }
 
-        yield return new ArticlesFound(articles!.Count, articles);
+        yield return new ArticlesFound(articles!.Count, articles) { Scope = found!.Scope, SearchFallback = found.Fallback };
 
         CandidateScan? scan = null;
         StageFailed? stageTwoFailure = null;

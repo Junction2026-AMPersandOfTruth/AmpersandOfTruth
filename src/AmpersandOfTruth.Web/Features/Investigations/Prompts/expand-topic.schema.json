@@ -1,0 +1,61 @@
+{
+  "type": "object",
+  "properties": {
+    "in_scope": {
+      "type": "boolean",
+      "description": "True if the topic is plausibly about the history, politics, or society of Finland (including related borderlands, wars, foreign relations, minorities, or figures)."
+    },
+    "scope_reason": {
+      "type": "string",
+      "minLength": 1,
+      "description": "One concise English sentence explaining why the topic is in scope or out of scope."
+    },
+    "topic_fi": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Natural Finnish translation of the topic using standard Finnish terminology."
+    },
+    "reformulations": {
+      "type": "array",
+      "description": "3-5 short search queries (Finnish and English) covering key events, concepts, organisations, and people.",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 3,
+      "maxItems": 5
+    },
+    "hyde_fi": {
+      "type": "string",
+      "minLength": 1,
+      "description": "60-120-word neutral Finnish encyclopedia-style lead paragraph for the topic."
+    },
+    "title_guesses": {
+      "type": "array",
+      "description": "Likely exact Finnish Wikipedia article titles ordered most-central first (empty if out of scope).",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 0,
+      "maxItems": 8
+    },
+    "keywords_fi": {
+      "type": "array",
+      "description": "Single-word lowercase Finnish stems ending with '*' for MariaDB boolean prefix search, e.g. 'talviso*'.",
+      "items": { "type": "string", "minLength": 4 },
+      "minItems": 1,
+      "maxItems": 8
+    },
+    "angle": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short English phrase for the specific aspect asked about (e.g. 'causes', 'casualty numbers', 'who started it', or 'general')."
+    }
+  },
+  "required": [
+    "in_scope",
+    "scope_reason",
+    "topic_fi",
+    "reformulations",
+    "hyde_fi",
+    "title_guesses",
+    "keywords_fi",
+    "angle"
+  ],
+  "additionalProperties": false
+}
