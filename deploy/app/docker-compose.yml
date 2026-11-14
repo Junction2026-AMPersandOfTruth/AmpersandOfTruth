@@ -1,0 +1,40 @@
+# The web app on the team VPS (#98): https://ampersand.srv2158939.hstgr.cloud
+# Deployed by scripts/app-deploy.sh (publish on the laptop → rsync ./publish → compose up). Secrets in .env (root-only, VPS only).
+name: aot-app
+services:
+  web:
+    image: mcr.microsoft.com/dotnet/aspnet:10.0
+    container_name: aot-web
+    restart: unless-stopped
+    working_dir: /app
+    command: ["dotnet", "AmpersandOfTruth.Web.dll"]
+    mem_limit: 900m
+    volumes:
+      - ./publish:/app:ro
+      - aot-data:/data
+    env_file: .env
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+      ConnectionStrings__App: "Data Source=/data/app.db"
+      ConnectionStrings__Corpus: "Server=corpus-mariadb;Port=3306;Database=corpus;User ID=corpus_ro;Connection Timeout=5;Default Command Timeout=60"
+      Embedding__OllamaUrl: http://corpus-ollama:11434
+      Embedding__FallbackOllamaUrl: http://corpus-ollama:11434
+      Investigations__Source: ${INVESTIGATIONS_SOURCE:-Fixtures}
+    networks: [corpus]
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: corpus_default
+      traefik.http.routers.aot.rule: Host(`ampersand.srv2158939.hstgr.cloud`)
+      traefik.http.routers.aot.entrypoints: websecure
+      traefik.http.routers.aot.tls.certresolver: letsencrypt
+      traefik.http.services.aot.loadbalancer.server.port: "8080"
+
+volumes:
+  aot-data:
+
+networks:
+  corpus:
+    external: true
+    name: corpus_default
