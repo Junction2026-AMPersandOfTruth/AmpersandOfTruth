@@ -231,3 +231,32 @@ def mask_comment(comment: str | None) -> str:
                 return d.removesuffix(" (anonymous)") + ":"
         return c
     return _C_IPV6.sub(v6, text)
+
+
+# ── Revision wikitext (PK fetch only, cached on disk) ────────────────────────
+
+def rev_texts(pairs) -> dict[int, str | None]:
+    """{rev_id: wikitext} for (page_id, rev_id) pairs, fetched by PRIMARY KEY in batches of 20 and cached on disk.
+
+    Never use this to scan: revision_text is 5.7 GB on a 2-vCPU server. None = no text row (suppressed revision).
+    """
+    d = _CACHE.parent / "revtext"
+    out: dict[int, str | None] = {}
+    todo = []
+    for page_id, rev_id in dict.fromkeys((int(p), int(r)) for p, r in pairs):
+        f = d / f"{rev_id}.txt"
+        if f.exists():
+            out[rev_id] = f.read_text(encoding="utf-8")
+        else:
+            todo.append((page_id, rev_id))
+    d.mkdir(parents=True, exist_ok=True)
+    for i in range(0, len(todo), 20):
+        chunk = todo[i:i + 20]
+        cond = " OR ".join(f"(page_id={p} AND rev_id={r})" for p, r in chunk)
+        for row in sql(f"SELECT rev_id, text FROM revision_text WHERE {cond}"):
+            rid = int(row["rev_id"])
+            out[rid] = row["text"] or ""
+            (d / f"{rid}.txt").write_text(out[rid], encoding="utf-8")
+    for _, r in todo:
+        out.setdefault(r, None)
+    return out
