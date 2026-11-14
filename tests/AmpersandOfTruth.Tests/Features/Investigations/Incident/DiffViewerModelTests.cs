@@ -276,4 +276,51 @@ public sealed class DiffViewerModelTests
         Assert.Equal("8 400", input.Before.Substring(beforeSpan.Start, beforeSpan.Length));
         Assert.Equal("840", input.After.Substring(afterSpan.Start, afterSpan.Length));
     }
+
+    [Fact]
+    public void ChangedOnlyItems_folds_long_mid_sentence_clauses_and_semicolon_infobox_fields_on_real_pipeline_shapes()
+    {
+        const string before = """
+            {{Sota
+            | sota = Suomen sisällissota
+            | aika = 27. tammikuuta – 15. toukokuuta 1918
+            | paikka = Suomi
+            | tulos = Valkoisten voitto
+            | osapuolet1 = Suomen tasavalta (valkoiset)
+            | osapuolet2 = Suomen kansanvaltuuskunta (punaiset)
+            }}
+
+            '''Suomen sisällissota''' (myös kansalaissota, luokkasota, punakapina, torpparikapina ja vallankumous) oli Suomen senaatin johtamien hallitusjoukkojen eli valkoisten ja Suomen kansanvaltuuskunnan johtamien punakaartien eli punaisten välinen aseellinen sisällissota tammikuusta toukokuuhun vuonna 1918, ja siihen liittyi laajoja yhteiskunnallisia mullistuksia ympäri maata.
+
+            Koskematon jälkimmäinen kappale sodan taustoista ja seurauksista.
+            """;
+
+        const string after = """
+            {{Sota
+            | sota = Suomen vapaussota
+            | aika = 27. tammikuuta – 15. toukokuuta 1918
+            | paikka = Suomi
+            | tulos = Valkoisten voitto
+            | osapuolet1 = Suomen tasavalta (valkoiset)
+            | osapuolet2 = Suomen kansanvaltuuskunta (punaiset)
+            }}
+
+            '''Suomen sisällissota''' (myös kansalaissota, luokkasota, punakapina, torpparikapina ja vallankumous) oli Suomen senaatin johtamien hallitusjoukkojen eli valkoisten ja Suomen kansanvaltuuskunnan johtamien punakaartien eli punaisten välinen aseellinen vapaussota tammikuusta toukokuuhun vuonna 1918, ja siihen liittyi laajoja yhteiskunnallisia mullistuksia ympäri maata.
+
+            Koskematon jälkimmäinen kappale sodan taustoista ja seurauksista.
+            """;
+
+        var model = DiffModel.Build(MakePassage(before, after), DiffTextMode.Prose);
+        var visibleChanged = model.ChangedOnlyItems.OfType<DiffBlockItem>().Select(static x => x.Block).ToList();
+        Assert.NotEmpty(visibleChanged);
+        Assert.NotEmpty(model.ChangedOnlyItems.OfType<DiffFoldItem>());
+
+        var combinedVisible = string.Join("\n", visibleChanged.Select(static b => b.AfterText));
+        Assert.Contains("vapaussota", combinedVisible, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("Valkoisten voitto", combinedVisible, StringComparison.Ordinal);
+        Assert.DoesNotContain("Suomen kansanvaltuuskunta (punaiset)", combinedVisible, StringComparison.Ordinal);
+        Assert.DoesNotContain("punakapina, torpparikapina", combinedVisible, StringComparison.Ordinal);
+        Assert.DoesNotContain("laajoja yhteiskunnallisia mullistuksia", combinedVisible, StringComparison.Ordinal);
+        Assert.DoesNotContain("Koskematon jälkimmäinen kappale", combinedVisible, StringComparison.Ordinal);
+    }
 }

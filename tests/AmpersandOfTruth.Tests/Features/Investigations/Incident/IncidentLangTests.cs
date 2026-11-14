@@ -253,12 +253,21 @@ public sealed class IncidentLangTests : BunitContext
         Assert.Equal("civil-war-1918", batch.Scope);
 
         var row = cut.Find("[data-testid=incident-articles]");
-        Assert.NotNull(row.QuerySelector("a[href='/articles/100'][lang='fi']"));
+        var siblingLink = row.QuerySelector("a[href='/articles/100']");
+        Assert.NotNull(siblingLink);
+        Assert.Null(siblingLink.GetAttribute("lang"));
+        Assert.Equal("Finnish Civil War", siblingLink.TextContent);
+        var siblingFi = row.QuerySelector("[data-testid=incident-article-fi]");
+        Assert.NotNull(siblingFi);
+        Assert.Equal("fi", siblingFi.GetAttribute("lang"));
+        Assert.Equal("Suomen sisällissota", siblingFi.TextContent);
+        Assert.True(
+            row.InnerHtml.IndexOf("Finnish Civil War", StringComparison.Ordinal)
+            < row.InnerHtml.IndexOf("Suomen sisällissota", StringComparison.Ordinal),
+            "Known English title must precede the Finnish title.");
+
         Assert.NotNull(row.QuerySelector("a[href='/articles/200'][lang='fi']"));
         Assert.NotNull(row.QuerySelector("a[href='/articles/300'][lang='fi']"));
-
-        // Sibling article shows "(Finnish Civil War)" without MtLabel; untitled articles show MtLabel + toggleable original
-        Assert.Contains("(Finnish Civil War)", row.TextContent);
 
         var firstMt = cut.FindAll("[data-testid=incident-articles] [data-testid=mt-label]")[0];
         Assert.Contains("Names of the Finnish Civil War", firstMt.TextContent);
@@ -299,9 +308,16 @@ public sealed class IncidentLangTests : BunitContext
 
         var row = cut.Find("[data-testid=incident-articles]");
         Assert.Empty(row.QuerySelectorAll("[data-testid=mt-label]"));
-        Assert.Contains("Talvisota", row.TextContent);
-        Assert.Contains("(Winter War)", row.TextContent);
-        Assert.Contains("Simo Häyhä", row.TextContent);
+        var winterLink = row.QuerySelector("a[href='/articles/1256']");
+        Assert.NotNull(winterLink);
+        Assert.Equal("Winter War", winterLink.TextContent);
+        var fiSubtitle = Assert.Single(row.QuerySelectorAll("[data-testid=incident-article-fi]"));
+        Assert.Equal("fi", fiSubtitle.GetAttribute("lang"));
+        Assert.Equal("Talvisota", fiSubtitle.TextContent);
+        Assert.True(
+            row.InnerHtml.IndexOf("Winter War", StringComparison.Ordinal)
+            < row.InnerHtml.IndexOf("Talvisota", StringComparison.Ordinal));
+        Assert.Equal("Simo Häyhä", row.QuerySelector("a[href='/articles/5000']")?.TextContent);
         Assert.Equal(0, _translator.TranslateManyCalls);
     }
 

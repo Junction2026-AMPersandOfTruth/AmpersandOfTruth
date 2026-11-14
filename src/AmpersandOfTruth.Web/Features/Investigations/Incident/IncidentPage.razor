@@ -139,21 +139,25 @@
                         <dd data-testid="incident-articles">@for (var i = 0; i < _incident.Articles.Count; i++)
                             {
                                 var article = _incident.Articles[i];
-                                if (i > 0)
-                                {
-                                    @(", ")
-                                }
-                                <a href="@string.Create(CultureInfo.InvariantCulture, $"/articles/{article.PageId}")" lang="fi">@article.TitleFi</a>@if (!string.IsNullOrWhiteSpace(article.TitleEn))
-                                {
-                                    if (!string.Equals(article.TitleEn, article.TitleFi, StringComparison.OrdinalIgnoreCase))
+                                var articleHref = string.Create(CultureInfo.InvariantCulture, $"/articles/{article.PageId}");
+                                <div class="aot-incident-article" data-testid="incident-article">
+                                    @if (!string.IsNullOrWhiteSpace(article.TitleEn))
                                     {
-                                        @(" ")<span class="aot-muted aot-incident-article-en">(@article.TitleEn)</span>
+                                        <a href="@articleHref">@article.TitleEn</a>
+                                        @if (!string.Equals(article.TitleEn, article.TitleFi, StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <div class="aot-original aot-incident-article-fi" lang="fi" data-testid="incident-article-fi">@article.TitleFi</div>
+                                        }
                                     }
-                                }
-                                else if (_titleTranslations.TryGetValue(article.TitleFi, out var translatedTitle) && !string.IsNullOrWhiteSpace(translatedTitle))
-                                {
-                                    @(" ")<MtLabel Text="@translatedTitle" Original="@article.TitleFi" />
-                                }
+                                    else if (_titleTranslations.TryGetValue(article.TitleFi, out var translatedTitle) && !string.IsNullOrWhiteSpace(translatedTitle))
+                                    {
+                                        <a href="@articleHref" lang="fi">@article.TitleFi</a>@(" ")<MtLabel Text="@translatedTitle" Original="@article.TitleFi" />
+                                    }
+                                    else
+                                    {
+                                        <a href="@articleHref" lang="fi">@article.TitleFi</a>
+                                    }
+                                </div>
                             }</dd>
                     </div>
                 }
@@ -184,7 +188,7 @@
                                              Annotation="_annotation"
                                              OnChanged="ReloadAnnotationAsync" />
                 }
-                <WhyFlagged Incident="_incident" />
+                <WhyFlagged Incident="_incident" Scope="@ScopeKey" />
                 <IncidentAccounts Incident="_incident" />
                 <AssessmentNote Assessment="_incident.Assessment" />
                 <RelatedIncidents Current="_incident" Incidents="_incidents" Topic="@Topic" Query="@OverviewQuery" />
@@ -327,6 +331,13 @@
             _loadedKey = key;
             _incidents = list;
             ResolveCurrentIncident(list, IncidentId ?? "");
+            _loading = false;
+
+            if (IncidentRenderMode.IsInteractiveOrRendered(() => RendererInfo, hasRendered: false))
+            {
+                _ = TranslateUntitledArticlesIfNeededAsync();
+            }
+
             await LoadAnnotationForCurrentAsync(key.SavedId, ct);
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)

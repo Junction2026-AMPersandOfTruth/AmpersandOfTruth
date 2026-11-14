@@ -279,10 +279,17 @@ public sealed class DiffViewerTests : BunitContext
             .Add(x => x.Lang, "en")
             .Add(x => x.Scope, "winter-war"));
 
-        // While translation is in flight: clear "Translating…" status, context folded, only the changed sentence visible.
+        // While translation is in flight: clear "Translating…" status above folded changed-only block, never Finnish first.
         var loading = cut.Find("[data-testid=diff-mt-loading]");
         Assert.Equal("Translating…", loading.TextContent.Trim());
         Assert.Equal("true", loading.GetAttribute("aria-busy"));
+        Assert.Empty(cut.FindAll("[data-testid=diff-mt] .aot-skel"));
+
+        var viewerHtml = cut.Find("[data-testid=diff-viewer]").InnerHtml;
+        Assert.True(
+            viewerHtml.IndexOf("data-testid=\"diff-mt-loading\"", StringComparison.Ordinal)
+            < viewerHtml.IndexOf("data-testid=\"diff-body-fi\"", StringComparison.Ordinal),
+            "Translating… line must appear above the folded changed-only block in EN mode.");
 
         var fiBodyWhileLoading = cut.Find("[data-testid=diff-body-fi]");
         Assert.Contains("Suomi aloitti talvisodan.", fiBodyWhileLoading.TextContent);
@@ -309,6 +316,36 @@ public sealed class DiffViewerTests : BunitContext
             // Once translation arrives, 1 sentence of context around the change becomes visible.
             Assert.Contains("Kolmas taustalause ennen muokkausta.", cut.Find("[data-testid=diff-body-fi]").TextContent);
         });
+    }
+
+    [Fact]
+    public void Interactive_renderer_starts_passage_translation_in_OnParametersSet_before_first_render()
+    {
+        var fake = new FakeEvidenceTranslator()
+            .ReturnsPassage(new AlignedTranslation(
+                BeforeEn: "The Finnish Civil War was fought in 1918.",
+                AfterEn: "The Finnish War of Independence was fought in 1918.",
+                ChangedInAfterEn: [(12, 19)],
+                ChangedInBeforeEn: [(12, 9)],
+                Aligned: true,
+                Ok: true));
+        Services.AddSingleton<IEvidenceTranslator>(fake);
+        SetRendererInfo(new Microsoft.AspNetCore.Components.RendererInfo("Server", isInteractive: true));
+
+        var passage = MakePassage(
+            "Suomen sisällissota käytiin vuonna 1918.",
+            "Suomen vapaussota käytiin vuonna 1918.");
+
+        var cut = Render<DiffViewer>(p => p
+            .Add(x => x.Passage, passage)
+            .Add(x => x.Lang, "en")
+            .Add(x => x.Scope, "civil-war-1918"));
+
+        // Started and completed inside OnParametersSet prior to the very first render (no second StateHasChanged pass needed).
+        Assert.Equal(1, fake.TranslatePassageCalls);
+        Assert.Equal(1, cut.RenderCount);
+        Assert.Empty(cut.FindAll("[data-testid=diff-mt-loading]"));
+        Assert.Equal("War of Independence", cut.Find("[data-testid=diff-mt] ins.aot-diff__add").TextContent);
     }
 
     private sealed class PendingEvidenceTranslator : IEvidenceTranslator

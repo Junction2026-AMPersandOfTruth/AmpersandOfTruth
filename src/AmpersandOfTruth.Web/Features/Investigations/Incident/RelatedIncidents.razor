@@ -1,3 +1,4 @@
+@using AmpersandOfTruth.Web.Features.Investigations.Overview
 @using AmpersandOfTruth.Web.Features.Investigations.View
 @{
     var related = FindRelated();
@@ -11,7 +12,42 @@
             var cleaned = string.IsNullOrWhiteSpace(item.ClaimOriginal)
                 ? item
                 : item with { ClaimOriginal = DiffModel.CleanProse(item.ClaimOriginal) };
-            <IncidentCard Incident="cleaned" Topic="@Topic" Query="@Query" Compact="true" @key="item.Id" />
+            var hasKnownEn = !string.IsNullOrWhiteSpace(cleaned.PrimaryArticle.TitleEn);
+            <article class="aot-card aot-card--compact" id="incident-@cleaned.Id" @key="cleaned.Id">
+                <a class="aot-card__main"
+                   href="@BuildHref(cleaned.Id)"
+                   data-testid="incident-card"
+                   data-incident="@cleaned.Id">
+                    <div class="aot-card__top">
+                        <TierBadge Tier="cleaned.Tier" />
+                        <div class="aot-related-article" data-testid="related-article">
+                            @if (hasKnownEn)
+                            {
+                                <div class="aot-small aot-muted" data-testid="related-article-en">@cleaned.PrimaryArticle.TitleEn</div>
+                                @if (!string.Equals(cleaned.PrimaryArticle.TitleEn, cleaned.PrimaryArticle.TitleFi, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    <div class="aot-related-fi" lang="fi" data-testid="related-article-fi">@cleaned.PrimaryArticle.TitleFi</div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="aot-small aot-muted">
+                                    <span lang="fi">@cleaned.PrimaryArticle.TitleFi</span> (Finnish Wikipedia)
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <p class="aot-card__claim" data-testid="incident-claim">@FormatHeadline(cleaned)</p>
+
+                    @if (!string.IsNullOrWhiteSpace(cleaned.ClaimOriginal))
+                    {
+                        <div class="aot-original" lang="@EffectiveLang(cleaned.Lang)" data-testid="incident-original">@cleaned.ClaimOriginal</div>
+                    }
+
+                    <p class="aot-card__what" data-testid="incident-what">@OverviewState.WhatHappened(cleaned)</p>
+                </a>
+            </article>
         }
     </section>
 }
@@ -21,6 +57,45 @@
     [Parameter, EditorRequired] public IReadOnlyList<IncidentView> Incidents { get; set; } = [];
     [Parameter, EditorRequired] public string Topic { get; set; } = "";
     [Parameter] public string Query { get; set; } = "";
+
+    private string BuildHref(string incidentId)
+    {
+        var slug = TopicSlug.From(Topic);
+        var effectiveTopic = slug.Length > 0 ? slug : Topic;
+        var normalizedQuery = string.IsNullOrEmpty(Query)
+            ? ""
+            : Query.StartsWith('?') ? Query : "?" + Query;
+        return $"/investigate/{Uri.EscapeDataString(effectiveTopic)}/incidents/{Uri.EscapeDataString(incidentId)}{normalizedQuery}";
+    }
+
+    private static string EffectiveLang(string? lang) =>
+        string.IsNullOrWhiteSpace(lang) ? "fi" : lang;
+
+    private static string FormatHeadline(IncidentView incident)
+    {
+        if (string.IsNullOrWhiteSpace(incident.ClaimEn))
+        {
+            var articleName = string.IsNullOrWhiteSpace(incident.PrimaryArticle.TitleEn)
+                ? incident.PrimaryArticle.TitleFi
+                : incident.PrimaryArticle.TitleEn;
+            return incident.Kind == IncidentKind.Deletion
+                ? $"Removed from {articleName}"
+                : $"Text added to {articleName}";
+        }
+
+        var trimmed = incident.ClaimEn.Trim();
+        if (incident.Kind == IncidentKind.Deletion
+            || trimmed.StartsWith("Removed:", StringComparison.OrdinalIgnoreCase))
+        {
+            return trimmed.StartsWith("Removed:", StringComparison.OrdinalIgnoreCase)
+                ? trimmed
+                : $"Removed: {trimmed}";
+        }
+
+        return trimmed is ['\u201C' or '"', .., '\u201D' or '"']
+            ? trimmed
+            : $"\u201C{trimmed}\u201D";
+    }
 
     private IReadOnlyList<IncidentView> FindRelated()
     {

@@ -17,6 +17,7 @@ public sealed class EditorTagTests : BunitContext
 
         var link = root.QuerySelector("a.aot-editor__name");
         Assert.NotNull(link);
+        Assert.Null(link.GetAttribute("style"));
         Assert.Equal("Pohjantähti77", link.TextContent);
         Assert.Equal("https://fi.wikipedia.org/wiki/Special:Contributions/Pohjant%C3%A4hti77", link.GetAttribute("href"));
         Assert.Equal("_blank", link.GetAttribute("target"));
@@ -30,7 +31,12 @@ public sealed class EditorTagTests : BunitContext
 
         var root = cut.Find("[data-testid=editor-label]");
         Assert.Contains("aot-editor--anon", root.ClassList);
+        Assert.Equal("IP", root.QuerySelector(".aot-editor__glyph")?.TextContent);
         Assert.Null(root.QuerySelector("a"));
+        var nameSpan = root.QuerySelector("span.aot-editor__name");
+        Assert.NotNull(nameSpan);
+        Assert.Equal("85.76.x.x", nameSpan.TextContent);
+        Assert.Contains("color:var(--ink)", nameSpan.GetAttribute("style"), StringComparison.Ordinal);
         Assert.Contains("85.76.x.x", root.TextContent);
         Assert.Contains("(anonymous)", root.TextContent);
         Assert.DoesNotContain("85.76.12.34", cut.Markup);
@@ -44,6 +50,9 @@ public sealed class EditorTagTests : BunitContext
         var tempRoot = tempCut.Find("[data-testid=editor-label]");
         Assert.Contains("aot-editor--anon", tempRoot.ClassList);
         Assert.Null(tempRoot.QuerySelector("a"));
+        var tempName = tempRoot.QuerySelector("span.aot-editor__name");
+        Assert.NotNull(tempName);
+        Assert.Contains("color:var(--ink)", tempName.GetAttribute("style"), StringComparison.Ordinal);
         Assert.Contains("~2025-26183-73", tempRoot.TextContent);
         Assert.Contains("(temporary account)", tempRoot.TextContent);
 

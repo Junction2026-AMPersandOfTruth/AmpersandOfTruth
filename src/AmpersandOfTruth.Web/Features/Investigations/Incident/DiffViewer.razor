@@ -33,6 +33,44 @@
         var isTranslating = IsEnglish && !hasTranslation;
         var activeItems = isTranslating ? _model.ChangedOnlyItems : _model.Items;
 
+        @if (IsEnglish)
+        {
+            <div class="aot-diff__mt aot-diff__mt--top" lang="en" style="overflow-wrap:anywhere" data-testid="diff-mt">
+                <div class="aot-mt" data-testid="mt-label">
+                    <span class="aot-label">EN</span>
+                    <span aria-hidden="true">·</span>
+                    <span class="aot-mt__tag" title="@Attribution.MachineTranslationNotice">Machine translation</span>
+                </div>
+                @if (!hasTranslation || translation is null)
+                {
+                    <div class="aot-diff__translating" role="status" aria-live="polite" aria-busy="true" data-testid="diff-mt-loading">
+                        <span class="aot-diff__spinner" aria-hidden="true"></span>
+                        <span class="aot-small aot-muted">Translating…</span>
+                    </div>
+                }
+                else if (!translation.Ok)
+                {
+                    <p class="aot-small aot-muted" data-testid="diff-mt-note">Translation unavailable.</p>
+                }
+                else if (translation.Aligned)
+                {
+                    @foreach (var paragraph in DiffModel.BuildAlignedTranslationParagraphs(translation))
+                    {
+                        <p>@RenderTokens(DiffModel.Highlight(paragraph, EvidenceQuotes))</p>
+                    }
+                }
+                else
+                {
+                    @foreach (var paragraph in PlainTranslationParagraphs(translation))
+                    {
+                        <p>@paragraph</p>
+                    }
+                    <p class="aot-small aot-muted" data-testid="diff-mt-note">Highlighting couldn't be aligned in the translation; showing it unaligned.</p>
+                }
+            </div>
+            <div class="aot-diff__fi-head aot-small aot-muted" data-testid="diff-fi-label">FI · Finnish original</div>
+        }
+
         @if (Mode == DiffMode.Split)
         {
             <div class="aot-diff__body" lang="fi" style="overflow-wrap:anywhere" data-testid="diff-body-fi">
@@ -97,44 +135,6 @@
                 }
             </div>
         }
-
-        @if (IsEnglish)
-        {
-            <div class="aot-diff__mt" lang="en" style="overflow-wrap:anywhere" data-testid="diff-mt">
-                <div class="aot-mt" data-testid="mt-label">
-                    <span class="aot-label">EN</span>
-                    <span aria-hidden="true">·</span>
-                    <span class="aot-mt__tag" title="@Attribution.MachineTranslationNotice">Machine translation</span>
-                </div>
-                @if (!hasTranslation || translation is null)
-                {
-                    <div class="aot-diff__translating" role="status" aria-live="polite" aria-busy="true" data-testid="diff-mt-loading">
-                        <span class="aot-diff__spinner" aria-hidden="true"></span>
-                        <span class="aot-small aot-muted">Translating…</span>
-                    </div>
-                    <div class="aot-skel" style="height:16px;width:82%;margin-top:8px" aria-hidden="true"></div>
-                }
-                else if (!translation.Ok)
-                {
-                    <p class="aot-small aot-muted" data-testid="diff-mt-note">Translation unavailable.</p>
-                }
-                else if (translation.Aligned)
-                {
-                    @foreach (var paragraph in DiffModel.BuildAlignedTranslationParagraphs(translation))
-                    {
-                        <p>@RenderTokens(DiffModel.Highlight(paragraph, EvidenceQuotes))</p>
-                    }
-                }
-                else
-                {
-                    @foreach (var paragraph in PlainTranslationParagraphs(translation))
-                    {
-                        <p>@paragraph</p>
-                    }
-                    <p class="aot-small aot-muted" data-testid="diff-mt-note">Highlighting couldn't be aligned in the translation; showing it unaligned.</p>
-                }
-            </div>
-        }
     }
 </section>
 
@@ -144,12 +144,12 @@
     private readonly record struct PassageKey(long RevId, long? ParentRevId, string Before, string After);
 
     private readonly Dictionary<PassageKey, AlignedTranslation> _translationCache = new();
+    private readonly HashSet<PassageKey> _inFlightKeys = new();
     private readonly HashSet<int> _expandedFolds = new();
     private readonly CancellationTokenSource _cts = new();
 
     private (PassageKey Key, DiffTextMode Text)? _modelKey;
     private DiffModel? _model;
-    private PassageKey? _loadingKey;
     private bool _hasRendered;
     private bool _disposed;
 
@@ -158,7 +158,7 @@
     [Parameter] public DiffPassage? Passage { get; set; }
     [Parameter] public DiffMode Mode { get; set; } = DiffMode.Inline;
     [Parameter] public DiffTextMode Text { get; set; } = DiffTextMode.Prose;
-    /// <summary>"en" (FI diff + aligned EN machine translation) or "fi" (FI only).</summary>
+    /// <summary>"en" (aligned EN machine translation + FI original) or "fi" (FI only).</summary>
     [Parameter] public string Lang { get; set; } = "en";
     /// <summary>Verbatim spans to highlight (assessment quotes).</summary>
     [Parameter] public IReadOnlyList<string> EvidenceQuotes { get; set; } = [];
@@ -194,25 +194,25 @@
             _model = DiffModel.Build(Passage, Text);
             _expandedFolds.Clear();
         }
-    }
 
-    protected override async Task OnParametersSetAsync()
-    {
-        if (_hasRendered && IsEnglish && Passage is not null)
+        if (IncidentRenderMode.IsInteractiveOrRendered(() => RendererInfo, _hasRendered) && IsEnglish)
         {
-            await LoadTranslationIfNeededAsync(Passage);
+            EnsureTranslationStarted(Passage);
         }
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnAfterRender(bool firstRender)
     {
-        if (!firstRender) return;
+        if (firstRender)
+        {
+            _hasRendered = true;
+        }
 
-        _hasRendered = true;
         if (IsEnglish && Passage is not null)
         {
-            await LoadTranslationIfNeededAsync(Passage);
-            if (!_disposed)
+            var hadTranslation = _translationCache.ContainsKey(KeyOf(Passage));
+            EnsureTranslationStarted(Passage);
+            if (!hadTranslation && _translationCache.ContainsKey(KeyOf(Passage)) && !_disposed)
             {
                 StateHasChanged();
             }
@@ -232,10 +232,10 @@
 
     private void ExpandFold(int foldId) => _expandedFolds.Add(foldId);
 
-    private async Task LoadTranslationIfNeededAsync(DiffPassage passage)
+    private void EnsureTranslationStarted(DiffPassage passage)
     {
         var key = KeyOf(passage);
-        if (_translationCache.ContainsKey(key) || _loadingKey == key) return;
+        if (_translationCache.ContainsKey(key) || _inFlightKeys.Contains(key)) return;
 
         var translator = Services.GetService<IEvidenceTranslator>();
         if (translator is null)
@@ -251,7 +251,16 @@
             return;
         }
 
-        _loadingKey = key;
+        _inFlightKeys.Add(key);
+        _ = RunTranslationAsync(translator, key, input, Scope);
+    }
+
+    private async Task RunTranslationAsync(
+        IEvidenceTranslator translator,
+        PassageKey key,
+        TranslationPassageInput input,
+        string? scope)
+    {
         try
         {
             var result = await translator.TranslatePassageAsync(
@@ -260,7 +269,7 @@
                 input.ChangedInAfter,
                 input.ChangedInBefore,
                 sourceLang: "fi",
-                scope: Scope,
+                scope: scope,
                 ct: _cts.Token);
             _translationCache[key] = result;
         }
@@ -274,10 +283,12 @@
         }
         finally
         {
-            if (_loadingKey == key)
-            {
-                _loadingKey = null;
-            }
+            _inFlightKeys.Remove(key);
+        }
+
+        if (!_disposed)
+        {
+            await InvokeAsync(StateHasChanged);
         }
     }
 
