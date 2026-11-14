@@ -156,8 +156,9 @@ public sealed class PromptLibraryTests : IDisposable
         var logger = new RecordingLogger<PromptLibrary>();
         var library = CreateLibrary(dir, logger);
 
-        // Sorted by id: aaa-extra comes before classify-edit.
-        Assert.Equal(["aaa-extra", "classify-edit"], library.All.Select(p => p.Id));
+        // Sorted by id: aaa-extra comes before classify-edit, and classify-edit is replaced rather than duplicated.
+        var expectedIds = CreateLibrary().All.Select(p => p.Id).Append("aaa-extra").OrderBy(id => id, StringComparer.Ordinal);
+        Assert.Equal(expectedIds, library.All.Select(p => p.Id));
 
         var overridden = library.Get("classify-edit");
         Assert.Equal(2, overridden.Version);

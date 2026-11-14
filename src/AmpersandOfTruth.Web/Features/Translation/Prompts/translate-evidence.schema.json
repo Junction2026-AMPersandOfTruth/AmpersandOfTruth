@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "translations": {
+      "type": "array",
+      "description": "Faithful, literal English translations of the input items, in the exact same order and count.",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["translations"],
+  "additionalProperties": false
+}
