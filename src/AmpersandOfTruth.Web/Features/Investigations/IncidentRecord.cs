@@ -37,13 +37,16 @@ public sealed record IncidentRecord
     public IReadOnlyList<IncidentSignal> Signals { get; init; } = [];
     public string? ConfidenceNote { get; init; }
 
-    // ── Proposed additions (#98 §5 gap 2; additionalProperties allows them until #37 freezes) ──
+    // ── Added to the #37 draft from the pipeline and the UI (#98 §5) ──
 
     /// <summary>The "because …" sentence from <see cref="TierRules"/> (<see cref="TierAssessment.BecauseSentence"/>).</summary>
     public string? TierReason { get; init; }
 
     /// <summary>The automated content assessment (P1.S9). null = not run, failed or over budget → tier stays at most "reverted".</summary>
     public IncidentAssessment? Assessment { get; init; }
+
+    /// <summary>Claim cluster (P1.S7, #34): incidents with the same id repeat one claim. null until S7 exists.</summary>
+    public string? ClusterId { get; init; }
 }
 
 public sealed record IncidentArticle(long PageId, string? TitleFi, string? TitleEn = null);
@@ -64,7 +67,8 @@ public sealed record IncidentEdit(
     string? DiffRef,
     IReadOnlyList<string> Flags);
 
-/// <param name="Kind">Machine id (snake_case). Today: the <see cref="TierReasonKind"/> names; see #98 §5 gap 1.</param>
+/// <param name="Kind">Machine id (snake_case). The pipeline emits the <see cref="TierReasonKind"/> names; the known ids
+/// are the <c>examples</c> of <c>signals[].kind</c> in the schema (an open set).</param>
 public sealed record IncidentSignal(string Kind, string? Label, string? Evidence = null);
 
 /// <param name="Confidence">1 (guess) – 5 (certain), about the category.</param>
