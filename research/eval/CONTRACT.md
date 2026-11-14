@@ -5,7 +5,7 @@ runner can be built in parallel and still fit together. Owner: the cloud lane. F
 `schemas/*.schema.json`; `contract.py` holds the rules a schema cannot express. If this text and a schema disagree,
 the schema wins.
 
-**Status (2026-11-14):** §1–§5 and §7 are frozen as `contract: 1`. The runner (§6) is `research/eval/run`
+**Status (2026-11-14):** §1–§5 and §7 are frozen as `contract: 1`, including all of §3's optional incident fields (#37). The runner (§6) is `research/eval/run`
 (`runner.py`, tests in `tests/test_runner.py`). It waits only for `golden.json` (#20). §9's heading says whether
 the diff CLI (#29) is still a draft.
 **To change a frozen part:** edit the schema, an example and this file in one commit, and say so on #3. Adding an
@@ -106,19 +106,21 @@ recall is measured against the topic's golden articles, so an article that retri
 | `tier` | `reverted`, `contested` or `campaign`. |
 | `score` | Higher is stronger. Informational: the order of the array is the ranking. |
 
-The optional fields are the **draft of the #37 output contract**, so prototypes, the app and Phase 2 use the same
-names: `id`, `claim_en`, `claim_fi`, `summary_en`, `narrative`, `category`, `articles[{page_id, title_fi, title_en}]`,
+**The optional fields are frozen too** (#37, 2026-11-14): prototypes, the app (`IncidentRecord`) and Phase 2 use
+these names, types and meanings. They stay *optional* for research variants: a variant fills what it has. Renaming or
+removing one, or changing its type or meaning, needs `contract: 2`; adding a new optional field is fine. The fields: `id`, `claim_en`, `claim_fi`, `summary_en`, `narrative`, `category`, `articles[{page_id, title_fi, title_en}]`,
 `first_inserted_at`, `last_removed_at`, `total_exposure_seconds`, `reinsertion_count`,
 `edits[{rev_id, parent_rev_id, page_id, user_display, is_anonymous, timestamp, role, summary, diff_ref, flags}]` with
 `role` one of `inserted`, `removed`, `reinserted`, then `signals[{kind, label, evidence}]` and `confidence_note`.
-Three more were proposed on #37 by the pipeline (#39) and the UI (#98 §5), and both already use them:
+Three more came from the pipeline (#39) and the UI (#98 §5) and are frozen with the rest:
 
 - `tier_reason`: the "because …" sentence of the tier, `TierRules.Assess(...).BecauseSentence`.
 - `assessment`: `{category, confidence (1–5), what_changed_en, quotes[], has_verified_quote, uncertainty_note,
   historical_note_en}`. `null` means the assessment was not run, failed or went over budget, and the tier is then
   at most `reverted`. `quotes` are what the model returned, so not every quote is verbatim in the inserted text;
   `has_verified_quote` says whether at least one is.
-- `cluster_id`: the claim cluster from S7 (#34). `null` until S7 exists.
+- `cluster_id`: the claim cluster from S7 (#34), always a string (`research.s7_cluster` ids are written as strings).
+  Incidents with the same id repeat one claim. `null` = not clustered.
 
 **Signal ids.** `signals[].kind` is an open set. The known ids are in the schema, as `examples` of `kind`:
 
@@ -129,7 +131,16 @@ Three more were proposed on #37 by the pipeline (#39) and the UI (#98 §5), and 
 
 A variant may add an id of its own. A consumer that does not know an id shows `label`.
 
-#37 freezes the optional fields. Until then they are typed but optional, and they may still change.
+**Meanings fixed by S10 (#37)**, so every producer counts the same way:
+- `inserting_rev_ids`, `reinsertion_count` and the editor count behind `multiple_editors` cover only the **claim's side**
+  of an edit war. When a claim's text and the text it replaced are each reverted to the other, the reverts that put
+  back the *replaced* text are removals of the claim, not insertions of it.
+- `edit_war` means a back-and-forth **over this passage**: the claim's own content was removed at least twice and put
+  back at least once, by different editors. Edit-war activity elsewhere on the page does not count.
+- `reinsertion_count` = insertions after the first removal. `total_exposure_seconds` sums the windows in which the
+  content was live, from each insertion to the next removal.
+- `tier` and `tier_reason` come from `TierRules.Assess` (`docs/evidence-standard.md` §1) and nothing else. The order of
+  `incidents` is the ranking (§2.2): tier first, then the variant's score within the tier.
 
 `user_display` is always `EditorDisplay.For(user).PlainText`, and `summary` is always
 `EditorDisplay.MaskComment(comment)`: fi.wikipedia's revert summaries name the editor they undo, so a summary can

@@ -199,7 +199,7 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
 - **`research/eval/CONTRACT.md` is binding for every P1 experiment**: variant I/O (one JSON request on stdin → one JSON response on
   stdout, logs on stderr), the golden-set file, judge/review files, metric definitions. Field names live in `research/eval/schemas/`.
 - An incident is matched on its **inserting rev ids** only; `tier` ids are the `EvidenceTiers` ids. Required incident fields
-  (`page_id, inserting_rev_ids, removing_rev_ids, tier, score`) are frozen; the rest of `incident.schema.json` is the #37 draft.
+  (`page_id, inserting_rev_ids, removing_rev_ids, tier, score`) are frozen; so are the optional fields (#37, CONTRACT.md §3: names, types and meanings, e.g. claim-side counting and passage-level `edit_war`).
   Known `signals[].kind` ids = the `examples` of `kind` in that schema (an open set; the first ten are `TierReasonKind`). New id → add it there.
 - Experiments: folder `research/<issue>-<slug>/`, scratch tables `research.<issue>_*`, corpus access from env
   (`CORPUS_HOST/PORT/USER/PW/DB`). The test split is sealed (`EVAL_ALLOW_TEST=1`, decision issues only).
