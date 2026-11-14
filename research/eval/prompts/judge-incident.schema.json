@@ -1,0 +1,70 @@
+{
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string",
+      "enum": [
+        "campaign",
+        "contested",
+        "reverted",
+        "not-incident"
+      ],
+      "description": "Evidence level from docs/evidence-standard.md, or not-incident if excluded."
+    },
+    "exclusion": {
+      "type": ["string", "null"],
+      "enum": [
+        "not-substantive",
+        "self-removal",
+        "bot",
+        "blanking",
+        "kept",
+        "graffiti",
+        null
+      ],
+      "description": "Exclusion reason when label is not-incident; null otherwise."
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "vandalism",
+        "test_or_nonsense",
+        "good_faith_error",
+        "content_dispute",
+        "pov_push",
+        "false_factual_claim",
+        "source_manipulation",
+        "other"
+      ],
+      "description": "The judge's independent reading of the nature of the edit."
+    },
+    "confidence": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Confidence score from 1 to 5 regarding the assigned label."
+    },
+    "evidence": {
+      "type": "array",
+      "description": "1 to 4 strings quoted verbatim from the diff, insertions, or removals.",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "maxItems": 4
+    },
+    "reason_en": {
+      "type": "string",
+      "description": "At most 2 sentences in English naming the level rule that decided the label."
+    }
+  },
+  "required": [
+    "label",
+    "exclusion",
+    "category",
+    "confidence",
+    "evidence",
+    "reason_en"
+  ],
+  "additionalProperties": false
+}
