@@ -83,6 +83,25 @@ public sealed class OxylabsClientTests
     }
 
     [Fact]
+    public void Web_api_outline_array_becomes_the_snippet_and_its_leading_date_is_read()
+    {
+        // Real shape from the P3.1 spike (2026-11-14): outline is an array of strings; Google's date leads the first one.
+        var results = OxylabsWire.ParseWebApiSearch(JsonNode.Parse("""
+            {"results":[
+              {"title":"Mainilan laukaukset – Wikipedia","url":"https://fi.wikipedia.org/wiki/Mainilan_laukaukset",
+               "outline":["September 16, 2026 - Mainilan laukaukset oli Mainilan kylässä tapahtunut välikohtaus.","Toinen kohta"],
+               "metadata":{"position":3}},
+              {"title":"Empty","url":"https://b.example/y","outline":[],"metadata":{"position":4}}
+            ],"state":"done"}
+            """));
+
+        Assert.Equal("September 16, 2026 - Mainilan laukaukset oli Mainilan kylässä tapahtunut välikohtaus. … Toinen kohta", results[0].Snippet);
+        Assert.Equal(new DateOnly(2026, 9, 16), results[0].SerpDate);
+        Assert.Equal(3, results[0].Rank);
+        Assert.Null(results[1].Snippet);
+    }
+
+    [Fact]
     public void Universal_fetch_keeps_html_and_extracts_text_without_chrome()
     {
         var html = WebSpreadKit.Html("Suomi &amp; Neuvostoliitto<script>evil()</script>");
@@ -154,6 +173,20 @@ public sealed class OxylabsClientTests
 
         Assert.Equal(WebCallOutcome.Ok, r.Outcome);
         Assert.Equal(3, handler.Requests.Count);
+    }
+
+    [Fact]
+    public async Task A_fetch_oxylabs_already_retried_is_not_retried_again()
+    {
+        var (client, handler) = Sut(new OxylabsOptions { ApiKey = "k", MaxAttempts = 3 });
+        handler.Reply(HttpStatusCode.InternalServerError,
+            """{"status":500,"title":"REQUEST_FAILED_AFTER_TOO_MANY_RETRIES","state":"faulted"}""");
+
+        var r = await client.FetchAsync("https://www.facebook.com/some/post");
+
+        Assert.Equal(WebCallOutcome.Failed, r.Outcome);
+        Assert.Single(handler.Requests);
+        Assert.Contains("REQUEST_FAILED_AFTER_TOO_MANY_RETRIES", r.Error);
     }
 
     [Fact]

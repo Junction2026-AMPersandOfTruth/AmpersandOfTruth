@@ -113,7 +113,7 @@ public sealed class OxylabsClient(
 
                 lastError = $"http_{status}: {Short(raw)}";
                 if (status is 401 or 403) return new Reply(null, $"http_{status}: Oxylabs rejected the credentials ({Short(raw)})");
-                if (!IsRetryable(status)) return new Reply(null, lastError);
+                if (!IsRetryable(status) || ProviderGaveUp(raw)) return new Reply(null, lastError);
             }
             catch (OperationCanceledException) when (ct.IsCancellationRequested)
             {
@@ -145,6 +145,11 @@ public sealed class OxylabsClient(
 
     /// <summary>429, 5xx and Oxylabs' own 6xx job-failure codes are worth retrying.</summary>
     public static bool IsRetryable(int status) => status == 429 || status >= 500;
+
+    /// <summary>Oxylabs already retried the target itself (Web API 500 <c>REQUEST_FAILED_AFTER_TOO_MANY_RETRIES</c>, ~40 s
+    /// each; seen on facebook.com in the P3.1 spike). Retrying again only triples the wait for the same failure.</summary>
+    public static bool ProviderGaveUp(string body) =>
+        body.Contains("REQUEST_FAILED_AFTER_TOO_MANY_RETRIES", StringComparison.Ordinal);
 
     private static TimeSpan RetryDelay(int attempt, TimeSpan? retryAfter, OxylabsOptions opt)
     {

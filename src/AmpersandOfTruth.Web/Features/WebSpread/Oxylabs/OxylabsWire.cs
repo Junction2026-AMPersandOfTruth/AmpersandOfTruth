@@ -9,7 +9,7 @@ namespace AmpersandOfTruth.Web.Features.WebSpread.Oxylabs;
 /// <para><b>Verification status</b> (developers.oxylabs.io was unreachable when this was written; sources were the
 /// <c>oxylabs/web-scraper-api</c> and <c>oxylabs/web-api</c> GitHub READMEs). Confirmed there: endpoints, auth, the
 /// <c>google_search</c>/<c>universal</c> sources, <c>parse</c>, <c>geo_location</c>, <c>render</c>; Web API
-/// <c>/v1/search</c> <c>{query, max_results}</c> → <c>results[]{title,url,outline,metadata.position}</c> and
+/// <c>/v1/search</c> <c>{query, max_results}</c> → <c>results[]{title,url,outline[],metadata.position}</c> and
 /// <c>/v1/scrape</c> <c>{url, output[], run_js}</c> → <c>results[0].markdown</c>.
 /// <b>Unverified (the P3.1 spike checks them):</b> the <c>tbs</c> date-range context key and its format, the
 /// <c>results_language</c> context key, the parsed path <c>results[0].content.results.organic[]</c> and its
@@ -108,7 +108,7 @@ public static partial class OxylabsWire
         foreach (var item in items)
         {
             if (item is not JsonObject o || Str(o, "url") is not { } url) continue;
-            var snippet = Str(o, "outline") ?? Str(o, "snippet") ?? Str(o, "desc");
+            var snippet = StrOrJoined(o, "outline") ?? Str(o, "snippet") ?? Str(o, "desc");
             var rank = (o["metadata"] as JsonObject) is { } m ? Int(m, "position") : null;
             var date = ParseLooseDate(Str(o, "date") ?? Str(o, "published_at")) ?? ParseLeadingDate(snippet);
             results.Add(new WebSearchResult(url, Str(o, "title"), snippet, date, rank ?? results.Count + 1, "oxylabs-web-api"));
@@ -153,6 +153,18 @@ public static partial class OxylabsWire
 
     private static string? Str(JsonObject o, string key) =>
         o[key] is JsonValue v && v.TryGetValue<string>(out var s) && !string.IsNullOrWhiteSpace(s) ? s : null;
+
+    /// <summary>A string, or an array of strings joined with " … " (the Web API's <c>outline</c> is an array — seen in the
+    /// P3.1 spike, 2026-11-14; its first item carries Google's leading page date).</summary>
+    private static string? StrOrJoined(JsonObject o, string key)
+    {
+        if (o[key] is not JsonArray a) return Str(o, key);
+        var parts = a.OfType<JsonValue>()
+            .Select(v => v.TryGetValue<string>(out var s) ? s.Trim() : null)
+            .Where(s => !string.IsNullOrEmpty(s))
+            .ToArray();
+        return parts.Length > 0 ? string.Join(" … ", parts) : null;
+    }
 
     private static int? Int(JsonObject o, string key)
     {
