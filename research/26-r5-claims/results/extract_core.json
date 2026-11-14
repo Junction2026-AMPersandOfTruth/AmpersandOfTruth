@@ -1,0 +1,40 @@
+{
+  "elapsed_seconds": 15.09,
+  "totals": {
+    "reverts": 332,
+    "diffs": 332,
+    "substantive_diffs": 319,
+    "passages": 697,
+    "chars": 387291
+  },
+  "by_class": {
+    "dispute": {
+      "reverts": 91,
+      "diffs": 91,
+      "substantive_diffs": 87,
+      "passages": 102,
+      "chars": 23725
+    },
+    "edit_war": {
+      "reverts": 97,
+      "diffs": 97,
+      "substantive_diffs": 95,
+      "passages": 145,
+      "chars": 36520
+    },
+    "graffiti_cleanup": {
+      "reverts": 135,
+      "diffs": 135,
+      "substantive_diffs": 128,
+      "passages": 441,
+      "chars": 324572
+    },
+    "other": {
+      "reverts": 9,
+      "diffs": 9,
+      "substantive_diffs": 9,
+      "passages": 9,
+      "chars": 2474
+    }
+  }
+}
