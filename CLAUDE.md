@@ -24,6 +24,7 @@ Query embeddings: **Ollama `bge-m3`** (local, else the VPS through the tunnel) b
 | Run an LLM prompt / batch from the shell (same client, prompts, cache as the app) | `scripts/analyze.sh prompts` · `run <prompt> --vars x.json` · `batch <prompt> --in x.jsonl --out y.jsonl --model a,b` · `usage` |
 | Live Gemini tests (opt-in, costs cents) | `GEMINI_TESTS=1 dotnet test --filter Category=Gemini` |
 | Check a golden set / variant / judgement file against the eval contract (stdlib Python, no corpus) | `python3 research/eval/validate.py golden` · `variant retrieval\|signals -- <cmd>` · tests: `python3 -m unittest discover -s research/eval/tests` |
+| Score a variant on the golden set (P1.E2 runner; Markdown scorecard on stdout) | `research/eval/run signals --name <name> --out research/<issue>-<slug>/results -- <cmd>` · `replay <…responses.jsonl> --judgements j.jsonl` · `--baseline <scorecard.json>` |
 
 ## Layout
 
@@ -51,7 +52,7 @@ tests/AmpersandOfTruth.Tests/
   Smoke/AppSmokeTests.cs      # boots the real app via WebApplicationFactory; add new routes to the InlineData list
 tools/AmpersandOfTruth.Analyze/ # console tool behind scripts/analyze.sh (LLM prompts from the shell / research)
 research/<issue>/             # experiment scripts, small samples, results and reports (no big data files)
-research/eval/                # ⭐ P1 eval contract: CONTRACT.md, schemas/, validate.py, examples/ (golden.json + runner land here)
+research/eval/                # ⭐ P1 eval contract: CONTRACT.md, schemas/, validate.py, run (runner.py), examples/ (golden.json lands here)
 docs/design/                  # ⭐ UI design system: brand book, plan, tokens, .aot-* CSS, component + page previews
 docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, editor display, golden-set TP definition
 ```
@@ -141,6 +142,9 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
 - Experiments: folder `research/<issue>-<slug>/`, scratch tables `research.<issue>_*`, corpus access from env
   (`CORPUS_HOST/PORT/USER/PW/DB`). The test split is sealed (`EVAL_ALLOW_TEST=1`, decision issues only).
 - Changing a frozen shape = schema + example + CONTRACT.md in one commit; `research/eval/tests` must pass (not part of `verify.sh`).
+- Score with `research/eval/run` (CONTRACT.md §6): paste its stdout on the experiment's issue, and commit
+  `<name>.dev.{scorecard.md,scorecard.json,unlabelled.jsonl,responses.jsonl}` to `research/<issue>-<slug>/results/`
+  (the `.log` is git-ignored). After the E3 judge has run, use `run replay … --judgements` instead of re-running the variant.
 
 ## Testing
 
