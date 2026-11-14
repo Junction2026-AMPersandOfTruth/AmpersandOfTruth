@@ -26,6 +26,9 @@ public sealed record ClaimMatch(
     string? Reasoning)
 {
     /// <summary>Worth showing: carries the claim or argues against it.</summary>
+    /// <summary>The <c>match-claim</c> call was attempted and failed: the verdict is the lexical fallback only.</summary>
+    public bool AssessmentFailed { get; init; }
+
     public bool IsRelevant => Stance is Stance.Asserts or Stance.RepeatsWithAttribution or Stance.Refutes
         || (Stance == Stance.Unknown && MatchType != MatchKind.None);
 }

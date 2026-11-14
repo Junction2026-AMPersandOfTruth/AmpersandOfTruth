@@ -68,4 +68,12 @@ public sealed record WebSpreadResult(
     string Headline,
     int SearchesRun,
     int PagesRead,
-    IReadOnlyList<string> Notes);
+    IReadOnlyList<string> Notes)
+{
+    /// <summary>The automated assessment (search planning or page matching) was unavailable for part of the trace: the
+    /// result is weaker than a normal one and is never stored (<see cref="WebSpreadResults"/>), so it is retried.</summary>
+    public bool AssessmentDegraded { get; init; }
+
+    /// <summary>When the trace finished (set by <see cref="WebSpreadTracer"/>; shown as "traced 2 h ago").</summary>
+    public DateTimeOffset? TracedAt { get; init; }
+}

@@ -34,6 +34,7 @@ public static partial class InvestigateCli
           investigate clear-runs                           drop every cached run (readings and LLM replies stay cached)
           investigate webspread <topic> [--rank N] [--events]  P3: trace the topic's Nth-ranked incident across the web (Oxylabs)
           investigate webspread-claim [--events] < claim.json  P3: trace a hand-written claim (no corpus needed; see scripts/webspread.sh)
+          investigate webspread-warm <topics-file> [--top N] [--refresh]  P3: pre-trace each topic's top N incidents (default 3) for the incident page
         options: --db <app.db path>
         env (eval contract §2): CORPUS_HOST CORPUS_PORT CORPUS_USER CORPUS_PW CORPUS_DB OLLAMA_URL — each overrides app config.
         """;
@@ -78,6 +79,13 @@ public static partial class InvestigateCli
                     var events = rest.Remove("--events");
                     using var host = await BuildHostAsync(db, [], cts.Token);
                     return await WebSpreadTopicAsync(host.Services, string.Join(' ', rest.Skip(1)), rank, events, cts.Token);
+                }
+                case "webspread-warm" when rest.Count >= 2:
+                {
+                    var top = TakeOption(rest, "--top") is { } t ? int.Parse(t, CultureInfo.InvariantCulture) : 3;
+                    var refresh = rest.Remove("--refresh");
+                    using var host = await BuildHostAsync(db, [], cts.Token);
+                    return await WebSpreadWarmAsync(host.Services, rest[1], top, refresh, cts.Token);
                 }
                 case "webspread-claim":
                 {

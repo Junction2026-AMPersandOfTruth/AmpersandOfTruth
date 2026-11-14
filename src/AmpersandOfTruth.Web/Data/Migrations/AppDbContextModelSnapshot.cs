@@ -437,6 +437,32 @@ namespace AmpersandOfTruth.Web.Data.Migrations
                     b.ToTable("WebSpreadCalls", (string)null);
                 });
 
+            modelBuilder.Entity("AmpersandOfTruth.Web.Features.WebSpread.Store.WebSpreadResultEntry", b =>
+                {
+                    b.Property<string>("IncidentId")
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CreatedAt")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ResultJson")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("IncidentId");
+
+                    b.ToTable("WebSpreadResults", (string)null);
+                });
+
             modelBuilder.Entity("AmpersandOfTruth.Web.Features.Annotations.IncidentAnnotation", b =>
                 {
                     b.HasOne("AmpersandOfTruth.Web.Features.Library.SavedInvestigation", null)

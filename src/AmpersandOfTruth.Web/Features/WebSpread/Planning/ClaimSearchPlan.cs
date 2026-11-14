@@ -22,7 +22,14 @@ public sealed record ClaimSearchPlan(
     int Dropped,
     string? ContestedDetail,
     string? Notes,
-    string? Degraded);
+    string? Degraded)
+{
+    /// <summary>The <c>plan-claim-search</c> call failed: only the exact phrase and rarest-word searches ran.</summary>
+    public bool ExpansionFailed { get; init; }
+
+    /// <summary>The incident had no inserted wording, so there is no exact-phrase search.</summary>
+    public bool NoInsertedText { get; init; }
+}
 
 /// <summary>Typed output of the <c>plan-claim-search</c> prompt (mirrors <c>Prompts/plan-claim-search.schema.json</c>).</summary>
 public sealed record ClaimQueryExpansion(string ContestedDetail, IReadOnlyList<ExpandedQuery> Queries, string Notes);

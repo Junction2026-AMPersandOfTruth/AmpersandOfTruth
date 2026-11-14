@@ -30,6 +30,7 @@ public sealed class ClaimSearchPlanner(
 
         // 2. Keywords + translations from the LLM.
         string? detail = null, notes = null;
+        var expansionFailed = false;
         if (opt.UseLlmPlan)
         {
             var result = await llm.RunAsync<ClaimQueryExpansion>(
@@ -48,6 +49,7 @@ public sealed class ClaimSearchPlanner(
             {
                 log.LogWarning("plan-claim-search for {Incident} returned {Outcome} ({Error}); using rarest-word queries", claim.IncidentId, result.Outcome, result.Error);
                 degraded.Add($"query expansion unavailable ({result.Outcome})");
+                expansionFailed = true;
             }
         }
         if (!basics.Any(b => b.Kind != QueryKind.ExactPhrase))
@@ -73,7 +75,11 @@ public sealed class ClaimSearchPlanner(
             .ToList();
 
         var kept = all.Take(Math.Max(0, opt.MaxSearches)).ToList();
-        return new ClaimSearchPlan(kept, all.Count - kept.Count, detail, notes, degraded.Count == 0 ? null : string.Join("; ", degraded));
+        return new ClaimSearchPlan(kept, all.Count - kept.Count, detail, notes, degraded.Count == 0 ? null : string.Join("; ", degraded))
+        {
+            ExpansionFailed = expansionFailed,
+            NoInsertedText = fragment is null,
+        };
     }
 
     /// <summary>Exact phrase first (copies are the strongest evidence), then Finnish keywords, then other languages.</summary>

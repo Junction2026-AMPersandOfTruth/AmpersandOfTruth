@@ -1,0 +1,420 @@
+@* P3.7 (#60), minimum shippable version: "Trace this claim on the web" on the incident page, staged progress, the
+   headline sentence and the source table grouped by timing. Hidden entirely when web spread is off and nothing is stored;
+   in demo safe mode only a stored result is shown. All page text is untrusted: rendered as text, never as markup. *@
+@implements IDisposable
+@using System.Globalization
+@using System.Text.RegularExpressions
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using AmpersandOfTruth.Web.Features.WebSpread.Dating
+@using AmpersandOfTruth.Web.Features.WebSpread.Matching
+@using AmpersandOfTruth.Web.Features.WebSpread.Planning
+@using AmpersandOfTruth.Web.Features.WebSpread.Spread
+@using Microsoft.Extensions.DependencyInjection
+@inject IServiceProvider Services
+
+@if (_availability != WebSpreadAvailability.Off)
+{
+    <section class="aot-stack" style="gap:var(--space-4)" aria-labelledby="webspread-title" data-testid="webspread-panel">
+        <h2 class="aot-h2" id="webspread-title">On the wider web</h2>
+
+        @if (_running)
+        {
+            <div class="aot-stages" style="grid-template-columns:repeat(3, 1fr) auto" role="status" aria-live="polite" data-testid="webspread-progress">
+                @StageRow(1, "Building searches", _plan is null ? StageState.Active : StageState.Done,
+                    _plan is null ? null : Count(_plan.Queries.Count, "search", "searches"))
+                @StageRow(2, "Searching the web", _plan is null ? StageState.Pending : _reading is null ? StageState.Active : StageState.Done,
+                    _plan is null ? null : $"{_searchesDone} of {_plan.Queries.Count}")
+                @StageRow(3, "Reading pages", _reading is null ? StageState.Pending : StageState.Active,
+                    _reading is null ? null : $"{Count(_reading.Pages + _reading.Mirrors, "page", "pages")} · {_found} found")
+                <button type="button" class="aot-btn aot-btn--sm" style="align-self:center" data-testid="webspread-cancel" @onclick="Cancel">Cancel</button>
+            </div>
+        }
+        else if (_result is null)
+        {
+            <div class="aot-panel aot-stack" style="gap:var(--space-2)" data-testid="webspread-intro">
+                <p style="margin:0">Look for web pages that carry this claim, and see whether each appeared before, during or after its time on Wikipedia.</p>
+                <p class="aot-muted aot-small" style="margin:0">Runs a few web searches in Finnish and English and reads up to 25 pages. It takes about a minute.</p>
+                @if (_failed)
+                {
+                    <StatusBanner Kind="StatusKind.Error" Title="The web trace stopped unexpectedly." TestId="webspread-error">Please try again.</StatusBanner>
+                }
+                @if (_stopped)
+                {
+                    <p class="aot-muted aot-small" style="margin:0" data-testid="webspread-stopped">Stopped. Nothing was saved.</p>
+                }
+                <div>
+                    <button type="button" class="aot-btn aot-btn--primary" data-testid="webspread-start" @onclick="StartAsync">Trace this claim on the web</button>
+                </div>
+            </div>
+        }
+        else if (_result.Status is WebSpreadStatus.BudgetExceeded or WebSpreadStatus.Failed or WebSpreadStatus.NotConfigured)
+        {
+            <div class="aot-stack" style="gap:var(--space-2)">
+                @if (_result.Status == WebSpreadStatus.BudgetExceeded)
+                {
+                    <StatusBanner Kind="StatusKind.Warn" Title="The web request limit was reached." TestId="webspread-budget">Nothing was searched. Try again later.</StatusBanner>
+                }
+                else
+                {
+                    <StatusBanner Kind="StatusKind.Error" Title="The web search didn't work this time." TestId="webspread-failed">Nothing could be searched.</StatusBanner>
+                }
+                @if (_availability == WebSpreadAvailability.Live)
+                {
+                    <div><button type="button" class="aot-btn" data-testid="webspread-retry" @onclick="StartAsync">Try again</button></div>
+                }
+            </div>
+        }
+        else
+        {
+            var r = _result;
+            var carrying = r.Sources.Where(SpreadClassifier.Carries).ToList();
+            var refuting = r.Sources.Where(s => s.IsRefutation).ToList();
+
+            <div class="aot-stack" style="gap:var(--space-1)">
+                @if (r.Sources.Count > 0)
+                {
+                    <p class="aot-serif" style="font-size:18px;line-height:26px;margin:0" data-testid="webspread-headline">@r.Headline</p>
+                }
+                <p class="aot-muted aot-small" style="margin:0" data-testid="webspread-meta">
+                    <span>@Count(r.SearchesRun, "search", "searches") · @Count(r.PagesRead, "page", "pages") read</span>@if (r.TracedAt is { } at)
+                    {
+                        <text> · traced @FormatTimestamp(at)</text>
+                    }@if (_availability == WebSpreadAvailability.Live)
+                    {
+                        <text> · </text><a href="" data-testid="webspread-rerun" @onclick="StartAsync" @onclick:preventDefault>Search again</a>
+                    }
+                </p>
+            </div>
+
+            @if (r.Sources.Count == 0)
+            {
+                <div data-testid="webspread-empty">
+                    <EmptyState Title="No page carrying this claim was found." Message="@($"Searched in {Languages(r)}. The web is large; this covers only what the searches returned.")" />
+                </div>
+            }
+            else
+            {
+                <p class="aot-muted aot-small" style="margin:0" data-testid="webspread-causation">
+                    Timing shows sequence, not causation: a page that appeared after the Wikipedia edit did not necessarily take it from Wikipedia.
+                </p>
+
+                @foreach (var (bucket, title) in Buckets)
+                {
+                    var group = carrying.Where(s => s.Bucket == bucket).ToList();
+                    if (group.Count == 0)
+                    {
+                        continue;
+                    }
+                    <div class="aot-stack" style="gap:var(--space-2)" data-testid="@($"webspread-bucket-{BucketId(bucket)}")">
+                        <h3 class="aot-h3">@title <span class="aot-muted" style="font-weight:400">(@group.Count)</span></h3>
+                        @SourceTable(group)
+                    </div>
+                }
+
+                @if (refuting.Count > 0)
+                {
+                    <details class="aot-stack" style="gap:var(--space-2)" open="@(carrying.Count == 0)" data-testid="webspread-refuting">
+                        <summary class="aot-h3" style="cursor:pointer">Pages that argue against the claim <span class="aot-muted" style="font-weight:400">(@refuting.Count)</span></summary>
+                        <div style="margin-top:var(--space-2)">@SourceTable(refuting)</div>
+                    </details>
+                }
+            }
+
+            <details data-testid="webspread-searched">
+                <summary class="aot-small" style="cursor:pointer">What was searched</summary>
+                <ul class="aot-small" style="margin:var(--space-2) 0 0;padding-left:20px">
+                    @foreach (var q in r.Plan.Queries)
+                    {
+                        <li><span class="aot-muted">@LanguageName(q.Language), @QueryKindLabel(q.Kind):</span> <code>@q.Text</code></li>
+                    }
+                </ul>
+                @if (r.Notes.Count > 0)
+                {
+                    <ul class="aot-muted aot-small" style="margin:var(--space-2) 0 0;padding-left:20px" data-testid="webspread-notes">
+                        @foreach (var note in r.Notes.Where(n => !n.StartsWith("Timing shows sequence", StringComparison.Ordinal)))
+                        {
+                            <li>@note</li>
+                        }
+                    </ul>
+                }
+            </details>
+        }
+    </section>
+}
+
+@code {
+    private enum StageState { Pending, Active, Done }
+
+    private static readonly (SpreadBucket Bucket, string Title)[] Buckets =
+    [
+        (SpreadBucket.Before, "Already online before the Wikipedia edit"),
+        (SpreadBucket.During, "Appeared while it was on Wikipedia"),
+        (SpreadBucket.AfterRemoval, "Appeared after Wikipedia removed it"),
+        (SpreadBucket.Undated, "No reliable date"),
+    ];
+
+    private WebSpreadService? _service;
+    private WebSpreadAvailability _availability = WebSpreadAvailability.Off;
+    private WebSpreadResult? _result;
+    private string? _loadedId;
+    private CancellationTokenSource? _cts;
+    private bool _running, _failed, _stopped, _disposed;
+    private ClaimSearchPlan? _plan;
+    private WebSpreadReading? _reading;
+    private int _searchesDone, _found;
+
+    [Parameter, EditorRequired] public IncidentView Incident { get; set; } = default!;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _service ??= Services.GetService<WebSpreadService>();
+        if (_service is null || Incident is null || _loadedId == Incident.Id)
+        {
+            return;
+        }
+
+        CancelRun();
+        _loadedId = Incident.Id;
+        _result = null;
+        _failed = _stopped = false;
+        try
+        {
+            _result = await _service.StoredAsync(Incident.Id);
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException)
+        {
+            _result = null; // a broken store only hides the stored result
+        }
+        _availability = _service.Availability(_result is not null);
+    }
+
+    private async Task StartAsync()
+    {
+        if (_service is null || _running || !_service.CanTraceLive)
+        {
+            return;
+        }
+
+        CancelRun();
+        var cts = _cts = new CancellationTokenSource();
+        var incidentId = Incident.Id;
+        _running = true;
+        _failed = _stopped = false;
+        _plan = null;
+        _reading = null;
+        _searchesDone = _found = 0;
+        var previous = _result;
+        _result = null;
+        StateHasChanged();
+
+        try
+        {
+            await foreach (var e in _service.TraceAsync(WebSpreadClaim.From(Incident), cts.Token))
+            {
+                if (_disposed || cts.IsCancellationRequested || incidentId != _loadedId)
+                {
+                    return;
+                }
+                switch (e)
+                {
+                    case WebSpreadPlanned p: _plan = p.Plan; break;
+                    case WebSpreadSearched: _searchesDone++; break;
+                    case WebSpreadReading r: _reading = r; break;
+                    case WebSpreadSourceFound: _found++; break;
+                    case WebSpreadCompleted c: _result = c.Result; break;
+                }
+                StateHasChanged();
+            }
+        }
+        catch (OperationCanceledException) when (cts.IsCancellationRequested)
+        {
+            if (!_disposed && incidentId == _loadedId)
+            {
+                _result = previous;
+                _stopped = previous is null;
+            }
+        }
+        catch (Exception)
+        {
+            if (!_disposed && incidentId == _loadedId)
+            {
+                _result = previous;
+                _failed = previous is null;
+            }
+        }
+        finally
+        {
+            if (ReferenceEquals(cts, _cts))
+            {
+                _running = false;
+            }
+            if (!_disposed)
+            {
+                StateHasChanged();
+            }
+        }
+    }
+
+    private void Cancel() => _cts?.Cancel();
+
+    private void CancelRun()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = null;
+        _running = false;
+    }
+
+    public void Dispose()
+    {
+        _disposed = true;
+        CancelRun();
+    }
+
+    private RenderFragment StageRow(int number, string label, StageState state, string? detail) => __builder =>
+    {
+        var css = state switch
+        {
+            StageState.Done => "aot-stage aot-stage--done",
+            StageState.Active => "aot-stage aot-stage--active",
+            _ => "aot-stage aot-stage--pending",
+        };
+        <div class="@css" data-testid="@($"webspread-stage-{number}")" data-state="@state.ToString().ToLowerInvariant()">
+            <span class="aot-stage__icon" aria-hidden="true">@(state == StageState.Done ? "✓" : state == StageState.Active ? "" : number.ToString(CultureInfo.InvariantCulture))</span>
+            <span class="aot-stage__name">@label</span>
+            <span class="aot-stage__count">@detail</span>
+        </div>
+    };
+
+    private RenderFragment SourceTable(IReadOnlyList<WebSpreadSource> sources) => __builder =>
+    {
+        <div style="overflow-x:auto">
+            <table class="aot-wikitable" style="width:100%" data-testid="webspread-table">
+                <thead>
+                    <tr><th scope="col">Page</th><th scope="col" style="width:22%">Date</th><th scope="col" style="width:14%">Says</th><th scope="col" style="width:38%">Passage</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var s in sources.OrderBy(s => s.Dating.EffectiveDate ?? DateOnly.MaxValue))
+                    {
+                        <tr data-testid="webspread-source">
+                            <td>
+                                <a class="aot-ext" href="@s.Url" target="_blank" rel="noopener noreferrer nofollow">@(string.IsNullOrWhiteSpace(s.Title) ? s.Domain : Shorten(PlainText(s.Title), 110))</a>
+                                <div class="aot-muted">@s.Domain@if (SourceTypeLabel(s.SourceType) is { } type)
+                                    {
+                                        <text> · @type</text>
+                                    }</div>
+                                @if (s.LikelyFromWikipedia)
+                                {
+                                    <div data-testid="webspread-from-wikipedia">Reuses Wikipedia's wording or credits Wikipedia</div>
+                                }
+                            </td>
+                            <td data-testid="webspread-date" title="@string.Join("; ", s.Dating.Conflicts)">
+                                @if (s.Dating.EffectiveDate is { } date)
+                                {
+                                    <span class="aot-num">@FormatDate(date)</span>
+                                    <div class="aot-muted">@DateMethodLabel(s.Dating)</div>
+                                    @if (s.Dating.Confidence == DateConfidence.Low || s.Dating.Conflicts.Count > 0)
+                                    {
+                                        <div class="aot-muted" data-testid="webspread-date-approx">Approximate date</div>
+                                    }
+                                    @if (s.NearBoundary)
+                                    {
+                                        <div class="aot-muted">Within a day of the Wikipedia edit; the order is uncertain</div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="aot-muted">No reliable date</span>
+                                }
+                            </td>
+                            <td>@StanceLabel(s.Stance)</td>
+                            <td>@if (!string.IsNullOrWhiteSpace(s.Quote))
+                                {
+                                    <q>@Shorten(PlainText(s.Quote), 320)</q>
+                                }</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    };
+
+    private static string Count(int n, string one, string many) =>
+        n == 1 ? $"1 {one}" : $"{n.ToString("N0", CultureInfo.InvariantCulture)} {many}";
+
+    private static string FormatDate(DateOnly d) => d.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+
+    private static string FormatTimestamp(DateTimeOffset t) =>
+        t.UtcDateTime.ToString("d MMM yyyy, HH:mm", CultureInfo.InvariantCulture) + " UTC";
+
+    private static string Shorten(string text, int max)
+    {
+        var clean = string.Join(' ', text.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries));
+        return clean.Length <= max ? clean : clean[..max].TrimEnd() + "…";
+    }
+
+    /// <summary>Fetched text arrives as Markdown: show it as plain words (links → their text, no heading/emphasis marks).</summary>
+    private static string PlainText(string text)
+    {
+        var s = Regex.Replace(text, @"!?\[([^\]]*)\]\([^)]*\)", "$1");
+        s = Regex.Replace(s, @"(^|\s)#{1,6}\s+", "$1");
+        s = Regex.Replace(s, @"\*\*|__|(?<!\w)[*_](?=\S)|(?<=\S)[*_](?!\w)", "");
+        return s;
+    }
+
+    private static string Languages(WebSpreadResult r) =>
+        string.Join(" and ", r.Plan.Queries.Select(q => LanguageName(q.Language)).Distinct());
+
+    private static string LanguageName(string lang) => SpreadClassifier.LanguageName(lang);
+
+    private static string QueryKindLabel(QueryKind kind) => kind switch
+    {
+        QueryKind.ExactPhrase => "exact wording",
+        QueryKind.Translation => "translated",
+        _ => "keywords",
+    };
+
+    private static string StanceLabel(Stance stance) => stance switch
+    {
+        Stance.Asserts => "States the claim",
+        Stance.RepeatsWithAttribution => "Reports the claim as someone else's",
+        Stance.Refutes => "Argues against it",
+        Stance.MentionsNeutrally => "Mentions it",
+        _ => "Similar wording (not assessed)",
+    };
+
+    private static string? SourceTypeLabel(SourceType type) => type switch
+    {
+        SourceType.News => "news",
+        SourceType.StateMedia => "state media",
+        SourceType.Blog => "blog",
+        SourceType.ForumSocial => "forum or social media",
+        SourceType.Academic => "academic",
+        SourceType.Government => "official body",
+        SourceType.WikipediaMirror => "copy of Wikipedia",
+        SourceType.ContentFarm => "content farm",
+        _ => null,
+    };
+
+    private static string DateMethodLabel(PageDating dating) => dating.ClaimPresentSince is not null
+        ? "Internet Archive copy with the claim"
+        : dating.Method switch
+        {
+            DateMethod.JsonLdPublished or DateMethod.MetaPublished => "from the page's metadata",
+            DateMethod.ArchiveFirstCapture => "first Internet Archive copy",
+            DateMethod.TimeElement => "date shown on the page",
+            DateMethod.UrlPath => "date in the web address",
+            DateMethod.SerpDate => "date shown by the search engine",
+            DateMethod.Modified => "last-modified date",
+            DateMethod.ArchiveWithClaim => "Internet Archive copy with the claim",
+            _ => "",
+        };
+
+    private static string BucketId(SpreadBucket bucket) => bucket switch
+    {
+        SpreadBucket.Before => "before",
+        SpreadBucket.During => "during",
+        SpreadBucket.AfterRemoval => "after",
+        _ => "undated",
+    };
+}

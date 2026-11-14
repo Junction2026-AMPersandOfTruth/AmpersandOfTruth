@@ -43,7 +43,7 @@ public static class SpreadClassifier
         var refuting = sources.Count(s => s.IsRefutation);
         if (carrying.Count == 0)
         {
-            var searched = $"{searches} {(searches == 1 ? "search" : "searches")} in {string.Join(", ", languages)}";
+            var searched = $"{searches} {(searches == 1 ? "search" : "searches")} in {Join(languages.Select(LanguageName).ToList())}";
             return refuting > 0
                 ? $"No page repeating this claim was found ({searched}); {Sites(refuting)} {Verb(refuting)} against it."
                 : $"No page carrying this claim was found ({searched}).";
@@ -56,13 +56,22 @@ public static class SpreadClassifier
 
         var parts = new List<string>();
         if (before > 0) parts.Add($"{Sites(before)} before the Wikipedia edit");
-        if (after > 0) parts.Add($"{Sites(after)} after it");
+        if (after > 0) parts.Add(before > 0 ? $"{Sites(after)} after it" : $"{Sites(after)} after the Wikipedia edit");
         if (undated > 0) parts.Add($"{Sites(undated)} without a reliable date");
         var sentence = "Found on " + Join(parts);
         if (reuse > 0) sentence += $"; {reuse} of the later ones reuse Wikipedia's wording or credit it";
         if (refuting > 0) sentence += $". {Sites(refuting, capital: true)} {Verb(refuting)} against it";
         return sentence + ".";
     }
+
+    public static string LanguageName(string code) => code switch
+    {
+        "fi" => "Finnish",
+        "en" => "English",
+        "sv" => "Swedish",
+        "ru" => "Russian",
+        _ => code,
+    };
 
     private static string Verb(int n) => n == 1 ? "argues" : "argue";
 

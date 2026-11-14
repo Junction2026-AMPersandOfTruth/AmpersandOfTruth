@@ -40,6 +40,9 @@ public sealed class WebSpreadTracer(
     TimeProvider time,
     ILogger<WebSpreadTracer> log)
 {
+    /// <summary>Bump when a trace's output changes: stored results (<see cref="Store.WebSpreadResults"/>) of other versions are ignored.</summary>
+    public const int Version = 1;
+
     private sealed class Candidate(string url)
     {
         public string Url { get; } = url;
@@ -59,7 +62,8 @@ public sealed class WebSpreadTracer(
 
         // ── 1. Plan ──
         var plan = await planner.PlanAsync(claim, ct);
-        if (plan.Degraded is not null) notes.Add("Search plan: " + plan.Degraded + ".");
+        if (plan.ExpansionFailed) notes.Add("The automated assessment was unavailable while planning, so only simple keyword searches ran.");
+        if (plan.NoInsertedText && plan.Queries.Count > 0) notes.Add("The incident's inserted wording wasn't available, so no word-for-word search ran.");
         if (plan.Dropped > 0) notes.Add($"{plan.Dropped} planned searches were skipped by the per-trace search limit.");
         yield return new WebSpreadPlanned(plan);
 
@@ -99,7 +103,11 @@ public sealed class WebSpreadTracer(
                 _ => plan.Queries.Count == 0 ? "There was nothing to search for: the incident has no claim text." : "Every web search failed.",
             });
             yield return new WebSpreadCompleted(new WebSpreadResult(claim, status, plan, [], null,
-                SpreadClassifier.Headline([], 0, opt.EffectiveLanguages), 0, 0, notes));
+                SpreadClassifier.Headline([], 0, opt.EffectiveLanguages), 0, 0, notes)
+            {
+                AssessmentDegraded = plan.ExpansionFailed,
+                TracedAt = time.GetUtcNow(),
+            });
             yield break;
         }
         if (failed > 0) notes.Add($"{failed} of {ok + failed + budget} searches failed.");
@@ -119,6 +127,7 @@ public sealed class WebSpreadTracer(
         var channel = Channel.CreateUnbounded<WebSpreadSource>();
         var fetchFailures = 0;
         var pagesRead = 0;
+        var unassessed = 0;
         var sources = new ConcurrentBag<WebSpreadSource>();
         var work = Task.Run(async () =>
         {
@@ -133,6 +142,7 @@ public sealed class WebSpreadTracer(
                     var read = await ReadAsync(claim, c, today, opt, token);
                     if (!read.Read) { Interlocked.Increment(ref fetchFailures); return; }
                     Interlocked.Increment(ref pagesRead);
+                    if (read.AssessmentFailed) Interlocked.Increment(ref unassessed);
                     if (read.Source is { } s)
                     {
                         sources.Add(s);
@@ -151,7 +161,10 @@ public sealed class WebSpreadTracer(
             yield return new WebSpreadSourceFound(s);
         await work;
 
-        if (fetchFailures > 0) notes.Add($"{fetchFailures} pages could not be read.");
+        if (fetchFailures > 0) notes.Add(fetchFailures == 1 ? "1 page could not be read." : $"{fetchFailures} pages could not be read.");
+        if (unassessed > 0) notes.Add(unassessed == 1
+            ? "1 page was compared on wording only: the automated assessment was unavailable for it."
+            : $"{unassessed} pages were compared on wording only: the automated assessment was unavailable for them.");
         if (!search.SupportsDateWindow) notes.Add("The search provider can't restrict by date, so older pages may be under-represented.");
         notes.Add("Timing shows sequence, not causation.");
 
@@ -159,12 +172,17 @@ public sealed class WebSpreadTracer(
         var list = sources.OrderBy(s => s.Bucket).ThenBy(s => s.Dating.EffectiveDate ?? DateOnly.MaxValue).ToList();
         var resultStatus = failed > 0 || budget > 0 || fetchFailures > 0 ? WebSpreadStatus.Partial : WebSpreadStatus.Completed;
         yield return new WebSpreadCompleted(new WebSpreadResult(claim, resultStatus, plan, list, SpreadClassifier.Earliest(list),
-            SpreadClassifier.Headline(list, ok, opt.EffectiveLanguages), ok, pagesRead, notes));
+            SpreadClassifier.Headline(list, ok, opt.EffectiveLanguages), ok, pagesRead, notes)
+        {
+            AssessmentDegraded = plan.ExpansionFailed || unassessed > 0,
+            TracedAt = time.GetUtcNow(),
+        });
     }
 
     /// <param name="Read">False = the page couldn't be fetched.</param>
     /// <param name="Source">Null = read, but it doesn't carry or refute the claim.</param>
-    private sealed record PageRead(bool Read, WebSpreadSource? Source);
+    /// <param name="AssessmentFailed">The <c>match-claim</c> call failed for this page (lexical fallback only).</param>
+    private sealed record PageRead(bool Read, WebSpreadSource? Source, bool AssessmentFailed = false);
 
     private async Task<PageRead> ReadAsync(WebSpreadClaim claim, Candidate c, DateOnly today, WebSpreadOptions opt, CancellationToken ct)
     {
@@ -176,13 +194,14 @@ public sealed class WebSpreadTracer(
         }
 
         var match = await matcher.MatchAsync(claim, page, ct);
-        if (!match.IsRelevant) return new PageRead(true, null);
+        if (!match.IsRelevant) return new PageRead(true, null, match.AssessmentFailed);
 
         var firstCapture = opt.UseArchive ? await archive.FirstCaptureAsync(c.Url, ct) : null;
         var dating = PageDateExtractor.Extract(page.FinalUrl ?? c.Url, page.Html, c.SerpDate, firstCapture);
         var (bucket, near) = SpreadClassifier.Bucket(dating.EffectiveDate, claim.Windows, today);
         return new PageRead(true, new WebSpreadSource(
             c.Url, UrlPolicy.Domain(c.Url), page.Title ?? c.Title, match.SourceType, match.Stance, match.MatchType, match.Quote,
-            match.CitesWikipedia, bucket, near, SpreadClassifier.LikelyFromWikipedia(bucket, match), dating, [.. c.FoundBy]));
+            match.CitesWikipedia, bucket, near, SpreadClassifier.LikelyFromWikipedia(bucket, match), dating, [.. c.FoundBy]),
+            match.AssessmentFailed);
     }
 }

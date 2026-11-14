@@ -8,8 +8,8 @@ using Microsoft.Extensions.Options;
 namespace AmpersandOfTruth.Web.Features.WebSpread;
 
 /// <summary>
-/// P3 web spread (epic #5): trace an incident's claim across the web with Oxylabs. Lives on the <c>oxylabs</c> branch
-/// until it is demo-ready. Everything is a singleton (shared by all circuits, thread-safe). Without Oxylabs credentials
+/// P3 web spread (epic #5): trace an incident's claim across the web with Oxylabs.
+/// Everything is a singleton (shared by all circuits, thread-safe). Without Oxylabs credentials
 /// the app runs as before; a trace then ends with <see cref="Spread.WebSpreadStatus.NotConfigured"/>.
 /// </summary>
 public static class WebSpreadFeature
@@ -44,6 +44,8 @@ public static class WebSpreadFeature
         services.AddSingleton<ClaimSearchPlanner>();
         services.AddSingleton<ClaimMatcher>();
         services.AddSingleton<WebSpreadTracer>();
+        services.AddSingleton<WebSpreadResults>();
+        services.AddSingleton<WebSpreadService>();
         return services;
     }
 }

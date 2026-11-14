@@ -1,6 +1,6 @@
 # P3.1 · Oxylabs spike (#54)
 
-What our Oxylabs access gives us, measured, before P3 is designed around it. Branch `oxylabs` only.
+What our Oxylabs access gives us, measured, before P3 is designed around it. Results: [FINDINGS.md](FINDINGS.md).
 
 ## Run
 

@@ -31,7 +31,7 @@ public sealed partial class ClaimMatcher(IAnalysisModel llm, IOptionsMonitor<Web
         if (!result.IsOk)
         {
             log.LogWarning("match-claim for {Url} returned {Outcome} ({Error}); keeping the lexical match only", page.Url, result.Outcome, result.Error);
-            return fallback;
+            return fallback with { AssessmentFailed = true };
         }
 
         var j = result.Value;

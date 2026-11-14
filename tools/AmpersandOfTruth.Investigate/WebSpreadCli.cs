@@ -13,13 +13,56 @@ namespace AmpersandOfTruth.Investigate;
 /// <summary>P3 web spread from the shell (<c>scripts/webspread.sh</c>): the app's own tracer, Oxylabs client, caches and caps.</summary>
 public static partial class InvestigateCli
 {
-    private static readonly JsonSerializerOptions SpreadJson = new(JsonSerializerDefaults.Web)
+    private static JsonSerializerOptions SpreadJson => WebSpreadJson.Options;
+
+    /// <summary>
+    /// Pre-traces the top incidents of every topic in the file, as the incident page will ask for them
+    /// (<c>/investigate/{slug}</c> → <see cref="IIncidentSource"/>), and stores clean results so demo safe mode can show
+    /// them. Pipeline mode needs the topic's investigation warmed first (<c>scripts/warm.sh</c>). Markdown table on stdout.
+    /// </summary>
+    private static async Task<int> WebSpreadWarmAsync(IServiceProvider services, string file, int top, bool refresh, CancellationToken ct)
     {
-        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-        Converters = { new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseLower) },
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping, // readable Finnish on a terminal
-    };
+        var service = services.GetRequiredService<WebSpreadService>();
+        if (!service.CanTraceLive)
+        {
+            Console.Error.WriteLine("Live traces are off: set Oxylabs:ApiKey (or Username + Password) and make sure Demo:SafeMode is false.");
+            return 1;
+        }
+        var source = services.GetRequiredService<IIncidentSource>();
+        var topics = (await File.ReadAllLinesAsync(file, ct)).Select(l => l.Trim()).Where(l => l.Length > 0 && !l.StartsWith('#')).ToList();
+
+        Console.Out.WriteLine("| topic | # | incident | status | sources | stored | seconds | headline |");
+        Console.Out.WriteLine("|---|---|---|---|---|---|---|---|");
+        var problems = 0;
+        foreach (var topic in topics)
+        {
+            var slug = TopicSlug.From(topic);
+            var incidents = await source.ForTopicAsync(slug, ct);
+            if (incidents is null || incidents.Count == 0)
+            {
+                Console.Out.WriteLine($"| {topic} | – | – | no incidents (warm the investigation first: scripts/warm.sh) | | | | |");
+                problems++;
+                continue;
+            }
+            for (var i = 0; i < Math.Min(top, incidents.Count); i++)
+            {
+                var view = incidents[i];
+                if (!refresh && await service.StoredAsync(view.Id, ct) is { } stored)
+                {
+                    Console.Out.WriteLine($"| {topic} | {i + 1} | {view.Id} | {stored.Status} (already stored) | {stored.Sources.Count} | yes | 0 | {stored.Headline} |");
+                    continue;
+                }
+                var started = System.Diagnostics.Stopwatch.StartNew();
+                WebSpreadResult? result = null;
+                await foreach (var e in service.TraceAsync(WebSpreadClaim.From(view), ct))
+                    if (e is WebSpreadCompleted c) result = c.Result;
+                var ok = result is not null && Web.Features.WebSpread.Store.WebSpreadResults.IsStorable(result);
+                if (!ok) problems++;
+                Console.Out.WriteLine($"| {topic} | {i + 1} | {view.Id} | {result?.Status} | {result?.Sources.Count} | {(ok ? "yes" : "**no**")} | {started.Elapsed.TotalSeconds:F0} | {result?.Headline} |");
+            }
+        }
+        return problems == 0 ? 0 : 1;
+    }
 
     /// <summary>Runs (or replays) the topic's investigation, maps its Nth incident like the UI does, and traces it.</summary>
     private static async Task<int> WebSpreadTopicAsync(IServiceProvider services, string topic, int rank, bool events, CancellationToken ct)
@@ -72,9 +115,11 @@ public static partial class InvestigateCli
 
     private static async Task<int> TraceAsync(IServiceProvider services, WebSpreadClaim claim, bool events, CancellationToken ct)
     {
-        var tracer = services.GetRequiredService<WebSpreadTracer>();
+        // Through the service when live traces are allowed, so a clean result is stored for the incident page too.
+        var service = services.GetRequiredService<WebSpreadService>();
+        var stream = service.CanTraceLive ? service.TraceAsync(claim, ct) : services.GetRequiredService<WebSpreadTracer>().TraceAsync(claim, ct);
         WebSpreadResult? result = null;
-        await foreach (var e in tracer.TraceAsync(claim, ct))
+        await foreach (var e in stream)
         {
             if (events) Console.Out.WriteLine(JsonSerializer.Serialize<object>(new { @event = e.GetType().Name, data = e }, SpreadJson));
             switch (e)
@@ -99,6 +144,8 @@ public static partial class InvestigateCli
 
         var usage = await services.GetRequiredService<WebSpreadStore>().UsageAsync(claim.Scope, ct);
         Console.Error.WriteLine($"{result?.Status}: {result?.Headline}");
+        if (result is not null)
+            Console.Error.WriteLine($"stored for the incident page: {(Web.Features.WebSpread.Store.WebSpreadResults.IsStorable(result) ? "yes" : "no")}{(result.AssessmentDegraded ? " (automated assessment unavailable for part of the trace)" : "")}");
         Console.Error.WriteLine($"live web requests: {usage.LiveInScope} this trace, {usage.LiveToday} today; cache hits today {usage.CacheHitsToday}");
         if (!events && result is not null) Console.Out.WriteLine(JsonSerializer.Serialize(result, SpreadJson));
         return result?.Status is WebSpreadStatus.Completed or WebSpreadStatus.Partial ? 0 : 1;
