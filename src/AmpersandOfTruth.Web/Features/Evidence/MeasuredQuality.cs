@@ -13,7 +13,7 @@ public static class MeasuredQuality
     public const string SourcePath = "research/38-s11-decision/README.md";
 
     public static Uri SourceUrl { get; } =
-        new($"https://github.com/Keymasterer44/SomeMysteriousAppForJunction/blob/main/{SourcePath}");
+        new($"https://github.com/Junction2026-AMPersandOfTruth/AmpersandOfTruth/blob/main/{SourcePath}");
 
     public const int HeldOutTopics = 4;
 
