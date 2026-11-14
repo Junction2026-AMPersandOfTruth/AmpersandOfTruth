@@ -262,7 +262,7 @@
           "evidence": "All seven inserting edits came from unregistered IPv6 addresses."
         }
       ],
-      "tier_reason": "Sustained push — because: removal summary questioned accuracy, neutrality or sourcing, put back 6 times after removal, repeated back-and-forth removals, pushed by 2 distinct editors, re-inserted across 10 days, substantive factual or framing claim.",
+      "tier_reason": "Pattern consistent with a coordinated attempt — because: removal summary questioned accuracy, neutrality or sourcing, put back 6 times after removal, repeated back-and-forth removals, added by 2 different editors, re-inserted across 10 days, substantive factual or framing claim.",
       "assessment": {
         "category": "pov_push",
         "confidence": 5,
@@ -394,7 +394,7 @@
           "evidence": "Both inserting edits were made from masked IPv4 range 85.76.x.x."
         }
       ],
-      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, put back 1 time after removal, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, put back 1 time after removal, substantive factual or framing claim.",
       "assessment": {
         "category": "source_manipulation",
         "confidence": 5,
@@ -485,7 +485,7 @@
           "evidence": "Inserts editorial judgement into the lead on how the January 1918 uprising began and alters troop numbers."
         }
       ],
-      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
       "assessment": {
         "category": "pov_push",
         "confidence": 5,
@@ -576,7 +576,7 @@
           "evidence": "Inserted from a temporary unregistered account (~2025-12016-2)."
         }
       ],
-      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
       "assessment": {
         "category": "pov_push",
         "confidence": 5,
@@ -667,7 +667,7 @@
           "evidence": "Inserted from masked IPv4 range 87.93.x.x."
         }
       ],
-      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
       "assessment": {
         "category": "pov_push",
         "confidence": 4,

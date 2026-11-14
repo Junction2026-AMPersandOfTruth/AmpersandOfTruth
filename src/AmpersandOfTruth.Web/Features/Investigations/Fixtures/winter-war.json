@@ -172,7 +172,7 @@
           "evidence": "All four insertions came from masked IPv4 range 85.76.x.x."
         }
       ],
-      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, put back 3 times after removal, repeated back-and-forth removals, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, put back 3 times after removal, repeated back-and-forth removals, substantive factual or framing claim.",
       "assessment": {
         "category": "content_dispute",
         "confidence": 5,
@@ -324,7 +324,7 @@
           "evidence": "Flips the historical consensus on the Soviet false-flag artillery incident that served as the pretext for invading Finland."
         }
       ],
-      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, put back 2 times after removal, repeated back-and-forth removals, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, put back 2 times after removal, repeated back-and-forth removals, substantive factual or framing claim.",
       "assessment": {
         "category": "pov_push",
         "confidence": 5,
@@ -451,7 +451,7 @@
           "evidence": "Initial insertion came from unregistered IPv4 address 81.229.x.x."
         }
       ],
-      "tier_reason": "Contested push — because: put back 1 time after removal, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: put back 1 time after removal, substantive factual or framing claim.",
       "assessment": {
         "category": "pov_push",
         "confidence": 5,
@@ -552,7 +552,7 @@
           "evidence": "Inserted from masked IPv6 prefix 2001:14BA:…."
         }
       ],
-      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
       "assessment": {
         "category": "source_manipulation",
         "confidence": 5,
@@ -673,7 +673,7 @@
           "evidence": "Frames unverified wartime press figures as 'one of the most reliable' sources on Häyhä's combat record."
         }
       ],
-      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, put back 1 time after removal, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, put back 1 time after removal, substantive factual or framing claim.",
       "assessment": {
         "category": "content_dispute",
         "confidence": 4,

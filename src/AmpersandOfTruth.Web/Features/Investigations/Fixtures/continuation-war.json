@@ -165,7 +165,7 @@
         {
           "kind": "multiple_editors",
           "label": "Multiple accounts",
-          "evidence": "Pushed from three distinct editor groupings: 85.76.x.x, named account FiCiW, and IPv6 prefix 2001:999:…."
+          "evidence": "Added from three distinct editor groupings: 85.76.x.x, named account FiCiW, and IPv6 prefix 2001:999:…."
         },
         {
           "kind": "persistence",
@@ -183,7 +183,7 @@
           "evidence": "Contests when Ryti's wartime presidency legally ended during Finland's break from the Ryti–Ribbentrop agreement."
         }
       ],
-      "tier_reason": "Sustained push — because: removal summary questioned accuracy, neutrality or sourcing, put back 3 times after removal, repeated back-and-forth removals, pushed by 3 distinct editors, re-inserted across 682 days, altered or fabricated source citation, substantive factual or framing claim.",
+      "tier_reason": "Pattern consistent with a coordinated attempt — because: removal summary questioned accuracy, neutrality or sourcing, put back 3 times after removal, repeated back-and-forth removals, added by 3 different editors, re-inserted across 682 days, altered or fabricated source citation, substantive factual or framing claim.",
       "assessment": {
         "category": "content_dispute",
         "confidence": 4,
@@ -309,7 +309,7 @@
           "evidence": "Inserted from masked IPv4 range 128.214.x.x."
         }
       ],
-      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, put back 1 time after removal, article carried a neutrality or accuracy tag, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, put back 1 time after removal, article carried a neutrality or accuracy tag, substantive factual or framing claim.",
       "assessment": {
         "category": "pov_push",
         "confidence": 5,
@@ -395,7 +395,7 @@
           "evidence": "Deletes explicit mention of defeat and specific territorial losses from the war's headline summary box."
         }
       ],
-      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
       "assessment": {
         "category": "pov_push",
         "confidence": 5,
@@ -485,7 +485,7 @@
           "evidence": "Inserted from masked IPv4 range 193.166.x.x."
         }
       ],
-      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
       "assessment": {
         "category": "pov_push",
         "confidence": 5,
@@ -571,7 +571,7 @@
           "evidence": "Endorses the contested 1941 offensive into East Karelia as 'the right decision' in encyclopedic voice."
         }
       ],
-      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
       "assessment": {
         "category": "pov_push",
         "confidence": 5,
