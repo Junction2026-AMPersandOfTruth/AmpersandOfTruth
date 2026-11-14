@@ -105,12 +105,18 @@ public sealed class TopicSearchTests : BunitContext
             b => b.AddMarkupContent(0, "<p>Body</p>")));
         Assert.Empty(cut.Find("[data-testid=appbar-search-slot]").Children);
 
-        // Navigate away from '/': compact TopicSearch appears inside appbar-search-slot
+        // Navigate away from '/': compact TopicSearch appears inside appbar-search-slot with aot-search--compact
         nav.NavigateTo("/methodology");
         cut.WaitForAssertion(() =>
         {
             var slot = cut.Find("[data-testid=appbar-search-slot]");
-            Assert.NotNull(slot.QuerySelector("[data-testid=topic-input]"));
+            var searchBox = slot.QuerySelector(".aot-search");
+            Assert.NotNull(searchBox);
+            Assert.Contains("aot-search--compact", searchBox.ClassList);
+
+            var input = slot.QuerySelector("[data-testid=topic-input]");
+            Assert.NotNull(input);
+            Assert.Equal("Search a topic", input.GetAttribute("placeholder"));
             Assert.NotNull(slot.QuerySelector("[data-testid=topic-submit]"));
             Assert.Null(slot.QuerySelector("[data-testid=topic-chip]"));
             Assert.Null(slot.QuerySelector("[data-testid=filters-toggle]"));
@@ -139,16 +145,24 @@ public sealed class TopicSearchTests : BunitContext
     }
 
     [Fact]
-    public void Typing_without_blur_submits_on_Enter_and_Disabled_blocks_submit()
+    public void Typing_without_blur_submits_on_Enter_without_oninput_binding_and_Disabled_blocks_submit()
     {
+        var module = JSInterop.SetupModule("./Features/Search/TopicSearch.razor.js");
+        module.Setup<string?>("readInputValue", _ => true).SetResult("Mannerheim");
+
         var nav = Services.GetRequiredService<NavigationManager>();
         var cut = Render<TopicSearch>();
 
-        // Browsers fire change before an Enter submit; the value syncs on change, never per keystroke (per-keystroke round-trips raced typing)
-        cut.Find("[data-testid=topic-input]").Change("Mannerheim");
+        var input = cut.Find("[data-testid=topic-input]");
+        Assert.False(input.HasAttribute("oninput"));
+        Assert.False(input.HasAttribute("blazor:oninput"));
+
+        // Even in browsers (Firefox/Safari/mobile keyboards) that fire form submit on Enter before onchange blurs the input,
+        // HandleSubmit reads the live input value once on submit — zero per-keystroke round-trips.
         cut.Find("form").Submit();
 
-        Assert.Equal("http://localhost/investigate/mannerheim", nav.Uri);
+        cut.WaitForAssertion(() =>
+            Assert.Equal("http://localhost/investigate/mannerheim", nav.Uri));
 
         // Disabled mode disables both input and button and ignores form submit
         nav.NavigateTo("/");

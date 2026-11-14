@@ -18,28 +18,68 @@ public sealed class LandingPageTests : BunitContext
     }
 
     [Fact]
-    public void Out_of_scope_topic_shows_out_of_scope_empty_state_with_suggestion_chips_and_stays_on_root()
+    public void Out_of_scope_topic_with_close_matches_shows_nearest_prompt_and_resolves_configured_chip_slugs()
     {
+        Services.Configure<SearchOptions>(o =>
+        {
+            o.SuggestedTopics =
+            [
+                new("1918 Civil War", "Civil War 1918"),
+                new("Winter War", "Winter War"),
+                new("Finlandization", "Finlandization"),
+            ];
+        });
         Services.AddSingleton<IScopeCheck>(
-            new FakeScopeCheck(false, ["Winter War", "Finlandization"]));
+            new FakeScopeCheck(false, ["1918 Civil War", "Winter War"]));
 
         var nav = Services.GetRequiredService<NavigationManager>();
         var cut = Render<LandingPage>();
 
-        cut.Find("[data-testid=topic-input]").Change("Roman Empire");
+        cut.Find("[data-testid=topic-input]").Change("American Civil War");
         cut.Find("form").Submit();
 
         cut.WaitForAssertion(() =>
         {
             var outOfScope = cut.Find("[data-testid=out-of-scope]");
-            Assert.Contains("Our data covers the history of Finland. ‘Roman Empire’ is outside it.", outOfScope.TextContent);
+            Assert.Contains("Our data covers the history of Finland. ‘American Civil War’ is outside it.", outOfScope.TextContent);
+            Assert.Contains("Try one of the nearest topics in our dataset:", outOfScope.TextContent);
+            Assert.Empty(CopyRules.FindViolations(outOfScope.TextContent, includeJargon: true));
 
             var chips = outOfScope.QuerySelectorAll("a.aot-chip");
             Assert.Equal(2, chips.Length);
-            Assert.Equal("/investigate/winter-war", chips[0].GetAttribute("href"));
-            Assert.Equal("Winter War", chips[0].TextContent.Trim());
-            Assert.Equal("/investigate/finlandization", chips[1].GetAttribute("href"));
-            Assert.Equal("Finlandization", chips[1].TextContent.Trim());
+            Assert.Equal("/investigate/civil-war-1918", chips[0].GetAttribute("href"));
+            Assert.Equal("1918 Civil War", chips[0].TextContent.Trim());
+            Assert.Equal("/investigate/winter-war", chips[1].GetAttribute("href"));
+            Assert.Equal("Winter War", chips[1].TextContent.Trim());
+        });
+
+        Assert.Equal("http://localhost/", nav.Uri);
+    }
+
+    [Fact]
+    public void Out_of_scope_topic_when_nothing_is_close_shows_finnish_history_prompt_and_configured_chips()
+    {
+        Services.AddSingleton<IScopeCheck>(
+            new FakeScopeCheck(false, []));
+
+        var nav = Services.GetRequiredService<NavigationManager>();
+        var cut = Render<LandingPage>();
+
+        cut.Find("[data-testid=topic-input]").Change("climate change");
+        cut.Find("form").Submit();
+
+        cut.WaitForAssertion(() =>
+        {
+            var outOfScope = cut.Find("[data-testid=out-of-scope]");
+            Assert.Contains("Our data covers the history of Finland. ‘climate change’ is outside it.", outOfScope.TextContent);
+            Assert.Contains("Try a topic from the history of Finland:", outOfScope.TextContent);
+            Assert.DoesNotContain("nearest topics", outOfScope.TextContent, StringComparison.OrdinalIgnoreCase);
+            Assert.Empty(CopyRules.FindViolations(outOfScope.TextContent, includeJargon: true));
+
+            var chips = outOfScope.QuerySelectorAll("[data-testid=suggestion-chip]");
+            Assert.Equal(SearchOptions.DefaultSuggestedTopics.Count, chips.Length);
+            Assert.Equal("Civil War 1918", chips[0].TextContent.Trim());
+            Assert.Equal("/investigate/civil-war-1918", chips[0].GetAttribute("href"));
         });
 
         Assert.Equal("http://localhost/", nav.Uri);
