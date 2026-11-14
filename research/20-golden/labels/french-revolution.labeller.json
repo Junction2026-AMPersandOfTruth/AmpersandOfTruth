@@ -1,0 +1,13 @@
+{
+ "topic": {
+  "id": "french-revolution", "title": "Control (out of corpus): the French Revolution's Reign of Terror", "split": "dev", "kind": "control-out-of-corpus",
+  "queries": [
+   {"id": "french-revolution.en", "style": "en", "lang": "en", "text": "How many people were executed during the Reign of Terror in the French Revolution?"},
+   {"id": "french-revolution.fi", "style": "fi", "lang": "fi", "text": "Kuinka monta ihmistä teloitettiin Ranskan vallankumouksen hirmuvallan aikana?"},
+   {"id": "french-revolution.broad", "style": "broad", "lang": "en", "text": "revolutionary terror and mass executions in 18th-century Europe"}
+  ],
+  "articles": [], "items": [],
+  "notes": "History, but not the history of Finland: the corpus (Suomen historia category tree) has no article on it. Expected: no incidents, ideally an out-of-scope signal. Shares words with the 1918 Red and White terror, which is the trap."
+ },
+ "item_sources": {}, "skipped": []
+}

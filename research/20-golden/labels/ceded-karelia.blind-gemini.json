@@ -1,0 +1,181 @@
+{
+ "topic_id": "ceded-karelia",
+ "labeller": "gemini:blind/gemini-4-carbon",
+ "labels": {
+  "x01": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Not an incident (not-substantive; also bot inserter): added only maintenance template '{{Tekijänoikeus_201009|diff=900}}' ('Copyright_201009')."
+  },
+  "x02": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: edit removed the '{{kiistanalainen}}' ('disputed') template and replaced critical passages on Greater Finland and Soviet Karelia, e.g., replacing text on Finnish Red assimilation efforts with '1930-luvulla oli erimielisyyksiä Neuvosto-Karjalan virallisesta kielestä' ('In the 1930s there were disagreements about the official language of Soviet Karelia') and softening text on East Karelians viewing Finns as occupiers. Removed during an edit war with summary 'palautus, kiistanalaisuustagin laiton jälkeen tehty perusteeton palautus ja laaja muutos' ('revert, unfounded revert and extensive change made after placing the dispute tag')."
+  },
+  "x03": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "vandalism",
+   "why": "Not an incident (self-removal): same anonymous editor replaced 'Karjala' ('Karelia') with 'Eurohokituurinavaus' ('opening of the Euro Hockey Tour') and undid their own edit 59 seconds later."
+  },
+  "x04": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 1: added general Winter War text and altered 'Vuoden 1944 suurhyökkäyksessä Neuvostoliitto valloittikin osan alueesta uudestaan' to 'valloittikin pienen osan alueesta uudestaan' ('reconquered a small part of the area'). Removed by another editor without an explanatory dispute summary or re-insertion."
+  },
+  "x05": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: edit war over external blogspot links under '===Suur-Suomi -aate nykyaikana===' ('Greater Finland idea in modern times'). Removed in rev 394261 as 'linkit ... roskasivuihin edelleen pois' ('links to ... trash pages still out'), put back in 394272 citing neutrality ('neutraalius'), and undone again in 394281."
+  },
+  "x06": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Not an incident (not-substantive, also self-removal): infobox whitespace alignment changes only, undone by the same editor."
+  },
+  "x07": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: replaced 'luovutettu' ('ceded') with 'miehitetty' ('occupied') throughout, e.g. '[[Miehitetty Karjala]]' ('Occupied Karelia'), and added 'rajakysymykseen ei otettu kantaa, jostain täysin käsittämättömästä syystä' ('no stance was taken on the border question, for some completely incomprehensible reason'). Removed with neutrality/terminology summary: 'termin \"miehitetyt alueet\" voi esitellä artikkelissa, mutta ei joka tilanteessa' ('the term \"occupied territories\" can be introduced in the article, but not in every situation')."
+  },
+  "x08": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 1: changed Käkisalmi's country and map from Russia/Leningrad Oblast to '[[Suomi]]' ('Finland') and 'entisellä [[Suonen alue|Suomen alue]]ella' ('in the former territory of Finland'), and changed 'luovuttamaan Neuvostoliitolle' ('cede to the Soviet Union') to 'luovuttamaan Suomelle' ('cede to Finland'). Removed without edit summary or re-insertion (only the unrelated image added in 21524938 remained in the latest revision)."
+  },
+  "x09": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "source_manipulation",
+   "why": "Level 2: repeatedly inserted '[[Suomenlahti|Suomenlahden]], [[Saimaa]]n, [[Laatokka|Laatokan]], [[Ääninen|Äänisen]] ja [[Vienanmeri|Vienanmeren]] välillä, valtaosin' ('between the Gulf of Finland, Saimaa, Ladoga, Onega and the White Sea, mostly') into a sourced lead sentence. Put back 5 times across two anonymous IP ranges over 3 days and removed with summary 'ei sisälly lähteeseen, vääristää ajatusta' ('not in the source, distorts the idea'). Wait: E182/E183/E184 (193.64.x.x) and E185 (212.226.x.x) are 2 distinct editor groups, and source distortion is noted in a sourced sentence, Wait—does it meet campaign? Survival/span from first to last insertion is 2012-06-12 to 2012-06-15 (<7 days), 1 article. Source manipulation requires citation removed, replaced, or made up alongside the claim; here no citation was altered, text was inserted before an existing ref. Capped at Level 2."
+  },
+  "x10": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 1: added '*[[Suur-Suomi|Suur-suomalaisuus]] - Suomen yhteyteen voitaisiin liittää myös Itä-Karjala, jolloin muodostuisi Suur-Suomi.' ('Greater Finlandism - East Karelia could also be annexed to Finland, forming Greater Finland') under proposed solutions. Removed with standard rollback summary and never re-inserted; no community dispute signal."
+  },
+  "x11": {
+   "label": "campaign",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 3: framing dispute replacing 'Suomelle jääneet osat' ('parts that remained to Finland') with 'Suomen alueena säilyneet osat' / 'Suomessa pysyneet osat' ('parts preserved as Finnish territory / stayed in Finland') and redefining ceded Karelia subregions ('koillisimmasta ja itäisimmästä osasta pohjoista Karjalaa' — 'from the northeasternmost and easternmost part of northern Karelia'). Pushed by 2 distinct anonymous IP ranges (212.226.x.x and 85.76.x.x) across >7 days (2013-02-15 to 2013-03-21) with multiple re-insertions during an edit war that led to page protection."
+  },
+  "x12": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "source_manipulation",
+   "why": "Level 2: added 'Toisaalta myös Baltian maiden miehityksen vastustajat pyrittiin aikanaan leimaamaan provokaattoreiksi.' ('On the other hand, opponents of the occupation of the Baltic countries were also labelled provocateurs at the time.') citing an article hosted on kavkaz.fi. Put back once by the same IP range and removed with summary '\"lähde\" ja väite eivät täsmää' ('\"source\" and claim do not match'). Single editor group and single article, so Level 2."
+  },
+  "x13": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 2: added claim about property ownership in ceded Karelia: 'Kun Neuvostoliitto ei kansallistanut tätä omaisuutta, se kuuluu edelleen alkuperäisille omistajille ja heidän perijöilleen.' ('Since the Soviet Union did not nationalize this property, it still belongs to the original owners and their heirs.'). Tagged with '{{lähde}}' ('citation needed') and later removed with summary 'Erittäin radikaali väite ilman lähdettä. Ei pidä huolia artikkeliin jollei kelvollista lähdettä löydy' ('Very radical claim without a source. Should not be accepted into the article unless a valid source is found')."
+  },
+  "x14": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added section arguing Greater Finland supporters sought to save kindred peoples from ethnic cleansing and that 'Suur-Suomen toteuttamatta jättäminen altisti nämä kansat tilaan, josta syystä nykyään karjalan, suomen ja vepsän kielen osaaminen Karjalan tasavallassa on vain vanhusten taitona' ('Failure to realize Greater Finland exposed these peoples to a state because of which today knowledge of Karelian, Finnish and Veps in the Republic of Karelia is only a skill of the elderly'). Removed as 'puppua poistettu, tämä ei ole pamflettisivusto' ('nonsense removed, this is not a pamphlet site'), and re-inserted 23 days later by the same IP range alongside '{{kiistanalainen}}' ('disputed'). Only 1 editor group pushed this claim on 1 article, so Level 2."
+  },
+  "x15": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Not an incident (graffiti): candidate captures an edit war undo over obvious joke/hoax text 'Toisessa mailmansodassa saksa lupasi antaa suomelle Belgian Kongon.' ('In the Second World War Germany promised to give Finland the Belgian Congo.')."
+  },
+  "x16": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "source_manipulation",
+   "why": "Level 2: added 'Syy siihen, miksi Suomesta ei saatu laajaa apua johtuu osittain Suomen sisäisestä fragmentoitumisesta Valkoisen Terrorin jälkeen.' ('The reason why extensive aid was not received from Finland is partly due to Finland's internal fragmentation after the White Terror.') and softened 'radikaali muoto' ('radical form') and 'mahdollisesti' to 'harvemmin' ('more rarely'). Removed as unsourced ('Lähteetöntä'), then re-inserted nearly two months later by the same account with a bogus citation to the front page of presidentti.fi, and removed as 'ei vastaa lähdettä' ('does not match the source'). Only 1 account on 1 article, so Level 2."
+  },
+  "x17": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: persistent edit war by one main inserting account equating East Karelia, Russian Karelia, and the Republic of Karelia ('Venäjän Karjala eli Itä-Karjala käsittää Karjalan tasavallan...' / 'Russian Karelia i.e. East Karelia comprises the Republic of Karelia...'), claiming Border Karelia was detached from Olonets Karelia in the Treaty of Stolbovo, and removing citation-needed tags. Removed multiple times by several editors citing POV-pushing ('vandalistista POV-pushausta'), factual inaccuracy ('nykyiset Karjalan tasavallan piirit eivät mene noin yksi yhteen historiallisten alueiden kanssa, Raja-Karjalaa ei ole irrotettu Aunuksesta' — 'current districts of the Republic of Karelia do not match historical regions one-to-one like that, Border Karelia was not detached from Olonets'), and lack of sources. Single account pushing the claim on one article, so Level 2."
+  },
+  "x18": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 1: part of the uninhibited factual change on Käkisalmi altering Russian/Soviet references (e.g. changing '{{Lakkautettu Suomen kunta' to 'venäjän kunta' or map/country fields to Finland). Reverted without an edit summary or re-insertion; no community dispute signal."
+  },
+  "x19": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: added redlink '* [[Karjalan ihannointi]]' ('Idealization of Karelia') to See also section, removed 5 minutes later because the target article did not exist ('ei pidä kehottaa katsomaan, kun ei ole mitä katsoa' — 'should not tell to see when there is nothing to see')."
+  },
+  "x20": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added counter-argument section '==Suur-Suomen \"jalon\" motiivin kritiikki==' ('Criticism of the \"noble\" motive of Greater Finland') comparing Russification of Finnic peoples in Karelia to Finnicization of Sámi languages and culture in Finland ('Tämä seikka saattaa ylläolevan jalon motiivin hieman arveluttavaan valoon' — 'This fact puts the above noble motive in a somewhat questionable light'). Removed with summary 'puppua poistettu, tämä ei ole pamflettisivusto' ('nonsense removed, this is not a pamphlet site')."
+  },
+  "x21": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: repeatedly added custom map 'Suomen ja Venäjän Karjalat.png' equating Russian Karelia with the Republic of Karelia divided by modern districts, changed 'luovutti' ('ceded') to 'pakkoluovutti' ('was forced to cede'), and removed a '{{Lähde}}' ('citation needed') tag. Re-inserted 3 times over 4 days by a single account and removed as inaccurate ('virheellinen kartta pois' — 'erroneous map out'; 'Käsitteellä \"Aunuksen Karjala\" ei ole mitään tekemistä Karjalan tasavallan kanssa' — 'The concept \"Olonets Karelia\" has nothing to do with the Republic of Karelia')."
+  },
+  "x22": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: changed historical Russian name dates in the lead of Käkisalmi (removing 'vuosina 1918–1940 Кякисалми') and added section '== Käkisalmi on nykyään Priozersk ==' ('Käkisalmi is nowadays Priozersk') with Russian quote on the 1948 renaming. Part of an edit war: first undone edit was itself a revert, removed with '...jota itse sinne tunget' ('...which you yourself are shoving in there'), and removal was undone again in rev 1621449."
+  },
+  "x23": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: dispute over the lead naming of Käkisalmi, changing '{{k-ru|Кексгольм}} eli ... vuodesta 1948 Приозерск' to foreground '{{k-ru|Приозерск|Priozersk}}' as the current Russian name and list historical Russian names with periods ('vuosina 1611–1918 ja 1940–1948 Кексгольм, Keksgolm, vuosina 1918–1940 Кякисалми, Kjakisalmi'). Removed once warning against an edit war ('Toivon, että käyttäjä ... ei ole aloittamassa palautussota' — 'I hope user ... is not starting a revert war'), put back by another editor, and removed again."
+  },
+  "x24": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "vandalism",
+   "why": "Not an incident (blanking, also graffiti): replaced entire article content (-9409 bytes) with 'lol'."
+  }
+ },
+ "rev_id_concerns": {
+  "x02": "Candidate edits 393567, 393568, 393570, 393853, and 393860 are minor copyedits/links by other editors after 393518, properly omitted from inserting_rev_ids.",
+  "x05": "inserting_rev_ids lists 394261, which is the revision that removed the external links rather than inserting them.",
+  "x08": "rev 21524938 added a historical illustration (+FFiT kuva), unrelated to the country/border claim changes in 21525210/21525215 and 21450265.",
+  "x15": "inserting_rev_ids lists 414455, which is the revision removing the Belgian Congo vandalism rather than inserting it.",
+  "x17": "inserting_rev_ids includes 4750690, 4753981, and 4757075 in candidates (though top-level inserting_rev_ids only lists E137's edits, which is consistent).",
+  "x18": "Shares the same candidate c03 and combined diff as x08; cannot isolate rev 21450265's exact 42-byte removal from 21525210/21525215 in the combined diff, and unrelated image edit 21524938 is in the same undone chain."
+ },
+ "usage": {
+  "total_tokens": 72663,
+  "total_input_tokens": 67983,
+  "input_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 67983
+   }
+  ],
+  "total_cached_tokens": 0,
+  "total_output_tokens": 4680,
+  "output_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 4680
+   }
+  ],
+  "total_tool_use_tokens": 0,
+  "total_thought_tokens": 0,
+  "initial_input_tokens": 67983,
+  "cost_usd_est": 0.1828,
+  "seconds": 58.8
+ }
+}

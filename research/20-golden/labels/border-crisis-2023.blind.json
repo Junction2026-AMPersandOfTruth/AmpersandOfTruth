@@ -1,0 +1,54 @@
+{
+ "topic_id": "border-crisis-2023",
+ "labels": {
+  "x01": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: edit war over a history paragraph (Neuvostoliitto yksipuolisesti kumosi rauhansopimuksen = 'the Soviet Union unilaterally abrogated the peace treaty'; Finland 'unilaterally abrogated' in 1941), removals worded 'rv, eston kiertoa' ('revert, block evasion'), which concerns the account, not accuracy/neutrality/sourcing. Put back and removed again, two inserting ranges, all within about 1 day; the claim is plain history with mild framing. Lower level chosen."
+  },
+  "x02": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: added 'Lupaan tarvitaan perusteltu syy' (a permit needs a justified reason) and 'Venäjän puolella rajavyöhyke on leveämpi' (the Russian-side zone is wider). Removal says sources should be given; plausible text, no slant, no put-back by the adders."
+  },
+  "x03": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 2: border length changed from '1 343,6 kilometriä' to '17 kilometriä' and land border to '1 km', with sub-figures cut to '1' and '12' km. Removed as 'lähteettömiä numerotietojen muutoksia' (unsourced changes to figures), a sourcing/accuracy reason. Not clearly graffiti, so not excluded; single editor, 62 min."
+  },
+  "x04": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: rewording of history paragraphs and a date change 1866 to 1864; removal is a plain undo with no stated reason, no put-back, no dispute signal."
+  },
+  "x05": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: rewrote the history section (e.g. added Kuusamo/Pohjois-Pohjanmaa border details, 'joutui luovuttamaan' = had to cede). Removal 'rv, eston kiertoa ([blocked account])' concerns the account; no claim-level dispute shown."
+  },
+  "x06": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: one-byte edit turning 'Suomella' into 'Suomenlla' (a misspelling); removed by a different account restoring the earlier version. Adds no new claim; borderline between this and not-substantive/nonsense, lower level chosen."
+  },
+  "x07": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: replaced 'lakatessa' with 'purkautunessa' and added detail about the successor states of Russia and the dates of the Soviet Union. Removed as 'turhaa detaljitasoa' (needless detail); no accuracy or neutrality dispute."
+  },
+  "x08": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: insertion from Dec 2023 (a 2016 Sipilä quote, 'Insinöörinä pidän enemmän siltojen rakentamisesta kuin muurien muuraamisesta', replacing text on party support for the fence) removed after 996 days with 'Poistin lähteetöntä ... vähän liittyi' (removed unsourced, little related). Relevance/sourcing edit, no put-back."
+  }
+ },
+ "rev_id_concerns": {}
+}

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Eval runner (P1.E2, #21). Usage: research/eval/run --help; rules in research/eval/CONTRACT.md §6.
+exec python3 "$(dirname "$0")/runner.py" "$@"

@@ -1,0 +1,773 @@
+{
+  "topic": {
+    "id": "national-myths",
+    "title": "National myths: the Kalevala, Karelianism and Lalli",
+    "split": "test",
+    "kind": "topic",
+    "queries": [
+      {
+        "id": "national-myths.en",
+        "style": "en",
+        "lang": "en",
+        "text": "Kalevala, Karelianism and the Lalli legend as Finnish national myths"
+      },
+      {
+        "id": "national-myths.fi",
+        "style": "fi",
+        "lang": "fi",
+        "text": "Kalevala, karelianismi ja Lallin legenda kansallismyytteinä"
+      },
+      {
+        "id": "national-myths.broad",
+        "style": "broad",
+        "lang": "en",
+        "text": "Finnish national romanticism and the myths behind national identity"
+      },
+      {
+        "id": "national-myths.sv",
+        "style": "sv",
+        "lang": "sv",
+        "text": "Kalevala, karelianismen och Lallilegenden som finska nationalmyter"
+      }
+    ],
+    "articles": [
+      {
+        "page_id": 498,
+        "grade": 2,
+        "title": "Kalevala"
+      },
+      {
+        "page_id": 13182,
+        "grade": 2,
+        "title": "Elias Lönnrot"
+      },
+      {
+        "page_id": 114665,
+        "grade": 2,
+        "title": "Karelianismi"
+      },
+      {
+        "page_id": 14460,
+        "grade": 2,
+        "title": "Lalli"
+      },
+      {
+        "page_id": 71641,
+        "grade": 2,
+        "title": "Piispa Henrikin surmavirsi"
+      },
+      {
+        "page_id": 18701,
+        "grade": 1,
+        "title": "Kanteletar"
+      },
+      {
+        "page_id": 19873,
+        "grade": 1,
+        "title": "Kalevalainen runous"
+      },
+      {
+        "page_id": 95494,
+        "grade": 1,
+        "title": "Suomalainen kansanrunous"
+      },
+      {
+        "page_id": 221700,
+        "grade": 1,
+        "title": "Suomen kansan vanhat runot"
+      },
+      {
+        "page_id": 72450,
+        "grade": 1,
+        "title": "Suomalainen mytologia"
+      },
+      {
+        "page_id": 1549193,
+        "grade": 1,
+        "title": "Suomalainen nationalismi"
+      },
+      {
+        "page_id": 255,
+        "grade": 1,
+        "title": "Fennomania"
+      },
+      {
+        "page_id": 720906,
+        "grade": 1,
+        "title": "Suomen kansallissymbolit"
+      },
+      {
+        "page_id": 153122,
+        "grade": 1,
+        "title": "Kalevalatalo"
+      },
+      {
+        "page_id": 57277,
+        "grade": 1,
+        "title": "Vienan Karjala"
+      },
+      {
+        "page_id": 13959,
+        "grade": 1,
+        "title": "Piispa Henrik"
+      },
+      {
+        "page_id": 38257,
+        "grade": 1,
+        "title": "Ensimmäinen ristiretki Suomeen"
+      },
+      {
+        "page_id": 1061549,
+        "grade": 1,
+        "title": "Lalli (veistos)"
+      },
+      {
+        "page_id": 1062200,
+        "grade": 1,
+        "title": "Lallin asumus"
+      },
+      {
+        "page_id": 1356098,
+        "grade": 1,
+        "title": "Suomen Lalli-liitto"
+      }
+    ],
+    "items": [
+      {
+        "id": "national-myths/i01",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 498,
+        "inserting_rev_ids": [
+          2434386
+        ],
+        "removing_rev_ids": [
+          2434467
+        ],
+        "description": "Puts back a passage saying 'Kalevala culture' is mentioned in the Anglo-Saxon poem Widsith ('Ja Caelic hallitsi finnejä', 'And Caelic ruled the Finns'), with a list of scholars who linked Caelic to Kaleva.",
+        "why": "Level 2. Claim, quoted from the added text: 'Kalevalainen kulttuuri tarkoittaa suomalaisten tai suomensukuisten väestöjen mytologiaa, josta on maininta anglosaksisessa muinaisrunossa WIDSITH, joka on muistiinmerkitty 600 -luvulta' ('Kalevala culture means the mythology of the Finns or Finnic peoples, which is mentioned in the Anglo-Saxon ancient poem WIDSITH, written down in the 600s'): it states a scholarly identification (Caelic = Kaleva) as a mention of 'Kalevala culture'. Community dispute: removed by a different account (E23) after 15 min with the summary 'poisto, Widsithin spekulatiivinen yhteys Kalevaan mainintaan jo' ('removal, Widsith's speculative connection to Kaleva [is] already mentioned'), which calls the connection speculative (accuracy) besides duplicate; and the inserting summary begins 'PALAUTETTU' ('RESTORED'), so this edit itself put the text back after an earlier removal that the pack does not show. Not level 3: one account (E30, named), one article; only one insertion is visible, so persistence cannot be shown. Not kept (removal not undone). Weakest point: the removal summary's main reason is duplication. Candidate c09.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/i02",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 498,
+        "inserting_rev_ids": [
+          2138403,
+          2138438
+        ],
+        "removing_rev_ids": [
+          2138187,
+          2138429,
+          2138447
+        ],
+        "description": "Adds to 'Kalevalan synty' that epic poetry is found almost everywhere, has often been compiled into written epics, and that the Kalevala would hardly have come about without the model of earlier epics (cited to SKS).",
+        "why": "Level 2. Claim (content dispute over the Kalevala's origin), quoted from the added text: 'Kalevalakaan tuskin olisi syntynyt ilman edeltäneiden eepposten mallia' ('the Kalevala, too, would hardly have come about without the model of earlier epics'). Community dispute: an edit war over this passage on 2007-01-03 from 10:31 UTC until just after 11:12. E30 removed its opening sentence (2138187, summary 'Väärää tietoa, turhana pois, koska eeppistä runoutta ei ole kirjoitettuna kuin Kreikassa, Suomessa ja Virossa', 'Wrong information, removed as unnecessary, because epic poetry exists in written form only in Greece, Finland and Estonia'); E23 restored it 76 s later (2138193, c29), which 2138201 undid; E23 then added the longer passage (2138403, c12, summary: the worldwide perspective is essential and its absence is one of the article's worst gaps); E30 removed it after 5 min (2138429, summary: the culture behind the Kalevala did not read other countries' epics); E31 put it back (2138438, c17); E30 removed it again 73 s later (2138447), and that removal was undone by 2138450. So: an accuracy summary ('Väärää tietoa'), put back 4 times, a back-and-forth. Inserting revs here are the two pack edits that added the passage (2138193 and 2138450 appear only as removal-undo ids). Not level 3: two inserting accounts (E23, E31) is one signal, but one article, all re-insertions within about 45 min, no source change. Review caveat: not kept by the flag (the 2007 wording is not in the latest revision), but the same passage, reworded, is still in the 2008 version restored in c25 and survives the 2017 rewrite in c30; if the latest revision still has it, 'kept' would apply instead.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/i03",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 13182,
+        "inserting_rev_ids": [
+          20783922
+        ],
+        "removing_rev_ids": [
+          20788305
+        ],
+        "description": "Adds that the coat of arms of Lönnrot's home municipality Sammatti has a maple leaf in the middle ('lönn' is Swedish for maple).",
+        "why": "Level 1. Substantive trivia added by E616, removed 2.5 days later by a different account (E617) in a revert of the whole run, summary 'sotkua pois ja mukana menee myös toisen lähteetön ja kenties tarpeeton lisäys' ('removing the mess; another editor's unsourced and perhaps unnecessary addition goes with it'). Capped at level 1: a plausible statement with no slant whose only recorded problem is a missing source (good-faith error). The other edits in the run (three tiny edits by E615, each undone by E304) are not part of this item; their text is not visible. Not kept (removal not undone). Candidate c02.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/i04",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 13182,
+        "inserting_rev_ids": [
+          15364218
+        ],
+        "removing_rev_ids": [
+          15366603
+        ],
+        "description": "Adds six of Lönnrot's works (e.g. the 1849 Kalevala, Kokeita suomalaisessa laulannassa 1846, the 1880 incantation collection) with Project Gutenberg e-book links, and e-book links to two existing entries, in the works list.",
+        "why": "Level 1. Substantive (titles, years, links) added by E507 (summary 'Lisätty jokunen kirja ja siihen e-kirja-linkki', 'Added a few books and e-book links'), removed 32 h later by a different account (E509) when it reverted the whole run to the previous version with the summary 'sotkemista' ('messing'), which describes the next editor's edits in the same run (item n02). No claim and no dispute about this content, so level 1 only. Candidate c03 (shared with n02).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/i05",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 498,
+        "inserting_rev_ids": [
+          5882606,
+          5882614,
+          5882625,
+          5882687
+        ],
+        "removing_rev_ids": [
+          5882897
+        ],
+        "description": "Adds a personal reading of the Marjatta poem: the 'King of Karelia' is the lion of Finland's coat of arms, Väinämöinen stands for Russia in 1943, and a person with the same soul was born in 1956.",
+        "why": "Level 1. Coherent but unencyclopedic interpretation, borderline nonsense, so judged as content rather than graffiti: e.g. 'Väinämöinen kuvaa Venäjää ja tapahtumia toisen maailmansodan aikana 1943' ('Väinämöinen depicts Russia and events during the Second World War in 1943') and 'Samaan psykofyysiseen perimään syntyi 1956 saman sielun omaava henkilö' ('into the same psychophysical heredity a person with the same soul was born in 1956'); it also changed the name Virokannas to Virokangas in the plot summary. Added in four edits by E101 within 21 min, removed by a different account (E102) 56 min after the first edit with the summary 'rv * 4' (no reason). No accuracy/neutrality/sourcing summary, never put back, no dispute template, so not level 2; category other. Candidate c04.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/i06",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 498,
+        "inserting_rev_ids": [
+          11181625
+        ],
+        "removing_rev_ids": [
+          11182240
+        ],
+        "description": "Adds a 'See also' link to a hotel's web page with the tagline 'Hotelli, jolla on Tarina ja Tyyli' ('a hotel with Story and Style').",
+        "why": "Level 1. A commercial link with a name and a tagline (adds text, so not markup-only), removed 2.7 h later by a different account (E179) with the summary 'rv'. Link spam is category other in the classification scheme: capped at level 1, not excluded as graffiti. No dispute signal. Candidate c10.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/i07",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 13182,
+        "inserting_rev_ids": [
+          4444570
+        ],
+        "removing_rev_ids": [
+          4444587
+        ],
+        "description": "Pastes a cruise company's advert, schedule notes and contact details for the paddle steamer 'Elias Lönnrot' into the family section.",
+        "why": "Level 1. Coherent promotional prose (cruises on Keurusselkä, dance cruises in summer 2008, company address), added by E203 (anonymous) and removed 6 min later by a different account (E95) with a plain rollback summary. Advertising is category other: capped at level 1, not graffiti. No dispute signal. Candidate c14 (its removal summary in the pack contains an unmasked username).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/i08",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 498,
+        "inserting_rev_ids": [
+          7992248
+        ],
+        "removing_rev_ids": [
+          16927813
+        ],
+        "description": "Puts the history section back after it had been replaced with 'ERROR', including paragraphs naming the scholars of the western and Karelian origin theories and an unsourced paragraph on oral transmission.",
+        "why": "Level 1. The pack's inserting revision 7992248 (E124, 2010) is a rollback (summary: a user's edits undone, earlier version restored) that re-added the whole history section over a version reading 'ERROR' (insertion_diff); the text itself is older (much of it is already in the 2008 version in c25). E192 cut these paragraphs 7.8 years later while rewriting the section, summary 'vähän lisää lähteestä; tiivistetään ja karsitaan lähteettömyyksiä ja nimilistoja' ('a bit more from the source; condensing and cutting unsourced bits and name lists'); several cut sentences carried {{lähde}} (citation needed) tags. Sourcing reason, but the cut text has no slant (it lists researchers on both origin theories, and the rewrite keeps the conclusion that the Kalevala has both western and eastern material), so it is capped at level 1 as unsourced good-faith text. The epic-tradition paragraph of item i02 was moved, not removed, in this edit. Candidate c30.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/i09",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 498,
+        "inserting_rev_ids": [
+          17697080
+        ],
+        "removing_rev_ids": [
+          17697124
+        ],
+        "description": "Rewrites a lead cut to 'Kalevala on Suomeneepos' back into a full lead: the national epic of Finland and the Republic of Karelia, based on folk poems Lönnrot collected from 1828, Old Kalevala 1835, New Kalevala 1849.",
+        "why": "Level 1, close to an exclusion. The previous revision (17697077) had cut the lead to 'Kalevala on Suomeneepos' ('Kalevala is Finland's-epic', run together); E254 (anonymous) wrote the full lead back; E75 rolled E254 back to that cut version 24 min later, and the rollback was undone by the very next revision (17697125). Not kept: the flag added_text_in_latest_revision is not set, and the current lead in the pack reads differently ('Kalevala on Suomen kansalliseepos, Elias Lönnrotin kokoama ja toimittama runoelma…', without 'ja Karjalan tasavallan'). No claim is pushed and the rollback gave no reason, so level 1, category other. Candidate c08.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n01",
+        "label": "not-incident",
+        "exclusion": "kept",
+        "category": "other",
+        "page_id": 14460,
+        "inserting_rev_ids": [
+          16054174
+        ],
+        "removing_rev_ids": [
+          16057392
+        ],
+        "description": "Restores the Lalli article's hatnote, image and lead paragraph after an anonymous editor had removed them.",
+        "why": "Excluded: kept. The 'insertion' is E212's revert (16054174) of E682's removal of the hatnote, image and lead ('Fixed more', -1,217 bytes). E683, in the same masked range as E682 (188.238.x.x), removed them again 43.7 h later (summary 'Kirjotus', 'writing'); that removal was undone by 16057398. The restored lead sentence 'Lalli (mahdollisesti Laurentius, Lauri tai Lalloi) on otaksuttavasti 1100-luvulla elänyt köyliöläinen talonpoika, joka kansanperinteen mukaan surmasi piispa Henrikin Köyliönjärven jäällä 20. tammikuuta noin vuonna 1156' is word for word the current lead in the pack's article snapshot. Note: the flag added_text_in_latest_revision is not set (the template, image or citation lines presumably differ), so a strict reading of the flag would give level 1 instead. Candidate c01.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n02",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 13182,
+        "inserting_rev_ids": [
+          15366584,
+          15366591,
+          15366597,
+          15366601
+        ],
+        "removing_rev_ids": [
+          15366603
+        ],
+        "description": "Renames headings to 'Lönruudin pärinät' and 'pärinä vuodet', replaces the end of a paragraph on epidemics with emojis, breaks an image link and changes a citation year.",
+        "why": "Excluded: graffiti. Four edits by E508 (anonymous) within 5 min: mocking headings ('Lönruudin pärinät', roughly 'Lönnrot's rattlings'), a passage on typhus and smallpox replaced with '😂😂😂…🐳', a broken image link, and a 0-byte edit in the sources section (the diff shows the Schybergson citation year changed 1998 to 2015). Reverted 1 min after the last edit with the summary 'sotkemista' ('messing'). Candidate c03 (the earlier edit in the same run is item i04).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n03",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 13182,
+        "inserting_rev_ids": [
+          18770257
+        ],
+        "removing_rev_ids": [
+          18771179
+        ],
+        "description": "Puts back seven category links (professors, fennicists, folklore collectors, Sammatti, etc.).",
+        "why": "Excluded: not substantive (categories only). E592 undid E595's earlier removal of the categories; E595 removed them again 7.9 h later, summary 'Nämä kuuluvat sivulle Luokka:Elias Lönnrot' ('These belong on the page Category:Elias Lönnrot'). Flag first_undone_edit_is_itself_a_revert is set. Candidate c05.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n04",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 13182,
+        "inserting_rev_ids": [
+          5760984
+        ],
+        "removing_rev_ids": [
+          5761178
+        ],
+        "description": "Appends 'HOMO' about a hundred times to the external-links section.",
+        "why": "Excluded: graffiti (repeated slur-like word, no content). Added by E61 (anonymous), reverted by E82 after 63 min with a rollback summary. Candidate c06.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n05",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 14460,
+        "inserting_rev_ids": [
+          7618253
+        ],
+        "removing_rev_ids": [
+          7618608
+        ],
+        "description": "Adds a {{Korjattava/nimi}} maintenance template proposing that 'Lalli' should be the word's primary meaning.",
+        "why": "Excluded: not substantive (a template only; the flag dispute_templates_in_diff lists it, but here the template is the whole edit, not a dispute marker on added content). Added by E212, removed by E82 2.6 h later without a summary. Candidate c07.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n06",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 498,
+        "inserting_rev_ids": [
+          16312774,
+          16312782,
+          16312791,
+          16312792,
+          16312794
+        ],
+        "removing_rev_ids": [
+          16312801
+        ],
+        "description": "Changes the infobox genre to 'Dubstep, Trap', the publication year to '2017 (monstercat release)', the preceding work to a dubstep track, and adds nested empty gallery tags.",
+        "why": "Excluded: graffiti (joke infobox values and template-sample galleries). Five edits by E240 (anonymous) within 10 min, reverted 13 min after the first edit by E241. Candidate c11.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n07",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 13182,
+        "inserting_rev_ids": [
+          3947929
+        ],
+        "removing_rev_ids": [
+          3948091
+        ],
+        "description": "Appends 'että semmosta sitten!!!!…' ('so that's that then!!!!') to a paragraph on Lönnrot's ancestors.",
+        "why": "Excluded: graffiti (an interjection with about 50 exclamation marks, no content). Added by E373 (anonymous), undone by E374 after 30 min. Candidate c13.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n08",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 14460,
+        "inserting_rev_ids": [
+          65857
+        ],
+        "removing_rev_ids": [
+          74390
+        ],
+        "description": "Replaces most of the Lalli article with a list of pornography, dating and gambling sites.",
+        "why": "Excluded: graffiti (article text replaced with obscene advertising). Added by E640 (anonymous) in 2004 with the summary 'näin se käy' ('this is how it goes'), reverted 8 min later with the summary 'Palautus E642in versioon vandalismin vuoksi' ('restored to E642's version because of vandalism'). Candidate c15.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n09",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 14460,
+        "inserting_rev_ids": [
+          16066372
+        ],
+        "removing_rev_ids": [
+          16066376
+        ],
+        "description": "Inserts into the sentence on Jalmari Jaakkola that older researchers said Lalli had also served as an army conscript.",
+        "why": "Excluded: graffiti. The inserted words 'sanoivat että Lalli on ollut myös armeijan varusmiehenä joten he' ('said that Lalli had also been an army conscript, so they') put a modern conscript into a 12th-century legend and attribute it to scholars, a joke rather than a claim. Added by E681 (anonymous), reverted by E197 110 s later. Candidate c16.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n10",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "test_or_nonsense",
+        "page_id": 13182,
+        "inserting_rev_ids": [
+          9856204
+        ],
+        "removing_rev_ids": [
+          9856215
+        ],
+        "description": "Inserts runs of spaces inside words of the lead ('ma              aliskuuta', 'aikakausle          hden').",
+        "why": "Excluded: not substantive (only whitespace added; no word, number or link changed). Added by E444 (anonymous), undone by E445 97 s later. Candidate c19.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n11",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 13182,
+        "inserting_rev_ids": [
+          6539875
+        ],
+        "removing_rev_ids": [
+          6539877
+        ],
+        "description": "Adds a message to a school class: 'Lapuan Yläasteen 9F-luokan oppilaat, teillä EI OLE OIKEUTTA katsoa äidinkielen esseekysymysten vastauksia täältä!' ('Pupils of class 9F at Lapua lower secondary school, you have NO RIGHT to look up the answers to the Finnish essay questions here!').",
+        "why": "Excluded: graffiti (a prank message, not article content). Added by E410 (anonymous), reverted by E115 60 s later. Candidate c20.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n12",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 13182,
+        "inserting_rev_ids": [
+          12773932
+        ],
+        "removing_rev_ids": [
+          12773933
+        ],
+        "description": "Adds that Lönnrot was a male nurse at 'Finland's gay hospital' who nursed many gay men and liked his work.",
+        "why": "Excluded: graffiti (mocking joke text: 'Lönnrot oli miespuolinen hoitaja suomen homosairaalassa', 'Lönnrot was a male nurse in Finland's gay hospital'). Added by E462, reverted by E75 13 s later. Candidate c21.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n13",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "vandalism",
+        "page_id": 14460,
+        "inserting_rev_ids": [
+          895000
+        ],
+        "removing_rev_ids": [
+          895003
+        ],
+        "description": "Adds a section 'Tunnettuja Lalleja' ('Known Lallis') naming a private person from Harjavalta.",
+        "why": "Excluded: self-removal. The same anonymous editor (E646) removed the addition 26 s later. Candidate c22.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n14",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "test_or_nonsense",
+        "page_id": 498,
+        "inserting_rev_ids": [
+          4334062
+        ],
+        "removing_rev_ids": [
+          4334065
+        ],
+        "description": "Appends keyboard mashing ('fdngh8eur9tn8uw4…') after 'Kalevipoeg'.",
+        "why": "Excluded: self-removal. The same anonymous editor (E66) removed it 56 s later. Candidate c23.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n15",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 114665,
+        "inserting_rev_ids": [
+          9120155
+        ],
+        "removing_rev_ids": [
+          9196487
+        ],
+        "description": "Adds a copyright-check template ({{Tekijänoikeus_201009|diff=600}}) to Karelianismi.",
+        "why": "Excluded: not substantive (template only; listed first in the exclusion order, the account also has a bot-like name). Added by E221, removed 16.7 days later by E460 with the summary 'ei copyvioa' ('no copyright violation'). Candidate c24.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n16",
+        "label": "not-incident",
+        "exclusion": "blanking",
+        "category": "vandalism",
+        "page_id": 498,
+        "inserting_rev_ids": [
+          4166520
+        ],
+        "removing_rev_ids": [
+          4166521
+        ],
+        "description": "Blanks the Kalevala article (-23,012 bytes).",
+        "why": "Excluded: blanking (flag set; the edit removed 23,012 bytes, i.e. the article body). By E58 (anonymous), reverted 11 s later by E59. Candidate c25.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n17",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 13182,
+        "inserting_rev_ids": [
+          2716971
+        ],
+        "removing_rev_ids": [
+          2716975
+        ],
+        "description": "Replaces 'Lönnrot' in the lead with an obscene word and calls him the 'second god' of the 'shitty' literary language.",
+        "why": "Excluded: graffiti (obscenities: 'Elias pashunn', 'paskallisen kirjakielen toisena jumalana mmm'). Added by E360 (anonymous), undone by E361 31 s later. Candidate c26.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n18",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 13182,
+        "inserting_rev_ids": [
+          16895322
+        ],
+        "removing_rev_ids": [
+          16895323
+        ],
+        "description": "Appends 'Elieltykkää pojista' ('Eli likes boys') to a lead paragraph.",
+        "why": "Excluded: graffiti (mocking text about sexual orientation; edit summary 'sukupuolisuuntaus', 'sexual orientation'). Added by E541 (anonymous), undone by E542 38 s later; the removal was itself undone by 16895327, but the text is not in the latest revision (flag), so not kept. The paragraph already ended with an earlier sentence of the same kind that this candidate does not cover. Candidate c27.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "national-myths/n19",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "test_or_nonsense",
+        "page_id": 498,
+        "inserting_rev_ids": [
+          6334925
+        ],
+        "removing_rev_ids": [
+          6334927
+        ],
+        "description": "Misspells the heading 'Kirjallisuutta' as 'Kirjallisuuta' and adds a line 'kk'.",
+        "why": "Excluded: graffiti (a test edit, no content). Added by E116 (anonymous), undone by E117 40 s later with the summary 'sotkua' ('mess'); the removal was undone by 6334930, but the text is not in the latest revision (flag), so not kept. Candidate c28.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      }
+    ],
+    "notes": "Labeller (claude): the only disputes in the pack are on Kalevala in 2007: an edit war in 'Kalevalan synty' over whether the Kalevala drew on foreign epics (i02) and a re-inserted Widsith / 'Kalevala culture' passage by an editor on the removing side of that war (i01). The rest is graffiti, spam, markup or collateral removals. Karelianismi has no substantive removals (only a template, n15); Lalli's candidates are graffiti or a restored lead. No campaign: every dispute is one article and same-day. Skipped c18 (added text not visible) and c31 (text-search inserting revision does not add the cut paragraphs). Three summaries in the pack (c14, c17, c30) contain unmasked usernames."
+  },
+  "item_sources": {
+    "national-myths/i01": [
+      "c09"
+    ],
+    "national-myths/i02": [
+      "c12",
+      "c17",
+      "c29"
+    ],
+    "national-myths/i03": [
+      "c02"
+    ],
+    "national-myths/i04": [
+      "c03"
+    ],
+    "national-myths/i05": [
+      "c04"
+    ],
+    "national-myths/i06": [
+      "c10"
+    ],
+    "national-myths/i07": [
+      "c14"
+    ],
+    "national-myths/i08": [
+      "c30"
+    ],
+    "national-myths/i09": [
+      "c08"
+    ],
+    "national-myths/n01": [
+      "c01"
+    ],
+    "national-myths/n02": [
+      "c03"
+    ],
+    "national-myths/n03": [
+      "c05"
+    ],
+    "national-myths/n04": [
+      "c06"
+    ],
+    "national-myths/n05": [
+      "c07"
+    ],
+    "national-myths/n06": [
+      "c11"
+    ],
+    "national-myths/n07": [
+      "c13"
+    ],
+    "national-myths/n08": [
+      "c15"
+    ],
+    "national-myths/n09": [
+      "c16"
+    ],
+    "national-myths/n10": [
+      "c19"
+    ],
+    "national-myths/n11": [
+      "c20"
+    ],
+    "national-myths/n12": [
+      "c21"
+    ],
+    "national-myths/n13": [
+      "c22"
+    ],
+    "national-myths/n14": [
+      "c23"
+    ],
+    "national-myths/n15": [
+      "c24"
+    ],
+    "national-myths/n16": [
+      "c25"
+    ],
+    "national-myths/n17": [
+      "c26"
+    ],
+    "national-myths/n18": [
+      "c27"
+    ],
+    "national-myths/n19": [
+      "c28"
+    ]
+  },
+  "skipped": [
+    {
+      "cid": "c18",
+      "reason": "The diff is truncated after about 9,000 characters that show only removed lines (templates, infobox, lead, family section); the text E604 added (+136 bytes net, summary 'elias lönrött tietoja netistä', 'elias lönnrot info from the net', undone after 28 s) is not visible, so neither content nor graffiti can be judged."
+    },
+    {
+      "cid": "c31",
+      "reason": "Inserting revision found by text search (16067366, E702) does not add the removed text: the paragraphs it added (Jari Tammi novel, first Kalevala film project) were only moved and copy-edited by E73's edit (they reappear as '+' lines), while the three paragraphs E73 actually cut ('Kalevalan kuvat ovat piirustuksia…', 'Kalevalan visualisointi…', 'Suomen kansanrunoutta alettiin kuvittaa…', each tagged {{lähde}}) are not among 16067366's visible added lines and sat under the 'Kalevalan kuvat' heading that 16067366 removed, so they look older. No revision in the pack added them."
+    }
+  ]
+}

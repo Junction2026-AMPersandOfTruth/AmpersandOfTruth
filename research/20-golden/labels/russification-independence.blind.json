@@ -1,0 +1,166 @@
+{
+ "topic_id": "russification-independence",
+ "labels": {
+  "x01": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": null,
+   "why": "Exclusion blanking: one edit (summary: 'made it better') replaced the whole lead and removed the table of contents and several paragraphs (-1766 bytes), undone after 10 min."
+  },
+  "x02": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Exclusion graffiti: title rewritten to keyboard-mash ('Suokdkskdndkkwkdjjslz...'), summary also nonsense; undone in 4 min."
+  },
+  "x03": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: added 'Vastaavasti Suomi tunnusti Neuvosto-Venäjän uuden hallinnon' (Correspondingly Finland recognised the new Soviet-Russian regime). Remover wrote 'Hyvä lisäys. Lähde pitäisi vain lisätä myös' (good addition, a source should be added). Only problem is a missing source."
+  },
+  "x04": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: inserted 'SDP:n ... kehitys vallankumoukseen täyttää täysin vuoden 1743 lain ... tunnusmerkistön' (the development of the order guards into Red Guards fully meets the elements of the 1743 treason law), a legal framing. Removed with 'Pois uusi hömppä: vahvoja tulkintoja ilman lähteitä tai omaa tutkimusta' (strong interpretations without sources or own research) and a {{lähteetön}} template in the passage. Not campaign: one editor, one article. Inserting rev is a text-search guess."
+  },
+  "x05": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": null,
+   "why": "Exclusion self-removal: the same account added the text on 27 Aug 2012 and took it out the next day with 'Pois tarpeetonta ylistystä' (removed unnecessary praise)."
+  },
+  "x06": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added that several Jägers took part in post-civil-war 'purges' killing hundreds of Red Guards, naming four people as examples; no source. Back-and-forth within minutes: the insertion was itself a revert, the removal ('rv') was undone, text is not in the latest revision. Edit-war signal only, no accuracy wording. Borderline vs reverted."
+  },
+  "x07": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": null,
+   "why": "Exclusion not-substantive: only a {{Lähteetön}} template was changed (a signature text put inside the template); no prose, number or citation added."
+  },
+  "x08": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: added a line that Bobrikov had also lived in a named house and who the present resident is (a private person). Trivia, removed in 15 s by a different account. Coherent, so not graffiti; no dispute signal."
+  },
+  "x09": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": null,
+   "why": "Exclusion not-substantive: the edit only deleted the words 'Venäjällä valtaan' (in Russia into power); it added no prose, number, date, name or citation. Summary 'Kkk'; undone in 33 s. Borderline vs reverted."
+  },
+  "x10": {
+   "label": "not-incident",
+   "exclusion": "kept",
+   "category": null,
+   "why": "Exclusion kept: both candidates are an edit war over naming/wording of the battalion's name and Libau/Liepāja; each removal was itself undone and the added text is in the latest revision. Wording changes only."
+  },
+  "x11": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": null,
+   "why": "Exclusion not-substantive: table of recognising countries reformatted with flag templates ({{lippukuvake|...}}) and links; no new prose or facts. Removal summary 'rv, eston kiertoa' (block evasion)."
+  },
+  "x12": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: added 'Näyttää merkittävältä ... että näiden välissä valta oli vaihtunut Suomessa vasemmalta oikealle, Venäjällä oikealta vasemmalle' (It seems significant that power had shifted in Finland left to right, in Russia right to left, and that Russian troops were in Finland). Removed after 39 days as 'lähteetön pätkä pois, ei muutenkaan kuulu tähän' (unsourced bit, does not belong here). Own-observation commentary but no changed fact or dispute signal."
+  },
+  "x13": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: a 2005 edit added sourced sections on the Pfadfinder training course (text with citations, e.g. Lauerma 1966). It disappeared 570 days later in an edit whose summary only names reference-format cleanup; no claim or dispute signal. Possible mismatch between insertion and removal edits."
+  },
+  "x14": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Exclusion graffiti: the edit inserted slurs and abuse (e.g. 'saastaisten juutalaishomojen kapinaterroristiryhmittymän', 'vapaaehtoista natsia') into the lead; clearly vandalism, undone in 7.5 h."
+  },
+  "x15": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Exclusion graffiti: keyboard-mash string 'jewhgowengowngon...' inserted before a paragraph; undone in 12 s."
+  },
+  "x16": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: added that Svinhufvud also represented opponents of Russian rule and that exile to Siberia gave him a personal motive for anti-Russian feeling. Removed as 'Lähteetön lisäys ja pääosin toistaa edellisen' (unsourced and mostly repeats the previous paragraph). Plausible, mild framing, only a missing source."
+  },
+  "x17": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: two editors added a long roster ('Matrikkeli') of Jäger names with links. Removal: 'vaillinainen ja osin virheellinen luettelo ... (muoto linkityskelvoton, oikeudet?)' (incomplete and partly erroneous list, format, rights). No slanted claim quotable from a name list; put back none."
+  },
+  "x18": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: a revert-type edit (summary 'Kumottu muokkaus ... ') changed names and links, e.g. 'Itsenäisyysliikkeen keskuskomitea' to 'Jääkäriliikkeen keskuskomitea' and the battalion name form. Removed next day with 'RV sittenkin' (reverted after all). Naming/wording only, no dispute signal about a claim."
+  },
+  "x19": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: one account added four edits of sourced material on death sentences and prosecutions of Jäger-movement helpers (e.g. 'hirtettiin sotaoikeuden päätöksellä elokuussa 1916', with Lackman citation). Removed in one undo with a default summary and no stated reason; not put back."
+  },
+  "x20": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added sourced nationality 'Venäjän keisarikunta ja Suomen suuriruhtinaskunta' (Russian Empire and Grand Duchy of Finland) and a death-place change, first with a revert whose summary says Finland was not independent then. Removed as 'rv, sotkua' (rv, mess); the removal was undone once (edit war), text not in latest. A link-rescue bot edit sits in the chain but did not add the prose. Borderline vs reverted."
+  },
+  "x21": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "test_or_nonsense",
+   "why": "Exclusion self-removal: the same account added nonsense ('kuoli kaikki ruskit kuoli kaksoispistedeedee') and took it out 2 min later."
+  },
+  "x22": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added 'miehet syyllistyivät maanpetokseen ... miehet lähtivät vallankaappauksen tielle' (the men committed treason ... set out on the path of a coup) and 'Suomen laillinen hallitus'. Removed as 'Poliittinen propaganda ei kuulu Wikipediaan!' (political propaganda does not belong) and 'uutta tutkimusta' (new research); put back once after removal. One editor, one article, one re-insertion: not campaign."
+  },
+  "x23": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": null,
+   "why": "Exclusion not-substantive: a one-letter title typo ('uomen'), -1 byte, undone in 12 min; no content added."
+  },
+  "x24": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": null,
+   "why": "Exclusion self-removal: the same account restored text it had moved and then undid it 3 min later ('rv, ne olikin siirretty myöhemmäksi', they had been moved later)."
+  },
+  "x25": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: repeated edits from one masked range reordering the battalion name ('Preussin kuninkaallinen jääkäripataljoona', summary on Finnish word order) and Libau/Liepāja wording; removed as 'rv, eston kiertoa' (block evasion). Naming/style, an edit war over wording is not a disputed claim."
+  },
+  "x26": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: section 'Jääkäriliikkeen laillisuus Suomen perustuslakien mukaan' says the 1734 law 'voidaan tulkita siten, että suomalaiset, jotka auttoivat jääkäreitä ... olivat myös syyllisiä' (can be read as those who helped Jägers also being guilty). Removed as 'lähde vertautuu primäärilähteeseen. Tulkintoja voidaan esittää vain sekundäärilähteiden perusteella' (primary source; interpretations only from secondary sources); removed and restored several times in 3 days. One article, under 7 days: not campaign."
+  }
+ },
+ "rev_id_concerns": {
+  "x04": "insertion rev is a text-search guess (294 bytes, one sentence); the removed passage is a larger section probably built by other edits",
+  "x13": "insertion rev 628693 is a text-search guess; the removal edit looks like reference-format cleanup",
+  "x20": "rev 22574354 is a link-rescue bot edit, not part of the prose insertion"
+ }
+}

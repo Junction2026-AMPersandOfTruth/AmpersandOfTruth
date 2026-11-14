@@ -53,7 +53,12 @@ def sql(query: str, timeout: int = 110) -> list[dict]:
            "-h", host, "-P", port,
            "-u", os.environ.get("CORPUS_USER", "corpus_ro"), os.environ.get("CORPUS_DB", "corpus")]
     t0 = time.monotonic()
-    p = subprocess.run(cmd, input=query, capture_output=True, text=True, env=env, timeout=timeout)
+    for attempt in range(4):  # the tunnel/VPS drops connections under load (ERROR 2002/2003/2013/2026): retry those only
+        p = subprocess.run(cmd, input=query, capture_output=True, text=True, env=env, timeout=timeout)
+        if p.returncode == 0 or not re.search(r"ERROR 20(02|03|13|26)|Lost connection|TLS/SSL", p.stderr):
+            break
+        log(f"  mariadb connection error, retry {attempt + 1}: {p.stderr.strip()[:120]}")
+        time.sleep(1 + 2 * attempt)
     STATS["sql_queries"] += 1
     STATS["sql_seconds"] += time.monotonic() - t0
     if p.returncode != 0:

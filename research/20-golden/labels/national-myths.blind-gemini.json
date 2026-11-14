@@ -1,0 +1,200 @@
+{
+ "topic_id": "national-myths",
+ "labeller": "gemini:blind/gemini-4-carbon",
+ "labels": {
+  "x01": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Added a disputed historical-mythological claim connecting Kalevalaic culture to the Anglo-Saxon poem Widsith (\"Widsith-runon säkeessä 20 mainittu Caelic, nimi on perinteisesti yhdistetty Kalevalaan\" — \"Caelic mentioned in line 20 of the Widsith poem, the name has traditionally been connected to Kalevala\"), with an edit summary noting \"PALAUTETTU\" (\"RESTORED\"), and another editor removed it citing \"Widsithin spekulatiivinen yhteys Kalevaan mainintaan jo\" (\"Widsith's speculative connection to Kaleva is already mentioned\")."
+  },
+  "x02": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: Inserted joke vandalism claiming the 12th-century figure Lalli served as a modern army conscript (\"sanoivat että Lalli on ollut myös armeijan varusmiehenä\" — \"said that Lalli had also been an army conscript\")."
+  },
+  "x03": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Added a promotional external link (\"Klaus K Hotel - Hotelli, jolla on Tarina ja Tyyli\" — \"Klaus K Hotel - A Hotel with a Story and Style\") under the \"Katso myös\" (\"See also\") section, later removed by another editor without a dispute signal."
+  },
+  "x04": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Excluded as not-substantive: Added only a copyright maintenance template (\"{{Tekijänoikeus_201009|diff=600}}\" — \"Copyright_201009\" template, also added by a bot account) with no prose, later removed with summary \"ei copyvioa\" (\"no copyvio\")."
+  },
+  "x05": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "vandalism",
+   "why": "Excluded as blanking: Removed 23,012 bytes of article content from Kalevala, blanking the page or major sections before being undone 11 seconds later."
+  },
+  "x06": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Back-and-forth dispute over the claim \"Kalevalakaan tuskin olisi syntynyt ilman edeltäneiden eepposten mallia\" (\"The Kalevala too would hardly have been born without the model of preceding epics\") and \"Eeppisen runouden perinne löytyy lähes kaikkialta maailmasta\" (\"The tradition of epic poetry is found almost everywhere in the world\"). Removed twice with summaries arguing \"Ei Kalevala eeppoksen takana oleva suomalainen kulttuuri lukenut muiden maiden eepoksia\" (\"The Finnish culture behind the Kalevala epic did not read epics of other countries\") and put back by a second editor on the same day; only one Level 3 signal (two inserting editors) is met, so it remains Level 2."
+  },
+  "x07": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: Replaced section headings with slang (\"Lönruudin pärinät\" — \"Lönruut's buzzes\", \"pärinä vuodet\" — \"buzz years\"), broke an image link, and replaced prose with a string of emojis."
+  },
+  "x08": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Restored the standard encyclopedic lead paragraph, disambiguation hatnote, and stamp image of Lalli after an earlier removal, and another edit took it out again with summary \"Kirjotus\" (\"Writing\") before that removal was itself undone; routine restoration of baseline article prose is not a disputed claim."
+  },
+  "x09": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 1: Added coherent but unsupported botanical, historical, and esoteric claims to the Marjatta canto summary (such as \"Puolukkakukkaiskasvien heimo on latinaksi VAGIN\" — \"The family of lingonberry-flowered plants in Latin is VAGIN\" and \"Väinämöinen kuvaa Venäjää ja tapahtumia toisen maailmansodan aikana 1943\" — \"Väinämöinen depicts Russia and events during the Second World War in 1943\"), removed by another editor with no community dispute signal beyond a terse summary."
+  },
+  "x10": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: Replaced the entire Lalli article text with adult entertainment and pornography spam listings (\"Seksi pelit - osasto on uudistettu!\" — \"Sex games - section has been renewed!\")."
+  },
+  "x11": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Excluded as graffiti: Inserted long runs of spaces inside words and wiki markup (e.g., \"ma              aliskuuta\" for \"maaliskuuta\" / \"March\" and \"[[Kalevala]         ]n\"), corrupting words and links."
+  },
+  "x12": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Added neutral, plausible trivia about Lönnrot's home municipality coat of arms (\"Hänen kotikuntansa Sammatin vaakunan keskellä oli vaahteranlehti (ruotsiksi 'lönn' tarkoittaa vaahteraa)\" — \"In the center of the coat of arms of his home municipality Sammatti was a maple leaf (in Swedish 'lönn' means maple)\"), later swept up during cleanup of unrelated edits with summary noting \"lähteetön ja kenties tarpeeton lisäys\" (\"unsourced and perhaps unnecessary addition\")."
+  },
+  "x13": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Replaced a damaged two-word lead (\"Kalevala on Suomeneepos\" — \"Kalevala is Finlandepic\") with standard lead prose about Kalevala being the national epic of Finland and the Republic of Karelia (containing a minor quote-mark typo in \"\\\"Kalevala'''\"), which another editor briefly undid before that removal was itself undone."
+  },
+  "x14": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "test_or_nonsense",
+   "why": "Excluded as self-removal: The same anonymous editor added a random string of characters and removed it 56 seconds later."
+  },
+  "x15": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Excluded as not-substantive: Added only a maintenance template (\"{{Korjattava/nimi|Lalli|Sanan ensisijainen merkitys}}\" — \"Fix/name|Lalli|Primary meaning of the word\") with no article prose."
+  },
+  "x16": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Routine editorial rewrite and condensation of the \"Runojen synty\" (\"Origin of the poems\") section nearly eight years later, with summary \"vähän lisää lähteestä; tiivistetään ja karsitaan lähteettömyyksiä ja nimilistoja\" (\"a bit more from the source; condensing and pruning unsourced statements and lists of names\"), preserving the balanced conclusion while trimming scholar lists and unsourced sentences."
+  },
+  "x17": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Added bibliography entries for Lönnrot's works along with Project Gutenberg e-book links (\"e-kirja\" — \"e-book\") and updated a citation year, which were removed as collateral damage when another editor undid five consecutive edits after subsequent vandalism."
+  },
+  "x18": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: Inserted the word \"HOMO\" repeated dozens of times in the \"Aiheesta muualla\" (\"External links\") section."
+  },
+  "x19": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "vandalism",
+   "why": "Excluded as self-removal: An anonymous editor added a short joke section naming a private individual and removed their own addition 26 seconds later."
+  },
+  "x20": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Excluded as graffiti: Inserted a classroom message addressed to ninth-grade pupils (\"teillä EI OLE OIKEUTTA katsoa äidinkielen esseekysymysten vastauksia täältä!\" — \"you DO NOT HAVE THE RIGHT to look at the answers to the mother-tongue essay questions from here!\")."
+  },
+  "x21": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Excluded as graffiti: Introduced a typo into the \"Kirjallisuutta\" (\"Literature\") heading and added \"kk\", removed 40 seconds later as \"sotkua\" (\"mess\")."
+  },
+  "x22": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: Appended juvenile vandalism (\"Elieltykkää pojista\" — \"Eliel likes boys\") to the biography text."
+  },
+  "x23": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Excluded as graffiti: Appended conversational filler and exclamation marks (\"että semmosta sitten!!!...\" — \"so that's how it is then!!!...\") to a biography paragraph."
+  },
+  "x24": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: Changed the Kalevala infobox genre to \"Dubstep\" and \"Trap\" with a \"2017 (monstercat release)\" date and pasted repeated placeholder \"<gallery>\" markup (\"Esimerkki.jpg|Kuvateksti1\" — \"Example.jpg|Caption1\")."
+  },
+  "x25": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Pasted promotional tourism copy and contact details for the namesake paddle steamer \"Siipirataslaiva Elias Lönnrot\" (\"Paddlewheel steamer Elias Lönnrot\") into the biography's family section, removed six minutes later by another editor."
+  },
+  "x26": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: Replaced Lönnrot's surname and description with profanity (\"paskallisen kirjakielen toisena jumalana mmm\" — \"as the second god of shitty written language mmm\")."
+  },
+  "x27": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Excluded as not-substantive: Added only seven category links (\"[[Luokka:...]]\" — \"[[Category:...]]\"), removed because they belonged on the eponymous category page."
+  },
+  "x28": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: Inserted juvenile vandalism into the biography (\"Elias Lönnrot oli miespuolinen hoitaja suomen homosairaalassa\" — \"Elias Lönnrot was a male nurse in Finland's gay hospital\")."
+  }
+ },
+ "rev_id_concerns": {
+  "x16": "rev 7992248 is an anti-vandalism restoration of pre-existing section prose (already present in 2008) after the section had been replaced with ERROR, not the original insertion of the removed passages."
+ },
+ "usage": {
+  "total_tokens": 70194,
+  "total_input_tokens": 43535,
+  "input_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 43535
+   }
+  ],
+  "total_cached_tokens": 0,
+  "total_output_tokens": 2851,
+  "output_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 2851
+   }
+  ],
+  "total_tool_use_tokens": 0,
+  "total_thought_tokens": 23808,
+  "initial_input_tokens": 43535,
+  "cost_usd_est": 0.3537,
+  "seconds": 273.5
+ }
+}
