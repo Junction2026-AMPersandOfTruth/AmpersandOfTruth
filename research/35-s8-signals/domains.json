@@ -1,0 +1,167 @@
+[
+  {
+    "domain": "rt.com",
+    "category": "state_media",
+    "source": "Russian state-funded international broadcaster (formerly Russia Today); EU Council Regulation 2022/350 and en.wikipedia WP:RSP (deprecated)."
+  },
+  {
+    "domain": "sputniknews.com",
+    "category": "state_media",
+    "source": "Russian state-owned news agency under Rossiya Segodnya; EU Council Regulation 2022/350 and en.wikipedia WP:RSP (deprecated)."
+  },
+  {
+    "domain": "ria.ru",
+    "category": "state_media",
+    "source": "RIA Novosti, Russian state-owned domestic news agency operated by Rossiya Segodnya; EU Council sanctions (2024) and en.wikipedia WP:RSP."
+  },
+  {
+    "domain": "tass.com",
+    "category": "state_media",
+    "source": "TASS, Russian state-owned news agency; en.wikipedia WP:RSP (state-controlled source requiring caution on political/military claims)."
+  },
+  {
+    "domain": "tass.ru",
+    "category": "state_media",
+    "source": "Russian-language portal of TASS, state-owned news agency of the Russian Federation; en.wikipedia WP:RSP."
+  },
+  {
+    "domain": "rg.ru",
+    "category": "state_media",
+    "source": "Rossiyskaya Gazeta, official newspaper published by the Government of the Russian Federation; EU Council sanctions (2024)."
+  },
+  {
+    "domain": "1tv.ru",
+    "category": "state_media",
+    "source": "Channel One Russia, state-controlled Russian television broadcaster; EU Council Regulation 2022/2474."
+  },
+  {
+    "domain": "mvlehti.net",
+    "category": "known_disinfo",
+    "source": "MV-lehti, Finnish counter-media site documented in Yle investigations and academic studies on Finnish disinformation (Yle 2016; JSN)."
+  },
+  {
+    "domain": "umv-lehti.fi",
+    "category": "known_disinfo",
+    "source": "UMV-Lehti, successor publication to MV-lehti documented by EUvsDisinfo and Finnish media researchers."
+  },
+  {
+    "domain": "verkkomedia.org",
+    "category": "known_disinfo",
+    "source": "Verkkomedia, Finnish alternative site documented in Finnish journalism and disinformation studies (Yle 2014)."
+  },
+  {
+    "domain": "globalresearch.ca",
+    "category": "known_disinfo",
+    "source": "Centre for Research on Globalization; documented by EUvsDisinfo, US State Dept GEC report (2020), and en.wikipedia WP:RSP (deprecated)."
+  },
+  {
+    "domain": "southfront.org",
+    "category": "known_disinfo",
+    "source": "SouthFront; documented by EUvsDisinfo, US Treasury sanctions (2021), and en.wikipedia WP:RSP (deprecated)."
+  },
+  {
+    "domain": "infowars.com",
+    "category": "known_disinfo",
+    "source": "InfoWars; documented conspiracy/disinformation outlet per en.wikipedia WP:RSP (deprecated)."
+  },
+  {
+    "domain": "blogspot.com",
+    "category": "blog_forum",
+    "source": "Blogger open self-publishing blog platform; fi.wikipedia Wikipedia:Tarkistettavuus and en.wikipedia WP:SPS."
+  },
+  {
+    "domain": "wordpress.com",
+    "category": "blog_forum",
+    "source": "WordPress.com open self-publishing blog hosting; fi.wikipedia Wikipedia:Tarkistettavuus and en.wikipedia WP:SPS."
+  },
+  {
+    "domain": "livejournal.com",
+    "category": "blog_forum",
+    "source": "LiveJournal user-generated blog and journal platform; en.wikipedia WP:RSP (self-published user content)."
+  },
+  {
+    "domain": "substack.com",
+    "category": "blog_forum",
+    "source": "Substack self-published newsletter/blog platform; en.wikipedia WP:RSP (generally unreliable self-published platform)."
+  },
+  {
+    "domain": "reddit.com",
+    "category": "blog_forum",
+    "source": "Reddit anonymous user discussion forum; fi.wikipedia Wikipedia:Tarkistettavuus and en.wikipedia WP:RSP."
+  },
+  {
+    "domain": "ylilauta.org",
+    "category": "blog_forum",
+    "source": "Ylilauta anonymous Finnish imageboard/forum; fi.wikipedia Wikipedia:Tarkistettavuus (anonymous forum posts are not reliable sources)."
+  },
+  {
+    "domain": "suomi24.fi",
+    "category": "blog_forum",
+    "source": "Suomi24 public Finnish discussion forum; fi.wikipedia Wikipedia:Tarkistettavuus."
+  },
+  {
+    "domain": "hommaforum.org",
+    "category": "blog_forum",
+    "source": "Hommaforum Finnish political discussion forum; fi.wikipedia Wikipedia:Tarkistettavuus (user forum)."
+  },
+  {
+    "domain": "youtube.com",
+    "category": "self_published",
+    "source": "YouTube user-uploaded video platform; en.wikipedia WP:RSP and fi.wikipedia Wikipedia:Tarkistettavuus (self-published unless verified official channel)."
+  },
+  {
+    "domain": "youtu.be",
+    "category": "self_published",
+    "source": "Shortener domain for YouTube user-uploaded video platform; en.wikipedia WP:RSP."
+  },
+  {
+    "domain": "facebook.com",
+    "category": "self_published",
+    "source": "Facebook social media platform; en.wikipedia WP:RSP and fi.wikipedia Wikipedia:Tarkistettavuus (user-generated/self-published)."
+  },
+  {
+    "domain": "vk.com",
+    "category": "self_published",
+    "source": "VKontakte social networking platform; en.wikipedia WP:SPS (user-generated social media)."
+  },
+  {
+    "domain": "t.me",
+    "category": "self_published",
+    "source": "Telegram public channel links; en.wikipedia WP:SPS (unverified/self-published channel posts)."
+  },
+  {
+    "domain": "x.com",
+    "category": "self_published",
+    "source": "X (formerly Twitter) social media posts; en.wikipedia WP:RSP (self-published primary posts)."
+  },
+  {
+    "domain": "twitter.com",
+    "category": "self_published",
+    "source": "Twitter social media posts; en.wikipedia WP:RSP (self-published primary posts)."
+  },
+  {
+    "domain": "tripod.com",
+    "category": "self_published",
+    "source": "Tripod free personal web hosting service; fi.wikipedia Wikipedia:Tarkistettavuus and en.wikipedia WP:SPS (personal homepages)."
+  },
+  {
+    "domain": "geocities.com",
+    "category": "self_published",
+    "source": "GeoCities free personal web hosting service; en.wikipedia WP:SPS (self-published personal homepages)."
+  },
+  {
+    "domain": "personal.inet.fi",
+    "category": "self_published",
+    "source": "Sonera/Telia consumer ISP personal homepage hosting (personal.inet.fi/koti/*); fi.wikipedia Wikipedia:Tarkistettavuus (self-published personal pages)."
+  },
+  {
+    "domain": "koti.mbnet.fi",
+    "category": "self_published",
+    "source": "MikroBitti MBnet subscriber personal homepage hosting; fi.wikipedia Wikipedia:Tarkistettavuus (self-published personal pages)."
+  },
+  {
+    "domain": "hikipedia.info",
+    "category": "self_published",
+    "source": "Hikipedia (Finnish Uncyclopedia), open user-edited parody wiki; fi.wikipedia Wikipedia:Tarkistettavuus (open/parody wikis are not reliable sources)."
+  }
+]
