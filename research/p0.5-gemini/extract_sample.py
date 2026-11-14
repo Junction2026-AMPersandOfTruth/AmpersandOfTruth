@@ -5,9 +5,10 @@ Data: dataset M (GitHub release m-2026-10 of MariaDB/mariadb-wikipedia-datasets)
 versions-01..16.parquet, one row per revision, sorted by (timestamp, rev_id) per article.
 
 Revert detection (identity revert): revision R_k whose sha1 equals the sha1 of an earlier
-revision R_j of the same page with j < k-1 (most recent earlier occurrence). For the
-sample we use single-edit reverts (j = k-2): reverted edit E = R_{k-1}, parent P = R_j,
-reverting revision R_k.
+revision R_j of the same page with j < k-1 (most recent earlier occurrence). Null edits
+(FlaggedRevs/VakauttajaBot dummy revisions with sha1 equal to the previous revision) are
+dropped before numbering positions. For the sample we use single-edit reverts (j = k-2):
+reverted edit E = R_{k-1}, parent P = R_j, reverting revision R_k.
 
 Usage:
   python -I extract_sample.py --data /tmp/jx/data --out sample20.jsonl
@@ -69,10 +70,15 @@ MIN_INSERTED_PROSE = 15
 # ---------------------------------------------------------------- revert detection
 
 REVERT_SQL = """
-WITH m AS (
+WITH v AS (
+    SELECT page_id, title, rev_id, timestamp, "user", anonymous, comment, sha1, bytes,
+           lag(sha1) OVER (PARTITION BY page_id ORDER BY timestamp, rev_id) AS prev_sha1
+    FROM read_parquet($files)
+), m AS (
     SELECT page_id, title, rev_id, timestamp, "user", anonymous, comment, sha1, bytes,
            row_number() OVER (PARTITION BY page_id ORDER BY timestamp, rev_id) AS pos
-    FROM read_parquet($files)
+    FROM v
+    WHERE sha1 IS NULL OR prev_sha1 IS NULL OR sha1 <> prev_sha1
 ), s AS (
     SELECT page_id, pos, sha1,
            lag(pos) OVER (PARTITION BY page_id, sha1 ORDER BY pos) AS prev_same
@@ -92,19 +98,24 @@ WHERE s.prev_same = s.pos - 2
 """
 
 STATS_SQL = """
-WITH m AS (
+WITH v AS (
+    SELECT page_id, rev_id, timestamp, anonymous, sha1,
+           lag(sha1) OVER (PARTITION BY page_id ORDER BY timestamp, rev_id) AS prev_sha1
+    FROM read_parquet($files)
+), m AS (
     SELECT page_id, anonymous, sha1,
            row_number() OVER (PARTITION BY page_id ORDER BY timestamp, rev_id) AS pos
-    FROM read_parquet($files)
+    FROM v
+    WHERE sha1 IS NULL OR prev_sha1 IS NULL OR sha1 <> prev_sha1
 ), s AS (
     SELECT *, lag(pos) OVER (PARTITION BY page_id, sha1 ORDER BY pos) AS prev_same
     FROM m WHERE sha1 IS NOT NULL
 )
-SELECT (SELECT count(*) FROM m) AS total,
-       (SELECT count(*) FILTER (WHERE anonymous) FROM m) AS total_anon,
+SELECT (SELECT count(*) FROM v) AS total,
+       (SELECT count(*) FILTER (WHERE anonymous) FROM v) AS total_anon,
        count(*) FILTER (WHERE prev_same < pos - 1) AS identity_reverts,
        count(*) FILTER (WHERE prev_same = pos - 2) AS single_edit_reverts,
-       count(*) FILTER (WHERE prev_same = pos - 1) AS null_edits
+       (SELECT count(*) FILTER (WHERE sha1 = prev_sha1) FROM v) AS null_edits
 FROM s
 """
 
@@ -486,7 +497,7 @@ def main() -> None:
                         f"({st['total_anon'] / st['total']:.1%})\n")
                 f.write(f"identity reverts (sha1 == sha1 of R_j, j < k-1): {st['identity']}\n")
                 f.write(f"single-edit identity reverts (j = k-2): {st['single']}\n")
-                f.write(f"null edits (sha1 == previous revision, not counted as reverts): {st['null_edits']}\n")
+                f.write(f"null edits (sha1 == previous revision; dropped before revert detection): {st['null_edits']}\n")
                 ek = {k[7:]: v for k, v in reasons.items() if k.startswith("editor:")}
                 n_single = sum(ek.values())
                 f.write(f"single-edit reverted edits by editor kind: {ek} (anonymous+temporary share "
