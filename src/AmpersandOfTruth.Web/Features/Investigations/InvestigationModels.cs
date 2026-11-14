@@ -1,9 +1,11 @@
 namespace AmpersandOfTruth.Web.Features.Investigations;
 
+using AmpersandOfTruth.Web.Features.Evidence;
+
 /// <summary>An article close to the topic in bge-m3 space. <see cref="Distance"/> = cosine distance (0 = identical).</summary>
 public sealed record TopicArticle(string Lang, long PageId, string Title, double Distance)
 {
-    public string Url => WikiLinks.Article(Lang, PageId);
+    public string Url => $"https://{Lang}.wikipedia.org/?curid={PageId}";
 
     /// <summary>Only fi articles have revision history in the corpus (dataset M).</summary>
     public bool HasHistory => Lang == "fi";
@@ -25,9 +27,8 @@ public sealed record RevertEvent(
     long RevertedRevId,
     string? RevertedUser)
 {
-    public string RevisionUrl => WikiLinks.Revision("fi", RevId);
-    public string DiffUrl => WikiLinks.Diff("fi", RevertedRevId, RevId);
-    public string RevertedRevisionUrl => WikiLinks.Revision("fi", RevertedRevId);
+    public Uri DiffUrl => WikipediaLinks.Diff(RevId);                  // the revert itself: diff=prev&oldid=RevId
+    public Uri RevertedDiffUrl => WikipediaLinks.Diff(RevertedRevId);  // the last undone edit: diff=prev&oldid=RevertedRevId
 }
 
 public sealed record ArticleReverts(TopicArticle Article, IReadOnlyList<RevertEvent> Reverts);
@@ -39,15 +40,4 @@ public sealed record InvestigationResult(
 {
     public static InvestigationResult Unavailable(InvestigationStatus status, string topic, string error) =>
         new(status, topic, [], error);
-}
-
-public static class WikiLinks
-{
-    public static string Article(string lang, long pageId) => $"https://{lang}.wikipedia.org/?curid={pageId}";
-
-    public static string Revision(string lang, long revId) => $"https://{lang}.wikipedia.org/w/index.php?oldid={revId}";
-
-    /// <summary>What the revert removed: diff from <paramref name="fromRevId"/> to <paramref name="toRevId"/>.</summary>
-    public static string Diff(string lang, long fromRevId, long toRevId) =>
-        $"https://{lang}.wikipedia.org/w/index.php?diff={toRevId}&oldid={fromRevId}";
 }

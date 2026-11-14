@@ -1,5 +1,6 @@
 @page "/investigate"
 @implements IDisposable
+@using AmpersandOfTruth.Web.Features.Evidence
 @inject InvestigationService Investigations
 
 <PageTitle>Investigate</PageTitle>
@@ -83,16 +84,18 @@ else
                         @foreach (var r in item.Reverts)
                         {
                             <tr data-testid="revert-row" @key="r.RevId">
-                                <td class="text-nowrap">
-                                    <a href="@r.RevisionUrl" target="_blank" rel="noopener">@r.Timestamp.ToString("yyyy-MM-dd HH:mm")</a>
+                                <td class="text-nowrap" data-testid="revert-when">
+                                    <a href="@r.DiffUrl.AbsoluteUri" target="_blank" rel="noopener">@r.Timestamp.ToString("yyyy-MM-dd HH:mm")</a>
                                 </td>
-                                <td>@r.User</td>
-                                <td class="small">@r.Comment</td>
-                                <td class="text-nowrap">
-                                    <a href="@r.DiffUrl" target="_blank" rel="noopener">@r.RevertedCount edit@(r.RevertedCount == 1 ? "" : "s")</a>
+                                <td data-testid="revert-user">
+                                    @EditorCell(r.User)
                                 </td>
-                                <td>
-                                    <a href="@r.RevertedRevisionUrl" target="_blank" rel="noopener">@(r.RevertedUser ?? "(hidden)")</a>
+                                <td class="small" data-testid="revert-comment">@EditorDisplay.MaskComment(r.Comment)</td>
+                                <td class="text-nowrap" data-testid="revert-undid">
+                                    <a href="@r.RevertedDiffUrl.AbsoluteUri" target="_blank" rel="noopener">@r.RevertedCount edit@(r.RevertedCount == 1 ? "" : "s")</a>
+                                </td>
+                                <td data-testid="revert-reverted-user">
+                                    @EditorCell(r.RevertedUser)
                                 </td>
                             </tr>
                         }
@@ -136,6 +139,27 @@ else
     {
         _cts?.Cancel();
         _cts?.Dispose();
+    }
+
+    private static RenderFragment EditorCell(string? user)
+    {
+        var l = EditorDisplay.For(user);
+        return builder =>
+        {
+            if (l.ProfileUrl is not null)
+            {
+                builder.OpenElement(0, "a");
+                builder.AddAttribute(1, "href", l.ProfileUrl.AbsoluteUri);
+                builder.AddAttribute(2, "target", "_blank");
+                builder.AddAttribute(3, "rel", "noopener");
+                builder.AddContent(4, l.PlainText);
+                builder.CloseElement();
+            }
+            else
+            {
+                builder.AddContent(5, l.PlainText);
+            }
+        };
     }
 
     private sealed class TopicInput
