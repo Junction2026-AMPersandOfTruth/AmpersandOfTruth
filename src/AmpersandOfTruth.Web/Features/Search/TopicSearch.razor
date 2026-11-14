@@ -17,12 +17,12 @@
             <InputText Value="@_model.Topic"
                        ValueChanged="OnTopicChanged"
                        ValueExpression="() => _model.Topic"
-                       disabled="@Disabled"
+                       disabled="@(!CanType)"
                        placeholder="What topic do you want to investigate?"
                        aria-label="Topic"
                        data-testid="topic-input"
                        style="font-size:14px;line-height:22px" />
-            <button type="submit" class="aot-btn aot-btn--primary aot-btn--sm" data-testid="topic-submit" disabled="@Disabled">Investigate</button>
+            <button type="submit" class="aot-btn aot-btn--primary aot-btn--sm" data-testid="topic-submit" disabled="@(!CanType)">Investigate</button>
         </div>
         <ValidationMessage For="() => _model.Topic" />
     </EditForm>
@@ -37,11 +37,11 @@ else
                 <InputText Value="@_model.Topic"
                            ValueChanged="OnTopicChanged"
                            ValueExpression="() => _model.Topic"
-                           disabled="@Disabled"
+                           disabled="@(!CanType)"
                            placeholder="What topic do you want to investigate?"
                            aria-label="Topic"
                            data-testid="topic-input" />
-                <button type="submit" class="aot-btn aot-btn--primary" data-testid="topic-submit" disabled="@Disabled">Investigate</button>
+                <button type="submit" class="aot-btn aot-btn--primary" data-testid="topic-submit" disabled="@(!CanType)">Investigate</button>
             </div>
             <ValidationMessage For="() => _model.Topic" />
         </EditForm>
@@ -153,9 +153,27 @@ else
 
     private void SetMinTier(EvidenceTier tier) => _minTier = tier;
 
+    /// <summary>
+    /// The box is disabled until the circuit is interactive: Blazor rebuilds the prerendered DOM when the circuit starts, which
+    /// silently threw away anything typed in that first moment (and a button click then submitted an empty form).
+    /// </summary>
+    private bool CanType => !Disabled && _interactive;
+
+    private bool _interactive;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        // Runs only once the circuit is interactive (never during prerender).
+        if (firstRender && !_interactive)
+        {
+            _interactive = true;
+            StateHasChanged();
+        }
+    }
+
     private async Task HandleSubmit()
     {
-        if (Disabled)
+        if (!CanType)
         {
             return;
         }
