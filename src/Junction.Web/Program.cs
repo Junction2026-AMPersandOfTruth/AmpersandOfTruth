@@ -1,5 +1,6 @@
 using Junction.Web.Components;
 using Junction.Web.Data;
+using Junction.Web.Features.Analysis;
 using Junction.Web.Features.Corpus;
 using Junction.Web.Features.Notes;
 
@@ -15,6 +16,7 @@ builder.Services.AddAppData();
 // ── Features ── one line per feature; keep registrations inside each feature folder.
 builder.Services.AddNotesFeature();
 builder.Services.AddCorpusFeature();
+builder.Services.AddAnalysisFeature();
 
 var app = builder.Build();
 
