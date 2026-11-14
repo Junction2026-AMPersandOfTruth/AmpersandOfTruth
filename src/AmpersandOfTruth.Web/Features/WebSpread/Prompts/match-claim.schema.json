@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "properties": {
+    "stance": {
+      "type": "string",
+      "enum": ["asserts", "repeats_with_attribution", "refutes", "mentions_neutrally", "unrelated"]
+    },
+    "match_type": {
+      "type": "string",
+      "enum": ["verbatim_copy", "close_paraphrase", "same_claim_different_wording", "no_match"]
+    },
+    "quote": {
+      "type": "string",
+      "description": "Shortest verbatim span from the page passage carrying or refuting the claim; empty if unrelated."
+    },
+    "cites_wikipedia": { "type": "boolean" },
+    "source_type": {
+      "type": "string",
+      "enum": ["news", "state_media", "blog", "forum_social", "academic", "government", "wikipedia_mirror", "content_farm", "other"]
+    },
+    "reasoning": { "type": "string", "minLength": 1 }
+  },
+  "required": ["stance", "match_type", "quote", "cites_wikipedia", "source_type", "reasoning"],
+  "additionalProperties": false
+}

@@ -26,6 +26,10 @@ Query embeddings: **Ollama `bge-m3`** (local, else the VPS through the tunnel) b
 | Run the app's investigation pipeline from the shell (same services, config, caches as the app) | `scripts/investigate.sh run "Talvisota" [--refresh] [--events]` · `variant < request.json` (eval contract §2) · `clear-runs` |
 | Warm caches before a demo + measure the #40 latency budget (Markdown table) | `scripts/warm.sh [topics-file] [--cold]` (default `scripts/demo-topics.txt`) |
 | Live Gemini tests (opt-in, real API calls) | `GEMINI_TESTS=1 dotnet test --filter Category=Gemini` |
+| P3 Oxylabs spike (#54): probe search/date range/news/fetch, write a capability report | `scripts/oxylabs-spike.sh [--query '"…"'] [--from 2014-01-01 --to 2014-12-31]` (findings: `research/54-oxylabs-spike/FINDINGS.md`) |
+| P3 web-spread trace from the shell (same tracer, caches, caps, result store as the app) | `scripts/webspread.sh claim < research/54-oxylabs-spike/example-claim.json` · `topic "Talvisota" [--rank N] [--events]` |
+| Pre-trace the demo incidents on the web (stored for the incident page / safe mode; after `scripts/warm.sh`) | `scripts/webspread.sh warm [topics-file] [--top N] [--refresh]` (default `scripts/demo-topics.txt`, top 3) |
+| Live Oxylabs tests (opt-in, uses quota) | `OXYLABS_TESTS=1 dotnet test --filter Category=Oxylabs --logger "console;verbosity=detailed"` |
 | Deploy the web app to the VPS (needs root ssh) → https://asot.tech | `scripts/app-deploy.sh` (publishes the current checkout) · `--logs` · compose in `deploy/app/`, secrets only in `/opt/junction/app/.env` on the VPS |
 | Review walk: demo flow in system Chrome at 1280×720 + 390 px, screenshots + report.md | `scripts/walk.sh [--url http://localhost:PORT] [--out DIR]` (boots the app if no `--url`) |
 | Check a golden set / variant / judgement file against the eval contract (stdlib Python, no corpus) | `python3 research/eval/validate.py golden` · `variant retrieval\|signals -- <cmd>` · tests: `python3 -m unittest discover -s research/eval/tests` |
@@ -192,6 +196,40 @@ docs/known-limitations.md     # P1.P3 (#41): what the app cannot tell a user, wi
   `IEvidenceTranslator` (cached via the analysis cache) + `<MtLabel>`; per-browser EN/FI in `LanguagePreference` (`aot.lang`).
 - Routes: `/` (Search), `/investigate/{topic}` (overview), `/investigate/{topic}/incidents/{id}`, `/articles/{pageId}`, `/accounts/{name}`
   (named accounts only), `/methodology`. `/investigate` (no topic) is the pipeline debug page, linked from the footer. Topic ↔ slug: `TopicSlug`.
+
+## P3 web spread (`Features/WebSpread`, epic #5)
+
+- **Off unless configured.** No Oxylabs credentials and no stored result → the incident page has no web section and nothing
+  calls Oxylabs. Credentials (user-secrets / env only): **Web API** key → `Oxylabs:ApiKey` (Bearer, `webapi.oxylabs.io`, no
+  date-restricted search — what the hackathon key is), or **Web Scraper API** → `Oxylabs:Username` + `Oxylabs:Password`
+  (Basic, `realtime.oxylabs.io`, `google_search` with a `tbs` date range + `universal` fetch). `OxylabsOptions.EffectiveMode`
+  picks from what is set (username/password wins; `Oxylabs:Mode` forces).
+- Wire format (`Oxylabs/OxylabsWire.cs`): the Web API side is verified by the P3.1 spike (`research/54-oxylabs-spike/FINDINGS.md`:
+  `outline` is a **list** of strings whose first item carries Google's date; a 500 `REQUEST_FAILED_AFTER_TOO_MANY_RETRIES`
+  (~40 s, login-walled sites) is never retried). The Scraper API side (`tbs`, `organic[]`) is still unverified.
+- Layering: `OxylabsClient` (raw HTTP, retries, concurrency) ← `WebSpreadGateway` (= the registered `IWebSearchClient` /
+  `IPageFetcher`: skip list → SQLite `WebSpreadCache` → caps `Oxylabs:PerScopeRequestCap` (per incident, all time) /
+  `DailyRequestCap`, fail closed → provider; ledger `WebSpreadCalls`). Only `Ok` responses are cached.
+- `WebSpreadTracer.TraceAsync(WebSpreadClaim)` streams `Planned → Searched × N → Reading → SourceFound × N → Completed`
+  (never throws for provider/LLM problems; `WebSpreadResult.Status` + `Notes` say what degraded, in UI wording; the LLM
+  being down sets `AssessmentDegraded`). Stages: `ClaimSearchPlanner` (P3.2: `DistinctiveFragment` exact phrase +
+  `plan-claim-search` prompt × before/during/after windows), `ClaimMatcher` (P3.4: `LexicalMatcher` shingles +
+  `match-claim` prompt; LLM quotes verified against the page), `PageDateExtractor` + `WaybackArchive` (P3.5: every candidate
+  kept, conflicts reported), `SpreadClassifier` (P3.6: day-granular buckets, "likely from Wikipedia" only with wording
+  overlap / a Wikipedia credit / a mirror — never from timing alone). One trace ≈ 30 requests, ~60 s cold.
+- UI (P3.7 minimum): `WebSpreadPanel` at the bottom of the incident page — "Trace this claim on the web" (explicit action,
+  never automatic), staged progress + Cancel, the headline, sources by timing bucket in `aot-wikitable`s, refutations in a
+  `<details>`, "What was searched". `WebSpreadService` = stored result + live trace. `WebSpreadResults` (SQLite
+  `WebSpreadResults`, one row per incident id) keeps Completed/Partial results that searched and had the assessment
+  available; rows from another `WebSpreadTracer.Version` are ignored — **bump it when a trace's output changes**.
+  Page text is untrusted: rendered as text only, links `rel="noopener noreferrer nofollow"`, LLM input only via `{{data:…}}`.
+- **Demo:** `Demo:SafeMode` → stored results only (no button; no stored result = no section). Warm with
+  `scripts/webspread.sh warm` after `scripts/warm.sh` — it loads incidents through `IIncidentSource` with the page's slug, so
+  the incident ids match. Results live in the `app.db` of the machine that traced: for asot.tech, add `Oxylabs__ApiKey` to
+  `/opt/junction/app/.env` and trace there (the page's button with safe mode off, then safe mode on).
+- Not built yet: the spread timeline SVG, quote translation toggle, P3.4 approach B (bge-m3 chunks), archive snapshot check for
+  the claim itself, byline dates, circular-sourcing check, skipping login-walled sites, relative SERP dates ("1 week ago").
+  Tests: `tests/…/Features/WebSpread` (fakes in `WebSpreadTestKit.cs`, service stack in `WebSpreadServiceKit`).
 
 ## LLM analysis (Gemini, `Features/Analysis`, issue #16)
 

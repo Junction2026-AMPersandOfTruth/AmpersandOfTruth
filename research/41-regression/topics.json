@@ -1,0 +1,22 @@
+[
+  {
+    "topic": "Suomen sisällissota",
+    "kind": "demo"
+  },
+  {
+    "topic": "Jatkosota",
+    "kind": "demo"
+  },
+  {
+    "topic": "Talvisota",
+    "kind": "demo"
+  },
+  {
+    "topic": "French Revolution and the reign of terror",
+    "kind": "out-of-scope"
+  },
+  {
+    "topic": "Finland-Russia border crisis 2023: asylum seekers, closure of the eastern border crossings and the border fence",
+    "kind": "quiet"
+  }
+]
