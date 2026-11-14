@@ -7,6 +7,7 @@ using AmpersandOfTruth.Web.Features.Corpus;
 using AmpersandOfTruth.Web.Features.Embedding;
 using AmpersandOfTruth.Web.Features.Investigations;
 using AmpersandOfTruth.Web.Features.Library;
+using AmpersandOfTruth.Web.Features.Reports;
 using AmpersandOfTruth.Web.Features.Search;
 using AmpersandOfTruth.Web.Features.Translation;
 
@@ -29,6 +30,7 @@ builder.Services.AddTranslationFeature();
 builder.Services.AddArticlesFeature();
 builder.Services.AddAccountsFeature();
 builder.Services.AddLibraryFeature();
+builder.Services.AddReportsFeature();
 
 var app = builder.Build();
 
@@ -46,6 +48,7 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 app.MapHealthChecks("/health");
+app.MapReportEndpoints();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
