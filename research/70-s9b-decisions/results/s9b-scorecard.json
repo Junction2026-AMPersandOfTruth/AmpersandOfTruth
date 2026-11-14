@@ -1,0 +1,1263 @@
+{
+  "golden_version": "2026-11-14.1",
+  "dataset": "m-2026-10",
+  "split": "dev",
+  "dev_items": 238,
+  "decisions_price_per_m_input_usd": 0.1,
+  "decisions": [
+    {
+      "variant": "A",
+      "kind": "decisions",
+      "model": "gemini-decision-1",
+      "items_total": 238,
+      "outcomes": {
+        "ok": 237,
+        "blocked": 1
+      },
+      "blocked_count": 1,
+      "blocked_rate": 0.004201680672268907,
+      "category_accuracy": {
+        "labelled_items": 235,
+        "ok_labelled_items": 234,
+        "exact_hits": 138,
+        "accuracy_all": 0.5872340425531914,
+        "accuracy_ok": 0.5897435897435898,
+        "incidents_accuracy": 0.5902777777777778,
+        "contested_campaign_accuracy": 0.65625,
+        "non_incidents_accuracy": 0.5824175824175825,
+        "none_of_these_chosen": 0
+      },
+      "per_category": {
+        "vandalism": {
+          "support": 39,
+          "predicted": 40,
+          "tp": 31,
+          "precision": 0.775,
+          "recall": 0.7948717948717948
+        },
+        "test_or_nonsense": {
+          "support": 10,
+          "predicted": 26,
+          "tp": 10,
+          "precision": 0.38461538461538464,
+          "recall": 1.0
+        },
+        "good_faith_error": {
+          "support": 47,
+          "predicted": 61,
+          "tp": 32,
+          "precision": 0.5245901639344263,
+          "recall": 0.6808510638297872
+        },
+        "content_dispute": {
+          "support": 28,
+          "predicted": 26,
+          "tp": 11,
+          "precision": 0.4230769230769231,
+          "recall": 0.39285714285714285
+        },
+        "pov_push": {
+          "support": 40,
+          "predicted": 48,
+          "tp": 33,
+          "precision": 0.6875,
+          "recall": 0.825
+        },
+        "false_factual_claim": {
+          "support": 8,
+          "predicted": 6,
+          "tp": 3,
+          "precision": 0.5,
+          "recall": 0.375
+        },
+        "source_manipulation": {
+          "support": 1,
+          "predicted": 6,
+          "tp": 1,
+          "precision": 0.16666666666666666,
+          "recall": 1.0
+        },
+        "other": {
+          "support": 62,
+          "predicted": 21,
+          "tp": 17,
+          "precision": 0.8095238095238095,
+          "recall": 0.27419354838709675
+        }
+      },
+      "category_confusion": {
+        "vandalism": {
+          "vandalism": 31,
+          "test_or_nonsense": 5,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 1,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 1,
+          "none_of_these": 0,
+          "non_ok": 1
+        },
+        "test_or_nonsense": {
+          "vandalism": 0,
+          "test_or_nonsense": 10,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 0,
+          "none_of_these": 0,
+          "non_ok": 0
+        },
+        "good_faith_error": {
+          "vandalism": 1,
+          "test_or_nonsense": 5,
+          "good_faith_error": 32,
+          "content_dispute": 3,
+          "pov_push": 0,
+          "false_factual_claim": 3,
+          "source_manipulation": 1,
+          "other": 2,
+          "none_of_these": 0,
+          "non_ok": 0
+        },
+        "content_dispute": {
+          "vandalism": 0,
+          "test_or_nonsense": 1,
+          "good_faith_error": 5,
+          "content_dispute": 11,
+          "pov_push": 10,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 1,
+          "none_of_these": 0,
+          "non_ok": 0
+        },
+        "pov_push": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 1,
+          "content_dispute": 3,
+          "pov_push": 33,
+          "false_factual_claim": 0,
+          "source_manipulation": 3,
+          "other": 0,
+          "none_of_these": 0,
+          "non_ok": 0
+        },
+        "false_factual_claim": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 1,
+          "content_dispute": 1,
+          "pov_push": 2,
+          "false_factual_claim": 3,
+          "source_manipulation": 1,
+          "other": 0,
+          "none_of_these": 0,
+          "non_ok": 0
+        },
+        "source_manipulation": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 1,
+          "other": 0,
+          "none_of_these": 0,
+          "non_ok": 0
+        },
+        "other": {
+          "vandalism": 8,
+          "test_or_nonsense": 5,
+          "good_faith_error": 22,
+          "content_dispute": 8,
+          "pov_push": 2,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 17,
+          "none_of_these": 0,
+          "non_ok": 0
+        }
+      },
+      "graffiti_filter": {
+        "max_contested_campaign_nonsense": 0.41184213229999495,
+        "max_contested_campaign_id": "continuation-war/i06",
+        "threshold": 0.6415612939360528,
+        "graffiti_total": 29,
+        "graffiti_removed": 27,
+        "graffiti_removed_share": 0.9310344827586207,
+        "not_incident_total": 94,
+        "not_incident_removed": 47,
+        "not_incident_removed_share": 0.5,
+        "contested_campaign_total": 64,
+        "contested_campaign_removed": 0,
+        "contested_campaign_removed_ids": [],
+        "reverted_total": 80,
+        "reverted_removed": 2,
+        "reverted_removed_share": 0.025,
+        "total_removed": 49,
+        "total_removed_share": 0.20588235294117646,
+        "aggressive_min_safe": {
+          "threshold": 0.4242725837310239,
+          "graffiti_total": 29,
+          "graffiti_removed": 27,
+          "graffiti_removed_share": 0.9310344827586207,
+          "not_incident_total": 94,
+          "not_incident_removed": 50,
+          "not_incident_removed_share": 0.5319148936170213,
+          "contested_campaign_total": 64,
+          "contested_campaign_removed": 0,
+          "contested_campaign_removed_ids": [],
+          "reverted_total": 80,
+          "reverted_removed": 7,
+          "reverted_removed_share": 0.0875,
+          "total_removed": 57,
+          "total_removed_share": 0.23949579831932774
+        },
+        "fixed_thresholds": {
+          "0.30": {
+            "threshold": 0.3,
+            "graffiti_total": 29,
+            "graffiti_removed": 27,
+            "graffiti_removed_share": 0.9310344827586207,
+            "not_incident_total": 94,
+            "not_incident_removed": 53,
+            "not_incident_removed_share": 0.5638297872340425,
+            "contested_campaign_total": 64,
+            "contested_campaign_removed": 1,
+            "contested_campaign_removed_ids": [
+              "continuation-war/i06"
+            ],
+            "reverted_total": 80,
+            "reverted_removed": 10,
+            "reverted_removed_share": 0.125,
+            "total_removed": 64,
+            "total_removed_share": 0.2689075630252101
+          },
+          "0.50": {
+            "threshold": 0.5,
+            "graffiti_total": 29,
+            "graffiti_removed": 27,
+            "graffiti_removed_share": 0.9310344827586207,
+            "not_incident_total": 94,
+            "not_incident_removed": 47,
+            "not_incident_removed_share": 0.5,
+            "contested_campaign_total": 64,
+            "contested_campaign_removed": 0,
+            "contested_campaign_removed_ids": [],
+            "reverted_total": 80,
+            "reverted_removed": 6,
+            "reverted_removed_share": 0.075,
+            "total_removed": 53,
+            "total_removed_share": 0.22268907563025211
+          },
+          "0.70": {
+            "threshold": 0.7,
+            "graffiti_total": 29,
+            "graffiti_removed": 26,
+            "graffiti_removed_share": 0.896551724137931,
+            "not_incident_total": 94,
+            "not_incident_removed": 45,
+            "not_incident_removed_share": 0.4787234042553192,
+            "contested_campaign_total": 64,
+            "contested_campaign_removed": 0,
+            "contested_campaign_removed_ids": [],
+            "reverted_total": 80,
+            "reverted_removed": 2,
+            "reverted_removed_share": 0.025,
+            "total_removed": 47,
+            "total_removed_share": 0.19747899159663865
+          },
+          "0.80": {
+            "threshold": 0.8,
+            "graffiti_total": 29,
+            "graffiti_removed": 23,
+            "graffiti_removed_share": 0.7931034482758621,
+            "not_incident_total": 94,
+            "not_incident_removed": 41,
+            "not_incident_removed_share": 0.43617021276595747,
+            "contested_campaign_total": 64,
+            "contested_campaign_removed": 0,
+            "contested_campaign_removed_ids": [],
+            "reverted_total": 80,
+            "reverted_removed": 1,
+            "reverted_removed_share": 0.0125,
+            "total_removed": 42,
+            "total_removed_share": 0.17647058823529413
+          },
+          "0.90": {
+            "threshold": 0.9,
+            "graffiti_total": 29,
+            "graffiti_removed": 23,
+            "graffiti_removed_share": 0.7931034482758621,
+            "not_incident_total": 94,
+            "not_incident_removed": 36,
+            "not_incident_removed_share": 0.3829787234042553,
+            "contested_campaign_total": 64,
+            "contested_campaign_removed": 0,
+            "contested_campaign_removed_ids": [],
+            "reverted_total": 80,
+            "reverted_removed": 0,
+            "reverted_removed_share": 0.0,
+            "total_removed": 36,
+            "total_removed_share": 0.15126050420168066
+          }
+        },
+        "choice_graffiti_any_conf": {
+          "graffiti_removed": 27,
+          "graffiti_removed_share": 0.9310344827586207,
+          "not_incident_removed": 57,
+          "not_incident_removed_share": 0.6063829787234043,
+          "contested_campaign_removed": 1
+        }
+      },
+      "calibration": {
+        "is_incident": {
+          "target": "label != not-incident from P(level >= 1)",
+          "n": 237,
+          "positive_rate": 0.6075949367088608,
+          "auc": 0.9260752688172043,
+          "brier": 0.10077052902931607,
+          "ece": 0.02257627672862322,
+          "buckets": [
+            {
+              "bucket": 0,
+              "range": "[0.0, 0.2)",
+              "low": 0.0,
+              "high": 0.2,
+              "count": 58,
+              "mean_pred": 0.06887064060490986,
+              "empirical_rate": 0.034482758620689655,
+              "abs_gap": 0.0343878819842202
+            },
+            {
+              "bucket": 1,
+              "range": "[0.2, 0.4)",
+              "low": 0.2,
+              "high": 0.4,
+              "count": 20,
+              "mean_pred": 0.30410520028675475,
+              "empirical_rate": 0.3,
+              "abs_gap": 0.004105200286754762
+            },
+            {
+              "bucket": 2,
+              "range": "[0.4, 0.6)",
+              "low": 0.4,
+              "high": 0.6,
+              "count": 19,
+              "mean_pred": 0.5019837310155835,
+              "empirical_rate": 0.631578947368421,
+              "abs_gap": 0.12959521635283755
+            },
+            {
+              "bucket": 3,
+              "range": "[0.6, 0.8)",
+              "low": 0.6,
+              "high": 0.8,
+              "count": 32,
+              "mean_pred": 0.7095717715074273,
+              "empirical_rate": 0.71875,
+              "abs_gap": 0.00917822849257266
+            },
+            {
+              "bucket": 4,
+              "range": "[0.8, 1.0]",
+              "low": 0.8,
+              "high": 1.0,
+              "count": 108,
+              "mean_pred": 0.9303892222092816,
+              "empirical_rate": 0.9351851851851852,
+              "abs_gap": 0.004795962975903678
+            }
+          ]
+        },
+        "at_least_contested": {
+          "target": "label in {contested, campaign} from P(level >= 2)",
+          "n": 237,
+          "positive_rate": 0.270042194092827,
+          "auc": 0.9541184971098265,
+          "brier": 0.09630685431055139,
+          "ece": 0.1253382822986871,
+          "buckets": [
+            {
+              "bucket": 0,
+              "range": "[0.0, 0.2)",
+              "low": 0.0,
+              "high": 0.2,
+              "count": 92,
+              "mean_pred": 0.0643353268870912,
+              "empirical_rate": 0.0,
+              "abs_gap": 0.0643353268870912
+            },
+            {
+              "bucket": 1,
+              "range": "[0.2, 0.4)",
+              "low": 0.2,
+              "high": 0.4,
+              "count": 48,
+              "mean_pred": 0.2769754829824959,
+              "empirical_rate": 0.08333333333333333,
+              "abs_gap": 0.1936421496491626
+            },
+            {
+              "bucket": 2,
+              "range": "[0.4, 0.6)",
+              "low": 0.4,
+              "high": 0.6,
+              "count": 28,
+              "mean_pred": 0.4946396188124072,
+              "empirical_rate": 0.21428571428571427,
+              "abs_gap": 0.28035390452669295
+            },
+            {
+              "bucket": 3,
+              "range": "[0.6, 0.8)",
+              "low": 0.6,
+              "high": 0.8,
+              "count": 35,
+              "mean_pred": 0.6939839359319434,
+              "empirical_rate": 0.6,
+              "abs_gap": 0.09398393593194343
+            },
+            {
+              "bucket": 4,
+              "range": "[0.8, 1.0]",
+              "low": 0.8,
+              "high": 1.0,
+              "count": 34,
+              "mean_pred": 0.8719955128337876,
+              "empirical_rate": 0.9705882352941176,
+              "abs_gap": 0.09859272246033002
+            }
+          ]
+        }
+      },
+      "judge_agreement": {
+        "ok_items": 237,
+        "exact_hits": 171,
+        "exact_agreement_ok": 0.7215189873417721,
+        "exact_agreement_all": 0.7184873949579832,
+        "within_one_level_rate": 0.9578059071729957,
+        "overclaim_count": 39,
+        "overclaim_rate": 0.16455696202531644,
+        "underclaim_count": 27,
+        "underclaim_rate": 0.11392405063291139,
+        "confusion_4x4": {
+          "not-incident": {
+            "not-incident": 77,
+            "reverted": 9,
+            "contested": 7,
+            "campaign": 0,
+            "non_ok": 1
+          },
+          "reverted": {
+            "not-incident": 21,
+            "reverted": 36,
+            "contested": 23,
+            "campaign": 0,
+            "non_ok": 0
+          },
+          "contested": {
+            "not-incident": 3,
+            "reverted": 2,
+            "contested": 58,
+            "campaign": 0,
+            "non_ok": 0
+          },
+          "campaign": {
+            "not-incident": 0,
+            "reverted": 0,
+            "contested": 1,
+            "campaign": 0,
+            "non_ok": 0
+          }
+        }
+      },
+      "yes_no_signals": {
+        "nonsense": {
+          "n": 237,
+          "mean_by_label": {
+            "not-incident": 0.5364605574873663,
+            "reverted": 0.12532282745397116,
+            "contested": 0.06304275146921452,
+            "campaign": 0.059686246141577956
+          },
+          "auc_is_incident": 0.1990367383512545,
+          "auc_ge_contested": 0.26499277456647397,
+          "auc_is_graffiti": 0.9622351332877649
+        },
+        "factual_claim": {
+          "n": 237,
+          "mean_by_label": {
+            "not-incident": 0.20699292244424644,
+            "reverted": 0.6091656358751955,
+            "contested": 0.702801028361032,
+            "campaign": 0.8426759569365243
+          },
+          "auc_is_incident": 0.8689516129032258,
+          "auc_ge_contested": 0.7520773121387283,
+          "auc_is_graffiti": 0.14456596035543404
+        },
+        "changes_number_date_name": {
+          "n": 237,
+          "mean_by_label": {
+            "not-incident": 0.458732683632762,
+            "reverted": 0.7066950547179404,
+            "contested": 0.6719297248384005,
+            "campaign": 0.9295649489413235
+          },
+          "auc_is_incident": 0.6974313022700119,
+          "auc_ge_contested": 0.5886018786127167,
+          "auc_is_graffiti": 0.38311688311688313
+        },
+        "political_or_national_pov": {
+          "n": 237,
+          "mean_by_label": {
+            "not-incident": 0.14139474200560093,
+            "reverted": 0.12133303440008418,
+            "contested": 0.5266484816869462,
+            "campaign": 0.5087150576323274
+          },
+          "auc_is_incident": 0.7252837514934289,
+          "auc_ge_contested": 0.8761741329479769,
+          "auc_is_graffiti": 0.36654135338345867
+        },
+        "contradicts_replaced_text": {
+          "n": 237,
+          "mean_by_label": {
+            "not-incident": 0.15451911332286988,
+            "reverted": 0.11800956990026427,
+            "contested": 0.23694116951741725,
+            "campaign": 0.3660355765289461
+          },
+          "auc_is_incident": 0.5919205495818399,
+          "auc_ge_contested": 0.724349710982659,
+          "auc_is_graffiti": 0.6004784688995215
+        },
+        "alters_citation": {
+          "n": 237,
+          "mean_by_label": {
+            "not-incident": 0.2349396932019625,
+            "reverted": 0.47506794467209834,
+            "contested": 0.4849600110499699,
+            "campaign": 0.9481663637884259
+          },
+          "auc_is_incident": 0.6993727598566308,
+          "auc_ge_contested": 0.614974710982659,
+          "auc_is_graffiti": 0.1291866028708134
+        },
+        "removal_disputes_accuracy": {
+          "n": 237,
+          "mean_by_label": {
+            "not-incident": 0.13941002006267994,
+            "reverted": 0.35127297938597374,
+            "contested": 0.7114868464987142,
+            "campaign": 0.9405605851598622
+          },
+          "auc_is_incident": 0.8269115890083633,
+          "auc_ge_contested": 0.8500722543352601,
+          "auc_is_graffiti": 0.20676691729323307
+        }
+      },
+      "efficiency": {
+        "latency_p50_ms": 598.5,
+        "latency_p95_ms": 1279.0499999999993,
+        "latency_mean_ms": 750.4159663865546,
+        "mean_input_tokens_per_item": 1924.7215189873418,
+        "mean_output_tokens_per_item": 0.0,
+        "mean_total_tokens_per_item": 1924.7215189873418,
+        "total_input_tokens": 456159,
+        "mean_cost_usd_per_item": 0.0001924721518987342,
+        "total_cost_usd": 0.0456159
+      }
+    },
+    {
+      "variant": "C",
+      "kind": "decisions",
+      "model": "gemini-decision-1",
+      "items_total": 238,
+      "outcomes": {
+        "ok": 237,
+        "blocked": 1
+      },
+      "blocked_count": 1,
+      "blocked_rate": 0.004201680672268907,
+      "category_accuracy": {
+        "labelled_items": 235,
+        "ok_labelled_items": 234,
+        "exact_hits": 138,
+        "accuracy_all": 0.5872340425531914,
+        "accuracy_ok": 0.5897435897435898,
+        "incidents_accuracy": 0.5763888888888888,
+        "contested_campaign_accuracy": 0.640625,
+        "non_incidents_accuracy": 0.6043956043956044,
+        "none_of_these_chosen": 0
+      },
+      "per_category": {
+        "vandalism": {
+          "support": 39,
+          "predicted": 39,
+          "tp": 30,
+          "precision": 0.7692307692307693,
+          "recall": 0.7692307692307693
+        },
+        "test_or_nonsense": {
+          "support": 10,
+          "predicted": 24,
+          "tp": 9,
+          "precision": 0.375,
+          "recall": 0.9
+        },
+        "good_faith_error": {
+          "support": 47,
+          "predicted": 55,
+          "tp": 32,
+          "precision": 0.5818181818181818,
+          "recall": 0.6808510638297872
+        },
+        "content_dispute": {
+          "support": 28,
+          "predicted": 33,
+          "tp": 13,
+          "precision": 0.3939393939393939,
+          "recall": 0.4642857142857143
+        },
+        "pov_push": {
+          "support": 40,
+          "predicted": 46,
+          "tp": 32,
+          "precision": 0.6956521739130435,
+          "recall": 0.8
+        },
+        "false_factual_claim": {
+          "support": 8,
+          "predicted": 5,
+          "tp": 2,
+          "precision": 0.4,
+          "recall": 0.25
+        },
+        "source_manipulation": {
+          "support": 1,
+          "predicted": 7,
+          "tp": 1,
+          "precision": 0.14285714285714285,
+          "recall": 1.0
+        },
+        "other": {
+          "support": 62,
+          "predicted": 25,
+          "tp": 19,
+          "precision": 0.76,
+          "recall": 0.3064516129032258
+        }
+      },
+      "category_confusion": {
+        "vandalism": {
+          "vandalism": 30,
+          "test_or_nonsense": 6,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 1,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 1,
+          "none_of_these": 0,
+          "non_ok": 1
+        },
+        "test_or_nonsense": {
+          "vandalism": 0,
+          "test_or_nonsense": 9,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 1,
+          "none_of_these": 0,
+          "non_ok": 0
+        },
+        "good_faith_error": {
+          "vandalism": 0,
+          "test_or_nonsense": 4,
+          "good_faith_error": 32,
+          "content_dispute": 5,
+          "pov_push": 0,
+          "false_factual_claim": 2,
+          "source_manipulation": 1,
+          "other": 3,
+          "none_of_these": 0,
+          "non_ok": 0
+        },
+        "content_dispute": {
+          "vandalism": 1,
+          "test_or_nonsense": 0,
+          "good_faith_error": 3,
+          "content_dispute": 13,
+          "pov_push": 9,
+          "false_factual_claim": 1,
+          "source_manipulation": 0,
+          "other": 1,
+          "none_of_these": 0,
+          "non_ok": 0
+        },
+        "pov_push": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 1,
+          "content_dispute": 3,
+          "pov_push": 32,
+          "false_factual_claim": 0,
+          "source_manipulation": 4,
+          "other": 0,
+          "none_of_these": 0,
+          "non_ok": 0
+        },
+        "false_factual_claim": {
+          "vandalism": 1,
+          "test_or_nonsense": 0,
+          "good_faith_error": 1,
+          "content_dispute": 1,
+          "pov_push": 2,
+          "false_factual_claim": 2,
+          "source_manipulation": 1,
+          "other": 0,
+          "none_of_these": 0,
+          "non_ok": 0
+        },
+        "source_manipulation": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 1,
+          "other": 0,
+          "none_of_these": 0,
+          "non_ok": 0
+        },
+        "other": {
+          "vandalism": 7,
+          "test_or_nonsense": 5,
+          "good_faith_error": 18,
+          "content_dispute": 11,
+          "pov_push": 2,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 19,
+          "none_of_these": 0,
+          "non_ok": 0
+        }
+      },
+      "graffiti_filter": {
+        "max_contested_campaign_nonsense": 0.5826185948285691,
+        "max_contested_campaign_id": "continuation-war/i06",
+        "threshold": 0.6006668410179996,
+        "graffiti_total": 29,
+        "graffiti_removed": 26,
+        "graffiti_removed_share": 0.896551724137931,
+        "not_incident_total": 94,
+        "not_incident_removed": 43,
+        "not_incident_removed_share": 0.4574468085106383,
+        "contested_campaign_total": 64,
+        "contested_campaign_removed": 0,
+        "contested_campaign_removed_ids": [],
+        "reverted_total": 80,
+        "reverted_removed": 4,
+        "reverted_removed_share": 0.05,
+        "total_removed": 47,
+        "total_removed_share": 0.19747899159663865,
+        "aggressive_min_safe": {
+          "threshold": 0.5833115434525424,
+          "graffiti_total": 29,
+          "graffiti_removed": 26,
+          "graffiti_removed_share": 0.896551724137931,
+          "not_incident_total": 94,
+          "not_incident_removed": 45,
+          "not_incident_removed_share": 0.4787234042553192,
+          "contested_campaign_total": 64,
+          "contested_campaign_removed": 0,
+          "contested_campaign_removed_ids": [],
+          "reverted_total": 80,
+          "reverted_removed": 4,
+          "reverted_removed_share": 0.05,
+          "total_removed": 49,
+          "total_removed_share": 0.20588235294117646
+        },
+        "fixed_thresholds": {
+          "0.30": {
+            "threshold": 0.3,
+            "graffiti_total": 29,
+            "graffiti_removed": 27,
+            "graffiti_removed_share": 0.9310344827586207,
+            "not_incident_total": 94,
+            "not_incident_removed": 50,
+            "not_incident_removed_share": 0.5319148936170213,
+            "contested_campaign_total": 64,
+            "contested_campaign_removed": 1,
+            "contested_campaign_removed_ids": [
+              "continuation-war/i06"
+            ],
+            "reverted_total": 80,
+            "reverted_removed": 7,
+            "reverted_removed_share": 0.0875,
+            "total_removed": 58,
+            "total_removed_share": 0.24369747899159663
+          },
+          "0.50": {
+            "threshold": 0.5,
+            "graffiti_total": 29,
+            "graffiti_removed": 26,
+            "graffiti_removed_share": 0.896551724137931,
+            "not_incident_total": 94,
+            "not_incident_removed": 48,
+            "not_incident_removed_share": 0.5106382978723404,
+            "contested_campaign_total": 64,
+            "contested_campaign_removed": 1,
+            "contested_campaign_removed_ids": [
+              "continuation-war/i06"
+            ],
+            "reverted_total": 80,
+            "reverted_removed": 4,
+            "reverted_removed_share": 0.05,
+            "total_removed": 53,
+            "total_removed_share": 0.22268907563025211
+          },
+          "0.70": {
+            "threshold": 0.7,
+            "graffiti_total": 29,
+            "graffiti_removed": 24,
+            "graffiti_removed_share": 0.8275862068965517,
+            "not_incident_total": 94,
+            "not_incident_removed": 40,
+            "not_incident_removed_share": 0.425531914893617,
+            "contested_campaign_total": 64,
+            "contested_campaign_removed": 0,
+            "contested_campaign_removed_ids": [],
+            "reverted_total": 80,
+            "reverted_removed": 3,
+            "reverted_removed_share": 0.0375,
+            "total_removed": 43,
+            "total_removed_share": 0.18067226890756302
+          },
+          "0.80": {
+            "threshold": 0.8,
+            "graffiti_total": 29,
+            "graffiti_removed": 23,
+            "graffiti_removed_share": 0.7931034482758621,
+            "not_incident_total": 94,
+            "not_incident_removed": 38,
+            "not_incident_removed_share": 0.40425531914893614,
+            "contested_campaign_total": 64,
+            "contested_campaign_removed": 0,
+            "contested_campaign_removed_ids": [],
+            "reverted_total": 80,
+            "reverted_removed": 1,
+            "reverted_removed_share": 0.0125,
+            "total_removed": 39,
+            "total_removed_share": 0.1638655462184874
+          },
+          "0.90": {
+            "threshold": 0.9,
+            "graffiti_total": 29,
+            "graffiti_removed": 22,
+            "graffiti_removed_share": 0.7586206896551724,
+            "not_incident_total": 94,
+            "not_incident_removed": 36,
+            "not_incident_removed_share": 0.3829787234042553,
+            "contested_campaign_total": 64,
+            "contested_campaign_removed": 0,
+            "contested_campaign_removed_ids": [],
+            "reverted_total": 80,
+            "reverted_removed": 0,
+            "reverted_removed_share": 0.0,
+            "total_removed": 36,
+            "total_removed_share": 0.15126050420168066
+          }
+        },
+        "choice_graffiti_any_conf": {
+          "graffiti_removed": 27,
+          "graffiti_removed_share": 0.9310344827586207,
+          "not_incident_removed": 54,
+          "not_incident_removed_share": 0.574468085106383,
+          "contested_campaign_removed": 1
+        }
+      },
+      "calibration": {
+        "is_incident": {
+          "target": "label != not-incident from P(level >= 1)",
+          "n": 237,
+          "positive_rate": 0.6075949367088608,
+          "auc": 0.9248805256869773,
+          "brier": 0.10400205843248087,
+          "ece": 0.05353629431001658,
+          "buckets": [
+            {
+              "bucket": 0,
+              "range": "[0.0, 0.2)",
+              "low": 0.0,
+              "high": 0.2,
+              "count": 50,
+              "mean_pred": 0.07343575688613913,
+              "empirical_rate": 0.02,
+              "abs_gap": 0.05343575688613912
+            },
+            {
+              "bucket": 1,
+              "range": "[0.2, 0.4)",
+              "low": 0.2,
+              "high": 0.4,
+              "count": 15,
+              "mean_pred": 0.29641940976483655,
+              "empirical_rate": 0.2,
+              "abs_gap": 0.09641940976483654
+            },
+            {
+              "bucket": 2,
+              "range": "[0.4, 0.6)",
+              "low": 0.4,
+              "high": 0.6,
+              "count": 12,
+              "mean_pred": 0.4816338713757506,
+              "empirical_rate": 0.4166666666666667,
+              "abs_gap": 0.0649672047090839
+            },
+            {
+              "bucket": 3,
+              "range": "[0.6, 0.8)",
+              "low": 0.6,
+              "high": 0.8,
+              "count": 34,
+              "mean_pred": 0.7098604903374258,
+              "empirical_rate": 0.5294117647058824,
+              "abs_gap": 0.18044872563154346
+            },
+            {
+              "bucket": 4,
+              "range": "[0.8, 1.0]",
+              "low": 0.8,
+              "high": 1.0,
+              "count": 126,
+              "mean_pred": 0.9417076161326424,
+              "empirical_rate": 0.9285714285714286,
+              "abs_gap": 0.013136187561213819
+            }
+          ]
+        },
+        "at_least_contested": {
+          "target": "label in {contested, campaign} from P(level >= 2)",
+          "n": 237,
+          "positive_rate": 0.270042194092827,
+          "auc": 0.9519508670520231,
+          "brier": 0.13315815125391103,
+          "ece": 0.1816817059829564,
+          "buckets": [
+            {
+              "bucket": 0,
+              "range": "[0.0, 0.2)",
+              "low": 0.0,
+              "high": 0.2,
+              "count": 72,
+              "mean_pred": 0.06186632669965649,
+              "empirical_rate": 0.0,
+              "abs_gap": 0.06186632669965649
+            },
+            {
+              "bucket": 1,
+              "range": "[0.2, 0.4)",
+              "low": 0.2,
+              "high": 0.4,
+              "count": 44,
+              "mean_pred": 0.29670015739932337,
+              "empirical_rate": 0.022727272727272728,
+              "abs_gap": 0.27397288467205066
+            },
+            {
+              "bucket": 2,
+              "range": "[0.4, 0.6)",
+              "low": 0.4,
+              "high": 0.6,
+              "count": 27,
+              "mean_pred": 0.4996088660632364,
+              "empirical_rate": 0.1111111111111111,
+              "abs_gap": 0.3884977549521253
+            },
+            {
+              "bucket": 3,
+              "range": "[0.6, 0.8)",
+              "low": 0.6,
+              "high": 0.8,
+              "count": 42,
+              "mean_pred": 0.6995878963358161,
+              "empirical_rate": 0.3333333333333333,
+              "abs_gap": 0.36625456300248277
+            },
+            {
+              "bucket": 4,
+              "range": "[0.8, 1.0]",
+              "low": 0.8,
+              "high": 1.0,
+              "count": 52,
+              "mean_pred": 0.897639439234683,
+              "empirical_rate": 0.8846153846153846,
+              "abs_gap": 0.013024054619298453
+            }
+          ]
+        }
+      },
+      "judge_agreement": {
+        "ok_items": 237,
+        "exact_hits": 157,
+        "exact_agreement_ok": 0.6624472573839663,
+        "exact_agreement_all": 0.6596638655462185,
+        "within_one_level_rate": 0.9409282700421941,
+        "overclaim_count": 67,
+        "overclaim_rate": 0.28270042194092826,
+        "underclaim_count": 13,
+        "underclaim_rate": 0.05485232067510549,
+        "confusion_4x4": {
+          "not-incident": {
+            "not-incident": 68,
+            "reverted": 11,
+            "contested": 14,
+            "campaign": 0,
+            "non_ok": 1
+          },
+          "reverted": {
+            "not-incident": 10,
+            "reverted": 28,
+            "contested": 42,
+            "campaign": 0,
+            "non_ok": 0
+          },
+          "contested": {
+            "not-incident": 0,
+            "reverted": 2,
+            "contested": 61,
+            "campaign": 0,
+            "non_ok": 0
+          },
+          "campaign": {
+            "not-incident": 0,
+            "reverted": 0,
+            "contested": 1,
+            "campaign": 0,
+            "non_ok": 0
+          }
+        }
+      },
+      "yes_no_signals": {
+        "nonsense": {
+          "n": 237,
+          "mean_by_label": {
+            "not-incident": 0.5028753042862835,
+            "reverted": 0.11477475098204577,
+            "contested": 0.05457613737674204,
+            "campaign": 0.03513969022671448
+          },
+          "auc_is_incident": 0.20109020310633213,
+          "auc_ge_contested": 0.24485187861271676,
+          "auc_is_graffiti": 0.9545454545454546
+        },
+        "factual_claim": {
+          "n": 237,
+          "mean_by_label": {
+            "not-incident": 0.20672097341258122,
+            "reverted": 0.6136533171591692,
+            "contested": 0.6917235260300837,
+            "campaign": 0.8369435298699107
+          },
+          "auc_is_incident": 0.8692502986857825,
+          "auc_ge_contested": 0.7487355491329479,
+          "auc_is_graffiti": 0.12576896787423103
+        },
+        "changes_number_date_name": {
+          "n": 237,
+          "mean_by_label": {
+            "not-incident": 0.4588316831149035,
+            "reverted": 0.7132649917670818,
+            "contested": 0.6820395781628158,
+            "campaign": 0.9412490331504559
+          },
+          "auc_is_incident": 0.7166965352449224,
+          "auc_ge_contested": 0.5883309248554913,
+          "auc_is_graffiti": 0.39593301435406697
+        },
+        "political_or_national_pov": {
+          "n": 237,
+          "mean_by_label": {
+            "not-incident": 0.14608146852901266,
+            "reverted": 0.13564094494495477,
+            "contested": 0.5211032137687167,
+            "campaign": 0.6005810272380351
+          },
+          "auc_is_incident": 0.7391726403823178,
+          "auc_ge_contested": 0.8839414739884393,
+          "auc_is_graffiti": 0.37200956937799046
+        },
+        "contradicts_replaced_text": {
+          "n": 237,
+          "mean_by_label": {
+            "not-incident": 0.16628792198322684,
+            "reverted": 0.12442107429760638,
+            "contested": 0.2638241763154121,
+            "campaign": 0.3504250481822859
+          },
+          "auc_is_incident": 0.5819145758661888,
+          "auc_ge_contested": 0.7315751445086706,
+          "auc_is_graffiti": 0.566473000683527
+        },
+        "alters_citation": {
+          "n": 237,
+          "mean_by_label": {
+            "not-incident": 0.2154341233218634,
+            "reverted": 0.4500488840617648,
+            "contested": 0.4681477784620277,
+            "campaign": 0.905059383533488
+          },
+          "auc_is_incident": 0.7189366786140979,
+          "auc_ge_contested": 0.6313222543352601,
+          "auc_is_graffiti": 0.10440874914559126
+        },
+        "removal_disputes_accuracy": {
+          "n": 237,
+          "mean_by_label": {
+            "not-incident": 0.1529130587178099,
+            "reverted": 0.38638836440688135,
+            "contested": 0.7296688139414212,
+            "campaign": 0.9389385431596552
+          },
+          "auc_is_incident": 0.8324372759856631,
+          "auc_ge_contested": 0.8704841040462428,
+          "auc_is_graffiti": 0.20112781954887218
+        }
+      },
+      "efficiency": {
+        "latency_p50_ms": 569.0,
+        "latency_p95_ms": 712.7999999999997,
+        "latency_mean_ms": 581.9159663865546,
+        "mean_input_tokens_per_item": 2105.4514767932487,
+        "mean_output_tokens_per_item": 0.0,
+        "mean_total_tokens_per_item": 2105.4514767932487,
+        "total_input_tokens": 498992,
+        "mean_cost_usd_per_item": 0.0002105451476793249,
+        "total_cost_usd": 0.049899200000000005
+      }
+    }
+  ],
+  "generative_comparison": [
+    {
+      "variant": "S9-A (gemini-3.8-flash)",
+      "kind": "generative",
+      "model": "gemini-3.8-flash",
+      "items_total": 238,
+      "outcomes": {
+        "ok": 238
+      },
+      "blocked_count": 0,
+      "blocked_rate": 0.0,
+      "category_accuracy": {
+        "labelled_items": 235,
+        "exact_hits": 155,
+        "accuracy_all": 0.6595744680851063
+      },
+      "graffiti_filter": {
+        "rule": "category in {vandalism, test_or_nonsense} and confidence >= 4",
+        "graffiti_total": 29,
+        "graffiti_removed": 29,
+        "graffiti_removed_share": 1.0,
+        "not_incident_total": 94,
+        "not_incident_removed": 50,
+        "not_incident_removed_share": 0.5319148936170213,
+        "contested_campaign_total": 64,
+        "contested_campaign_removed": 0
+      },
+      "efficiency": {
+        "latency_p50_ms": 4210.0,
+        "latency_p95_ms": 7000.299999999999,
+        "latency_mean_ms": 4487.6596638655465,
+        "mean_input_tokens_per_item": 1867.361344537815,
+        "mean_total_tokens_per_item": 2131.4579831932774,
+        "mean_cost_usd_per_item": 0.0023908834033613447,
+        "total_cost_usd": 0.56903025
+      }
+    },
+    {
+      "variant": "S9-A (gemini-4-hydrogen)",
+      "kind": "generative",
+      "model": "gemini-4-hydrogen",
+      "items_total": 238,
+      "outcomes": {
+        "ok": 238
+      },
+      "blocked_count": 0,
+      "blocked_rate": 0.0,
+      "category_accuracy": {
+        "labelled_items": 235,
+        "exact_hits": 159,
+        "accuracy_all": 0.676595744680851
+      },
+      "graffiti_filter": {
+        "rule": "category in {vandalism, test_or_nonsense} and confidence >= 4",
+        "graffiti_total": 29,
+        "graffiti_removed": 27,
+        "graffiti_removed_share": 0.9310344827586207,
+        "not_incident_total": 94,
+        "not_incident_removed": 44,
+        "not_incident_removed_share": 0.46808510638297873,
+        "contested_campaign_total": 64,
+        "contested_campaign_removed": 0
+      },
+      "efficiency": {
+        "latency_p50_ms": 5567.5,
+        "latency_p95_ms": 8250.25,
+        "latency_mean_ms": 5603.731092436975,
+        "mean_input_tokens_per_item": 2453.470588235294,
+        "mean_total_tokens_per_item": 3391.9663865546217,
+        "mean_cost_usd_per_item": 0.010718924369747898,
+        "total_cost_usd": 2.5511040000000014
+      }
+    },
+    {
+      "variant": "S9-A (gemini-4-carbon)",
+      "kind": "generative",
+      "model": "gemini-4-carbon",
+      "items_total": 238,
+      "outcomes": {
+        "ok": 238
+      },
+      "blocked_count": 0,
+      "blocked_rate": 0.0,
+      "category_accuracy": {
+        "labelled_items": 235,
+        "exact_hits": 157,
+        "accuracy_all": 0.6680851063829787
+      },
+      "graffiti_filter": {
+        "rule": "category in {vandalism, test_or_nonsense} and confidence >= 4",
+        "graffiti_total": 29,
+        "graffiti_removed": 28,
+        "graffiti_removed_share": 0.9655172413793104,
+        "not_incident_total": 94,
+        "not_incident_removed": 45,
+        "not_incident_removed_share": 0.4787234042553192,
+        "contested_campaign_total": 64,
+        "contested_campaign_removed": 0
+      },
+      "efficiency": {
+        "latency_p50_ms": 9786.0,
+        "latency_p95_ms": 27099.59999999998,
+        "latency_mean_ms": 11753.340336134454,
+        "mean_input_tokens_per_item": 2453.470588235294,
+        "mean_total_tokens_per_item": 2823.1008403361343,
+        "mean_cost_usd_per_item": 0.008603243697478991,
+        "total_cost_usd": 2.0475719999999997
+      }
+    }
+  ]
+}
