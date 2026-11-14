@@ -22,7 +22,7 @@ Query embeddings: **Ollama `bge-m3`** (local, else the VPS through the tunnel) b
 | Embedding integration tests (opt-in; latency + dataset-vector check) | `scripts/corpus-tunnel.sh && EMBEDDING_TESTS=1 CORPUS_TESTS=1 dotnet test --filter Category=Embedding --logger "console;verbosity=detailed"` |
 | Deploy/update corpus DB on VPS (needs root key) | `scripts/corpus-deploy.sh` — details in `deploy/corpus/README.md` |
 | Run an LLM prompt / batch from the shell (same client, prompts, cache as the app) | `scripts/analyze.sh prompts` · `run <prompt> --vars x.json` · `batch <prompt> --in x.jsonl --out y.jsonl --model a,b` · `usage` |
-| Live Gemini tests (opt-in, costs cents) | `GEMINI_TESTS=1 dotnet test --filter Category=Gemini` |
+| Live Gemini tests (opt-in, real API calls) | `GEMINI_TESTS=1 dotnet test --filter Category=Gemini` |
 | Check a golden set / variant / judgement file against the eval contract (stdlib Python, no corpus) | `python3 research/eval/validate.py golden` · `variant retrieval\|signals -- <cmd>` · tests: `python3 -m unittest discover -s research/eval/tests` |
 
 ## Layout
@@ -160,7 +160,15 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
 5. If you add a dependency, a convention, or a gotcha, update this file in the same commit.
 6. Don't leave `dotnet watch` / `dotnet run` processes running when you finish.
 
-## Gemini workers (weekend API key)
+## Gemini usage: anything goes
+
+We have a **Tier 3 Gemini API key, paid for by Google** — its rate limits are far above anything we can hit and cost is
+not our concern. So: **no limits on Gemini usage in this project.** Run as many workers / sessions / batch jobs
+concurrently as is useful, use the strongest models, rerun and re-sample freely, and never trim scope, prompts or
+eval runs to save calls or tokens. Ignore any older note that says otherwise. The app's `Gemini:DailyCallCap /
+DailyCostCapUsd / PerScopeCallCap` are only runaway-loop tripwires — raise them in `appsettings.json` whenever they get in the way.
+
+## Gemini workers
 
 Claude orchestrates, Gemini implements. Full workflow: `.claude/skills/gemini/SKILL.md` (`/gemini`).
 `scripts/gemini/run.sh <id>` runs Gemini headless on `.tasks/<id>/spec.md` in an isolated worktree
