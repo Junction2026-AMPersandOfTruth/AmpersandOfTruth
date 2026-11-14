@@ -33,8 +33,10 @@ services:
   # Query embeddings (issue #15): bge-m3 = the model that produced the dataset's vectors. CPU only, one short
   # query at a time — never bulk-embed here. corpus-up.sh pulls the model, warms it and prints latency + memory.
   ollama:
-    # Pinned; bump deliberately (any version with /api/embed + bge-m3 works).
-    image: ollama/ollama:0.12.6
+    # Pinned; bump deliberately. NOT ≤0.12.x: its llama runner keeps n_ubatch=512 whatever num_batch says and
+    # aborts (GGML_ASSERT "encoder requires n_ubatch >= n_tokens") on any bge-m3 input over ~512 tokens.
+    # 0.40.16 verified: cosine 1.00000 vs stored dataset vectors up to ~6.3k tokens, warm short query ~30 ms.
+    image: ollama/ollama:0.40.16
     container_name: corpus-ollama
     restart: unless-stopped
     environment:

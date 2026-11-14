@@ -85,6 +85,8 @@ tests/AmpersandOfTruth.Tests/
 - **`verify.sh` must pass with the corpus absent.** Corpus tests use `[CorpusFact]` (skipped unless `CORPUS_TESTS=1`).
   The `corpus` health check reports `Degraded` (still HTTP 200) when the tunnel is down; startup never depends on it.
 - Bulk jobs (loads, precompute) on 2 vCPUs starve interactive queries — run them early, never during a demo.
+- `corpus-deploy.sh` rsyncs `deploy/corpus/` with `--delete`: anything that lives only in `/opt/junction/corpus` on the VPS
+  (loader, `data/`, venvs) must be in its `--exclude` list or a deploy wipes it.
 
 ## Embedding (bge-m3 via Ollama)
 
@@ -96,6 +98,8 @@ tests/AmpersandOfTruth.Tests/
   `Embedding:FallbackOllamaUrl` (`127.0.0.1:11435` = VPS Ollama via `scripts/corpus-tunnel.sh`). Local is optional: `ollama pull bge-m3`.
 - `OllamaQueryEmbedder` (concrete, uncached) only to bypass the cache. Tests: `FakeQueryEmbedder` (deterministic unit vectors, `Unavailable` switch).
 - The VPS Ollama (2 vCPU) is for **one short query at a time**. Bulk embedding (P1.R5) runs on a laptop with a GPU/Apple silicon.
+- Ollama ≤0.12.x aborts on any bge-m3 input over ~512 tokens (`GGML_ASSERT ... n_ubatch >= n_tokens`, HTTP 500 + model reload) —
+  the VPS pins 0.40.16 (verified cosine 1.00000 vs stored vectors). Use a recent Ollama on laptops too.
 - `embedding` health check reports `Degraded` when no endpoint has the model; startup never depends on it.
 
 ## Testing

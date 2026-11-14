@@ -44,7 +44,9 @@ public class EmbeddingIntegrationTests(AppFactory app, ITestOutputHelper output)
     /// <summary>
     /// The issue's acceptance check: embedding an article exactly as the dataset did (<c>title + "\n\n" + text</c>)
     /// must reproduce its stored vector. If not, query vectors aren't comparable and search quality silently suffers.
-    /// Uses non-truncated articles so Ollama sees the same tokens the dataset builder did.
+    /// Uses non-truncated articles so Ollama sees the same tokens the dataset builder did: one ~1k-token article per
+    /// language, plus a ~3–4k-token one (beyond Ollama's default 2,048-token batch and the 512-token ubatch that
+    /// crashed Ollama ≤0.12) that still fits the per-endpoint timeout on the 2-vCPU VPS.
     /// </summary>
     [CorpusEmbeddingFact]
     public async Task Embedding_an_article_reproduces_its_stored_dataset_vector()
@@ -53,15 +55,17 @@ public class EmbeddingIntegrationTests(AppFactory app, ITestOutputHelper output)
         var samples = new List<(string Lang, string Title, string Text, float[] Stored)>();
         await using (var c = await corpus.OpenAsync())
         {
-            foreach (var lang in new[] { "fi", "sv", "en" })
+            foreach (var (lang, minChars, maxChars) in new[] { ("fi", 1000, 8000), ("sv", 1000, 8000), ("en", 1000, 8000), ("fi", 12000, 16000) })
             {
                 await using var cmd = new MySqlCommand("""
                     SELECT a.title, a.text, v.embedding
                     FROM article a JOIN article_vector v ON v.lang = a.lang AND v.page_id = a.page_id
-                    WHERE a.lang = @lang AND NOT v.truncated AND CHAR_LENGTH(a.text) BETWEEN 1000 AND 8000
+                    WHERE a.lang = @lang AND NOT v.truncated AND CHAR_LENGTH(a.text) BETWEEN @min AND @max
                     ORDER BY a.page_id LIMIT 1
                     """, c);
                 cmd.Parameters.AddWithValue("@lang", lang);
+                cmd.Parameters.AddWithValue("@min", minChars);
+                cmd.Parameters.AddWithValue("@max", maxChars);
                 await using var r = await cmd.ExecuteReaderAsync();
                 if (await r.ReadAsync())
                     samples.Add((lang, r.GetString(0), r.GetString(1), CorpusVectors.FromBytes((byte[])r.GetValue(2))));

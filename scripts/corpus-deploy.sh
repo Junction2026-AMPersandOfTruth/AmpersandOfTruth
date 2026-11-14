@@ -10,6 +10,10 @@ SSH=(ssh -o IdentitiesOnly=yes)
 
 "${SSH[@]}" "$HOST" 'mkdir -p /opt/junction/corpus'
 # .env lives only on the VPS → excluded so it's never overwritten or copied back.
-rsync -az --delete --exclude .env --exclude .conf-hash -e "${SSH[*]}" deploy/corpus/ "$HOST:/opt/junction/corpus/"
+# --delete prunes stale config, so anything that lives ONLY on the VPS must be excluded here or it gets wiped:
+# dataset loader + downloaded parquet/tsv files + their venv (P0.2). Add new VPS-only dirs to this list.
+rsync -az --delete --exclude .env --exclude .conf-hash \
+  --exclude /loader/ --exclude /data/ --exclude /.venv/ --exclude /.upstream-rag/ \
+  -e "${SSH[*]}" deploy/corpus/ "$HOST:/opt/junction/corpus/"
 rsync -az -e "${SSH[*]}" scripts/corpus-up.sh "$HOST:/opt/junction/corpus/corpus-up.sh"
 "${SSH[@]}" "$HOST" 'chown -R root:root /opt/junction/corpus && /opt/junction/corpus/corpus-up.sh'
