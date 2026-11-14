@@ -32,6 +32,7 @@ public static class InvestigationsFeature
         services.AddSingleton<IEditReader>(sp =>
             ActivatorUtilities.CreateInstance<CachedEditReader>(sp, (IEditReader)sp.GetRequiredService<CorpusEditReader>()));
         services.AddSingleton<IEditClassifier, GeminiEditClassifier>();
+        services.AddSingleton<TopicRelevance>();   // P1.S10 B+rel ranking (#37)
         services.AddSingleton<InvestigationPipeline>();
 
         // Run cache (#40): a topic analysed before replays at once; the page's "Re-run" bypasses it.

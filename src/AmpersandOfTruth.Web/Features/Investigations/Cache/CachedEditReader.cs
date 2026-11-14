@@ -27,7 +27,8 @@ public sealed class CachedEditReader(
 
     private sealed record Payload(
         IReadOnlyList<RevisionRow> Span, WikitextDiffResult Diff, string InsertedText, string RemovedText, string Context,
-        IReadOnlyList<RevisionRow> Reinsertions, IReadOnlyList<ConflictEpisode> Conflicts, IReadOnlyList<SourceChange> SourceChanges);
+        IReadOnlyList<RevisionRow> Reinsertions, IReadOnlyList<ConflictEpisode> Conflicts, IReadOnlyList<SourceChange> SourceChanges,
+        IReadOnlyList<RevisionRow>? ReRemovals = null);
 
     public string KeyFor(RemovedEdit edit) =>
         $"{edit.Article.PageId}:{edit.Revert.RestoredRevId}:{edit.Revert.RevertedRevId}" +
@@ -46,7 +47,7 @@ public sealed class CachedEditReader(
             {
                 return new EditReading(edit, p.Span, p.Diff, p.InsertedText, p.RemovedText, p.Context)
                 {
-                    Reinsertions = p.Reinsertions, Conflicts = p.Conflicts, SourceChanges = p.SourceChanges,
+                    Reinsertions = p.Reinsertions, Conflicts = p.Conflicts, SourceChanges = p.SourceChanges, ReRemovals = p.ReRemovals ?? [],
                 };
             }
         }
@@ -68,7 +69,7 @@ public sealed class CachedEditReader(
                 RevertRevId = edit.Revert.RevId,
                 Json = JsonSerializer.Serialize(
                     new Payload(reading.Span, reading.Diff, reading.InsertedText, reading.RemovedText, reading.Context,
-                        reading.Reinsertions, conflicts, reading.SourceChanges), Json),
+                        reading.Reinsertions, conflicts, reading.SourceChanges, reading.ReRemovals), Json),
                 CreatedAt = clock.GetUtcNow(),
             });
             await db.SaveChangesAsync(ct);

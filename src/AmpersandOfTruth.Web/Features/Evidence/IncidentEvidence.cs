@@ -76,7 +76,7 @@ public sealed record TierThresholds
     public int MinDistinctArticles { get; init; } = 2;
     public int MinPersistenceReinsertions { get; init; } = 2;
     public TimeSpan MinPersistenceSpan { get; init; } = TimeSpan.FromDays(7);
-    public int MinCoordinationSignals { get; init; } = 2;
+    public int MinCoordinationSignals { get; init; } = 3;   // P1.S10 (#37): 2 → 3, overclaim 0.20 → 0.16 on golden dev
     public static TierThresholds Default { get; } = new();
 }
 

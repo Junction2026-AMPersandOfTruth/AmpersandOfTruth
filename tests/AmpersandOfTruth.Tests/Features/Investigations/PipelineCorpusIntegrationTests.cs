@@ -103,4 +103,39 @@ public class PipelineCorpusIntegrationTests(AppFactory app) : IClassFixture<AppF
         Assert.Equal(revert.RevId, restores[0].RevId);
         Assert.All(restores, r => Assert.Equal(restoredSha1, r.Sha1));
     }
+
+    [CorpusFact]
+    public async Task Returns_to_the_restored_state_match_restores_of_its_sha1_and_start_with_the_revert()
+    {
+        var revert = (await Corpus.RevertsAsync([Talvisota], perPage: 20)).First();
+        var through = await Revisions.SpanAsync(Talvisota, revert.RestoredRevId, revert.RevId, 50);
+        var undone = through[0];
+        var restoredSha1 = through[^1].Sha1!;
+
+        var returns = await Revisions.ReturnsToAsync(Talvisota, undone.Timestamp, undone.RevId, revert.RestoredRevId, 5);
+        var restores = await Revisions.RestoresAsync(Talvisota, undone.Timestamp, undone.RevId, [restoredSha1], 5);
+
+        Assert.Equal(revert.RevId, returns[0].RevId);
+        Assert.Equal(restores.Select(r => r.RevId), returns.Select(r => r.RevId));
+    }
+
+    [CorpusFact]
+    public async Task Re_removals_on_a_contested_page_follow_a_re_insertion_and_restore_the_pre_edit_content()
+    {
+        var o = Options.Create(new InvestigationPipelineOptions { MaxCandidates = 40 });
+        var scan = await new RevertCandidateSource(Corpus, Revisions, o).ScanAsync([new TopicArticle("fi", 1150, "Suomen sisällissota", 0)]);
+        var reader = new CorpusEditReader(Revisions, o);
+
+        foreach (var c in scan.Candidates)
+        {
+            var r = await reader.ReadAsync(c);
+            if (r.ReRemovals.Count == 0) continue;
+
+            var restored = (await Revisions.ReturnsToAsync(1150, c.Revert.Timestamp, c.Revert.RevId, c.Revert.RestoredRevId, 1)).Single().Sha1;
+            Assert.NotEmpty(r.Reinsertions);
+            Assert.All(r.ReRemovals, x => Assert.Equal(restored, x.Sha1));
+            Assert.True(r.Reinsertions[0].Timestamp <= r.ReRemovals[0].Timestamp);
+            Assert.All(r.ReRemovals, x => Assert.True(x.Timestamp >= c.Revert.Timestamp));
+        }
+    }
 }
