@@ -20,19 +20,31 @@
        @onmouseleave="HandleMouseLeaveAsync">
         <div class="aot-card__top">
             <TierBadge Tier="Incident.Tier" />
-            <span class="aot-small aot-muted">
-                <span lang="fi">@Incident.PrimaryArticle.TitleFi</span>@if (HasDistinctEnglishTitle(Incident.PrimaryArticle))
+            <span class="aot-small aot-muted" data-testid="incident-article">
+                @if (!string.IsNullOrWhiteSpace(Incident.PrimaryArticle.TitleEn))
                 {
-                    <text> (@Incident.PrimaryArticle.TitleEn)</text>
+                    <span>@Incident.PrimaryArticle.TitleEn</span>@if (HasDistinctEnglishTitle(Incident.PrimaryArticle))
+                    {
+                        <text> (</text><span lang="fi">@Incident.PrimaryArticle.TitleFi</span><text>)</text>
+                    }
                 }
-                else if (string.IsNullOrWhiteSpace(Incident.PrimaryArticle.TitleEn))
+                else
                 {
-                    <text> (Finnish Wikipedia)</text>
+                    <span lang="fi">@Incident.PrimaryArticle.TitleFi</span><text> (Finnish Wikipedia)</text>
                 }
             </span>
         </div>
 
-        <p class="aot-card__claim" data-testid="incident-claim">@FormatHeadline(Incident)</p>
+        @if (!string.IsNullOrWhiteSpace(Incident.ClaimEn))
+        {
+            <div class="aot-card__mt" data-testid="incident-claim-mt">
+                <span class="aot-mt">
+                    <span class="aot-mt__tag" title="@Attribution.MachineTranslationNotice">Automated English summary</span>
+                </span>
+            </div>
+        }
+
+        <p class="aot-card__claim" data-testid="incident-claim">@OverviewState.CardHeadline(Incident)</p>
 
         @if (!string.IsNullOrWhiteSpace(Incident.ClaimOriginal))
         {
@@ -184,32 +196,6 @@
     private static bool HasDistinctEnglishTitle(ArticleRef article) =>
         !string.IsNullOrWhiteSpace(article.TitleEn)
         && !string.Equals(article.TitleEn, article.TitleFi, StringComparison.OrdinalIgnoreCase);
-
-    private static string FormatHeadline(IncidentView incident)
-    {
-        if (string.IsNullOrWhiteSpace(incident.ClaimEn))
-        {
-            var articleName = string.IsNullOrWhiteSpace(incident.PrimaryArticle.TitleEn)
-                ? incident.PrimaryArticle.TitleFi
-                : incident.PrimaryArticle.TitleEn;
-            return incident.Kind == IncidentKind.Deletion
-                ? $"Removed from {articleName}"
-                : $"Text added to {articleName}";
-        }
-
-        var trimmed = incident.ClaimEn.Trim();
-        if (incident.Kind == IncidentKind.Deletion
-            || trimmed.StartsWith("Removed:", StringComparison.OrdinalIgnoreCase))
-        {
-            return trimmed.StartsWith("Removed:", StringComparison.OrdinalIgnoreCase)
-                ? trimmed
-                : $"Removed: {trimmed}";
-        }
-
-        return trimmed is ['\u201C' or '"', .., '\u201D' or '"']
-            ? trimmed
-            : $"\u201C{trimmed}\u201D";
-    }
 
     private static string FormatDate(DateTimeOffset timestamp) =>
         timestamp.UtcDateTime.ToString("d MMM yyyy", CultureInfo.InvariantCulture);

@@ -125,7 +125,7 @@ public sealed record DiffModel(
 
         var changedOnlyItems = textMode == DiffTextMode.Prose
             ? FoldProseBlocks(blocks, maxContextSentences: 0)
-            : FoldBlocks(blocks, contextBlocks: 0);
+            : FoldWikitextChangedOnlyBlocks(blocks);
 
         return new DiffModel(textMode, blocks, items)
         {
@@ -597,6 +597,136 @@ public sealed record DiffModel(
         return items;
     }
 
+    private const int MaxChangedOnlyFragmentChars = 60;
+    private const int ChangedOnlyKeepChars = 45;
+    private const int MaxChangedOnlyInternalSameChars = 120;
+
+    private static IReadOnlyList<DiffItem> FoldWikitextChangedOnlyBlocks(IReadOnlyList<DiffBlock> blocks)
+    {
+        if (blocks.Count == 0) return [];
+        if (!blocks.Any(static b => b.IsChanged))
+        {
+            return FoldBlocks(blocks, contextBlocks: 0);
+        }
+
+        var seq = new List<(DiffBlock Block, bool Visible)>(blocks.Count * 2);
+        foreach (var block in blocks)
+        {
+            if (!block.IsChanged)
+            {
+                seq.Add((block, Visible: false));
+                continue;
+            }
+
+            var (beforeLines, visible, afterLines) = TrimWikitextChangedBlockLines(block);
+            foreach (var fb in beforeLines) seq.Add((fb, Visible: false));
+            seq.Add((visible, Visible: true));
+            foreach (var fa in afterLines) seq.Add((fa, Visible: false));
+        }
+
+        var items = new List<DiffItem>();
+        int foldId = 0;
+        int cursor = 0;
+        while (cursor < seq.Count)
+        {
+            if (seq[cursor].Visible)
+            {
+                items.Add(new DiffBlockItem(seq[cursor].Block));
+                cursor++;
+                continue;
+            }
+
+            var folded = new List<DiffBlock>();
+            while (cursor < seq.Count && !seq[cursor].Visible)
+            {
+                folded.Add(seq[cursor].Block);
+                cursor++;
+            }
+            items.Add(new DiffFoldItem(foldId++, folded));
+        }
+
+        return items;
+    }
+
+    private static (IReadOnlyList<DiffBlock> FoldedBefore, DiffBlock Visible, IReadOnlyList<DiffBlock> FoldedAfter)
+        TrimWikitextChangedBlockLines(DiffBlock block)
+    {
+        var tokens = block.Tokens;
+        int firstDiff = -1, lastDiff = -1;
+        for (int i = 0; i < tokens.Count; i++)
+        {
+            if (tokens[i].Kind != DiffTokenKind.Same)
+            {
+                if (firstDiff < 0) firstDiff = i;
+                lastDiff = i;
+            }
+        }
+
+        if (firstDiff < 0)
+        {
+            return ([], block, []);
+        }
+
+        var foldedBefore = new List<DiffBlock>();
+        var foldedAfter = new List<DiffBlock>();
+
+        string? keptLeading = null;
+        if (firstDiff > 0)
+        {
+            var leading = string.Concat(tokens.Take(firstDiff).Select(static t => t.Text));
+            var lastNl = leading.LastIndexOf('\n');
+            if (lastNl >= 0)
+            {
+                foreach (var line in leading[..lastNl].Split('\n'))
+                {
+                    if (line.Trim().Length > 0)
+                    {
+                        foldedBefore.Add(MakeSameBlock(block, line));
+                    }
+                }
+                keptLeading = leading[(lastNl + 1)..];
+            }
+            else
+            {
+                keptLeading = leading;
+            }
+        }
+
+        string? keptTrailing = null;
+        if (lastDiff < tokens.Count - 1)
+        {
+            var trailing = string.Concat(tokens.Skip(lastDiff + 1).Select(static t => t.Text));
+            var firstNl = trailing.IndexOf('\n');
+            if (firstNl >= 0)
+            {
+                keptTrailing = trailing[..firstNl];
+                foreach (var line in trailing[(firstNl + 1)..].Split('\n'))
+                {
+                    if (line.Trim().Length > 0)
+                    {
+                        foldedAfter.Add(MakeSameBlock(block, line));
+                    }
+                }
+            }
+            else
+            {
+                keptTrailing = trailing;
+            }
+        }
+
+        if (foldedBefore.Count == 0 && foldedAfter.Count == 0)
+        {
+            return ([], block, []);
+        }
+
+        var updated = new List<DiffToken>();
+        if (!string.IsNullOrEmpty(keptLeading)) updated.Add(new DiffToken(keptLeading, DiffTokenKind.Same));
+        for (int i = firstDiff; i <= lastDiff; i++) updated.Add(tokens[i]);
+        if (!string.IsNullOrEmpty(keptTrailing)) updated.Add(new DiffToken(keptTrailing, DiffTokenKind.Same));
+
+        return (foldedBefore, new DiffBlock(block.OldParagraph, block.NewParagraph, IsChanged: true, updated), foldedAfter);
+    }
+
     private static DiffBlock MakeSameBlock(DiffBlock source, string text) =>
         new(source.OldParagraph, source.NewParagraph, IsChanged: false, [new DiffToken(text, DiffTokenKind.Same)]);
 
@@ -683,6 +813,11 @@ public sealed record DiffModel(
 
                 leftCtx = keepCount;
             }
+
+            if (maxContextSentences == 0 && !string.IsNullOrEmpty(keptLeading))
+            {
+                keptLeading = TrimLeadingChangedOnlyFragment(block, keptLeading, foldedBefore);
+            }
         }
 
         string? keptTrailing = null;
@@ -740,9 +875,17 @@ public sealed record DiffModel(
 
                 rightCtx = keepAfter;
             }
+
+            if (maxContextSentences == 0 && !string.IsNullOrEmpty(keptTrailing))
+            {
+                keptTrailing = TrimTrailingChangedOnlyFragment(block, keptTrailing, foldedAfter);
+            }
         }
 
-        if (foldedBefore.Count == 0 && foldedAfter.Count == 0)
+        bool hasElidedInternal = maxContextSentences == 0
+            && HasLongInternalSameRun(tokens, firstDiff, lastDiff);
+
+        if (foldedBefore.Count == 0 && foldedAfter.Count == 0 && !hasElidedInternal)
         {
             return new TrimmedChangedBlock([], block, [], leftCtx, rightCtx);
         }
@@ -765,6 +908,10 @@ public sealed record DiffModel(
             {
                 text = text.TrimEnd();
             }
+            if (maxContextSentences == 0 && tok.Kind == DiffTokenKind.Same && text.Length > MaxChangedOnlyInternalSameChars)
+            {
+                text = ElideMiddle(text);
+            }
             if (text.Length > 0)
             {
                 updatedTokens.Add(text.Length == tok.Text.Length ? tok : new DiffToken(text, tok.Kind));
@@ -778,6 +925,105 @@ public sealed record DiffModel(
 
         var visibleBlock = new DiffBlock(block.OldParagraph, block.NewParagraph, IsChanged: true, updatedTokens);
         return new TrimmedChangedBlock(foldedBefore, visibleBlock, foldedAfter, leftCtx, rightCtx);
+    }
+
+    private static string TrimLeadingChangedOnlyFragment(DiffBlock block, string fragment, List<DiffBlock> foldedBefore)
+    {
+        var current = fragment;
+        if (current.Contains("; ", StringComparison.Ordinal))
+        {
+            var parts = current.Split("; ", StringSplitOptions.None);
+            for (int i = 0; i < parts.Length - 1; i++)
+            {
+                var trimmed = parts[i].Trim();
+                if (trimmed.Length > 0)
+                {
+                    foldedBefore.Add(MakeSameBlock(block, trimmed));
+                }
+            }
+            current = parts[^1];
+        }
+
+        if (current.Length <= MaxChangedOnlyFragmentChars)
+        {
+            return current;
+        }
+
+        int targetStart = current.Length - ChangedOnlyKeepChars;
+        int spaceIdx = current.IndexOf(' ', targetStart);
+        int cutAt = spaceIdx > 0 && spaceIdx < current.Length - 8 ? spaceIdx + 1 : targetStart;
+
+        var dropped = current[..cutAt].Trim();
+        if (dropped.Length > 0)
+        {
+            foldedBefore.Add(MakeSameBlock(block, dropped));
+        }
+
+        return "\u2026 " + current[cutAt..].TrimStart();
+    }
+
+    private static string TrimTrailingChangedOnlyFragment(DiffBlock block, string fragment, List<DiffBlock> foldedAfter)
+    {
+        var extraFolded = new List<DiffBlock>();
+        var current = fragment;
+        if (current.Contains("; ", StringComparison.Ordinal))
+        {
+            var parts = current.Split("; ", StringSplitOptions.None);
+            current = parts[0];
+            for (int i = 1; i < parts.Length; i++)
+            {
+                var trimmed = parts[i].Trim();
+                if (trimmed.Length > 0)
+                {
+                    extraFolded.Add(MakeSameBlock(block, trimmed));
+                }
+            }
+        }
+
+        if (current.Length > MaxChangedOnlyFragmentChars)
+        {
+            int spaceIdx = current.LastIndexOf(' ', ChangedOnlyKeepChars);
+            int cutAt = spaceIdx > 8 ? spaceIdx : ChangedOnlyKeepChars;
+
+            var dropped = current[cutAt..].Trim();
+            if (dropped.Length > 0)
+            {
+                extraFolded.Insert(0, MakeSameBlock(block, dropped));
+            }
+
+            current = current[..cutAt].TrimEnd() + " \u2026";
+        }
+
+        if (extraFolded.Count > 0)
+        {
+            foldedAfter.InsertRange(0, extraFolded);
+        }
+
+        return current;
+    }
+
+    private static bool HasLongInternalSameRun(IReadOnlyList<DiffToken> tokens, int firstDiff, int lastDiff)
+    {
+        for (int i = firstDiff + 1; i < lastDiff; i++)
+        {
+            if (tokens[i].Kind == DiffTokenKind.Same && tokens[i].Text.Length > MaxChangedOnlyInternalSameChars)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static string ElideMiddle(string text)
+    {
+        int headEnd = text.LastIndexOf(' ', ChangedOnlyKeepChars);
+        if (headEnd <= 8) headEnd = ChangedOnlyKeepChars;
+
+        int tailStartTarget = text.Length - ChangedOnlyKeepChars;
+        int tailSpace = text.IndexOf(' ', tailStartTarget);
+        int tailStart = tailSpace > headEnd && tailSpace < text.Length - 8 ? tailSpace + 1 : tailStartTarget;
+
+        return $"{text[..headEnd].TrimEnd()} \u2026 {text[tailStart..].TrimStart()}";
     }
 
     private static List<string> SplitIntoSentences(string text, bool preserveEdges = false)

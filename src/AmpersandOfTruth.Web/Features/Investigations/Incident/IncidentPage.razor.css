@@ -70,7 +70,15 @@
     font-weight: 400;
 }
 
-.aot-incident-article-en {
+.aot-incident-article {
+    display: block;
+}
+
+.aot-incident-article + .aot-incident-article {
+    margin-top: 4px;
+}
+
+.aot-incident-article-fi {
     font-weight: 400;
 }
 
@@ -78,6 +86,7 @@
     display: inline;
 }
 
+.aot-incident-facts dd .aot-incident-article,
 .aot-incident-facts dd ::deep .aot-original {
     display: block;
 }

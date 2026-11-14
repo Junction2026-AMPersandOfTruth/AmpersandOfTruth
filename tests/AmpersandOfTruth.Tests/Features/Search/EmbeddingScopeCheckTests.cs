@@ -45,15 +45,18 @@ public sealed class EmbeddingScopeCheckTests
     }
 
     [Fact]
-    public async Task CheckAsync_returns_out_of_scope_with_up_to_four_nearest_chips_and_caches_chip_vectors()
+    public async Task CheckAsync_returns_only_close_nearest_chips_caps_at_max_and_caches_chip_vectors()
     {
         var embedder = new ControlledEmbedder(new Dictionary<string, float[]>(StringComparer.Ordinal)
         {
             ["American civil war"] = UnitVector(0, 1.0f),
-            ["Taylor Swift"] = UnitVector(1, 1.0f),
+            ["Broad war query"] = UnitVector(0, 1.0f),
+            ["Climate change"] = UnitVector(4, 1.0f),
             ["Civil War 1918"] = UnitVector(0, 0.95f, 2, 0.31f),
             ["Winter War"] = UnitVector(0, 0.80f, 1, 0.60f),
-            ["Continuation War"] = UnitVector(0, 0.60f, 1, 0.80f),
+            ["Continuation War"] = UnitVector(0, 0.70f, 1, 0.71f),
+            ["Mainila shots"] = UnitVector(0, 0.62f, 2, 0.78f),
+            ["Lapland War"] = UnitVector(0, 0.56f, 3, 0.83f),
             ["Mannerheim"] = UnitVector(1, 0.95f, 2, 0.31f),
             ["Ceded Karelia"] = UnitVector(2, 1.0f),
             ["Finlandization"] = UnitVector(3, 1.0f),
@@ -84,18 +87,51 @@ public sealed class EmbeddingScopeCheckTests
         var logger = new RecordingLogger<EmbeddingScopeCheck>();
         var check = new EmbeddingScopeCheck(embedder, corpus, Options.Create(options), logger);
 
+        // Only the 3 genuinely close chips (cos >= 0.54, dist <= 0.46) are returned; orthogonal chips are omitted.
         var first = await check.CheckAsync("american civil war");
         Assert.False(first.InScope);
-        Assert.Equal(new[] { "Civil War 1918", "Winter War", "Continuation War" }, first.Suggestions.Take(3).ToArray());
-        Assert.Equal(4, first.Suggestions.Count);
+        Assert.Equal(["Civil War 1918", "Winter War", "Continuation War"], first.Suggestions);
         Assert.Equal(7, embedder.Calls); // 1 query + 6 chips embedded once
 
-        var second = await check.CheckAsync("Taylor Swift");
-        Assert.False(second.InScope);
-        Assert.Equal("Mannerheim", second.Suggestions[0]);
-        Assert.Equal("Continuation War", second.Suggestions[1]);
-        Assert.Equal(4, second.Suggestions.Count);
+        // Unrelated topic has no chip within MaxSuggestionDistance -> empty suggestions list.
+        var unrelated = await check.CheckAsync("climate change");
+        Assert.False(unrelated.InScope);
+        Assert.Empty(unrelated.Suggestions);
         Assert.Equal(8, embedder.Calls); // only the new query was embedded; all 6 chips served from cache
+
+        // When >4 chips are close, cap at MaxSuggestions (4) ordered by cosine similarity.
+        var fiveCloseOptions = new SearchOptions
+        {
+            SuggestedTopics =
+            [
+                new("Lapland War", "Lapland War"),
+                new("Mainila shots", "Mainila shots"),
+                new("Continuation War", "Continuation War"),
+                new("Winter War", "Winter War"),
+                new("Civil War 1918", "Civil War 1918"),
+                new("Finlandization", "Finlandization"),
+            ],
+        };
+        var fiveCloseCheck = new EmbeddingScopeCheck(embedder, corpus, Options.Create(fiveCloseOptions), logger);
+        var capped = await fiveCloseCheck.CheckAsync("Broad war query");
+        Assert.False(capped.InScope);
+        Assert.Equal(["Civil War 1918", "Winter War", "Continuation War", "Mainila shots"], capped.Suggestions);
+    }
+
+    [Fact]
+    public async Task Chip_embedding_failure_returns_empty_suggestions_rather_than_static_order()
+    {
+        var embedder = new ChipFailingEmbedder();
+        var corpus = new FakeInvestigationCorpus();
+        corpus.Articles.Add(new TopicArticle("en", 1, "Wilderness", 0.60, "Q1"));
+
+        var logger = new RecordingLogger<EmbeddingScopeCheck>();
+        var check = new EmbeddingScopeCheck(embedder, corpus, Options.Create(new SearchOptions()), logger);
+
+        var result = await check.CheckAsync("climate change");
+        Assert.False(result.InScope);
+        Assert.Empty(result.Suggestions);
+        Assert.Single(logger.Entries);
     }
 
     [Fact]
@@ -249,6 +285,21 @@ public sealed class EmbeddingScopeCheckTests
         }
     }
 
+    private sealed class ChipFailingEmbedder : IQueryEmbedder
+    {
+        private int _calls;
+
+        public Task<float[]> EmbedAsync(string text, CancellationToken ct = default)
+        {
+            if (Interlocked.Increment(ref _calls) == 1)
+            {
+                return Task.FromResult(FakeQueryEmbedder.VectorFor(text));
+            }
+
+            throw new EmbeddingUnavailableException("chip embed failed");
+        }
+    }
+
     private sealed class RecordingLogger<T> : ILogger<T>
     {
         public List<(LogLevel Level, string Message, Exception? Exception)> Entries { get; } = [];
@@ -284,7 +335,12 @@ public sealed class EmbeddingScopeCheckIntegrationTests(AppFactory app) : IClass
 
         var climateOut = await scopeCheck.CheckAsync("climate change");
         Assert.False(climateOut.InScope);
-        Assert.Equal(4, climateOut.Suggestions.Count);
+        Assert.Empty(climateOut.Suggestions);
+
+        var civilWarOut = await scopeCheck.CheckAsync("American Civil War");
+        Assert.False(civilWarOut.InScope);
+        Assert.NotEmpty(civilWarOut.Suggestions);
+        Assert.Equal("Civil War 1918", civilWarOut.Suggestions[0]);
 
         var winterWarIn = await scopeCheck.CheckAsync("Winter War");
         Assert.True(winterWarIn.InScope);

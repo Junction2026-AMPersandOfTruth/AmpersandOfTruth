@@ -44,12 +44,22 @@ public sealed class OverviewComponentsTests : BunitContext
         var article = new TopicArticle("fi", 1150, "Talvisota", 0.05);
         progress.Apply(new ArticlesFound(1, [article]));
         progress.Apply(new RevisionsScanned(9214, []));
-        progress.Apply(new Completed(FromCache: true, [], TimeSpan.FromSeconds(38)));
+        progress.Apply(new Completed(FromCache: false, [], TimeSpan.FromSeconds(38)));
+        cut.Render();
+
+        var freshDone = cut.Find("[data-testid=stage-tracker-done]");
+        Assert.Contains("Analysed in 38 s", freshDone.TextContent);
+        Assert.DoesNotContain("previous analysis", freshDone.TextContent);
+
+        progress.Apply(new Completed(FromCache: true, [], TimeSpan.Zero)
+        {
+            AnalysedAt = new DateTimeOffset(2026, 11, 14, 22, 45, 0, TimeSpan.Zero),
+        });
         cut.Render();
 
         var done = cut.Find("[data-testid=stage-tracker-done]");
-        Assert.Contains("Analysed in 38 s", done.TextContent);
-        Assert.Contains("loaded from previous analysis", done.TextContent);
+        Assert.DoesNotContain("Analysed in", done.TextContent);
+        Assert.Contains("Loaded from previous analysis (analysed 14 Nov 2026, 22:45 UTC) · Re-run", done.TextContent);
         Assert.Empty(cut.FindAll("[data-testid=cancel-run]"));
 
         cut.Find("[data-testid=rerun-link]").Click();

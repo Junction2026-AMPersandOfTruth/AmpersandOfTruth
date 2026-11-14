@@ -32,9 +32,10 @@
 
     @if (_outOfScope is not null)
     {
+        var hasCloseSuggestions = HasCloseSuggestions(_outOfScope);
         <div data-testid="out-of-scope" style="margin-top:24px">
             <EmptyState Title="@($"Our data covers the history of Finland. ‘{_outOfScope.Topic}’ is outside it.")"
-                        Message="Try one of the nearest topics in our dataset:">
+                        Message="@(hasCloseSuggestions ? "Try one of the nearest topics in our dataset:" : "Try a topic from the history of Finland:")">
                 <Actions>
                     @foreach (var item in GetOutOfScopeSuggestions())
                     {
@@ -88,13 +89,24 @@
 
     private void HandleOutOfScope(OutOfScopeTopic topic) => _outOfScope = topic;
 
+    private static bool HasCloseSuggestions(OutOfScopeTopic topic) =>
+        topic.Suggestions.Any(static s => !string.IsNullOrWhiteSpace(s));
+
     private IEnumerable<SuggestedTopic> GetOutOfScopeSuggestions()
     {
-        if (_outOfScope is { Suggestions.Count: > 0 })
+        if (_outOfScope is { } outOfScope && HasCloseSuggestions(outOfScope))
         {
-            return _outOfScope.Suggestions
+            var configured = Options.Value.SuggestedTopics;
+            return outOfScope.Suggestions
                 .Where(static s => !string.IsNullOrWhiteSpace(s))
-                .Select(static s => new SuggestedTopic(s.Trim(), s.Trim()));
+                .Select(s =>
+                {
+                    var trimmed = s.Trim();
+                    var match = configured.FirstOrDefault(c =>
+                        string.Equals(c.Label.Trim(), trimmed, StringComparison.OrdinalIgnoreCase) ||
+                        string.Equals(c.Topic.Trim(), trimmed, StringComparison.OrdinalIgnoreCase));
+                    return match ?? new SuggestedTopic(trimmed, trimmed);
+                });
         }
 
         return Options.Value.SuggestedTopics;

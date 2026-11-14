@@ -90,7 +90,9 @@ a.aot-card:hover .aot-card__claim { text-decoration: underline; }
 .aot-card__main:hover .aot-card__claim { text-decoration: underline; }
 .aot-card__main::after { content: ""; position: absolute; inset: 0; z-index: 1; }
 .aot-card__top { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); justify-content: space-between; }
+.aot-card__mt { margin: var(--space-2) 0 2px; }
 .aot-card__claim { font: 400 20px/28px var(--font-serif); margin: var(--space-3) 0 2px; color: var(--ink); }
+.aot-card__mt + .aot-card__claim { margin-top: 2px; }
 .aot-card__what { margin: var(--space-2) 0 var(--space-3); }
 .aot-facts { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-6); margin: 0 0 var(--space-3); font-size: 13px; line-height: 18px; }
 .aot-facts div { display: flex; flex-direction: column; }
@@ -104,7 +106,9 @@ a.aot-card:hover .aot-card__claim { text-decoration: underline; }
 }
 .aot-card--compact { padding: var(--space-3); }
 .aot-card--compact .aot-card__top { flex-direction: column; align-items: flex-start; gap: var(--space-1); }
+.aot-card--compact .aot-card__mt { margin: var(--space-1) 0 2px; }
 .aot-card--compact .aot-card__claim { font-size: 16px; line-height: 22px; margin-top: var(--space-2); }
+.aot-card--compact .aot-card__mt + .aot-card__claim { margin-top: 2px; }
 .aot-card--compact .aot-card__what { font-size: 13px; line-height: 18px; margin-bottom: 0; }
 .aot-card--skeleton { pointer-events: none; }
 .aot-skel { display: block; background: var(--surface-sunken); border-radius: var(--radius-sm); height: 12px; }
@@ -224,9 +228,9 @@ h1:focus, h1:focus-visible, [tabindex="-1"]:focus, [tabindex="-1"]:focus-visible
 .aot-steps li::before { content: counter(s); display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line-strong); font: 600 12px/1 var(--font-mono); color: var(--ink); margin-bottom: var(--space-2); }
 .aot-steps b { display: block; color: var(--ink); font-size: 14px; }
 @media (max-width: 599.98px) {
-  .aot-search:not(.aot-search--compact) { flex-wrap: wrap; padding: 6px 8px; }
-  .aot-search:not(.aot-search--compact) input { flex: 1 1 100%; width: 100%; font-size: 16px; line-height: 24px; padding: 2px 4px; }
-  .aot-search:not(.aot-search--compact) .aot-btn { flex: 1 1 100%; justify-content: center; }
+  .aot-search:not(.aot-search--compact):not(.aot-appbar__search .aot-search) { flex-wrap: wrap; padding: 6px 8px; }
+  .aot-search:not(.aot-search--compact):not(.aot-appbar__search .aot-search) input { flex: 1 1 100%; width: 100%; font-size: 16px; line-height: 24px; padding: 2px 4px; }
+  .aot-search:not(.aot-search--compact):not(.aot-appbar__search .aot-search) .aot-btn { flex: 1 1 100%; justify-content: center; }
   .aot-steps { grid-template-columns: 1fr; }
 }
 
@@ -251,6 +255,9 @@ h1:focus, h1:focus-visible, [tabindex="-1"]:focus, [tabindex="-1"]:focus-visible
   .aot-cols { grid-template-columns: minmax(0, 1fr); align-items: stretch; }
 }
 .aot-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.aot-overview-toolbar { gap: 6px; }
+.aot-overview-toolbar select.aot-select { padding: 4px 22px 4px 8px; }
+.aot-year-input { width: 62px; padding: 4px 5px; font-variant-numeric: tabular-nums; }
 .aot-select { font: 400 13px/18px var(--font-sans); padding: 5px 28px 5px 10px; border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); }
 .aot-filter-disclosure { border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface-sunken); padding: var(--space-2) var(--space-3); }
 .aot-filter-disclosure > summary { cursor: pointer; font-size: 13px; line-height: 20px; font-weight: 600; color: var(--ink); }

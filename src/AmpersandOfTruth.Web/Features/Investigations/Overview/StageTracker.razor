@@ -25,9 +25,16 @@
             }
             else
             {
-                <text>Analysed in @FormatSeconds(Progress.Elapsed)</text>@if (Progress.FromCache)
+                @if (Progress.FromCache)
                 {
-                    <text> · </text><span class="aot-muted">loaded from previous analysis</span>
+                    <text>Loaded from previous analysis</text>@if (Progress.AnalysedAt is { } analysedAt)
+                    {
+                        @(" ")<span class="aot-muted">(analysed @FormatUtc(analysedAt))</span>
+                    }
+                }
+                else
+                {
+                    <text>Analysed in @FormatSeconds(Progress.Elapsed)</text>
                 }
                 @if (OnRerun.HasDelegate)
                 {
@@ -195,6 +202,9 @@ else
         var seconds = Math.Max(0, (int)Math.Round(elapsed.TotalSeconds, MidpointRounding.AwayFromZero));
         return string.Create(CultureInfo.InvariantCulture, $"{seconds} s");
     }
+
+    private static string FormatUtc(DateTimeOffset timestamp) =>
+        $"{timestamp.UtcDateTime.ToString("d MMM yyyy, HH:mm", CultureInfo.InvariantCulture)} UTC";
 
     public static string FailureSentence(StageFailureKind kind) => kind switch
     {

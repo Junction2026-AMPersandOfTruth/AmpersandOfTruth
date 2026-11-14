@@ -70,7 +70,7 @@
         if (!string.Equals(_translatedSignature, signature, StringComparison.Ordinal))
         {
             _cts?.Cancel();
-            if (_hasRendered)
+            if (IncidentRenderMode.IsInteractiveOrRendered(() => RendererInfo, _hasRendered))
             {
                 await LoadTranslationsAsync(signature);
             }

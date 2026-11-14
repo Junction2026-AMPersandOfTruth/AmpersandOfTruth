@@ -125,8 +125,10 @@ public sealed partial class EmbeddingScopeCheck(
             }
 
             return chips
-                .OrderBy(c => CosineDistance(topicVector, _chipVectors[NormalizeForEmbedding(c.Topic)]))
-                .Select(static c => c.Label.Trim())
+                .Select(c => (Chip: c, Distance: CosineDistance(topicVector, _chipVectors[NormalizeForEmbedding(c.Topic)])))
+                .Where(x => x.Distance <= cfg.Scope.MaxSuggestionDistance)
+                .OrderBy(static x => x.Distance)
+                .Select(static x => x.Chip.Label.Trim())
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .Take(maxCount)
                 .ToList();
@@ -137,12 +139,8 @@ public sealed partial class EmbeddingScopeCheck(
         }
         catch (Exception ex)
         {
-            WarnOnce(ex, "Could not embed suggested topic chips; falling back to configured order.");
-            return chips
-                .Select(static c => c.Label.Trim())
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .Take(maxCount)
-                .ToList();
+            WarnOnce(ex, "Could not embed suggested topic chips; returning no close suggestions.");
+            return [];
         }
     }
 

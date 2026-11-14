@@ -1,5 +1,9 @@
+@implements IDisposable
 @using AmpersandOfTruth.Web.Features.Evidence
 @using AmpersandOfTruth.Web.Features.Investigations.View
+@using AmpersandOfTruth.Web.Features.Translation
+@using Microsoft.Extensions.DependencyInjection
+@inject IServiceProvider Services
 
 <section class="aot-panel aot-why" id="why" data-testid="why-flagged">
     <h3 class="aot-h3">Why this is flagged</h3>
@@ -12,10 +16,43 @@
         var signal = Incident.Signals[i];
         var hasWhy = !string.IsNullOrWhiteSpace(signal.Phrase.Why);
         var hasEvidence = !string.IsNullOrWhiteSpace(signal.Evidence);
+        var isRemovalReason = string.Equals(signal.Phrase.Id, "removal_reason", StringComparison.Ordinal);
+        var isClaimContent = string.Equals(signal.Phrase.Id, "claim_content", StringComparison.Ordinal);
         <details open="@(i == 0)" data-testid="why-signal">
             <summary>@signal.Phrase.Chip</summary>
             <div>
-                @if (hasWhy && hasEvidence)
+                @if (isRemovalReason && hasEvidence)
+                {
+                    var cleanedSummary = CleanEvidence(signal.Evidence!);
+                    @if (hasWhy)
+                    {
+                        <div data-testid="why-signal-reason">@signal.Phrase.Why</div>
+                    }
+                    @if (IsCuratedEnglishNote(signal.Evidence!))
+                    {
+                        <div style="margin-top:4px">@cleanedSummary</div>
+                    }
+                    else if (_translations.TryGetValue(cleanedSummary, out var translated) && !string.IsNullOrWhiteSpace(translated))
+                    {
+                        <div style="margin-top:4px">
+                            <MtLabel Text="@FormatQuoted(translated)" Original="@cleanedSummary" Lang="@EffectiveLang" Stacked="true" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="aot-original" lang="@EffectiveLang" style="margin-top:4px" data-testid="why-removal-original">@cleanedSummary</div>
+                    }
+                }
+                else if (isClaimContent && hasEvidence && !IsCuratedEnglishNote(signal.Evidence!))
+                {
+                    var cleanedQuote = CleanEvidence(signal.Evidence!);
+                    @if (hasWhy)
+                    {
+                        <div data-testid="why-signal-reason">@signal.Phrase.Why</div>
+                    }
+                    <div class="aot-original" lang="@EffectiveLang" style="margin-top:4px">@cleanedQuote</div>
+                }
+                else if (hasWhy && hasEvidence)
                 {
                     <span>@signal.Phrase.Why</span>@(" ")<span>@signal.Evidence</span>
                 }
@@ -36,7 +73,155 @@
 </section>
 
 @code {
+    private readonly Dictionary<string, string> _translations = new(StringComparer.Ordinal);
+    private CancellationTokenSource? _cts;
+    private string? _translatedSignature;
+    private bool _hasRendered;
+    private bool _disposed;
+
     [Parameter, EditorRequired] public IncidentView Incident { get; set; } = default!;
+    [Parameter] public string? Scope { get; set; }
+
+    private string EffectiveLang => string.IsNullOrWhiteSpace(Incident.Lang) ? "fi" : Incident.Lang;
+
+    protected override void OnParametersSet()
+    {
+        var signature = BuildSignature();
+        if (!string.Equals(_translatedSignature, signature, StringComparison.Ordinal))
+        {
+            _cts?.Cancel();
+            if (IncidentRenderMode.IsInteractiveOrRendered(() => RendererInfo, _hasRendered))
+            {
+                EnsureTranslationsStarted(signature);
+            }
+        }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _hasRendered = true;
+        }
+
+        var signature = BuildSignature();
+        if (!string.Equals(_translatedSignature, signature, StringComparison.Ordinal))
+        {
+            EnsureTranslationsStarted(signature);
+        }
+    }
+
+    public void Dispose()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+
+    private void EnsureTranslationsStarted(string signature)
+    {
+        _translatedSignature = signature;
+
+        var translator = Services.GetService<IEvidenceTranslator>();
+        if (translator is null)
+        {
+            return;
+        }
+
+        var pending = Incident.Signals
+            .Where(static s => string.Equals(s.Phrase.Id, "removal_reason", StringComparison.Ordinal)
+                && !string.IsNullOrWhiteSpace(s.Evidence)
+                && !IsCuratedEnglishNote(s.Evidence!))
+            .Select(static s => CleanEvidence(s.Evidence!))
+            .Where(s => s.Length > 0 && !_translations.ContainsKey(s))
+            .Distinct(StringComparer.Ordinal)
+            .ToArray();
+
+        if (pending.Length == 0)
+        {
+            return;
+        }
+
+        _cts?.Cancel();
+        _cts?.Dispose();
+        var run = _cts = new CancellationTokenSource();
+        var ct = run.Token;
+        var lang = EffectiveLang;
+        var scope = Scope;
+
+        _ = LoadTranslationsAsync(translator, pending, lang, scope, signature, run, ct);
+    }
+
+    private async Task LoadTranslationsAsync(
+        IEvidenceTranslator translator,
+        string[] pending,
+        string lang,
+        string? scope,
+        string signature,
+        CancellationTokenSource run,
+        CancellationToken ct)
+    {
+        try
+        {
+            var updated = false;
+            foreach (var summary in pending)
+            {
+                var result = await translator.TranslateAsync(summary, sourceLang: lang, scope: scope, ct: ct);
+                if (_disposed || ct.IsCancellationRequested || !ReferenceEquals(run, _cts))
+                {
+                    return;
+                }
+
+                if (result is { Ok: true, English: { Length: > 0 } english })
+                {
+                    _translations[summary] = english.Trim();
+                    updated = true;
+                }
+            }
+
+            if (updated && !_disposed)
+            {
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested || _disposed)
+        {
+            if (ReferenceEquals(run, _cts))
+            {
+                _translatedSignature = null;
+            }
+        }
+    }
+
+    private string BuildSignature() =>
+        $"{Incident.Id}|{EffectiveLang}|{Scope}|{string.Join('\u001F', Incident.Signals.Select(static s => $"{s.Phrase.Id}:{s.Evidence}"))}";
+
+    private static bool IsCuratedEnglishNote(string text)
+    {
+        var trimmed = text.AsSpan().TrimStart();
+        return trimmed.StartsWith("Editors noted ", StringComparison.Ordinal)
+            || trimmed.StartsWith("Removal summaries noted ", StringComparison.Ordinal)
+            || trimmed.StartsWith("First removal summary:", StringComparison.Ordinal)
+            || trimmed.StartsWith("Removed with ", StringComparison.Ordinal)
+            || trimmed.StartsWith("Assessed as ", StringComparison.Ordinal);
+    }
+
+    private static string CleanEvidence(string raw)
+    {
+        var cleaned = DiffModel.CleanProse(raw);
+        return string.IsNullOrWhiteSpace(cleaned) ? raw.Trim() : cleaned;
+    }
+
+    private static string FormatQuoted(string english)
+    {
+        var trimmed = english.Trim().Trim('"', '\u201C', '\u201D').Trim();
+        return $"\u201C{trimmed}\u201D";
+    }
 
     private static string FormatLead(string? tierReason)
     {

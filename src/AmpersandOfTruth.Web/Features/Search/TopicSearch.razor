@@ -1,28 +1,31 @@
-@implements IDisposable
+@implements IAsyncDisposable
 @using System.Globalization
 @using AmpersandOfTruth.Web.Features.Evidence
 @using AmpersandOfTruth.Web.Features.Investigations.View
 @using Microsoft.Extensions.Options
+@using Microsoft.JSInterop
 @inject IOptions<SearchOptions> Options
 @inject IScopeCheck ScopeCheck
 @inject RecentTopics Recent
 @inject NavigationManager Nav
+@inject IJSRuntime JS
 
 @if (Compact)
 {
     <EditForm EditContext="_editContext"
               OnSubmit="HandleSubmit"
               FormName="topic-search-compact">
-        <div class="aot-search" style="padding:2px 2px 2px 12px">
-            <InputText Value="@_model.Topic"
+        <div class="aot-search aot-search--compact">
+            <InputText @ref="_input"
+                       Value="@_model.Topic"
                        ValueChanged="OnTopicChanged"
                        ValueExpression="() => _model.Topic"
                        disabled="@(!CanType)"
+                       enterkeyhint="search"
                        placeholder="Search a topic"
                        aria-label="Topic"
-                       data-testid="topic-input"
-                       style="font-size:14px;line-height:22px" />
-            <button type="submit" class="aot-btn aot-btn--primary aot-btn--sm" data-testid="topic-submit" disabled="@(!CanType)">Investigate</button>
+                       data-testid="topic-input" />
+            <button type="submit" class="aot-btn aot-btn--primary aot-btn--sm" data-testid="topic-submit" disabled="@(!CanType || _submitting)">Investigate</button>
         </div>
         <ValidationMessage For="() => _model.Topic" />
     </EditForm>
@@ -34,14 +37,16 @@ else
                   OnSubmit="HandleSubmit"
                   FormName="topic-search">
             <div class="aot-search">
-                <InputText Value="@_model.Topic"
+                <InputText @ref="_input"
+                           Value="@_model.Topic"
                            ValueChanged="OnTopicChanged"
                            ValueExpression="() => _model.Topic"
                            disabled="@(!CanType)"
+                           enterkeyhint="search"
                            placeholder="What topic do you want to investigate?"
                            aria-label="Topic"
                            data-testid="topic-input" />
-                <button type="submit" class="aot-btn aot-btn--primary" data-testid="topic-submit" disabled="@(!CanType)">Investigate</button>
+                <button type="submit" class="aot-btn aot-btn--primary" data-testid="topic-submit" disabled="@(!CanType || _submitting)">Investigate</button>
             </div>
             <ValidationMessage For="() => _model.Topic" />
         </EditForm>
@@ -111,9 +116,14 @@ else
     [Parameter] public EventCallback<OutOfScopeTopic> OnOutOfScope { get; set; }
 
     private readonly SearchInputModel _model = new();
+    private readonly CancellationTokenSource _cts = new();
     private EditContext _editContext = default!;
     private ValidationMessageStore _validationMessages = default!;
+    private InputText? _input;
+    private IJSObjectReference? _jsModule;
     private string? _lastInitial;
+    private bool _submitting;
+    private bool _disposed;
 
     private int? _fromYear;
     private int? _toYear;
@@ -161,95 +171,151 @@ else
 
     private bool _interactive;
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         // Runs only once the circuit is interactive (never during prerender).
-        if (firstRender && !_interactive)
+        if (!firstRender)
+        {
+            return;
+        }
+
+        if (!_interactive)
         {
             _interactive = true;
             StateHasChanged();
+        }
+
+        try
+        {
+            _jsModule = await JS.InvokeAsync<IJSObjectReference>(
+                "import",
+                "./Features/Search/TopicSearch.razor.js");
+        }
+        catch
+        {
+            // Headless/test environments without JS module loading fall back to EditForm change binding.
         }
     }
 
     private async Task HandleSubmit()
     {
-        if (!CanType)
+        if (!CanType || _submitting || _disposed)
         {
             return;
         }
 
-        _validationMessages.Clear();
-        var trimmed = (_model.Topic ?? "").Trim();
-
-        if (trimmed.Length == 0)
-        {
-            _editContext.NotifyValidationStateChanged();
-            return;
-        }
-
-        var field = FieldIdentifier.Create(() => _model.Topic);
-
-        if (trimmed.Length < 2)
-        {
-            _validationMessages.Add(field, "Enter at least 2 characters.");
-            _editContext.NotifyValidationStateChanged();
-            return;
-        }
-
-        if (trimmed.Length > TopicSlug.MaxTopicLength)
-        {
-            _validationMessages.Add(field, $"Topic must be {TopicSlug.MaxTopicLength} characters or fewer.");
-            _editContext.NotifyValidationStateChanged();
-            return;
-        }
-
-        if (string.IsNullOrEmpty(TopicSlug.From(trimmed)))
-        {
-            _validationMessages.Add(field, "Include letters or numbers in the topic.");
-            _editContext.NotifyValidationStateChanged();
-            return;
-        }
-
-        _editContext.NotifyValidationStateChanged();
-
-        ScopeResult scope;
+        _submitting = true;
         try
         {
-            scope = await ScopeCheck.CheckAsync(trimmed);
-        }
-        catch (OperationCanceledException)
-        {
-            return;
-        }
-        catch
-        {
-            // Degrade to in-scope navigation if scope checking fails so the overview page renders its status banner.
-            scope = new ScopeResult(true, []);
-        }
-        if (Compact)
-        {
+            var liveValue = await ReadLiveInputValueAsync();
+            if (liveValue is not null)
+            {
+                _model.Topic = liveValue;
+            }
+
+            _validationMessages.Clear();
+            var trimmed = (_model.Topic ?? "").Trim();
+
+            if (trimmed.Length == 0)
+            {
+                _editContext.NotifyValidationStateChanged();
+                return;
+            }
+
+            var field = FieldIdentifier.Create(() => _model.Topic);
+
+            if (trimmed.Length < 2)
+            {
+                _validationMessages.Add(field, "Enter at least 2 characters.");
+                _editContext.NotifyValidationStateChanged();
+                return;
+            }
+
+            if (trimmed.Length > TopicSlug.MaxTopicLength)
+            {
+                _validationMessages.Add(field, $"Topic must be {TopicSlug.MaxTopicLength} characters or fewer.");
+                _editContext.NotifyValidationStateChanged();
+                return;
+            }
+
+            if (string.IsNullOrEmpty(TopicSlug.From(trimmed)))
+            {
+                _validationMessages.Add(field, "Include letters or numbers in the topic.");
+                _editContext.NotifyValidationStateChanged();
+                return;
+            }
+
+            _editContext.NotifyValidationStateChanged();
+
+            ScopeResult scope;
+            try
+            {
+                scope = await ScopeCheck.CheckAsync(trimmed, _cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+            catch
+            {
+                // Degrade to in-scope navigation if scope checking fails so the overview page renders its status banner.
+                scope = new ScopeResult(true, []);
+            }
+
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (Compact)
+            {
+                if (scope.InScope)
+                {
+                    await Recent.AddAsync(trimmed);
+                }
+                Nav.NavigateTo(TopicSlug.Route(trimmed));
+                return;
+            }
+
             if (scope.InScope)
             {
                 await Recent.AddAsync(trimmed);
+                Nav.NavigateTo(TopicSlug.Route(trimmed) + BuildFilterQuery());
+                return;
             }
-            Nav.NavigateTo(TopicSlug.Route(trimmed));
-            return;
+
+            if (OnOutOfScope.HasDelegate)
+            {
+                await OnOutOfScope.InvokeAsync(new OutOfScopeTopic(trimmed, scope.Suggestions));
+            }
+            else
+            {
+                Nav.NavigateTo(TopicSlug.Route(trimmed) + BuildFilterQuery());
+            }
+        }
+        finally
+        {
+            _submitting = false;
+        }
+    }
+
+    private async ValueTask<string?> ReadLiveInputValueAsync()
+    {
+        if (_input?.Element is not { } element)
+        {
+            return null;
         }
 
-        if (scope.InScope)
+        try
         {
-            await Recent.AddAsync(trimmed);
-            Nav.NavigateTo(TopicSlug.Route(trimmed) + BuildFilterQuery());
-            return;
+            _jsModule ??= await JS.InvokeAsync<IJSObjectReference>(
+                "import",
+                "./Features/Search/TopicSearch.razor.js");
+            return await _jsModule.InvokeAsync<string?>("readInputValue", _cts.Token, element);
         }
-
-        if (OnOutOfScope.HasDelegate)
+        catch
         {
-            await OnOutOfScope.InvokeAsync(new OutOfScopeTopic(trimmed, scope.Suggestions));
-        }
-        else
-        {
-            Nav.NavigateTo(TopicSlug.Route(trimmed) + BuildFilterQuery());
+            return null;
         }
     }
 
@@ -283,7 +349,29 @@ else
         return parts.Count == 0 ? "" : "?" + string.Join("&", parts);
     }
 
-    public void Dispose() => _editContext.OnFieldChanged -= OnFieldChanged;
+    public async ValueTask DisposeAsync()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
+        _editContext.OnFieldChanged -= OnFieldChanged;
+        _cts.Cancel();
+        _cts.Dispose();
+
+        if (_jsModule is not null)
+        {
+            try
+            {
+                await _jsModule.DisposeAsync();
+            }
+            catch
+            {
+            }
+        }
+    }
 
     private sealed class SearchInputModel
     {

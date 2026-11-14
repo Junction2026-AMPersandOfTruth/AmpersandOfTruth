@@ -306,4 +306,133 @@ public sealed class IncidentSubcomponentsTests : BunitContext
         var cardOrig = relCut.Find("[data-testid=incident-card] .aot-original");
         Assert.Equal("Valtio & valta", cardOrig.TextContent);
     }
+
+    [Fact]
+    public void WhyFlagged_never_splices_Finnish_removal_summary_into_English_and_renders_MtLabel_with_fi_line()
+    {
+        _translator.Returns("Vapaussota on puolueellinen termi", "War of Independence is a biased term");
+
+        var pipelineIncident = FakeIncidentSource.BuildIncident(
+            id: "cw-pipe-1",
+            rank: 1,
+            signals:
+            [
+                new SignalView(SignalCatalog.For("removal_reason"), "'''Vapaussota''' on puolueellinen termi"),
+                new SignalView(SignalCatalog.For("claim_content"), "Suomen vapaussotaa"),
+            ]);
+
+        var cut = Render<WhyFlagged>(p => p
+            .Add(x => x.Incident, pipelineIncident)
+            .Add(x => x.Scope, "civil-war-1918"));
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Equal(1, _translator.TranslateCalls);
+            Assert.NotEmpty(cut.FindAll("[data-testid=mt-label]"));
+        });
+
+        var signals = cut.FindAll("[data-testid=why-signal]");
+        Assert.Equal(2, signals.Count);
+
+        // Plain-language reason stands alone in English, never concatenated with raw Finnish
+        var reasonLine = signals[0].QuerySelector("[data-testid=why-signal-reason]");
+        Assert.NotNull(reasonLine);
+        Assert.Equal(
+            "The editor who removed it gave a reason about accuracy, neutrality or sources.",
+            reasonLine.TextContent);
+        Assert.DoesNotContain("Vapaussota", reasonLine.TextContent, StringComparison.OrdinalIgnoreCase);
+
+        // Machine translation + FI original on its own line (lang="fi")
+        var mt = signals[0].QuerySelector("[data-testid=mt-label]");
+        Assert.NotNull(mt);
+        Assert.Contains("\u201CWar of Independence is a biased term\u201D", mt.TextContent);
+        Assert.NotNull(mt.QuerySelector(".aot-mt__tag"));
+
+        var fiLine = signals[0].QuerySelector("[data-testid=mt-original]");
+        Assert.NotNull(fiLine);
+        Assert.Equal("fi", fiLine.GetAttribute("lang"));
+        Assert.Equal("Vapaussota on puolueellinen termi", fiLine.TextContent);
+
+        // Claim-content quote also sits on its own lang="fi" line rather than spliced into English
+        var claimReasonLine = signals[1].QuerySelector("[data-testid=why-signal-reason]");
+        Assert.NotNull(claimReasonLine);
+        Assert.DoesNotContain("Suomen vapaussotaa", claimReasonLine.TextContent, StringComparison.Ordinal);
+        var claimFiLine = signals[1].QuerySelector(".aot-original[lang='fi']");
+        Assert.NotNull(claimFiLine);
+        Assert.Equal("Suomen vapaussotaa", claimFiLine.TextContent);
+
+        Assert.Empty(CopyRules.FindViolations(cut.Find("[data-testid=why-flagged]").TextContent, includeJargon: true));
+    }
+
+    [Fact]
+    public void WhyFlagged_when_translator_fails_still_isolates_Finnish_summary_on_own_fi_line()
+    {
+        _translator.FailAll = true;
+
+        var pipelineIncident = FakeIncidentSource.BuildIncident(
+            id: "cw-pipe-2",
+            rank: 1,
+            signals:
+            [
+                new SignalView(SignalCatalog.For("removal_reason"), "Vapaussota on puolueellinen termi"),
+            ]);
+
+        var cut = Render<WhyFlagged>(p => p
+            .Add(x => x.Incident, pipelineIncident)
+            .Add(x => x.Scope, "civil-war-1918"));
+
+        cut.WaitForAssertion(() => Assert.Equal(1, _translator.TranslateCalls));
+
+        var reasonLine = cut.Find("[data-testid=why-signal-reason]");
+        Assert.Equal(
+            "The editor who removed it gave a reason about accuracy, neutrality or sources.",
+            reasonLine.TextContent);
+
+        var fiFallback = cut.Find("[data-testid=why-removal-original]");
+        Assert.Equal("fi", fiFallback.GetAttribute("lang"));
+        Assert.Equal("Vapaussota on puolueellinen termi", fiFallback.TextContent);
+        Assert.Empty(cut.FindAll("[data-testid=mt-label]"));
+    }
+
+    [Fact]
+    public void RelatedIncidents_leads_with_English_title_when_known_and_renders_Finnish_under_it()
+    {
+        var current = FakeIncidentSource.BuildIncident(
+            id: "cw-01",
+            rank: 1,
+            articles: [new ArticleRef(401, "Vilppulan rintama", "Battle of Vilppula")]);
+        var siblingTitled = FakeIncidentSource.BuildIncident(
+            id: "cw-02",
+            rank: 2,
+            articles: [new ArticleRef(401, "Vilppulan rintama", "Battle of Vilppula")]);
+        var untitled = FakeIncidentSource.BuildIncident(
+            id: "cw-03",
+            rank: 3,
+            articles: [new ArticleRef(402, "Suomen sisällissodan nimet", null)]);
+
+        var cut = Render<RelatedIncidents>(p => p
+            .Add(x => x.Current, current)
+            .Add(x => x.Incidents, [current, siblingTitled, untitled])
+            .Add(x => x.Topic, "civil-war-1918"));
+
+        var cards = cut.FindAll("[data-testid=incident-card]");
+        Assert.Equal(2, cards.Count);
+
+        var enTitle = cards[0].QuerySelector("[data-testid=related-article-en]");
+        var fiTitle = cards[0].QuerySelector("[data-testid=related-article-fi]");
+        Assert.NotNull(enTitle);
+        Assert.NotNull(fiTitle);
+        Assert.Equal("Battle of Vilppula", enTitle.TextContent);
+        Assert.Equal("fi", fiTitle.GetAttribute("lang"));
+        Assert.Equal("Vilppulan rintama", fiTitle.TextContent);
+        Assert.True(
+            cards[0].InnerHtml.IndexOf("Battle of Vilppula", StringComparison.Ordinal)
+            < cards[0].InnerHtml.IndexOf("Vilppulan rintama", StringComparison.Ordinal));
+
+        // Untitled article falls back to Finnish title + (Finnish Wikipedia)
+        var untitledHeader = cards[1].QuerySelector("[data-testid=related-article]");
+        Assert.NotNull(untitledHeader);
+        Assert.Contains("Suomen sisällissodan nimet", untitledHeader.TextContent);
+        Assert.Contains("(Finnish Wikipedia)", untitledHeader.TextContent);
+    }
 }

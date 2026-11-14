@@ -1,0 +1,9 @@
+.aot-diff__mt--top {
+    border-top: 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.aot-diff__fi-head {
+    padding: var(--space-2) var(--space-4) 0;
+    font-family: var(--font-sans);
+}

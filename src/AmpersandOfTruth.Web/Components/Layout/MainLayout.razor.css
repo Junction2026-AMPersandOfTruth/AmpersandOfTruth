@@ -33,34 +33,77 @@ main.aot-page {
     flex: none;
 }
 
+.aot-appbar__search-toggle {
+    display: none;
+}
+
+.aot-appbar__search-toggle svg {
+    width: 16px;
+    height: 16px;
+    flex: none;
+}
+
 @media (max-width: 767.98px) {
     .aot-appbar {
         flex-wrap: wrap;
         height: auto;
         min-height: 48px;
-        padding: var(--space-2) var(--space-3);
-        gap: var(--space-2);
+        padding: 6px 10px;
+        gap: 6px;
     }
 
     .aot-brand {
-        font-size: 16px;
+        font-size: 15px;
         white-space: nowrap;
+        flex: none;
+        align-items: center;
+        min-height: 32px;
     }
 
     .aot-brand em {
-        font-size: 21px;
+        font-size: 22px;
     }
 
     ::deep nav {
-        gap: var(--space-2);
-        font-size: 12.5px;
+        gap: 8px;
+        font-size: 12px;
         white-space: nowrap;
+        margin-left: auto;
+        align-items: center;
+    }
+
+    ::deep nav a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 32px;
+    }
+
+    .aot-appbar__search-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--ink-muted);
+        padding: 4px 6px;
+        min-width: 32px;
+        min-height: 32px;
+        margin-left: 0;
+    }
+
+    .aot-appbar__search-toggle:hover {
+        color: var(--ink);
+        background: var(--surface-sunken);
+        border-color: transparent;
     }
 
     .aot-appbar__search {
-        order: 3;
+        display: none;
+        order: 5;
         flex: 1 1 100%;
         max-width: none;
+    }
+
+    .aot-appbar__search.is-open {
+        display: block;
     }
 
     .aot-appbar__search:empty {
@@ -69,7 +112,10 @@ main.aot-page {
 
     ::deep .aot-theme-toggle {
         margin-left: 0;
-        padding: 4px;
+        padding: 4px 6px;
+        min-width: 32px;
+        min-height: 32px;
+        justify-content: center;
     }
 
     ::deep .aot-theme-toggle__label {
@@ -82,5 +128,11 @@ main.aot-page {
 
     ::deep .aot-footer {
         padding: var(--space-4);
+    }
+}
+
+@media (max-width: 559.98px) {
+    .aot-brand__name {
+        display: none;
     }
 }

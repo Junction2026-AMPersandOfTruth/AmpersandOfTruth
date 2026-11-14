@@ -6,10 +6,12 @@ public sealed class ScopeOptions
 {
     public const double DefaultMaxTopDistance = 0.495;
     public const double DefaultMaxMeanDistance = 0.515;
+    public const double DefaultMaxSuggestionDistance = 0.46;
     public const int DefaultMaxSuggestions = 4;
 
     public double MaxTopDistance { get; set; } = DefaultMaxTopDistance;
     public double MaxMeanDistance { get; set; } = DefaultMaxMeanDistance;
+    public double MaxSuggestionDistance { get; set; } = DefaultMaxSuggestionDistance;
     public int MaxSuggestions { get; set; } = DefaultMaxSuggestions;
 }
 

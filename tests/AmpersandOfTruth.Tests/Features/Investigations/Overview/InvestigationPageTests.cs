@@ -139,18 +139,23 @@ public sealed class InvestigationPageTests : BunitContext
         });
 
         await session.WriteAsync(new CandidateScored(3, 3, candUnflagged, null, "graffiti"));
-        await session.WriteAsync(new Completed(FromCache: true, [incHigh, incLow], TimeSpan.FromSeconds(38)));
+        await session.WriteAsync(new Completed(FromCache: true, [incHigh, incLow], TimeSpan.Zero)
+        {
+            AnalysedAt = new DateTimeOffset(2026, 11, 14, 22, 45, 0, TimeSpan.Zero),
+        });
         session.Complete();
 
         cut.WaitForAssertion(() =>
         {
             var done = cut.Find("[data-testid=stage-tracker-done]");
-            Assert.Contains("Analysed in 38 s", done.TextContent);
-            Assert.Contains("loaded from previous analysis", done.TextContent);
+            Assert.DoesNotContain("Analysed in", done.TextContent);
+            Assert.Contains("Loaded from previous analysis (analysed 14 Nov 2026, 22:45 UTC)", done.TextContent);
             Assert.NotNull(cut.Find("[data-testid=rerun-link]"));
 
             var header = cut.Find("[data-testid=summary-header]").TextContent;
-            Assert.Contains("3 articles", header);
+            Assert.Contains("3 articles found", header);
+            Assert.Contains("2 with edit history", header);
+            Assert.Contains("Articles (2)", cut.Find("[data-testid=article-rail] > summary").TextContent);
             Assert.Contains("9,214 revisions scanned", header);
             Assert.Contains("2 incidents:", header);
 
@@ -867,6 +872,50 @@ public sealed class InvestigationPageTests : BunitContext
         {
             Assert.Equal("Signal", cut.Find("[data-testid=signal-menu-toggle]").TextContent.Trim());
             Assert.Empty(cut.FindAll("[data-testid=active-signal-filter]"));
+        });
+    }
+
+    [Fact]
+    public async Task Summary_header_article_count_matches_rail_or_explains_found_vs_edit_history()
+    {
+        var fiArticles = Enumerable.Range(1, 10)
+            .Select(i => new TopicArticle("fi", 1000 + i, $"Artikkeli {i}", 0.05 * i))
+            .ToList();
+
+        // 1. 18 found across languages, 10 fi articles with edit history -> "18 articles found · 10 with edit history" and "Articles (10)"
+        var mixedSession = _runner.EnqueueChannelRun();
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "civil-war-1918"));
+        cut.WaitForAssertion(() => Assert.Equal("civil war 1918", mixedSession.Topic));
+
+        await mixedSession.WriteAsync(new ArticlesFound(18, fiArticles));
+        await mixedSession.WriteAsync(new RevisionsScanned(4724, []));
+        await mixedSession.WriteAsync(new Completed(FromCache: false, [], TimeSpan.FromSeconds(5)));
+        mixedSession.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            var header = cut.Find("[data-testid=summary-header]").TextContent;
+            Assert.Contains("18 articles found", header);
+            Assert.Contains("10 with edit history", header);
+            Assert.Contains("Articles (10)", cut.Find("[data-testid=article-rail] > summary").TextContent);
+        });
+
+        // 2. Re-run where all 10 found articles have edit history -> "10 articles" and "Articles (10)"
+        var equalSession = _runner.EnqueueChannelRun();
+        cut.Find("[data-testid=rerun-link]").Click();
+        cut.WaitForAssertion(() => Assert.Equal("civil war 1918", equalSession.Topic));
+
+        await equalSession.WriteAsync(new ArticlesFound(10, fiArticles));
+        await equalSession.WriteAsync(new RevisionsScanned(4724, []));
+        await equalSession.WriteAsync(new Completed(FromCache: false, [], TimeSpan.FromSeconds(5)));
+        equalSession.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            var header = cut.Find("[data-testid=summary-header]").TextContent;
+            Assert.Contains("10 articles", header);
+            Assert.DoesNotContain("with edit history", header);
+            Assert.Contains("Articles (10)", cut.Find("[data-testid=article-rail] > summary").TextContent);
         });
     }
 

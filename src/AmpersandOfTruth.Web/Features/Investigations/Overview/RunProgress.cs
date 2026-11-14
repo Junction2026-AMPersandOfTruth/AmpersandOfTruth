@@ -50,6 +50,8 @@ public sealed class RunProgress
 
     public bool FromCache { get; private set; }
 
+    public DateTimeOffset? AnalysedAt { get; private set; }
+
     public int? QueuedPosition { get; private set; }
 
     public bool HasAssessmentUnavailable { get; private set; }
@@ -90,6 +92,7 @@ public sealed class RunProgress
         IsComplete = false;
         IsCancelled = false;
         FromCache = false;
+        AnalysedAt = null;
         QueuedPosition = null;
         HasAssessmentUnavailable = false;
         _finalElapsed = null;
@@ -110,6 +113,7 @@ public sealed class RunProgress
         IsComplete = true;
         IsCancelled = false;
         FromCache = true;
+        AnalysedAt = null;
         _finalElapsed ??= _startedAt is { } start ? _time.GetElapsedTime(start) : TimeSpan.Zero;
         for (var i = 0; i < _states.Length; i++)
         {
@@ -217,6 +221,7 @@ public sealed class RunProgress
 
             case Completed done:
                 FromCache = done.FromCache;
+                AnalysedAt = done.AnalysedAt != default ? done.AnalysedAt : null;
                 _finalElapsed = done.Elapsed;
                 _incidents.Clear();
                 _incidents.AddRange(done.Incidents);
