@@ -40,6 +40,7 @@ def main() -> int:
     a = ap.parse_args()
     seeds = json.loads((HERE / "topics.json").read_text())["topics"]
     human = load(HERE / "human.json") or {}
+    policy = human.pop("_policy", {})  # e.g. accept all-agreed contested/campaign labels on a human spot check
     topics, review_a, review_b, missing = [], [], [], []
     stats = {"agree": 0, "disagree": 0, "no_blind": 0}
     for s in seeds:
@@ -104,6 +105,12 @@ def main() -> int:
                 if h.get("note"): it["notes"] = (it.get("notes", "") + " Human: " + h["note"]).strip()
                 if "Labellers disagree" in it.get("notes", "") and it["human_verified"]:
                     it["notes"] = it["notes"].replace("Lowest level kept until a human decides.", "Human decided.")
+            elif (policy.get("spot_check_accepts_agreed") and others and not disagree
+                  and it["label"] in contract.STRICT_RELEVANT):
+                it["human_verified"] = True
+                by.append(policy["by"] + ":spot-check")
+                it["notes"] = (it.get("notes", "") + " " + policy["note"]).strip()
+                stats["spot_check_accepted"] = stats.get("spot_check_accepted", 0) + 1
             else:
                 it["human_verified"] = False
             it["labelled_by"] = by

@@ -1,18 +1,88 @@
 {
- "continuation-war/i16": {"label": "reverted", "category": "other", "verified": true, "by": "human:key44",
-                          "note": "Sided with the labeller: substantive (image with a new caption), removed by another account, no dispute signal."},
- "civil-war-1918/i09": {"label": "contested", "category": "content_dispute", "verified": true, "by": "human:key44",
-                        "note": "Sided with the blind re-labellers: the removal reasons plus the recurring back-and-forth over the end dates are a community-dispute signal."},
- "civil-war-1918/i10": {"label": "contested", "category": "content_dispute", "verified": true, "by": "human:key44",
-                        "note": "Sided with the blind re-labellers: the date was changed back and forth repeatedly and put back by a second account."},
- "civil-war-1918/i11": {"label": "reverted", "verified": true, "by": "human:key44",
-                        "note": "Sided with the labeller: a one-off change, no dispute signal beyond the removal."},
- "civil-war-1918/i12": {"label": "reverted", "verified": true, "by": "human:key44",
-                        "note": "Sided with the labeller: a one-off change, no dispute signal beyond the removal."},
- "civil-war-1918/i14": {"label": "reverted", "verified": true, "by": "human:key44",
-                        "note": "Sided with the labeller: two editors disagreeing on infobox/lead conventions, not a disputed claim."},
- "civil-war-1918/n11": {"label": "not-incident", "exclusion": "not-substantive", "verified": true, "by": "human:key44",
-                        "note": "Sided with the labeller."},
- "civil-war-1918/n12": {"label": "not-incident", "exclusion": "not-substantive", "verified": true, "by": "human:key44",
-                        "note": "Sided with the labeller: editing slips, nothing substantive."}
+ "_policy": {
+  "spot_check_accepts_agreed": true,
+  "by": "human:key44",
+  "note": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read."
+ },
+ "continuation-war/i16": {
+  "label": "reverted",
+  "category": "other",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller: substantive (image with a new caption), removed by another account, no dispute signal."
+ },
+ "civil-war-1918/i09": {
+  "label": "contested",
+  "category": "content_dispute",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the blind re-labellers: the removal reasons plus the recurring back-and-forth over the end dates are a community-dispute signal."
+ },
+ "civil-war-1918/i10": {
+  "label": "contested",
+  "category": "content_dispute",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the blind re-labellers: the date was changed back and forth repeatedly and put back by a second account."
+ },
+ "civil-war-1918/i11": {
+  "label": "reverted",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller: a one-off change, no dispute signal beyond the removal."
+ },
+ "civil-war-1918/i12": {
+  "label": "reverted",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller: a one-off change, no dispute signal beyond the removal."
+ },
+ "civil-war-1918/i14": {
+  "label": "reverted",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller: two editors disagreeing on infobox/lead conventions, not a disputed claim."
+ },
+ "civil-war-1918/n11": {
+  "label": "not-incident",
+  "exclusion": "not-substantive",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller."
+ },
+ "civil-war-1918/n12": {
+  "label": "not-incident",
+  "exclusion": "not-substantive",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller: editing slips, nothing substantive."
+ },
+ "civil-war-1918/i13": {
+  "label": "reverted",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller: persistent re-insertion of the end date, but the conservative level is kept."
+ },
+ "nato-debate/i03": {
+  "label": "contested",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller.",
+  "category": "content_dispute"
+ },
+ "nato-debate/i12": {
+  "label": "reverted",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller.",
+  "category": "good_faith_error"
+ },
+ "nato-debate/n02": {
+  "label": "not-incident",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller.",
+  "exclusion": "not-substantive",
+  "category": "other"
+ }
 }

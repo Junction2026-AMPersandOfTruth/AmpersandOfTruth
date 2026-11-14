@@ -146,11 +146,13 @@
      ],
      "description": "Rewrites the lead so the war starts with an armed coup 'from the Reds' overreaction ... and at Lenin's instigation', adds that Soviet Russia fought in several places, and cuts the German force from 13,000 to about 9,000.",
      "why": "Level 2. Claim: narrative framing of the war's outbreak, quotable from the added text: 'punaisten ylireagoinnin (jälkeenpäin voitaisiin kutsua jopa vahingoksi) ja Leninin yllyttämänä aloitettuun aseelliseen vallankaappaukseen' ('the armed coup started by the Reds' overreaction (which could afterwards even be called an accident) and at Lenin's instigation'), plus 'Neuvosto-Venäjä osallistui taisteluihin useilla paikkakunnilla' and the German troop figure changed to 'n. 9.000'. Community dispute: removal summary (E195) 'Lähdemerkinnät puuttuvat ja omia kommentteja' ('source markings are missing, and own comments'), a sourcing reason. Visible 41.5 h (c01). One editor (E387), one article, never put back, so not level 3.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -166,11 +168,13 @@
      ],
      "description": "Adds to the top of the article that it was not a civil war but the War of Liberation, that the Bolshevik-minded Reds wanted to join Finland to the Soviet Union and that the Whites defended 'our freedom'.",
      "why": "Level 2. Coherent text, not graffiti. Claim: a naming/narrative push, quotable: 'Ei se mikään sisällissota ollut vaan Vapaussota' ('it was no civil war but the War of Liberation') and 'Valkoiset lähtivät puolustamaan vapauttamme' ('the Whites went to defend our freedom'). Community dispute: removal summary (E193) 'kumottu artikkelin alkuun tungettu muokkaajan oma mielipide' ('undid the editor's own opinion pushed into the start of the article'), a neutrality reason. Visible 41 min (c02). One anonymous editor (E410), one article, not put back, so not level 3.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -186,11 +190,13 @@
      ],
      "description": "Adds that the name 'punakapina' (Red Rebellion) is justified because part of the working class sought to seize power violently despite a functioning democracy.",
      "why": "Level 2. Claim: argues for one of the loaded names of the war, quotable: 'Punakapina termin käyttö on toisaalta perusteltua ... tietty osa ns. työväestöstä pyrki kaappaamaan vallan väkivaltaisesti toimivasta demokratiasta huolimatta'. Community dispute: removal summary (E193) 'Asenteellinen ja epämääräinen kommentti' ('a biased and vague comment'), a neutrality reason. Visible 38 days (c03). The flag 'removal_was_itself_undone' points to 10159112, which is E193's own next revert to an even older version (c04), not a put-back. One anonymous editor (E422), one article: not level 3.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -206,11 +212,13 @@
      ],
      "description": "Calls the neutral names of the war 'artificial' and 'anachronistically' neutral, and changes 'used most by professional historians' to 'used by some historians'.",
      "why": "Level 2. Claim: slants the description of the neutral names, quotable: '{+Keinotekoiset termit +}', '{+anakronistisesti +}' and '[-eniten-]{+osa+} historian [-ammattitutkijat.-]{+tutkijoista.+}' (most professional historians -> some historians). Community dispute: removal summary (E193) 'Asenteellinen tämäkin; Mitä anakronismia noissa nimityksissä muka on?' ('biased too; what anachronism is there supposedly in these names?'), a neutrality and accuracy reason. Visible 38 days (c04). Same anonymous editor and session as i03 but different content and a separate removal; one editor, one article: not level 3. Only E422's edit counts as inserting; the run also swept E193's earlier revert.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -226,11 +234,13 @@
      ],
      "description": "Adds that the Civil Guards included thousands of 'class traitors' who supported right-wing Finland.",
      "why": "Level 2. Claim: loaded wording, quotable: 'Suojeluskuntiin kuului tuhansia \"luokkapettureita\", jotka tukivat oikestolaista Suomea'. Community dispute: removal summary (E55) 'Luokkapettureista puhuminen on erittäin POV' ('talking about class traitors is very POV'), a neutrality reason. Visible 8.1 h (c05). One anonymous editor (E446), one article, not put back: not level 3.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -254,11 +264,13 @@
      ],
      "description": "Rewrites the lead and naming section: calls the Reds 'rebels', says the war 'turned out to be a war of liberation', and adds that Russian troops backed a communist coup and Finland's 'voluntary' joining of the Soviet Union, to be settled with Russians under Lenin's and Stalin's plans.",
      "why": "Level 2. Claim: narrative push, quotable: 'loppujen lopuksi osoittautui vapaussodaksi Suomen kansallisen olemassaolon kannalta', 'kommunistinen ääriryhmä väkivaltaisesti kaappasi vallan' and 'Tämän suunnitelman mukaan Suomi tulisi asuttaa venäläisellä väestöllä'. Community dispute on three counts: removed by E171 as 'kyseenalaisia lähteettömiä lisäyksiä' ('questionable unsourced additions', c09); put back once by the same editor (8014933, c07) and removed again by E172 as 'epäselviä, sävyltään värittyneitä ja lähteettömiä lisäyksiä' ('unclear, slanted in tone and unsourced additions'); another editor (E164) added {{Lähde}} in the same episode. Visible 3.7 h, then 5.4 h. All inserting edits are E170's (E164's tag excluded). One editor, one article, one put-back within 3 days: not level 3.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -276,11 +288,13 @@
      ],
      "description": "Changes the age range of the 5,800-6,000 minors killed from 14-20 to 9-20 and adds that the youngest was a nine-year-old Red Guard boy.",
      "why": "Level 2. Claim: a changed number range attached to a casualty statistic, quotable: '16 % oli alaikäisiä, 9–20-vuotiaita' and 'Nuorin kuollut alaikäinen, oli yhdeksänvuotias punakaartilainen poika'. Community dispute: removal summary (E89) 'Lkm todella koskee 14-20v. Oikea lkm 9-20v:lle tarkastettava Sotasurmasivulta' ('the count really concerns 14-20-year-olds; the right count for 9-20 must be checked from the war-deaths database'), an accuracy reason; put back once by the same editor (c20) and removed again ('9-20v lkm on varmaankin eri kuin 14-20v, ole hyvä ja tarkasta' - 'the 9-20 count is surely different from 14-20, please check'). Visible 4.7 h, then 22 min. One editor (E131), one article: not level 3.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -296,11 +310,13 @@
      ],
      "description": "Adds that White terror victims should include the 11,000+ prison-camp deaths, putting the total at 20,000-25,000, and compares it with the Winter War dead.",
      "why": "Level 2. Claim: reframes a casualty category and gives a larger total, quotable: 'Valkoisen terrorin uhrien kokonaismäärä ylittää siis todennäköisesti ainakin 20 000:n ellei jopa 25 000:n kuolleen rajan'. Community dispute: removal summary (E89) 'Vankileiriprobleemi = valkoinen terrori on epätosi POV väite' ('prison-camp problem = White terror is an untrue POV claim'), an accuracy and neutrality reason. The pack's text search places the insertion at 4247136 (insertion_diff shows the same first paragraph; the last sentence was reworded before the removal). Visible 8.1 h (c39). One editor (E122), one article, not put back: not level 3.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -419,12 +435,13 @@
      ],
      "description": "Rebuilds the infobox offices (adds defence forces commander 1939-1945, extends defence council chair to 1940), changes presidency end to 11.3.1946 and regency end to 26.7.1919, and adds a sentence on the October 1939 appointment.",
      "why": "Level 1, capped. Removed by E178 as 'selittämättömät päivämäärämuutokset' ('unexplained date changes', c17), put back with an explanation, removed by E472 as 'eston kiertoa' ('block evasion', c08), put back by another account in the same masked range and removed by E295 (c18). Ordinary infobox content with no slant; the only stated problems are unexplained changes and block evasion, so the good-faith rule caps it at level 1. Inserting accounts are one masked range (85.76.x.x), one article.",
-     "human_verified": false,
-     "notes": "Labellers disagree: labeller reverted; claude:blind contested (Level 2: infobox rows removed and the end date changed to \"11.3.1946\"; removal summary \"selittämättömät päivämäärämuutokset\" (unexplained date changes). Same version put back twice by two accounts and removed each time within a day: edit war. No second signal, so not Level 3.); gemini:blind contested (Level 2: Changes Mannerheim's presidential end date to \"11. maaliskuuta\" (\"11 March\") 1946, Defence Council chairmanship end year from 1939 to 1940, and Commander-in-Chief dates, adding \"Lokakuussa 1939 Mannerheim nimitettiin puolustusvoimain komentajaksi, jolle talvisodan syttyessä 30. marraskuuta luovutettiin puolustusvoimien ylipäällikkyys\" (\"In October 1939 Mannerheim was appointed Commander of the Defence Forces, to whom supreme command of the defence forces was handed over when the Winter War broke out on 30 November\"). Removed for \"selittämättömät päivämäärämuutokset\" (\"unexplained date changes\") and put back twice within a single masked IP range over two days.). Lowest level kept until a human decides.",
+     "human_verified": true,
+     "notes": "Labellers disagree: labeller reverted; claude:blind contested (Level 2: infobox rows removed and the end date changed to \"11.3.1946\"; removal summary \"selittämättömät päivämäärämuutokset\" (unexplained date changes). Same version put back twice by two accounts and removed each time within a day: edit war. No second signal, so not Level 3.); gemini:blind contested (Level 2: Changes Mannerheim's presidential end date to \"11. maaliskuuta\" (\"11 March\") 1946, Defence Council chairmanship end year from 1939 to 1940, and Commander-in-Chief dates, adding \"Lokakuussa 1939 Mannerheim nimitettiin puolustusvoimain komentajaksi, jolle talvisodan syttyessä 30. marraskuuta luovutettiin puolustusvoimien ylipäällikkyys\" (\"In October 1939 Mannerheim was appointed Commander of the Defence Forces, to whom supreme command of the defence forces was handed over when the Winter War broke out on 30 November\"). Removed for \"selittämättömät päivämäärämuutokset\" (\"unexplained date changes\") and put back twice within a single masked IP range over two days.). Human decided. Human: Sided with the labeller: persistent re-insertion of the end date, but the conservative level is kept.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44"
      ]
     },
     {
@@ -980,10 +997,12 @@
      ],
      "description": "Adds two sentences: the Finnish government still holds to the separate-war view although Finnish officers 'in reality' helped plan Barbarossa, and foreign research agrees Finland was Germany's ally.",
      "why": "Level 2. Claim on the topic's core question: 'Suomen hallitus pitää edelleen kiinni näkemystä erillissodasta, vaikka todellisuudessa joukko korkea-arvoisia suomalaisupseereita osallistui operaatio Barbarossan suunnitteluun' ('the Finnish government still holds to the separate-war view, although in reality a group of high-ranking Finnish officers took part in planning Operation Barbarossa') and 'Ulkomaisessa historiantutkimuksessa on kuitenkin vallinnut yhteisymmärrys siitä, että Suomi oli Saksan liittolainen' ('foreign historical research has agreed that Finland was Germany's ally'). Community dispute: added by E13 (302423, 5 Jul 2005), removed after 7 min by a named account (302435, 'palautus, asiasta keskustellaan keskustelusivulla' = 'restore, this is being discussed on the talk page'), put back once by E15 (302458, summary cites NPOV and 'mainstream history'), removed again after 8 h (302922): put back after a removal and an edit war (c17, c01, c02). Not level 3: E13 and E15 are anonymous in the same masked range 128.214.x.x (one editor), one article, one put-back on the same day, no source change. E15's 8-byte typo fix 302427 is left out of the inserting revs.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -1006,10 +1025,12 @@
      ],
      "description": "Adds separate-war framing to the run-up and start of the war: Finland stayed neutral, did not cut the Murmansk railway or join the siege of Leningrad, 'in practice fought a different war than Germany', and had declared neutrality and wanted to negotiate.",
      "why": "Level 2. Claim: 'Käytännöllisesti katsottuna Suomi kävi siis eri sotaa kuin Saksa' ('practically speaking, Finland thus fought a different war from Germany'), 'eikä osallistunut Kaupungin piiritykseen' ('and did not take part in the siege of the city'), 'Suomi oli julistautunut puolueettomaksi Venäjän ja Saksan välisessä sodassa ja halusi neuvotella' ('Finland had declared itself neutral in the war between Russia and Germany and wanted to negotiate'), plus the loaded 'kommunistien törkeät ... uhkailut' ('the communists' outrageous threats'). Community dispute: added by E21 in four edits on 19 Aug 2005, rolled back by a named account after 8.6 h (381268), put back by E23 (381749), rolled back by a second named account after 4.2 h (381932), put back again by E23 (382397), rolled back after 3.3 h (382822): put back twice, an edit war (c19, c11, c13 are one sha1 chain). Not level 3: E21 and E23 are anonymous in the same masked range 80.220.x.x (one editor), one article, put back twice but within 2 days (< 7), no source change.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -1025,10 +1046,12 @@
      ],
      "description": "Adds criticism that the Ryti-Mannerheim 'war cabinet' broke the Moscow Peace Treaty by preparing to join Barbarossa without Parliament, and that Finland 'flagrantly' broke the Geneva conventions, so no retroactive laws were needed.",
      "why": "Level 2. Claim with weasel attribution and loaded wording: 'Monien tulkintojen mukaan ... sotakabinetti rikkoi lainvoimaista Eduskunnan ratifioimaa Moskovan rauhansopimusta' ('according to many interpretations the war cabinet broke the legally binding Moscow Peace Treaty ratified by Parliament'), 'Suomi rikkoi räikeästi myös Geneven sopimuksia' ('Finland also flagrantly violated the Geneva conventions'), 'mitään takautuvia lakeja sotasyyllisten tuomitsemiseen ei olisi tarvittu' ('no retroactive laws would have been needed to convict those responsible for the war'). Community dispute: removed after 7.4 h by a different, named account with an accuracy/attribution reason: 'Kerro kenen mielestä, älä käytä sanaa \"monien\". Geneven sopimus pätee vain ratifioijien välillä, niin Suomi kuin NL eivät olleet ratifioineet' ('Say whose opinion it is, don't use the word \"many\". The Geneva convention applies only between ratifying states; neither Finland nor the USSR had ratified it'). One anonymous account (E379), one article, not put back: not level 3. Candidate c03 (must-include 2355623).",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -1044,10 +1067,12 @@
      ],
      "description": "Adds a paragraph saying the summer 1944 battles showed that crossing the old border and attacking East Karelia 'were the right decision', with a counterfactual that the Red Army would otherwise have been stopped only deep inside Finland.",
      "why": "Level 2. Claim (an evaluative justification of the 1941 offensive beyond the old border): 'Kesän 1944 taistelut Laatokan pohjoispuolella osoittivat, että sotilaalliselta kannalta vanhojen rajojen ylittäminen ja Itä-Karjalaan hyökkäys olivat oikea päätös' ('the summer 1944 battles north of Lake Ladoga showed that, militarily, crossing the old borders and attacking East Karelia were the right decision'). Community dispute: while it stood a {{lähde}} (citation needed) tag was added to it (present in the removal diff, absent from the insertion diff), and a different named account removed it after 14.2 days with a sourcing reason: 'poistetaan lähteetön spekulaatio -> uutta tutkimusta' ('removing unsourced speculation -> original research'). Partial-removal candidate c34; its insertion_diff confirms rev 1512124 added the paragraph. One account (E532), one article, not put back: not level 3.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -1064,10 +1089,12 @@
      ],
      "description": "Paragraph (put back after removal) citing TV journalist Boris Salomon that Finnish SS volunteers in the Caucasus took part in killing civilians and that a Finnish SS man witnessed killings of Jews in June 1941.",
      "why": "Level 2. Claim (an attributed allegation about the battalion): 'TV-toimittaja Boris Salomon pitää todistettuna, että Kaukasuksella taistelleet suomalaiset ottivat osaa siviilien surmatöihin' ('TV journalist Boris Salomon regards it as established that Finns who fought in the Caucasus took part in killing civilians'), sourced to a TV programme. Community dispute: an edit war over the paragraph on 31 May 2012: E144 removed it (11702972, section-name summary only), E145 put it back (11703122, 'taitaa olla taas poliittista agendaa' = 'probably a political agenda again'), E144 removed it again (11704706), E320 put it back 11 min later (11704762, 'palautus' = 'restore'). Not 'kept': the text is not in the latest revision. The paragraph's original insertion predates the pack, and 11704762 is a removal rev in the pack, not an edit of any candidate, so it cannot be listed as an inserting rev. Two re-inserting accounts (E145, E320) are one level-3 signal; there is no second (one article, both put-backs on one day, no source change): level 2. Built from c05; c04 and c18 are the removal side of the same edit war (must-include 11703122).",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -1086,10 +1113,12 @@
      ],
      "description": "Changes the end of Ryti's presidency from 1 to 4 August 1944 with two added references, rewrites his resignation (handed duties to Linkomies for 'three' instead of 'four' days) and reorders the lead.",
      "why": "Level 2. Claim: changes a date and a number about how Ryti's presidency ended (infobox '1.8.' -> '4.8.' 1944; 'kunnes virallisesti ero astui voimaan 4. elokuuta' = 'until the resignation officially took effect on 4 August'; 'neljäksi' -> 'kolmeksi' päiväksi = 'four' -> 'three' days), a disagreement over content rather than a typo. Community dispute: added by E340 (named, 15 Sep 2015), rolled back after 18.8 h by a named account without a reason (15216511), put back by a different, anonymous account E341 (15217931, undo of the rollback), rolled back again after 4 min by another named account (15217941): put back once after a removal (c12, c20 are one sha1 chain). Two inserting accounts (named + anonymous) are one level-3 signal; there is no second (one article, one put-back, the existing reference was kept): level 2. Low end of level 2: no visible slant toward either side of the topic.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -1106,10 +1135,12 @@
      ],
      "description": "Adds '(Palautettiin 1958)' ('returned 1958') after Petsamo in the infobox list of territory Finland lost, plus a see-also link to Tuntematon sotilas.",
      "why": "Level 2 by the claim rule (the removal says the text is wrong). Claim: '[[Petsamo]]n(Palautettiin 1958)' ('Petsamo (returned 1958)') changes a fact about the war's territorial outcome. Community dispute: removed 4 min later by a different, named account with an accuracy reason: 'rv, Petsamoa ei palautettu ja sotilas kirjoitetaan pienellä' ('rv, Petsamo was not returned, and sotilas is written in lower case'). One anonymous account (E44), one article, not put back: not level 3. Small (43 bytes, sampled as look-alike:small); a reviewer who reads it as a plain good-faith slip would cap it at level 1.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -1572,11 +1603,13 @@
      ],
      "description": "Changes the infobox result from 'Moscow Peace' to 'Soviet victory (military), Finnish defensive victory (political), Moscow Peace'.",
      "why": "Level 2. Claim, quoted from the added infobox line: 'Neuvostoliiton voitto (sotilaallinen), Suomen torjuntavoitto (poliittinen)' ('Soviet victory (military), Finnish defensive victory (political)'), i.e. who won. Community dispute: an edit war on 2010-08-27/28. Added 4 times (8960158, 8960194, 8962713 by E201; 8963132 by E203) and removed 4 times by two other accounts (E134 twice, E202 twice). Removal summaries include 'rv, epämääräisiä käsitteitä' ('rv, vague concepts') and 'lähteet ensin' ('sources first'). Each version stayed 116 s to 6.2 h. Candidates c19, c20, c21, c03 are the inserting side; c17, c18, c02 are the same war seen from the removing side. Not level 3: E201 and E203 are both in 85.76.x.x (one editor), one article, all insertions within 14 h (< 7 days), no source change. Not kept (flag added_text_in_latest_revision not set).",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -1596,11 +1629,13 @@
      ],
      "description": "Rewrites 'the Russians have later admitted it was an artillery strike staged by the Soviet Union' to 'have not admitted' and adds 'This historical fact is still disputed', citing the article's existing rkka.ru reference.",
      "why": "Level 2. Claim: changes 'Venäläiset ovat myöhemmin myöntäneet' ('the Russians have later admitted') to 'Venäläiset eivät ole myöntäneet' ('the Russians have not admitted') that the shelling was staged, and adds 'Tämä historiallinen fakta on edelleen kiistanalainen' ('This historical fact is still disputed'), attached to the rkka.ru reference that the article cites for Aptekar's conclusion that the shots were staged. Community dispute: put back twice (15356377, 15356383) and removed three times by E270 with sourcing summaries: 'lähteetön' ('unsourced'), 'ylen lähteessä asiaa ei mainita' ('the Yle source does not mention it'), 'ylen lähde on kuitenkin viitteenä tässä, korjaa' ('the Yle source is still cited here, fix it'). The inserter's summaries call the Yle source 'spekulaatiota' ('speculation'). Candidates c04, c22, c23 (same text each time). Not level 3: one account (E404), one article, all insertions within 94 minutes on 2015-11-25; the re-used citation could at most be the sources signal, and level 3 needs an editors or articles signal too. Note: the original sentence already carried {{lähde tarkemmin|Asia ei selviä lähteestä}} ('cite more precisely: the source does not show this') dated 17.4.2015, before this episode.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -1618,11 +1653,13 @@
      ],
      "description": "Adds that Mannerheim favoured the Soviet territorial-exchange offer, that foreign minister Erkko forbade him to make it public, that 85,000 people paid with their lives for 'Erkko's stupidity', and that Erkko was 'the number one war criminal'.",
      "why": "Level 2. Claim, one-sided framing quoted from the added text: 'Valitettavasti neuvottelut lopetettiin, Suomi joutui sotaan ja 85 000 ihmistä sai maksaa hengellään Erkon tyhmyyden' ('Unfortunately the negotiations were ended, Finland was drawn into war and 85,000 people had to pay with their lives for Erkko's stupidity') and 'Tosiasiaksi jää että Erkko oli numero yksi sotarikollinen' ('The fact remains that Erkko was the number one war criminal'). Community dispute: put back once after a removal. Added by E91 (2940776), removed by E93 after 3.3 h (2942005), put back by E94 (2942369, an undo of that removal) and removed by E95 110 s later (2942380), all on 2007-05-31; both removals are plain undo summaries. Candidates c10, c25. Not level 3: two distinct inserting editors (E91 anonymous 81.229.x.x, E94 named) is one signal, but one article, one re-insertion on the same day and no source change, so only one of the four signals.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -1640,11 +1677,13 @@
      ],
      "description": "Adds two paragraphs on Häyhä's kill count: a 1941 Hurtti Ukko interview (headline '600 kills for sure', 259 with his rifle, a record of 40 in one day) and a 1940 book saying he shot more enemies than could be counted.",
      "why": "Level 2. Claim: kill-count figures presented as 'Yksi luotettavimmista Häyhää koskevista tiedoista' ('one of the most reliable pieces of information about Häyhä'), e.g. 'Jutun otsikossa mainitaan 600 tappoa \"varman päälle\"' ('the article's headline mentions 600 kills \"for sure\"'). Community dispute: removal summary about sourcing, 'sodanaikaisen propagandan alaiset julkaisut eivät ole asiassa luotettavia, anekdoottina mielenkiintoisia kunhan lähde+sivunro' ('publications subject to wartime propaganda are not reliable on this; interesting as an anecdote given source + page number'); the same text was put back once (7716568) and removed again 'kuten aikaisempi' ('like the previous one'). Stayed 8.1 h and 4.7 h. Candidates c07, c08. Not level 3: one account (E485), one article, both insertions within 14 h.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -1660,11 +1699,13 @@
      ],
      "description": "Adds that hatred of Russians ('ryssäviha', i.e. racism) was one key to success in the war and that soldiers fought against 'an inferior people and culture'.",
      "why": "Level 2. Claim, narrative framing quoted from the added text: 'Ryssäviha lue rasismi oli yksi menestymisen tae sodassa' ('Hatred of Russians, read: racism, was one guarantee of success in the war') and 'Taisteltiin alempiarvoista kansaa ja kultturia vastaan tunnontuskista piittaamatta' ('They fought against an inferior people and culture without qualms of conscience'). Community dispute: the removal summary is about sourcing and neutrality, 'Lähteetön mielipidekirjoitus' ('unsourced opinion piece'), removed by a different account (E78) after 2 minutes. Candidate c27 (look-alike bucket 'short-lived substantive'); the short exposure does not lower the level under the evidence standard. Not level 3: one anonymous editor (146.81.x.x), one article, never put back.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -2857,11 +2898,13 @@
      ],
      "description": "Adds or puts back an Afghanistan passage in the list of Finland's wars saying Finland takes part in war operations in the Afghan civil war under NATO's ISAF and that opinion is split on whether Finland is a country at war; the later version adds that ISAF caused about 8,000 civilian deaths.",
      "why": "Level 3. Level 2 first: a claim on a contested question (whether the ISAF deployment makes Finland a party to a war), quoted from the added text: 'Suomi on osallistunut sotatoimiin Naton alaisissa ISAF-joukoissa Afganistanin sisällissodassa' (Finland has taken part in military operations under NATO's ISAF in the Afghan civil war, c09) and 'Isaf-joukkojen toiminta Afganistanissa on aiheuttanut arvion mukaan noin 8000 siviilin kuoleman' (ISAF's actions in Afghanistan have caused an estimated 8,000 civilian deaths, c04/c05). Community dispute: removal summaries about sourcing and accuracy, 'kumottu vääristelevä lähteen käyttö ja oma tutkimus sodan kaltaisista sotatoimista (lähde vuodelta 1995 ei puhu vuonna 2002 alkaneesta operaatiosta)' (undid distorting use of a source and original research on 'war-like operations'; the 1995 source does not cover the operation begun in 2002, c11) and 'edelleen harhaanjohtavaa lähteen käyttöä' (still misleading use of a source, c10); other removals called it out of scope ('ei tuo edelleenkään kuulune joukkoon', it still does not belong in the list, c09; 'valtava palopuhe', a huge harangue, c04); edit war (6 identity reverts within 3 days in c04-c18). Level-3 signals: (1) accounts: added or put back by three editors outside one masked range (E82 anonymous, E80 named, E86 anonymous); (2) persistence: put back at least 5 times between 2009-10-07 (7425332) and 2009-10-29 (7523673), 22 days apart; (3) supporting: sources, c10/c11 cite a 1995 Defence Committee statement for the operation that began in 2002. One article only. Each insertion lived 4.7 days (c09), 12.4 h (c11), 15.8 h (c10), 42 min (c05), 43 s (c18). c09-c11 (7-16 Oct) and c04/c05/c17/c18 (28-29 Oct) are one item: the later paragraph repeats the earlier sentences, e.g. 'Kesän 2009 aikana, sotatoimien kiihtyessä, Suomessa on muodostunut ristiriitaisia näkemyksiä siitä, onko Suomi sotaa käyvä maa'. Other side: c04's undone edit (E76's removal) and c17 (E81's one-sentence summary, removed by E80 and restored by E84); unrelated swept-away edits (E62/E81 on the Kinship Wars in c11, E85 in c10) are dropped. Another re-insertion between 16 and 28 Oct is not in the pack. Several editors on each side; the level describes the edit pattern only.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -2879,16 +2922,18 @@
      ],
      "description": "Adds that almost all security-policy experts back NATO membership, that opposition to NATO in Finland stems mainly from ignorance of NATO, and that the term 'NATO option' is misleading.",
      "why": "Level 2. A claim with loaded, one-sided wording: 'Lähes kaikki turvallisuuspolitiikan asiantuntijat kannattavat Suomen jäsenyttä NATO:ssa' (almost all security-policy experts support Finland's membership in NATO) and 'NATO:n vastaisuus Suomessa kumpuaa ennenkaikkea tietämättömyydesta NATO:n perusperiaatteista' (opposition to NATO in Finland stems above all from ignorance of NATO's basic principles). Removed after 4.0 days by a different account (E2) with 'epäselviä, poleemisia väitteitä ilman lähdettä' (unclear, polemical claims without a source): a neutrality and sourcing reason. One account (E1), one article, not put back: not level 3. c12.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
      "id": "nato-debate/i03",
-     "label": "reverted",
+     "label": "contested",
      "category": "content_dispute",
      "page_id": 128998,
      "inserting_rev_ids": [
@@ -2911,12 +2956,13 @@
      ],
      "description": "Replaces 'the EU does not yet include an Article 5-type security guarantee' with a claim that the Lisbon Treaty's guarantee is more binding than NATO's Article 5, and adds lines on NATO critics and supporters (the papers Ilkka and Keskisuomalainen, official Pauli Järvenpää) and a See also list.",
      "why": "Level 2. A claim that changes a contested point of the NATO debate: '[[Lissabonin sopimus]] sisältää [[NATO:n 5. artikla]]a velvoittavamman turvallisuustakuun' (the Lisbon Treaty contains a security guarantee more binding than NATO's Article 5), replacing 'ei se vielä sisällä [[NATO:n 5. artikla]]n mukaista turvallisuustakuuta' (it does not yet include a security guarantee under NATO's Article 5); it also attributes NATO positions to named newspapers and an official. Removed after 36 min by a different account (E4) with 'omaa tutkimusta ja tulkintaa' (original research and interpretation), a sourcing/accuracy reason. One anonymous editor (E3, 13 edits in 15 min), one article, not put back: not level 3. c01; includes must-include 4115945.",
-     "human_verified": false,
-     "notes": "Labellers disagree: labeller contested; claude:blind reverted (Level 1: one anonymous range added a long run of text in 36 minutes (EU security guarantee, 'NATO-jäsenyyteen on suhtautunut kriittisesti ... Ilkka ja Keskisuomalainen' = 'newspapers Ilkka and Keskisuomalainen have been critical of NATO membership'). Removed once as 'omaa tutkimusta ja tulkintaa' (own research and interpretation), not put back. Mostly plausible additions without sources; no clear slant or dispute beyond that, so capped at reverted.); gemini:blind contested (Level 2: An anonymous editor added unsourced interpretive claims to the NATO debate article, including \"Lissabonin sopimus sisältää NATO:n 5. artiklaa velvoittavamman turvallisuustakuun\" (\"The Treaty of Lisbon contains a security guarantee more binding than NATO's Article 5\") and claims that technical interoperability entails scrapping Soviet equipment and avoiding Russian procurement, and another editor removed the additions with the summary \"omaa tutkimusta ja tulkintaa\" (\"original research and interpretation\").). Lowest level kept until a human decides.",
+     "human_verified": true,
+     "notes": "Labellers disagree: labeller contested; claude:blind reverted (Level 1: one anonymous range added a long run of text in 36 minutes (EU security guarantee, 'NATO-jäsenyyteen on suhtautunut kriittisesti ... Ilkka ja Keskisuomalainen' = 'newspapers Ilkka and Keskisuomalainen have been critical of NATO membership'). Removed once as 'omaa tutkimusta ja tulkintaa' (own research and interpretation), not put back. Mostly plausible additions without sources; no clear slant or dispute beyond that, so capped at reverted.); gemini:blind contested (Level 2: An anonymous editor added unsourced interpretive claims to the NATO debate article, including \"Lissabonin sopimus sisältää NATO:n 5. artiklaa velvoittavamman turvallisuustakuun\" (\"The Treaty of Lisbon contains a security guarantee more binding than NATO's Article 5\") and claims that technical interoperability entails scrapping Soviet equipment and avoiding Russian procurement, and another editor removed the additions with the summary \"omaa tutkimusta ja tulkintaa\" (\"original research and interpretation\").). Human decided. Human: Sided with the labeller.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44"
      ]
     },
     {
@@ -2933,11 +2979,13 @@
      ],
      "description": "Puts back a bullet saying 'it has been said' that NATO has a secret additional protocol obliging a joining country to form a secret anti-communist citizens' cadre, plus links on Operation Gladio, hours after they were removed as fringe.",
      "why": "Level 2, built from the side of the disputed text. E18 removed it (14209423, c02's undone edit) with 'WP:IRI, WP:FRINGE, WP:RELIABLE, WP:404 - Poistin epäluotettavia sekä epäolennaisia lähteitä' (removed unreliable and irrelevant sources): a sourcing reason. E19 put it back 6.2 h later by undoing that edit (14209522), and E18 removed it again 10.5 h later (14210530): put back once, a two-step edit war. Claim quoted from the restored text: 'NATOlla on salainen lisäpöytäkirja, jonka liittyvä maa joutuu allekirjoittamaan' (NATO has a secret additional protocol that a joining country must sign) and the duty 'taistelemaan kommunismia vastaan kaikin mahdollisin keinoin' (to fight communism by all possible means). The undo also took out the two citations E18 had added. One re-inserting account, one article, one put-back: not level 3. The bullet's first insertion is older than the pack. c02 (other side: E18's cleanup, listed here as the first removal) and c03; must-include 14209522 is the inserting rev.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -2953,11 +3001,13 @@
      ],
      "description": "Puts back a sourced passage saying an association (Kehittyvien maakuntien Suomi) gave Niinistö's 2007 campaign 15,000 euros, that he denied knowing who was behind it, and that he later backed an honorary title for the man behind it.",
      "why": "Level 2. A claim on a disputed political matter, quoted: 'häntä tuki mm. [[Kehittyvien maakuntien Suomi]] ry 15 000 €:lla. Niinistö kielsi tienneensä kuka tai ketkä yhdistyksen takana olivat' (he was supported by Kehittyvien maakuntien Suomi ry with 15,000 euros; Niinistö denied knowing who was behind the association). Community dispute: put back after removal twice (E64's rollback 5194059 restored it after an earlier removal by E163; E163 removed it again 12 min later, 5194107; 5194132 restored it again), 4 identity reverts on the page within 3 days, and the removal summary calls the passage 'Niinistö-dissaukset' (Niinistö disses) linked to the original author's politics, a neutrality objection. Not kept: the text is not in the latest revision. One re-inserting account in the pack, one article, put-backs far less than 7 days apart (rev ids 5194059 and 5194132): not level 3. c32; its summary names an editor, so it is not quoted in full.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -3101,7 +3151,7 @@
     },
     {
      "id": "nato-debate/i12",
-     "label": "not-incident",
+     "label": "reverted",
      "category": "good_faith_error",
      "page_id": 1137,
      "inserting_rev_ids": [
@@ -3112,13 +3162,13 @@
      ],
      "description": "Pastes a second full copy of the article (infobox, lead and body, +46 KB) into the page.",
      "why": "Level 1. The 46,116 added bytes repeat the article's own infobox and text: the diff shows only added paragraphs and none removed, and the article carried on from the restored version, which already had this text. Rolled back after 35 s by a different account (E6). A duplicate, not a test or nonsense: good-faith error, level 1. c23.",
-     "human_verified": false,
-     "exclusion": "graffiti",
-     "notes": "Labellers disagree: labeller reverted; claude:blind reverted (Level 1: anonymous editor added a 46,000-byte copy of biography content (infobox, lead, career sections); undone after 35 seconds with a standard undo. Looks like a paste error or duplicate; no dispute.); gemini:blind not-incident/graffiti (Excluded as graffiti: An anonymous editor pasted a 46,116-byte duplicate copy of the entire Sauli Niinistö article onto itself, which was removed after 35 seconds.). Lowest level kept until a human decides.",
+     "human_verified": true,
+     "notes": "Labellers disagree: labeller reverted; claude:blind reverted (Level 1: anonymous editor added a 46,000-byte copy of biography content (infobox, lead, career sections); undone after 35 seconds with a standard undo. Looks like a paste error or duplicate; no dispute.); gemini:blind not-incident/graffiti (Excluded as graffiti: An anonymous editor pasted a 46,116-byte duplicate copy of the entire Sauli Niinistö article onto itself, which was removed after 35 seconds.). Human decided. Human: Sided with the labeller.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44"
      ]
     },
     {
@@ -3162,12 +3212,13 @@
      ],
      "description": "Adds an external link to Niinistö's author page at the publisher Teos.",
      "why": "Not an incident (not substantive): one line in the external-links section, no prose, number, date or citation. Undone after 4.3 days by a different account (E154) without a reason. c15.",
-     "human_verified": false,
-     "notes": "Labellers disagree: labeller not-incident/not-substantive; claude:blind reverted (Level 1: an external link to a publisher's page about the person was added and undone 4 days later by a different account with a standard undo summary. No claim, no dispute signal.); gemini:blind reverted (Level 1: A named editor added an external link to Sauli Niinistö's author page on the publisher Teos's website (\"Sauli Niinistö Teoksen sivuilla\" — \"Sauli Niinistö on Teos's pages\"), and another editor removed it four days later with a standard undo summary and no dispute signal.). Lowest level kept until a human decides.",
+     "human_verified": true,
+     "notes": "Labellers disagree: labeller not-incident/not-substantive; claude:blind reverted (Level 1: an external link to a publisher's page about the person was added and undone 4 days later by a different account with a standard undo summary. No claim, no dispute signal.); gemini:blind reverted (Level 1: A named editor added an external link to Sauli Niinistö's author page on the publisher Teos's website (\"Sauli Niinistö Teoksen sivuilla\" — \"Sauli Niinistö on Teos's pages\"), and another editor removed it four days later with a standard undo summary and no dispute signal.). Human decided. Human: Sided with the labeller.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44"
      ]
     },
     {
@@ -3565,10 +3616,12 @@
      ],
      "description": "Adds three unsourced critical sentences about Halonen: her 1980-81 SETA chairmanship 'has shown in personnel choices', her appointments 'favoured especially female applicants', and she weakened Finland's defence by banning 'practically irreplaceable' landmines.",
      "why": "Level 2. Claim: loaded framing of a president, e.g. 'Tarja Halonen vaikutti merkittävästi Suomen sotilaallisen puolustuskykyyn kieltämällä Suomen armeijalta käytännössä korvaamattomat maamiinat' ('Halonen significantly affected Finland's military defence capability by denying the army practically irreplaceable landmines') and 'Tarja Halosen nimitykset ovat suosineet erityisesti naishakijoita' ('Halonen's appointments have favoured especially female applicants'). Community dispute: E394 removed all three edits 3-12 min after they were made with 'rv, lähteetöntä ja epäneutraalilta haiskahtavaa' ('rv, unsourced and smells non-neutral'): sourcing and neutrality (c03). One editor (E1270), one article, not put back: not level 3.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -3587,10 +3640,12 @@
      ],
      "description": "Adds that in 2018 Lipponen 'humiliated' professor Veli-Pekka Tynkkynen, who had warned Parliament about Nord Stream, at a Grand Committee hearing (Iltalehti source); later expanded with Tynkkynen's view of Lipponen's motive.",
      "why": "Level 2. Claim: loaded wording about a politician's Nord Stream role, 'Lipponen nöyryytti Nord Stream -hankkeesta eduskunnassa varoittanutta ... professori Veli-Pekka Tynkkystä' ('Lipponen humiliated professor Veli-Pekka Tynkkynen, who had warned Parliament about the Nord Stream project'). Community dispute: an edit war. E32 removed it after 4.9 h (21540061, c04: 'Epämääräinen nöyryyttämisväite ei ole tietosanakirjamerkittävä', 'a vague humiliation claim is not encyclopedically notable'); E1748 put it back 2.3 h later (21540288, c17 is that revert: 'the matter must be seen in context: the Nord Stream project that turned out to be a Russian strategic factor and its furious defence'), expanded it (21540390), and E411 removed it again (21540573, c16: 'rv, ei kuulu tietosanakirjaan', 'rv, does not belong in an encyclopedia'). Put back once after a removal. One editor, one article, about 10 h in total: not level 3. The category edit 21539701 in the same run is a separate item (n02).",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -3606,10 +3661,12 @@
      ],
      "description": "Adds to the 'issues that drew criticism' list that in 1971 Lipponen, as SDP international secretary, co-wrote a memo saying the YYA treaty's military articles should be read like the Soviet treaties with Warsaw Pact states, criticised by Keijo Korhonen; also rewrites the 2003 EU food agency item.",
      "why": "Level 2. Claim: an attribution that matters to the topic, placed under criticism: the memo said 'Suomen YYA-sopimuksesta Neuvostoliiton kanssa tulisi tulkita sotilaallisilta artikloiltaan niin kuin niitä ... sopimuksia, jotka Neuvostoliitto oli tehnyt Varsovan liiton kanssa' ('the military articles of Finland's YYA treaty should be interpreted like the treaties the Soviet Union had made with the Warsaw Pact') and 'Lipposen menettelyä on jälkikäteen arvioinut erittäin kriittisesti ... Keijo Korhonen' ('Lipponen's conduct was later judged very critically by Keijo Korhonen'). The 2003 rewrite adds that Italy's correction was readable the day before the election. Community dispute: removed by E291 after 14.6 h with 'Poistettu lähteettömiä väitteitä' ('removed unsourced claims'), and the same edit swapped the page's {{neutraalius}} template for {{lähteetön}}: a sourcing reason plus dispute templates in the episode. Partial removal (c32): the insertion diff confirms 3540937 added the 1971 paragraph and the 2003 rewrite; the other removed list items (Pekkarinen remark, helicopters) came from revisions not in the pack. One anonymous editor (80.223.x.x), one article: not level 3.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -4184,10 +4241,12 @@
      ],
      "description": "Adds a section 'Fennomania in the internet era': the term now means opponents of compulsory Swedish, some of whom 'oppose anything with even a hint of Swedishness'.",
      "why": "Level 3 (c13, c24, c27, c26). Claim (pov_push), quoted from the added text: 'Näiden joukossa on myös henkilöitä, jotka vastustavat kaikkea ruotsalaisuuteen vivahtavaakin' ('Among them are also people who oppose anything with even a hint of Swedishness'); the c26 version adds 'Heidän järjestönään on Suomalaisuuden Liitto' ('Their organisation is the Suomalaisuuden Liitto'). Community dispute: removal summaries about accuracy and sourcing, 1761915 'fennomania internet-aikana sisälsi lähinnä mutua' ('the internet-era section contained mostly gut feeling') and 2902163 'lähteetöntä itse sanailtua huttua' ('unsourced, self-worded mush'); a {{lähteetön}} (unsourced) template in the c26 version; every removal shown was itself undone (flag removal_undone_by_rev_id on all four). Level 3 signals: (1) accounts: added by E5 (named, 1397224), E116 (named, 2902141) and E78 (anonymous 88.114.x.x, 2952340 and 3007149) = 3 editors; (2) persistence: put back at least 3 times, first insertion 2006-07-22, last 2007-06-14 (327 days). One article. The first version stayed 87 days, the 2007 put-backs 2 to 9 min. E1's trim of the passage on 2006-07-30 (1434614) is not counted as an insertion. Not in the latest revision.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -4220,10 +4279,12 @@
      ],
      "description": "Adds that Freudenthal called Finns an inferior 'Turanian' people, a medal section tying the SFP's Freudenthal medal to compulsory Swedish, and (in later versions) that the SFP never disowned his 'racist doctrines'.",
      "why": "Level 2 (c21, c15, c22, c02; c01 and c31 are the removing side's runs). Claim (pov_push), quoted from the c15/c22 version: 'Freudenthalin rasistisista opeista se ei ole kuitenkaan koskaan sanoutunut ainakaan julkisesti irti' ('it [the SFP] has never, at least publicly, distanced itself from Freudenthal's racist doctrines') and a statement attributed to Vennamo that a Freudenthal medallist spread the view 'että vain ruotsinkieliset ovat Suomessa sivistyneitä ja suomalaiset ovat moukkia' ('that only Swedish speakers in Finland are educated and Finns are boors'); every version carries the sentence that Finns were to him 'alempiarvoista kansaa, turaaneja' ('an inferior people, Turanians'). Community dispute: an edit war over the passage, 2006-07-22 21:23 to 07-23 18:42. Added by E14 (1400527), put back by E7 (1400591, summary asks administrators to step in), extended by E14 and E12, put back by E13 (1402591, 'huoh sotkemista, palautus' = 'sigh, messing about, restoring') and by E14 (1402950, must-include, 'ihan järjetöntä tämä palauttelu' = 'this back-and-forth is absurd'). Taken out six times, all by E5 (1400555, 1402116, 1402615, 1402894+1402902, 1403006, 1405850+1405860); each version stayed 4 min to 9.8 h. A {{kiistelty}} ('disputed') template stood on the article during the episode (1400527 took it off). Not level 3: the accounts signal is met (E14 anonymous 88.113.x.x, E7, E12, E13), but all insertions fall within 22 hours, one article, no source manipulation: one signal only. E16's reference-list and ISBN edits (1402079, 1402080) are not counted as insertions. Further put-backs (before 1402849, before 1404545, and E7's 1405894) are not edits of any candidate, so not listed. Not kept: added_text_in_latest_revision is not set; the later 'Rasismi' section (i03) is different text.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -4239,10 +4300,12 @@
      ],
      "description": "Adds to the Rasismi section that the defenders of Finnish 'did not resort to racism', citing the pro-Finnish newspaper Suometar as the example.",
      "why": "Level 2 (c35). Claim (pov_push), quoted: 'Suomenkielisten aseman puolustajat eivät kuitenkaan turvautuneet rasismiin' ('The defenders of the status of Finnish speakers, however, did not resort to racism'), with Suometar as the example. Community dispute: a {{lähde}} (citation needed) template was put on the sentence before the removal (it is in the removed text, not in 1886180), and the removal summary is about accuracy: 'ei pidä paikkaansa, aitosuomalaisten näkemykset saamelaisista olivat samalla tavoin rasistisia kuin A.O:n' ('not true; the Finnish-nationalist (aitosuomalainen) views of the Sami were racist in the same way as A. O.'s'). Stayed 5.3 h. Not level 3: one editor (E23, anonymous 193.167.x.x), one article, never put back in the pack. The partial-removal insertion (1886180, found by text search) checks out: its insertion_diff adds this exact sentence, and E22's removal took out only this sentence.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -4258,10 +4321,12 @@
      ],
      "description": "Puts back a sentence, cited to a 2002 Helsingin Sanomat editorial critical of the league, that the association has a few hundred active members.",
      "why": "Level 2 (c25). Claim (content_dispute): 'Yhdistyksessä on muutama sata aktiivijäsentä' ('The association has a few hundred active members'), a membership figure taken from an editorial titled 'Hienon nimen likaajat'. Community dispute: the removal summary is about sourcing and neutrality, 'Pennanen ei ole esittänyt kirjoituksessaan mitään lähdettä tiedolle joten se on poistettava omana ruotsinmielisenä fiiliksenä' ('Pennanen gives no source for the figure in his piece, so it must be removed as his own pro-Swedish feeling'), and 2847228 itself put the sentence back after an earlier removal (flag first_undone_edit_is_itself_a_revert; summary 'Hesari on aivan ok. lähde' = 'Helsingin Sanomat is a perfectly fine source'). Stayed 6 min. Not level 3: one editor (E17), one article, one put-back in the pack.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -4279,10 +4344,12 @@
      ],
      "description": "Adds a 'Later effects' section: Åland costs Finland twice the provincial average, has 'especially much hatred of Finns', and should be sold or given to Sweden.",
      "why": "Level 2 (c17, c07; c06 is the first rollback seen from the other side). Claim (pov_push), quoted: 'Ahvenanmaalla on erityisen paljon suomalaisvihaa' ('there is especially much hatred of Finns on Åland') and 'meidän tulisikin myydä Ahvenanmaa Ruotsille' ('we should sell Åland to Sweden'). A coherent argument with a figure and a proposal that its editor defended as factual, so judged as content, not graffiti, despite calling Åland 'koko roska' ('the whole junk'). Community dispute: put back once after a rollback (8443386, must-include, 'Ei siinä ollut omia mielipiteitäni ... vaan ihan faktapohjaa oli artikkelilla' = 'there were no opinions of mine in it ... the text had a factual basis'), then removed with 'rv. lähteetöntä' ('unsourced'). The two versions stayed 87 s and 58 s. Not level 3: one editor (E132, anonymous 91.156.x.x), one article, both insertions within 11 min.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -4300,10 +4367,12 @@
      ],
      "description": "Adds a paragraph saying Freudenthal held racist ideas about Finns and believed Finnish speakers were racially inferior.",
      "why": "Level 2 (c23, c16). Claim (content_dispute), quoted: 'Sitä, että juuri Freudenthal uskoi suomenkielisten alempirotuisuuteen, voidaan pitää yllättävänä' ('That Freudenthal of all people believed in the racial inferiority of Finnish speakers can be considered surprising'). Community dispute: removed by E35 after 89 min (8385092, 'Hyvin kontroversielli kappale poistettu' = 'very controversial paragraph removed', plus a talk pointer), put back by E17 (8386131, 'tekstistä tulee irrallinen ilman sitä kappaletta' = 'the text becomes disjointed without that paragraph'), removed again by E35 about 10 h later (8387660) with an accuracy reason: 'Freudenthal ei ole näitä mietteitä koskaan esittänyt, ja mikäli olen väärässä toivoisin suoran siteerauksen' ('Freudenthal never expressed these thoughts; if I am wrong I would like a direct quotation'). Not level 3: two inserting editors (E34, E17, both named) give the accounts signal, but the passage was put back once, on the same day; one article; no source change. E35's own edits swept up by 8386131 (8385096 to 8385207) are not insertions. Not put back after 8387660.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -4320,10 +4389,12 @@
      ],
      "description": "Puts back a cited lead sentence: Freudenthal held race theories typical of his time and believed Finnish speakers were inferior.",
      "why": "Level 2 (c03; must-include 13188547). Claim (content_dispute) in the lead: 'Freudenthal harrasti ajalleen tyypillisiä rotuoppeja ja uskoi suomenkielisten alempiarvoisuuteen' ('Freudenthal held race theories typical of his time and believed in the inferiority of Finnish speakers'), cited to McRae 1997. Community dispute: back-and-forth over the wording in one episode. E59 put the cited sentence back (13188490, itself a revert: 'palautus vielä aikaisempaan versioon lähdeviitteen takia' = 'restoring an even earlier version because of the citation'), then took the label out (13188516, 'Rasisti-leimaa ei välttämättä johdannossa tarvita' = 'the racist label is not necessarily needed in the lead'); E60 put it back 'kaunisteltuna' ('toned down', 13188547). After E35's removal 30.6 days later (summary only 'Ks. keskustelu osio' = 'see the talk section', which alone does not count) it was put back again by 13265477 (flag). Not level 3, when in doubt the lower level: persistence is met (put back at least twice, 2013-04-17 to 2013-05-18), but the accounts signal is unclear, because E59 restored the cited sentence and then removed the disputed label, so within the pack only E60 clearly added the disputed wording; one article; the second signal must be accounts or articles. E59's trim (13188516) is not counted as an insertion.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -4654,12 +4725,13 @@
      ],
      "description": "Adds paragraphs, cited to one magazine article, saying the Sámi are not more indigenous than the Finns, that prehistoric people cannot be divided into Sámi and Finns, that Sámi identity is under 100 years old and that 'Sápmi' was invented in the 1980s.",
      "why": "Level 3. Claim (quoted from the added text): 'Saamelaiset eivät ole alkuperäisempiä kuin suomalaiset, vaikka heitä kutsutaan alkuperäiskansaksi' ('The Sámi are not more indigenous than the Finns, although they are called an indigenous people'), 'Suomalaiset ja saamelaiset ovat siis samassa määrin alkuperäisiä kansoja' ('Finns and Sámi are thus equally indigenous peoples'), 'Esihistoriallisia asukkaita ei voi jakaa saamelaisiin ja suomalaisiin' ('prehistoric inhabitants cannot be divided into Sámi and Finns'), 'Saamelaisidentiteetti on alle sata vuotta vanha' ('Sámi identity is under a hundred years old'), '\"Saamenmaa\" keksittiin 1980-luvulla' ('\"Sápmi\" was invented in the 1980s'), all cited to one Suomen Kuvalehti article. Community dispute: put back 3 times after removals (16920192 on Saamelaiset two days after the first removal; 17123375 and 17123380 three months later by a second account), and the second removal on Saamelaisten historia (17123675) gives a sourcing reason: 'ei kirjoiteta artikkelia uusiksi yhden lehtijutun perusteella' ('an article is not rewritten on the basis of one magazine article'). Level-3 signals, 3 of 4: articles (added to Saamelaisten historia and Saamelaiset 13 s apart by E173), accounts (two named accounts added it: E173, then E182 put it back with 'Palautettiin lähteistetty teksti' / 'Ihan hyvin näyttää olevan lähteistetty' = 'restored sourced text' / 'seems to be sourced quite well'), persistence (put back 3 times, first insertion 2017-11-23, last 2018-03-02, 99 days apart). Removals: on Saamelaiset rejected after 3 min (16917081) and 3.5 h (16920612), and removed after 4.1 h (17123933, 'palautettu mistä? pesuveden mukana meni paljon artikkeliin tehtyä pikkuhuoltoa' = 'restored from where? a lot of small maintenance went out with the bathwater'); on Saamelaisten historia removed after 8.6 days (16935955, 'Ei kuitenkaan näin' = 'not like this, though') and after 87 min (17123675). Not in the latest revision. The first insertion also tagged existing citations ({{Parempi lähde|kuin saamelaispoliitikon kirja}} = 'better source needed: than a Sámi politician's book'); not counted as source manipulation because no citation was removed or replaced. Candidates c01, c13 (Saamelaisten historia), c17, c06, c07 (Saamelaiset); c28 is the 17123380 re-insertion seen from the other side.",
-     "human_verified": false,
-     "notes": "c28's removal (17123380) restored a 2017 revision wholesale, so it also took out an anonymous editor's population update (17100871) and other maintenance; E178's 17123933 restored those 4 h later. No separate item for that collateral removal.",
+     "human_verified": true,
+     "notes": "c28's removal (17123380) restored a 2017 revision wholesale, so it also took out an anonymous editor's population update (17100871) and other maintenance; E178's 17123933 restored those 4 h later. No separate item for that collateral removal. Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -4708,11 +4780,13 @@
      ],
      "description": "Rewrites the etymology of 'kuningas' so the Germanic-loan origin is only 'claimed', argues the word was used in Finland before Germanic influence, and alters the wording of a quoted source.",
      "why": "Level 2. Claim: the edit says 'kuningas' is only 'väitetään periytyneen' ('claimed to derive') from Proto-Germanic, adds 'Kantagermaaninen kieli on kuitenkin rekonstruktio ja hypoteesi ... teorian paikkansapitävyyttä ja lainautumisen suuntaa voi vain arvella' ('Proto-Germanic is however a reconstruction and a hypothesis ... the validity of the theory and the direction of borrowing can only be guessed') and 'joten loogisesti sana kuningas tai vastaava on ollut käytössä Suomessakin jo ennen germaanisen kulttuurin vaikutteita' ('so logically the word king or similar was in use in Finland before Germanic influence'). Alongside it, it removed the sentence that Porthan was right that the words are Germanic loans, removed a sentence cited to Vahtola, and changed the wording of the Vahtola quotation inside the reference ('Suomen kuninkaissa oli nähtävästi kyse' -> 'Suomenkin kuninkaissa on voinut olla kyse', 'was apparently' -> 'may have been'). Community dispute: rolled back after 4.2 h (13315992), put back once 42 days later (13407096, summary: 'pitää sanoa \"väitetään perityneen kantagermaanista\"' = 'it must say \"claimed to derive from Proto-Germanic\"'), then removed after 6.9 days with 'rv, uutta tutkimusta ja lähteetöntä' ('rv, original research and unsourced'). Level 3: only one signal (sources); one anonymous range (91.155.x.x), one article, put back only once, so it stays at level 2. Candidates c11 and c05; c04 is the re-insertion seen from the other side.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -4728,11 +4802,13 @@
      ],
      "description": "Adds a section saying Finland's history was distorted and suppressed by conquerors (including a death penalty for telling it) and lists eleven 'kings of Finland before the Swedes'.",
      "why": "Level 2. Claim: 'Suomen historiaa on vääristelty ja yritetty tuhota valloittajien toimesta satoja vuosia' ('Finland's history has been distorted, and conquerors have worked to destroy it, for hundreds of years'), 'Ruotsin vallan aikan oli säädetty jopa kuolemantuomio sille joka kertoisi suomen historiasta' ('under Swedish rule a death sentence was even decreed for anyone who told Finland's history'), and a numbered list 'SUOMEN KUNINKAAT ENNEN RUOTSALAISIA' ('kings of Finland before the Swedes'). Community dispute: removed by another account after 8.4 h with 'huuhaat pois' ('out with the hokum'), a judgement on the accuracy of the content. Not graffiti: coherent prose with a numbered source list. One editor, one article, never put back, so level 2. Candidate c12.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -4749,11 +4825,13 @@
      ],
      "description": "Adds a 'genetic research' section saying genetic studies point to Finno-Ugric roots of historical rulers and that Rurik belonged to the Finno-Ugric haplogroup N.",
      "why": "Level 2. Claim: 'Käynnissä olevien geenitutkimuksen projektien tuloksista on jo nyt löytynyt viitteitä historiallisten hallitsijoiden suomalais-ugrilaisista juurista' ('results of ongoing genetic research projects already show indications of Finno-Ugric roots of historical rulers') and 'Tähän mennessä on selvinnyt, että Rurik ei ollut haploryhmältään viikinkeihin kuuluvaa I-ryhmää eikä slaavilaista ryhmää, vaan suomalais-ugrilaista N-haploryhmää' ('it has so far turned out that Rurik was not in the Viking haplogroup I or a Slavic group but in the Finno-Ugric haplogroup N'), in an article on ancient Finnish kings. Community dispute: removed after 2.8 days by another account with 'poistettu asiaanliittymätön (suomalaisugrilainen != suomalainen), ja todennäköisesti täysi hömppä - Rurik tai ainakin suvut ovat fiktiivisiä' ('removed as irrelevant (Finno-Ugric != Finnish), and probably complete nonsense; Rurik or at least the lineages are fictional'): about accuracy. The flags also show this removal was undone by rev 3625211 (not in the pack, so not listed); the text is not in the latest revision. One editor (both edits by E385), one article, so level 2. Candidate c09.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -4790,11 +4868,13 @@
      ],
      "description": "Adds a section saying the Sámi still controlled over 90% of Finland at the start of the first millennium and were pushed north by taxation, mission work and settlement.",
      "why": "Level 2. Claim: 'Vielä ensimmäisen vuosituhannen alussa saamelaiset hallitsivat yli 90% Suomesta' ('At the start of the first millennium the Sámi still controlled over 90% of Finland'; later edited to 'asuttivat' = 'inhabited'), plus a narrative of the Sámi moving north under taxation, mission work and settlement, cited to a school web page. Community dispute: during the episode a dispute template {{tarkistettava|kummallisia väitteitä}} ('to be checked: strange claims') and {{lähde}} were added, and the removal summary is 'pois koko luku, lähteetön, outo ja copyvio' ('the whole section out: unsourced, strange and a copyright violation'). Visible 30.7 days. The pack's insertion_diff confirms 10202792 added the removed section. One anonymous editor, one article, never put back, so level 2. Candidate c29 (partial removal).",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -4810,11 +4890,13 @@
      ],
      "description": "Adds that a 1930s encyclopedia concluded the Sámi learned their Finno-Ugric language from the Finns and that current DNA research does not support a separate origin of Sámi and Finns.",
      "why": "Level 2. Claim: 'Nykyinen DNA-tutkimuksiin perustuva geneettinen tutkimustieto ei puolla saamelaisten ja suomalaisten eri alkuperää' ('current DNA-based genetic research does not support a different origin for the Sámi and the Finns'), unsourced, after a sentence cited to a 1934 encyclopedia that the Sámi 'olisivat oppineet suomalais-ugrilaisen kielimuodon suomalaisilta' ('would have learned the Finno-Ugric language from the Finns'). Community dispute: removed 6.4 h later by another account with a sourcing reason: 'Viittaaminen 1930-luvulta olevaan tietosanakirjaan ja genetiikasta puhuminen samassa lauseessa ilman lähdettä ei nyt vaan toimi' ('citing a 1930s encyclopedia and talking about genetics in the same sentence without a source just does not work'). The pack's insertion_diff confirms 18558959 added the removed sentences (the rest of that edit stayed). One editor, one article, so level 2. Same theme as i01 but different text, editor and year, so a separate item. Candidate c31 (partial removal).",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -7241,11 +7323,12 @@
      ],
      "description": "Adds passages saying the Jägers knowingly committed treason and 'took the path of a coup' against the lawful government, calls the 1917 government a coup government and says the declaration of independence did not meet legal requirements.",
      "why": "Level 2. Claim (narrative push, unsourced): 'täten miehet syyllistyivät maanpetokseen' (thus the men committed treason), 'miehet lähtivät vallankaappauksen tielle' (the men took the path of a coup), 'uskollisia 1917 vallankaappauksen tehneelle hallinnolle' (loyal to the administration that made the 1917 coup). Community dispute: E40 removed it after 2.4 days (8714999) with the summary 'Poliittinen propaganda ei kuulu Wikipediaan!' (political propaganda does not belong in Wikipedia: a neutrality objection); E46 put the identical text back 15 days later (8774679, c11/c28), and E18 removed it after 14 min with 'rv, uutta tutkimusta' (revert, original research). Not level 3: one account (E46), one article, put back only once.",
-     "human_verified": false,
-     "notes": "Same theme as i02 (Jägers as traitors under Finnish law) but different text two years earlier; kept as separate items. A claim-level cluster (P1.S7) could join them.",
+     "human_verified": true,
+     "notes": "Same theme as i02 (Jägers as traitors under Finnish law) but different text two years earlier; kept as separate items. A claim-level cluster (P1.S7) could join them. Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -7263,11 +7346,12 @@
      ],
      "description": "Puts back the section 'Legality of the Jäger movement under Finland's constitutional laws', which reads the treason chapter of the 1734 law as making the Jägers, and the Finns who helped them, guilty of treason punishable by death.",
      "why": "Level 2. Claim (legal/narrative interpretation cited only to the law text): 'Saksan puolella taisteleminen voidaan katsoa erityisen raskauttavaksi asianhaaraksi' (fighting on Germany's side can be regarded as an especially aggravating circumstance); 'suomalaiset, jotka auttoivat jääkäreitä siirtymään Saksaan, olivat myös syyllisiä samaan perustuslain vastaiseen toimintaan' (Finns who helped the Jägers move to Germany were also guilty of the same unconstitutional activity). Community dispute: edit war 13-15 Nov 2012. E57 took the section out (parent of 12331497), E58 put it back (12331497); E59 took it out (12336776, 'Tarpeeton osio - kaikki vapaustaistelijat ovat miehittäjän näkökulmasta laittomia' = unnecessary section, all freedom fighters are illegal from the occupier's view, c29); E60 put it back (12337379); E43 removed it (12337677) with 'lähde vertautuu primäärilähteeseen. Tulkintoja voidaan esittää vain sekundäärilähteiden perusteella' (the source is comparable to a primary source; interpretations only from secondary sources = sourcing reason). Not in the latest revision. Level 3 checked, not assigned: two distinct inserting accounts (E58, E60) is one signal; one article; the two put-backs in the pack are 2 days apart. The core paragraph already stood in the 23 March 2012 version (c31's restored side), so a first-to-last span over 7 days is arguable, but that original insertion is outside the pack and E58 put back its own reworded version; when in doubt, the lower level.",
-     "human_verified": false,
-     "notes": "Reviewer: borderline level 3 (accounts E58+E60; persistence only if the pre-March-2012 original insertion counts). Both put-backs used the FlaggedRevs reject function ('Hylättiin viimeisin tekstimuutos').",
+     "human_verified": true,
+     "notes": "Reviewer: borderline level 3 (accounts E58+E60; persistence only if the pre-March-2012 original insertion counts). Both put-backs used the FlaggedRevs reject function ('Hylättiin viimeisin tekstimuutos'). Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -7283,10 +7367,12 @@
      ],
      "description": "Adds a sentence in the Jäger-legality section that the SDP's path from order guards to Red Guards and revolution 'fully meets' the elements of treason under the old law, and that many Red Guards were convicted of it.",
      "why": "Level 2. Claim (legal/narrative interpretation of the Social Democrats and Red Guards as treasonous, unsourced): 'kehitys vallankumoukseen täyttää täysin vuoden 1743 lain \"Petoxesta waldacunda wastan\" tunnusmerkistön' (the development towards revolution fully meets the elements of the 1743 [sic, 1734] law on treason). Community dispute on sourcing: in the removed version the section carried {{lähteetön|vahvoja tulkintoja ilman lähteitä tai omaa tutkimusta}} (strong interpretations without sources, or original research), and E41 removed this and other additions after 219 days (12322429), restoring the 23 March 2012 state with 'Pois uusi hömppä' (out with the new fluff) plus the same quote. Partial removal; insertion checked in insertion_diff. Not level 3: one account (E347), one article, not put back.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -7303,11 +7389,12 @@
      ],
      "description": "Puts back a paragraph saying several Jägers took part in the post-civil-war 'purges' in which hundreds of Red Guards were killed, naming four Jägers and the towns.",
      "why": "Level 2. Claim (unsourced attribution of killings to four named Jägers: 'ottivat osaa punaisten surmaamisiin' = took part in killing Reds). Community dispute by back-and-forth over the passage: E314's 11003387 is itself an undo of an earlier removal of this paragraph (summary 'Kumottu muokkaus 11003380'; flag first_undone_edit_is_itself_a_revert); E161 removed it 8 min later ('rv', 11003417); that removal was itself undone (11003422); the paragraph is not in the latest revision. Put back at least twice in total; no removal gives a reason, so the level rests on the put-backs. Not level 3: the only inserting editor in the pack is E314 (one masked range), one article. 11003390 is E314's own 2-byte follow-up in the same section.",
-     "human_verified": false,
-     "notes": "The earlier remover's username appears unmasked in the pack's edit summary for 11003387; it is not repeated here.",
+     "human_verified": true,
+     "notes": "The earlier remover's username appears unmasked in the pack's edit summary for 11003387; it is not repeated here. Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -7324,10 +7411,12 @@
      ],
      "description": "Changes Eugen Schauman's infobox nationality from 'Venäjä (Suomi)' (Russia (Finland)) to 'Russian Empire and Grand Duchy of Finland', adds lead wording that the Grand Duchy was then under the rule of the Russian Empire, with three web citations.",
      "why": "Level 2. Claim: a disputed attribution that matters to the topic (Schauman's nationality); quote 'kansallisuus = Venäjän keisarikunta ja Suomen suuriruhtinaskunta', and E180's own summary argues 'hänen kansallisuus ei missään nimessä ollut Venäläinen' (his nationality was in no way Russian). Community dispute by back-and-forth: E180's first edit 22573798 undid E84's earlier change to this field; E179 rejected the run after 11.8 h (22574369, 'rv, sotkua' = revert, mess) restoring E84's version; that removal was itself undone (22574679); the text is not in the latest revision. Not level 3: one account (E180), one article. E181's 22574354 (IABot link rescue) is a bot's maintenance edit and is left out; the 'look-alike:bot' bucket comes from that edit only.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -7914,10 +8003,12 @@
      ],
      "description": "Puts back a passage saying 'Kalevala culture' is mentioned in the Anglo-Saxon poem Widsith ('Ja Caelic hallitsi finnejä', 'And Caelic ruled the Finns'), with a list of scholars who linked Caelic to Kaleva.",
      "why": "Level 2. Claim, quoted from the added text: 'Kalevalainen kulttuuri tarkoittaa suomalaisten tai suomensukuisten väestöjen mytologiaa, josta on maininta anglosaksisessa muinaisrunossa WIDSITH, joka on muistiinmerkitty 600 -luvulta' ('Kalevala culture means the mythology of the Finns or Finnic peoples, which is mentioned in the Anglo-Saxon ancient poem WIDSITH, written down in the 600s'): it states a scholarly identification (Caelic = Kaleva) as a mention of 'Kalevala culture'. Community dispute: removed by a different account (E23) after 15 min with the summary 'poisto, Widsithin spekulatiivinen yhteys Kalevaan mainintaan jo' ('removal, Widsith's speculative connection to Kaleva [is] already mentioned'), which calls the connection speculative (accuracy) besides duplicate; and the inserting summary begins 'PALAUTETTU' ('RESTORED'), so this edit itself put the text back after an earlier removal that the pack does not show. Not level 3: one account (E30, named), one article; only one insertion is visible, so persistence cannot be shown. Not kept (removal not undone). Weakest point: the removal summary's main reason is duplication. Candidate c09.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -7936,10 +8027,12 @@
      ],
      "description": "Adds to 'Kalevalan synty' that epic poetry is found almost everywhere, has often been compiled into written epics, and that the Kalevala would hardly have come about without the model of earlier epics (cited to SKS).",
      "why": "Level 2. Claim (content dispute over the Kalevala's origin), quoted from the added text: 'Kalevalakaan tuskin olisi syntynyt ilman edeltäneiden eepposten mallia' ('the Kalevala, too, would hardly have come about without the model of earlier epics'). Community dispute: an edit war over this passage on 2007-01-03 from 10:31 UTC until just after 11:12. E30 removed its opening sentence (2138187, summary 'Väärää tietoa, turhana pois, koska eeppistä runoutta ei ole kirjoitettuna kuin Kreikassa, Suomessa ja Virossa', 'Wrong information, removed as unnecessary, because epic poetry exists in written form only in Greece, Finland and Estonia'); E23 restored it 76 s later (2138193, c29), which 2138201 undid; E23 then added the longer passage (2138403, c12, summary: the worldwide perspective is essential and its absence is one of the article's worst gaps); E30 removed it after 5 min (2138429, summary: the culture behind the Kalevala did not read other countries' epics); E31 put it back (2138438, c17); E30 removed it again 73 s later (2138447), and that removal was undone by 2138450. So: an accuracy summary ('Väärää tietoa'), put back 4 times, a back-and-forth. Inserting revs here are the two pack edits that added the passage (2138193 and 2138450 appear only as removal-undo ids). Not level 3: two inserting accounts (E23, E31) is one signal, but one article, all re-insertions within about 45 min, no source change. Review caveat: not kept by the flag (the 2007 wording is not in the latest revision), but the same passage, reworded, is still in the 2008 version restored in c25 and survives the 2017 rewrite in c30; if the latest revision still has it, 'kept' would apply instead.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
       "claude:labeller",
-      "gemini:blind"
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
