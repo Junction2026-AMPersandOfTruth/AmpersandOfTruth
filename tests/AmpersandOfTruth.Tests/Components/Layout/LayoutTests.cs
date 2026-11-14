@@ -61,11 +61,13 @@ public sealed class LayoutTests : BunitContext
         Assert.Empty(searchSlot.Children);
 
         var navLinks = cut.FindAll("header.aot-appbar nav a");
-        Assert.Equal(2, navLinks.Count);
+        Assert.Equal(3, navLinks.Count);
         Assert.Equal("/", navLinks[0].GetAttribute("href"));
         Assert.Equal("Investigate", navLinks[0].TextContent.Trim());
         Assert.Equal("/methodology", navLinks[1].GetAttribute("href"));
         Assert.Equal("Methodology", navLinks[1].TextContent.Trim());
+        Assert.Equal("/library", navLinks[2].GetAttribute("href"));
+        Assert.Equal("Library", navLinks[2].TextContent.Trim());
 
         Assert.Equal("Page body", cut.Find("main.aot-page [data-testid=body-probe]").TextContent);
 

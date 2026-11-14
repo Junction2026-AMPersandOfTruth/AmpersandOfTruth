@@ -1,0 +1,157 @@
+@using AmpersandOfTruth.Web.Features.Investigations
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using Microsoft.Extensions.DependencyInjection
+@inject IServiceProvider Services
+@inject NavigationManager Nav
+
+@if (EffectiveSavedId is not null)
+{
+    <button type="button" class="aot-btn aot-btn--sm" data-testid="save-investigation" disabled>
+        Saved
+    </button>
+}
+else if (_editing)
+{
+    <form class="aot-row" style="display:inline-flex;gap:6px" @onsubmit="ConfirmSaveAsync" @onsubmit:preventDefault>
+        <input type="text"
+               class="aot-select"
+               style="padding:3px 8px;width:200px"
+               maxlength="200"
+               aria-label="Investigation title"
+               data-testid="saved-title-input"
+               @bind="_title"
+               @bind:event="oninput" />
+        <button type="submit"
+                class="aot-btn aot-btn--primary aot-btn--sm"
+                data-testid="save-investigation"
+                disabled="@_saving">
+            Save
+        </button>
+        <button type="button"
+                class="aot-btn aot-btn--ghost aot-btn--sm"
+                disabled="@_saving"
+                @onclick="CancelEdit">
+            Cancel
+        </button>
+    </form>
+}
+else
+{
+    <button type="button"
+            class="aot-btn aot-btn--sm"
+            data-testid="save-investigation"
+            disabled="@(!CanSave)"
+            @onclick="BeginSave">
+        Save
+    </button>
+}
+
+@code {
+    private bool _editing;
+    private bool _saving;
+    private string _title = "";
+    private string? _lastTopic;
+    private Guid? _localSavedId;
+
+    [Parameter] public string Topic { get; set; } = "";
+    [Parameter] public IReadOnlyList<TopicArticle> Articles { get; set; } = [];
+    [Parameter] public IReadOnlyList<IncidentRecord>? Incidents { get; set; }
+    [Parameter] public DateTimeOffset? AnalysedAt { get; set; }
+    [Parameter] public Guid? SavedId { get; set; }
+    [Parameter] public EventCallback<Guid> OnSaved { get; set; }
+
+    private Guid? EffectiveSavedId => SavedId ?? _localSavedId;
+
+    private bool CanSave => Incidents is not null;
+
+    protected override void OnParametersSet()
+    {
+        if (!string.Equals(_lastTopic, Topic, StringComparison.Ordinal))
+        {
+            _lastTopic = Topic;
+            _editing = false;
+            if (SavedId is null)
+            {
+                _localSavedId = null;
+            }
+        }
+
+        if (SavedId is not null)
+        {
+            _editing = false;
+            _localSavedId = SavedId;
+        }
+    }
+
+    private void BeginSave()
+    {
+        if (!CanSave)
+        {
+            return;
+        }
+
+        _title = Topic ?? "";
+        _editing = true;
+    }
+
+    private void CancelEdit()
+    {
+        _editing = false;
+    }
+
+    private async Task ConfirmSaveAsync()
+    {
+        if (_saving || Incidents is null)
+        {
+            return;
+        }
+
+        var store = Services.GetService<LibraryStore>();
+        var ownerKey = Services.GetService<OwnerKey>();
+        if (store is null || ownerKey is null)
+        {
+            return;
+        }
+
+        _saving = true;
+        try
+        {
+            var key = await ownerKey.GetOrCreateAsync();
+            var clock = Services.GetService<TimeProvider>() ?? TimeProvider.System;
+            var analysedAt = AnalysedAt is { } ts && ts != default ? ts : clock.GetUtcNow();
+            var snapshot = new SavedSnapshot(Topic, Articles, Incidents, analysedAt);
+
+            var id = await store.SaveAsync(key, _title, snapshot);
+            _localSavedId = id;
+            _editing = false;
+
+            if (OnSaved.HasDelegate)
+            {
+                await OnSaved.InvokeAsync(id);
+            }
+
+            Nav.NavigateTo(BuildSavedUri(id), replace: true);
+        }
+        finally
+        {
+            _saving = false;
+        }
+    }
+
+    private string BuildSavedUri(Guid id)
+    {
+        if (Uri.TryCreate(Nav.Uri, UriKind.Absolute, out var current)
+            && current.AbsolutePath.StartsWith("/investigate/", StringComparison.OrdinalIgnoreCase))
+        {
+            return Nav.GetUriWithQueryParameter("saved", id.ToString());
+        }
+
+        var slug = TopicSlug.From(Topic);
+        if (slug.Length == 0)
+        {
+            slug = "investigation";
+        }
+
+        return $"/investigate/{Uri.EscapeDataString(slug)}?saved={id}";
+    }
+}

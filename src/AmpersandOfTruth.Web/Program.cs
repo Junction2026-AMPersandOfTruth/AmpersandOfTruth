@@ -6,6 +6,7 @@ using AmpersandOfTruth.Web.Features.Articles;
 using AmpersandOfTruth.Web.Features.Corpus;
 using AmpersandOfTruth.Web.Features.Embedding;
 using AmpersandOfTruth.Web.Features.Investigations;
+using AmpersandOfTruth.Web.Features.Library;
 using AmpersandOfTruth.Web.Features.Search;
 using AmpersandOfTruth.Web.Features.Translation;
 
@@ -27,6 +28,7 @@ builder.Services.AddSearchFeature();
 builder.Services.AddTranslationFeature();
 builder.Services.AddArticlesFeature();
 builder.Services.AddAccountsFeature();
+builder.Services.AddLibraryFeature();
 
 var app = builder.Build();
 
