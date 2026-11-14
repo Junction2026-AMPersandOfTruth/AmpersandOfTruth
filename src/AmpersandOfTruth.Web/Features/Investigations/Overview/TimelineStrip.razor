@@ -79,7 +79,12 @@
         {
             var lane = lanes[i];
             var cy = TopPad + (i * LaneHeight) + (LaneHeight / 2.0);
-            @foreach (var incident in lane.Items)
+            @* Overlapping marks: SVG paints in document order, so draw the lowest level first and the highest last
+               (and the hovered mark on top of everything) — the strongest evidence stays visible. *@
+            @foreach (var incident in lane.Items
+                          .OrderBy(i => string.Equals(i.Id, HotId, StringComparison.Ordinal))
+                          .ThenBy(i => (int)i.Tier)
+                          .ThenByDescending(i => i.Rank))
             {
                 var cx = YearX(YearFraction(incident.FirstSeen));
                 var isHot = string.Equals(HotId, incident.Id, StringComparison.Ordinal);
