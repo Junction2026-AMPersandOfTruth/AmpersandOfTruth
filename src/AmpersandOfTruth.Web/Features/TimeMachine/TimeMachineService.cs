@@ -97,7 +97,7 @@ public sealed class TimeMachineService(ITimeMachineCorpus corpus)
         TimeMachineComparison? comparison = null;
         if (compareDate is DateOnly secondDate)
         {
-            var primaryDate = DateOnly.FromDateTime(normalizedAt);
+            var primaryDate = selectedDate;
             var revA = revId is not null
                 ? rev
                 : await corpus.RevisionAtAsync(pageId, EndOfUtcDay(primaryDate), ct);
@@ -235,10 +235,16 @@ public sealed class TimeMachineService(ITimeMachineCorpus corpus)
 
         var normalized = TextUtil.NormalizeNewlines(rawWikitext);
         var rawBlocks = WikitextBlocks.Split(normalized);
-        var kinds = new List<ProseBlockKind>(rawBlocks.Count);
+        var paragraphs = cappedProse.Split(ParagraphBreak, StringSplitOptions.None);
+        var kinds = new List<ProseBlockKind>(paragraphs.Length);
 
         foreach (var rb in rawBlocks)
         {
+            if (kinds.Count >= paragraphs.Length)
+            {
+                break;
+            }
+
             var slice = normalized[rb.Start..rb.End];
             var blockProse = WikitextProse.Of(slice).Prose;
             if (blockProse.Length > 0)
@@ -247,7 +253,6 @@ public sealed class TimeMachineService(ITimeMachineCorpus corpus)
             }
         }
 
-        var paragraphs = cappedProse.Split(ParagraphBreak, StringSplitOptions.None);
         var result = new List<ProseBlock>(paragraphs.Length);
         var offset = 0;
 

@@ -347,6 +347,24 @@
                 if (byTitle.Count > 0)
                 {
                     _incidents = byTitle;
+                    if (matchedJump is null &&
+                        key.HighlightId is { Length: > 0 } hidAfter &&
+                        byTitle.FirstOrDefault(j => string.Equals(j.Incident.Id, hidAfter, StringComparison.Ordinal)) is { } lateJump)
+                    {
+                        var lateTargetUtc = key.Date is DateOnly explicitDate
+                            ? TimeMachineService.EndOfUtcDay(explicitDate)
+                            : lateJump.InsertedAtUtc;
+                        snapshot = await TimeMachine.ReadAtAsync(
+                            pageId: PageId,
+                            atUtc: lateTargetUtc,
+                            revId: key.RevId ?? (key.Date is null ? lateJump.InsertingRevId : null),
+                            highlightRevId: lateJump.InsertingRevId ?? key.RevId,
+                            highlightParentRevId: lateJump.ParentRevId,
+                            fallbackHighlightDiff: lateJump.Incident.Passage?.Diff,
+                            compareDate: key.Compare,
+                            ct: ct);
+                        if (ct.IsCancellationRequested) return;
+                    }
                 }
             }
 
@@ -575,7 +593,8 @@
 
     private LoadKey CurrentLoadKey()
     {
-        var hasQueryInUri = Uri.TryCreate(Nav.Uri, UriKind.Absolute, out var uri) && !string.IsNullOrEmpty(uri.Query);
+        var hasQueryInUri = Uri.TryCreate(Nav.Uri, UriKind.Absolute, out var uri) &&
+                            (!string.IsNullOrEmpty(uri.Query) || uri.AbsolutePath.EndsWith("/at", StringComparison.OrdinalIgnoreCase));
 
         var dateRaw = hasQueryInUri ? ReadQueryParam(Nav.Uri, "date") : (Date ?? ReadQueryParam(Nav.Uri, "date"));
         var compareRaw = hasQueryInUri ? ReadQueryParam(Nav.Uri, "compare") : (Compare ?? ReadQueryParam(Nav.Uri, "compare"));

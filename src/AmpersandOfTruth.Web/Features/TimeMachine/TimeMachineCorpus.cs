@@ -1,5 +1,7 @@
 using System.Globalization;
+using System.Text;
 using AmpersandOfTruth.Web.Features.Corpus;
+using AmpersandOfTruth.Web.Features.Investigations;
 using MySqlConnector;
 
 namespace AmpersandOfTruth.Web.Features.TimeMachine;
@@ -155,11 +157,12 @@ public sealed class MariaDbTimeMachineCorpus(
             cmd.Parameters.AddWithValue("@p", pageId);
             cmd.Parameters.AddWithValue("@revId", revId);
 
-            var val = await cmd.ExecuteScalarAsync(ct);
-            if (val is string s)
+            text = await cmd.ExecuteScalarAsync(ct) switch
             {
-                text = s;
-            }
+                null or DBNull => null,
+                byte[] bytes => Encoding.UTF8.GetString(bytes),
+                var value => Convert.ToString(value, CultureInfo.InvariantCulture),
+            };
         }, ct);
 
         return text;
