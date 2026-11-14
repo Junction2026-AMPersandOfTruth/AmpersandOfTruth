@@ -1,0 +1,98 @@
+[
+  {
+    "a": "luovutettu",
+    "b": "miehitetty",
+    "note": "Ceded Karelia / ceded territories (luovutettu) reframed as occupied (miehitetty)",
+    "example_rev_id": 445526
+  },
+  {
+    "a": "luovutetut alueet",
+    "b": "menetetyt alueet",
+    "note": "Treaty-ceded territories (luovutetut alueet) reframed as territories lost in war (menetetyt alueet)",
+    "example_rev_id": 13792608
+  },
+  {
+    "a": "sisällissota",
+    "b": "vapaussota",
+    "note": "Neutral historiographical 'Civil War' (sisällissota) swapped with White-side 'War of Liberation' (vapaussota)",
+    "example_rev_id": 11596801
+  },
+  {
+    "a": "vuoden 1918 sota",
+    "b": "vapaussota",
+    "note": "Neutral '1918 war' (vuoden 1918 sota) swapped with 'War of Liberation' (vapaussota)",
+    "example_rev_id": 11596668
+  },
+  {
+    "a": "Venäjä",
+    "b": "ryssä",
+    "note": "Neutral country/ethnonym (Venäjä / venäläinen) replaced with ethnic slur (ryssä / Miehittäjä-Ryssä)",
+    "example_rev_id": 11000396
+  },
+  {
+    "a": "saksalainen",
+    "b": "natsi",
+    "note": "Neutral national/military term (saksalainen / Saksa) replaced with ideological label (natsi / Natsi-Saksa)",
+    "example_rev_id": 9225913
+  },
+  {
+    "a": "armeija",
+    "b": "miehitysarmeija",
+    "note": "Neutral military unit term (armeija) reframed as occupation army (miehitysarmeija)",
+    "example_rev_id": 9225913
+  },
+  {
+    "a": "vastustaa",
+    "b": "kapinoida",
+    "note": "Neutral 'oppose' (vastustaa) swapped with 'rebel/mutiny' (kapinoida) for the 1918 Red side",
+    "example_rev_id": 13768127
+  },
+  {
+    "a": "valkokaarti",
+    "b": "valkoinen armeija",
+    "note": "Paramilitary label 'White Guard' (valkokaarti) swapped with state-army framing 'White Army' (valkoinen armeija)",
+    "example_rev_id": 3289145
+  },
+  {
+    "a": "valkoinen senaatti",
+    "b": "tasavallan joukot",
+    "note": "Partisan 'White Senate' framing swapped with official state-legitimacy framing 'forces of the Republic'",
+    "example_rev_id": 13797982
+  },
+  {
+    "a": "senaatin joukot",
+    "b": "tasavallan joukot",
+    "note": "Senate/government forces (senaatin/hallituksen joukot) swapped with 'forces of the Republic' (tasavallan joukot)",
+    "example_rev_id": 13768127
+  },
+  {
+    "a": "Suomen tappio",
+    "b": "Moskovan välirauha",
+    "note": "Explicit war defeat outcome (Suomen tappio) replaced with armistice treaty name (Moskovan välirauha)",
+    "example_rev_id": 2247824
+  },
+  {
+    "a": "hyökkäys",
+    "b": "taistelu",
+    "note": "Military offensive (hyökkäys) softened to generic battle/fighting (taistelu)",
+    "example_rev_id": 4814054
+  },
+  {
+    "a": "Luoteis-Venäjä",
+    "b": "Itä-Suomi",
+    "note": "Russian sovereign geography (Luoteis-Venäjä) swapped with irredentist Finnish geography (Itä-Suomi) for Viipuri",
+    "example_rev_id": 20765131
+  },
+  {
+    "a": "Luoteis-Venäjä",
+    "b": "valloittama Karjala",
+    "note": "Russian sovereign geography (Luoteis-Venäjä) swapped with 'temporarily conquered Karelia' framing",
+    "example_rev_id": 21847143
+  },
+  {
+    "a": "Priozersk",
+    "b": "Käkisalmi",
+    "note": "Post-1948 official Russian town name (Priozersk) swapped with pre-1944 Finnish name (Käkisalmi) as primary headword",
+    "example_rev_id": 1578757
+  }
+]
