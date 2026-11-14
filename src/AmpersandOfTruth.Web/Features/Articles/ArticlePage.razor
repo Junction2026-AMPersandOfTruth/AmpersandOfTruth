@@ -3,7 +3,11 @@
 @using System.Globalization
 @using AmpersandOfTruth.Web.Features.Evidence
 @using AmpersandOfTruth.Web.Features.Investigations
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using Microsoft.Extensions.Options
 @inject ArticleTimelineService TimelineService
+@inject IIncidentSource IncidentSource
+@inject IOptions<InvestigationSourceOptions> SourceOptions
 @inject NavigationManager Nav
 
 <PageTitle>@(_aggregates is not null ? $"{_aggregates.TitleFi} · Ampersand of Truth" : "Article · Ampersand of Truth")</PageTitle>
@@ -31,27 +35,16 @@
     }
     else if (_hasError)
     {
-        <div class="aot-banner aot-banner--error" role="alert" data-testid="article-error">
-            <svg viewBox="0 0 18 18" aria-hidden="true">
-                <circle cx="9" cy="9" r="7" />
-                <path d="M9 5v5M9 12.5v.5" />
-            </svg>
-            <div class="aot-banner__body">
-                <b>The Wikipedia data is not reachable right now.</b>
-                @if (!string.IsNullOrWhiteSpace(_errorDetail))
-                {
-                    <details>
-                        <summary>Technical detail</summary>
-                        <pre>@_errorDetail</pre>
-                    </details>
-                }
-            </div>
-            <button type="button" class="aot-btn aot-btn--sm" data-testid="article-retry" @onclick="RetryAsync">Retry</button>
-        </div>
+        <StatusBanner Kind="StatusKind.Error"
+                      Title="The Wikipedia data is not reachable right now."
+                      Detail="@_errorDetail"
+                      OnRetry="RetryAsync"
+                      TestId="article-error" />
     }
     else if (_aggregates is null)
     {
-        <EmptyState Message="We don't have this article." />
+        <EmptyState Title="We don't have this article."
+                    Message="Our dataset covers 19,742 Finnish Wikipedia articles on the history of Finland." />
     }
     else
     {
@@ -86,9 +79,14 @@
         </header>
 
         <section class="aot-stack" aria-label="Editing timeline">
+            @if (_marks.Count > 0 && SourceOptions.Value.IsSampleData)
+            {
+                <SampleDataBanner />
+            }
             <ArticleTimeline Data="_aggregates"
                              Range="_selectedRange"
-                             HighlightedIncidentId="@Incident"
+                             Marks="_marks"
+                             HighlightedIncidentId="@EffectiveIncident"
                              OnRangeSelected="HandleRangeSelectedAsync" />
             <p class="aot-small" data-testid="timeline-summary">@ArticleTimelineService.Summary(_aggregates)</p>
         </section>
@@ -104,7 +102,8 @@
                 }
                 else if (_revisions.Count == 0)
                 {
-                    <EmptyState Message="No edits in this range." />
+                    <EmptyState Title="No edits in this range."
+                                Message="Select another period on the timeline above to inspect its revisions." />
                 }
                 else
                 {
@@ -128,14 +127,7 @@
                                     <tr data-testid="revision-row" @key="rev.RevId">
                                         <td class="aot-num text-nowrap">@FormatTimestamp(rev.Ts)</td>
                                         <td data-testid="revision-editor">
-                                            @if (editor.ProfileUrl is not null)
-                                            {
-                                                <a href="@editor.ProfileUrl.AbsoluteUri" target="_blank" rel="noopener">@editor.PlainText</a>
-                                            }
-                                            else
-                                            {
-                                                <span>@editor.PlainText</span>
-                                            }
+                                            <EditorTag Label="@editor" />
                                         </td>
                                         <td lang="fi" data-testid="revision-summary">@maskedComment</td>
                                         <td class="aot-num text-nowrap" data-testid="revision-delta">@FormatDeltaBytes(rev.DeltaBytes)</td>
@@ -172,9 +164,11 @@
 
     private long? _loadedPageId;
     private DateRange? _loadedRange;
+    private string? _loadedTopic;
     private ArticleAggregates? _aggregates;
     private DateRange? _selectedRange;
     private IReadOnlyList<ArticleRevision> _revisions = [];
+    private IReadOnlyList<IncidentMark> _marks = [];
 
     [Parameter]
     public long PageId { get; set; }
@@ -185,8 +179,14 @@
     [SupplyParameterFromQuery(Name = "to")]
     public string? To { get; set; }
 
+    [SupplyParameterFromQuery(Name = "topic")]
+    public string? Topic { get; set; }
+
     [SupplyParameterFromQuery(Name = "incident")]
     public string? Incident { get; set; }
+
+    private string? EffectiveIncident =>
+        !string.IsNullOrWhiteSpace(Incident) ? Incident : ReadQueryParam(Nav.Uri, "incident");
 
     protected override async Task OnParametersSetAsync()
     {
@@ -210,16 +210,37 @@
     {
         var pageChanged = forceReload || _loadedPageId != PageId;
         var queryRange = ResolveQueryRange();
+        var topicSlug = ResolveTopicSlug();
 
         if (!pageChanged && _aggregates is not null)
         {
             var desiredRange = queryRange ?? _selectedRange ?? DefaultRange(_aggregates);
-            if (_loadedRange == desiredRange)
+            var rangeChanged = _loadedRange != desiredRange;
+            var topicChanged = !string.Equals(_loadedTopic, topicSlug, StringComparison.Ordinal);
+
+            if (!rangeChanged && !topicChanged)
             {
                 return;
             }
 
-            await LoadRevisionsOnlyAsync(desiredRange);
+            if (rangeChanged)
+            {
+                await LoadRevisionsOnlyAsync(desiredRange, topicSlug, reloadMarks: topicChanged);
+            }
+            else if (topicChanged)
+            {
+                var ctTopic = ResetCancellation();
+                try
+                {
+                    _marks = await LoadMarksAsync(PageId, topicSlug, ctTopic);
+                    _loadedTopic = topicSlug;
+                }
+                catch (OperationCanceledException) when (ctTopic.IsCancellationRequested)
+                {
+                    return;
+                }
+            }
+
             return;
         }
 
@@ -238,14 +259,18 @@
             {
                 _selectedRange = null;
                 _loadedRange = null;
+                _loadedTopic = topicSlug;
                 _revisions = [];
+                _marks = [];
                 return;
             }
 
             var initialRange = queryRange ?? DefaultRange(aggregates);
             _selectedRange = initialRange;
             _revisions = await TimelineService.RevisionsAsync(PageId, initialRange, limit: 500, ct: ct);
+            _marks = await LoadMarksAsync(PageId, topicSlug, ct);
             _loadedRange = initialRange;
+            _loadedTopic = topicSlug;
         }
         catch (CorpusUnavailableException ex)
         {
@@ -253,6 +278,8 @@
             _errorDetail = ex.Message;
             _loadedPageId = null;
             _loadedRange = null;
+            _loadedTopic = null;
+            _marks = [];
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
         {
@@ -268,7 +295,7 @@
         }
     }
 
-    private async Task LoadRevisionsOnlyAsync(DateRange range)
+    private async Task LoadRevisionsOnlyAsync(DateRange range, string? topicSlug, bool reloadMarks)
     {
         var ct = ResetCancellation();
         _selectedRange = range;
@@ -279,6 +306,12 @@
         try
         {
             _revisions = await TimelineService.RevisionsAsync(PageId, range, limit: 500, ct: ct);
+            if (reloadMarks)
+            {
+                _marks = await LoadMarksAsync(PageId, topicSlug, ct);
+                _loadedTopic = topicSlug;
+            }
+
             _loadedRange = range;
         }
         catch (CorpusUnavailableException ex)
@@ -300,10 +333,52 @@
         }
     }
 
+    private async Task<IReadOnlyList<IncidentMark>> LoadMarksAsync(long pageId, string? topicSlug, CancellationToken ct)
+    {
+        if (string.IsNullOrWhiteSpace(topicSlug))
+        {
+            return [];
+        }
+
+        try
+        {
+            var incidents = await IncidentSource.ForTopicAsync(topicSlug, ct);
+            if (incidents is null || incidents.Count == 0)
+            {
+                return [];
+            }
+
+            var escapedSlug = Uri.EscapeDataString(topicSlug);
+            var marks = new List<IncidentMark>();
+            foreach (var incident in incidents)
+            {
+                if (incident.Articles.Any(a => a.PageId == pageId))
+                {
+                    marks.Add(new IncidentMark(
+                        incident.FirstSeen.UtcDateTime,
+                        incident.Tier,
+                        incident.Id,
+                        $"/investigate/{escapedSlug}/incidents/{Uri.EscapeDataString(incident.Id)}"));
+                }
+            }
+
+            return marks;
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch
+        {
+            return [];
+        }
+    }
+
     private async Task HandleRangeSelectedAsync(DateRange range)
     {
-        await LoadRevisionsOnlyAsync(range);
-        Nav.NavigateTo(BuildUri(range, Incident), replace: true);
+        var topicSlug = ResolveTopicSlug();
+        await LoadRevisionsOnlyAsync(range, topicSlug, reloadMarks: false);
+        Nav.NavigateTo(BuildUri(range, EffectiveIncident, topicSlug), replace: true);
     }
 
     private async Task RetryAsync()
@@ -311,16 +386,22 @@
         await SyncAsync(forceReload: true);
     }
 
-    private DateRange? ResolveQueryRange()
+    private string? ResolveTopicSlug()
     {
-        var fromStr = From;
-        var toStr = To;
-
-        if (string.IsNullOrWhiteSpace(fromStr) && string.IsNullOrWhiteSpace(toStr))
+        var raw = !string.IsNullOrWhiteSpace(Topic) ? Topic : ReadQueryParam(Nav.Uri, "topic");
+        if (string.IsNullOrWhiteSpace(raw))
         {
-            TryReadQueryFromUri(Nav.Uri, out fromStr, out toStr);
+            return null;
         }
 
+        var slug = TopicSlug.From(raw);
+        return slug.Length > 0 ? slug : null;
+    }
+
+    private DateRange? ResolveQueryRange()
+    {
+        var fromStr = !string.IsNullOrWhiteSpace(From) ? From : ReadQueryParam(Nav.Uri, "from");
+        var toStr = !string.IsNullOrWhiteSpace(To) ? To : ReadQueryParam(Nav.Uri, "to");
         return TryParseRange(fromStr, toStr, out var parsed) ? parsed : null;
     }
 
@@ -373,13 +454,11 @@
         return false;
     }
 
-    private static void TryReadQueryFromUri(string uriString, out string? from, out string? to)
+    private static string? ReadQueryParam(string uriString, string targetKey)
     {
-        from = null;
-        to = null;
         if (!Uri.TryCreate(uriString, UriKind.Absolute, out var uri) || string.IsNullOrEmpty(uri.Query))
         {
-            return;
+            return null;
         }
 
         foreach (var part in uri.Query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
@@ -387,17 +466,25 @@
             var eq = part.IndexOf('=');
             if (eq <= 0) continue;
             var key = Uri.UnescapeDataString(part[..eq]);
-            var val = Uri.UnescapeDataString(part[(eq + 1)..]);
-            if (string.Equals(key, "from", StringComparison.OrdinalIgnoreCase)) from = val;
-            else if (string.Equals(key, "to", StringComparison.OrdinalIgnoreCase)) to = val;
+            if (string.Equals(key, targetKey, StringComparison.OrdinalIgnoreCase))
+            {
+                return Uri.UnescapeDataString(part[(eq + 1)..]);
+            }
         }
+
+        return null;
     }
 
-    private string BuildUri(DateRange range, string? incident)
+    private string BuildUri(DateRange range, string? incident, string? topicSlug)
     {
         var from = range.From.ToString("yyyy-MM", CultureInfo.InvariantCulture);
         var to = range.To.ToString("yyyy-MM", CultureInfo.InvariantCulture);
         var uri = $"/articles/{PageId.ToString(CultureInfo.InvariantCulture)}?from={from}&to={to}";
+        if (!string.IsNullOrWhiteSpace(topicSlug))
+        {
+            uri += $"&topic={Uri.EscapeDataString(topicSlug)}";
+        }
+
         if (!string.IsNullOrWhiteSpace(incident))
         {
             uri += $"&incident={Uri.EscapeDataString(incident)}";

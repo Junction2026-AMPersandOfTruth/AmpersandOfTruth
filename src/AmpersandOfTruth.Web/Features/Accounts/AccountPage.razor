@@ -9,23 +9,18 @@
 <div class="aot-page aot-stack" data-testid="account-page">
     @if (_editor.IsAnonymous)
     {
-        <EmptyState Message="We don't show pages for anonymous editors." />
+        <EmptyState Title="We don't show pages for anonymous editors."
+                    Message="Only registered Wikipedia accounts have an activity page here." />
     }
     else if (_editor.Kind != EditorKind.Named)
     {
-        <EmptyState Message="No edits by this account in our dataset." />
+        <EmptyState Title="No edits by this account in our dataset."
+                    Message="@Methodology.AccountsCaveat" />
     }
     else
     {
         <h1 class="aot-h1" data-testid="account-heading">
-            <span class="aot-editor" style="font-size:inherit;line-height:inherit;gap:10px">
-                <span class="aot-editor__glyph" style="width:26px;height:26px;font-size:13px" aria-hidden="true">@Initial(_editor.DisplayName)</span>
-                <a class="aot-editor__name aot-ext"
-                   href="@WikipediaLinks.Contributions(_editor.DisplayName)"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   data-testid="account-contributions">@_editor.DisplayName</a>
-            </span>
+            <EditorTag Label="_editor" />
         </h1>
 
         <div class="aot-banner aot-banner--info" role="note" data-testid="account-caveat">
@@ -35,17 +30,11 @@
 
         @if (_error is not null)
         {
-            <div class="aot-banner aot-banner--error" role="alert" data-testid="status-banner">
-                <svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="7" /><path d="M9 5v5M9 12.5v.5" /></svg>
-                <div class="aot-banner__body">
-                    <b>We can’t reach the Wikipedia data right now.</b>
-                    <details>
-                        <summary>Technical detail</summary>
-                        <pre>@_error</pre>
-                    </details>
-                </div>
-                <button type="button" class="aot-btn aot-btn--sm" data-testid="retry-button" @onclick="LoadFactsAsync">Retry</button>
-            </div>
+            <StatusBanner Kind="StatusKind.Error"
+                          Title="We can’t reach the Wikipedia data right now."
+                          Detail="@_error"
+                          OnRetry="LoadFactsAsync"
+                          TestId="status-banner" />
         }
         else if (_loading)
         {
@@ -53,7 +42,8 @@
         }
         else if (_facts is { Edits: 0 })
         {
-            <EmptyState Message="No edits by this account in our dataset." />
+            <EmptyState Title="No edits by this account in our dataset."
+                        Message="This account has not edited any of the 19,742 Finnish history articles in our dataset." />
         }
         else if (_facts is not null)
         {
@@ -209,7 +199,4 @@
     private static string FormatDate(DateTime utc) => utc.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
 
     private static string Fmt(double value) => value.ToString("0.#", CultureInfo.InvariantCulture);
-
-    private static string Initial(string name) =>
-        string.IsNullOrEmpty(name) ? "?" : StringInfo.GetNextTextElement(name).ToUpperInvariant();
 }

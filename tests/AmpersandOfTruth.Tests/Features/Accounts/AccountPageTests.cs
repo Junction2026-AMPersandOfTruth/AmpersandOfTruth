@@ -34,9 +34,11 @@ public sealed class AccountPageTests : BunitContext
         var title = cut.FindComponent<PageTitle>();
         Assert.Contains("Pohjantähti77 · Ampersand of Truth", Render(title.Instance.ChildContent!).Markup);
 
-        var contrib = cut.Find("[data-testid=account-contributions]");
+        var editorLabel = cut.Find("[data-testid=account-heading] [data-testid=editor-label]");
+        var contrib = editorLabel.QuerySelector("a");
+        Assert.NotNull(contrib);
         Assert.Equal("Pohjantähti77", contrib.TextContent.Trim());
-        Assert.Equal(WikipediaLinks.Contributions("Pohjantähti77").ToString(), contrib.GetAttribute("href"));
+        Assert.Equal(WikipediaLinks.Contributions("Pohjantähti77").AbsoluteUri, contrib.GetAttribute("href"));
 
         Assert.Equal(Methodology.AccountsCaveat, cut.Find("[data-testid=account-caveat]").TextContent.Trim());
 
@@ -77,7 +79,9 @@ public sealed class AccountPageTests : BunitContext
         var cut = Render<AccountPage>(p => p.Add(x => x.Name, rawName));
 
         var empty = cut.Find("[data-testid=empty-state]");
-        Assert.Equal("We don't show pages for anonymous editors.", empty.TextContent.Trim());
+        Assert.Equal("We don't show pages for anonymous editors.", empty.QuerySelector("h3")?.TextContent);
+        Assert.NotEmpty(empty.QuerySelector("p")?.TextContent?.Trim() ?? "");
+        Assert.Empty(CopyRules.FindViolations(empty.TextContent, includeJargon: true));
         Assert.Equal(0, _fake.Calls);
         Assert.DoesNotContain(rawName, cut.Markup, StringComparison.OrdinalIgnoreCase);
 
@@ -109,7 +113,9 @@ public sealed class AccountPageTests : BunitContext
         var cut = Render<AccountPage>(p => p.Add(x => x.Name, "UnknownEditor99"));
 
         var empty = cut.Find("[data-testid=empty-state]");
-        Assert.Equal("No edits by this account in our dataset.", empty.TextContent.Trim());
+        Assert.Equal("No edits by this account in our dataset.", empty.QuerySelector("h3")?.TextContent);
+        Assert.NotEmpty(empty.QuerySelector("p")?.TextContent?.Trim() ?? "");
+        Assert.Empty(CopyRules.FindViolations(empty.TextContent, includeJargon: true));
         Assert.Equal(1, _fake.Calls);
     }
 
@@ -122,12 +128,15 @@ public sealed class AccountPageTests : BunitContext
         var cut = Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
 
         var banner = cut.Find("[data-testid=status-banner]");
+        Assert.Contains("aot-banner--error", banner.ClassList);
+        Assert.Equal("alert", banner.GetAttribute("role"));
         Assert.Contains("We can’t reach the Wikipedia data right now.", banner.TextContent);
+        Assert.Contains("fake corpus is down", banner.TextContent);
         Assert.Empty(cut.FindAll("[data-testid=account-facts]"));
         Assert.Equal(1, _fake.Calls);
 
         _fake.Unavailable = false;
-        cut.Find("[data-testid=retry-button]").Click();
+        cut.Find("[data-testid=status-retry]").Click();
 
         cut.WaitForAssertion(() =>
         {
