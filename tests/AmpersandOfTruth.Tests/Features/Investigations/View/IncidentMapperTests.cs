@@ -224,17 +224,13 @@ public class IncidentMapperTests
         SeedEdit(700, 701, 702, "Ennen.", "Ennen. Jälkeen.");
         _corpus.Delay = TimeSpan.FromMilliseconds(180);
 
-        var sw = Stopwatch.StartNew();
         var view = await _mapper.MapAsync(SampleRecord(701, 702), rank: 1);
-        sw.Stop();
 
         Assert.NotNull(view.Passage);
         Assert.Equal(1, _corpus.ArticleCalls);
         Assert.Equal(1, _corpus.RevisionCalls);
-        // Sequential would take >= 360 ms; concurrent takes ~180 ms.
-        Assert.True(
-            sw.Elapsed < TimeSpan.FromMilliseconds(330),
-            $"Expected concurrent article+revision lookup (< 330 ms), actual {sw.Elapsed.TotalMilliseconds:F0} ms");
+        // Both lookups were in flight at once (asserted without wall-clock timing, which flakes on a busy machine).
+        Assert.Equal(2, _corpus.MaxInFlight);
     }
 
     private void SeedEdit(long parentRevId, long insertRevId, long removeRevId, string before, string after)
