@@ -9,6 +9,7 @@ public class AppSmokeTests(AppFactory factory) : IClassFixture<AppFactory>
     [Theory]
     [InlineData("/")]
     [InlineData("/notes")]
+    [InlineData("/analysis")]
     [InlineData("/health")]
     public async Task Route_returns_success(string url)
     {

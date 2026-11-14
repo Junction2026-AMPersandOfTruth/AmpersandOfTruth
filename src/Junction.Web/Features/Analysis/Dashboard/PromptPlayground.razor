@@ -1,0 +1,237 @@
+@using System.Globalization
+@using System.Text.Encodings.Web
+@using System.Text.Json
+@using Junction.Web.Features.Analysis
+@using Junction.Web.Features.Analysis.Prompts
+@using Microsoft.Extensions.Options
+@inject PromptLibrary Prompts
+@inject IAnalysisModel AnalysisModel
+@inject IOptionsMonitor<GeminiOptions> Options
+
+@{
+    var opts = Options.CurrentValue;
+    var currentPrompt = SelectedPrompt;
+    var defaultModel = currentPrompt is not null ? opts.ModelFor(currentPrompt.Job) : opts.DefaultModel;
+    var distinctModels = opts.Models.Values
+        .Concat(opts.Pricing.Keys)
+        .Where(static m => !string.IsNullOrWhiteSpace(m))
+        .Distinct(StringComparer.OrdinalIgnoreCase)
+        .ToList();
+}
+
+<section class="card mt-4" data-testid="playground">
+    <div class="card-header fw-semibold">Prompt playground</div>
+    <div class="card-body">
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label class="form-label small fw-semibold" for="pg-prompt-select">Prompt</label>
+                <select id="pg-prompt-select"
+                        class="form-select"
+                        data-testid="pg-prompt"
+                        @bind="_selectedPromptId"
+                        @bind:after="OnPromptChanged">
+                    @foreach (var p in Prompts.All)
+                    {
+                        <option value="@p.Id">@($"{p.Id} @{p.FullVersion}")</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label small fw-semibold" for="pg-model-select">Model</label>
+                <select id="pg-model-select"
+                        class="form-select"
+                        data-testid="pg-model"
+                        @bind="_selectedModel">
+                    <option value="">@($"(job default: {defaultModel})")</option>
+                    @foreach (var m in distinctModels)
+                    {
+                        <option value="@m">@m</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        @foreach (var field in _fields)
+        {
+            <div class="mb-2" @key="@($"{_selectedPromptId}:{field.Name}")">
+                <label class="form-label small fw-semibold mb-1 font-monospace">@field.Name</label>
+                <textarea class="form-control form-control-sm font-monospace"
+                          rows="2"
+                          data-testid="@($"pg-var-{field.Name}")"
+                          @bind="field.Value"></textarea>
+            </div>
+        }
+
+        <div class="d-flex flex-wrap align-items-center gap-3 mt-3">
+            <div class="form-check mb-0">
+                <input class="form-check-input"
+                       type="checkbox"
+                       id="pg-bypass-check"
+                       data-testid="pg-bypass"
+                       @bind="_bypassCache" />
+                <label class="form-check-label" for="pg-bypass-check">bypass cache</label>
+            </div>
+
+            <button type="button"
+                    class="btn btn-primary"
+                    data-testid="pg-run"
+                    disabled="@(_running || currentPrompt is null)"
+                    @onclick="RunPromptAsync">
+                @if (_running)
+                {
+                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                }
+                Run
+            </button>
+
+            @if (string.Equals(_selectedPromptId, "classify-edit", StringComparison.Ordinal))
+            {
+                <button type="button"
+                        class="btn btn-outline-secondary"
+                        data-testid="pg-sample"
+                        @onclick="LoadSample">
+                    Load sample
+                </button>
+            }
+        </div>
+
+        @if (_result is not null)
+        {
+            <div class="mt-3 border rounded p-3 bg-light" data-testid="pg-result">
+                <div class="d-flex flex-wrap align-items-center gap-2 small">
+                    <OutcomeBadge Outcome="_result.Outcome" TestId="pg-outcome" />
+                    @if (_result.Info.FromCache)
+                    {
+                        <span class="badge bg-info text-dark">from cache</span>
+                    }
+                    <code>@_result.Info.Model</code>
+                    <span class="text-muted">·</span>
+                    <span>@($"{_result.Info.Latency.TotalMilliseconds.ToString("F0", CultureInfo.InvariantCulture)} ms")</span>
+                    <span class="text-muted">·</span>
+                    <span>
+                        tokens in @_result.Info.Usage.InputTokens.ToString("N0", CultureInfo.InvariantCulture)
+                        / out @_result.Info.Usage.OutputTokens.ToString("N0", CultureInfo.InvariantCulture)
+                        @if (_result.Info.Usage.ThoughtTokens > 0)
+                        {
+                            @($" / thought {_result.Info.Usage.ThoughtTokens.ToString("N0", CultureInfo.InvariantCulture)}")
+                        }
+                    </span>
+                    <span class="text-muted">·</span>
+                    <span>@($"${_result.Info.EstimatedCostUsd.ToString("0.0000", CultureInfo.InvariantCulture)}")</span>
+                </div>
+
+                @if (!string.IsNullOrEmpty(_result.Error))
+                {
+                    <div class="alert alert-danger py-2 px-3 mt-2 mb-0 small">@_result.Error</div>
+                }
+
+                <pre class="mb-0 mt-2 p-2 bg-white border rounded small font-monospace" data-testid="pg-json">@_outputText</pre>
+            </div>
+        }
+    </div>
+</section>
+
+@code {
+    private static readonly JsonSerializerOptions PrettyJsonOptions = new()
+    {
+        WriteIndented = true,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+    };
+
+    private static readonly IReadOnlyDictionary<string, string> ClassifyEditSample =
+        new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["article_title"] = "Talvisota",
+            ["edit_timestamp"] = "2014-03-01 12:00 UTC",
+            ["editor_kind"] = "anonymous",
+            ["exposure"] = "7 min",
+            ["edit_summary"] = "",
+            ["revert_summary"] = "Kumottu muokkaus, lähteetön",
+            ["removed_text"] = "Neuvostoliitto hyökkäsi Suomeen 30. marraskuuta 1939.",
+            ["inserted_text"] = "Suomi aloitti talvisodan ampumalla Mainilan kylään.",
+            ["context"] = "'''Talvisota''' oli Neuvostoliiton ja Suomen välinen sota.",
+        };
+
+    private string _selectedPromptId = string.Empty;
+    private string _selectedModel = string.Empty;
+    private bool _bypassCache;
+    private bool _running;
+    private List<VariableField> _fields = [];
+    private AnalysisResult<JsonElement>? _result;
+    private string _outputText = string.Empty;
+
+    private PromptDefinition? SelectedPrompt =>
+        !string.IsNullOrEmpty(_selectedPromptId) && Prompts.All.Any(p => p.Id == _selectedPromptId)
+            ? Prompts.Get(_selectedPromptId)
+            : Prompts.All.FirstOrDefault();
+
+    protected override void OnInitialized()
+    {
+        if (Prompts.All.Count > 0)
+        {
+            _selectedPromptId = Prompts.All[0].Id;
+            ResetVariables();
+        }
+    }
+
+    private void OnPromptChanged()
+    {
+        ResetVariables();
+        _result = null;
+        _outputText = string.Empty;
+    }
+
+    private void ResetVariables()
+    {
+        var prompt = SelectedPrompt;
+        _fields = prompt is null
+            ? []
+            : prompt.Variables.Select(static name => new VariableField(name)).ToList();
+    }
+
+    private void LoadSample()
+    {
+        foreach (var field in _fields)
+        {
+            if (ClassifyEditSample.TryGetValue(field.Name, out var sampleValue))
+            {
+                field.Value = sampleValue;
+            }
+        }
+    }
+
+    private async Task RunPromptAsync()
+    {
+        if (_running || SelectedPrompt is not { } prompt)
+        {
+            return;
+        }
+
+        _running = true;
+        try
+        {
+            var vars = _fields.ToDictionary(static f => f.Name, static f => f.Value, StringComparer.Ordinal);
+            var request = new AnalysisRequest(prompt.Id, vars)
+            {
+                Model = string.IsNullOrWhiteSpace(_selectedModel) ? null : _selectedModel,
+                Scope = "playground",
+                Cache = _bypassCache ? CachePolicy.Bypass : CachePolicy.ReadWrite,
+            };
+
+            _result = await AnalysisModel.RunAsync<JsonElement>(request);
+            _outputText = _result.IsOk
+                ? JsonSerializer.Serialize(_result.Value, PrettyJsonOptions)
+                : (_result.Info.RawText ?? string.Empty);
+        }
+        finally
+        {
+            _running = false;
+        }
+    }
+
+    private sealed class VariableField(string name)
+    {
+        public string Name { get; } = name;
+        public string Value { get; set; } = string.Empty;
+    }
+}
