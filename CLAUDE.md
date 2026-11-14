@@ -23,6 +23,7 @@ Query embeddings: **Ollama `bge-m3`** (local, else the VPS through the tunnel) b
 | Deploy/update corpus DB on VPS (needs root key) | `scripts/corpus-deploy.sh` — details in `deploy/corpus/README.md` |
 | Run an LLM prompt / batch from the shell (same client, prompts, cache as the app) | `scripts/analyze.sh prompts` · `run <prompt> --vars x.json` · `batch <prompt> --in x.jsonl --out y.jsonl --model a,b` · `usage` |
 | Live Gemini tests (opt-in, costs cents) | `GEMINI_TESTS=1 dotnet test --filter Category=Gemini` |
+| Check a golden set / variant / judgement file against the eval contract (stdlib Python, no corpus) | `python3 research/eval/validate.py golden` · `variant retrieval\|signals -- <cmd>` · tests: `python3 -m unittest discover -s research/eval/tests` |
 
 ## Layout
 
@@ -50,6 +51,7 @@ tests/AmpersandOfTruth.Tests/
   Smoke/AppSmokeTests.cs      # boots the real app via WebApplicationFactory; add new routes to the InlineData list
 tools/AmpersandOfTruth.Analyze/ # console tool behind scripts/analyze.sh (LLM prompts from the shell / research)
 research/<issue>/             # experiment scripts, small samples, results and reports (no big data files)
+research/eval/                # ⭐ P1 eval contract: CONTRACT.md, schemas/, validate.py, examples/ (golden.json + runner land here)
 docs/design/                  # ⭐ UI design system: brand book, plan, tokens, .aot-* CSS, component + page previews
 docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, editor display, golden-set TP definition
 ```
@@ -129,6 +131,16 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
 - Tests of LLM consumers: `tests/AmpersandOfTruth.Tests/Infrastructure/FakeAnalysisModel.cs` (`.Returns("prompt-id", json)`), no HTTP.
 - Gotchas: Gemini 4 models reject `thinking_level: minimal` (400); Gemini 4 bills ~300–600 more input tokens per call than 3.x for the same prompt;
   Argon can take 30+ s; a truncated reply is `status: incomplete` with **no** `steps`; safety blocks are HTTP 400 `error.code = safety`.
+
+## Eval contract (P1 experiments, epic #3)
+
+- **`research/eval/CONTRACT.md` is binding for every P1 experiment**: variant I/O (one JSON request on stdin → one JSON response on
+  stdout, logs on stderr), the golden-set file, judge/review files, metric definitions. Field names live in `research/eval/schemas/`.
+- An incident is matched on its **inserting rev ids** only; `tier` ids are the `EvidenceTiers` ids. Required incident fields
+  (`page_id, inserting_rev_ids, removing_rev_ids, tier, score`) are frozen; the rest of `incident.schema.json` is the #37 draft.
+- Experiments: folder `research/<issue>-<slug>/`, scratch tables `research.<issue>_*`, corpus access from env
+  (`CORPUS_HOST/PORT/USER/PW/DB`). The test split is sealed (`EVAL_ALLOW_TEST=1`, decision issues only).
+- Changing a frozen shape = schema + example + CONTRACT.md in one commit; `research/eval/tests` must pass (not part of `verify.sh`).
 
 ## Testing
 

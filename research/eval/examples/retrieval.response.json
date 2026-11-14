@@ -1,0 +1,9 @@
+{
+  "contract": 1,
+  "out_of_scope": false,
+  "results": [
+    { "page_id": 900001, "score": 0.81, "why": ["vector"], "title": "Esimerkkirajasopimus" },
+    { "page_id": 900002, "score": 0.64, "why": ["vector", "category"] }
+  ],
+  "cost": { "llm_calls": 0, "sql_queries": 1 }
+}

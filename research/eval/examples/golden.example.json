@@ -1,0 +1,109 @@
+{
+  "contract": 1,
+  "version": "example-1",
+  "dataset": "m-2026-10",
+  "notes": "SYNTHETIC. Every page id, rev id and label here is invented to show the shape. Not ground truth; never score against it.",
+  "topics": [
+    {
+      "id": "example-border-treaty",
+      "title": "Example topic: a border treaty",
+      "split": "dev",
+      "kind": "topic",
+      "queries": [
+        { "id": "example-border-treaty.en", "style": "en", "lang": "en", "text": "Who gave up territory in the example border treaty?" },
+        { "id": "example-border-treaty.fi", "style": "fi", "lang": "fi", "text": "Kuka luovutti alueita esimerkkirajasopimuksessa?" },
+        { "id": "example-border-treaty.broad", "style": "broad", "lang": "en", "text": "border disputes after the war" }
+      ],
+      "articles": [
+        { "page_id": 900001, "grade": 2, "title": "Esimerkkirajasopimus" },
+        { "page_id": 900002, "grade": 1, "title": "Esimerkkisota" }
+      ],
+      "items": [
+        {
+          "id": "example-border-treaty/i01",
+          "label": "contested",
+          "category": "pov_push",
+          "page_id": 900001,
+          "inserting_rev_ids": [5000101, 5000140],
+          "removing_rev_ids": [5000120, 5000155],
+          "description": "Adds a sentence saying the ceded area was handed over voluntarily.",
+          "why": "Level 2: a claim (changes who is said to have agreed to the cession), removed with a summary about neutrality, and put back once after the first removal. One account, one article, so not level 3.",
+          "human_verified": true,
+          "labelled_by": ["gemini:labeller", "gemini:blind", "human:ab"]
+        },
+        {
+          "id": "example-border-treaty/i02",
+          "label": "campaign",
+          "category": "false_factual_claim",
+          "page_id": 900001,
+          "other_page_ids": [900002],
+          "inserting_rev_ids": [5000201, 5000230, 5000305],
+          "removing_rev_ids": [5000210, 5000244, 5000311],
+          "description": "Changes the casualty figure from 25,000 to 250,000 in both articles.",
+          "why": "Level 3: level 2 (a number changed, removed as unsourced, put back twice) plus two of the four signals: two articles, and three editors outside one masked range.",
+          "human_verified": true
+        },
+        {
+          "id": "example-border-treaty/i03",
+          "label": "reverted",
+          "category": "good_faith_error",
+          "page_id": 900002,
+          "inserting_rev_ids": [5000410],
+          "removing_rev_ids": [5000411],
+          "description": "Wrong year for the armistice, fixed by the next editor.",
+          "why": "Level 1: substantive, removed by a different account, no dispute signal. A good-faith error is capped at level 1.",
+          "human_verified": false
+        },
+        {
+          "id": "example-border-treaty/n01",
+          "label": "not-incident",
+          "exclusion": "graffiti",
+          "category": "vandalism",
+          "page_id": 900001,
+          "inserting_rev_ids": [5000501],
+          "removing_rev_ids": [5000502],
+          "description": "Obscenity inserted in the lead, undone two minutes later.",
+          "why": "Excluded: graffiti.",
+          "human_verified": false
+        },
+        {
+          "id": "example-border-treaty/n02",
+          "label": "not-incident",
+          "exclusion": "self-removal",
+          "page_id": 900002,
+          "inserting_rev_ids": [5000601],
+          "removing_rev_ids": [5000602],
+          "description": "An editor added a paragraph and took it out again a minute later.",
+          "why": "Excluded: the same account removed its own addition.",
+          "human_verified": false
+        }
+      ]
+    },
+    {
+      "id": "example-quiet-parish",
+      "title": "Example control: a quiet, undisputed article",
+      "split": "dev",
+      "kind": "control-quiet",
+      "queries": [
+        { "id": "example-quiet-parish.en", "style": "en", "lang": "en", "text": "history of the example parish church" },
+        { "id": "example-quiet-parish.fi", "style": "fi", "lang": "fi", "text": "esimerkkipitäjän kirkon historia" },
+        { "id": "example-quiet-parish.broad", "style": "broad", "lang": "en", "text": "old churches" }
+      ],
+      "articles": [
+        { "page_id": 900010, "grade": 2, "title": "Esimerkkipitäjän kirkko" }
+      ],
+      "items": []
+    },
+    {
+      "id": "example-out-of-corpus",
+      "title": "Example control: nothing to do with the history of Finland",
+      "split": "test",
+      "kind": "control-out-of-corpus",
+      "queries": [
+        { "id": "example-out-of-corpus.en", "style": "en", "lang": "en", "text": "how to tune a carburettor" }
+      ],
+      "articles": [],
+      "items": []
+    }
+  ]
+}

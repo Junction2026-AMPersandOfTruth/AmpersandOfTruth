@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Self-reported cost of one request. Wall-clock is measured by the runner.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "llm_calls": { "type": "integer", "minimum": 0 },
+    "input_tokens": { "type": "integer", "minimum": 0 },
+    "output_tokens": { "type": "integer", "minimum": 0 },
+    "cost_usd": { "type": "number", "minimum": 0 },
+    "sql_queries": { "type": "integer", "minimum": 0 }
+  }
+}

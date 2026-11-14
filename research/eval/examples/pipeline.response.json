@@ -1,0 +1,8 @@
+{
+  "contract": 1,
+  "out_of_scope": false,
+  "results": [ { "page_id": 900001, "score": 0.81 }, { "page_id": 900002, "score": 0.64 } ],
+  "incidents": [
+    { "page_id": 900001, "inserting_rev_ids": [5000101, 5000140], "removing_rev_ids": [5000120, 5000155], "tier": "contested", "score": 0.88 }
+  ]
+}

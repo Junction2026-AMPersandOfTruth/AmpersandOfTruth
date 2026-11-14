@@ -1,0 +1,2 @@
+{"key": "5000777", "label": "not-incident", "exclusion": "graffiti", "confidence": 5, "evidence": ["PERTTI ON TYHMÄ"], "judge": "judge-incident@1/gemini-4-argon"}
+{"key": "5000801+5000809", "label": "contested", "confidence": 4, "evidence": ["luovutettiin vapaaehtoisesti", "ei neutraali"], "note": "Removed with a neutrality summary and put back once.", "judge": "judge-incident@1/gemini-4-argon"}

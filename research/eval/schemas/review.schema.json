@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "One line of a reviews .jsonl file (P1.E3 adversarial review, #22)",
+  "type": "object",
+  "required": ["key", "verdict", "reason", "reviewer"],
+  "additionalProperties": true,
+  "properties": {
+    "key": { "type": "string", "pattern": "^[0-9]+(\\+[0-9]+)*$" },
+    "verdict": { "enum": ["survives", "benign", "unclear"] },
+    "reason": { "type": "string", "minLength": 1 },
+    "would_change_mind": { "type": ["string", "null"], "description": "What evidence would change the verdict." },
+    "reviewer": { "type": "string", "minLength": 1, "description": "<prompt id>@<version>/<model>, or human:<initials>." }
+  }
+}
