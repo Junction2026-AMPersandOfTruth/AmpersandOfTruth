@@ -1,0 +1,29 @@
+<!-- @dsCard group="Pages" page height=760 width=1280 subtitle="/ — search, suggested topics, scope" -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../aot.css"><meta charset="utf-8"><title>preview</title></head>
+<body>
+<header class="aot-appbar">
+  <a class="aot-brand" href="#"><em>&amp;</em> Ampersand of Truth</a>
+  
+  <nav><a href="#" >Investigate</a><a href="#">Methodology</a></nav>
+</header>
+<main class="aot-page" style="max-width:880px;padding-top:48px">
+  <h1 class="aot-serif" style="font-size:40px;line-height:46px;font-weight:400;margin:0">What was pushed into Wikipedia?</h1>
+  <p class="aot-muted" style="font-size:17px;line-height:26px;margin:12px 0 24px;max-width:640px">Type a topic. We read 20 years of Finnish Wikipedia edit history and show what people tried to insert, what editors removed, and how sure we are that it matters.</p>
+  <div class="aot-stack">
+  <form class="aot-search"><input placeholder="What topic do you want to investigate?" aria-label="Topic" data-testid="topic-input" autofocus><button class="aot-btn aot-btn--primary" data-testid="topic-submit">Investigate</button></form>
+  <div class="aot-small aot-muted">Covers <b class="aot-num" style="color:var(--ink)">19,742</b> Finnish Wikipedia articles on the history of Finland, edits 2003–2026. Ask in any language.</div>
+  <div class="aot-row"><span class="aot-small aot-muted">Try:</span><button class="aot-chip aot-chip--topic" data-testid="topic-chip">Winter War</button><button class="aot-chip aot-chip--topic" data-testid="topic-chip">Finnish Civil War 1918</button><button class="aot-chip aot-chip--topic" data-testid="topic-chip">Mannerheim</button><button class="aot-chip aot-chip--topic" data-testid="topic-chip">Continuation War</button><button class="aot-chip aot-chip--topic" data-testid="topic-chip">Karelia</button></div>
+  <details class="aot-small"><summary class="aot-muted" style="cursor:pointer">Filters: date range, minimum level</summary></details>
+  </div>
+  <ol class="aot-steps" style="padding:0;margin:48px 0 0;border-top:1px solid var(--line);padding-top:24px">
+    <li><b>Find the articles</b>Search across 19,742 articles by meaning, in any language.</li>
+    <li><b>Read every edit</b>20 years of revisions: removals, re-insertions, deleted sources.</li>
+    <li><b>Show the evidence</b>What was pushed, who removed it, how long it stayed live, with links to Wikipedia.</li>
+  </ol>
+  <div class="aot-small aot-muted" style="margin-top:32px">Recent in this browser: <a href="#" data-testid="recent-item">Winter War</a> · <a href="#" data-testid="recent-item">Lapland War</a></div>
+</main>
+<footer class="aot-footer">Wikipedia text © its contributors, CC BY-SA 4.0, quoted from the fi.wikipedia.org revisions linked on each passage. Data: Wikimedia dumps, FineWiki, MariaDB Foundation datasets; embeddings: bge-m3. Translations and assessments are automated and can be wrong. <a href="#">How this works</a></footer>
+</body>
+</html>

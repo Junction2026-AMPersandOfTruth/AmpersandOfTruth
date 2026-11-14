@@ -1,0 +1,213 @@
+/* Ampersand of Truth — component styles. Look and feel after Wikipedia's Vector 2022 / Codex: square corners, white page, grey infobox panels, hairline borders, serif headings with a rule.
+   In the app this becomes wwwroot/app.css (after Bootstrap): the token custom properties
+   from tokens.json on :root, then these .aot-* classes. Every class here maps to one
+   Razor component listed in the plan (Build order). */
+
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-sans); font-size: 15px; line-height: 22px; -webkit-font-smoothing: antialiased; }
+.aot-pad { padding: var(--space-4); }
+.aot-row { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+.aot-stack { display: flex; flex-direction: column; gap: var(--space-3); }
+.aot-muted { color: var(--ink-muted); }
+.aot-small { font-size: 13px; line-height: 18px; }
+.aot-label { font: 600 12px/16px var(--font-sans); letter-spacing: .04em; text-transform: uppercase; color: var(--ink-muted); }
+.aot-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 13px; }
+.aot-serif { font-family: var(--font-serif); }
+.aot-h1 { font: 400 28.8px/36px var(--font-serif); margin: 0; padding-bottom: 4px; border-bottom: 1px solid var(--line-strong); }
+.aot-h2 { font: 400 24px/30px var(--font-serif); margin: 0; padding-bottom: 3px; border-bottom: 1px solid var(--line-strong); }
+.aot-h3 { font: 700 15px/22px var(--font-sans); margin: 0; }
+a, .aot-link { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.aot-ext::after { content: "\2197"; font-size: .85em; margin-left: 2px; }
+:focus-visible { outline: 1px solid var(--accent); box-shadow: var(--shadow-focus); outline-offset: 0; }
+
+/* Buttons (in the app: Bootstrap .btn re-skinned through --bs-* variables) */
+.aot-btn { display: inline-flex; align-items: center; gap: var(--space-2); font: 700 14px/20px var(--font-sans); padding: 5px 12px; border-radius: var(--radius-sm); border: 1px solid var(--line-strong); background: var(--surface-sunken); color: var(--ink); cursor: pointer; text-decoration: none; }
+.aot-btn:hover { background: var(--surface); border-color: var(--ink-muted); text-decoration: none; }
+.aot-btn--primary, .aot-btn--primary:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.aot-btn--ghost, .aot-btn--ghost:hover { border-color: transparent; background: transparent; color: var(--accent); }
+.aot-btn--sm { font-size: 13px; padding: 3px 10px; }
+
+/* Segmented toggle (Inline/Split, Prose/Wikitext, EN/FI) */
+.aot-seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); overflow: hidden; }
+.aot-seg button { font: 500 12px/16px var(--font-sans); padding: 4px 10px; border: 0; background: var(--surface); color: var(--ink-muted); cursor: pointer; }
+.aot-seg button + button { border-left: 1px solid var(--line-strong); }
+.aot-seg button[aria-pressed="true"] { background: var(--accent-tint); color: var(--accent); font-weight: 700; }
+
+/* App bar + footer */
+.aot-appbar { display: flex; align-items: center; gap: var(--space-6); padding: 0 var(--space-8); height: 56px; background: var(--surface); border-bottom: 1px solid var(--line); }
+.aot-brand { font: 400 20px/1 var(--font-serif); color: var(--ink); text-decoration: none; display: inline-flex; align-items: baseline; gap: 2px; }
+.aot-brand em { font: italic 400 26px/1 var(--font-serif); color: var(--accent); }
+.aot-appbar nav { display: flex; gap: var(--space-4); margin-left: auto; font-size: 14px; }
+.aot-appbar nav a { color: var(--ink-muted); text-decoration: none; }
+.aot-appbar nav a[aria-current] { color: var(--ink); font-weight: 700; }
+.aot-appbar__search { flex: 0 1 320px; }
+.aot-footer { padding: var(--space-4) var(--space-8); border-top: 1px solid var(--line); color: var(--ink-muted); font-size: 12px; line-height: 18px; }
+
+/* Tier badge: text + 1–3 pips, so tier never relies on colour alone */
+.aot-tier { display: inline-flex; align-items: center; gap: 6px; padding: 1px 8px 1px 7px; border-radius: var(--radius-sm); font: 400 12px/18px var(--font-sans); white-space: nowrap; border: 1px solid transparent; }
+.aot-tier__pips { display: inline-flex; gap: 2px; }
+.aot-tier__pips i { width: 3px; height: 9px; border-radius: 0; background: currentColor; opacity: .22; }
+.aot-tier--reverted { background: var(--tier-reverted-bg); color: var(--tier-reverted-ink); border-color: var(--tier-reverted-line); }
+.aot-tier--contested { background: var(--tier-contested-bg); color: var(--tier-contested-ink); border-color: var(--tier-contested-line); }
+.aot-tier--campaign { background: var(--tier-campaign-bg); color: var(--tier-campaign-ink); border-color: var(--tier-campaign-line); }
+.aot-tier--reverted .aot-tier__pips i:nth-child(-n+1),
+.aot-tier--contested .aot-tier__pips i:nth-child(-n+2),
+.aot-tier--campaign .aot-tier__pips i { opacity: 1; }
+.aot-tier__why { font-weight: 400; opacity: .85; }
+
+/* Signal chip */
+.aot-chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: var(--radius-sm); border: 1px solid var(--line); background: var(--surface); font-size: 12px; line-height: 18px; color: var(--ink); white-space: nowrap; }
+.aot-chip svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.6; color: var(--ink-muted); }
+button.aot-chip { cursor: pointer; font-family: inherit; }
+.aot-chip[aria-pressed="true"] { background: var(--accent-tint); border-color: var(--accent); }
+.aot-chip--topic { font-size: 14px; line-height: 20px; padding: 6px 14px; border-color: var(--line-strong); }
+
+/* Editor label (P0.7 display rule) */
+.aot-editor { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; line-height: 18px; }
+.aot-editor__glyph { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; font: 600 10px/1 var(--font-sans); background: var(--chart-named); color: var(--surface); flex: none; }
+.aot-editor--anon .aot-editor__glyph { background: transparent; color: var(--ink-muted); border: 1.5px dashed var(--ink-muted); font-size: 8px; }
+.aot-editor--anon .aot-editor__name { font-family: var(--font-mono); font-size: 12px; }
+.aot-editor__name { color: var(--accent); }
+
+/* Machine-translation tag */
+.aot-mt { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; line-height: 16px; color: var(--ink-muted); }
+.aot-mt__tag { border: 1px dashed var(--line-strong); border-radius: var(--radius-sm); padding: 0 6px; font-weight: 600; letter-spacing: .02em; }
+.aot-original { color: var(--ink-muted); font-size: 13px; line-height: 18px; margin-top: 2px; }
+.aot-original::before { content: attr(lang); text-transform: uppercase; font: 600 10px/1 var(--font-sans); border: 1px solid var(--line); border-radius: 3px; padding: 1px 4px; margin-right: 6px; vertical-align: 1px; }
+
+/* Incident card */
+.aot-card { display: block; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-4); color: inherit; text-decoration: none; }
+a.aot-card:hover { border-color: var(--line-strong); }
+.aot-card.is-highlighted { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.aot-card__top { display: flex; align-items: center; gap: var(--space-2); justify-content: space-between; }
+.aot-card__claim { font: 400 20px/28px var(--font-serif); margin: var(--space-3) 0 2px; color: var(--ink); }
+.aot-card__what { margin: var(--space-2) 0 var(--space-3); }
+.aot-facts { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-6); margin: 0 0 var(--space-3); font-size: 13px; line-height: 18px; }
+.aot-facts div { display: flex; flex-direction: column; }
+.aot-facts dt { color: var(--ink-muted); font-size: 12px; }
+.aot-facts dd { margin: 0; font-weight: 500; }
+.aot-card--skeleton { pointer-events: none; }
+.aot-skel { display: block; background: var(--surface-sunken); border-radius: var(--radius-sm); height: 12px; }
+.aot-skel + .aot-skel { margin-top: var(--space-2); }
+
+/* Diff viewer */
+.aot-diff { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; }
+.aot-diff__bar { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); background: var(--surface-sunken); }
+.aot-diff__bar .aot-spacer { flex: 1; }
+.aot-diff__body { padding: var(--space-4); font: 400 16px/26px var(--font-serif); }
+.aot-diff__body p { margin: 0 0 var(--space-2); }
+.aot-diff--split .aot-diff__body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: 0; }
+.aot-diff--split .aot-diff__col { padding: var(--space-4); }
+.aot-diff--split .aot-diff__col + .aot-diff__col { border-left: 1px solid var(--line); }
+.aot-diff--wikitext .aot-diff__body { font: 400 13px/20px var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+ins.aot-add, .aot-add { background: var(--diff-add-bg); color: var(--diff-add-ink); text-decoration: none; border-radius: 2px; padding: 0 2px; }
+del.aot-del, .aot-del { background: var(--diff-del-bg); color: var(--diff-del-ink); text-decoration: line-through; text-decoration-thickness: 1.5px; border-radius: 2px; padding: 0 2px; }
+.aot-ev { background: var(--evidence-bg); border-bottom: 1px dashed var(--ink-muted); }
+.aot-diff__fold { display: block; width: 100%; text-align: left; border: 0; border-top: 1px dashed var(--line); border-bottom: 1px dashed var(--line); background: var(--surface-sunken); color: var(--ink-muted); font: 400 12px/16px var(--font-sans); padding: 6px var(--space-4); margin: var(--space-2) calc(-1 * var(--space-4)); cursor: pointer; width: calc(100% + 2 * var(--space-4)); }
+.aot-diff__mt { border-top: 1px solid var(--line); padding: var(--space-3) var(--space-4); font: 400 15px/24px var(--font-sans); background: var(--surface); }
+.aot-diff__mt p { margin: var(--space-1) 0 0; }
+
+/* Sequence of events */
+.aot-seq { list-style: none; margin: 0; padding: 0; position: relative; }
+.aot-seq::before { content: ""; position: absolute; left: 11px; top: 12px; bottom: 12px; width: 1px; background: var(--line-strong); }
+.aot-seq li { position: relative; display: grid; grid-template-columns: 24px 1fr auto; gap: var(--space-3); padding: var(--space-2) 0; }
+.aot-seq__dot { width: 24px; height: 24px; border-radius: var(--radius-sm); display: grid; place-items: center; font: 600 14px/1 var(--font-mono); position: relative; z-index: 1; }
+.aot-seq__dot--add { background: var(--diff-add-bg); color: var(--diff-add-ink); border: 1px solid var(--line); }
+.aot-seq__dot--del { background: var(--diff-del-bg); color: var(--diff-del-ink); border: 1px solid var(--line); }
+.aot-seq__main { min-width: 0; }
+.aot-seq__head { display: flex; flex-wrap: wrap; gap: 4px var(--space-2); align-items: center; font-size: 13px; line-height: 18px; }
+.aot-seq__summary { font-size: 14px; line-height: 20px; margin-top: 2px; }
+.aot-seq__live { font: 500 12px/18px var(--font-mono); color: var(--ink-muted); white-space: nowrap; padding: 0 0 0 var(--space-2); }
+.aot-seq li.aot-seq__gaprow { display: block; padding: 0 0 0 36px; font-size: 12px; line-height: 16px; color: var(--ink-muted); font-style: italic; }
+
+/* Why flagged + assessment */
+.aot-panel { background: var(--surface-sunken); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: var(--space-3) var(--space-4); }
+.aot-why__lead { margin: var(--space-2) 0 var(--space-3); }
+.aot-why details { border-top: 1px solid var(--line); padding: var(--space-2) 0; }
+.aot-why summary { cursor: pointer; font-size: 14px; line-height: 20px; list-style-position: outside; margin-left: 16px; }
+.aot-why summary::marker { color: var(--ink-muted); }
+.aot-why details > div { margin: var(--space-2) 0 var(--space-1) 16px; font-size: 13px; line-height: 19px; color: var(--ink-muted); }
+.aot-assess { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-4); }
+.aot-assess blockquote { margin: var(--space-3) 0; padding: var(--space-2) var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); font: 400 14px/21px var(--font-serif); }
+.aot-meter { display: inline-flex; gap: 2px; vertical-align: -1px; }
+.aot-meter i { width: 14px; height: 8px; border-radius: 1px; background: var(--line); }
+.aot-meter i.on { background: var(--ink-muted); }
+
+/* Stage tracker */
+.aot-stages { display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: var(--space-2); align-items: stretch; background: var(--surface-sunken); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3); }
+.aot-stage { display: grid; grid-template-columns: 22px 1fr; gap: 2px var(--space-2); align-items: center; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); }
+.aot-stage__icon { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid var(--line-strong); color: var(--ink-muted); font: 600 11px/1 var(--font-sans); grid-row: span 2; }
+.aot-stage__name { font-size: 14px; line-height: 18px; font-weight: 500; }
+.aot-stage__count { font: 500 12px/16px var(--font-mono); color: var(--ink-muted); }
+.aot-stage--done .aot-stage__icon { border-color: var(--ok); background: var(--ok); color: var(--surface); }
+.aot-stage--active { background: var(--accent-tint); }
+.aot-stage--active .aot-stage__icon { border-color: var(--accent); border-right-color: transparent; }
+.aot-stage--pending .aot-stage__name { color: var(--ink-muted); }
+@media (prefers-reduced-motion: no-preference) { .aot-stage--active .aot-stage__icon { animation: aot-spin 1s linear infinite; } }
+@keyframes aot-spin { to { transform: rotate(360deg); } }
+
+/* Charts */
+.aot-chart { display: block; width: 100%; height: auto; font-family: var(--font-sans); }
+.aot-chart text { fill: var(--ink-muted); font-size: 11px; }
+.aot-chart .grid { stroke: var(--chart-grid); stroke-width: 1; }
+.aot-chart .named { fill: var(--chart-named); }
+.aot-chart .anon { fill: var(--chart-anon); }
+.aot-chart .band { fill: var(--chart-band); }
+.aot-chart .size { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+.aot-chart .brush { fill: var(--accent-tint); stroke: var(--accent); stroke-width: 1; }
+.aot-chart .lane { fill: var(--surface); stroke: var(--line); stroke-width: 1; }
+.aot-mk--reverted { fill: var(--surface); stroke: var(--tier-reverted-mark); stroke-width: 1.5; }
+.aot-mk--contested { fill: var(--tier-contested-mark); stroke: var(--surface); stroke-width: 1; }
+.aot-mk--campaign { fill: var(--tier-campaign-mark); stroke: var(--surface); stroke-width: 1; }
+.aot-mk.is-hot { stroke: var(--accent); stroke-width: 2.5; }
+.aot-legend { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); font-size: 12px; color: var(--ink-muted); }
+.aot-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.aot-legend svg { width: 12px; height: 12px; }
+
+/* Article rail item */
+.aot-art { display: grid; grid-template-columns: 1fr auto; gap: 2px var(--space-3); padding: var(--space-3) 0; border-top: 1px solid var(--line); }
+.aot-art__title { font-weight: 600; font-size: 14px; line-height: 20px; color: var(--ink); text-decoration: none; }
+.aot-art__why { grid-column: 1 / 3; font-size: 12px; line-height: 17px; color: var(--ink-muted); }
+.aot-art__count { font: 600 13px/20px var(--font-mono); text-align: right; }
+.aot-spark { grid-column: 1 / 3; display: block; width: 100%; height: 20px; }
+.aot-spark rect { fill: var(--chart-anon); }
+.aot-spark rect.hot { fill: var(--chart-named); }
+
+/* Search */
+.aot-search { display: flex; gap: var(--space-2); background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius-sm); padding: 4px 4px 4px var(--space-3); }
+.aot-search:focus-within { border-color: var(--accent); box-shadow: var(--shadow-focus); }
+.aot-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font: 400 18px/28px var(--font-sans); }
+.aot-search input::placeholder { color: var(--ink-muted); }
+.aot-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); counter-reset: s; }
+.aot-steps li { list-style: none; counter-increment: s; font-size: 13px; line-height: 19px; color: var(--ink-muted); }
+.aot-steps li::before { content: counter(s); display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line-strong); font: 600 12px/1 var(--font-mono); color: var(--ink); margin-bottom: var(--space-2); }
+.aot-steps b { display: block; color: var(--ink); font-size: 14px; }
+
+/* States */
+.aot-empty { text-align: center; padding: var(--space-8) var(--space-6); border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface); }
+.aot-empty svg { width: 40px; height: 40px; stroke: var(--ink-muted); fill: none; stroke-width: 1.5; }
+.aot-empty ul { display: inline-block; text-align: left; margin: var(--space-2) 0 var(--space-4); padding-left: 18px; color: var(--ink-muted); font-size: 13px; }
+.aot-banner { display: flex; gap: var(--space-3); align-items: flex-start; padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); font-size: 14px; line-height: 20px; }
+.aot-banner svg { width: 18px; height: 18px; flex: none; margin-top: 1px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.aot-banner__body { flex: 1; }
+.aot-banner--warn { background: var(--warn-bg); color: var(--warn-ink); border: 1px solid var(--tier-contested-line); }
+.aot-banner--error { background: var(--error-bg); color: var(--ink); border: 1px solid var(--line); }
+.aot-banner--error svg { stroke: var(--error); }
+.aot-banner--info { background: var(--surface); color: var(--ink-muted); border: 1px solid var(--line); }
+.aot-banner details { margin-top: var(--space-1); font-size: 12px; }
+.aot-banner pre { font: 400 12px/17px var(--font-mono); white-space: pre-wrap; margin: var(--space-1) 0 0; color: var(--ink-muted); }
+
+/* Page layout helpers used by the page mocks */
+.aot-page { max-width: 1216px; margin: 0 auto; padding: var(--space-6) var(--space-8) var(--space-8); }
+.aot-cols { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-6); align-items: start; }
+.aot-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+.aot-select { font: 400 13px/18px var(--font-sans); padding: 5px 28px 5px 10px; border: 1px solid var(--line-strong); border-radius: var(--radius-md); background: var(--surface); color: var(--ink); }
+.aot-crumbs { font-size: 13px; color: var(--ink-muted); display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; }
+.aot-collapsed { border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--surface-sunken); padding: var(--space-3) var(--space-4); font-size: 14px; }
+.aot-collapsed summary { cursor: pointer; }
+
+/* Revision table (article page): Wikipedia's .wikitable */
+.aot-wikitable { border-collapse: collapse; background: var(--surface-sunken); color: var(--ink); border: 1px solid var(--line-strong); font-size: 13px; line-height: 18px; }
+.aot-wikitable th, .aot-wikitable td { border: 1px solid var(--line-strong); padding: 4px 8px; text-align: left; vertical-align: top; }
+.aot-wikitable th { background: var(--line); font-weight: 700; }
+.aot-wikitable td { background: var(--surface); }
