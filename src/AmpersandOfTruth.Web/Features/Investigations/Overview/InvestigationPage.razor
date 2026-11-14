@@ -73,6 +73,14 @@
 
     <StageTracker Progress="_progress" OnCancel="CancelRun" OnRerun="RerunAsync" />
 
+    @if (_progress.Scope is { InScope: false } scope)
+    {
+        <StatusBanner Kind="StatusKind.Warn" TestId="scope-warning" Title="This topic may be outside the corpus.">
+            The corpus covers Finnish history, politics and society, so the articles below may be only loosely related.
+            <span class="aot-muted">@scope.Reason</span>
+        </StatusBanner>
+    }
+
     @if (_incidents.Count > 0)
     {
         <div class="aot-panel" style="padding:12px 16px">

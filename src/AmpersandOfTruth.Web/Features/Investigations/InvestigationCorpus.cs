@@ -18,8 +18,30 @@ public interface IInvestigationCorpus
     /// <summary>wikidata id → its fi article, for the ids that have one (R1's fold of en/sv hits). Distance = 0.</summary>
     Task<IReadOnlyDictionary<string, TopicArticle>> FiSiblingsAsync(IReadOnlyCollection<string> wikidataIds, CancellationToken ct = default);
 
+    /// <summary>
+    /// fi articles whose title equals one of <paramref name="titles"/> (R3-D title guesses): en/em dashes count as hyphens,
+    /// case is ignored, accents are not (<c>utf8mb4_uca1400_as_ci</c>). Any order; Distance = 0.
+    /// </summary>
+    Task<IReadOnlyList<TopicArticle>> FiArticlesByTitleAsync(IReadOnlyCollection<string> titles, CancellationToken ct = default);
+
+    /// <summary>fi articles whose title starts with one of <paramref name="prefixes"/> (same matching), shortest title first,
+    /// at most <paramref name="limit"/>. Distance = 0.</summary>
+    Task<IReadOnlyList<TopicArticle>> FiArticlesByTitlePrefixAsync(IReadOnlyCollection<string> prefixes, int limit, CancellationToken ct = default);
+
     /// <summary>Identity reverts on the given fi pages, newest first, at most <paramref name="perPage"/> per page.</summary>
     Task<IReadOnlyList<RevertEvent>> RevertsAsync(IReadOnlyCollection<long> pageIds, int perPage, CancellationToken ct = default);
+}
+
+/// <summary>How R3-D compares titles: en/em dashes as hyphens, then case-folded (the SQL side uses an accent-sensitive,
+/// case-insensitive collation; this is the C# key that groups its rows back onto the guesses).</summary>
+public static class TitleKeys
+{
+    public static string NormalizeDashes(string s) => s.Replace('\u2013', '-').Replace('\u2014', '-');
+
+    public static string Key(string s) => NormalizeDashes(s).ToLowerInvariant();
+
+    /// <summary>Escapes LIKE wildcards with <c>!</c> (the SQL says <c>ESCAPE '!'</c>).</summary>
+    public static string LikeEscape(string s) => s.Replace("!", "!!").Replace("%", "!%").Replace("_", "!_");
 }
 
 public sealed class CorpusUnavailableException(string message, Exception? inner = null) : Exception(message, inner);
@@ -121,6 +143,45 @@ public sealed class MariaDbInvestigationCorpus(CorpusConnectionFactory corpus, I
             await using var cmd = new MySqlCommand(sql.Replace("{ids}", string.Join(", ", names)), conn);
             foreach (var (name, value) in names.Zip(values))
                 cmd.Parameters.AddWithValue(name, value);
+            await using var r = await cmd.ExecuteReaderAsync(ct);
+            while (await r.ReadAsync(ct))
+                rows.Add(new TopicArticle("fi", Convert.ToInt64(r.GetValue(0)), r.GetString(1), 0, r.IsDBNull(2) ? null : r.GetString(2)));
+        }, ct);
+        return rows;
+    }
+
+    // R3-D (research/24-r3-query/variant.py lookup_titles_fi): dash-normalised, accent-sensitive, case-insensitive title match.
+    internal const string NormTitle = "REPLACE(REPLACE(title, '\u2013', '-'), '\u2014', '-') COLLATE utf8mb4_uca1400_as_ci";
+    internal const string FiTitlesSql = "SELECT page_id, title, wikidata_id FROM article WHERE lang = 'fi' AND " + NormTitle + " IN ({ids})";
+
+    // {clauses} = one "<NormTitle> LIKE @pN ESCAPE '!'" per prefix, OR-ed; values are parameters, never inlined.
+    internal const string FiTitlePrefixSql = """
+        SELECT page_id, title, wikidata_id FROM article
+        WHERE lang = 'fi' AND ({clauses})
+        ORDER BY CHAR_LENGTH(title), page_id
+        LIMIT @limit
+        """;
+
+    public async Task<IReadOnlyList<TopicArticle>> FiArticlesByTitleAsync(IReadOnlyCollection<string> titles, CancellationToken ct = default)
+    {
+        var values = titles.Select(TitleKeys.NormalizeDashes).Where(t => t.Length > 0).Distinct().Cast<object>().ToList();
+        return values.Count == 0 ? [] : await FiArticlesWhereAsync(FiTitlesSql, values, ct);
+    }
+
+    public async Task<IReadOnlyList<TopicArticle>> FiArticlesByTitlePrefixAsync(
+        IReadOnlyCollection<string> prefixes, int limit, CancellationToken ct = default)
+    {
+        var values = prefixes.Select(TitleKeys.NormalizeDashes).Where(t => t.Length > 0).Distinct().ToList();
+        if (values.Count == 0) return [];
+
+        var rows = new List<TopicArticle>();
+        await RunAsync(async conn =>
+        {
+            var clauses = string.Join(" OR ", values.Select((_, i) => $"{NormTitle} LIKE @p{i} ESCAPE '!'"));
+            await using var cmd = new MySqlCommand(FiTitlePrefixSql.Replace("{clauses}", clauses), conn);
+            for (var i = 0; i < values.Count; i++)
+                cmd.Parameters.AddWithValue($"@p{i}", TitleKeys.LikeEscape(values[i]) + "%");
+            cmd.Parameters.AddWithValue("@limit", limit);
             await using var r = await cmd.ExecuteReaderAsync(ct);
             while (await r.ReadAsync(ct))
                 rows.Add(new TopicArticle("fi", Convert.ToInt64(r.GetValue(0)), r.GetString(1), 0, r.IsDBNull(2) ? null : r.GetString(2)));
