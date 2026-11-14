@@ -5,6 +5,7 @@ using AmpersandOfTruth.Web.Features.Investigations.Fixtures;
 using AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 using AmpersandOfTruth.Web.Features.Investigations.View;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 namespace AmpersandOfTruth.Tests.Features.Investigations.View;
@@ -12,20 +13,22 @@ namespace AmpersandOfTruth.Tests.Features.Investigations.View;
 public class InvestigationSeamDiTests(AppFactory app) : IClassFixture<AppFactory>
 {
     [Fact]
-    public void Default_configuration_resolves_HybridFixtureRunner_and_FixtureIncidentSource()
+    public void Default_configuration_resolves_HybridFixtureRunner_FixtureIncidentSource_and_SampleIncidentWarmup()
     {
         var runner = app.Services.GetRequiredService<IInvestigationRunner>();
         var source = app.Services.GetRequiredService<IIncidentSource>();
         var opts = app.Services.GetRequiredService<IOptions<InvestigationSourceOptions>>().Value;
+        var hosted = app.Services.GetServices<IHostedService>();
 
         Assert.IsType<HybridFixtureRunner>(runner);
         Assert.IsType<FixtureIncidentSource>(source);
+        Assert.Single(hosted.OfType<SampleIncidentWarmup>());
         Assert.Equal(IncidentSourceKind.Fixtures, opts.Source);
         Assert.True(opts.IsSampleData);
     }
 
     [Fact]
-    public async Task Pipeline_configuration_resolves_InvestigationPipeline_and_RecentRunIncidentSource()
+    public async Task Pipeline_configuration_resolves_InvestigationPipeline_and_omits_SampleIncidentWarmup()
     {
         await using var pipelineApp = app.WithWebHostBuilder(b =>
             b.UseSetting("Investigations:Source", "Pipeline"));
@@ -33,11 +36,24 @@ public class InvestigationSeamDiTests(AppFactory app) : IClassFixture<AppFactory
         var runner = pipelineApp.Services.GetRequiredService<IInvestigationRunner>();
         var source = pipelineApp.Services.GetRequiredService<IIncidentSource>();
         var opts = pipelineApp.Services.GetRequiredService<IOptions<InvestigationSourceOptions>>().Value;
+        var hosted = pipelineApp.Services.GetServices<IHostedService>();
 
         Assert.IsType<AmpersandOfTruth.Web.Features.Investigations.Cache.CachingInvestigationRunner>(runner);
         Assert.IsType<RecentRunIncidentSource>(source);
+        Assert.Empty(hosted.OfType<SampleIncidentWarmup>());
         Assert.Equal(IncidentSourceKind.Pipeline, opts.Source);
         Assert.False(opts.IsSampleData);
+    }
+
+    [Fact]
+    public async Task Warmup_false_configuration_omits_SampleIncidentWarmup()
+    {
+        await using var noWarmupApp = app.WithWebHostBuilder(b =>
+            b.UseSetting("Investigations:Fixtures:Warmup", "false"));
+
+        var hosted = noWarmupApp.Services.GetServices<IHostedService>();
+
+        Assert.Empty(hosted.OfType<SampleIncidentWarmup>());
     }
 
     [Fact]

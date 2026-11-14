@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using AmpersandOfTruth.Web.Features.Investigations.Fixtures;
 
 namespace AmpersandOfTruth.Web.Features.Investigations.View;
@@ -5,6 +6,10 @@ namespace AmpersandOfTruth.Web.Features.Investigations.View;
 /// <summary>Fixture-mode <see cref="IIncidentSource"/>: maps <see cref="SampleIncidents.Match"/> incidents ranked 1..n.</summary>
 public sealed class FixtureIncidentSource(SampleIncidents samples, IncidentMapper mapper) : IIncidentSource
 {
+    private const int MaxInFlight = 4;
+
+    private readonly ConcurrentDictionary<string, IReadOnlyList<IncidentView>> _cache = new(StringComparer.Ordinal);
+
     public async Task<IReadOnlyList<IncidentView>?> ForTopicAsync(string topicSlug, CancellationToken ct = default)
     {
         var topic = samples.Match(topicSlug);
@@ -13,14 +18,44 @@ public sealed class FixtureIncidentSource(SampleIncidents samples, IncidentMappe
             return null;
         }
 
+        var slug = TopicSlug.From(topic.Slug);
+        if (_cache.TryGetValue(slug, out var cached))
+        {
+            return cached;
+        }
+
         var ordered = topic.Incidents.OrderByDescending(i => i.Score).ToList();
-        var views = new List<IncidentView>(ordered.Count);
+        using var gate = new SemaphoreSlim(MaxInFlight, MaxInFlight);
+        var tasks = new Task<IncidentView>[ordered.Count];
         for (var i = 0; i < ordered.Count; i++)
         {
-            views.Add(await mapper.MapAsync(ordered[i], i + 1, ct));
+            tasks[i] = MapThrottledAsync(ordered[i], i + 1, gate, ct);
+        }
+
+        var views = await Task.WhenAll(tasks);
+        if (views.All(v => v.Passage is not null))
+        {
+            _cache.TryAdd(slug, views);
         }
 
         return views;
+    }
+
+    private async Task<IncidentView> MapThrottledAsync(
+        IncidentRecord incident,
+        int rank,
+        SemaphoreSlim gate,
+        CancellationToken ct)
+    {
+        await gate.WaitAsync(ct);
+        try
+        {
+            return await mapper.MapAsync(incident, rank, ct);
+        }
+        finally
+        {
+            gate.Release();
+        }
     }
 }
 

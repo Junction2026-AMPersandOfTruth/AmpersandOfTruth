@@ -12,22 +12,70 @@ namespace AmpersandOfTruth.Web.Features.Investigations.View;
 /// </summary>
 public sealed partial class IncidentMapper(IIncidentCorpus corpus, IRevisionStore revisions)
 {
-    private readonly ConcurrentDictionary<(string Id, long FirstRevId), IncidentView> _cache = new();
+    private readonly ConcurrentDictionary<(string Id, long FirstRevId), Lazy<Task<IncidentView>>> _cache = new();
 
     public async Task<IncidentView> MapAsync(IncidentRecord r, int rank, CancellationToken ct = default)
     {
         ArgumentNullException.ThrowIfNull(r);
+        ct.ThrowIfCancellationRequested();
 
         var firstRevId = r.InsertingRevIds.Count > 0 ? r.InsertingRevIds[0] : 0L;
         var id = !string.IsNullOrWhiteSpace(r.Id) ? r.Id : $"{r.PageId}-{firstRevId}";
+        var key = (id, firstRevId);
 
-        if (_cache.TryGetValue((id, firstRevId), out var cached))
-        {
-            return cached.Rank == rank ? cached : cached with { Rank = rank };
-        }
+        var lazy = _cache.GetOrAdd(key, _ => CreateEntry(key, r, firstRevId, id, rank));
+        var view = await lazy.Value.WaitAsync(ct);
+        return view.Rank == rank ? view : view with { Rank = rank };
+    }
 
-        var articles = await ResolveArticlesAsync(r, ct);
-        var revisionRows = await ResolveRevisionsAsync(r, firstRevId, ct);
+    private Lazy<Task<IncidentView>> CreateEntry(
+        (string Id, long FirstRevId) key,
+        IncidentRecord r,
+        long firstRevId,
+        string id,
+        int rank)
+    {
+        Lazy<Task<IncidentView>>? lazy = null;
+        lazy = new Lazy<Task<IncidentView>>(
+            async () =>
+            {
+                try
+                {
+                    var view = await BuildViewAsync(r, firstRevId, id, rank, CancellationToken.None);
+                    if (view.Passage is null && lazy is not null)
+                    {
+                        _cache.TryRemove(KeyValuePair.Create(key, lazy));
+                    }
+
+                    return view;
+                }
+                catch
+                {
+                    if (lazy is not null)
+                    {
+                        _cache.TryRemove(KeyValuePair.Create(key, lazy));
+                    }
+
+                    throw;
+                }
+            },
+            LazyThreadSafetyMode.ExecutionAndPublication);
+        return lazy;
+    }
+
+    private async Task<IncidentView> BuildViewAsync(
+        IncidentRecord r,
+        long firstRevId,
+        string id,
+        int rank,
+        CancellationToken ct)
+    {
+        var articlesTask = ResolveArticlesAsync(r, ct);
+        var revisionsTask = ResolveRevisionsAsync(r, firstRevId, ct);
+        await Task.WhenAll(articlesTask, revisionsTask);
+
+        var articles = await articlesTask;
+        var revisionRows = await revisionsTask;
         var passage = await ResolvePassageAsync(r, firstRevId, revisionRows, ct);
         var kind = DeriveKind(passage);
         var edits = BuildEdits(r, revisionRows);
@@ -62,7 +110,7 @@ public sealed partial class IncidentMapper(IIncidentCorpus corpus, IRevisionStor
                 a.UncertaintyNote)
             : null;
 
-        var view = new IncidentView(
+        return new IncidentView(
             Id: id,
             Rank: rank,
             Tier: r.Tier,
@@ -84,13 +132,6 @@ public sealed partial class IncidentMapper(IIncidentCorpus corpus, IRevisionStor
             Relevance: r.Score,
             ClusterId: null,
             Source: r);
-
-        if (passage is not null)
-        {
-            _cache.TryAdd((id, firstRevId), view);
-        }
-
-        return view;
     }
 
     private async Task<IReadOnlyList<ArticleRef>> ResolveArticlesAsync(IncidentRecord r, CancellationToken ct)
@@ -161,24 +202,38 @@ public sealed partial class IncidentMapper(IIncidentCorpus corpus, IRevisionStor
             }
         }
 
-        var rows = new Dictionary<(long PageId, long RevId), RevisionRow>(needed.Count);
-        foreach (var group in needed.GroupBy(x => x.PageId, x => x.RevId))
+        var groups = needed.GroupBy(x => x.PageId, x => x.RevId).ToList();
+        var groupTasks = new Task<IReadOnlyList<RevisionRow>>[groups.Count];
+        for (var i = 0; i < groups.Count; i++)
         {
-            try
+            groupTasks[i] = FetchRevisionGroupAsync(groups[i].Key, groups[i].ToList(), ct);
+        }
+
+        var fetchedGroups = await Task.WhenAll(groupTasks);
+        var rows = new Dictionary<(long PageId, long RevId), RevisionRow>(needed.Count);
+        foreach (var fetched in fetchedGroups)
+        {
+            foreach (var row in fetched)
             {
-                var fetched = await corpus.RevisionsAsync(group.Key, group.ToList(), ct);
-                foreach (var row in fetched)
-                {
-                    rows[(row.PageId, row.RevId)] = row;
-                }
-            }
-            catch (CorpusUnavailableException)
-            {
-                // Degrade gracefully to the fields on IncidentRecord.
+                rows[(row.PageId, row.RevId)] = row;
             }
         }
 
         return rows;
+    }
+
+    private async Task<IReadOnlyList<RevisionRow>> FetchRevisionGroupAsync(
+        long pageId, IReadOnlyCollection<long> revIds, CancellationToken ct)
+    {
+        try
+        {
+            return await corpus.RevisionsAsync(pageId, revIds, ct);
+        }
+        catch (CorpusUnavailableException)
+        {
+            // Degrade gracefully to the fields on IncidentRecord.
+            return [];
+        }
     }
 
     private async Task<DiffPassage?> ResolvePassageAsync(
@@ -200,17 +255,25 @@ public sealed partial class IncidentMapper(IIncidentCorpus corpus, IRevisionStor
 
         try
         {
-            var revText = await revisions.TextAsync(pageId, firstRevId, ct);
-            if (revText is null)
-            {
-                return null;
-            }
-
+            string? revText;
             string? parentText = null;
             if (parentRevId is { } pid)
             {
-                parentText = await revisions.TextAsync(pageId, pid, ct);
-                if (parentText is null)
+                var revTextTask = revisions.TextAsync(pageId, firstRevId, ct);
+                var parentTextTask = revisions.TextAsync(pageId, pid, ct);
+                await Task.WhenAll(revTextTask, parentTextTask);
+
+                revText = await revTextTask;
+                parentText = await parentTextTask;
+                if (revText is null || parentText is null)
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                revText = await revisions.TextAsync(pageId, firstRevId, ct);
+                if (revText is null)
                 {
                     return null;
                 }

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using AmpersandOfTruth.Web.Features.Evidence;
 using AmpersandOfTruth.Web.Features.Investigations;
 using AmpersandOfTruth.Web.Features.Investigations.Pipeline;
@@ -215,6 +216,25 @@ public class IncidentMapperTests
         Assert.NotNull(fromCache.Passage);
         Assert.Equal(5, fromCache.Rank);
         Assert.Equal(callsBefore, _corpus.RevisionCalls);
+    }
+
+    [Fact]
+    public async Task MapAsync_fetches_articles_and_revisions_concurrently()
+    {
+        SeedEdit(700, 701, 702, "Ennen.", "Ennen. Jälkeen.");
+        _corpus.Delay = TimeSpan.FromMilliseconds(180);
+
+        var sw = Stopwatch.StartNew();
+        var view = await _mapper.MapAsync(SampleRecord(701, 702), rank: 1);
+        sw.Stop();
+
+        Assert.NotNull(view.Passage);
+        Assert.Equal(1, _corpus.ArticleCalls);
+        Assert.Equal(1, _corpus.RevisionCalls);
+        // Sequential would take >= 360 ms; concurrent takes ~180 ms.
+        Assert.True(
+            sw.Elapsed < TimeSpan.FromMilliseconds(330),
+            $"Expected concurrent article+revision lookup (< 330 ms), actual {sw.Elapsed.TotalMilliseconds:F0} ms");
     }
 
     private void SeedEdit(long parentRevId, long insertRevId, long removeRevId, string before, string after)

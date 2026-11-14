@@ -50,6 +50,8 @@ public static class InvestigationsFeature
             sp.GetRequiredService<IOptions<InvestigationSourceOptions>>().Value.Source == IncidentSourceKind.Pipeline
                 ? sp.GetRequiredService<RecentRunIncidentSource>()
                 : sp.GetRequiredService<FixtureIncidentSource>());
+
+        services.AddSingleton<IHostedService>(SampleIncidentWarmup.Create);
         return services;
     }
 }
