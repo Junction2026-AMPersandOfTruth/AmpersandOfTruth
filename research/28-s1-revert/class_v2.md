@@ -174,3 +174,15 @@ in `class_v2`.
 The rules were **derived from the same 140 reviewed rows** they are scored on here, so 103/140 is an in-sample figure and
 says the fixes do what was intended, not how well they generalise. The threshold-sweep plateau above shows they are not
 tuned to individual rows. The real test is `strict_p@10` of `variant.py --class-version v2` vs `v1` on the golden set (#20/#21).
+
+## Golden set, dev split (`2026-11-14.1`): `results/s1-reverts-v2.dev.scorecard.md`
+
+| Variant | strict p@10 | strict p@25 | lenient p@10 | recall | level acc. | overclaim | duplicates |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| S1 v1 baseline | 0.44 | 0.42 | 0.85 | 0.58 | 0.38 | 0.13 | 35 |
+| S1 `--class-version v2` | 0.41 | 0.41 | 0.82 | 0.53 | 0.37 | 0.15 | 34 |
+
+**`class_v2` labels reverts more correctly (103/140 vs 81/140 against the review) but does not rank incidents better.**
+It demotes many `dispute`/`edit_war` reverts to `graffiti_cleanup`/`other`, which drops them from the top of the baseline
+ranking, and some golden `contested` items were among them (recall −0.05). The class is a better *label*. As a *filter*
+it is too aggressive for ranking on its own. Use it as a feature in S10 scoring, not as the ranking key.
