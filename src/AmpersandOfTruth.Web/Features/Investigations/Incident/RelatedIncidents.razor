@@ -1,0 +1,58 @@
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@{
+    var related = FindRelated();
+}
+@if (related.Count > 0)
+{
+    <section class="aot-panel aot-stack" style="gap:var(--space-2)" data-testid="related-incidents">
+        <h3 class="aot-h3">Related</h3>
+        @foreach (var item in related)
+        {
+            <IncidentCard Incident="item" Topic="@Topic" Query="@Query" Compact="true" @key="item.Id" />
+        }
+    </section>
+}
+
+@code {
+    [Parameter, EditorRequired] public IncidentView Current { get; set; } = default!;
+    [Parameter, EditorRequired] public IReadOnlyList<IncidentView> Incidents { get; set; } = [];
+    [Parameter, EditorRequired] public string Topic { get; set; } = "";
+    [Parameter] public string Query { get; set; } = "";
+
+    private IReadOnlyList<IncidentView> FindRelated()
+    {
+        if (Incidents.Count <= 1)
+        {
+            return [];
+        }
+
+        var articleIds = Current.Articles.Select(static a => a.PageId).ToHashSet();
+        var editorKeys = Current.Edits
+            .Select(static e => e.Editor.GroupingKey)
+            .Where(static k => !string.IsNullOrWhiteSpace(k) && !string.Equals(k, "hidden", StringComparison.Ordinal))
+            .ToHashSet(StringComparer.Ordinal);
+
+        var matches = new List<IncidentView>(3);
+        foreach (var candidate in Incidents)
+        {
+            if (string.Equals(candidate.Id, Current.Id, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var sharesArticle = articleIds.Count > 0 && candidate.Articles.Any(a => articleIds.Contains(a.PageId));
+            var sharesEditor = editorKeys.Count > 0 && candidate.Edits.Any(e => editorKeys.Contains(e.Editor.GroupingKey));
+
+            if (sharesArticle || sharesEditor)
+            {
+                matches.Add(candidate);
+                if (matches.Count == 3)
+                {
+                    break;
+                }
+            }
+        }
+
+        return matches;
+    }
+}

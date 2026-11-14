@@ -1,0 +1,37 @@
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations.View
+
+<section class="aot-panel aot-why" id="why" data-testid="why-flagged">
+    <h3 class="aot-h3">Why this is flagged</h3>
+    <p class="aot-why__lead" data-testid="why-lead">@Incident.TierReason</p>
+    @for (var i = 0; i < Incident.Signals.Count; i++)
+    {
+        var signal = Incident.Signals[i];
+        var hasWhy = !string.IsNullOrWhiteSpace(signal.Phrase.Why);
+        var hasEvidence = !string.IsNullOrWhiteSpace(signal.Evidence);
+        <details open="@(i == 0)" data-testid="why-signal">
+            <summary>@signal.Phrase.Chip</summary>
+            <div>
+                @if (hasWhy)
+                {
+                    <span>@signal.Phrase.Why</span>
+                }
+                @if (hasEvidence)
+                {
+                    @if (hasWhy)
+                    {
+                        <text> </text>
+                    }
+                    <span>@signal.Evidence</span>
+                }
+            </div>
+        </details>
+    }
+    <p class="aot-small aot-muted" style="margin:8px 0 0">
+        @Methodology.Limitations[0] <a href="/methodology#levels">How levels work</a>
+    </p>
+</section>
+
+@code {
+    [Parameter, EditorRequired] public IncidentView Incident { get; set; } = default!;
+}

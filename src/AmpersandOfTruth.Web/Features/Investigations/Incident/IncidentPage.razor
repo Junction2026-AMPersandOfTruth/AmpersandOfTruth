@@ -1,0 +1,480 @@
+@page "/investigate/{Topic}/incidents/{IncidentId}"
+@implements IDisposable
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations.Fixtures
+@using AmpersandOfTruth.Web.Features.Investigations.Overview
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using Microsoft.Extensions.DependencyInjection
+@inject IIncidentSource Source
+@inject NavigationManager Navigation
+@inject IServiceProvider Services
+
+<PageTitle>@BuildPageTitle() · Ampersand of Truth</PageTitle>
+
+<div class="aot-stack aot-incident-wrap" style="gap:var(--space-6)" tabindex="-1" @ref="_wrapper" @onkeydown="HandleKeyDown" data-testid="incident-page">
+    <SampleDataBanner />
+
+    @if (!_loading && _incident is { Assessment: null })
+    {
+        <StatusBanner Kind="StatusKind.Warn" Title="Automated assessment unavailable" TestId="assessment-unavailable-banner">
+            Showing edit and removal history only.
+        </StatusBanner>
+    }
+
+    @if (_loading)
+    {
+        <div class="aot-stack" aria-busy="true" data-testid="incident-loading">
+            <div class="aot-card aot-card--skeleton" aria-label="Loading incident…">
+                <span class="aot-skel" style="width:180px;height:20px"></span>
+                <span class="aot-skel" style="width:85%;height:28px;margin-top:14px"></span>
+                <span class="aot-skel" style="width:55%;height:16px"></span>
+                <span class="aot-skel" style="width:45%;height:14px;margin-top:14px"></span>
+            </div>
+            <div class="aot-diff aot-card--skeleton" style="padding:var(--space-4)" aria-label="Loading diff…">
+                <span class="aot-skel" style="width:220px;height:18px"></span>
+                <span class="aot-skel" style="width:95%;height:16px;margin-top:16px"></span>
+                <span class="aot-skel" style="width:90%;height:16px"></span>
+                <span class="aot-skel" style="width:70%;height:16px"></span>
+            </div>
+        </div>
+    }
+    else if (_incidents is null)
+    {
+        <EmptyState Title="This investigation isn't loaded yet.">
+            <Actions>
+                <a class="aot-btn aot-btn--primary" href="@OverviewHref" data-testid="back-to-overview">Open investigation</a>
+            </Actions>
+        </EmptyState>
+    }
+    else if (_incident is null)
+    {
+        <EmptyState Title="We can't find this incident.">
+            <Actions>
+                <a class="aot-btn" href="@OverviewHref" data-testid="back-to-overview">Back to @TopicLabel</a>
+            </Actions>
+        </EmptyState>
+    }
+    else
+    {
+        <div class="aot-row" style="justify-content:space-between">
+            <nav class="aot-crumbs" aria-label="Breadcrumb" data-testid="incident-breadcrumbs">
+                <a href="@OverviewHref" data-testid="breadcrumb-topic">@TopicLabel</a>
+                <span aria-hidden="true">›</span>
+                <span>Incidents</span>
+                <span aria-hidden="true">›</span>
+                <span data-testid="incident-rank">@_rank of @_incidents.Count</span>
+            </nav>
+            <div class="aot-row">
+                @if (_prevIncident is not null)
+                {
+                    <a class="aot-btn aot-btn--sm" href="@IncidentHref(_prevIncident.Id)" data-testid="prev-incident">◀ Prev</a>
+                }
+                else
+                {
+                    <span class="aot-btn aot-btn--sm" aria-disabled="true" style="opacity:.5;pointer-events:none" data-testid="prev-incident">◀ Prev</span>
+                }
+                @if (_nextIncident is not null)
+                {
+                    <a class="aot-btn aot-btn--sm" href="@IncidentHref(_nextIncident.Id)" data-testid="next-incident">Next ▶</a>
+                }
+                else
+                {
+                    <span class="aot-btn aot-btn--sm" aria-disabled="true" style="opacity:.5;pointer-events:none" data-testid="next-incident">Next ▶</span>
+                }
+            </div>
+        </div>
+
+        <header data-testid="incident-header">
+            <TierBadge Tier="_incident.Tier" ShowWhy="true" WhyHref="#why" />
+            <h1 class="aot-serif t-claim-lg" data-testid="incident-claim">@FormatHeadline(_incident)</h1>
+            @if (!string.IsNullOrWhiteSpace(_incident.ClaimOriginal))
+            {
+                <div class="aot-row">
+                    <div class="aot-original" lang="@EffectiveLang(_incident.Lang)" style="font-size:14px" data-testid="claim-original">@_incident.ClaimOriginal</div>
+                    @if (!string.IsNullOrWhiteSpace(_incident.ClaimEn))
+                    {
+                        <span class="aot-mt">
+                            <span class="aot-mt__tag" title="@Attribution.MachineTranslationNotice">Machine translation</span>
+                        </span>
+                    }
+                </div>
+            }
+            <p class="aot-small aot-muted" style="margin:12px 0 0" data-testid="incident-facts">
+                First inserted @FormatDate(_incident.FirstSeen) · Live @OverviewState.Duration(_incident.TotalLive) total · @FormatCount(_incident.AccountCount, "account", "accounts") · @FormatCount(_incident.Articles.Count, "article", "articles")
+            </p>
+            @if (_incident.Articles.Count > 0)
+            {
+                <div class="aot-small" style="margin-top:4px" data-testid="incident-articles">
+                    @for (var i = 0; i < _incident.Articles.Count; i++)
+                    {
+                        var article = _incident.Articles[i];
+                        @if (i > 0)
+                        {
+                            <text>, </text>
+                        }
+                        <a href="@string.Create(CultureInfo.InvariantCulture, $"/articles/{article.PageId}")" lang="fi">@article.TitleFi</a>@if (!string.IsNullOrWhiteSpace(article.TitleEn) && !string.Equals(article.TitleEn, article.TitleFi, StringComparison.OrdinalIgnoreCase)) { <text> </text><span class="aot-muted">(@article.TitleEn)</span> }
+                    }
+                </div>
+            }
+        </header>
+
+        <div class="aot-incident-grid">
+            <section class="aot-incident-diff">
+                <h2 class="aot-h2" style="margin-bottom:var(--space-3)">What changed</h2>
+                <DiffViewer Passage="_incident.Passage"
+                            Mode="CurrentDiffMode"
+                            Text="CurrentTextMode"
+                            Lang="@CurrentLang"
+                            EvidenceQuotes="@(_incident.Assessment?.Quotes ?? [])"
+                            OnModeChanged="HandleDiffModeChanged"
+                            Scope="@ScopeKey" />
+            </section>
+
+            <section class="aot-incident-seq">
+                <h2 class="aot-h2" style="margin-bottom:var(--space-3)">Sequence of events</h2>
+                <EditSequence Edits="_incident.Edits" Scope="@ScopeKey" />
+            </section>
+
+            <aside class="aot-incident-side aot-stack" style="gap:var(--space-4)">
+                <WhyFlagged Incident="_incident" />
+                <AssessmentNote Assessment="_incident.Assessment" />
+                <RelatedIncidents Current="_incident" Incidents="_incidents" Topic="@Topic" Query="@OverviewQuery" />
+                <IncidentActions Topic="@Topic" IncidentId="@_incident.Id" />
+            </aside>
+        </div>
+    }
+</div>
+
+@code {
+    private ElementReference _wrapper;
+    private CancellationTokenSource? _cts;
+    private (string Topic, string IncidentId)? _loadedKey;
+    private bool _loading = true;
+    private IReadOnlyList<IncidentView>? _incidents;
+    private IncidentView? _incident;
+    private IncidentView? _prevIncident;
+    private IncidentView? _nextIncident;
+    private int _rank;
+
+    [Parameter] public string Topic { get; set; } = "";
+    [Parameter] public string IncidentId { get; set; } = "";
+
+    [SupplyParameterFromQuery(Name = "view")] public string? ViewQuery { get; set; }
+    [SupplyParameterFromQuery(Name = "text")] public string? TextQuery { get; set; }
+    [SupplyParameterFromQuery(Name = "lang")] public string? LangQuery { get; set; }
+
+    private DiffMode CurrentDiffMode =>
+        string.Equals(ViewQuery ?? ReadQueryValue("view"), "split", StringComparison.OrdinalIgnoreCase)
+            ? DiffMode.Split
+            : DiffMode.Inline;
+
+    private DiffTextMode CurrentTextMode =>
+        string.Equals(TextQuery ?? ReadQueryValue("text"), "wikitext", StringComparison.OrdinalIgnoreCase)
+            ? DiffTextMode.Wikitext
+            : DiffTextMode.Prose;
+
+    private string CurrentLang =>
+        string.Equals(LangQuery ?? ReadQueryValue("lang"), "fi", StringComparison.OrdinalIgnoreCase)
+            ? "fi"
+            : "en";
+
+    private string ScopeKey => TopicSlug.From(Topic) is { Length: > 0 } slug ? slug : Topic;
+
+    private string OverviewQuery => ExtractQuery(excludeDiffMode: true);
+
+    private string FullQuery => ExtractQuery(excludeDiffMode: false);
+
+    private string OverviewHref => $"/investigate/{Uri.EscapeDataString(Topic)}{OverviewQuery}";
+
+    private string TopicLabel
+    {
+        get
+        {
+            var sampleTitle = Services.GetService<SampleIncidents>()?.Match(Topic)?.Title;
+            if (!string.IsNullOrWhiteSpace(sampleTitle))
+            {
+                return sampleTitle;
+            }
+
+            if (string.IsNullOrWhiteSpace(Topic))
+            {
+                return "Investigation";
+            }
+
+            if (Topic.Contains('-') && !Topic.Contains(' '))
+            {
+                var words = TopicSlug.ToQuery(Topic);
+                return words.Length > 0
+                    ? char.ToUpper(words[0], CultureInfo.InvariantCulture) + words[1..]
+                    : Topic;
+            }
+
+            return Topic.Trim();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var key = (Topic ?? "", IncidentId ?? "");
+        if (_loadedKey == key)
+        {
+            return;
+        }
+
+        _cts?.Cancel();
+        _cts?.Dispose();
+        var run = _cts = new CancellationTokenSource();
+        var ct = run.Token;
+
+        _loading = true;
+
+        try
+        {
+            var list = await Source.ForTopicAsync(Topic ?? "", ct);
+            if (ct.IsCancellationRequested || !ReferenceEquals(run, _cts))
+            {
+                return;
+            }
+
+            _loadedKey = key;
+            _incidents = list;
+            ResolveCurrentIncident(list, IncidentId ?? "");
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        finally
+        {
+            if (ReferenceEquals(run, _cts))
+            {
+                _loading = false;
+            }
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                await _wrapper.FocusAsync();
+            }
+            catch
+            {
+                // Ignore JS focus failures during disconnected circuit or test setups.
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+
+    private void ResolveCurrentIncident(IReadOnlyList<IncidentView>? list, string incidentId)
+    {
+        _incident = null;
+        _prevIncident = null;
+        _nextIncident = null;
+        _rank = 0;
+
+        if (list is null || list.Count == 0 || string.IsNullOrWhiteSpace(incidentId))
+        {
+            return;
+        }
+
+        var index = -1;
+        for (var i = 0; i < list.Count; i++)
+        {
+            if (string.Equals(list[i].Id, incidentId, StringComparison.Ordinal))
+            {
+                index = i;
+                break;
+            }
+        }
+
+        if (index < 0)
+        {
+            for (var i = 0; i < list.Count; i++)
+            {
+                if (string.Equals(list[i].Id, incidentId, StringComparison.OrdinalIgnoreCase))
+                {
+                    index = i;
+                    break;
+                }
+            }
+        }
+
+        if (index < 0)
+        {
+            return;
+        }
+
+        _incident = list[index];
+        _rank = index + 1;
+        _prevIncident = index > 0 ? list[index - 1] : null;
+        _nextIncident = index + 1 < list.Count ? list[index + 1] : null;
+    }
+
+    private void HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.AltKey || e.CtrlKey || e.MetaKey)
+        {
+            return;
+        }
+
+        switch (e.Key)
+        {
+            case "ArrowLeft" or "Left":
+                if (_prevIncident is not null)
+                {
+                    Navigation.NavigateTo(IncidentHref(_prevIncident.Id));
+                }
+                break;
+
+            case "ArrowRight" or "Right":
+                if (_nextIncident is not null)
+                {
+                    Navigation.NavigateTo(IncidentHref(_nextIncident.Id));
+                }
+                break;
+
+            case "Escape" or "Esc":
+                Navigation.NavigateTo(OverviewHref);
+                break;
+        }
+    }
+
+    private void HandleDiffModeChanged((DiffMode Mode, DiffTextMode Text, string Lang) next)
+    {
+        var uri = Navigation.GetUriWithQueryParameters(new Dictionary<string, object?>
+        {
+            ["view"] = next.Mode == DiffMode.Split ? "split" : null,
+            ["text"] = next.Text == DiffTextMode.Wikitext ? "wikitext" : null,
+            ["lang"] = string.Equals(next.Lang, "fi", StringComparison.OrdinalIgnoreCase) ? "fi" : null,
+        });
+        Navigation.NavigateTo(uri, replace: true);
+    }
+
+    private string IncidentHref(string id) =>
+        $"/investigate/{Uri.EscapeDataString(Topic)}/incidents/{Uri.EscapeDataString(id)}{FullQuery}";
+
+    private string BuildPageTitle()
+    {
+        if (_incident is not null)
+        {
+            if (!string.IsNullOrWhiteSpace(_incident.ClaimEn))
+            {
+                return _incident.Kind == IncidentKind.Deletion && !_incident.ClaimEn.TrimStart().StartsWith("Removed:", StringComparison.OrdinalIgnoreCase)
+                    ? $"Removed: {_incident.ClaimEn.Trim()}"
+                    : _incident.ClaimEn.Trim();
+            }
+
+            if (_incident.Articles.Count > 0)
+            {
+                var primary = _incident.PrimaryArticle;
+                return !string.IsNullOrWhiteSpace(primary.TitleEn) ? primary.TitleEn : primary.TitleFi;
+            }
+        }
+
+        return TopicLabel;
+    }
+
+    private static string FormatHeadline(IncidentView incident)
+    {
+        if (!string.IsNullOrWhiteSpace(incident.ClaimEn))
+        {
+            var claim = incident.ClaimEn.Trim();
+            if (incident.Kind == IncidentKind.Deletion)
+            {
+                return claim.StartsWith("Removed:", StringComparison.OrdinalIgnoreCase)
+                    ? claim
+                    : $"Removed: {claim}";
+            }
+
+            return claim;
+        }
+
+        var articleTitle = incident.Articles.Count > 0
+            ? (incident.PrimaryArticle.TitleEn ?? incident.PrimaryArticle.TitleFi)
+            : "article";
+
+        return incident.Kind == IncidentKind.Deletion
+            ? $"Removed: text from {articleTitle}"
+            : $"Text added to {articleTitle}";
+    }
+
+    private static string EffectiveLang(string? lang) =>
+        string.IsNullOrWhiteSpace(lang) ? "fi" : lang.Trim();
+
+    private static string FormatDate(DateTimeOffset date) =>
+        date.ToUniversalTime().ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+
+    private static string FormatCount(int count, string singular, string plural) =>
+        count == 1
+            ? $"1 {singular}"
+            : string.Create(CultureInfo.InvariantCulture, $"{count:N0} {plural}");
+
+    private string ExtractQuery(bool excludeDiffMode)
+    {
+        if (!Uri.TryCreate(Navigation.Uri, UriKind.Absolute, out var uri) || string.IsNullOrEmpty(uri.Query))
+        {
+            return "";
+        }
+
+        var raw = uri.Query.TrimStart('?');
+        if (string.IsNullOrEmpty(raw))
+        {
+            return "";
+        }
+
+        var parts = raw.Split('&', StringSplitOptions.RemoveEmptyEntries);
+        var kept = new List<string>(parts.Length);
+
+        foreach (var part in parts)
+        {
+            var eq = part.IndexOf('=');
+            var name = eq >= 0 ? part[..eq] : part;
+            var decodedName = Uri.UnescapeDataString(name);
+
+            if (excludeDiffMode && IsDiffQueryKey(decodedName))
+            {
+                continue;
+            }
+
+            kept.Add(part);
+        }
+
+        return kept.Count == 0 ? "" : "?" + string.Join("&", kept);
+    }
+
+    private string? ReadQueryValue(string targetKey)
+    {
+        if (!Uri.TryCreate(Navigation.Uri, UriKind.Absolute, out var uri) || string.IsNullOrEmpty(uri.Query))
+        {
+            return null;
+        }
+
+        foreach (var part in uri.Query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var eq = part.IndexOf('=');
+            if (eq < 0) continue;
+            var name = Uri.UnescapeDataString(part[..eq]);
+            if (string.Equals(name, targetKey, StringComparison.OrdinalIgnoreCase))
+            {
+                return Uri.UnescapeDataString(part[(eq + 1)..]);
+            }
+        }
+
+        return null;
+    }
+
+    private static bool IsDiffQueryKey(string key) =>
+        string.Equals(key, "view", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(key, "text", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(key, "lang", StringComparison.OrdinalIgnoreCase);
+}
