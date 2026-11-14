@@ -5,6 +5,7 @@ using AmpersandOfTruth.Web.Features.Analysis;
 using AmpersandOfTruth.Web.Features.Annotations;
 using AmpersandOfTruth.Web.Features.Articles;
 using AmpersandOfTruth.Web.Features.Corpus;
+using AmpersandOfTruth.Web.Features.Demo;
 using AmpersandOfTruth.Web.Features.Embedding;
 using AmpersandOfTruth.Web.Features.Hotspots;
 using AmpersandOfTruth.Web.Features.Investigations;
@@ -41,6 +42,7 @@ builder.Services.AddHotspotsFeature();
 builder.Services.AddReportsFeature();
 builder.Services.AddNetworkFeature();
 builder.Services.AddSharingFeature();
+builder.Services.AddDemoFeature();
 
 var app = builder.Build();
 

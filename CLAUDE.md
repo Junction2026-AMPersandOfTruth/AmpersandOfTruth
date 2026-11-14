@@ -240,6 +240,19 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
 5. If you add a dependency, a convention, or a gotcha, update this file in the same commit.
 6. Don't leave `dotnet watch` / `dotnet run` processes running when you finish.
 
+## Demo safety (`Demo:*` in appsettings, `Features/Demo`, #69)
+
+- `Demo:SafeMode` (default `false`, reloadable): serve only cached runs — a topic with no cached run fails with "This topic
+  hasn't been analysed for the demo…"; Re-run, timings and the footer's debug links are hidden. Turn on for judging.
+- `Demo:MaxConcurrentColdRuns` (default 2): cold pipeline runs beyond this wait in `ColdRunGate` and the page shows
+  "Queued" (`RunQueued` event). Cached replays never wait.
+- `Demo:StartsPerClientPerMinute` (default 6, `0` = off): per client IP (via forwarded headers behind the proxy), else per circuit.
+- `Demo:SeedLibrary` + `Demo:SeedTopics`: at startup, already-warmed topics become read-only "Examples" in `/library`
+  (owner `"demo"`); never runs the pipeline.
+- **Warm in the page's form:** the run cache keeps case (it follows the query embedding) and the page runs the topic
+  rebuilt from its URL slug (`/investigate/talvisota` → `"talvisota"`). `scripts/warm.sh` does the same conversion — anything
+  else that pre-warms must too, or safe mode will miss.
+
 ## Gemini usage: anything goes
 
 We have a **Tier 3 Gemini API key, paid for by Google** — its rate limits are far above anything we can hit and cost is

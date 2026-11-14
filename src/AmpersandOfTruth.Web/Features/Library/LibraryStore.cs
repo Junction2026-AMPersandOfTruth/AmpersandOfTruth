@@ -11,11 +11,27 @@ namespace AmpersandOfTruth.Web.Features.Library;
 
 public sealed class LibraryStore(IDbContextFactory<AppDbContext> dbFactory, TimeProvider time)
 {
+    public const string DemoOwner = "demo";
+
     private const int MaxTitleLength = 200;
     private const int MaxTopicLength = 500;
     private const int MaxOwnerKeyLength = 64;
     private const int MaxIncidentIdLength = 100;
     private const int MaxNoteLength = 2000;
+
+    public Task<IReadOnlyList<SavedSummary>> ListExamplesAsync(CancellationToken ct = default) =>
+        ListAsync(DemoOwner, ct);
+
+    public async Task<bool> IsDemoAsync(Guid id, CancellationToken ct = default)
+    {
+        await using var db = await dbFactory.CreateDbContextAsync(ct);
+        return await db.Set<SavedInvestigation>()
+            .AsNoTracking()
+            .AnyAsync(x => x.Id == id && x.OwnerKey == DemoOwner, ct);
+    }
+
+    private static bool IsReadOnlyOwner(string normalizedOwner) =>
+        string.Equals(normalizedOwner, DemoOwner, StringComparison.OrdinalIgnoreCase);
 
     public async Task<Guid> SaveAsync(string ownerKey, string title, SavedSnapshot snapshot, CancellationToken ct = default)
     {
@@ -69,6 +85,11 @@ public sealed class LibraryStore(IDbContextFactory<AppDbContext> dbFactory, Time
         }
 
         var normalizedOwner = Clamp(ownerKey.Trim(), MaxOwnerKeyLength);
+        if (IsReadOnlyOwner(normalizedOwner))
+        {
+            return;
+        }
+
         var now = time.GetUtcNow();
         var snapshotJson = JsonSerializer.Serialize(snapshot, IncidentJson.Options);
         var incidentCount = snapshot.Incidents.Count;
@@ -171,6 +192,11 @@ public sealed class LibraryStore(IDbContextFactory<AppDbContext> dbFactory, Time
         }
 
         var normalizedOwner = Clamp(ownerKey.Trim(), MaxOwnerKeyLength);
+        if (IsReadOnlyOwner(normalizedOwner))
+        {
+            return false;
+        }
+
         var normalizedTitle = Clamp(title.Trim(), MaxTitleLength);
         var now = time.GetUtcNow();
 
@@ -193,6 +219,10 @@ public sealed class LibraryStore(IDbContextFactory<AppDbContext> dbFactory, Time
         }
 
         var normalizedOwner = Clamp(ownerKey.Trim(), MaxOwnerKeyLength);
+        if (IsReadOnlyOwner(normalizedOwner))
+        {
+            return false;
+        }
 
         await using var db = await dbFactory.CreateDbContextAsync(ct);
         var deleted = await db.Set<SavedInvestigation>()
@@ -221,6 +251,11 @@ public sealed class LibraryStore(IDbContextFactory<AppDbContext> dbFactory, Time
         }
 
         var normalizedOwner = Clamp(ownerKey.Trim(), MaxOwnerKeyLength);
+        if (IsReadOnlyOwner(normalizedOwner))
+        {
+            return;
+        }
+
         var normalizedIncidentId = Clamp(incidentId.Trim(), MaxIncidentIdLength);
         var normalizedNote = note is null ? null : Clamp(note.Trim(), MaxNoteLength);
         var now = time.GetUtcNow();
@@ -263,6 +298,11 @@ public sealed class LibraryStore(IDbContextFactory<AppDbContext> dbFactory, Time
         }
 
         var normalizedOwner = Clamp(ownerKey.Trim(), MaxOwnerKeyLength);
+        if (IsReadOnlyOwner(normalizedOwner))
+        {
+            return;
+        }
+
         var normalizedIncidentId = Clamp(incidentId.Trim(), MaxIncidentIdLength);
 
         await using var db = await dbFactory.CreateDbContextAsync(ct);
