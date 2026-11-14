@@ -1,0 +1,3319 @@
+{
+ "contract": 1,
+ "kind": "retrieval",
+ "variant": "r1-vector",
+ "split": "test",
+ "golden_version": "2026-11-14.1",
+ "dataset": "m-2026-10",
+ "git_commit": "f985802eb562",
+ "ran_at": "2026-11-14T17:36:55Z",
+ "command": "research/eval/run retrieval --split test --name r1-vector -- python3 research/8-r1-vector/variant.py",
+ "limit": null,
+ "k": 20,
+ "partial": false,
+ "topics": 5,
+ "requests": 19,
+ "metrics": {
+  "recall@5": 0.1863890664961637,
+  "recall@10": 0.27383312020460354,
+  "recall@20": 0.3921375479539642,
+  "ndcg@10": 0.5741536510161309,
+  "oos_detection_rate": 0.0,
+  "oos_false_alarm_rate": 0.0,
+  "seconds_per_topic": 0.96,
+  "llm_calls": 0,
+  "input_tokens": 0,
+  "output_tokens": 0
+ },
+ "by_style": {
+  "en": {
+   "queries": 4,
+   "recall@5": 0.22567135549872125,
+   "recall@10": 0.31041400255754475,
+   "recall@20": 0.4047394501278772,
+   "ndcg@10": 0.6361054377627202
+  },
+  "fi": {
+   "queries": 4,
+   "recall@5": 0.18922634271099747,
+   "recall@10": 0.3097026854219949,
+   "recall@20": 0.49766624040920715,
+   "ndcg@10": 0.6188885552695007
+  },
+  "broad": {
+   "queries": 4,
+   "recall@5": 0.11898177749360614,
+   "recall@10": 0.16884590792838877,
+   "recall@20": 0.24207960358056269,
+   "ndcg@10": 0.3784032714598516
+  },
+  "sv": {
+   "queries": 4,
+   "recall@5": 0.2116767902813299,
+   "recall@10": 0.3063698849104859,
+   "recall@20": 0.4240648976982097,
+   "ndcg@10": 0.6632173395724511
+  }
+ },
+ "per_topic": [
+  {
+   "query_id": "language-politics.en",
+   "topic_id": "language-politics",
+   "kind": "topic",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.88,
+   "failed": false,
+   "recall@5": 0.25,
+   "recall@10": 0.3125,
+   "recall@20": 0.4375,
+   "ndcg@10": 0.6383697059148344,
+   "articles": [
+    {
+     "page_id": 255,
+     "grade": 2,
+     "title": "Fennomania",
+     "rank": 3
+    },
+    {
+     "page_id": 11634,
+     "grade": 2,
+     "title": "Suomalainen puolue",
+     "rank": null
+    },
+    {
+     "page_id": 53740,
+     "grade": 2,
+     "title": "Svekomania",
+     "rank": 2
+    },
+    {
+     "page_id": 72145,
+     "grade": 2,
+     "title": "Suomalaisuuden liitto",
+     "rank": null
+    },
+    {
+     "page_id": 200797,
+     "grade": 2,
+     "title": "Axel Olof Freudenthal",
+     "rank": null
+    },
+    {
+     "page_id": 202404,
+     "grade": 2,
+     "title": "Ahvenanmaan kysymys",
+     "rank": 4
+    },
+    {
+     "page_id": 432900,
+     "grade": 2,
+     "title": "Kielitaistelu",
+     "rank": 1
+    },
+    {
+     "page_id": 769025,
+     "grade": 2,
+     "title": "Vapaa kielivalinta",
+     "rank": null
+    },
+    {
+     "page_id": 72257,
+     "grade": 1,
+     "title": "Yrjö Sakari Yrjö-Koskinen",
+     "rank": null
+    },
+    {
+     "page_id": 109236,
+     "grade": 1,
+     "title": "Jomalan kirkko",
+     "rank": null
+    },
+    {
+     "page_id": 913815,
+     "grade": 1,
+     "title": "Ahvenanmaan sopimus",
+     "rank": null
+    },
+    {
+     "page_id": 923196,
+     "grade": 1,
+     "title": "Nimien suomalaistaminen",
+     "rank": 12
+    },
+    {
+     "page_id": 1037500,
+     "grade": 1,
+     "title": "Länsipohjan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 1356913,
+     "grade": 1,
+     "title": "Ahvenanmaan miehitys",
+     "rank": null
+    },
+    {
+     "page_id": 1549193,
+     "grade": 1,
+     "title": "Suomalainen nationalismi",
+     "rank": 9
+    },
+    {
+     "page_id": 1623503,
+     "grade": 1,
+     "title": "Ahvenanmaan historia",
+     "rank": 18
+    }
+   ],
+   "missed": [
+    200797,
+    72145,
+    11634,
+    769025,
+    72257,
+    1356913,
+    913815,
+    1037500,
+    109236
+   ]
+  },
+  {
+   "query_id": "language-politics.fi",
+   "topic_id": "language-politics",
+   "kind": "topic",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.81,
+   "failed": false,
+   "recall@5": 0.25,
+   "recall@10": 0.375,
+   "recall@20": 0.5,
+   "ndcg@10": 0.6650332328845464,
+   "articles": [
+    {
+     "page_id": 255,
+     "grade": 2,
+     "title": "Fennomania",
+     "rank": 3
+    },
+    {
+     "page_id": 11634,
+     "grade": 2,
+     "title": "Suomalainen puolue",
+     "rank": null
+    },
+    {
+     "page_id": 53740,
+     "grade": 2,
+     "title": "Svekomania",
+     "rank": 2
+    },
+    {
+     "page_id": 72145,
+     "grade": 2,
+     "title": "Suomalaisuuden liitto",
+     "rank": null
+    },
+    {
+     "page_id": 200797,
+     "grade": 2,
+     "title": "Axel Olof Freudenthal",
+     "rank": 9
+    },
+    {
+     "page_id": 202404,
+     "grade": 2,
+     "title": "Ahvenanmaan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 432900,
+     "grade": 2,
+     "title": "Kielitaistelu",
+     "rank": 1
+    },
+    {
+     "page_id": 769025,
+     "grade": 2,
+     "title": "Vapaa kielivalinta",
+     "rank": null
+    },
+    {
+     "page_id": 72257,
+     "grade": 1,
+     "title": "Yrjö Sakari Yrjö-Koskinen",
+     "rank": 6
+    },
+    {
+     "page_id": 109236,
+     "grade": 1,
+     "title": "Jomalan kirkko",
+     "rank": null
+    },
+    {
+     "page_id": 913815,
+     "grade": 1,
+     "title": "Ahvenanmaan sopimus",
+     "rank": null
+    },
+    {
+     "page_id": 923196,
+     "grade": 1,
+     "title": "Nimien suomalaistaminen",
+     "rank": 19
+    },
+    {
+     "page_id": 1037500,
+     "grade": 1,
+     "title": "Länsipohjan kysymys",
+     "rank": 4
+    },
+    {
+     "page_id": 1356913,
+     "grade": 1,
+     "title": "Ahvenanmaan miehitys",
+     "rank": null
+    },
+    {
+     "page_id": 1549193,
+     "grade": 1,
+     "title": "Suomalainen nationalismi",
+     "rank": 12
+    },
+    {
+     "page_id": 1623503,
+     "grade": 1,
+     "title": "Ahvenanmaan historia",
+     "rank": null
+    }
+   ],
+   "missed": [
+    72145,
+    202404,
+    11634,
+    769025,
+    1623503,
+    1356913,
+    913815,
+    109236
+   ]
+  },
+  {
+   "query_id": "language-politics.broad",
+   "topic_id": "language-politics",
+   "kind": "topic",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.75,
+   "failed": false,
+   "recall@5": 0.0625,
+   "recall@10": 0.125,
+   "recall@20": 0.1875,
+   "ndcg@10": 0.31921934323827694,
+   "articles": [
+    {
+     "page_id": 255,
+     "grade": 2,
+     "title": "Fennomania",
+     "rank": null
+    },
+    {
+     "page_id": 11634,
+     "grade": 2,
+     "title": "Suomalainen puolue",
+     "rank": null
+    },
+    {
+     "page_id": 53740,
+     "grade": 2,
+     "title": "Svekomania",
+     "rank": 6
+    },
+    {
+     "page_id": 72145,
+     "grade": 2,
+     "title": "Suomalaisuuden liitto",
+     "rank": null
+    },
+    {
+     "page_id": 200797,
+     "grade": 2,
+     "title": "Axel Olof Freudenthal",
+     "rank": null
+    },
+    {
+     "page_id": 202404,
+     "grade": 2,
+     "title": "Ahvenanmaan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 432900,
+     "grade": 2,
+     "title": "Kielitaistelu",
+     "rank": 1
+    },
+    {
+     "page_id": 769025,
+     "grade": 2,
+     "title": "Vapaa kielivalinta",
+     "rank": null
+    },
+    {
+     "page_id": 72257,
+     "grade": 1,
+     "title": "Yrjö Sakari Yrjö-Koskinen",
+     "rank": null
+    },
+    {
+     "page_id": 109236,
+     "grade": 1,
+     "title": "Jomalan kirkko",
+     "rank": null
+    },
+    {
+     "page_id": 913815,
+     "grade": 1,
+     "title": "Ahvenanmaan sopimus",
+     "rank": null
+    },
+    {
+     "page_id": 923196,
+     "grade": 1,
+     "title": "Nimien suomalaistaminen",
+     "rank": null
+    },
+    {
+     "page_id": 1037500,
+     "grade": 1,
+     "title": "Länsipohjan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 1356913,
+     "grade": 1,
+     "title": "Ahvenanmaan miehitys",
+     "rank": null
+    },
+    {
+     "page_id": 1549193,
+     "grade": 1,
+     "title": "Suomalainen nationalismi",
+     "rank": 12
+    },
+    {
+     "page_id": 1623503,
+     "grade": 1,
+     "title": "Ahvenanmaan historia",
+     "rank": null
+    }
+   ],
+   "missed": [
+    255,
+    200797,
+    72145,
+    202404,
+    11634,
+    769025,
+    72257,
+    923196,
+    1623503,
+    1356913,
+    913815,
+    1037500,
+    109236
+   ]
+  },
+  {
+   "query_id": "language-politics.sv",
+   "topic_id": "language-politics",
+   "kind": "topic",
+   "style": "sv",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.97,
+   "failed": false,
+   "recall@5": 0.1875,
+   "recall@10": 0.1875,
+   "recall@20": 0.3125,
+   "ndcg@10": 0.501570853545258,
+   "articles": [
+    {
+     "page_id": 255,
+     "grade": 2,
+     "title": "Fennomania",
+     "rank": 3
+    },
+    {
+     "page_id": 11634,
+     "grade": 2,
+     "title": "Suomalainen puolue",
+     "rank": null
+    },
+    {
+     "page_id": 53740,
+     "grade": 2,
+     "title": "Svekomania",
+     "rank": 1
+    },
+    {
+     "page_id": 72145,
+     "grade": 2,
+     "title": "Suomalaisuuden liitto",
+     "rank": null
+    },
+    {
+     "page_id": 200797,
+     "grade": 2,
+     "title": "Axel Olof Freudenthal",
+     "rank": null
+    },
+    {
+     "page_id": 202404,
+     "grade": 2,
+     "title": "Ahvenanmaan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 432900,
+     "grade": 2,
+     "title": "Kielitaistelu",
+     "rank": 2
+    },
+    {
+     "page_id": 769025,
+     "grade": 2,
+     "title": "Vapaa kielivalinta",
+     "rank": null
+    },
+    {
+     "page_id": 72257,
+     "grade": 1,
+     "title": "Yrjö Sakari Yrjö-Koskinen",
+     "rank": null
+    },
+    {
+     "page_id": 109236,
+     "grade": 1,
+     "title": "Jomalan kirkko",
+     "rank": null
+    },
+    {
+     "page_id": 913815,
+     "grade": 1,
+     "title": "Ahvenanmaan sopimus",
+     "rank": null
+    },
+    {
+     "page_id": 923196,
+     "grade": 1,
+     "title": "Nimien suomalaistaminen",
+     "rank": 18
+    },
+    {
+     "page_id": 1037500,
+     "grade": 1,
+     "title": "Länsipohjan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 1356913,
+     "grade": 1,
+     "title": "Ahvenanmaan miehitys",
+     "rank": null
+    },
+    {
+     "page_id": 1549193,
+     "grade": 1,
+     "title": "Suomalainen nationalismi",
+     "rank": 14
+    },
+    {
+     "page_id": 1623503,
+     "grade": 1,
+     "title": "Ahvenanmaan historia",
+     "rank": null
+    }
+   ],
+   "missed": [
+    200797,
+    72145,
+    202404,
+    11634,
+    769025,
+    72257,
+    1623503,
+    1356913,
+    913815,
+    1037500,
+    109236
+   ]
+  },
+  {
+   "query_id": "sami-prehistory.en",
+   "topic_id": "sami-prehistory",
+   "kind": "topic",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.71,
+   "failed": false,
+   "recall@5": 0.23529411764705882,
+   "recall@10": 0.4117647058823529,
+   "recall@20": 0.47058823529411764,
+   "ndcg@10": 0.5913196373328321,
+   "articles": [
+    {
+     "page_id": 1100,
+     "grade": 2,
+     "title": "Suomen muinaiset kuninkaat",
+     "rank": 9
+    },
+    {
+     "page_id": 7283,
+     "grade": 2,
+     "title": "Saamelaiset",
+     "rank": 6
+    },
+    {
+     "page_id": 8905,
+     "grade": 2,
+     "title": "Suomen esihistoria",
+     "rank": null
+    },
+    {
+     "page_id": 20813,
+     "grade": 2,
+     "title": "Suomalaisten alkuperä",
+     "rank": null
+    },
+    {
+     "page_id": 997401,
+     "grade": 2,
+     "title": "Saamelaisten historia",
+     "rank": 4
+    },
+    {
+     "page_id": 1096144,
+     "grade": 2,
+     "title": "Metsäsaamelaiset",
+     "rank": 10
+    },
+    {
+     "page_id": 22508,
+     "grade": 1,
+     "title": "Lappalaiset",
+     "rank": null
+    },
+    {
+     "page_id": 72966,
+     "grade": 1,
+     "title": "Fennit",
+     "rank": 1
+    },
+    {
+     "page_id": 75134,
+     "grade": 1,
+     "title": "Lapinkylä",
+     "rank": 12
+    },
+    {
+     "page_id": 115924,
+     "grade": 1,
+     "title": "Suomen kronikka",
+     "rank": null
+    },
+    {
+     "page_id": 378020,
+     "grade": 1,
+     "title": "Saamelaisten kotiseutualue",
+     "rank": 3
+    },
+    {
+     "page_id": 624151,
+     "grade": 1,
+     "title": "Keminsaamelaiset",
+     "rank": null
+    },
+    {
+     "page_id": 1093403,
+     "grade": 1,
+     "title": "Skrithifinnit",
+     "rank": null
+    },
+    {
+     "page_id": 1373598,
+     "grade": 1,
+     "title": "Saamenmaa",
+     "rank": 5
+    },
+    {
+     "page_id": 1617222,
+     "grade": 1,
+     "title": "Saamelaisliike",
+     "rank": null
+    },
+    {
+     "page_id": 1685595,
+     "grade": 1,
+     "title": "Kainuunsaamelaiset",
+     "rank": null
+    },
+    {
+     "page_id": 1802024,
+     "grade": 1,
+     "title": "Luettelo Suomen saamelaisperäisistä paikannimistä",
+     "rank": null
+    }
+   ],
+   "missed": [
+    8905,
+    20813,
+    624151,
+    1685595,
+    22508,
+    1802024,
+    1617222,
+    1093403,
+    115924
+   ]
+  },
+  {
+   "query_id": "sami-prehistory.fi",
+   "topic_id": "sami-prehistory",
+   "kind": "topic",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.78,
+   "failed": false,
+   "recall@5": 0.17647058823529413,
+   "recall@10": 0.35294117647058826,
+   "recall@20": 0.7058823529411765,
+   "ndcg@10": 0.49087645713139366,
+   "articles": [
+    {
+     "page_id": 1100,
+     "grade": 2,
+     "title": "Suomen muinaiset kuninkaat",
+     "rank": null
+    },
+    {
+     "page_id": 7283,
+     "grade": 2,
+     "title": "Saamelaiset",
+     "rank": 2
+    },
+    {
+     "page_id": 8905,
+     "grade": 2,
+     "title": "Suomen esihistoria",
+     "rank": 20
+    },
+    {
+     "page_id": 20813,
+     "grade": 2,
+     "title": "Suomalaisten alkuperä",
+     "rank": 6
+    },
+    {
+     "page_id": 997401,
+     "grade": 2,
+     "title": "Saamelaisten historia",
+     "rank": 5
+    },
+    {
+     "page_id": 1096144,
+     "grade": 2,
+     "title": "Metsäsaamelaiset",
+     "rank": 12
+    },
+    {
+     "page_id": 22508,
+     "grade": 1,
+     "title": "Lappalaiset",
+     "rank": null
+    },
+    {
+     "page_id": 72966,
+     "grade": 1,
+     "title": "Fennit",
+     "rank": 18
+    },
+    {
+     "page_id": 75134,
+     "grade": 1,
+     "title": "Lapinkylä",
+     "rank": null
+    },
+    {
+     "page_id": 115924,
+     "grade": 1,
+     "title": "Suomen kronikka",
+     "rank": null
+    },
+    {
+     "page_id": 378020,
+     "grade": 1,
+     "title": "Saamelaisten kotiseutualue",
+     "rank": 3
+    },
+    {
+     "page_id": 624151,
+     "grade": 1,
+     "title": "Keminsaamelaiset",
+     "rank": 13
+    },
+    {
+     "page_id": 1093403,
+     "grade": 1,
+     "title": "Skrithifinnit",
+     "rank": null
+    },
+    {
+     "page_id": 1373598,
+     "grade": 1,
+     "title": "Saamenmaa",
+     "rank": 8
+    },
+    {
+     "page_id": 1617222,
+     "grade": 1,
+     "title": "Saamelaisliike",
+     "rank": 10
+    },
+    {
+     "page_id": 1685595,
+     "grade": 1,
+     "title": "Kainuunsaamelaiset",
+     "rank": 19
+    },
+    {
+     "page_id": 1802024,
+     "grade": 1,
+     "title": "Luettelo Suomen saamelaisperäisistä paikannimistä",
+     "rank": 16
+    }
+   ],
+   "missed": [
+    1100,
+    22508,
+    1093403,
+    75134,
+    115924
+   ]
+  },
+  {
+   "query_id": "sami-prehistory.broad",
+   "topic_id": "sami-prehistory",
+   "kind": "topic",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.94,
+   "failed": false,
+   "recall@5": 0.17647058823529413,
+   "recall@10": 0.17647058823529413,
+   "recall@20": 0.17647058823529413,
+   "ndcg@10": 0.4626433946012075,
+   "articles": [
+    {
+     "page_id": 1100,
+     "grade": 2,
+     "title": "Suomen muinaiset kuninkaat",
+     "rank": 1
+    },
+    {
+     "page_id": 7283,
+     "grade": 2,
+     "title": "Saamelaiset",
+     "rank": null
+    },
+    {
+     "page_id": 8905,
+     "grade": 2,
+     "title": "Suomen esihistoria",
+     "rank": 3
+    },
+    {
+     "page_id": 20813,
+     "grade": 2,
+     "title": "Suomalaisten alkuperä",
+     "rank": null
+    },
+    {
+     "page_id": 997401,
+     "grade": 2,
+     "title": "Saamelaisten historia",
+     "rank": null
+    },
+    {
+     "page_id": 1096144,
+     "grade": 2,
+     "title": "Metsäsaamelaiset",
+     "rank": null
+    },
+    {
+     "page_id": 22508,
+     "grade": 1,
+     "title": "Lappalaiset",
+     "rank": null
+    },
+    {
+     "page_id": 72966,
+     "grade": 1,
+     "title": "Fennit",
+     "rank": 2
+    },
+    {
+     "page_id": 75134,
+     "grade": 1,
+     "title": "Lapinkylä",
+     "rank": null
+    },
+    {
+     "page_id": 115924,
+     "grade": 1,
+     "title": "Suomen kronikka",
+     "rank": null
+    },
+    {
+     "page_id": 378020,
+     "grade": 1,
+     "title": "Saamelaisten kotiseutualue",
+     "rank": null
+    },
+    {
+     "page_id": 624151,
+     "grade": 1,
+     "title": "Keminsaamelaiset",
+     "rank": null
+    },
+    {
+     "page_id": 1093403,
+     "grade": 1,
+     "title": "Skrithifinnit",
+     "rank": null
+    },
+    {
+     "page_id": 1373598,
+     "grade": 1,
+     "title": "Saamenmaa",
+     "rank": null
+    },
+    {
+     "page_id": 1617222,
+     "grade": 1,
+     "title": "Saamelaisliike",
+     "rank": null
+    },
+    {
+     "page_id": 1685595,
+     "grade": 1,
+     "title": "Kainuunsaamelaiset",
+     "rank": null
+    },
+    {
+     "page_id": 1802024,
+     "grade": 1,
+     "title": "Luettelo Suomen saamelaisperäisistä paikannimistä",
+     "rank": null
+    }
+   ],
+   "missed": [
+    7283,
+    997401,
+    1096144,
+    20813,
+    1373598,
+    378020,
+    624151,
+    1685595,
+    22508,
+    1802024,
+    1617222,
+    1093403,
+    75134,
+    115924
+   ]
+  },
+  {
+   "query_id": "sami-prehistory.sv",
+   "topic_id": "sami-prehistory",
+   "kind": "topic",
+   "style": "sv",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.79,
+   "failed": false,
+   "recall@5": 0.23529411764705882,
+   "recall@10": 0.47058823529411764,
+   "recall@20": 0.5294117647058824,
+   "ndcg@10": 0.8283792673517535,
+   "articles": [
+    {
+     "page_id": 1100,
+     "grade": 2,
+     "title": "Suomen muinaiset kuninkaat",
+     "rank": 6
+    },
+    {
+     "page_id": 7283,
+     "grade": 2,
+     "title": "Saamelaiset",
+     "rank": 1
+    },
+    {
+     "page_id": 8905,
+     "grade": 2,
+     "title": "Suomen esihistoria",
+     "rank": 5
+    },
+    {
+     "page_id": 20813,
+     "grade": 2,
+     "title": "Suomalaisten alkuperä",
+     "rank": null
+    },
+    {
+     "page_id": 997401,
+     "grade": 2,
+     "title": "Saamelaisten historia",
+     "rank": 2
+    },
+    {
+     "page_id": 1096144,
+     "grade": 2,
+     "title": "Metsäsaamelaiset",
+     "rank": 8
+    },
+    {
+     "page_id": 22508,
+     "grade": 1,
+     "title": "Lappalaiset",
+     "rank": null
+    },
+    {
+     "page_id": 72966,
+     "grade": 1,
+     "title": "Fennit",
+     "rank": 3
+    },
+    {
+     "page_id": 75134,
+     "grade": 1,
+     "title": "Lapinkylä",
+     "rank": null
+    },
+    {
+     "page_id": 115924,
+     "grade": 1,
+     "title": "Suomen kronikka",
+     "rank": null
+    },
+    {
+     "page_id": 378020,
+     "grade": 1,
+     "title": "Saamelaisten kotiseutualue",
+     "rank": 10
+    },
+    {
+     "page_id": 624151,
+     "grade": 1,
+     "title": "Keminsaamelaiset",
+     "rank": null
+    },
+    {
+     "page_id": 1093403,
+     "grade": 1,
+     "title": "Skrithifinnit",
+     "rank": 18
+    },
+    {
+     "page_id": 1373598,
+     "grade": 1,
+     "title": "Saamenmaa",
+     "rank": 7
+    },
+    {
+     "page_id": 1617222,
+     "grade": 1,
+     "title": "Saamelaisliike",
+     "rank": null
+    },
+    {
+     "page_id": 1685595,
+     "grade": 1,
+     "title": "Kainuunsaamelaiset",
+     "rank": null
+    },
+    {
+     "page_id": 1802024,
+     "grade": 1,
+     "title": "Luettelo Suomen saamelaisperäisistä paikannimistä",
+     "rank": null
+    }
+   ],
+   "missed": [
+    20813,
+    624151,
+    1685595,
+    22508,
+    1802024,
+    1617222,
+    75134,
+    115924
+   ]
+  },
+  {
+   "query_id": "far-right.en",
+   "topic_id": "far-right",
+   "kind": "topic",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.88,
+   "failed": false,
+   "recall@5": 0.21739130434782608,
+   "recall@10": 0.21739130434782608,
+   "recall@20": 0.2608695652173913,
+   "ndcg@10": 0.5963576978941355,
+   "articles": [
+    {
+     "page_id": 11477,
+     "grade": 2,
+     "title": "Lapuanliike",
+     "rank": 4
+    },
+    {
+     "page_id": 11537,
+     "grade": 2,
+     "title": "Isänmaallinen kansanliike",
+     "rank": 1
+    },
+    {
+     "page_id": 981456,
+     "grade": 2,
+     "title": "Suomen vastarintaliike",
+     "rank": null
+    },
+    {
+     "page_id": 1072792,
+     "grade": 2,
+     "title": "Äärioikeisto Suomessa",
+     "rank": 3
+    },
+    {
+     "page_id": 1445320,
+     "grade": 2,
+     "title": "Suomen Kansa Ensin",
+     "rank": null
+    },
+    {
+     "page_id": 1487100,
+     "grade": 2,
+     "title": "Kansallissosialismi Suomessa",
+     "rank": null
+    },
+    {
+     "page_id": 1679936,
+     "grade": 2,
+     "title": "Sinimusta liike",
+     "rank": null
+    },
+    {
+     "page_id": 13184,
+     "grade": 1,
+     "title": "Suomi – Isänmaa",
+     "rank": null
+    },
+    {
+     "page_id": 13733,
+     "grade": 1,
+     "title": "Isänmaallinen Kansanliike (1993)",
+     "rank": 2
+    },
+    {
+     "page_id": 17808,
+     "grade": 1,
+     "title": "Vihtori Kosola",
+     "rank": null
+    },
+    {
+     "page_id": 23606,
+     "grade": 1,
+     "title": "Suomen Kansan Järjestö",
+     "rank": null
+    },
+    {
+     "page_id": 27100,
+     "grade": 1,
+     "title": "Mäntsälän kapina",
+     "rank": null
+    },
+    {
+     "page_id": 41622,
+     "grade": 1,
+     "title": "Timo Soini",
+     "rank": null
+    },
+    {
+     "page_id": 58914,
+     "grade": 1,
+     "title": "Talonpoikaismarssi",
+     "rank": null
+    },
+    {
+     "page_id": 93295,
+     "grade": 1,
+     "title": "Sinimustat",
+     "rank": 15
+    },
+    {
+     "page_id": 189431,
+     "grade": 1,
+     "title": "Hilja Riipinen",
+     "rank": 5
+    },
+    {
+     "page_id": 1105958,
+     "grade": 1,
+     "title": "Ano Turtiainen",
+     "rank": null
+    },
+    {
+     "page_id": 1324148,
+     "grade": 1,
+     "title": "Rajat kiinni!",
+     "rank": null
+    },
+    {
+     "page_id": 1370905,
+     "grade": 1,
+     "title": "Suomi Ensin",
+     "rank": null
+    },
+    {
+     "page_id": 1395607,
+     "grade": 1,
+     "title": "Marco de Wit",
+     "rank": null
+    },
+    {
+     "page_id": 1565761,
+     "grade": 1,
+     "title": "Lapuanliikkeen johto",
+     "rank": null
+    },
+    {
+     "page_id": 1566754,
+     "grade": 1,
+     "title": "Mustapaidat (IKL)",
+     "rank": null
+    },
+    {
+     "page_id": 1829442,
+     "grade": 1,
+     "title": "Isänmaallinen Kansanrintama",
+     "rank": null
+    }
+   ],
+   "missed": [
+    1487100,
+    1445320,
+    981456,
+    1679936,
+    1395607,
+    41622,
+    1105958,
+    27100,
+    58914,
+    17808,
+    1566754,
+    13184,
+    1370905,
+    1324148,
+    23606,
+    1829442,
+    1565761
+   ]
+  },
+  {
+   "query_id": "far-right.fi",
+   "topic_id": "far-right",
+   "kind": "topic",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.91,
+   "failed": false,
+   "recall@5": 0.13043478260869565,
+   "recall@10": 0.2608695652173913,
+   "recall@20": 0.43478260869565216,
+   "ndcg@10": 0.6885365051716401,
+   "articles": [
+    {
+     "page_id": 11477,
+     "grade": 2,
+     "title": "Lapuanliike",
+     "rank": 4
+    },
+    {
+     "page_id": 11537,
+     "grade": 2,
+     "title": "Isänmaallinen kansanliike",
+     "rank": 2
+    },
+    {
+     "page_id": 981456,
+     "grade": 2,
+     "title": "Suomen vastarintaliike",
+     "rank": 8
+    },
+    {
+     "page_id": 1072792,
+     "grade": 2,
+     "title": "Äärioikeisto Suomessa",
+     "rank": 1
+    },
+    {
+     "page_id": 1445320,
+     "grade": 2,
+     "title": "Suomen Kansa Ensin",
+     "rank": null
+    },
+    {
+     "page_id": 1487100,
+     "grade": 2,
+     "title": "Kansallissosialismi Suomessa",
+     "rank": 10
+    },
+    {
+     "page_id": 1679936,
+     "grade": 2,
+     "title": "Sinimusta liike",
+     "rank": 20
+    },
+    {
+     "page_id": 13184,
+     "grade": 1,
+     "title": "Suomi – Isänmaa",
+     "rank": null
+    },
+    {
+     "page_id": 13733,
+     "grade": 1,
+     "title": "Isänmaallinen Kansanliike (1993)",
+     "rank": 11
+    },
+    {
+     "page_id": 17808,
+     "grade": 1,
+     "title": "Vihtori Kosola",
+     "rank": null
+    },
+    {
+     "page_id": 23606,
+     "grade": 1,
+     "title": "Suomen Kansan Järjestö",
+     "rank": null
+    },
+    {
+     "page_id": 27100,
+     "grade": 1,
+     "title": "Mäntsälän kapina",
+     "rank": null
+    },
+    {
+     "page_id": 41622,
+     "grade": 1,
+     "title": "Timo Soini",
+     "rank": null
+    },
+    {
+     "page_id": 58914,
+     "grade": 1,
+     "title": "Talonpoikaismarssi",
+     "rank": null
+    },
+    {
+     "page_id": 93295,
+     "grade": 1,
+     "title": "Sinimustat",
+     "rank": 15
+    },
+    {
+     "page_id": 189431,
+     "grade": 1,
+     "title": "Hilja Riipinen",
+     "rank": 9
+    },
+    {
+     "page_id": 1105958,
+     "grade": 1,
+     "title": "Ano Turtiainen",
+     "rank": null
+    },
+    {
+     "page_id": 1324148,
+     "grade": 1,
+     "title": "Rajat kiinni!",
+     "rank": 16
+    },
+    {
+     "page_id": 1370905,
+     "grade": 1,
+     "title": "Suomi Ensin",
+     "rank": null
+    },
+    {
+     "page_id": 1395607,
+     "grade": 1,
+     "title": "Marco de Wit",
+     "rank": null
+    },
+    {
+     "page_id": 1565761,
+     "grade": 1,
+     "title": "Lapuanliikkeen johto",
+     "rank": null
+    },
+    {
+     "page_id": 1566754,
+     "grade": 1,
+     "title": "Mustapaidat (IKL)",
+     "rank": null
+    },
+    {
+     "page_id": 1829442,
+     "grade": 1,
+     "title": "Isänmaallinen Kansanrintama",
+     "rank": null
+    }
+   ],
+   "missed": [
+    1445320,
+    1395607,
+    41622,
+    1105958,
+    27100,
+    58914,
+    17808,
+    1566754,
+    13184,
+    1370905,
+    23606,
+    1829442,
+    1565761
+   ]
+  },
+  {
+   "query_id": "far-right.broad",
+   "topic_id": "far-right",
+   "kind": "topic",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.94,
+   "failed": false,
+   "recall@5": 0.08695652173913043,
+   "recall@10": 0.17391304347826086,
+   "recall@20": 0.30434782608695654,
+   "ndcg@10": 0.42384301963790094,
+   "articles": [
+    {
+     "page_id": 11477,
+     "grade": 2,
+     "title": "Lapuanliike",
+     "rank": 7
+    },
+    {
+     "page_id": 11537,
+     "grade": 2,
+     "title": "Isänmaallinen kansanliike",
+     "rank": 11
+    },
+    {
+     "page_id": 981456,
+     "grade": 2,
+     "title": "Suomen vastarintaliike",
+     "rank": null
+    },
+    {
+     "page_id": 1072792,
+     "grade": 2,
+     "title": "Äärioikeisto Suomessa",
+     "rank": 1
+    },
+    {
+     "page_id": 1445320,
+     "grade": 2,
+     "title": "Suomen Kansa Ensin",
+     "rank": 20
+    },
+    {
+     "page_id": 1487100,
+     "grade": 2,
+     "title": "Kansallissosialismi Suomessa",
+     "rank": null
+    },
+    {
+     "page_id": 1679936,
+     "grade": 2,
+     "title": "Sinimusta liike",
+     "rank": 14
+    },
+    {
+     "page_id": 13184,
+     "grade": 1,
+     "title": "Suomi – Isänmaa",
+     "rank": 3
+    },
+    {
+     "page_id": 13733,
+     "grade": 1,
+     "title": "Isänmaallinen Kansanliike (1993)",
+     "rank": null
+    },
+    {
+     "page_id": 17808,
+     "grade": 1,
+     "title": "Vihtori Kosola",
+     "rank": null
+    },
+    {
+     "page_id": 23606,
+     "grade": 1,
+     "title": "Suomen Kansan Järjestö",
+     "rank": 9
+    },
+    {
+     "page_id": 27100,
+     "grade": 1,
+     "title": "Mäntsälän kapina",
+     "rank": null
+    },
+    {
+     "page_id": 41622,
+     "grade": 1,
+     "title": "Timo Soini",
+     "rank": null
+    },
+    {
+     "page_id": 58914,
+     "grade": 1,
+     "title": "Talonpoikaismarssi",
+     "rank": null
+    },
+    {
+     "page_id": 93295,
+     "grade": 1,
+     "title": "Sinimustat",
+     "rank": null
+    },
+    {
+     "page_id": 189431,
+     "grade": 1,
+     "title": "Hilja Riipinen",
+     "rank": null
+    },
+    {
+     "page_id": 1105958,
+     "grade": 1,
+     "title": "Ano Turtiainen",
+     "rank": null
+    },
+    {
+     "page_id": 1324148,
+     "grade": 1,
+     "title": "Rajat kiinni!",
+     "rank": null
+    },
+    {
+     "page_id": 1370905,
+     "grade": 1,
+     "title": "Suomi Ensin",
+     "rank": null
+    },
+    {
+     "page_id": 1395607,
+     "grade": 1,
+     "title": "Marco de Wit",
+     "rank": null
+    },
+    {
+     "page_id": 1565761,
+     "grade": 1,
+     "title": "Lapuanliikkeen johto",
+     "rank": null
+    },
+    {
+     "page_id": 1566754,
+     "grade": 1,
+     "title": "Mustapaidat (IKL)",
+     "rank": null
+    },
+    {
+     "page_id": 1829442,
+     "grade": 1,
+     "title": "Isänmaallinen Kansanrintama",
+     "rank": null
+    }
+   ],
+   "missed": [
+    1487100,
+    981456,
+    1395607,
+    41622,
+    1105958,
+    27100,
+    58914,
+    17808,
+    189431,
+    1566754,
+    93295,
+    13733,
+    1370905,
+    1324148,
+    1829442,
+    1565761
+   ]
+  },
+  {
+   "query_id": "far-right.sv",
+   "topic_id": "far-right",
+   "kind": "topic",
+   "style": "sv",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.41,
+   "failed": false,
+   "recall@5": 0.17391304347826086,
+   "recall@10": 0.21739130434782608,
+   "recall@20": 0.30434782608695654,
+   "ndcg@10": 0.5751550990095893,
+   "articles": [
+    {
+     "page_id": 11477,
+     "grade": 2,
+     "title": "Lapuanliike",
+     "rank": 5
+    },
+    {
+     "page_id": 11537,
+     "grade": 2,
+     "title": "Isänmaallinen kansanliike",
+     "rank": 3
+    },
+    {
+     "page_id": 981456,
+     "grade": 2,
+     "title": "Suomen vastarintaliike",
+     "rank": null
+    },
+    {
+     "page_id": 1072792,
+     "grade": 2,
+     "title": "Äärioikeisto Suomessa",
+     "rank": 1
+    },
+    {
+     "page_id": 1445320,
+     "grade": 2,
+     "title": "Suomen Kansa Ensin",
+     "rank": null
+    },
+    {
+     "page_id": 1487100,
+     "grade": 2,
+     "title": "Kansallissosialismi Suomessa",
+     "rank": null
+    },
+    {
+     "page_id": 1679936,
+     "grade": 2,
+     "title": "Sinimusta liike",
+     "rank": null
+    },
+    {
+     "page_id": 13184,
+     "grade": 1,
+     "title": "Suomi – Isänmaa",
+     "rank": 20
+    },
+    {
+     "page_id": 13733,
+     "grade": 1,
+     "title": "Isänmaallinen Kansanliike (1993)",
+     "rank": 2
+    },
+    {
+     "page_id": 17808,
+     "grade": 1,
+     "title": "Vihtori Kosola",
+     "rank": null
+    },
+    {
+     "page_id": 23606,
+     "grade": 1,
+     "title": "Suomen Kansan Järjestö",
+     "rank": 13
+    },
+    {
+     "page_id": 27100,
+     "grade": 1,
+     "title": "Mäntsälän kapina",
+     "rank": null
+    },
+    {
+     "page_id": 41622,
+     "grade": 1,
+     "title": "Timo Soini",
+     "rank": null
+    },
+    {
+     "page_id": 58914,
+     "grade": 1,
+     "title": "Talonpoikaismarssi",
+     "rank": null
+    },
+    {
+     "page_id": 93295,
+     "grade": 1,
+     "title": "Sinimustat",
+     "rank": null
+    },
+    {
+     "page_id": 189431,
+     "grade": 1,
+     "title": "Hilja Riipinen",
+     "rank": 9
+    },
+    {
+     "page_id": 1105958,
+     "grade": 1,
+     "title": "Ano Turtiainen",
+     "rank": null
+    },
+    {
+     "page_id": 1324148,
+     "grade": 1,
+     "title": "Rajat kiinni!",
+     "rank": null
+    },
+    {
+     "page_id": 1370905,
+     "grade": 1,
+     "title": "Suomi Ensin",
+     "rank": null
+    },
+    {
+     "page_id": 1395607,
+     "grade": 1,
+     "title": "Marco de Wit",
+     "rank": null
+    },
+    {
+     "page_id": 1565761,
+     "grade": 1,
+     "title": "Lapuanliikkeen johto",
+     "rank": null
+    },
+    {
+     "page_id": 1566754,
+     "grade": 1,
+     "title": "Mustapaidat (IKL)",
+     "rank": null
+    },
+    {
+     "page_id": 1829442,
+     "grade": 1,
+     "title": "Isänmaallinen Kansanrintama",
+     "rank": null
+    }
+   ],
+   "missed": [
+    1487100,
+    1445320,
+    981456,
+    1679936,
+    1395607,
+    41622,
+    1105958,
+    27100,
+    58914,
+    17808,
+    1566754,
+    93295,
+    1370905,
+    1324148,
+    1829442,
+    1565761
+   ]
+  },
+  {
+   "query_id": "national-myths.en",
+   "topic_id": "national-myths",
+   "kind": "topic",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.43,
+   "failed": false,
+   "recall@5": 0.2,
+   "recall@10": 0.3,
+   "recall@20": 0.45,
+   "ndcg@10": 0.7183747099090789,
+   "articles": [
+    {
+     "page_id": 498,
+     "grade": 2,
+     "title": "Kalevala",
+     "rank": 2
+    },
+    {
+     "page_id": 13182,
+     "grade": 2,
+     "title": "Elias Lönnrot",
+     "rank": 19
+    },
+    {
+     "page_id": 14460,
+     "grade": 2,
+     "title": "Lalli",
+     "rank": 3
+    },
+    {
+     "page_id": 71641,
+     "grade": 2,
+     "title": "Piispa Henrikin surmavirsi",
+     "rank": null
+    },
+    {
+     "page_id": 114665,
+     "grade": 2,
+     "title": "Karelianismi",
+     "rank": 1
+    },
+    {
+     "page_id": 255,
+     "grade": 1,
+     "title": "Fennomania",
+     "rank": null
+    },
+    {
+     "page_id": 13959,
+     "grade": 1,
+     "title": "Piispa Henrik",
+     "rank": null
+    },
+    {
+     "page_id": 18701,
+     "grade": 1,
+     "title": "Kanteletar",
+     "rank": 11
+    },
+    {
+     "page_id": 19873,
+     "grade": 1,
+     "title": "Kalevalainen runous",
+     "rank": null
+    },
+    {
+     "page_id": 38257,
+     "grade": 1,
+     "title": "Ensimmäinen ristiretki Suomeen",
+     "rank": null
+    },
+    {
+     "page_id": 57277,
+     "grade": 1,
+     "title": "Vienan Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 72450,
+     "grade": 1,
+     "title": "Suomalainen mytologia",
+     "rank": 4
+    },
+    {
+     "page_id": 95494,
+     "grade": 1,
+     "title": "Suomalainen kansanrunous",
+     "rank": null
+    },
+    {
+     "page_id": 153122,
+     "grade": 1,
+     "title": "Kalevalatalo",
+     "rank": 14
+    },
+    {
+     "page_id": 221700,
+     "grade": 1,
+     "title": "Suomen kansan vanhat runot",
+     "rank": null
+    },
+    {
+     "page_id": 720906,
+     "grade": 1,
+     "title": "Suomen kansallissymbolit",
+     "rank": 6
+    },
+    {
+     "page_id": 1061549,
+     "grade": 1,
+     "title": "Lalli (veistos)",
+     "rank": null
+    },
+    {
+     "page_id": 1062200,
+     "grade": 1,
+     "title": "Lallin asumus",
+     "rank": null
+    },
+    {
+     "page_id": 1356098,
+     "grade": 1,
+     "title": "Suomen Lalli-liitto",
+     "rank": null
+    },
+    {
+     "page_id": 1549193,
+     "grade": 1,
+     "title": "Suomalainen nationalismi",
+     "rank": 7
+    }
+   ],
+   "missed": [
+    71641,
+    19873,
+    95494,
+    221700,
+    255,
+    57277,
+    13959,
+    38257,
+    1061549,
+    1062200,
+    1356098
+   ]
+  },
+  {
+   "query_id": "national-myths.fi",
+   "topic_id": "national-myths",
+   "kind": "topic",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 2.0,
+   "failed": false,
+   "recall@5": 0.2,
+   "recall@10": 0.25,
+   "recall@20": 0.35,
+   "ndcg@10": 0.6311080258904225,
+   "articles": [
+    {
+     "page_id": 498,
+     "grade": 2,
+     "title": "Kalevala",
+     "rank": 3
+    },
+    {
+     "page_id": 13182,
+     "grade": 2,
+     "title": "Elias Lönnrot",
+     "rank": null
+    },
+    {
+     "page_id": 14460,
+     "grade": 2,
+     "title": "Lalli",
+     "rank": 7
+    },
+    {
+     "page_id": 71641,
+     "grade": 2,
+     "title": "Piispa Henrikin surmavirsi",
+     "rank": null
+    },
+    {
+     "page_id": 114665,
+     "grade": 2,
+     "title": "Karelianismi",
+     "rank": 1
+    },
+    {
+     "page_id": 255,
+     "grade": 1,
+     "title": "Fennomania",
+     "rank": null
+    },
+    {
+     "page_id": 13959,
+     "grade": 1,
+     "title": "Piispa Henrik",
+     "rank": null
+    },
+    {
+     "page_id": 18701,
+     "grade": 1,
+     "title": "Kanteletar",
+     "rank": 18
+    },
+    {
+     "page_id": 19873,
+     "grade": 1,
+     "title": "Kalevalainen runous",
+     "rank": 4
+    },
+    {
+     "page_id": 38257,
+     "grade": 1,
+     "title": "Ensimmäinen ristiretki Suomeen",
+     "rank": null
+    },
+    {
+     "page_id": 57277,
+     "grade": 1,
+     "title": "Vienan Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 72450,
+     "grade": 1,
+     "title": "Suomalainen mytologia",
+     "rank": 2
+    },
+    {
+     "page_id": 95494,
+     "grade": 1,
+     "title": "Suomalainen kansanrunous",
+     "rank": null
+    },
+    {
+     "page_id": 153122,
+     "grade": 1,
+     "title": "Kalevalatalo",
+     "rank": null
+    },
+    {
+     "page_id": 221700,
+     "grade": 1,
+     "title": "Suomen kansan vanhat runot",
+     "rank": null
+    },
+    {
+     "page_id": 720906,
+     "grade": 1,
+     "title": "Suomen kansallissymbolit",
+     "rank": 15
+    },
+    {
+     "page_id": 1061549,
+     "grade": 1,
+     "title": "Lalli (veistos)",
+     "rank": null
+    },
+    {
+     "page_id": 1062200,
+     "grade": 1,
+     "title": "Lallin asumus",
+     "rank": null
+    },
+    {
+     "page_id": 1356098,
+     "grade": 1,
+     "title": "Suomen Lalli-liitto",
+     "rank": null
+    },
+    {
+     "page_id": 1549193,
+     "grade": 1,
+     "title": "Suomalainen nationalismi",
+     "rank": null
+    }
+   ],
+   "missed": [
+    13182,
+    71641,
+    95494,
+    221700,
+    1549193,
+    255,
+    153122,
+    57277,
+    13959,
+    38257,
+    1061549,
+    1062200,
+    1356098
+   ]
+  },
+  {
+   "query_id": "national-myths.broad",
+   "topic_id": "national-myths",
+   "kind": "topic",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.78,
+   "failed": false,
+   "recall@5": 0.15,
+   "recall@10": 0.2,
+   "recall@20": 0.3,
+   "ndcg@10": 0.307907328362021,
+   "articles": [
+    {
+     "page_id": 498,
+     "grade": 2,
+     "title": "Kalevala",
+     "rank": null
+    },
+    {
+     "page_id": 13182,
+     "grade": 2,
+     "title": "Elias Lönnrot",
+     "rank": null
+    },
+    {
+     "page_id": 14460,
+     "grade": 2,
+     "title": "Lalli",
+     "rank": null
+    },
+    {
+     "page_id": 71641,
+     "grade": 2,
+     "title": "Piispa Henrikin surmavirsi",
+     "rank": null
+    },
+    {
+     "page_id": 114665,
+     "grade": 2,
+     "title": "Karelianismi",
+     "rank": 17
+    },
+    {
+     "page_id": 255,
+     "grade": 1,
+     "title": "Fennomania",
+     "rank": 10
+    },
+    {
+     "page_id": 13959,
+     "grade": 1,
+     "title": "Piispa Henrik",
+     "rank": null
+    },
+    {
+     "page_id": 18701,
+     "grade": 1,
+     "title": "Kanteletar",
+     "rank": 20
+    },
+    {
+     "page_id": 19873,
+     "grade": 1,
+     "title": "Kalevalainen runous",
+     "rank": null
+    },
+    {
+     "page_id": 38257,
+     "grade": 1,
+     "title": "Ensimmäinen ristiretki Suomeen",
+     "rank": null
+    },
+    {
+     "page_id": 57277,
+     "grade": 1,
+     "title": "Vienan Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 72450,
+     "grade": 1,
+     "title": "Suomalainen mytologia",
+     "rank": 5
+    },
+    {
+     "page_id": 95494,
+     "grade": 1,
+     "title": "Suomalainen kansanrunous",
+     "rank": null
+    },
+    {
+     "page_id": 153122,
+     "grade": 1,
+     "title": "Kalevalatalo",
+     "rank": null
+    },
+    {
+     "page_id": 221700,
+     "grade": 1,
+     "title": "Suomen kansan vanhat runot",
+     "rank": null
+    },
+    {
+     "page_id": 720906,
+     "grade": 1,
+     "title": "Suomen kansallissymbolit",
+     "rank": 2
+    },
+    {
+     "page_id": 1061549,
+     "grade": 1,
+     "title": "Lalli (veistos)",
+     "rank": null
+    },
+    {
+     "page_id": 1062200,
+     "grade": 1,
+     "title": "Lallin asumus",
+     "rank": null
+    },
+    {
+     "page_id": 1356098,
+     "grade": 1,
+     "title": "Suomen Lalli-liitto",
+     "rank": null
+    },
+    {
+     "page_id": 1549193,
+     "grade": 1,
+     "title": "Suomalainen nationalismi",
+     "rank": 1
+    }
+   ],
+   "missed": [
+    498,
+    13182,
+    14460,
+    71641,
+    19873,
+    95494,
+    221700,
+    153122,
+    57277,
+    13959,
+    38257,
+    1061549,
+    1062200,
+    1356098
+   ]
+  },
+  {
+   "query_id": "national-myths.sv",
+   "topic_id": "national-myths",
+   "kind": "topic",
+   "style": "sv",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.82,
+   "failed": false,
+   "recall@5": 0.25,
+   "recall@10": 0.35,
+   "recall@20": 0.55,
+   "ndcg@10": 0.7477641383832037,
+   "articles": [
+    {
+     "page_id": 498,
+     "grade": 2,
+     "title": "Kalevala",
+     "rank": 2
+    },
+    {
+     "page_id": 13182,
+     "grade": 2,
+     "title": "Elias Lönnrot",
+     "rank": null
+    },
+    {
+     "page_id": 14460,
+     "grade": 2,
+     "title": "Lalli",
+     "rank": 7
+    },
+    {
+     "page_id": 71641,
+     "grade": 2,
+     "title": "Piispa Henrikin surmavirsi",
+     "rank": null
+    },
+    {
+     "page_id": 114665,
+     "grade": 2,
+     "title": "Karelianismi",
+     "rank": 1
+    },
+    {
+     "page_id": 255,
+     "grade": 1,
+     "title": "Fennomania",
+     "rank": null
+    },
+    {
+     "page_id": 13959,
+     "grade": 1,
+     "title": "Piispa Henrik",
+     "rank": null
+    },
+    {
+     "page_id": 18701,
+     "grade": 1,
+     "title": "Kanteletar",
+     "rank": 12
+    },
+    {
+     "page_id": 19873,
+     "grade": 1,
+     "title": "Kalevalainen runous",
+     "rank": 19
+    },
+    {
+     "page_id": 38257,
+     "grade": 1,
+     "title": "Ensimmäinen ristiretki Suomeen",
+     "rank": null
+    },
+    {
+     "page_id": 57277,
+     "grade": 1,
+     "title": "Vienan Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 72450,
+     "grade": 1,
+     "title": "Suomalainen mytologia",
+     "rank": 3
+    },
+    {
+     "page_id": 95494,
+     "grade": 1,
+     "title": "Suomalainen kansanrunous",
+     "rank": null
+    },
+    {
+     "page_id": 153122,
+     "grade": 1,
+     "title": "Kalevalatalo",
+     "rank": 5
+    },
+    {
+     "page_id": 221700,
+     "grade": 1,
+     "title": "Suomen kansan vanhat runot",
+     "rank": 20
+    },
+    {
+     "page_id": 720906,
+     "grade": 1,
+     "title": "Suomen kansallissymbolit",
+     "rank": 4
+    },
+    {
+     "page_id": 1061549,
+     "grade": 1,
+     "title": "Lalli (veistos)",
+     "rank": null
+    },
+    {
+     "page_id": 1062200,
+     "grade": 1,
+     "title": "Lallin asumus",
+     "rank": null
+    },
+    {
+     "page_id": 1356098,
+     "grade": 1,
+     "title": "Suomen Lalli-liitto",
+     "rank": 18
+    },
+    {
+     "page_id": 1549193,
+     "grade": 1,
+     "title": "Suomalainen nationalismi",
+     "rank": 6
+    }
+   ],
+   "missed": [
+    13182,
+    71641,
+    95494,
+    255,
+    57277,
+    13959,
+    38257,
+    1061549,
+    1062200
+   ]
+  },
+  {
+   "query_id": "moon-landing-hoax.en",
+   "topic_id": "moon-landing-hoax",
+   "kind": "control-out-of-corpus",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.77,
+   "failed": false
+  },
+  {
+   "query_id": "moon-landing-hoax.fi",
+   "topic_id": "moon-landing-hoax",
+   "kind": "control-out-of-corpus",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.75,
+   "failed": false
+  },
+  {
+   "query_id": "moon-landing-hoax.broad",
+   "topic_id": "moon-landing-hoax",
+   "kind": "control-out-of-corpus",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.82,
+   "failed": false
+  }
+ ],
+ "best": [
+  {
+   "query_id": "sami-prehistory.sv",
+   "style": "sv",
+   "recall@10": 0.47058823529411764,
+   "ndcg@10": 0.8283792673517535,
+   "missed": [
+    {
+     "page_id": 20813,
+     "grade": 2,
+     "title": "Suomalaisten alkuperä",
+     "rank": null
+    },
+    {
+     "page_id": 22508,
+     "grade": 1,
+     "title": "Lappalaiset",
+     "rank": null
+    },
+    {
+     "page_id": 75134,
+     "grade": 1,
+     "title": "Lapinkylä",
+     "rank": null
+    },
+    {
+     "page_id": 115924,
+     "grade": 1,
+     "title": "Suomen kronikka",
+     "rank": null
+    },
+    {
+     "page_id": 624151,
+     "grade": 1,
+     "title": "Keminsaamelaiset",
+     "rank": null
+    },
+    {
+     "page_id": 1093403,
+     "grade": 1,
+     "title": "Skrithifinnit",
+     "rank": 18
+    },
+    {
+     "page_id": 1617222,
+     "grade": 1,
+     "title": "Saamelaisliike",
+     "rank": null
+    },
+    {
+     "page_id": 1685595,
+     "grade": 1,
+     "title": "Kainuunsaamelaiset",
+     "rank": null
+    },
+    {
+     "page_id": 1802024,
+     "grade": 1,
+     "title": "Luettelo Suomen saamelaisperäisistä paikannimistä",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "query_id": "national-myths.sv",
+   "style": "sv",
+   "recall@10": 0.35,
+   "ndcg@10": 0.7477641383832037,
+   "missed": [
+    {
+     "page_id": 13182,
+     "grade": 2,
+     "title": "Elias Lönnrot",
+     "rank": null
+    },
+    {
+     "page_id": 71641,
+     "grade": 2,
+     "title": "Piispa Henrikin surmavirsi",
+     "rank": null
+    },
+    {
+     "page_id": 255,
+     "grade": 1,
+     "title": "Fennomania",
+     "rank": null
+    },
+    {
+     "page_id": 13959,
+     "grade": 1,
+     "title": "Piispa Henrik",
+     "rank": null
+    },
+    {
+     "page_id": 18701,
+     "grade": 1,
+     "title": "Kanteletar",
+     "rank": 12
+    },
+    {
+     "page_id": 19873,
+     "grade": 1,
+     "title": "Kalevalainen runous",
+     "rank": 19
+    },
+    {
+     "page_id": 38257,
+     "grade": 1,
+     "title": "Ensimmäinen ristiretki Suomeen",
+     "rank": null
+    },
+    {
+     "page_id": 57277,
+     "grade": 1,
+     "title": "Vienan Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 95494,
+     "grade": 1,
+     "title": "Suomalainen kansanrunous",
+     "rank": null
+    },
+    {
+     "page_id": 221700,
+     "grade": 1,
+     "title": "Suomen kansan vanhat runot",
+     "rank": 20
+    },
+    {
+     "page_id": 1061549,
+     "grade": 1,
+     "title": "Lalli (veistos)",
+     "rank": null
+    },
+    {
+     "page_id": 1062200,
+     "grade": 1,
+     "title": "Lallin asumus",
+     "rank": null
+    },
+    {
+     "page_id": 1356098,
+     "grade": 1,
+     "title": "Suomen Lalli-liitto",
+     "rank": 18
+    }
+   ]
+  },
+  {
+   "query_id": "national-myths.en",
+   "style": "en",
+   "recall@10": 0.3,
+   "ndcg@10": 0.7183747099090789,
+   "missed": [
+    {
+     "page_id": 13182,
+     "grade": 2,
+     "title": "Elias Lönnrot",
+     "rank": 19
+    },
+    {
+     "page_id": 71641,
+     "grade": 2,
+     "title": "Piispa Henrikin surmavirsi",
+     "rank": null
+    },
+    {
+     "page_id": 255,
+     "grade": 1,
+     "title": "Fennomania",
+     "rank": null
+    },
+    {
+     "page_id": 13959,
+     "grade": 1,
+     "title": "Piispa Henrik",
+     "rank": null
+    },
+    {
+     "page_id": 18701,
+     "grade": 1,
+     "title": "Kanteletar",
+     "rank": 11
+    },
+    {
+     "page_id": 19873,
+     "grade": 1,
+     "title": "Kalevalainen runous",
+     "rank": null
+    },
+    {
+     "page_id": 38257,
+     "grade": 1,
+     "title": "Ensimmäinen ristiretki Suomeen",
+     "rank": null
+    },
+    {
+     "page_id": 57277,
+     "grade": 1,
+     "title": "Vienan Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 95494,
+     "grade": 1,
+     "title": "Suomalainen kansanrunous",
+     "rank": null
+    },
+    {
+     "page_id": 153122,
+     "grade": 1,
+     "title": "Kalevalatalo",
+     "rank": 14
+    },
+    {
+     "page_id": 221700,
+     "grade": 1,
+     "title": "Suomen kansan vanhat runot",
+     "rank": null
+    },
+    {
+     "page_id": 1061549,
+     "grade": 1,
+     "title": "Lalli (veistos)",
+     "rank": null
+    },
+    {
+     "page_id": 1062200,
+     "grade": 1,
+     "title": "Lallin asumus",
+     "rank": null
+    },
+    {
+     "page_id": 1356098,
+     "grade": 1,
+     "title": "Suomen Lalli-liitto",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "query_id": "far-right.fi",
+   "style": "fi",
+   "recall@10": 0.2608695652173913,
+   "ndcg@10": 0.6885365051716401,
+   "missed": [
+    {
+     "page_id": 1445320,
+     "grade": 2,
+     "title": "Suomen Kansa Ensin",
+     "rank": null
+    },
+    {
+     "page_id": 1679936,
+     "grade": 2,
+     "title": "Sinimusta liike",
+     "rank": 20
+    },
+    {
+     "page_id": 13184,
+     "grade": 1,
+     "title": "Suomi – Isänmaa",
+     "rank": null
+    },
+    {
+     "page_id": 13733,
+     "grade": 1,
+     "title": "Isänmaallinen Kansanliike (1993)",
+     "rank": 11
+    },
+    {
+     "page_id": 17808,
+     "grade": 1,
+     "title": "Vihtori Kosola",
+     "rank": null
+    },
+    {
+     "page_id": 23606,
+     "grade": 1,
+     "title": "Suomen Kansan Järjestö",
+     "rank": null
+    },
+    {
+     "page_id": 27100,
+     "grade": 1,
+     "title": "Mäntsälän kapina",
+     "rank": null
+    },
+    {
+     "page_id": 41622,
+     "grade": 1,
+     "title": "Timo Soini",
+     "rank": null
+    },
+    {
+     "page_id": 58914,
+     "grade": 1,
+     "title": "Talonpoikaismarssi",
+     "rank": null
+    },
+    {
+     "page_id": 93295,
+     "grade": 1,
+     "title": "Sinimustat",
+     "rank": 15
+    },
+    {
+     "page_id": 1105958,
+     "grade": 1,
+     "title": "Ano Turtiainen",
+     "rank": null
+    },
+    {
+     "page_id": 1324148,
+     "grade": 1,
+     "title": "Rajat kiinni!",
+     "rank": 16
+    },
+    {
+     "page_id": 1370905,
+     "grade": 1,
+     "title": "Suomi Ensin",
+     "rank": null
+    },
+    {
+     "page_id": 1395607,
+     "grade": 1,
+     "title": "Marco de Wit",
+     "rank": null
+    },
+    {
+     "page_id": 1565761,
+     "grade": 1,
+     "title": "Lapuanliikkeen johto",
+     "rank": null
+    },
+    {
+     "page_id": 1566754,
+     "grade": 1,
+     "title": "Mustapaidat (IKL)",
+     "rank": null
+    },
+    {
+     "page_id": 1829442,
+     "grade": 1,
+     "title": "Isänmaallinen Kansanrintama",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "query_id": "language-politics.fi",
+   "style": "fi",
+   "recall@10": 0.375,
+   "ndcg@10": 0.6650332328845464,
+   "missed": [
+    {
+     "page_id": 11634,
+     "grade": 2,
+     "title": "Suomalainen puolue",
+     "rank": null
+    },
+    {
+     "page_id": 72145,
+     "grade": 2,
+     "title": "Suomalaisuuden liitto",
+     "rank": null
+    },
+    {
+     "page_id": 202404,
+     "grade": 2,
+     "title": "Ahvenanmaan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 769025,
+     "grade": 2,
+     "title": "Vapaa kielivalinta",
+     "rank": null
+    },
+    {
+     "page_id": 109236,
+     "grade": 1,
+     "title": "Jomalan kirkko",
+     "rank": null
+    },
+    {
+     "page_id": 913815,
+     "grade": 1,
+     "title": "Ahvenanmaan sopimus",
+     "rank": null
+    },
+    {
+     "page_id": 923196,
+     "grade": 1,
+     "title": "Nimien suomalaistaminen",
+     "rank": 19
+    },
+    {
+     "page_id": 1356913,
+     "grade": 1,
+     "title": "Ahvenanmaan miehitys",
+     "rank": null
+    },
+    {
+     "page_id": 1549193,
+     "grade": 1,
+     "title": "Suomalainen nationalismi",
+     "rank": 12
+    },
+    {
+     "page_id": 1623503,
+     "grade": 1,
+     "title": "Ahvenanmaan historia",
+     "rank": null
+    }
+   ]
+  }
+ ],
+ "worst": [
+  {
+   "query_id": "language-politics.broad",
+   "style": "broad",
+   "recall@10": 0.125,
+   "ndcg@10": 0.31921934323827694,
+   "missed": [
+    {
+     "page_id": 255,
+     "grade": 2,
+     "title": "Fennomania",
+     "rank": null
+    },
+    {
+     "page_id": 11634,
+     "grade": 2,
+     "title": "Suomalainen puolue",
+     "rank": null
+    },
+    {
+     "page_id": 72145,
+     "grade": 2,
+     "title": "Suomalaisuuden liitto",
+     "rank": null
+    },
+    {
+     "page_id": 200797,
+     "grade": 2,
+     "title": "Axel Olof Freudenthal",
+     "rank": null
+    },
+    {
+     "page_id": 202404,
+     "grade": 2,
+     "title": "Ahvenanmaan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 769025,
+     "grade": 2,
+     "title": "Vapaa kielivalinta",
+     "rank": null
+    },
+    {
+     "page_id": 72257,
+     "grade": 1,
+     "title": "Yrjö Sakari Yrjö-Koskinen",
+     "rank": null
+    },
+    {
+     "page_id": 109236,
+     "grade": 1,
+     "title": "Jomalan kirkko",
+     "rank": null
+    },
+    {
+     "page_id": 913815,
+     "grade": 1,
+     "title": "Ahvenanmaan sopimus",
+     "rank": null
+    },
+    {
+     "page_id": 923196,
+     "grade": 1,
+     "title": "Nimien suomalaistaminen",
+     "rank": null
+    },
+    {
+     "page_id": 1037500,
+     "grade": 1,
+     "title": "Länsipohjan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 1356913,
+     "grade": 1,
+     "title": "Ahvenanmaan miehitys",
+     "rank": null
+    },
+    {
+     "page_id": 1549193,
+     "grade": 1,
+     "title": "Suomalainen nationalismi",
+     "rank": 12
+    },
+    {
+     "page_id": 1623503,
+     "grade": 1,
+     "title": "Ahvenanmaan historia",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "query_id": "far-right.broad",
+   "style": "broad",
+   "recall@10": 0.17391304347826086,
+   "ndcg@10": 0.42384301963790094,
+   "missed": [
+    {
+     "page_id": 11537,
+     "grade": 2,
+     "title": "Isänmaallinen kansanliike",
+     "rank": 11
+    },
+    {
+     "page_id": 981456,
+     "grade": 2,
+     "title": "Suomen vastarintaliike",
+     "rank": null
+    },
+    {
+     "page_id": 1445320,
+     "grade": 2,
+     "title": "Suomen Kansa Ensin",
+     "rank": 20
+    },
+    {
+     "page_id": 1487100,
+     "grade": 2,
+     "title": "Kansallissosialismi Suomessa",
+     "rank": null
+    },
+    {
+     "page_id": 1679936,
+     "grade": 2,
+     "title": "Sinimusta liike",
+     "rank": 14
+    },
+    {
+     "page_id": 13733,
+     "grade": 1,
+     "title": "Isänmaallinen Kansanliike (1993)",
+     "rank": null
+    },
+    {
+     "page_id": 17808,
+     "grade": 1,
+     "title": "Vihtori Kosola",
+     "rank": null
+    },
+    {
+     "page_id": 27100,
+     "grade": 1,
+     "title": "Mäntsälän kapina",
+     "rank": null
+    },
+    {
+     "page_id": 41622,
+     "grade": 1,
+     "title": "Timo Soini",
+     "rank": null
+    },
+    {
+     "page_id": 58914,
+     "grade": 1,
+     "title": "Talonpoikaismarssi",
+     "rank": null
+    },
+    {
+     "page_id": 93295,
+     "grade": 1,
+     "title": "Sinimustat",
+     "rank": null
+    },
+    {
+     "page_id": 189431,
+     "grade": 1,
+     "title": "Hilja Riipinen",
+     "rank": null
+    },
+    {
+     "page_id": 1105958,
+     "grade": 1,
+     "title": "Ano Turtiainen",
+     "rank": null
+    },
+    {
+     "page_id": 1324148,
+     "grade": 1,
+     "title": "Rajat kiinni!",
+     "rank": null
+    },
+    {
+     "page_id": 1370905,
+     "grade": 1,
+     "title": "Suomi Ensin",
+     "rank": null
+    },
+    {
+     "page_id": 1395607,
+     "grade": 1,
+     "title": "Marco de Wit",
+     "rank": null
+    },
+    {
+     "page_id": 1565761,
+     "grade": 1,
+     "title": "Lapuanliikkeen johto",
+     "rank": null
+    },
+    {
+     "page_id": 1566754,
+     "grade": 1,
+     "title": "Mustapaidat (IKL)",
+     "rank": null
+    },
+    {
+     "page_id": 1829442,
+     "grade": 1,
+     "title": "Isänmaallinen Kansanrintama",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "query_id": "sami-prehistory.broad",
+   "style": "broad",
+   "recall@10": 0.17647058823529413,
+   "ndcg@10": 0.4626433946012075,
+   "missed": [
+    {
+     "page_id": 7283,
+     "grade": 2,
+     "title": "Saamelaiset",
+     "rank": null
+    },
+    {
+     "page_id": 20813,
+     "grade": 2,
+     "title": "Suomalaisten alkuperä",
+     "rank": null
+    },
+    {
+     "page_id": 997401,
+     "grade": 2,
+     "title": "Saamelaisten historia",
+     "rank": null
+    },
+    {
+     "page_id": 1096144,
+     "grade": 2,
+     "title": "Metsäsaamelaiset",
+     "rank": null
+    },
+    {
+     "page_id": 22508,
+     "grade": 1,
+     "title": "Lappalaiset",
+     "rank": null
+    },
+    {
+     "page_id": 75134,
+     "grade": 1,
+     "title": "Lapinkylä",
+     "rank": null
+    },
+    {
+     "page_id": 115924,
+     "grade": 1,
+     "title": "Suomen kronikka",
+     "rank": null
+    },
+    {
+     "page_id": 378020,
+     "grade": 1,
+     "title": "Saamelaisten kotiseutualue",
+     "rank": null
+    },
+    {
+     "page_id": 624151,
+     "grade": 1,
+     "title": "Keminsaamelaiset",
+     "rank": null
+    },
+    {
+     "page_id": 1093403,
+     "grade": 1,
+     "title": "Skrithifinnit",
+     "rank": null
+    },
+    {
+     "page_id": 1373598,
+     "grade": 1,
+     "title": "Saamenmaa",
+     "rank": null
+    },
+    {
+     "page_id": 1617222,
+     "grade": 1,
+     "title": "Saamelaisliike",
+     "rank": null
+    },
+    {
+     "page_id": 1685595,
+     "grade": 1,
+     "title": "Kainuunsaamelaiset",
+     "rank": null
+    },
+    {
+     "page_id": 1802024,
+     "grade": 1,
+     "title": "Luettelo Suomen saamelaisperäisistä paikannimistä",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "query_id": "language-politics.sv",
+   "style": "sv",
+   "recall@10": 0.1875,
+   "ndcg@10": 0.501570853545258,
+   "missed": [
+    {
+     "page_id": 11634,
+     "grade": 2,
+     "title": "Suomalainen puolue",
+     "rank": null
+    },
+    {
+     "page_id": 72145,
+     "grade": 2,
+     "title": "Suomalaisuuden liitto",
+     "rank": null
+    },
+    {
+     "page_id": 200797,
+     "grade": 2,
+     "title": "Axel Olof Freudenthal",
+     "rank": null
+    },
+    {
+     "page_id": 202404,
+     "grade": 2,
+     "title": "Ahvenanmaan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 769025,
+     "grade": 2,
+     "title": "Vapaa kielivalinta",
+     "rank": null
+    },
+    {
+     "page_id": 72257,
+     "grade": 1,
+     "title": "Yrjö Sakari Yrjö-Koskinen",
+     "rank": null
+    },
+    {
+     "page_id": 109236,
+     "grade": 1,
+     "title": "Jomalan kirkko",
+     "rank": null
+    },
+    {
+     "page_id": 913815,
+     "grade": 1,
+     "title": "Ahvenanmaan sopimus",
+     "rank": null
+    },
+    {
+     "page_id": 923196,
+     "grade": 1,
+     "title": "Nimien suomalaistaminen",
+     "rank": 18
+    },
+    {
+     "page_id": 1037500,
+     "grade": 1,
+     "title": "Länsipohjan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 1356913,
+     "grade": 1,
+     "title": "Ahvenanmaan miehitys",
+     "rank": null
+    },
+    {
+     "page_id": 1549193,
+     "grade": 1,
+     "title": "Suomalainen nationalismi",
+     "rank": 14
+    },
+    {
+     "page_id": 1623503,
+     "grade": 1,
+     "title": "Ahvenanmaan historia",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "query_id": "national-myths.broad",
+   "style": "broad",
+   "recall@10": 0.2,
+   "ndcg@10": 0.307907328362021,
+   "missed": [
+    {
+     "page_id": 498,
+     "grade": 2,
+     "title": "Kalevala",
+     "rank": null
+    },
+    {
+     "page_id": 13182,
+     "grade": 2,
+     "title": "Elias Lönnrot",
+     "rank": null
+    },
+    {
+     "page_id": 14460,
+     "grade": 2,
+     "title": "Lalli",
+     "rank": null
+    },
+    {
+     "page_id": 71641,
+     "grade": 2,
+     "title": "Piispa Henrikin surmavirsi",
+     "rank": null
+    },
+    {
+     "page_id": 114665,
+     "grade": 2,
+     "title": "Karelianismi",
+     "rank": 17
+    },
+    {
+     "page_id": 13959,
+     "grade": 1,
+     "title": "Piispa Henrik",
+     "rank": null
+    },
+    {
+     "page_id": 18701,
+     "grade": 1,
+     "title": "Kanteletar",
+     "rank": 20
+    },
+    {
+     "page_id": 19873,
+     "grade": 1,
+     "title": "Kalevalainen runous",
+     "rank": null
+    },
+    {
+     "page_id": 38257,
+     "grade": 1,
+     "title": "Ensimmäinen ristiretki Suomeen",
+     "rank": null
+    },
+    {
+     "page_id": 57277,
+     "grade": 1,
+     "title": "Vienan Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 95494,
+     "grade": 1,
+     "title": "Suomalainen kansanrunous",
+     "rank": null
+    },
+    {
+     "page_id": 153122,
+     "grade": 1,
+     "title": "Kalevalatalo",
+     "rank": null
+    },
+    {
+     "page_id": 221700,
+     "grade": 1,
+     "title": "Suomen kansan vanhat runot",
+     "rank": null
+    },
+    {
+     "page_id": 1061549,
+     "grade": 1,
+     "title": "Lalli (veistos)",
+     "rank": null
+    },
+    {
+     "page_id": 1062200,
+     "grade": 1,
+     "title": "Lallin asumus",
+     "rank": null
+    },
+    {
+     "page_id": 1356098,
+     "grade": 1,
+     "title": "Suomen Lalli-liitto",
+     "rank": null
+    }
+   ]
+  }
+ ],
+ "failures": [],
+ "cost": {
+  "requests": 19,
+  "jobs": 1,
+  "seconds_total": 18.1,
+  "seconds_per_request": 0.96,
+  "seconds_max": 2.0,
+  "llm_calls": 0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "sql_queries": 38,
+  "cost_usd": 0.0
+ }
+}
