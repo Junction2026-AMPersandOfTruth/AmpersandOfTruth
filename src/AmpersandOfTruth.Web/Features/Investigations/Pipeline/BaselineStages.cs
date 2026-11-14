@@ -27,6 +27,13 @@ public sealed class InvestigationPipelineOptions
 
     /// <summary>Cap on each text variable sent to the LLM (inserted, removed, context).</summary>
     public int MaxPromptChars { get; set; } = 6000;
+
+    /// <summary>Read P1.S4's conflict episodes for each removed edit (tier input "edit war"). Ported ahead of the S11
+    /// decision (#38); off = an ablation run without it (<c>Investigations__Pipeline__EditWarSignal=false</c>).</summary>
+    public bool EditWarSignal { get; set; } = true;
+
+    /// <summary>Run P1.S8's citation detectors on each removed edit (tier input "source change"). As above.</summary>
+    public bool SourceChangeSignal { get; set; } = true;
 }
 
 /// <summary>
@@ -98,11 +105,16 @@ public sealed class RevertCandidateSource(IInvestigationCorpus corpus, IRevision
     }
 }
 
-/// <summary>Stage 3a: the undone revisions + <see cref="WikitextDiff"/> of restored → last undone revision (P1.S2).</summary>
-public sealed class CorpusEditReader(IRevisionStore revisions, IOptions<InvestigationPipelineOptions> options) : IEditReader
+/// <summary>
+/// Stage 3a: the undone revisions + <see cref="WikitextDiff"/> of restored → last undone revision (P1.S2), and the
+/// per-edit signals that need the corpus or the full texts: re-insertions (S1), conflict episodes (S4), citation changes (S8).
+/// </summary>
+/// <param name="conflicts">P1.S4's episode tables; null = no edit-war signal (tests, or a corpus without <c>research.s4_*</c>).</param>
+public sealed class CorpusEditReader(
+    IRevisionStore revisions, IOptions<InvestigationPipelineOptions> options, IConflictEpisodes? conflicts = null) : IEditReader
 {
     /// <summary>Bump when what a reading contains changes (span rule, passages, context); invalidates the reading cache.</summary>
-    public const int Version = 2;
+    public const int Version = 4;   // 3: wikidiff no longer lets an unclosed <ref> swallow the text after it; 4: S4 + S8 signals
 
     /// <summary>Re-insertions read per removed edit.</summary>
     internal const int MaxReinsertions = 50;
@@ -130,7 +142,27 @@ public sealed class CorpusEditReader(IRevisionStore revisions, IOptions<Investig
         return new EditReading(edit, span, diff, inserted, removed, Context(before, diff, options.Value.MaxPromptChars))
         {
             Reinsertions = restores,
+            SourceChanges = options.Value.SourceChangeSignal ? SourceChangeDetector.Detect(before, diff) : [],
+            Conflicts = await ConflictsAsync(pageId, span, r.RevId, ct),
         };
+    }
+
+    /// <summary>
+    /// The S4 episodes around the span and its revert. The scratch tables are an extra, not part of the corpus proper:
+    /// when they can't be read the reading still succeeds, with the signal unknown (null) instead of absent.
+    /// </summary>
+    private async Task<IReadOnlyList<ConflictEpisode>?> ConflictsAsync(
+        long pageId, IReadOnlyList<RevisionRow> span, long revertRevId, CancellationToken ct)
+    {
+        if (conflicts is null || !options.Value.EditWarSignal) return [];
+        try
+        {
+            return await conflicts.ContainingAsync(pageId, [.. span.Select(s => s.RevId), revertRevId], ct);
+        }
+        catch (CorpusUnavailableException)
+        {
+            return null;
+        }
     }
 
     /// <summary>A paragraph changed in place is widened to the whole paragraph on both sides up to this length.</summary>

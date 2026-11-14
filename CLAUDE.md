@@ -100,6 +100,9 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   password in user-secrets: `dotnet user-secrets set "Corpus:Password" "<pw>" --project src/AmpersandOfTruth.Web` (ask a teammate; it's in `/opt/junction/corpus/.env` on the VPS).
 - Users: `corpus_ro` = SELECT on `corpus`, full rights on `research` (app + experiments). `corpus_rw` = loaders/precompute only.
   **Experiments create tables in `research.*`, never in `corpus.*`.**
+- The app reads exactly one scratch table set: `research.s4_episode` + `research.s4_episode_rev` (edit-war signal, built by
+  `research/31-s4-conflict/build.py`). Dropped tables only switch that signal off (one warning in the log). After a rebuild
+  that changes episodes, bump `CorpusEditReader.Version` so cached readings are read again.
 - Vector params: `cmd.Parameters.AddWithValue("@q", CorpusVectors.ToBytes(embedding))` (raw little-endian float32); `VEC_FromText(@json)` also works.
   `mhnsw_ef_search=80` is the server default — no per-session SET needed.
 - **`verify.sh` must pass with the corpus absent.** Corpus tests use `[CorpusFact]` (skipped unless `CORPUS_TESTS=1`).
@@ -134,8 +137,17 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   `ITopicSearch` (R6), `ICandidateSource` (S1/S4), `IEditReader` (S2/S3), `IEditClassifier` (S9), `IncidentAssembler` (S10, static).
   Today's implementations are placeholders from P0.8 + `wikidiff` + `classify-edit` v1. Dispute signals wired: removal reason
   (S5 lexicon ported as `RevertReasons`; `Fixtures/s5-parity.jsonl` + `s5_parity.py` keep it identical to the Python) and
-  re-insertion (S1 identity restores). Not yet: edit war (S4), dispute templates, source change (S8), kept-in-latest.
+  re-insertion (S1 identity restores). Not yet: dispute templates, kept-in-latest, and edit war (S4) + source change (S8),
+  which are computed on every reading (next bullet but one) but not yet copied into `IncidentEvidence`: that is two lines in
+  `IncidentAssembler` (`InEditWar = reading.EditWar is not null`, `SourceManipulation = reading.SourceChanges.Count > 0`),
+  left for S10 (#37) because it rewrites assembly around S7 clusters. Bump `InvestigationPipeline.Version` with it.
 - Edits the evidence standard excludes without an assessment are never sent to the LLM. Limits: `Investigations:Pipeline` options.
+- Per-edit signals ported ahead of the S11 decision (#38) sit on `EditReading`, computed in stage 3a (`CorpusEditReader`), so they
+  hold whatever the incident unit becomes (S10): `Conflicts` / `EditWar` = P1.S4 (`IConflictEpisodes` reads the precomputed
+  `research.s4_episode` + `s4_episode_rev`; `EditWars` is the rule: an edit war or ping-pong holding both the removal and a removed
+  revision; `Conflicts == null` = tables unreadable, and such a reading is not cached) and `SourceChanges` = P1.S8 citation
+  removed/swapped (`SourceChangeDetector`; `Fixtures/s8-parity.jsonl` + `s8_parity.py` keep it identical to the Python).
+  Ablation switches: `Investigations:Pipeline:EditWarSignal` / `SourceChangeSignal` (part of both cache keys).
 - Stage 1 = R1 (#8): vector hits in every language, en/sv folded onto their fi sibling by `wikidata_id`; only fi articles come out.
 - Caches (#40, SQLite): `EditReadingCache` (span + diff per removed edit, keyed by revision ids + reader version) and
   `InvestigationRuns` (a whole clean run per topic, keyed by `PipelineFingerprint` = versions + classify prompt + model + limits).

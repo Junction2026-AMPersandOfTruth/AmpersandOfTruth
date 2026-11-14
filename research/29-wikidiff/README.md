@@ -6,7 +6,7 @@ the one implementation through `scripts/wikidiff.sh` instead of porting it. The 
 
 | File | |
 |---|---|
-| `fixtures.jsonl` | 11 requests `{"id", "old", "new"}` built from the xUnit fixtures (`tests/…/Features/WikiDiff/Fixtures/`): small insertion, paragraph rewrite, moved section, reference swap, template-only change, infobox value, section blanking, category/interwiki only, markup only, a Finnish name swap, a first revision. |
+| `fixtures.jsonl` | 12 requests `{"id", "old", "new"}` built from the xUnit fixtures (`tests/…/Features/WikiDiff/Fixtures/`): small insertion, paragraph rewrite, moved section, reference swap, template-only change, infobox value, section blanking, category/interwiki only, markup only, a Finnish name swap, a first revision, an unclosed `<ref>`. |
 | `expected.jsonl` | The engine's answer. An xUnit test fails when the engine's output drifts from it. |
 | `check.py` | `python3 research/29-wikidiff/check.py` checks the C# CLI exactly. `-- <command>` checks any other implementation on `stats`, `added_prose` and `removed_prose`. |
 
@@ -35,6 +35,22 @@ Measured on synthetic fi-style articles sized from the corpus profile (`prof_rev
 | Prose view of a 195 KB article (`wikidiff prose`) | 33 ms | |
 
 Through the CLI, including JSON in and out: 1,000 typical pairs in 1.5 s, 100 pairs of 52 KB in 1.0 s.
+
+## Unclosed `<ref>` (fixed 2026-11-14, found by S7 #34)
+
+An edit that deleted or mistyped a `</ref>` used to be reported as one **added reference** holding everything up to the
+next reference's closing tag (headings and whole paragraphs the edit never touched), and that text as **removed prose**.
+S7's cluster `#3323` linked 17 such edits by 13 accounts on *Talvisota* through the swallowed section. Now a `<ref>` is
+a reference only if its own `</ref>` comes before the next `<ref …>` and before the next section heading
+(`RefTags`, CONTRACT.md §9). On the `unclosed-ref` fixture the diff went from 172 removed and 0 added prose characters
+with 2 removed and 1 added reference to 0 removed and 40 added (the words the edit typed) with 1 removed reference.
+The other 11 fixtures are byte-identical.
+
+**Diffs computed before this are stale for such edits.** Before S7 or S8 are re-run, `research.s3_diff` has to be
+emptied and rebuilt (`research/30-s3-extract/diffcache.py` only fills in missing rows), and S8's
+`~/.cache/aot-research/s8/candidates.jsonl` regenerated. The detectors' own workarounds for the swallow
+(`_split_unclosed_refs`, `swallowed_heading` in `research/35-s8-signals`) should then no longer trigger. The app's
+cached readings are invalidated by `CorpusEditReader.Version`.
 
 ## Open (needs the corpus, so for local Claude)
 

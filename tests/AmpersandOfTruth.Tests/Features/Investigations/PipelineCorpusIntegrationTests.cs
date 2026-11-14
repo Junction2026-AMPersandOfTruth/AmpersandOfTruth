@@ -49,6 +49,36 @@ public class PipelineCorpusIntegrationTests(AppFactory app) : IClassFixture<AppF
     }
 
     [CorpusFact]
+    public async Task Conflict_episodes_are_read_from_the_s4_tables()
+    {
+        // Suomen sisällissota has 41 default S4 episodes (research/31-s4-conflict/README.md), edit wars and ping-pongs among them.
+        const long civilWar = 1150;
+        var episodes = app.Services.GetRequiredService<IConflictEpisodes>();
+        var reverts = await Corpus.RevertsAsync([civilWar], perPage: 2000);
+
+        var found = await episodes.ContainingAsync(civilWar, reverts.Select(r => r.RevId).ToList());
+
+        Assert.Contains(found, e => e.Kind == ConflictKind.EditWar);
+        Assert.Contains(found, e => e.Kind == ConflictKind.PingPong);
+        Assert.All(found, e => Assert.True(e.Start <= e.End && e.RevIds.Count > 0 && e.EditCount >= e.RevIds.Count));
+        Assert.Empty(await episodes.ContainingAsync(Talvisota, reverts.Select(r => r.RevId).Take(50).ToList()));   // other page: none
+    }
+
+    [CorpusFact]
+    public async Task Readings_of_real_removed_edits_carry_the_s4_and_s8_signals()
+    {
+        var o = Options.Create(new InvestigationPipelineOptions { MaxCandidates = 40 });
+        var scan = await new RevertCandidateSource(Corpus, Revisions, o).ScanAsync([new TopicArticle("fi", 1150, "Suomen sisällissota", 0)]);
+        var reader = new CorpusEditReader(Revisions, o, app.Services.GetRequiredService<IConflictEpisodes>());
+
+        var readings = new List<EditReading>();
+        foreach (var c in scan.Candidates) readings.Add(await reader.ReadAsync(c));
+
+        Assert.All(readings, r => Assert.NotNull(r.Conflicts));   // null = research.s4_* could not be read
+        Assert.All(readings.Where(r => r.EditWar is not null), r => Assert.Contains(r.Edit.Revert.RevId, r.EditWar!.RevIds));
+    }
+
+    [CorpusFact]
     public async Task Fi_lookups_find_talvisota_by_page_id_and_by_wikidata_id()
     {
         var byId = Assert.Single(await Corpus.FiArticlesAsync([Talvisota, 999_999_999]));
