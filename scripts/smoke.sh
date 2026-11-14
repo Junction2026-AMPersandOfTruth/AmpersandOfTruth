@@ -4,11 +4,11 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 PORT=${PORT:-$((5300 + RANDOM % 600))}   # random → parallel worktrees don't collide
-LOG=$(mktemp -t junction-smoke)
+LOG=$(mktemp -t ampersandoftruth-smoke.XXXXXX)
 if [ $# -gt 0 ]; then ROUTES=("$@"); else ROUTES=(/ /notes /health); fi
 
-dotnet build --nologo -v quiet -clp:ErrorsOnly src/Junction.Web
-ASPNETCORE_ENVIRONMENT=Development dotnet run --no-build --project src/Junction.Web --no-launch-profile --urls "http://localhost:$PORT" > "$LOG" 2>&1 &
+dotnet build --nologo -v quiet -clp:ErrorsOnly src/AmpersandOfTruth.Web
+ASPNETCORE_ENVIRONMENT=Development dotnet run --no-build --project src/AmpersandOfTruth.Web --no-launch-profile --urls "http://localhost:$PORT" > "$LOG" 2>&1 &
 PID=$!
 trap 'kill $PID 2>/dev/null || true' EXIT
 

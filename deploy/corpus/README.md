@@ -15,7 +15,7 @@
 
 ```bash
 scripts/corpus-tunnel.sh                     # localhost:3307 → VPS 127.0.0.1:3306 (background)
-dotnet user-secrets set "Corpus:Password" "<corpus_ro pw>" --project src/Junction.Web
+dotnet user-secrets set "Corpus:Password" "<corpus_ro pw>" --project src/AmpersandOfTruth.Web
 mariadb -h127.0.0.1 -P3307 -ucorpus_ro -p corpus   # or any MySQL client / DBeaver
 ```
 
