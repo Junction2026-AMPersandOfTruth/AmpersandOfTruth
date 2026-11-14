@@ -137,10 +137,15 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   `ITopicSearch` (R6), `ICandidateSource` (S1/S4), `IEditReader` (S2/S3), `IEditClassifier` (S9), `IncidentAssembler` (S10, static).
   Today's implementations are placeholders from P0.8 + `wikidiff` + `classify-edit` v1. Dispute signals wired: removal reason
   (S5 lexicon ported as `RevertReasons`; `Fixtures/s5-parity.jsonl` + `s5_parity.py` keep it identical to the Python) and
-  re-insertion (S1 identity restores). Not yet: dispute templates, kept-in-latest, and edit war (S4) + source change (S8),
-  which are computed on every reading (next bullet but one) but not yet copied into `IncidentEvidence`: that is two lines in
-  `IncidentAssembler` (`InEditWar = reading.EditWar is not null`, `SourceManipulation = reading.SourceChanges.Count > 0`),
-  left for S10 (#37) because it rewrites assembly around S7 clusters. Bump `InvestigationPipeline.Version` with it.
+  re-insertion (S1 identity restores), and since S10 (#37) the passage-level edit war (`EditWars.Passage`: removed ≥ 2× — the
+  revert + `EditReading.ReRemovals`, later returns to the pre-edit sha1 that follow a re-insertion — and put back ≥ 1×, by
+  different camps; the page-level S4 episode is **not** a tier input any more) and source change (S8 citations, or an S9
+  `source_manipulation` assessment). `TierThresholds.MinCoordinationSignals` = 3 (S10; recorded in `docs/evidence-standard.md`).
+  One removed edit = one incident: re-insertions are exact restores, so counting is claim-side without S7 clusters.
+  Ranking = S10 mode B+rel: `score` = 100 × tier + `IncidentAssembler.ScoreA` (exact port of `score_variant_a`, parity values in
+  `S10RankingTests`) × `TopicRelevance` (max(0, cos) of bge-m3(topic) and bge-m3(claim_en, else added prose)[:500]); the
+  embedder down → relevance 1 and `Completed.Unranked` > 0, never cached. `Investigations:Pipeline:TopicRelevance=false` =
+  ScoreA only. Not yet: dispute templates, kept-in-latest, multiple articles (needs S7 clusters), S10's per-article cap of 5.
 - Edits the evidence standard excludes without an assessment are never sent to the LLM. Limits: `Investigations:Pipeline` options.
 - Per-edit signals ported ahead of the S11 decision (#38) sit on `EditReading`, computed in stage 3a (`CorpusEditReader`), so they
   hold whatever the incident unit becomes (S10): `Conflicts` / `EditWar` = P1.S4 (`IConflictEpisodes` reads the precomputed
@@ -148,7 +153,12 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   revision; `Conflicts == null` = tables unreadable, and such a reading is not cached) and `SourceChanges` = P1.S8 citation
   removed/swapped (`SourceChangeDetector`; `Fixtures/s8-parity.jsonl` + `s8_parity.py` keep it identical to the Python).
   Ablation switches: `Investigations:Pipeline:EditWarSignal` / `SourceChangeSignal` (part of both cache keys).
-- Stage 1 = R1 (#8): vector hits in every language, en/sv folded onto their fi sibling by `wikidata_id`; only fi articles come out.
+- Stage 1 = R3-D, the R6 decision (#27): `ExpandedTopicSearch` = one cached `expand-topic` call (job `QueryExpand`; prompt in
+  `Investigations/Prompts/`, a copy of `research/24-r3-query/prompts/`) → fi title guesses looked up first, then the topic +
+  `topic_fi` + reformulations each searched like R1 and fused by RRF (k=60). R1 (`VectorTopicSearch`: vector hits in every
+  language, en/sv folded onto their fi sibling by `wikidata_id`; only fi articles come out) answers when the LLM call fails —
+  `ArticlesFound.SearchFallback`, never cached — or always with `Investigations:Pipeline:TopicSearch=Vector`. The scope verdict
+  (`ArticlesFound.Scope`) is a warning on the page, never a block. Score it: `research/eval/run retrieval --name r6-app -- scripts/investigate.sh variant`.
 - Caches (#40, SQLite): `EditReadingCache` (span + diff per removed edit, keyed by revision ids + reader version) and
   `InvestigationRuns` (a whole clean run per topic, keyed by `PipelineFingerprint` = versions + classify prompt + model + limits).
   The app's runner is `CachingInvestigationRunner`; `refresh: true` (the page's Re-run) bypasses it. Runs with a degraded

@@ -12,6 +12,10 @@ public sealed record TopicArticle(string Lang, long PageId, string Title, double
 
     /// <summary>Only fi articles have revision history in the corpus (dataset M).</summary>
     public bool HasHistory => Lang == "fi";
+
+    /// <summary>Found by an exact (or prefix) match of an LLM title guess (R3-D), not only by vector distance. A title-only
+    /// hit has no vector distance of its own and carries 1 (the far end of the cosine range).</summary>
+    public bool TitleMatch { get; init; }
 }
 
 /// <summary>

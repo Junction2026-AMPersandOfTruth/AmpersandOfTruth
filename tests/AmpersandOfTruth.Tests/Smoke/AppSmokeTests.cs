@@ -11,10 +11,12 @@ public class AppSmokeTests(AppFactory factory) : IClassFixture<AppFactory>
     [InlineData("/analysis")]
     [InlineData("/investigate")]
     [InlineData("/investigate/winter-war")]
+    [InlineData("/investigate/winter-war/network")]
     [InlineData("/methodology")]
     [InlineData("/library")]
     [InlineData("/dev/annotations")]
     [InlineData("/hotspots")]
+    [InlineData("/library/00000000-0000-0000-0000-000000000000/report")]
     [InlineData("/articles/1150")]
     [InlineData("/articles/1/at")]
     [InlineData("/investigate/winter-war/incidents/ww-01")]
@@ -32,6 +34,7 @@ public class AppSmokeTests(AppFactory factory) : IClassFixture<AppFactory>
     [Theory]
     [InlineData("/definitely-not-a-page")]
     [InlineData("/notes")]
+    [InlineData("/library/00000000-0000-0000-0000-000000000000/report.md")]
     public async Task Unknown_route_returns_404(string url)
     {
         var response = await factory.CreateClient().GetAsync(url);

@@ -37,6 +37,27 @@ public sealed class FakeInvestigationCorpus : IInvestigationCorpus
             .ToDictionary(a => a.WikidataId!, a => a with { Distance = 0 }));
     }
 
+    /// <summary>Exact title match like the SQL: dashes as hyphens, case-insensitive (the fake ignores the accent rule).</summary>
+    public Task<IReadOnlyList<TopicArticle>> FiArticlesByTitleAsync(IReadOnlyCollection<string> titles, CancellationToken ct = default)
+    {
+        ThrowIfDown();
+        var keys = titles.Select(TitleKeys.Key).ToHashSet();
+        return Task.FromResult<IReadOnlyList<TopicArticle>>(FiCatalog.Where(a => keys.Contains(TitleKeys.Key(a.Title)))
+            .DistinctBy(a => a.PageId).Select(a => a with { Distance = 0 }).ToList());
+    }
+
+    public Task<IReadOnlyList<TopicArticle>> FiArticlesByTitlePrefixAsync(
+        IReadOnlyCollection<string> prefixes, int limit, CancellationToken ct = default)
+    {
+        ThrowIfDown();
+        var keys = prefixes.Select(TitleKeys.Key).ToList();
+        return Task.FromResult<IReadOnlyList<TopicArticle>>(FiCatalog
+            .Where(a => keys.Any(k => TitleKeys.Key(a.Title).StartsWith(k, StringComparison.Ordinal)))
+            .DistinctBy(a => a.PageId)
+            .OrderBy(a => a.Title.Length).ThenBy(a => a.PageId)
+            .Take(limit).Select(a => a with { Distance = 0 }).ToList());
+    }
+
     public Task<IReadOnlyList<RevertEvent>> RevertsAsync(IReadOnlyCollection<long> pageIds, int perPage, CancellationToken ct = default)
     {
         ThrowIfDown();

@@ -19,8 +19,23 @@ public interface IInvestigationRunner
 /// <summary>Stage 1 (P1.R6): topic → articles, closest first.</summary>
 public interface ITopicSearch
 {
-    Task<IReadOnlyList<TopicArticle>> FindArticlesAsync(string topic, CancellationToken ct = default);
+    Task<TopicSearchResult> SearchAsync(string topic, CancellationToken ct = default);
+
+    /// <summary>Everything that shapes this search's output (method, version, prompt, model); part of the run-cache fingerprint.</summary>
+    string Fingerprint { get; }
 }
+
+/// <summary>What stage 1 found. <see cref="Scope"/> = the LLM's scope verdict (null when no LLM was asked or it failed).
+/// <see cref="Fallback"/> = the configured method could not run (LLM down) and a simpler one answered instead, so the
+/// run must not be cached.</summary>
+public sealed record TopicSearchResult(IReadOnlyList<TopicArticle> Articles)
+{
+    public TopicScope? Scope { get; init; }
+    public bool Fallback { get; init; }
+}
+
+/// <summary>R3-E's scope verdict, shown as a warning, never as a block (R6 #27).</summary>
+public sealed record TopicScope(bool InScope, string Reason);
 
 /// <summary>Stage 2 (P1.S1/S4): the found fi articles → removed edits worth reading, most promising first.</summary>
 public interface ICandidateSource
@@ -71,6 +86,16 @@ public sealed record EditReading(
     /// re-insertion rule, every occurrence rather than only the first. Oldest first; identical consecutive revisions count once.
     /// </summary>
     public IReadOnlyList<RevisionRow> Reinsertions { get; init; } = [];
+
+    /// <summary>
+    /// P1.S10 (#37): later revisions that took the content out again — a return to the page as it stood before the edit
+    /// (same sha1 as the restored revision) that comes after a re-insertion. Oldest first. The identity revert itself is
+    /// the first removal and is not listed. Empty when the edit-war signal is switched off.
+    /// </summary>
+    public IReadOnlyList<RevisionRow> ReRemovals { get; init; } = [];
+
+    /// <summary>The frozen contract's passage-level edit war (CONTRACT.md §3, <see cref="EditWars.Passage"/>).</summary>
+    public bool InPassageEditWar => EditWars.Passage(this);
 
     /// <summary>
     /// P1.S4 (#31): the precomputed conflict episodes that hold a revision of the span or the revert. Empty = none, or

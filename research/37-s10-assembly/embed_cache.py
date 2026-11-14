@@ -54,9 +54,18 @@ def _configure_ollama_endpoint() -> None:
         os.environ["OLLAMA_URL"] = "http://127.0.0.1:11435"
 
 
+
+def _check_split(split: str) -> None:
+    """The test split is sealed (CONTRACT.md §6): only the S11 decision (#38) may read it, with EVAL_ALLOW_TEST=1."""
+    import os
+    if split == "test" and os.environ.get("EVAL_ALLOW_TEST") != "1":
+        raise SystemExit("the test split is sealed: set EVAL_ALLOW_TEST=1 (decision issues R6/S11 only)")
+
+
 def collect_dev_texts(
     golden_path: pathlib.Path,
     assessments_path: pathlib.Path,
+    split: str = "dev",
 ) -> tuple[list[str], dict[str, int]]:
     """Collect unique normalised query and candidate texts for `split == 'dev'` topics only."""
     doc = json.loads(golden_path.read_text(encoding="utf-8"))
@@ -64,7 +73,7 @@ def collect_dev_texts(
     dev_pages: set[int] = set()
 
     for topic in doc["topics"]:
-        if topic.get("split") != "dev":
+        if topic.get("split") != split:
             continue
         for q in topic.get("queries") or ():
             if q.get("style") == "en" and q.get("text"):
@@ -134,7 +143,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--golden", type=pathlib.Path, default=DEFAULT_GOLDEN)
     ap.add_argument("--assessments", type=pathlib.Path, default=DEFAULT_ASSESSMENTS)
     ap.add_argument("--out", type=pathlib.Path, default=DEFAULT_EMBEDDINGS_CACHE)
+    ap.add_argument("--split", choices=("dev", "test"), default="dev", help="test needs EVAL_ALLOW_TEST=1 (S11 only).")
     args = ap.parse_args(argv)
+    _check_split(args.split)
 
     _configure_ollama_endpoint()
     t0 = time.monotonic()
@@ -145,7 +156,7 @@ def main(argv: list[str] | None = None) -> int:
         if isinstance(doc, dict) and isinstance(doc.get("vectors"), dict) and doc.get("dtype") == "float16_le_b64":
             existing.update({str(k): str(v) for k, v in doc["vectors"].items()})
 
-    texts, stats = collect_dev_texts(args.golden, args.assessments)
+    texts, stats = collect_dev_texts(args.golden, args.assessments, args.split)
     aot.log(
         f"embed_cache: {stats['unique_texts']} unique text(s) "
         f"({stats['dev_queries']} dev queries, {stats['dev_pages']} dev pages)"

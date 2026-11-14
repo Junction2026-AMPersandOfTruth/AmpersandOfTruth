@@ -18,8 +18,9 @@ namespace AmpersandOfTruth.Web.Features.Investigations.Cache;
 /// Everything that shapes a run's result, hashed: pipeline/reader/wikidiff versions, the classify prompt's full version,
 /// the Classify model, the run limits and the tier thresholds. A cached run is only replayed under the same fingerprint.
 /// </summary>
+/// <param name="search">Stage 1; its <see cref="ITopicSearch.Fingerprint"/> is part of the key. Null = R1 (tests).</param>
 public sealed class PipelineFingerprint(
-    IOptions<InvestigationPipelineOptions> pipeline, IOptions<GeminiOptions> gemini, PromptLibrary prompts)
+    IOptions<InvestigationPipelineOptions> pipeline, IOptions<GeminiOptions> gemini, PromptLibrary prompts, ITopicSearch? search = null)
 {
     private string? _value;
 
@@ -30,10 +31,11 @@ public sealed class PipelineFingerprint(
         var o = pipeline.Value;
         var g = gemini.Value;
         var model = g.ModelFor(AnalysisJob.Classify);
-        return $"pipeline={InvestigationPipeline.Version};reader={CorpusEditReader.Version};wikidiff={WikitextDiff.Contract};" +
+        return $"pipeline={InvestigationPipeline.Version};search={search?.Fingerprint ?? "r1"};reader={CorpusEditReader.Version};wikidiff={WikitextDiff.Contract};" +
                $"prompt={prompts.Get(ClassifyEditPrompt.Id).FullVersion};model={model};" +
                $"limits={o.ArticleLimit},{o.RevertsPerArticle},{o.MaxCandidates},{o.MaxSpanRevisions},{o.MaxPromptChars};" +
                $"signals={(o.EditWarSignal ? "edit_war" : "")},{(o.SourceChangeSignal ? "source_change" : "")};" +
+               $"rank={(o.TopicRelevance ? "b+rel" : "b")};" +
                $"tiers={TierThresholds.Default}";
     }
 
@@ -50,7 +52,11 @@ public sealed record RunSnapshot(
     DateTimeOffset AnalysedAt,
     double ElapsedMs,
     IReadOnlyDictionary<InvestigationStage, double> StageMs,
-    double? FirstIncidentMs);
+    double? FirstIncidentMs)
+{
+    /// <summary>Stage 1's scope verdict (R6 #27); null in runs stored before it existed.</summary>
+    public TopicScope? Scope { get; init; }
+}
 
 /// <param name="CandidateKey"><see cref="RemovedEdit.Key"/>.</param>
 /// <param name="IncidentId"><see cref="IncidentRecord.Id"/> of the incident it became, if any.</param>
@@ -113,7 +119,7 @@ public sealed class InvestigationRunCache(
 /// <summary>
 /// The app's <see cref="IInvestigationRunner"/> (#40): a topic analysed before under the same <see cref="PipelineFingerprint"/>
 /// is replayed from SQLite at once (<c>Completed.FromCache</c>); otherwise <see cref="InvestigationPipeline"/> runs and a
-/// clean result (no degraded candidates, no failure, not cancelled) is stored. <c>refresh</c> skips the lookup.
+/// clean result (no degraded candidates, no topic-search fallback, no failure, not cancelled) is stored. <c>refresh</c> skips the lookup.
 /// </summary>
 public sealed class CachingInvestigationRunner(InvestigationPipeline inner, InvestigationRunCache cache, TimeProvider time)
     : IInvestigationRunner
@@ -135,22 +141,24 @@ public sealed class CachingInvestigationRunner(InvestigationPipeline inner, Inve
         }
 
         TopicArticle[] articles = [];
+        TopicScope? scope = null;
+        var searchFallback = false;
         RevisionsScanned? scan = null;
         var scored = new List<CandidateScored>();
         await foreach (var e in inner.RunAsync(topic, ct: ct))
         {
             switch (e)
             {
-                case ArticlesFound a: articles = [.. a.Items]; break;
+                case ArticlesFound a: (articles, scope, searchFallback) = ([.. a.Items], a.Scope, a.SearchFallback); break;
                 case RevisionsScanned s: scan = s; break;
                 case CandidateScored c: scored.Add(c); break;
-                case Completed { Degraded: 0 } done when scan is not null:
+                case Completed { Degraded: 0, Unranked: 0 } done when scan is not null && !searchFallback:
                     await cache.StoreAsync(topic, new RunSnapshot(
                         articles, scan.Count, scan.Candidates,
                         [.. scored.Select(c => new ScoredSnapshot(c.Candidate.Key, c.Incident?.Id, c.Exclusion))],
                         done.Incidents, done.AnalysedAt, done.Elapsed.TotalMilliseconds,
                         done.StageTimings.ToDictionary(kv => kv.Key, kv => kv.Value.TotalMilliseconds),
-                        done.FirstIncidentAfter?.TotalMilliseconds), ct);
+                        done.FirstIncidentAfter?.TotalMilliseconds) { Scope = scope }, ct);
                     break;
             }
             yield return e;
@@ -162,7 +170,7 @@ public sealed class CachingInvestigationRunner(InvestigationPipeline inner, Inve
         var candidates = s.Candidates.ToDictionary(c => c.Key);
         var incidents = s.Incidents.Where(i => i.Id is not null).ToDictionary(i => i.Id!);
 
-        yield return new ArticlesFound(s.Articles.Count, s.Articles);
+        yield return new ArticlesFound(s.Articles.Count, s.Articles) { Scope = s.Scope };
         yield return new RevisionsScanned(s.RevisionsScanned, s.Candidates);
         var i = 0;
         foreach (var scored in s.Scored)
