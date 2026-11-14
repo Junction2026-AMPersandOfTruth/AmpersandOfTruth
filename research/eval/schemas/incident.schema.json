@@ -49,7 +49,7 @@
           "is_anonymous": { "type": ["boolean", "null"] },
           "timestamp": { "type": ["string", "null"], "description": "UTC, ISO 8601 with Z." },
           "role": { "enum": ["inserted", "removed", "reinserted"] },
-          "summary": { "type": ["string", "null"], "description": "The edit summary as written." },
+          "summary": { "type": ["string", "null"], "description": "EditorDisplay.MaskComment(comment): the edit summary as plain text with every IP address masked. Never the raw comment." },
           "diff_ref": { "type": ["string", "null"] },
           "flags": { "type": "array", "items": { "type": "string" } }
         }

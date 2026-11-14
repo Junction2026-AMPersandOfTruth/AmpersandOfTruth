@@ -27,9 +27,9 @@ ids are invented, so never score against them.
 
 | Name | Meaning |
 |---|---|
-| `page_id` | A **Finnish** Wikipedia page id that has revision history: `corpus.revision.page_id`. Retrieval folds en/sv hits to the fi sibling through `wikidata_id` before answering. |
+| `page_id` | A **Finnish** Wikipedia page id that has revision history: `corpus.revision.page_id`. Retrieval folds en/sv hits to the fi sibling through `wikidata_id` before answering. Join the datasets on `page_id`, never on title: 44 pages were renamed between the two snapshots, and 457 pages with history have no article row or vector (`research/profiling/prof_rev/findings.md`, Q7). |
 | `rev_id` | `corpus.revision.rev_id`. Unique across all articles, so matching never needs the page. |
-| inserting rev | A revision that added the content, or added it again after a removal. |
+| inserting rev | A revision that added the content, or added it again after a removal. Never a **null revision**: one whose `sha1` equals its parent's (page moves, protection and FlaggedRevs log entries; 5,796 in the corpus, 839 of them inside reverted runs). It changed no text, so it inserts and removes nothing. |
 | removing rev | A revision that took the content out. For an identity revert this is the reverting revision. |
 | `tier` / `label` | `reverted`, `contested`, `campaign`: the `EvidenceTiers` ids from `docs/evidence-standard.md` §1. Golden items and judgements may also be `not-incident`, with an `exclusion`. |
 | `category` | The P1.S9 ids from `classify-edit.schema.json`: `vandalism`, `test_or_nonsense`, `good_faith_error`, `content_dispute`, `pov_push`, `false_factual_claim`, `source_manipulation`, `other`. |
@@ -112,8 +112,11 @@ names: `id`, `claim_en`, `claim_fi`, `summary_en`, `narrative`, `category`, `art
 `role` one of `inserted`, `removed`, `reinserted`, then `signals[{kind, label, evidence}]` and `confidence_note`.
 #37 freezes them. Until then they are typed but optional, and they may still change.
 
-`user_display` is always `EditorDisplay.For(user).PlainText`, with IPs masked. Never write a raw `user` string into
-an incident, a judgement or an issue comment.
+`user_display` is always `EditorDisplay.For(user).PlainText`, and `summary` is always
+`EditorDisplay.MaskComment(comment)`: fi.wikipedia's revert summaries name the editor they undo, so a summary can
+carry an IP address too (`docs/evidence-standard.md` §3). Never write a raw `user` string or an unmasked summary
+into an incident, a judgement, a review or an issue comment. A Python variant that fills these fields must apply
+the same masking: IPv4 keeps its first two octets, IPv6 its first two groups.
 
 Two differences from the wording of #21, both on purpose: `removing_rev_id` became the array `removing_rev_ids`,
 because a claim that is put back has several removals; and `claim` became `claim_en` / `claim_fi`, as in #37.
