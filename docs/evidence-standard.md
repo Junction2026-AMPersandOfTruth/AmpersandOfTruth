@@ -74,7 +74,8 @@ The canonical phrases live in `TierRules`. P2.10's signal phrasebook may reword 
 - **No verbs of intent:** not "tried to", "deliberately", "intentionally", "in bad faith". Edits *added*, *removed* and *put back*.
 - **Jargon stays out of UI copy:** no "revert", "sha1", "tier" or "LLM". Write "removed", "level" and "automated assessment".
 - **Model output is an assessment, never a fact.** It is always labelled "Automated assessment" and shown next to the quoted text it relies on. It never says whether a claim is true. A claim that contradicts well-established history goes in a separate, labelled field (P1.S9 guardrail).
-- `CopyRules` enforces the account and certainty terms in tests over every `.razor` file and every string in `Features/Evidence`.
+- `CopyRules` enforces the account, certainty and intent terms in tests over every `.razor` file, every design preview
+  (`docs/design/components/**/preview.html`) and every string in `Features/Evidence`.
 
 ## 3. How editors are shown
 
