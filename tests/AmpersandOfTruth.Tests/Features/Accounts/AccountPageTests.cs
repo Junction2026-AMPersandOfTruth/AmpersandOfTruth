@@ -185,6 +185,130 @@ public sealed class AccountPageTests : BunitContext
             html);
     }
 
+    [Fact]
+    public void State_account_loading()
+    {
+        var pending = new PendingAccountCorpus();
+        using var ctx = new BunitContext();
+        ctx.Services.AddSingleton<TimeProvider>(_clock);
+        ctx.Services.AddSingleton<IAccountCorpus>(pending);
+
+        var cut = ctx.Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
+
+        var loading = cut.Find("[data-testid=account-loading]");
+        Assert.Equal("status", loading.GetAttribute("role"));
+        Assert.Contains("Loading account activity…", loading.TextContent);
+    }
+
+    [Fact]
+    public void State_account_empty()
+    {
+        var cut = Render<AccountPage>(p => p.Add(x => x.Name, "UnseenEditor"));
+
+        cut.WaitForAssertion(() =>
+        {
+            var empty = cut.Find("[data-testid=empty-state]");
+            Assert.Contains("No edits by this account in our dataset.", empty.TextContent);
+        });
+    }
+
+    [Fact]
+    public void State_account_corpus_down()
+    {
+        _fake.Unavailable = true;
+
+        var cut = Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
+
+        cut.WaitForAssertion(() =>
+        {
+            var banner = cut.Find("[data-testid=status-banner]");
+            Assert.Contains("aot-banner--error", banner.ClassList);
+            Assert.Contains("We can’t reach the Wikipedia data right now.", banner.TextContent);
+            Assert.NotNull(cut.Find("[data-testid=status-retry]"));
+        });
+    }
+
+    [Fact]
+    public void State_account_embedder_down()
+    {
+        _fake.Accounts["Pohjantähti77"] = SampleFacts("Pohjantähti77");
+        Services.AddSingleton<AmpersandOfTruth.Web.Features.Embedding.IQueryEmbedder>(
+            new AmpersandOfTruth.Tests.Features.Embedding.FakeQueryEmbedder { Unavailable = true });
+
+        var cut = Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.NotNull(cut.Find("[data-testid=account-facts]"));
+            Assert.Empty(cut.FindAll("[data-testid=status-banner]"));
+        });
+    }
+
+    [Fact]
+    public void State_account_llm_down()
+    {
+        _fake.Accounts["Pohjantähti77"] = SampleFacts("Pohjantähti77");
+        Services.AddSingleton<AmpersandOfTruth.Web.Features.Analysis.IAnalysisModel>(
+            new FakeAnalysisModel());
+
+        var cut = Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.NotNull(cut.Find("[data-testid=account-facts]"));
+            Assert.Empty(cut.FindAll("[data-testid=status-banner]"));
+        });
+    }
+
+    [Fact]
+    public void State_account_slow()
+    {
+        var clock = new FakeTimeProvider();
+        var pending = new PendingAccountCorpus();
+        using var ctx = new BunitContext();
+        ctx.Services.AddSingleton<TimeProvider>(clock);
+        ctx.Services.AddSingleton<IAccountCorpus>(pending);
+
+        var cut = ctx.Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
+        Assert.Equal("Loading account activity…", cut.Find("[data-testid=account-loading]").TextContent.Trim());
+
+        clock.Advance(TimeSpan.FromSeconds(21));
+
+        cut.WaitForAssertion(() =>
+            Assert.Equal("Still loading account activity…", cut.Find("[data-testid=account-loading]").TextContent.Trim()));
+    }
+
+    [Fact]
+    public void State_account_run_failed()
+    {
+        var throwing = new PendingAccountCorpus { Fault = new InvalidOperationException("unexpected account failure") };
+        using var ctx = new BunitContext();
+        ctx.Services.AddSingleton<TimeProvider>(_clock);
+        ctx.Services.AddSingleton<IAccountCorpus>(throwing);
+
+        var cut = ctx.Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
+
+        cut.WaitForAssertion(() =>
+        {
+            var banner = cut.Find("[data-testid=status-banner]");
+            Assert.Contains("aot-banner--error", banner.ClassList);
+            Assert.Contains("Something went wrong loading this account.", banner.TextContent);
+            Assert.NotNull(cut.Find("[data-testid=status-retry]"));
+        });
+    }
+
+    private sealed class PendingAccountCorpus : IAccountCorpus
+    {
+        private readonly TaskCompletionSource<AccountFacts> _tcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Exception? Fault { get; init; }
+
+        public Task<AccountFacts> FactsAsync(string user, CancellationToken ct = default) =>
+            Fault is not null
+                ? Task.FromException<AccountFacts>(Fault)
+                : _tcs.Task.WaitAsync(ct);
+    }
+
     private static AccountFacts SampleFacts(string user) => new(
         User: user,
         Edits: 1_204,

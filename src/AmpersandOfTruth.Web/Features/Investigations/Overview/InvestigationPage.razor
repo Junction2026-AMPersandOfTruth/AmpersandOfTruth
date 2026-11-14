@@ -8,6 +8,7 @@
 @using AmpersandOfTruth.Web.Features.Investigations.Pipeline
 @using AmpersandOfTruth.Web.Features.Investigations.View
 @using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.Extensions.Diagnostics.HealthChecks
 @using Microsoft.Extensions.Options
 @inject IInvestigationRunner Runner
 @inject IncidentMapper Mapper
@@ -72,6 +73,25 @@
     </div>
 
     <StageTracker Progress="_progress" OnCancel="CancelRun" OnRerun="RerunAsync" />
+
+    @if (!_hasRendered && _prerenderFailureKind is { } prerenderFailure)
+    {
+        <StatusBanner Kind="StatusKind.Error"
+                      Title="@StageTracker.FailureSentence(prerenderFailure)"
+                      Detail="@_prerenderFailureDetail" />
+    }
+    else if (_cachedFallbackDetail is not null)
+    {
+        <StatusBanner Kind="StatusKind.Info"
+                      Title="Showing saved analysis — the Wikipedia data is not reachable right now."
+                      Detail="@_cachedFallbackDetail"
+                      OnRetry="RerunAsync" />
+    }
+    else if (_progress.HasAssessmentUnavailable && _progress.Failure is null)
+    {
+        <StatusBanner Kind="StatusKind.Warn"
+                      Title="Automated assessment unavailable — showing edit and removal history only." />
+    }
 
     @if (_incidents.Count > 0)
     {
@@ -307,6 +327,9 @@
     private bool _copied;
     private string? _activeSlug;
     private string? _hotId;
+    private StageFailureKind? _prerenderFailureKind;
+    private string? _prerenderFailureDetail;
+    private string? _cachedFallbackDetail;
 
     private long _lastRenderTicks;
     private bool _dirty;
@@ -339,6 +362,46 @@
     protected override void OnInitialized()
     {
         _progress = new RunProgress(Time);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (_hasRendered) return;
+
+        var healthChecks = Services.GetService<HealthCheckService>();
+        if (healthChecks is null || RecentRuns.TryGet(EffectiveSlug) is { Count: > 0 })
+        {
+            return;
+        }
+
+        try
+        {
+            var report = await healthChecks.CheckHealthAsync(
+                static reg => reg.Name is "corpus" or "embedding"
+                    || reg.Tags.Contains("corpus")
+                    || reg.Tags.Contains("embedding"));
+
+            var degraded = report.Entries
+                .Where(static e => e.Value.Status != HealthStatus.Healthy)
+                .ToList();
+
+            if (degraded.Count > 0)
+            {
+                var corpusDown = degraded.Any(static e =>
+                    string.Equals(e.Key, "corpus", StringComparison.OrdinalIgnoreCase));
+                _prerenderFailureKind = corpusDown
+                    ? StageFailureKind.CorpusUnavailable
+                    : StageFailureKind.EmbeddingUnavailable;
+                _prerenderFailureDetail = string.Join(
+                    Environment.NewLine,
+                    degraded.Select(static e => $"{e.Key}: {e.Value.Description ?? e.Value.Status.ToString()}"));
+            }
+        }
+        catch (Exception ex)
+        {
+            _prerenderFailureKind = StageFailureKind.Error;
+            _prerenderFailureDetail = ex.Message;
+        }
     }
 
     protected override void OnParametersSet()
@@ -422,6 +485,7 @@
         _hotId = null;
         _wasSlow = false;
         _dirty = false;
+        _cachedFallbackDetail = null;
 
         _progress.Start();
         StartSlowMonitor();
@@ -442,10 +506,12 @@
                 {
                     case ArticlesFound:
                     case RevisionsScanned:
+                        _wasSlow = false;
                         await RenderNowAsync();
                         break;
 
                     case CandidateScored { Incident: { } scoredRecord }:
+                        _wasSlow = false;
                         var mapped = await MapAndCacheAsync(scoredRecord, rank: 1, ct);
                         if (!ReferenceEquals(runCts, _cts) || _disposed) return;
                         AddAndRankIncident(mapped);
@@ -453,11 +519,21 @@
                         break;
 
                     case CandidateScored:
+                        _wasSlow = false;
                         await RequestThrottledRenderAsync(ct);
                         break;
 
-                    case StageFailed:
+                    case StageFailed failed:
                         StopSlowMonitor();
+                        if (failed.Kind == StageFailureKind.CorpusUnavailable
+                            && _incidents.Count == 0
+                            && RecentRuns.TryGet(slug) is { Count: > 0 } cachedRecords)
+                        {
+                            _progress.MarkCachedFallback(cachedRecords);
+                            _cachedFallbackDetail = failed.Error;
+                            await SyncFinalIncidentsAsync(cachedRecords, ct);
+                            if (!ReferenceEquals(runCts, _cts) || _disposed) return;
+                        }
                         await RenderNowAsync();
                         break;
 
@@ -478,6 +554,37 @@
             {
                 StopSlowMonitor();
                 _progress.Cancel();
+                if (!_disposed)
+                {
+                    await RenderNowAsync();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            if (ReferenceEquals(runCts, _cts))
+            {
+                StopSlowMonitor();
+                var kind = ex switch
+                {
+                    AmpersandOfTruth.Web.Features.Embedding.EmbeddingUnavailableException => StageFailureKind.EmbeddingUnavailable,
+                    CorpusUnavailableException => StageFailureKind.CorpusUnavailable,
+                    _ => StageFailureKind.Error,
+                };
+                var stage = _progress.ActiveStage ?? InvestigationStage.FindArticles;
+                if (kind == StageFailureKind.CorpusUnavailable
+                    && _incidents.Count == 0
+                    && RecentRuns.TryGet(slug) is { Count: > 0 } cachedRecords)
+                {
+                    _progress.MarkCachedFallback(cachedRecords);
+                    _cachedFallbackDetail = ex.Message;
+                    await SyncFinalIncidentsAsync(cachedRecords, CancellationToken.None);
+                }
+                else
+                {
+                    _progress.Apply(new StageFailed(stage, kind, ex.Message));
+                }
+
                 if (!_disposed)
                 {
                     await RenderNowAsync();

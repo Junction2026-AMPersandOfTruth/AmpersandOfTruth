@@ -430,6 +430,187 @@ public sealed class InvestigationPageTests : BunitContext
         _revisionStore.Texts[(pageId, removeRev)] = before;
     }
 
+    [Fact]
+    public void State_overview_loading()
+    {
+        _runner.EnqueueChannelRun();
+
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.NotNull(cut.Find("[data-testid=stage-tracker]"));
+            Assert.NotNull(cut.Find("[data-testid=cancel-run]"));
+            Assert.Equal(3, cut.FindAll("[data-testid=incident-skeleton]").Count);
+        });
+    }
+
+    [Fact]
+    public async Task State_overview_empty()
+    {
+        var session = _runner.EnqueueChannelRun();
+        var article = new TopicArticle("fi", 1150, "Talvisota", 0.05);
+        var candidate = MakeCandidate(article, revId: 902, revertedRevId: 901, user: "Editor", comment: "Kumottu");
+
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+        cut.WaitForAssertion(() => Assert.Equal("winter war", session.Topic));
+
+        await session.WriteAsync(new ArticlesFound(2, [article]));
+        await session.WriteAsync(new RevisionsScanned(1420, [candidate]));
+        await session.WriteAsync(new CandidateScored(1, 1, candidate, null, Exclusion: "typo"));
+        await session.WriteAsync(new Completed(false, [], TimeSpan.FromSeconds(2)));
+        session.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            var empty = cut.Find("[data-testid=empty-state]");
+            Assert.Contains("No disputed insertions found for this topic", empty.TextContent);
+            Assert.Contains("2 articles", empty.TextContent);
+            Assert.Contains("1,420 revisions", empty.TextContent);
+            Assert.Contains("1 removed edit", empty.TextContent);
+        });
+    }
+
+    [Fact]
+    public async Task State_overview_corpus_down()
+    {
+        // 1. Without a cached run -> StatusBanner error + Retry
+        var coldFail = _runner.EnqueueChannelRun();
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+        cut.WaitForAssertion(() => Assert.Equal("winter war", coldFail.Topic));
+
+        await coldFail.WriteAsync(new StageFailed(
+            InvestigationStage.ScanHistory,
+            StageFailureKind.CorpusUnavailable,
+            "Corpus 127.0.0.1:1 not available"));
+        coldFail.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            var banner = cut.Find("[data-testid=status-banner]");
+            Assert.Contains("aot-banner--error", banner.ClassList);
+            Assert.Contains("The Wikipedia data is not reachable right now.", banner.TextContent);
+            Assert.NotNull(cut.Find("[data-testid=status-retry]"));
+        });
+
+        // 2. With a cached run in RecentRuns -> StatusBanner info + cached incidents rendered
+        SeedCorpusAndRevisions();
+        var cachedRecord = MakeRecord("ww-01", 1150, 1001, 1002, EvidenceTier.Contested, 85, "Saved claim");
+        _recentRuns.Record("winter-war", [cachedRecord]);
+
+        var warmFail = _runner.EnqueueChannelRun();
+        cut.Find("[data-testid=status-retry]").Click();
+        cut.WaitForAssertion(() => Assert.Equal("winter war", warmFail.Topic));
+
+        await warmFail.WriteAsync(new StageFailed(
+            InvestigationStage.FindArticles,
+            StageFailureKind.CorpusUnavailable,
+            "Corpus 127.0.0.1:1 not available"));
+        warmFail.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            var infoBanner = cut.Find("[data-testid=status-banner]");
+            Assert.Contains("aot-banner--info", infoBanner.ClassList);
+            Assert.Contains("Showing saved analysis", infoBanner.TextContent);
+            Assert.Single(cut.FindAll("[data-testid=incident-card]"));
+        });
+    }
+
+    [Fact]
+    public async Task State_overview_embedder_down()
+    {
+        var session = _runner.EnqueueChannelRun();
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+        cut.WaitForAssertion(() => Assert.Equal("winter war", session.Topic));
+
+        await session.WriteAsync(new StageFailed(
+            InvestigationStage.FindArticles,
+            StageFailureKind.EmbeddingUnavailable,
+            "no Ollama with 'bge-m3'"));
+        session.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            var banner = cut.Find("[data-testid=status-banner]");
+            Assert.Contains("aot-banner--error", banner.ClassList);
+            Assert.Contains("Topic search is not available right now.", banner.TextContent);
+            Assert.NotNull(cut.Find("[data-testid=status-retry]"));
+        });
+    }
+
+    [Fact]
+    public async Task State_overview_llm_down()
+    {
+        SeedCorpusAndRevisions();
+        var article = new TopicArticle("fi", 1150, "Talvisota", 0.05);
+        var candidate = MakeCandidate(article, revId: 1002, revertedRevId: 1001, user: "Editor", comment: "Kumottu");
+        var unassessed = MakeRecord("ww-llm", 1150, 1001, 1002, EvidenceTier.Reverted, 40, claimEn: null);
+
+        var session = _runner.EnqueueChannelRun();
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+        cut.WaitForAssertion(() => Assert.Equal("winter war", session.Topic));
+
+        await session.WriteAsync(new ArticlesFound(1, [article]));
+        await session.WriteAsync(new RevisionsScanned(500, [candidate]));
+        await session.WriteAsync(new CandidateScored(1, 1, candidate, unassessed) { AssessmentUnavailable = true });
+        await session.WriteAsync(new Completed(false, [unassessed], TimeSpan.FromSeconds(1)) { Degraded = 1 });
+        session.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            var banner = cut.Find("[data-testid=status-banner]");
+            Assert.Contains("aot-banner--warn", banner.ClassList);
+            Assert.Contains("Automated assessment unavailable — showing edit and removal history only.", banner.TextContent);
+
+            var card = cut.Find("[data-testid=incident-card]");
+            Assert.Equal("reverted", card.QuerySelector("[data-testid=tier-badge]")?.GetAttribute("data-tier"));
+        });
+    }
+
+    [Fact]
+    public async Task State_overview_slow()
+    {
+        var session = _runner.EnqueueChannelRun();
+        var article = new TopicArticle("fi", 1150, "Talvisota", 0.05);
+
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+        cut.WaitForAssertion(() => Assert.Equal("winter war", session.Topic));
+
+        await session.WriteAsync(new ArticlesFound(1, [article]));
+        cut.WaitForAssertion(() =>
+            Assert.Equal("active", cut.Find("[data-testid=stage-2]").GetAttribute("data-state")));
+
+        _clock.Advance(TimeSpan.FromSeconds(21));
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Contains("Still working…", cut.Find("[data-testid=stage-2]").TextContent);
+            Assert.NotNull(cut.Find("[data-testid=cancel-run]"));
+        });
+    }
+
+    [Fact]
+    public void State_overview_run_failed()
+    {
+        _runner.EnqueueFault(new InvalidOperationException("unexpected pipeline boom"));
+        var retrySession = _runner.EnqueueChannelRun();
+
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+
+        cut.WaitForAssertion(() =>
+        {
+            var banner = cut.Find("[data-testid=status-banner]");
+            Assert.Contains("aot-banner--error", banner.ClassList);
+            Assert.Contains("Something went wrong in this step.", banner.TextContent);
+            Assert.Empty(cut.FindAll("[data-testid=incident-skeleton]"));
+            Assert.NotNull(cut.Find("[data-testid=status-retry]"));
+        });
+
+        cut.Find("[data-testid=status-retry]").Click();
+        cut.WaitForAssertion(() => Assert.Equal("winter war", retrySession.Topic));
+    }
+
     private static RemovedEdit MakeCandidate(TopicArticle article, long revId, long revertedRevId, string user, string comment) =>
         new(article, new RevertEvent(
             PageId: article.PageId,
@@ -466,7 +647,7 @@ public sealed class InvestigationPageTests : BunitContext
 
     private sealed class ScriptedInvestigationRunner : IInvestigationRunner
     {
-        private readonly Queue<ChannelRunSession> _sessions = new();
+        private readonly Queue<object> _sessions = new();
 
         public int RunCount { get; private set; }
 
@@ -477,12 +658,21 @@ public sealed class InvestigationPageTests : BunitContext
             return session;
         }
 
+        public void EnqueueFault(Exception exception) => _sessions.Enqueue(exception);
+
         public async IAsyncEnumerable<InvestigationEvent> RunAsync(
             string topic, bool refresh,
             [EnumeratorCancellation] CancellationToken ct = default)
         {
             RunCount++;
-            var session = _sessions.Count > 0 ? _sessions.Dequeue() : new ChannelRunSession(completeImmediately: true);
+            var next = _sessions.Count > 0 ? _sessions.Dequeue() : new ChannelRunSession(completeImmediately: true);
+            if (next is Exception ex)
+            {
+                await Task.Yield();
+                throw ex;
+            }
+
+            var session = (ChannelRunSession)next;
             session.Attach(topic, ct);
 
             await foreach (var evt in session.Reader.ReadAllAsync(ct))

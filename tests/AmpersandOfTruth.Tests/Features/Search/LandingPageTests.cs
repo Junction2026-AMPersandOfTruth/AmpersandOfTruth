@@ -112,9 +112,135 @@ public sealed class LandingPageTests : BunitContext
             defaultSlugs);
     }
 
+    [Fact]
+    public void State_landing_loading()
+    {
+        var cut = Render<LandingPage>();
+
+        Assert.NotNull(cut.Find("[data-testid=topic-input]"));
+        Assert.NotNull(cut.Find("[data-testid=topic-submit]"));
+        Assert.NotEmpty(cut.FindAll("[data-testid=topic-chip]"));
+        Assert.Empty(cut.FindAll("[data-testid=status-banner]"));
+    }
+
+    [Fact]
+    public void State_landing_empty()
+    {
+        Services.AddSingleton<IScopeCheck>(
+            new FakeScopeCheck(false, ["Winter War", "Civil War 1918", "Mannerheim"]));
+
+        var cut = Render<LandingPage>();
+        Assert.Empty(cut.FindAll("[data-testid=recent-topics]"));
+
+        cut.Find("[data-testid=topic-input]").Input("climate change");
+        cut.Find("form").Submit();
+
+        cut.WaitForAssertion(() =>
+        {
+            var empty = cut.Find("[data-testid=out-of-scope] [data-testid=empty-state]");
+            Assert.Contains("climate change", empty.TextContent);
+            Assert.Equal(3, cut.FindAll("[data-testid=suggestion-chip]").Count);
+        });
+    }
+
+    [Fact]
+    public void State_landing_corpus_down()
+    {
+        Services.AddHealthChecks()
+            .AddCheck("corpus", () => HealthCheckResult.Unhealthy("corpus 127.0.0.1:1 unreachable"), ["corpus"])
+            .AddCheck("embedding", () => HealthCheckResult.Healthy("bge-m3 ok"), ["embedding"]);
+
+        var nav = Services.GetRequiredService<NavigationManager>();
+        var cut = Render<LandingPage>();
+
+        cut.WaitForAssertion(() =>
+        {
+            var banner = cut.Find("[data-testid=status-banner]");
+            Assert.Contains("aot-banner--error", banner.ClassList);
+            Assert.True(cut.Find("[data-testid=topic-input]").HasAttribute("disabled"));
+            Assert.True(cut.Find("[data-testid=topic-submit]").HasAttribute("disabled"));
+
+            var chips = cut.FindAll("[data-testid=topic-chip]");
+            Assert.NotEmpty(chips);
+            Assert.StartsWith("/investigate/", chips[0].GetAttribute("href"));
+        });
+
+        cut.Find("form").Submit();
+        Assert.Equal("http://localhost/", nav.Uri);
+    }
+
+    [Fact]
+    public void State_landing_embedder_down()
+    {
+        Services.AddHealthChecks()
+            .AddCheck("corpus", () => HealthCheckResult.Healthy("corpus ok"), ["corpus"])
+            .AddCheck("embedding", () => HealthCheckResult.Degraded("no Ollama with 'bge-m3'"), ["embedding"]);
+
+        var cut = Render<LandingPage>();
+
+        cut.WaitForAssertion(() =>
+        {
+            var banner = cut.Find("[data-testid=status-banner]");
+            Assert.Contains("Search is limited right now", banner.TextContent);
+            Assert.Contains("chips still open saved investigations", banner.TextContent);
+            Assert.True(cut.Find("[data-testid=topic-input]").HasAttribute("disabled"));
+            Assert.True(cut.Find("[data-testid=topic-submit]").HasAttribute("disabled"));
+            Assert.NotEmpty(cut.FindAll("[data-testid=topic-chip]"));
+        });
+    }
+
+    [Fact]
+    public void State_landing_llm_down()
+    {
+        Services.AddHealthChecks()
+            .AddCheck("corpus", () => HealthCheckResult.Healthy("corpus ok"), ["corpus"])
+            .AddCheck("embedding", () => HealthCheckResult.Healthy("bge-m3 ok"), ["embedding"])
+            .AddCheck("gemini", () => HealthCheckResult.Degraded("no api key"), ["gemini"]);
+
+        var cut = Render<LandingPage>();
+
+        Assert.Empty(cut.FindAll("[data-testid=status-banner]"));
+        Assert.False(cut.Find("[data-testid=topic-input]").HasAttribute("disabled"));
+        Assert.False(cut.Find("[data-testid=topic-submit]").HasAttribute("disabled"));
+    }
+
+    [Fact]
+    public void State_landing_slow()
+    {
+        var pending = new TaskCompletionSource<HealthCheckResult>(TaskCreationOptions.RunContinuationsAsynchronously);
+        Services.AddHealthChecks()
+            .AddAsyncCheck("corpus", _ => pending.Task, ["corpus"]);
+
+        var cut = Render<LandingPage>();
+
+        Assert.NotNull(cut.Find("[data-testid=topic-input]"));
+        Assert.NotEmpty(cut.FindAll("[data-testid=topic-chip]"));
+        Assert.Empty(cut.FindAll("[data-testid=status-banner]"));
+    }
+
+    [Fact]
+    public void State_landing_run_failed()
+    {
+        Services.AddSingleton<IScopeCheck>(new ThrowingScopeCheck());
+        var nav = Services.GetRequiredService<NavigationManager>();
+        var cut = Render<LandingPage>();
+
+        cut.Find("[data-testid=topic-input]").Input("Winter War");
+        cut.Find("form").Submit();
+
+        cut.WaitForAssertion(() =>
+            Assert.Equal("http://localhost/investigate/winter-war", nav.Uri));
+    }
+
     private sealed class FakeScopeCheck(bool inScope, IReadOnlyList<string> suggestions) : IScopeCheck
     {
         public Task<ScopeResult> CheckAsync(string topic, CancellationToken ct = default) =>
             Task.FromResult(new ScopeResult(inScope, suggestions));
+    }
+
+    private sealed class ThrowingScopeCheck : IScopeCheck
+    {
+        public Task<ScopeResult> CheckAsync(string topic, CancellationToken ct = default) =>
+            Task.FromException<ScopeResult>(new InvalidOperationException("scope check failed"));
     }
 }

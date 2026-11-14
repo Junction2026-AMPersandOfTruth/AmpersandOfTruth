@@ -47,6 +47,24 @@ public sealed class RunProgress
 
     public bool FromCache { get; private set; }
 
+    public bool HasAssessmentUnavailable { get; private set; }
+
+    public InvestigationStage? ActiveStage
+    {
+        get
+        {
+            for (var i = 0; i < _states.Length; i++)
+            {
+                if (_states[i] == StageState.Active)
+                {
+                    return (InvestigationStage)i;
+                }
+            }
+
+            return null;
+        }
+    }
+
     public TimeSpan Elapsed => _finalElapsed
         ?? (_startedAt is { } started ? _time.GetElapsedTime(started) : TimeSpan.Zero);
 
@@ -66,12 +84,31 @@ public sealed class RunProgress
         IsComplete = false;
         IsCancelled = false;
         FromCache = false;
+        HasAssessmentUnavailable = false;
         _finalElapsed = null;
 
         var now = _time.GetTimestamp();
         _startedAt = now;
         IsRunning = true;
         Activate(InvestigationStage.FindArticles, now);
+    }
+
+    public void MarkCachedFallback(IReadOnlyList<IncidentRecord> cachedRecords)
+    {
+        ArgumentNullException.ThrowIfNull(cachedRecords);
+        _incidents.Clear();
+        _incidents.AddRange(cachedRecords);
+        Failure = null;
+        IsRunning = false;
+        IsComplete = true;
+        IsCancelled = false;
+        FromCache = true;
+        _finalElapsed ??= _startedAt is { } start ? _time.GetElapsedTime(start) : TimeSpan.Zero;
+        for (var i = 0; i < _states.Length; i++)
+        {
+            _states[i] = StageState.Done;
+            _activatedAt[i] = null;
+        }
     }
 
     public void Cancel()
@@ -128,6 +165,11 @@ public sealed class RunProgress
                 _readStarted = true;
                 Scored = c.Index;
                 Of = c.Of;
+                if (c.AssessmentUnavailable)
+                {
+                    HasAssessmentUnavailable = true;
+                }
+
                 if (c.Incident is not null)
                 {
                     _incidents.Add(c.Incident);

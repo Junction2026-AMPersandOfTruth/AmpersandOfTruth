@@ -16,7 +16,7 @@
     @if (_searchLimited)
     {
         <div style="margin-bottom:20px">
-            <StatusBanner Kind="StatusKind.Warn" Title="Search is limited right now" Detail="@_healthDetail">
+            <StatusBanner Kind="_bannerKind" Title="Search is limited right now" Detail="@_healthDetail">
                 Suggested topic chips still open saved investigations.
             </StatusBanner>
         </div>
@@ -27,7 +27,7 @@
         Type a topic. We read 20 years of Finnish Wikipedia edit history and show what was added, what editors removed, and how sure we are that it matters.
     </p>
 
-    <TopicSearch OnOutOfScope="HandleOutOfScope" />
+    <TopicSearch Disabled="_searchLimited" OnOutOfScope="HandleOutOfScope" />
 
     @if (_outOfScope is not null)
     {
@@ -71,16 +71,18 @@
     private readonly CancellationTokenSource _cts = new();
     private OutOfScopeTopic? _outOfScope;
     private bool _searchLimited;
+    private StatusKind _bannerKind = StatusKind.Warn;
     private string? _healthDetail;
 
     protected override void OnInitialized() => Recent.Changed += OnRecentChanged;
+
+    protected override Task OnInitializedAsync() => CheckServiceHealthAsync();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender) return;
 
         await Recent.LoadAsync();
-        await CheckServiceHealthAsync();
     }
 
     private void HandleOutOfScope(OutOfScopeTopic topic) => _outOfScope = topic;
@@ -114,10 +116,12 @@
             if (degraded.Count > 0)
             {
                 _searchLimited = true;
+                _bannerKind = degraded.Any(static e => e.Value.Status == HealthStatus.Unhealthy)
+                    ? StatusKind.Error
+                    : StatusKind.Warn;
                 _healthDetail = string.Join(
                     Environment.NewLine,
                     degraded.Select(static e => $"{e.Key}: {e.Value.Description ?? e.Value.Status.ToString()}"));
-                await InvokeAsync(StateHasChanged);
             }
         }
         catch (OperationCanceledException) when (_cts.IsCancellationRequested)
@@ -126,8 +130,8 @@
         catch (Exception ex)
         {
             _searchLimited = true;
+            _bannerKind = StatusKind.Error;
             _healthDetail = ex.Message;
-            await InvokeAsync(StateHasChanged);
         }
     }
 

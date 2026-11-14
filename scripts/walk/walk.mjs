@@ -5,6 +5,7 @@ import { chromium } from 'playwright-core';
 function parseArgs(argv) {
   let url = '';
   let out = '';
+  let degraded = false;
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === '--url' && i + 1 < argv.length) {
@@ -15,11 +16,13 @@ function parseArgs(argv) {
       out = argv[++i];
     } else if (arg.startsWith('--out=')) {
       out = arg.slice('--out='.length);
+    } else if (arg === '--degraded') {
+      degraded = true;
     }
   }
   if (!url) throw new Error('Missing required --url <http://localhost:PORT>');
   if (!out) throw new Error('Missing required --out <DIR>');
-  return { baseUrl: url.replace(/\/+$/, ''), outDir: out };
+  return { baseUrl: url.replace(/\/+$/, ''), outDir: out, degraded };
 }
 
 function sleep(ms) {
@@ -133,6 +136,32 @@ async function checkHorizontalOverflow(page) {
   });
 }
 
+async function collectBanners(page) {
+  return page
+    .evaluate(() => {
+      const selector = [
+        '[data-testid="status-banner"]',
+        '[data-testid="article-error"]',
+        '[data-testid="assessment-unavailable-banner"]',
+        '[data-testid="sample-data-banner"]',
+      ].join(', ');
+      const nodes = Array.from(document.querySelectorAll(selector));
+      return nodes
+        .filter((el) => {
+          const rect = el.getBoundingClientRect();
+          return rect.width > 0 && rect.height > 0;
+        })
+        .map((el) => {
+          const testId = el.getAttribute('data-testid') || 'banner';
+          const titleEl = el.querySelector('strong, b');
+          const raw = (titleEl ? titleEl.textContent : el.textContent) || '';
+          const summary = raw.trim().split(/\s+/).join(' ').slice(0, 72);
+          return { testId, summary };
+        });
+    })
+    .catch(() => []);
+}
+
 const VIEWPORTS = [
   {
     name: 'desktop',
@@ -158,11 +187,15 @@ const STEPS = [
     num: 1,
     slug: 'landing',
     title: 'Landing `/`',
-    async run({ page, baseUrl }) {
+    async run({ page, baseUrl, degraded }) {
       await page.goto(`${baseUrl}/`, { waitUntil: 'domcontentloaded', timeout: 15_000 });
       await waitForBlazorAndIdle(page);
       const ok = await isVisible(page, '[data-testid="topic-input"]', 3_000);
       if (!ok) return { skipped: 'missing [data-testid="topic-input"] on /' };
+      if (degraded) {
+        const hasBanner = await isVisible(page, '[data-testid="status-banner"]', 3_000);
+        if (!hasBanner) return { skipped: 'missing [data-testid="status-banner"] on / in degraded mode' };
+      }
       return {};
     },
   },
@@ -224,23 +257,29 @@ const STEPS = [
     num: 4,
     slug: 'incident',
     title: 'Click first `incident-card`',
-    async run({ page }) {
+    async run({ page, baseUrl, degraded }) {
       const hasCard = await isVisible(page, '[data-testid="incident-card"]', 3_000);
-      if (!hasCard) return { skipped: 'missing [data-testid="incident-card"]' };
-
-      const card = page.locator('[data-testid="incident-card"]').first();
-      const tagName = await card.evaluate((el) => el.tagName.toLowerCase());
-      if (tagName === 'a') {
-        await card.click();
+      if (!hasCard) {
+        if (!degraded) return { skipped: 'missing [data-testid="incident-card"]' };
+        await page.goto(`${baseUrl}/investigate/winter-war/incidents/ww-01`, {
+          waitUntil: 'domcontentloaded',
+          timeout: 15_000,
+        });
       } else {
-        const incidentLink = card.locator('a[href*="/incidents/"]').first();
-        const anyLink = card.locator('a[href]').first();
-        if (await incidentLink.isVisible().catch(() => false)) {
-          await incidentLink.click();
-        } else if (await anyLink.isVisible().catch(() => false)) {
-          await anyLink.click();
-        } else {
+        const card = page.locator('[data-testid="incident-card"]').first();
+        const tagName = await card.evaluate((el) => el.tagName.toLowerCase());
+        if (tagName === 'a') {
           await card.click();
+        } else {
+          const incidentLink = card.locator('a[href*="/incidents/"]').first();
+          const anyLink = card.locator('a[href]').first();
+          if (await incidentLink.isVisible().catch(() => false)) {
+            await incidentLink.click();
+          } else if (await anyLink.isVisible().catch(() => false)) {
+            await anyLink.click();
+          } else {
+            await card.click();
+          }
         }
       }
 
@@ -263,9 +302,14 @@ const STEPS = [
     num: 5,
     slug: 'diff-toggle',
     title: 'Toggle `diff-view-toggle`',
-    async run({ page }) {
+    async run({ page, degraded }) {
       const ok = await isVisible(page, '[data-testid="diff-view-toggle"]', 2_500);
-      if (!ok) return { skipped: 'missing or hidden [data-testid="diff-view-toggle"]' };
+      if (!ok) {
+        if (degraded && (await isVisible(page, '[data-testid="status-banner"]', 2_000))) {
+          return {};
+        }
+        return { skipped: 'missing or hidden [data-testid="diff-view-toggle"]' };
+      }
 
       const toggle = page.locator('[data-testid="diff-view-toggle"]').first();
       const inactiveBtn = toggle.locator('button[aria-pressed="false"]').first();
@@ -310,7 +354,7 @@ const STEPS = [
       }
       const ok = await isVisible(
         page,
-        '[data-testid="article-timeline"], [data-testid="article-page"], svg.aot-chart, [data-testid="empty-state"]',
+        '[data-testid="article-timeline"], [data-testid="article-page"], [data-testid="article-error"], svg.aot-chart, [data-testid="empty-state"]',
         5_000,
       );
       if (!ok) {
@@ -344,7 +388,7 @@ const STEPS = [
     num: 8,
     slug: 'mannerheim',
     title: 'Landing, type "Mannerheim" in `topic-input`, Enter',
-    async run({ page, baseUrl }) {
+    async run({ page, baseUrl, degraded }) {
       await page.goto(`${baseUrl}/`, { waitUntil: 'domcontentloaded', timeout: 15_000 });
       await waitForBlazorAndIdle(page);
 
@@ -352,6 +396,12 @@ const STEPS = [
       if (!hasInput) return { skipped: 'missing [data-testid="topic-input"] on /' };
 
       const input = page.locator('[data-testid="topic-input"]').first();
+      if (degraded && (await input.isDisabled().catch(() => false))) {
+        const hasBanner = await isVisible(page, '[data-testid="status-banner"]', 2_000);
+        if (!hasBanner) return { skipped: 'topic-input disabled without [data-testid="status-banner"]' };
+        return {};
+      }
+
       await input.fill('Mannerheim');
       await sleep(50);
       await input.press('Enter');
@@ -393,7 +443,7 @@ const STEPS = [
     num: 9,
     slug: 'climate-change',
     title: 'Landing, type "climate change", Enter (out-of-scope or results)',
-    async run({ page, baseUrl }) {
+    async run({ page, baseUrl, degraded }) {
       await page.goto(`${baseUrl}/`, { waitUntil: 'domcontentloaded', timeout: 15_000 });
       await waitForBlazorAndIdle(page);
 
@@ -401,6 +451,15 @@ const STEPS = [
       if (!hasInput) return { skipped: 'missing [data-testid="topic-input"] on /' };
 
       const input = page.locator('[data-testid="topic-input"]').first();
+      if (degraded && (await input.isDisabled().catch(() => false))) {
+        // Also exercise /accounts/Example in degraded mode so every dependency-backed page's banner is verified
+        await page.goto(`${baseUrl}/accounts/Example`, { waitUntil: 'domcontentloaded', timeout: 15_000 });
+        await waitForBlazorAndIdle(page);
+        const hasAccountBanner = await isVisible(page, '[data-testid="status-banner"]', 3_000);
+        if (!hasAccountBanner) return { skipped: 'missing [data-testid="status-banner"] on /accounts/Example in degraded mode' };
+        return {};
+      }
+
       await input.fill('climate change');
       await sleep(50);
       await input.press('Enter');
@@ -487,26 +546,28 @@ function escapeMd(text) {
     .replaceAll(NL, ' ');
 }
 
-function buildReport({ baseUrl, executablePath, browserVersion, startedAtIso, results }) {
+function buildReport({ baseUrl, executablePath, browserVersion, startedAtIso, degraded, results }) {
   const okCount = results.filter((r) => !r.skipped && !r.error).length;
   const skippedCount = results.filter((r) => r.skipped).length;
   const errorCount = results.filter((r) => r.error).length;
   const consoleErrTotal = results.reduce((sum, r) => sum + r.consoleErrors.length, 0);
   const failedReqTotal = results.reduce((sum, r) => sum + r.failedRequests.length, 0);
   const overflowCount = results.filter((r) => r.overflow?.overflow).length;
+  const bannerStepCount = results.filter((r) => (r.banners ?? []).length > 0).length;
 
   const lines = [
-    '# P2.12 Review Walk Report',
+    degraded ? '# P2.11 Degraded Review Walk Report' : '# P2.12 Review Walk Report',
     '',
     `- **UTC timestamp:** ${startedAtIso}`,
+    `- **Mode:** ${degraded ? 'degraded (corpus + Ollama pointed at closed ports)' : 'standard'}`,
     `- **Target URL:** ${inlineCode(baseUrl)}`,
     `- **Browser:** ${inlineCode(executablePath)} (Chromium ${browserVersion})`,
-    `- **Summary:** ${okCount}/${results.length} passed · ${skippedCount} skipped · ${errorCount} failed · ${consoleErrTotal} console error(s) · ${failedReqTotal} failed request(s) · ${overflowCount} horizontal scroll flag(s)`,
+    `- **Summary:** ${okCount}/${results.length} passed · ${skippedCount} skipped · ${errorCount} failed · ${bannerStepCount}/${results.length} steps with banners · ${consoleErrTotal} console error(s) · ${failedReqTotal} failed request(s) · ${overflowCount} horizontal scroll flag(s)`,
     '',
     '## Step × Viewport Matrix',
     '',
-    '| Step | Viewport | Status | Screenshot | Timing (s) | Console / Failed Reqs | Overflow |',
-    '|---|---|---|---|---:|---|---|',
+    '| Step | Viewport | Status | Banners | Screenshot | Timing (s) | Console / Failed Reqs | Overflow |',
+    '|---|---|---|---|---|---:|---|---|',
   ];
 
   for (const r of results) {
@@ -517,6 +578,13 @@ function buildReport({ baseUrl, executablePath, browserVersion, startedAtIso, re
       : r.skipped
         ? `skipped: ${escapeMd(r.skipped)}`
         : 'ok';
+
+    const bannerCol =
+      (r.banners ?? []).length > 0
+        ? r.banners
+            .map((b) => `${inlineCode(b.testId)}: ${escapeMd(b.summary)}`)
+            .join('; ')
+        : '—';
 
     const screenLinks = [
       ...(r.extraScreens ?? []).map((f) => `[progress](screens/${f})`),
@@ -533,7 +601,7 @@ function buildReport({ baseUrl, executablePath, browserVersion, startedAtIso, re
       : 'ok';
 
     lines.push(
-      `| ${escapeMd(stepCol)} | ${escapeMd(r.vpName)} (${escapeMd(r.vpLabel)}) | ${statusCol} | ${screenLinks} | ${r.durationSec.toFixed(2)} | ${errCol} | ${overflowCol} |`,
+      `| ${escapeMd(stepCol)} | ${escapeMd(r.vpName)} (${escapeMd(r.vpLabel)}) | ${statusCol} | ${bannerCol} | ${screenLinks} | ${r.durationSec.toFixed(2)} | ${errCol} | ${overflowCol} |`,
     );
   }
 
@@ -557,7 +625,7 @@ function buildReport({ baseUrl, executablePath, browserVersion, startedAtIso, re
 }
 
 async function main() {
-  const { baseUrl, outDir } = parseArgs(process.argv.slice(2));
+  const { baseUrl, outDir, degraded } = parseArgs(process.argv.slice(2));
   const screensDir = path.join(outDir, 'screens');
   fs.mkdirSync(screensDir, { recursive: true });
 
@@ -568,7 +636,7 @@ async function main() {
 
   try {
     for (const vp of VIEWPORTS) {
-      console.log(`▶ Viewport: ${vp.name} (${vp.label})`);
+      console.log(`▶ Viewport: ${vp.name} (${vp.label})${degraded ? ' [degraded]' : ''}`);
       const context = await browser.newContext(vp.contextOptions);
       const page = await context.newPage();
 
@@ -612,6 +680,7 @@ async function main() {
           outcome = await step.run({
             page,
             baseUrl,
+            degraded,
             state,
             vpName: vp.name,
             screensDir,
@@ -620,6 +689,8 @@ async function main() {
           // Unexpected selector/navigation error: log as skipped/degraded and keep walking.
           outcome = { skipped: firstLine(err) };
         }
+
+        const banners = await collectBanners(page);
 
         try {
           await page.screenshot({
@@ -644,7 +715,8 @@ async function main() {
           console.log(`  step ${step.num} error: ${stepError}`);
         } else {
           const ovNote = overflow.overflow ? ' [HORIZONTAL SCROLL]' : '';
-          console.log(`  step ${step.num} (${step.slug}): ok in ${durationSec.toFixed(2)}s${ovNote}`);
+          const bannerNote = banners.length > 0 ? ` [${banners.map((b) => b.testId).join(', ')}]` : '';
+          console.log(`  step ${step.num} (${step.slug}): ok in ${durationSec.toFixed(2)}s${bannerNote}${ovNote}`);
         }
 
         results.push({
@@ -655,6 +727,7 @@ async function main() {
           vpLabel: vp.label,
           skipped: outcome.skipped ?? '',
           error: stepError,
+          banners,
           screenFile,
           extraScreens: outcome.extraScreens ?? [],
           durationSec,
@@ -676,10 +749,24 @@ async function main() {
     executablePath,
     browserVersion,
     startedAtIso,
+    degraded,
     results,
   });
   fs.writeFileSync(reportPath, report, 'utf8');
   console.log(`✅ Report written to ${reportPath}`);
+
+  if (degraded) {
+    const consoleErrTotal = results.reduce((sum, r) => sum + r.consoleErrors.length, 0);
+    const failedReqTotal = results.reduce((sum, r) => sum + r.failedRequests.length, 0);
+    const hasDegradedBanners = results.some((r) =>
+      (r.banners ?? []).some((b) => b.testId === 'status-banner' || b.testId === 'article-error'),
+    );
+    if (consoleErrTotal > 0 || failedReqTotal > 0 || !hasDegradedBanners) {
+      throw new Error(
+        `Degraded walk failed assertions: consoleErrors=${consoleErrTotal}, failedRequests=${failedReqTotal}, hasDegradedBanners=${hasDegradedBanners}`,
+      );
+    }
+  }
 }
 
 main().catch((err) => {

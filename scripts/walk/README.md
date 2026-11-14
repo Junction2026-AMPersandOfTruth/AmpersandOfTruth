@@ -14,12 +14,15 @@ scripts/walk.sh --url http://localhost:5172
 # Write screenshots + report.md to a specific review folder:
 scripts/walk.sh --out research/review-rounds/round-1
 
+# Degraded dependency walk (Corpus + Ollama pointed at closed ports; verifies fallback banners + 0 console errors):
+scripts/walk.sh --degraded
+
 # Override the system browser binary (defaults to /usr/bin/google-chrome, fallback /usr/bin/chromium-browser):
 CHROME=/usr/bin/chromium-browser scripts/walk.sh
 ```
 
-By default, output is written to `research/review-rounds/<UTC yyyyMMdd-HHmm>/`:
-- `report.md` — step × viewport table with screenshot links, timing (`s`), console errors / failed requests, and horizontal-overflow checks (`document.documentElement.scrollWidth > innerWidth`).
+By default, output is written to `research/review-rounds/<UTC yyyyMMdd-HHmm>/` (`-degraded` suffix when `--degraded` is passed):
+- `report.md` — step × viewport table with rendered status banners, screenshot links, timing (`s`), console errors / failed requests, and horizontal-overflow checks (`document.documentElement.scrollWidth > innerWidth`).
 - `screens/NN-<step>-<desktop|phone>.png` — full-page PNGs (git-ignored via `research/review-rounds/*/screens/`).
 
 Missing selectors or unbuilt routes never abort the walk: they log `step N skipped: <reason>` and continue.

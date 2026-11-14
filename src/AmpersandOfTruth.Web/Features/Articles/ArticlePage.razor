@@ -9,6 +9,7 @@
 @inject IIncidentSource IncidentSource
 @inject IOptions<InvestigationSourceOptions> SourceOptions
 @inject NavigationManager Nav
+@inject IServiceProvider Services
 
 <PageTitle>@(_aggregates is not null ? $"{_aggregates.TitleFi} · Ampersand of Truth" : "Article · Ampersand of Truth")</PageTitle>
 
@@ -31,12 +32,16 @@
                           style="fill:var(--surface-sunken)" />
                 }
             </svg>
+            @if (_isSlow)
+            {
+                <p class="aot-small aot-muted">Still loading article history…</p>
+            }
         </div>
     }
     else if (_hasError)
     {
         <StatusBanner Kind="StatusKind.Error"
-                      Title="The Wikipedia data is not reachable right now."
+                      Title="@_errorTitle"
                       Detail="@_errorDetail"
                       OnRetry="RetryAsync"
                       TestId="article-error" />
@@ -155,11 +160,16 @@
 </div>
 
 @code {
+    private static readonly TimeSpan SlowThreshold = TimeSpan.FromSeconds(20);
+
     private CancellationTokenSource? _cts;
-    private bool _interactive;
+    private ITimer? _slowTimer;
+    private bool _disposed;
     private bool _loading = true;
+    private bool _isSlow;
     private bool _revisionsLoading;
     private bool _hasError;
+    private string _errorTitle = "The Wikipedia data is not reachable right now.";
     private string? _errorDetail;
 
     private long? _loadedPageId;
@@ -188,23 +198,7 @@
     private string? EffectiveIncident =>
         !string.IsNullOrWhiteSpace(Incident) ? Incident : ReadQueryParam(Nav.Uri, "incident");
 
-    protected override async Task OnParametersSetAsync()
-    {
-        if (_interactive)
-        {
-            await SyncAsync(forceReload: false);
-        }
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            _interactive = true;
-            await SyncAsync(forceReload: true);
-            StateHasChanged();
-        }
-    }
+    protected override Task OnParametersSetAsync() => SyncAsync(forceReload: false);
 
     private async Task SyncAsync(bool forceReload)
     {
@@ -246,8 +240,11 @@
 
         var ct = ResetCancellation();
         _loading = true;
+        _isSlow = false;
         _hasError = false;
+        _errorTitle = "The Wikipedia data is not reachable right now.";
         _errorDetail = null;
+        StartSlowTimer();
 
         try
         {
@@ -275,6 +272,7 @@
         catch (CorpusUnavailableException ex)
         {
             _hasError = true;
+            _errorTitle = "The Wikipedia data is not reachable right now.";
             _errorDetail = ex.Message;
             _loadedPageId = null;
             _loadedRange = null;
@@ -285,8 +283,19 @@
         {
             return;
         }
+        catch (Exception ex)
+        {
+            _hasError = true;
+            _errorTitle = "Something went wrong loading this article.";
+            _errorDetail = ex.Message;
+            _loadedPageId = null;
+            _loadedRange = null;
+            _loadedTopic = null;
+            _marks = [];
+        }
         finally
         {
+            StopSlowTimer();
             if (!ct.IsCancellationRequested)
             {
                 _loading = false;
@@ -301,6 +310,7 @@
         _selectedRange = range;
         _revisionsLoading = true;
         _hasError = false;
+        _errorTitle = "The Wikipedia data is not reachable right now.";
         _errorDetail = null;
 
         try
@@ -317,12 +327,20 @@
         catch (CorpusUnavailableException ex)
         {
             _hasError = true;
+            _errorTitle = "The Wikipedia data is not reachable right now.";
             _errorDetail = ex.Message;
             _loadedRange = null;
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
         {
             return;
+        }
+        catch (Exception ex)
+        {
+            _hasError = true;
+            _errorTitle = "Something went wrong loading this article.";
+            _errorDetail = ex.Message;
+            _loadedRange = null;
         }
         finally
         {
@@ -526,6 +544,36 @@
             ? $"+{delta.ToString("N0", CultureInfo.InvariantCulture)}"
             : delta.ToString("N0", CultureInfo.InvariantCulture);
 
+    private void StartSlowTimer()
+    {
+        StopSlowTimer();
+        var time = Services.GetService<TimeProvider>() ?? TimeProvider.System;
+        _slowTimer = time.CreateTimer(
+            static state => ((ArticlePage)state!).MarkSlow(),
+            this,
+            SlowThreshold + TimeSpan.FromMilliseconds(1),
+            Timeout.InfiniteTimeSpan);
+    }
+
+    private void StopSlowTimer()
+    {
+        _slowTimer?.Dispose();
+        _slowTimer = null;
+    }
+
+    private void MarkSlow()
+    {
+        if (_disposed || !_loading || _isSlow) return;
+        _isSlow = true;
+        _ = InvokeAsync(() =>
+        {
+            if (!_disposed && _loading)
+            {
+                StateHasChanged();
+            }
+        });
+    }
+
     private CancellationToken ResetCancellation()
     {
         _cts?.Cancel();
@@ -536,6 +584,8 @@
 
     public void Dispose()
     {
+        _disposed = true;
+        StopSlowTimer();
         _cts?.Cancel();
         _cts?.Dispose();
     }

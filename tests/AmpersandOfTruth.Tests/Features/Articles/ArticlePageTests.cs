@@ -320,6 +320,143 @@ public sealed class ArticlePageTests : BunitContext
         });
     }
 
+    [Fact]
+    public void State_article_loading()
+    {
+        var pending = new PendingArticleCorpus();
+        using var ctx = new BunitContext();
+        ctx.Services.AddSingleton<IArticleCorpus>(pending);
+        ctx.Services.AddSingleton<ArticleTimelineService>();
+        ctx.Services.AddSingleton<IIncidentSource>(_incidentSource);
+        ctx.Services.AddSingleton(Options.Create(_sourceOptions));
+
+        var cut = ctx.Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        var loading = cut.Find("[data-testid=article-loading]");
+        Assert.Equal("status", loading.GetAttribute("role"));
+        Assert.Equal(36, loading.QuerySelectorAll("rect").Length);
+    }
+
+    [Fact]
+    public void State_article_empty()
+    {
+        var cut = Render<ArticlePage>(p => p.Add(x => x.PageId, 404404));
+
+        cut.WaitForAssertion(() =>
+        {
+            var empty = cut.Find("[data-testid=empty-state]");
+            Assert.Contains("We don't have this article.", empty.TextContent);
+        });
+    }
+
+    [Fact]
+    public void State_article_corpus_down()
+    {
+        _corpus.Unavailable = true;
+
+        var cut = Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        cut.WaitForAssertion(() =>
+        {
+            var error = cut.Find("[data-testid=article-error]");
+            Assert.Contains("aot-banner--error", error.ClassList);
+            Assert.Contains("The Wikipedia data is not reachable right now.", error.TextContent);
+            Assert.NotNull(cut.Find("[data-testid=status-retry]"));
+        });
+    }
+
+    [Fact]
+    public void State_article_embedder_down()
+    {
+        SeedSampleArticle();
+        Services.AddSingleton<AmpersandOfTruth.Web.Features.Embedding.IQueryEmbedder>(
+            new AmpersandOfTruth.Tests.Features.Embedding.FakeQueryEmbedder { Unavailable = true });
+
+        var cut = Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.NotNull(cut.Find("[data-testid=article-header]"));
+            Assert.Empty(cut.FindAll("[data-testid=article-error]"));
+        });
+    }
+
+    [Fact]
+    public void State_article_llm_down()
+    {
+        SeedSampleArticle();
+        Services.AddSingleton<AmpersandOfTruth.Web.Features.Analysis.IAnalysisModel>(
+            new AmpersandOfTruth.Tests.Infrastructure.FakeAnalysisModel());
+
+        var cut = Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.NotNull(cut.Find("[data-testid=article-header]"));
+            Assert.Empty(cut.FindAll("[data-testid=article-error]"));
+        });
+    }
+
+    [Fact]
+    public void State_article_slow()
+    {
+        var clock = new Microsoft.Extensions.Time.Testing.FakeTimeProvider();
+        var pending = new PendingArticleCorpus();
+        using var ctx = new BunitContext();
+        ctx.Services.AddSingleton<TimeProvider>(clock);
+        ctx.Services.AddSingleton<IArticleCorpus>(pending);
+        ctx.Services.AddSingleton<ArticleTimelineService>();
+        ctx.Services.AddSingleton<IIncidentSource>(_incidentSource);
+        ctx.Services.AddSingleton(Options.Create(_sourceOptions));
+
+        var cut = ctx.Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+        Assert.DoesNotContain("Still loading", cut.Find("[data-testid=article-loading]").TextContent);
+
+        clock.Advance(TimeSpan.FromSeconds(21));
+
+        cut.WaitForAssertion(() =>
+            Assert.Contains("Still loading article history…", cut.Find("[data-testid=article-loading]").TextContent));
+    }
+
+    [Fact]
+    public void State_article_run_failed()
+    {
+        var throwing = new PendingArticleCorpus { Fault = new InvalidOperationException("unexpected query error") };
+        using var ctx = new BunitContext();
+        ctx.Services.AddSingleton<IArticleCorpus>(throwing);
+        ctx.Services.AddSingleton<ArticleTimelineService>();
+        ctx.Services.AddSingleton<IIncidentSource>(_incidentSource);
+        ctx.Services.AddSingleton(Options.Create(_sourceOptions));
+
+        var cut = ctx.Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        cut.WaitForAssertion(() =>
+        {
+            var error = cut.Find("[data-testid=article-error]");
+            Assert.Contains("aot-banner--error", error.ClassList);
+            Assert.Contains("Something went wrong loading this article.", error.TextContent);
+            Assert.NotNull(cut.Find("[data-testid=status-retry]"));
+        });
+    }
+
+    private sealed class PendingArticleCorpus : IArticleCorpus
+    {
+        private readonly TaskCompletionSource<ArticleAggregates?> _tcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Exception? Fault { get; init; }
+
+        public Task<ArticleAggregates?> AggregatesAsync(long pageId, CancellationToken ct = default) =>
+            Fault is not null
+                ? Task.FromException<ArticleAggregates?>(Fault)
+                : _tcs.Task.WaitAsync(ct);
+
+        public Task<IReadOnlyList<ArticleRevision>> RevisionsAsync(
+            long pageId, DateRange range, int limit = 500, CancellationToken ct = default) =>
+            Fault is not null
+                ? Task.FromException<IReadOnlyList<ArticleRevision>>(Fault)
+                : Task.FromResult<IReadOnlyList<ArticleRevision>>([]);
+    }
+
     private sealed class TestIncidentSource : IIncidentSource
     {
         private readonly Dictionary<string, IReadOnlyList<IncidentView>?> _byTopic =

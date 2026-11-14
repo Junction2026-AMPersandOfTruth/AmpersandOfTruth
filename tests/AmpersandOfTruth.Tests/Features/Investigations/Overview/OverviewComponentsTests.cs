@@ -134,6 +134,12 @@ public sealed class OverviewComponentsTests : BunitContext
         hotMark.Click();
         Assert.Equal("inc-2", clickedId);
 
+        var firstMark = cut.Find("[data-testid=timeline-mark][data-incident=inc-1]");
+        Assert.Equal("0", firstMark.GetAttribute("tabindex"));
+        Assert.Equal("button", firstMark.GetAttribute("role"));
+        firstMark.KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "Enter" });
+        Assert.Equal("inc-1", clickedId);
+
         cut.Find("[data-testid=timeline-year][data-year='2014']").Click();
         Assert.Equal((2014, 2014), selectedRange);
     }
