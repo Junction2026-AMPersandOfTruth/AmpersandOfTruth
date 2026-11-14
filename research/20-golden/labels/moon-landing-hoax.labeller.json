@@ -1,0 +1,13 @@
+{
+ "topic": {
+  "id": "moon-landing-hoax", "title": "Control (out of corpus): claims that the Moon landings were faked", "split": "test", "kind": "control-out-of-corpus",
+  "queries": [
+   {"id": "moon-landing-hoax.en", "style": "en", "lang": "en", "text": "Wikipedia edits claiming the Apollo Moon landings were staged"},
+   {"id": "moon-landing-hoax.fi", "style": "fi", "lang": "fi", "text": "väitteet että kuulennot lavastettiin"},
+   {"id": "moon-landing-hoax.broad", "style": "broad", "lang": "en", "text": "space race conspiracy theories"}
+  ],
+  "articles": [], "items": [],
+  "notes": "Misinformation-shaped but outside the corpus. Expected: no incidents, ideally an out-of-scope signal. Tests that a variant does not return Cold War / Soviet articles just because the query smells of propaganda."
+ },
+ "item_sources": {}, "skipped": []
+}
