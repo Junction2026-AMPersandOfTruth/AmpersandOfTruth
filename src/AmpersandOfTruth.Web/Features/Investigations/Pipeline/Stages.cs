@@ -88,6 +88,16 @@ public sealed record EditReading(
     public IReadOnlyList<RevisionRow> Reinsertions { get; init; } = [];
 
     /// <summary>
+    /// P1.S10 (#37): later revisions that took the content out again — a return to the page as it stood before the edit
+    /// (same sha1 as the restored revision) that comes after a re-insertion. Oldest first. The identity revert itself is
+    /// the first removal and is not listed. Empty when the edit-war signal is switched off.
+    /// </summary>
+    public IReadOnlyList<RevisionRow> ReRemovals { get; init; } = [];
+
+    /// <summary>The frozen contract's passage-level edit war (CONTRACT.md §3, <see cref="EditWars.Passage"/>).</summary>
+    public bool InPassageEditWar => EditWars.Passage(this);
+
+    /// <summary>
     /// P1.S4 (#31): the precomputed conflict episodes that hold a revision of the span or the revert. Empty = none, or
     /// the signal is switched off. Null = the episode tables could not be read, so it is unknown (such a reading is not
     /// cached). <see cref="EditWar"/> applies the tier rule.

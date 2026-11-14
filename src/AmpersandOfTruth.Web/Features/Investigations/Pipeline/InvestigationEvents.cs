@@ -66,6 +66,9 @@ public sealed record Completed(bool FromCache, IReadOnlyList<IncidentRecord> Inc
     /// <summary>Candidates that could not be read or whose assessment was unavailable. A run with any is never cached.</summary>
     public int Degraded { get; init; }
 
+    /// <summary>Incidents ranked without topic relevance because the embedder was unavailable (P1.S10); such a run is not cached.</summary>
+    public int Unranked { get; init; }
+
     /// <summary>Wall clock per stage of the run that did the work (#40 latency budget).</summary>
     public IReadOnlyDictionary<InvestigationStage, TimeSpan> StageTimings { get; init; } = new Dictionary<InvestigationStage, TimeSpan>();
 
