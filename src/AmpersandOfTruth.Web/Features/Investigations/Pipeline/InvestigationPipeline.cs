@@ -29,7 +29,7 @@ public sealed class InvestigationPipeline(
     ILogger<InvestigationPipeline> log) : IInvestigationRunner
 {
     /// <summary>Bump when the pipeline's logic changes what a run produces; part of the run-cache fingerprint.</summary>
-    public const int Version = 1;
+    public const int Version = 2;   // 2: S10 — passage-level edit war, source change, MinCoordinationSignals 3
 
     /// <inheritdoc />
     /// <remarks><paramref name="refresh"/> is a no-op here: this class caches nothing at the run level.</remarks>

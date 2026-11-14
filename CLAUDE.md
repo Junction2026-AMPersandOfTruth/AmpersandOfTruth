@@ -137,10 +137,12 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   `ITopicSearch` (R6), `ICandidateSource` (S1/S4), `IEditReader` (S2/S3), `IEditClassifier` (S9), `IncidentAssembler` (S10, static).
   Today's implementations are placeholders from P0.8 + `wikidiff` + `classify-edit` v1. Dispute signals wired: removal reason
   (S5 lexicon ported as `RevertReasons`; `Fixtures/s5-parity.jsonl` + `s5_parity.py` keep it identical to the Python) and
-  re-insertion (S1 identity restores). Not yet: dispute templates, kept-in-latest, and edit war (S4) + source change (S8),
-  which are computed on every reading (next bullet but one) but not yet copied into `IncidentEvidence`: that is two lines in
-  `IncidentAssembler` (`InEditWar = reading.EditWar is not null`, `SourceManipulation = reading.SourceChanges.Count > 0`),
-  left for S10 (#37) because it rewrites assembly around S7 clusters. Bump `InvestigationPipeline.Version` with it.
+  re-insertion (S1 identity restores), and since S10 (#37) the passage-level edit war (`EditWars.Passage`: removed ≥ 2× — the
+  revert + `EditReading.ReRemovals`, later returns to the pre-edit sha1 that follow a re-insertion — and put back ≥ 1×, by
+  different camps; the page-level S4 episode is **not** a tier input any more) and source change (S8 citations, or an S9
+  `source_manipulation` assessment). `TierThresholds.MinCoordinationSignals` = 3 (S10; recorded in `docs/evidence-standard.md`).
+  One removed edit = one incident: re-insertions are exact restores, so counting is claim-side without S7 clusters. Not yet:
+  dispute templates, kept-in-latest, multiple articles (needs S7 clusters), S10's topic-relevance ranking.
 - Edits the evidence standard excludes without an assessment are never sent to the LLM. Limits: `Investigations:Pipeline` options.
 - Per-edit signals ported ahead of the S11 decision (#38) sit on `EditReading`, computed in stage 3a (`CorpusEditReader`), so they
   hold whatever the incident unit becomes (S10): `Conflicts` / `EditWar` = P1.S4 (`IConflictEpisodes` reads the precomputed

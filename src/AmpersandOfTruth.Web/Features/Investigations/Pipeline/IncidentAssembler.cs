@@ -8,10 +8,12 @@ namespace AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 /// <summary>
 /// Stage 4 placeholder: one removed edit (+ its LLM reading, if any) → <see cref="IncidentEvidence"/> →
 /// <see cref="TierRules.Assess"/> → <see cref="IncidentRecord"/>, or null when the evidence standard excludes it.
-/// One edit = one incident until P1.S10 (#37) groups edits by claim cluster / conflict episode.
-/// Wired: removal reason (S5, <see cref="RevertReasons"/>), re-insertion (S1 identity restores), distinct editors.
-/// Not yet (left at their "no evidence" default): edit war (S4), dispute template, multiple articles, source change (S8),
-/// kept-in-latest. Pure and thread-safe.
+/// One edit = one incident: its re-insertions are exact restores of its own content, so everything counted is on the
+/// claim's side (the frozen contract's claim-side counting, CONTRACT.md §3) without S7 clusters.
+/// Wired: removal reason (S5, <see cref="RevertReasons"/>), re-insertion (S1 identity restores), distinct editors, passage-level
+/// edit war (S10, <see cref="EditWars.Passage"/>), source change (S8 citations removed/swapped, or an assessment of source
+/// manipulation, as S10). Not yet (left at their "no evidence" default): dispute template, multiple articles, kept-in-latest.
+/// Pure and thread-safe.
 /// </summary>
 public static partial class IncidentAssembler
 {
@@ -30,6 +32,7 @@ public static partial class IncidentAssembler
         var reinsertions = reading.Reinsertions;
         var inserters = span.Concat(reinsertions).ToList();
         var removalReason = RevertReasons.Of(revert.Comment);
+        var reRemovals = reading.ReRemovals;
 
         var evidence = new IncidentEvidence
         {
@@ -44,6 +47,8 @@ public static partial class IncidentAssembler
             ReinsertionCount = reinsertions.Count,
             InsertionSpan = reinsertions.Count == 0 ? TimeSpan.Zero : reinsertions[^1].Timestamp - span[0].Timestamp,
             DistinctInsertingEditors = Math.Max(1, inserters.Select(r => EditorDisplay.For(r.User).GroupingKey).Distinct().Count()),
+            InEditWar = reading.InPassageEditWar,
+            SourceManipulation = reading.SourceChanges.Count > 0 || assessment?.Category == ContentCategory.SourceManipulation,
         };
 
         var tier = TierRules.Assess(evidence);
@@ -51,7 +56,7 @@ public static partial class IncidentAssembler
 
         var first = span[0];
         var firstInserted = Utc(first.Timestamp);
-        var removed = Utc(revert.Timestamp);
+        var removed = Utc(revert.Timestamp);   // the first removal: the exposure window is the first live window
         var exposure = (long)Math.Max(0, (removed - firstInserted).TotalSeconds);
 
         var incident = new IncidentRecord
@@ -59,7 +64,7 @@ public static partial class IncidentAssembler
             Id = edit.Key,
             PageId = edit.Article.PageId,
             InsertingRevIds = [.. inserters.Select(r => r.RevId)],
-            RemovingRevIds = [revert.RevId],
+            RemovingRevIds = [revert.RevId, .. reRemovals.Select(r => r.RevId)],
             Tier = level,
             Score = Score(level, assessment, exposure, diff.Stats),
             TierReason = tier.BecauseSentence,
@@ -72,15 +77,17 @@ public static partial class IncidentAssembler
             ConfidenceNote = classification?.UncertaintyNote,
             Articles = [new IncidentArticle(edit.Article.PageId, edit.Article.Title)],
             FirstInsertedAt = firstInserted,
-            LastRemovedAt = removed,
+            LastRemovedAt = reRemovals.Count > 0 ? Utc(reRemovals[^1].Timestamp) : removed,
             TotalExposureSeconds = exposure,
             ReinsertionCount = reinsertions.Count,
-            Edits =
+            Edits = ((IEnumerable<IncidentEdit>)
             [
                 .. span.Select(r => Edit(r.RevId, r.ParentRevId, edit.Article.PageId, r.User, r.Timestamp, IncidentEditRole.Inserted, r.Comment)),
                 Edit(revert.RevId, revert.RevertedRevId, edit.Article.PageId, revert.User, revert.Timestamp, IncidentEditRole.Removed, revert.Comment),
                 .. reinsertions.Select(r => Edit(r.RevId, r.ParentRevId, edit.Article.PageId, r.User, r.Timestamp, IncidentEditRole.Reinserted, r.Comment)),
-            ],
+                .. reRemovals.Select(r => Edit(r.RevId, r.ParentRevId, edit.Article.PageId, r.User, r.Timestamp, IncidentEditRole.Removed, r.Comment)),
+            ])
+            .OrderBy(e => e.Timestamp).ThenBy(e => e.RevId).ToList(),
             Signals = [.. tier.Reasons.Select(r => new IncidentSignal(
                 IncidentJson.Id(r.Kind), r.Text,
                 r.Kind switch

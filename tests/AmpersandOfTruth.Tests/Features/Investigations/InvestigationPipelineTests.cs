@@ -291,7 +291,7 @@ public class InvestigationPipelineTests
     }
 
     [Fact]
-    public async Task Put_back_by_other_editors_over_more_than_a_week_is_a_possible_campaign()
+    public async Task Put_back_twice_and_taken_out_again_is_a_passage_edit_war_but_two_coordination_signals_stay_contested()
     {
         _kit.Revisions.Later(1256, 2002, "198.51.100.7", PipelineKit.After, FakeRevisionStore.T0.AddDays(3));
         _kit.Revisions.Later(1256, 2003, "Someone", PipelineKit.Before, FakeRevisionStore.T0.AddDays(4));
@@ -299,9 +299,79 @@ public class InvestigationPipelineTests
 
         var incident = await TheIncident();
 
-        Assert.Equal(EvidenceTier.Campaign, incident.Tier);
+        // multiple editors + persistence = 2 coordination signals; P1.S10 (#37) asks for 3 before "possible coordination".
+        Assert.Equal(EvidenceTier.Contested, incident.Tier);
         Assert.Equal(2, incident.ReinsertionCount);
-        Assert.Equal(["multiple_editors", "persistence", "claim_content"], incident.Signals.Select(s => s.Kind));
+        Assert.Contains("edit_war", incident.Signals.Select(s => s.Kind));
+        Assert.Equal([2000L, 2003], incident.RemovingRevIds);
+        Assert.Equal(FakeRevisionStore.T0.AddDays(4), incident.LastRemovedAt!.Value.UtcDateTime);
+        Assert.Equal([1999L, 2000, 2002, 2003, 2004], incident.Edits.Select(e => e.RevId));   // chronological
+        Assert.Equal(IncidentEditRole.Removed, incident.Edits.Single(e => e.RevId == 2003).Role);
         Assert.All(incident.Edits, e => Assert.DoesNotMatch(@"\d+\.\d+\.\d+\.\d+", e.UserDisplay!));
+    }
+
+    [Fact]
+    public async Task Put_back_by_other_editors_without_a_second_removal_is_no_edit_war()
+    {
+        _kit.Revisions.Later(1256, 2002, "198.51.100.7", PipelineKit.After, FakeRevisionStore.T0.AddDays(3));
+
+        var incident = await TheIncident();
+
+        Assert.DoesNotContain("edit_war", incident.Signals.Select(s => s.Kind));
+        Assert.Equal([2000L], incident.RemovingRevIds);
+    }
+
+    [Fact]
+    public async Task The_same_camp_putting_back_and_taking_out_is_no_edit_war()
+    {
+        // The reverter both re-inserts and removes again: one camp, so no back-and-forth between editors.
+        _kit.Revisions.Later(1256, 2002, "Reverter", PipelineKit.After, FakeRevisionStore.T0.AddDays(3));
+        _kit.Revisions.Later(1256, 2003, "Reverter", PipelineKit.Before, FakeRevisionStore.T0.AddDays(4));
+
+        var incident = await TheIncident();
+
+        Assert.Equal([2000L, 2003], incident.RemovingRevIds);
+        Assert.DoesNotContain("edit_war", incident.Signals.Select(s => s.Kind));
+    }
+
+    [Fact]
+    public async Task Switching_the_edit_war_signal_off_skips_re_removals()
+    {
+        _kit.Options.EditWarSignal = false;
+        _kit.Revisions.Later(1256, 2002, "198.51.100.7", PipelineKit.After, FakeRevisionStore.T0.AddDays(3));
+        _kit.Revisions.Later(1256, 2003, "Someone", PipelineKit.Before, FakeRevisionStore.T0.AddDays(4));
+
+        var incident = await TheIncident();
+
+        Assert.Equal([2000L], incident.RemovingRevIds);
+        Assert.DoesNotContain("edit_war", incident.Signals.Select(s => s.Kind));
+    }
+
+    [Fact]
+    public async Task Editors_persistence_and_a_removed_citation_are_three_signals_and_a_possible_campaign()
+    {
+        const string cited = "Talvisota alkoi 30. marraskuuta 1939, kun Neuvostoliitto hyökkäsi Suomeen.<ref>Manninen 1994, s. 28.</ref>";
+        _kit.Revisions.Rows.Clear();
+        _kit.Revisions.Edit(1256, 1998, 1999, "192.0.2.1", cited, PipelineKit.After);
+        _kit.Revisions.Later(1256, 2002, "198.51.100.7", PipelineKit.After, FakeRevisionStore.T0.AddDays(3));
+        _kit.Revisions.Later(1256, 2003, "Someone", cited, FakeRevisionStore.T0.AddDays(4));
+        _kit.Revisions.Later(1256, 2004, "203.0.113.9", PipelineKit.After, FakeRevisionStore.T0.AddDays(12));
+
+        var incident = await TheIncident();
+
+        Assert.Equal(EvidenceTier.Campaign, incident.Tier);
+        Assert.Equal(["multiple_editors", "persistence", "source_change"], incident.Signals.Select(s => s.Kind).Take(3));
+    }
+
+    [Fact]
+    public void Re_removals_count_only_returns_that_follow_a_re_insertion()
+    {
+        static RevisionRow Row(long rev) => new(1256, rev, rev - 1, FakeRevisionStore.T0.AddMinutes(rev), $"U{rev}", null, 10);
+
+        // return 2001 before any re-insertion (other edits in between) → not a removal; 2003 after 2002 → removal;
+        // 2004 right after 2003 with no re-insertion between → not another removal; 2006 after 2005 → removal.
+        var removals = CorpusEditReader.ReRemovals([Row(2002), Row(2005)], [Row(2001), Row(2003), Row(2004), Row(2006)]);
+
+        Assert.Equal([2003L, 2006], removals.Select(r => r.RevId));
     }
 }

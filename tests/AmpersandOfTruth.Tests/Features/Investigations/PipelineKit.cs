@@ -58,6 +58,14 @@ public sealed class FakeRevisionStore : IRevisionStore
         return Task.FromResult<IReadOnlyList<RevisionRow>>(result.Take(limit).ToList());
     }
 
+    public Task<IReadOnlyList<RevisionRow>> ReturnsToAsync(
+        long pageId, DateTime afterTs, long afterRevId, long stateRevId, int limit, CancellationToken ct = default)
+    {
+        ThrowIfDown();
+        var state = Rows.FirstOrDefault(r => r.PageId == pageId && r.RevId == stateRevId)?.Sha1;
+        return state is null ? Task.FromResult<IReadOnlyList<RevisionRow>>([]) : RestoresAsync(pageId, afterTs, afterRevId, [state], limit, ct);
+    }
+
     public static readonly DateTime T0 = new(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
 
     public static string Sha1(string text) =>
