@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using AmpersandOfTruth.Web.Data;
 using AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 using AmpersandOfTruth.Web.Features.WikiDiff;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -11,7 +12,8 @@ namespace AmpersandOfTruth.Web.Features.Investigations.Cache;
 /// <summary>
 /// Stage 3a with a SQLite cache in front (<c>EditReadingCache</c>, #40): a removed edit is fetched and diffed once, ever.
 /// Key = page + restored + last undone revision + reader version. Failures are not cached; a broken cache row is
-/// re-read. Singleton, thread-safe. <paramref name="inner"/> = the uncached reader (<see cref="CorpusEditReader"/>).
+/// re-read, and a storage problem never costs the reading itself (the edit would count as unreadable and the run as
+/// degraded). Singleton, thread-safe. <paramref name="inner"/> = the uncached reader (<see cref="CorpusEditReader"/>).
 /// </summary>
 public sealed class CachedEditReader(
     IEditReader inner, IOptions<InvestigationPipelineOptions> options, IDbContextFactory<AppDbContext> dbFactory,
@@ -41,7 +43,7 @@ public sealed class CachedEditReader(
             if (json is not null && JsonSerializer.Deserialize<Payload>(json, Json) is { Span.Count: > 0 } p)
                 return new EditReading(edit, p.Span, p.Diff, p.InsertedText, p.RemovedText, p.Context) { Reinsertions = p.Reinsertions };
         }
-        catch (Exception ex) when (ex is JsonException or DbUpdateException or InvalidOperationException)
+        catch (Exception ex) when (ex is JsonException or DbUpdateException or InvalidOperationException or SqliteException)
         {
             log.LogWarning(ex, "Edit reading cache row {Key} unusable; reading again", key);
         }
@@ -65,6 +67,10 @@ public sealed class CachedEditReader(
         catch (DbUpdateException ex)
         {
             log.LogDebug(ex, "Edit reading {Key} already cached by a concurrent run", key); // identical content
+        }
+        catch (Exception ex) when (ex is InvalidOperationException or SqliteException)
+        {
+            log.LogWarning(ex, "Could not cache edit reading {Key}", key);
         }
         return reading;
     }
