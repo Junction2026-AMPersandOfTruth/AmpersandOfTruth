@@ -1,5 +1,6 @@
 using AmpersandOfTruth.Web.Features.Investigations.Cache;
 using AmpersandOfTruth.Web.Features.Investigations.Fixtures;
+using AmpersandOfTruth.Web.Features.Investigations.Overview;
 using AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 using AmpersandOfTruth.Web.Features.Investigations.View;
 using Microsoft.Extensions.Options;
@@ -17,6 +18,7 @@ public static class InvestigationsFeature
         services.AddSingleton<IInvestigationCorpus, MariaDbInvestigationCorpus>();
         services.AddSingleton<IRevisionStore, MariaDbRevisionStore>();
         services.AddSingleton<IIncidentCorpus, MariaDbIncidentCorpus>();
+        services.AddSingleton<IContestSignals, MariaDbContestSignals>();
 
         // Pipeline stages (#39). Each is swapped for the winning P1 experiment without touching the rest.
         services.AddSingleton<ITopicSearch, VectorTopicSearch>();

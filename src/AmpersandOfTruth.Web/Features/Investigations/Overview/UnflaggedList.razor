@@ -21,16 +21,23 @@
                     @foreach (var item in Items)
                     {
                         var maskedSummary = EditorDisplay.MaskComment(item.Revert.Comment);
+                        var reason = ResolveReason(item);
                         <tr data-testid="unflagged-row">
                             <td class="aot-num" style="white-space:nowrap">@FormatDate(item.Revert.Timestamp)</td>
                             <td><a href="/articles/@item.Article.PageId" lang="fi">@item.Article.Title</a></td>
                             <td><EditorTag User="@item.Revert.RevertedUser" /></td>
                             <td>
+                                @if (reason is not null)
+                                {
+                                    <span class="aot-chip aot-muted"
+                                          style="@(!string.IsNullOrWhiteSpace(maskedSummary) ? "margin-right:6px" : null)"
+                                          data-testid="unflagged-reason">@reason</span>
+                                }
                                 @if (!string.IsNullOrWhiteSpace(maskedSummary))
                                 {
                                     <span lang="fi">@maskedSummary</span>
                                 }
-                                else
+                                else if (reason is null)
                                 {
                                     <span class="aot-muted">—</span>
                                 }
@@ -49,7 +56,24 @@
 
 @code {
     [Parameter, EditorRequired] public IReadOnlyList<RemovedEdit> Items { get; set; } = [];
+    [Parameter] public IReadOnlyDictionary<(long PageId, long RevertingRevId), string>? Classes { get; set; }
     [Parameter] public bool Open { get; set; }
+
+    private string? ResolveReason(RemovedEdit item)
+    {
+        if (Classes is null)
+        {
+            return null;
+        }
+
+        if (Classes.TryGetValue((item.Revert.PageId, item.Revert.RevId), out var cls) ||
+            Classes.TryGetValue((item.Article.PageId, item.Revert.RevId), out cls))
+        {
+            return ContestSignals.FormatRevertClass(cls);
+        }
+
+        return null;
+    }
 
     private static string FormatDate(DateTime timestamp) =>
         DateTime.SpecifyKind(timestamp, DateTimeKind.Utc).ToString("d MMM yyyy", CultureInfo.InvariantCulture);

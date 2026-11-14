@@ -175,6 +175,88 @@ public sealed class OverviewComponentsTests : BunitContext
         Assert.NotNull(cut.Find("a[href='https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5001']"));
     }
 
+    [Fact]
+    public void ArticleRailItem_renders_contest_line_only_when_fi_article_has_episodes()
+    {
+        var fiArticle = new TopicArticle("fi", 1150, "Suomen sisällissota", 0.04);
+        var contested = new PageContest(1150, EditWarEpisodes: 2, PingPongEpisodes: 3, BurstEpisodes: 4, ContestedScore: 28.1, PeakMonth: "2014-03");
+
+        var withContest = Render<ArticleRailItem>(p => p
+            .Add(x => x.Article, fiArticle)
+            .Add(x => x.Contest, contested));
+        Assert.Equal(
+            "Contested: 5 periods of back-and-forth edits \u00b7 peak Mar 2014",
+            withContest.Find("[data-testid=rail-contest]").TextContent.Trim());
+
+        var zeroEpisodes = Render<ArticleRailItem>(p => p
+            .Add(x => x.Article, fiArticle)
+            .Add(x => x.Contest, new PageContest(1150, 0, 0, 0, 1.2, "2014-03")));
+        Assert.Empty(zeroEpisodes.FindAll("[data-testid=rail-contest]"));
+
+        var enArticle = new TopicArticle("en", 9999, "Finnish Civil War", 0.04);
+        var nonFi = Render<ArticleRailItem>(p => p
+            .Add(x => x.Article, enArticle)
+            .Add(x => x.Contest, contested));
+        Assert.Empty(nonFi.FindAll("[data-testid=rail-contest]"));
+    }
+
+    [Fact]
+    public void UnflaggedList_renders_quiet_reason_tags_and_omits_other_and_excluded()
+    {
+        var article = new TopicArticle("fi", 1150, "Talvisota", 0.05);
+        RemovedEdit MakeItem(long revertRevId, string? comment = "Kumottu") =>
+            new(
+                article,
+                new RevertEvent(
+                    PageId: 1150,
+                    RevId: revertRevId,
+                    Timestamp: new DateTime(2015, 3, 7, 14, 2, 0, DateTimeKind.Utc),
+                    User: "Reviewer",
+                    Comment: comment,
+                    RestoredRevId: revertRevId - 2,
+                    RevertedCount: 1,
+                    RevertedRevId: revertRevId - 1,
+                    RevertedUser: "EditorA"));
+
+        IReadOnlyList<RemovedEdit> items =
+        [
+            MakeItem(1001),
+            MakeItem(1002),
+            MakeItem(1003),
+            MakeItem(1004),
+            MakeItem(1005),
+            MakeItem(1006),
+            MakeItem(1007),
+        ];
+
+        var classes = new Dictionary<(long PageId, long RevertingRevId), string>
+        {
+            [(1150, 1001)] = "graffiti_cleanup",
+            [(1150, 1002)] = "self_revert",
+            [(1150, 1003)] = "bot",
+            [(1150, 1004)] = "dispute",
+            [(1150, 1005)] = "edit_war",
+            [(1150, 1006)] = "other",
+            [(1150, 1007)] = "excluded",
+        };
+
+        var cut = Render<UnflaggedList>(p => p
+            .Add(x => x.Items, items)
+            .Add(x => x.Classes, classes)
+            .Add(x => x.Open, true));
+
+        var rows = cut.FindAll("[data-testid=unflagged-row]");
+        Assert.Equal(7, rows.Count);
+
+        Assert.Equal("vandalism cleanup", rows[0].QuerySelector("[data-testid=unflagged-reason]")?.TextContent);
+        Assert.Equal("undone by the same account", rows[1].QuerySelector("[data-testid=unflagged-reason]")?.TextContent);
+        Assert.Equal("bot", rows[2].QuerySelector("[data-testid=unflagged-reason]")?.TextContent);
+        Assert.Equal("disputed content", rows[3].QuerySelector("[data-testid=unflagged-reason]")?.TextContent);
+        Assert.Equal("back-and-forth edits", rows[4].QuerySelector("[data-testid=unflagged-reason]")?.TextContent);
+        Assert.Null(rows[5].QuerySelector("[data-testid=unflagged-reason]"));
+        Assert.Null(rows[6].QuerySelector("[data-testid=unflagged-reason]"));
+    }
+
     private static IncidentView MakeIncident(
         string id,
         int rank,

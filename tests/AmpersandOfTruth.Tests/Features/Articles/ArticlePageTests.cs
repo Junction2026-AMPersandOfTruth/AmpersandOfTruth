@@ -482,4 +482,100 @@ public sealed class ArticlePageTests : BunitContext
             return Task.FromResult(_byTopic.TryGetValue(topicSlug, out var list) ? list : null);
         }
     }
+
+    [Fact]
+    public void Conflict_episodes_render_bands_legend_and_busiest_edit_war_summary()
+    {
+        SeedSampleArticle();
+        var fakeEpisodes = new FakeConflictEpisodes();
+        fakeEpisodes.WithPage(1256,
+        [
+            new ConflictEpisode(
+                EpisodeId: 10,
+                PageId: 1256,
+                Kind: "edit_war",
+                StartTs: new DateTime(2014, 3, 3, 0, 0, 0, DateTimeKind.Utc),
+                EndTs: new DateTime(2014, 3, 19, 0, 0, 0, DateTimeKind.Utc),
+                RevertCount: 14,
+                NamedParticipants: 3,
+                AnonParticipants: 2,
+                EditCount: 25,
+                ProtectionHint: false,
+                Score: 8.4),
+            new ConflictEpisode(
+                EpisodeId: 11,
+                PageId: 1256,
+                Kind: "burst",
+                StartTs: new DateTime(2015, 3, 7, 0, 0, 0, DateTimeKind.Utc),
+                EndTs: new DateTime(2015, 3, 8, 0, 0, 0, DateTimeKind.Utc),
+                RevertCount: 2,
+                NamedParticipants: 4,
+                AnonParticipants: 0,
+                EditCount: 16,
+                ProtectionHint: false,
+                Score: 4.1),
+        ]);
+        Services.AddSingleton<IConflictEpisodes>(fakeEpisodes);
+
+        var cut = Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        cut.WaitForAssertion(() =>
+        {
+            var bands = cut.FindAll("[data-testid=timeline-band]");
+            Assert.Equal(2, bands.Count);
+            Assert.Equal(
+                "Back-and-forth edits \u00b7 3\u201319 Mar 2014 \u00b7 14 removals \u00b7 3 named and 2 anonymous accounts",
+                bands[0].QuerySelector("title")?.TextContent);
+            Assert.Equal("4", bands[1].GetAttribute("height"));
+
+            Assert.Contains("Back-and-forth edits", cut.Find(".aot-legend").TextContent);
+            Assert.Equal(
+                "Most contested period: Mar 2014 (back-and-forth edits, 14 removals).",
+                cut.Find("[data-testid=timeline-summary]").TextContent.Trim());
+        });
+    }
+
+    [Fact]
+    public void Conflict_episodes_lookup_throwing_leaves_article_page_unchanged()
+    {
+        SeedSampleArticle();
+        Services.AddSingleton<IConflictEpisodes>(new FakeConflictEpisodes
+        {
+            Failure = new InvalidOperationException("research.s4_episode missing"),
+        });
+
+        var cut = Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Empty(cut.FindAll("[data-testid=article-error]"));
+            Assert.Empty(cut.FindAll("[data-testid=timeline-band]"));
+            Assert.Contains("Most contested", cut.Find(".aot-legend").TextContent);
+            Assert.Equal(
+                "Most contested period: Nov 2014 \u2013 Mar 2015 (37 removals).",
+                cut.Find("[data-testid=timeline-summary]").TextContent.Trim());
+            Assert.Equal(2, cut.FindAll("[data-testid=revision-row]").Count);
+        });
+    }
+
+    private sealed class FakeConflictEpisodes : IConflictEpisodes
+    {
+        private readonly Dictionary<long, IReadOnlyList<ConflictEpisode>> _byPage = [];
+
+        public Exception? Failure { get; set; }
+
+        public void WithPage(long pageId, IReadOnlyList<ConflictEpisode> episodes) =>
+            _byPage[pageId] = episodes;
+
+        public Task<IReadOnlyList<ConflictEpisode>> ForPageAsync(long pageId, CancellationToken ct = default)
+        {
+            ct.ThrowIfCancellationRequested();
+            if (Failure is not null)
+            {
+                return Task.FromException<IReadOnlyList<ConflictEpisode>>(Failure);
+            }
+
+            return Task.FromResult(_byPage.TryGetValue(pageId, out var list) ? list : []);
+        }
+    }
 }

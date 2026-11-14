@@ -12,6 +12,7 @@ public sealed class ArticleCorpusIntegrationTests(AppFactory app) : IClassFixtur
     private const long SuomenSisallissota = 1150;
 
     private IArticleCorpus Corpus => app.Services.GetRequiredService<IArticleCorpus>();
+    private IConflictEpisodes ConflictEpisodesService => app.Services.GetRequiredService<IConflictEpisodes>();
 
     [CorpusFact]
     public async Task Suomen_sisallissota_aggregates_in_under_three_seconds_with_over_hundred_months()
@@ -40,5 +41,27 @@ public sealed class ArticleCorpusIntegrationTests(AppFactory app) : IClassFixtur
     {
         var agg = await Corpus.AggregatesAsync(999_999_999);
         Assert.Null(agg);
+    }
+
+    [CorpusFact]
+    public async Task Suomen_sisallissota_1150_has_default_s4_conflict_episodes()
+    {
+        var episodes = await ConflictEpisodesService.ForPageAsync(SuomenSisallissota);
+
+        Assert.NotEmpty(episodes);
+        Assert.Contains(episodes, e => e.Kind == "edit_war");
+        Assert.Contains(episodes, e => e.Kind == "ping_pong");
+        Assert.Contains(episodes, e => e.Kind == "burst");
+        Assert.All(episodes, e =>
+        {
+            Assert.Equal(SuomenSisallissota, e.PageId);
+            Assert.True(e.EndTs >= e.StartTs);
+            Assert.True(e.EditCount >= 1);
+        });
+
+        var summary = ConflictEpisodes.TryFormatBusiestSummary(episodes);
+        Assert.NotNull(summary);
+        Assert.StartsWith("Most contested period:", summary, StringComparison.Ordinal);
+        Assert.Contains("back-and-forth edits", summary, StringComparison.Ordinal);
     }
 }

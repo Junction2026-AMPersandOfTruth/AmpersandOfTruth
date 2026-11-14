@@ -258,7 +258,7 @@
 
             @if (unflagged.Count > 0)
             {
-                <UnflaggedList Items="unflagged" />
+                <UnflaggedList Items="unflagged" Classes="_removalClasses" />
             }
         </section>
 
@@ -276,6 +276,7 @@
                                          IncidentCount="@CountIncidentsForArticle(article.PageId)"
                                          Selected="@(_filter.ArticleId == article.PageId)"
                                          TimelineData="@TryGetTimeline(article.PageId)"
+                                         Contest="@TryGetContest(article.PageId)"
                                          OnSelectArticle="@(() => ToggleArticleFilter(article.PageId))"
                                          @key="(article.Lang, article.PageId)" />
                     }
@@ -314,6 +315,9 @@
     private readonly Dictionary<string, IncidentView> _mappedById = new(StringComparer.Ordinal);
     private readonly Dictionary<long, string> _articleTitlesEn = [];
     private readonly Dictionary<long, ArticleAggregates> _sparklines = [];
+    private IReadOnlyDictionary<long, PageContest> _pageContests = new Dictionary<long, PageContest>();
+    private IReadOnlyDictionary<(long PageId, long RevertingRevId), string> _removalClasses =
+        new Dictionary<(long PageId, long RevertingRevId), string>();
 
     private RunProgress _progress = default!;
     private OverviewFilter _filter = OverviewFilter.Default;
@@ -482,6 +486,8 @@
         _mappedById.Clear();
         _articleTitlesEn.Clear();
         _sparklines.Clear();
+        _pageContests = new Dictionary<long, PageContest>();
+        _removalClasses = new Dictionary<(long PageId, long RevertingRevId), string>();
         _hotId = null;
         _wasSlow = false;
         _dirty = false;
@@ -504,9 +510,15 @@
 
                 switch (evt)
                 {
-                    case ArticlesFound:
-                    case RevisionsScanned:
+                    case ArticlesFound found:
                         _wasSlow = false;
+                        _ = LoadPageContestsAsync(found.Items, runCts, ct);
+                        await RenderNowAsync();
+                        break;
+
+                    case RevisionsScanned scanned:
+                        _wasSlow = false;
+                        _ = LoadRemovalClassesAsync(scanned.Candidates, runCts, ct);
                         await RenderNowAsync();
                         break;
 
@@ -732,6 +744,80 @@
         }
     }
 
+    private async Task LoadPageContestsAsync(
+        IReadOnlyList<TopicArticle> articles,
+        CancellationTokenSource ownerCts,
+        CancellationToken ct)
+    {
+        if (articles.Count == 0 || _disposed) return;
+
+        var signals = Services.GetService<IContestSignals>();
+        if (signals is null) return;
+
+        var fiPageIds = articles
+            .Where(static a => a.HasHistory)
+            .Select(static a => a.PageId)
+            .Distinct()
+            .ToList();
+        if (fiPageIds.Count == 0) return;
+
+        try
+        {
+            var contests = await signals.PageContestsAsync(fiPageIds, ct);
+            if (ct.IsCancellationRequested || _disposed || !ReferenceEquals(ownerCts, _cts)) return;
+
+            if (contests.Count > 0)
+            {
+                _pageContests = contests;
+                await RenderNowAsync();
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        catch
+        {
+            // Optional S4 layer: failures leave the page unchanged.
+        }
+    }
+
+    private async Task LoadRemovalClassesAsync(
+        IReadOnlyList<RemovedEdit> candidates,
+        CancellationTokenSource ownerCts,
+        CancellationToken ct)
+    {
+        if (candidates.Count == 0 || _disposed) return;
+
+        var signals = Services.GetService<IContestSignals>();
+        if (signals is null) return;
+
+        var keys = candidates
+            .Select(static c => (c.Revert.PageId, c.Revert.RevId))
+            .Distinct()
+            .ToList();
+
+        try
+        {
+            var classes = await signals.RevertClassesAsync(keys, ct);
+            if (ct.IsCancellationRequested || _disposed || !ReferenceEquals(ownerCts, _cts)) return;
+
+            if (classes.Count > 0)
+            {
+                _removalClasses = classes;
+                await RenderNowAsync();
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        catch
+        {
+            // Optional S1 layer: failures leave the page unchanged.
+        }
+    }
+
     private void StartSlowMonitor()
     {
         StopSlowMonitor();
@@ -946,6 +1032,9 @@
 
     private ArticleAggregates? TryGetTimeline(long pageId) =>
         _sparklines.GetValueOrDefault(pageId);
+
+    private PageContest? TryGetContest(long pageId) =>
+        _pageContests.GetValueOrDefault(pageId);
 
     private int CountIncidentsForArticle(long pageId) =>
         _incidents.Count(i => i.Articles.Any(a => a.PageId == pageId));

@@ -91,9 +91,10 @@
             <ArticleTimeline Data="_aggregates"
                              Range="_selectedRange"
                              Marks="_marks"
+                             Bands="_bands"
                              HighlightedIncidentId="@EffectiveIncident"
                              OnRangeSelected="HandleRangeSelectedAsync" />
-            <p class="aot-small" data-testid="timeline-summary">@ArticleTimelineService.Summary(_aggregates)</p>
+            <p class="aot-small" data-testid="timeline-summary">@(ConflictEpisodes.TryFormatBusiestSummary(_episodes) ?? ArticleTimelineService.Summary(_aggregates))</p>
         </section>
 
         @if (_selectedRange is not null)
@@ -180,6 +181,8 @@
     private DateRange? _selectedRange;
     private IReadOnlyList<ArticleRevision> _revisions = [];
     private IReadOnlyList<IncidentMark> _marks = [];
+    private IReadOnlyList<ConflictEpisode> _episodes = [];
+    private IReadOnlyList<ConflictBand> _bands = [];
 
     [Parameter]
     public long PageId { get; set; }
@@ -260,6 +263,8 @@
                 _loadedTopic = topicSlug;
                 _revisions = [];
                 _marks = [];
+                _episodes = [];
+                _bands = [];
                 return;
             }
 
@@ -267,6 +272,8 @@
             _selectedRange = initialRange;
             _revisions = await TimelineService.RevisionsAsync(PageId, initialRange, limit: 500, ct: ct);
             _marks = await LoadMarksAsync(PageId, topicSlug, ct);
+            _episodes = await LoadEpisodesAsync(PageId, ct);
+            _bands = ConflictEpisodes.ToBands(_episodes);
             _loadedRange = initialRange;
             _loadedTopic = topicSlug;
         }
@@ -279,6 +286,8 @@
             _loadedRange = null;
             _loadedTopic = null;
             _marks = [];
+            _episodes = [];
+            _bands = [];
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
         {
@@ -382,6 +391,28 @@
             }
 
             return marks;
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch
+        {
+            return [];
+        }
+    }
+
+    private async Task<IReadOnlyList<ConflictEpisode>> LoadEpisodesAsync(long pageId, CancellationToken ct)
+    {
+        var source = Services.GetService<IConflictEpisodes>();
+        if (source is null)
+        {
+            return [];
+        }
+
+        try
+        {
+            return await source.ForPageAsync(pageId, ct);
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
         {
