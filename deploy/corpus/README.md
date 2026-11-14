@@ -51,3 +51,41 @@ with the 16M default**, brute force (`IGNORE INDEX`) 38 ms. `corpus-mariadb` RSS
 (the buffer pool grows towards 3 GB as revision data is loaded).
 
 Known harmless log warning: `io_uring_queue_init() failed with EPERM` — the host disables io_uring; InnoDB falls back to libaio.
+
+## Loaded datasets (issues #13 & #14)
+
+Source: [`MariaDB/mariadb-wikipedia-datasets`](https://github.com/MariaDB/mariadb-wikipedia-datasets) releases `s-2026-10` (145 MiB, SHA-256 verified) and `m-2026-10` (301 MiB, SHA-256 verified), cached on the VPS under `/opt/junction/corpus/data/{s,m}` (never committed).
+
+### Loaders (idempotent & resumable)
+
+```bash
+scripts/corpus/load-s.sh --remote                 # Dataset S → VPS over loopback (~40 s)
+scripts/corpus/load-m.sh --remote                 # Dataset M full load → VPS over loopback (~6.3 min)
+scripts/corpus/load-m.sh --articles 200           # local/subset: top-200 most-edited articles (via tunnel)
+scripts/corpus/load-m.sh --pages golden_pages.txt # subset from page_id list (combinable with --articles N)
+```
+
+### Tables in `corpus` (`6.8 GB` total on disk)
+
+| Table | Rows | Logical / `.ibd` size | Keys & notes |
+|---|---:|---:|---|
+| `article` | 29,460 (`19,285` fi · `4,921` sv · `5,254` en) | 150.6 MB (`160M` `.ibd` + `316M` FTS) | `PK (lang, page_id)`, `KEY (wikidata_id)`, `FULLTEXT (title, text)` — clean FineWiki Markdown (Aug 2025) |
+| `article_vector` | 29,460 (`19,285` fi · `4,921` sv · `5,254` en) | 231.3 MB (`164M` + `88M` HNSW) | `PK (lang, page_id)`, `VECTOR(1024)` (`bge-m3`), `VECTOR INDEX (embedding) M=16 DISTANCE=cosine` |
+| `category_link` | 1,760 | 0.33 MB (`400K`) | `PK (parent, child)`, `KEY (child)` — Finnish `Suomen historia` category tree |
+| `article_category` | 39,037 (`25,138` fi · `6,839` sv · `7,060` en) | 7.03 MB (`15M`) | `PK (lang, page_id, category)`, `KEY (category)` — sv/en inherited via `wikidata_id` |
+| `revision` | 862,076 across 19,742 fi articles | 344.9 MB (`356M` `.ibd`: 127.7 MB data + 217.2 MB idx) | `PK (page_id, rev_id)`, `KEY idx_page_ts (page_id, ts)`, `KEY idx_page_sha1 (page_id, sha1)`, `KEY idx_sha1 (sha1)`, `KEY idx_user (user)`, `KEY idx_ts (ts)` |
+| `revision_text` | 862,076 | 5,688 MB (`5.7G` `.ibd`) | `PK (page_id, rev_id)`, `text MEDIUMTEXT COMPRESSED NOT NULL` (12.15 GB raw wikitext → 5.69 GB compressed) |
+
+**Why `revision` and `revision_text` are split:** benchmarking `versions-01.parquet` (103,607 rows, 3.04 GB raw wikitext → 1.40 GB compressed) showed InnoDB `DYNAMIC` stores ~4 KB compressed `MEDIUMTEXT` blobs inline on clustered leaf pages, inflating `revision` from 15.6 MB to 1,419 MB (projected ~5.8 GB for all 862k rows — overflowing the 3 GB buffer pool on metadata scans). Splitting keeps all 862k rows + 5 secondary indexes of `revision` in **345 MB** (pinned permanently in the 3 GB buffer pool; full 862k-row window scan runs in ~2.6 s, warm per-file scans 2.5× faster), while `revision_text` is joined by `(page_id, rev_id)` PK only when diffing or rendering wikitext.
+
+**Verified query shapes (`EXPLAIN`):**
+- Vector top-k: `ORDER BY VEC_DISTANCE_COSINE(embedding, @q) LIMIT k` inside a subquery on `article_vector`, then `JOIN article USING (lang, page_id)` → uses HNSW index `embedding`.
+- Revisions of page X by time: `WHERE page_id = ? ORDER BY ts, rev_id` → `ref` on `idx_page_ts` (no filesort).
+- Revisions sharing `sha1` within page X: `WHERE page_id = ? AND sha1 = ?` → `idx_page_sha1` (`index_merge` / `ref`).
+- Spot-check: `Talvisota` (`page_id = 1256`) latest 8 revisions up to `2026-10-01` verified row-for-row (`rev_id`, `parent_id`, `ts`, `user`, `bytes`, base-36 `sha1`) against live `fi.wikipedia.org` MediaWiki API.
+
+## Attribution & licensing (for P2.10 / issue #51)
+
+- **Wikipedia text & derived vectors:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Credit Wikipedia and its authors, link each current article via `article.url` (`https://<lang>.wikipedia.org/?curid=<page_id>`) and each historical revision via `https://fi.wikipedia.org/w/index.php?oldid=<rev_id>` (or history `?curid=<page_id>&action=history`), and license redistributed text adaptations under CC BY-SA 4.0.
+- **Datasets & schema credit:** MariaDB Foundation (`MariaDB/mariadb-wikipedia-datasets` releases `s-2026-10` & `m-2026-10`; `MariaDB/mariadb-vector-wikipedia-rag`, MIT), Hugging Face [FineWiki](https://huggingface.co/datasets/HuggingFaceFW/finewiki) (Aug 2025 clean Markdown), Wikimedia `fiwiki` `pages-meta-history` dumps (1 Oct 2026), and `BAAI/bge-m3` embeddings.
+
