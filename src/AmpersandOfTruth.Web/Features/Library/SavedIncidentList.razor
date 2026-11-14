@@ -1,10 +1,14 @@
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Annotations
 @using AmpersandOfTruth.Web.Features.Investigations.View
 @using Microsoft.Extensions.DependencyInjection
 @inject IServiceProvider Services
 
 @{
-    var pinned = Incidents.Where(i => _pinnedIds.Contains(i.Id)).ToList();
-    var unpinned = Incidents.Where(i => !_pinnedIds.Contains(i.Id)).ToList();
+    var dismissed = Incidents.Where(i => IsDismissed(i.Id)).ToList();
+    var active = Incidents.Where(i => !IsDismissed(i.Id)).ToList();
+    var pinned = active.Where(i => _pinnedIds.Contains(i.Id)).ToList();
+    var unpinned = active.Where(i => !_pinnedIds.Contains(i.Id)).ToList();
 }
 
 @if (pinned.Count > 0)
@@ -14,7 +18,13 @@
         @foreach (var incident in pinned)
         {
             <div class="aot-stack" style="gap:4px" @key="@($"pin-{incident.Id}")">
-                <div class="aot-row" style="justify-content:flex-end">
+                <div class="aot-row" style="justify-content:space-between">
+                    <div class="aot-row">
+                        @if (TryGetAnnotation(incident.Id) is { Verdict: { } verdict } ann)
+                        {
+                            <VerdictChip Verdict="verdict" DismissReason="ann.DismissReason" Note="@ann.Note" />
+                        }
+                    </div>
                     <button type="button"
                             class="aot-chip"
                             aria-pressed="true"
@@ -26,7 +36,7 @@
                 </div>
                 <IncidentCard Incident="incident"
                               Topic="@Topic"
-                              Query="@Query"
+                              Query="@EffectiveQuery"
                               Highlighted="@string.Equals(HotId, incident.Id, StringComparison.Ordinal)"
                               OnHover="OnHover" />
             </div>
@@ -37,7 +47,13 @@
 @foreach (var incident in unpinned)
 {
     <div class="aot-stack" style="gap:4px" @key="incident.Id">
-        <div class="aot-row" style="justify-content:flex-end">
+        <div class="aot-row" style="justify-content:space-between">
+            <div class="aot-row">
+                @if (TryGetAnnotation(incident.Id) is { Verdict: { } verdict } ann)
+                {
+                    <VerdictChip Verdict="verdict" DismissReason="ann.DismissReason" Note="@ann.Note" />
+                }
+            </div>
             <button type="button"
                     class="aot-chip"
                     aria-pressed="false"
@@ -49,15 +65,54 @@
         </div>
         <IncidentCard Incident="incident"
                       Topic="@Topic"
-                      Query="@Query"
+                      Query="@EffectiveQuery"
                       Highlighted="@string.Equals(HotId, incident.Id, StringComparison.Ordinal)"
                       OnHover="OnHover" />
     </div>
 }
 
+@if (dismissed.Count > 0)
+{
+    <details class="aot-collapsed" data-testid="dismissed-group">
+        <summary>Dismissed (@dismissed.Count.ToString("N0", CultureInfo.InvariantCulture))</summary>
+        <div class="aot-stack" style="gap:16px;margin-top:12px">
+            @foreach (var incident in dismissed)
+            {
+                var isPinned = _pinnedIds.Contains(incident.Id);
+                <div class="aot-stack" style="gap:4px" @key="@($"dis-{incident.Id}")">
+                    <div class="aot-row" style="justify-content:space-between">
+                        <div class="aot-row">
+                            @if (TryGetAnnotation(incident.Id) is { Verdict: { } verdict } ann)
+                            {
+                                <VerdictChip Verdict="verdict" DismissReason="ann.DismissReason" Note="@ann.Note" />
+                            }
+                        </div>
+                        <button type="button"
+                                class="aot-chip"
+                                aria-pressed="@(isPinned ? "true" : "false")"
+                                data-testid="pin-incident"
+                                data-incident="@incident.Id"
+                                @onclick="@(() => TogglePinAsync(incident.Id))">
+                            @(isPinned ? "Pinned" : "Pin")
+                        </button>
+                    </div>
+                    <IncidentCard Incident="incident"
+                                  Topic="@Topic"
+                                  Query="@EffectiveQuery"
+                                  Highlighted="@string.Equals(HotId, incident.Id, StringComparison.Ordinal)"
+                                  OnHover="OnHover" />
+                </div>
+            }
+        </div>
+    </details>
+}
+
 @code {
     private Guid? _loadedSavedId;
+    private string? _lastHotId;
     private HashSet<string> _pinnedIds = new(StringComparer.Ordinal);
+    private IReadOnlyDictionary<string, IncidentAnnotation> _annotations =
+        new Dictionary<string, IncidentAnnotation>(StringComparer.Ordinal);
 
     [Parameter, EditorRequired] public Guid SavedId { get; set; }
     [Parameter, EditorRequired] public IReadOnlyList<IncidentView> Incidents { get; set; } = [];
@@ -66,15 +121,53 @@
     [Parameter] public string? HotId { get; set; }
     [Parameter] public EventCallback<string?> OnHover { get; set; }
 
+    private string EffectiveQuery
+    {
+        get
+        {
+            var raw = string.IsNullOrWhiteSpace(Query) ? "" : Query.TrimStart('?');
+            if (string.IsNullOrEmpty(raw))
+            {
+                return $"?saved={SavedId}";
+            }
+
+            foreach (var part in raw.Split('&', StringSplitOptions.RemoveEmptyEntries))
+            {
+                var eq = part.IndexOf('=');
+                var name = eq >= 0 ? part[..eq] : part;
+                if (string.Equals(Uri.UnescapeDataString(name), "saved", StringComparison.OrdinalIgnoreCase))
+                {
+                    return "?" + raw;
+                }
+            }
+
+            return $"?saved={SavedId}&{raw}";
+        }
+    }
+
     protected override async Task OnParametersSetAsync()
     {
-        if (_loadedSavedId == SavedId)
+        if (_loadedSavedId == SavedId && _lastHotId != HotId)
         {
+            _lastHotId = HotId;
             return;
         }
 
         _loadedSavedId = SavedId;
+        _lastHotId = HotId;
+        await ReloadAsync();
+    }
+
+    private IncidentAnnotation? TryGetAnnotation(string incidentId) =>
+        _annotations.TryGetValue(incidentId, out var ann) ? ann : null;
+
+    private bool IsDismissed(string incidentId) =>
+        AnnotationLabels.IsDismissed(TryGetAnnotation(incidentId));
+
+    private async Task ReloadAsync()
+    {
         await ReloadPinsAsync();
+        await ReloadAnnotationsAsync();
     }
 
     private async Task ReloadPinsAsync()
@@ -88,6 +181,18 @@
 
         var pins = await store.PinsAsync(SavedId);
         _pinnedIds = pins.Select(static p => p.IncidentId).ToHashSet(StringComparer.Ordinal);
+    }
+
+    private async Task ReloadAnnotationsAsync()
+    {
+        var store = Services.GetService<AnnotationStore>();
+        if (store is null)
+        {
+            _annotations = new Dictionary<string, IncidentAnnotation>(StringComparer.Ordinal);
+            return;
+        }
+
+        _annotations = await store.ForInvestigationAsync(SavedId);
     }
 
     private async Task TogglePinAsync(string incidentId)

@@ -1,0 +1,30 @@
+@using AmpersandOfTruth.Web.Features.Investigations
+
+@if (Verdict is { } verdict)
+{
+    <span class="aot-chip"
+          title="@BuildTooltip()"
+          data-testid="verdict-chip"
+          data-verdict="@IncidentJson.Id(verdict)">@AnnotationLabels.ForVerdict(verdict)</span>
+}
+
+@code {
+    [Parameter] public AnalystVerdict? Verdict { get; set; }
+    [Parameter] public DismissReason? DismissReason { get; set; }
+    [Parameter] public string? Note { get; set; }
+
+    private string? BuildTooltip()
+    {
+        if (DismissReason is { } reason && !string.IsNullOrWhiteSpace(Note))
+        {
+            return $"{AnnotationLabels.ForDismissReason(reason)} — {Note.Trim()}";
+        }
+
+        if (DismissReason is { } reasonOnly)
+        {
+            return AnnotationLabels.ForDismissReason(reasonOnly);
+        }
+
+        return string.IsNullOrWhiteSpace(Note) ? null : Note.Trim();
+    }
+}
