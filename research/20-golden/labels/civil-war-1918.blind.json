@@ -1,0 +1,201 @@
+{
+ "topic_id": "civil-war-1918",
+ "labels": {
+  "x01": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: infobox/lead end dates of the regency and presidency changed (25.7 to \"26.7.1919\", 4.3 to \"11.3.1946\"). A later editor asked for a source for the 11.3 date (\"-päivän saa lisätä lähteistettynä\": the date may be added when sourced). Removed with \"rv\", put back by other accounts, removed again over several days: back-and-forth over the passage. Single day span, so no Level 3."
+  },
+  "x02": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added text says 14-20-year-olds among the war dead. Removal summary says the count concerns 9-20-year-olds and must be checked (accuracy). Put back once after removal and removed again."
+  },
+  "x03": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: a map image with caption (\"comparable national guards in European countries today\") was removed as belonging elsewhere, not on topic for this article. No claim, no dispute about accuracy."
+  },
+  "x04": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: list of guard commanders with dates and URLs removed because \"the given sources are incomplete and cause a citation error\". Plausible list, no slant, sourcing/format problem only."
+  },
+  "x05": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Self-removal: the same account added a literature link and took it out 82 seconds later."
+  },
+  "x06": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "other",
+   "why": "Removal edit is the page being emptied (\"Sivu tyhjennettiin\" = the page was emptied) and it was itself undone; the episode is blanking of the article."
+  },
+  "x07": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: lead rewritten to say the crisis began with the Reds' \"ylireagoinnin ... Leninin yllyttämänä aloitettuun aseelliseen vallankaappaukseen\" (overreaction, a coup started at Lenin's urging) and calling the period \"vapaussodaksi\" (war of liberation). Removal: \"source markings missing and own comments\" (sourcing)."
+  },
+  "x08": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added claim that White-terror victims probably exceed 20,000 counting 11,000 camp deaths, and a comparison with Winter War deaths. Removal says the camp claim (\"valkoinen terrori\") is an untrue POV statement (neutrality/accuracy)."
+  },
+  "x09": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Self-removal: the same account undid its own edit within 60 seconds."
+  },
+  "x10": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Nonsense replacements in infobox/headings (\"Ruotsin sisällyssota\", \"Arabian keisarikunta\", \"penis\", \"sekunnin vallankumous\") removed in under a minute."
+  },
+  "x11": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added \"Suojeluskuntiin kuului tuhansia luokkapettureita, jotka tukivat oikestolaista Suomea\" (the guards included thousands of class traitors who supported right-wing Finland). Removal summary: talk of class traitors is \"erittäin POV\" (very POV)."
+  },
+  "x12": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: figure for the Swedish brigade changed 500 to 550 with no source or summary. Removal summary generic; text not in latest revision. Only a changed number, no stated dispute; kept at the lower level."
+  },
+  "x13": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "The remover is the same account that added the text (npov comment on own earlier addition): self-removal."
+  },
+  "x14": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added that the term \"punakapina\" is justified because part of the workers \"pyrki kaappaamaan vallan väkivaltaisesti\" (sought to seize power violently). Removal: \"Asenteellinen ja epämääräinen kommentti\" (biased and vague comment): neutrality."
+  },
+  "x15": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Only a copyright-check template ({{Tekijänoikeus_201009}}) was added, by a bot-like account; no prose."
+  },
+  "x16": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: lead rewritten with passages such as \"kommunistinen ääriryhmä väkivaltaisesti kaappasi vallan\" and \"vapaussodaksi Suomen kansallisen olemassaolon kannalta\"; plan to settle Finland with Russians. Removed as \"kyseenalaisia lähteettömiä lisäyksiä\" and \"sävyltään värittyneitä\" (tone coloured), put back once, removed again."
+  },
+  "x17": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "other",
+   "why": "The inserting edit blanked about 19 kB of the article and was reverted within 7 seconds."
+  },
+  "x18": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: changed the names paragraph to call \"Vuoden 1918 sota\" terms \"Keinotekoiset\" (artificial) and \"anakronistisesti objektiivisimmat\", and \"eniten historian ammattitutkijat\" to \"osa tutkijoista\". Removal: \"Asenteellinen tämäkin\" (biased as well), asks what the anachronism is: neutrality."
+  },
+  "x19": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: placed in the redirect header: \"Ei se mikään sisällissota ollut vaan Vapaussota. Bolsevikkimieliset punaiset ... halusivat liittää Suomen Neuvostoliittoon\" (it was no civil war but a War of Liberation; the Reds wanted to join Finland to the USSR). Removal: editor's own opinion pushed into the start of the article. Unsure: dispute signal is only the removal wording."
+  },
+  "x20": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: infobox rows removed and the end date changed to \"11.3.1946\"; removal summary \"selittämättömät päivämäärämuutokset\" (unexplained date changes). Same version put back twice by two accounts and removed each time within a day: edit war. No second signal, so not Level 3."
+  },
+  "x21": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: section heading spacing, image swap and a new caption (\"Mannerheim after leaving the presidency in 1946\") removed within 3 minutes. Minor, picture/caption only; unsure whether this is substantive."
+  },
+  "x22": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: added a section comparing the revolutionary government's constitution proposal with today's (\"yllättävän paljon yhtäläisyyksiä\": surprisingly many similarities), unsourced analysis. Removal summary addresses the Soviet-annexation speculation, not this section clearly; no clear dispute signal, kept low."
+  },
+  "x23": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Added \"mannerheim on jätkä <3 ... hän oli jätkä!\" (Mannerheim is a dude): joke text, removed after 4 minutes."
+  },
+  "x24": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Added \"oli ruskean reijän ritari\" (was a knight of the brown hole): nonsense, removed in under a minute."
+  },
+  "x25": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 1: infobox edit that is itself a revert, with end date changed to \"11.3.1946\", name shortened, rows removed. Summary mentions preventing an edit war, but removed within 26 seconds with a generic summary and no separate claim to quote; kept at the lower level."
+  },
+  "x26": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "The inserting edit only removed a see-also link (\"Luettelo punakaartilaisista\"); no prose, number or citation was added."
+  },
+  "x27": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: infobox end date changed from \"4.3.1946\" to \"11.3.1946\", title text altered; removed, put back by a second account (\"Kumottu muokkaus 15216508\") and removed again within the hour: back-and-forth over the date."
+  },
+  "x28": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: book references to a self-published two-volume work removed years later as \"omakustanteita, joihin ei lähdeviitteitä\" (self-published, no source references). Sourcing remark but no claim text quoted; kept low."
+  },
+  "x29": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: external library link removed in a link clean-up (\"toimimattomat pois\", dead ones out) nearly ten years later. No dispute."
+  },
+  "x30": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: name field filled with a personal reference (\"Kummisetäni Gustaf Mannerheim\") and date changed to \"11.3.1946\". Removed as \"liikaa lähteetöntä ja kirjoitusvirheillä täydennettyä tekstiä\" (too much unsourced text with typos): sourcing/quality only."
+  },
+  "x31": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: paragraph on Mannerheim family papers donated by the Russian president removed with note that the information is moved to another article. Sourced, neutral wording."
+  },
+  "x32": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: infobox rewritten to name the sides \"Punainen Suomi eli kansanvaltuuskunta\" and \"Valkoinen Suomi eli senaatti\". Removal: the box got worse, e.g. Germans hardly part of \"white Finland\" (accuracy of framing). Put back once and removed again. Unsure: framing change in an infobox."
+  }
+ },
+ "rev_id_concerns": {
+  "x06": "inserting rev 3536150 is itself a revert edit; the removal is a page blanking",
+  "x26": "the inserting edit only removed a link; nothing was added"
+ }
+}

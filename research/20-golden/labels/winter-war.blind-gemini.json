@@ -1,0 +1,180 @@
+{
+ "topic_id": "winter-war",
+ "labeller": "gemini:blind/gemini-4-carbon",
+ "labels": {
+  "x01": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Substantive paragraph on marginal Finnish National Socialist associations, pre-1969 party registration rules, and wartime election dates was added and later removed by another account as 'kh+w ongelmia, asiaankuulumatonta lähteetöntä tekstiä' ('language and wikification problems, irrelevant unsourced text'). The prose is unslanted background whose recorded issues are relevance and missing sourcing, capping it at Level 1."
+  },
+  "x02": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 1: Added a claim questioning whether Red Army soldiers coined Simo Häyhä's nickname ('moni jopa väittää lempinimen tulevan Suomen puolelta' / 'many even claim the nickname came from the Finnish side'), citing an online video. Removed four months later by another account with a generic multi-edit undo summary, with no removal reason about accuracy, neutrality, or sourcing, no re-insertion after removal, and no dispute template."
+  },
+  "x03": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "vandalism",
+   "why": "Excluded (self-removal): The same anonymous account added vulgar anti-Russian profanity into the lead paragraph and took its own addition out 49 seconds later. Self-removal precedes graffiti in exclusion order."
+  },
+  "x04": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "vandalism",
+   "why": "Excluded (self-removal): The same anonymous account added a vulgar joke phrase ('koska niille tuli levoton paskahätä :/.' / 'because they got restless diarrhea :/.') and removed it five minutes later. Self-removal applies first."
+  },
+  "x05": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Changed the statement that Russians later admitted staging the Mainila artillery strike into its negation ('Venäläiset eivät ole myöntäneet' / 'Russians have not admitted') and added 'Tämä historiallinen fakta on edelleen kiistanalainen' ('This historical fact is still disputed'). Disputed by another account in removal summaries citing sourcing mismatches ('lähteetön' / 'unsourced'; 'ylen lähteessä asiaa ei mainita' / 'not mentioned in the Yle source') and put back twice by the same single account on one article within two hours."
+  },
+  "x06": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Two accounts added unslanted military detail about Simo Häyhä's rifle serial number and lack of prior experience with scoped rifles into the middle of an already cited paragraph. Removed 15 days later because the existing citation at the end of the paragraph did not cover the added sentences ('lähteistetty tekstiosuus jonka lähteessä tätä ei ole' / 'sourced text passage whose source does not contain this'); plausible unslanted detail lacking its own source is capped at Level 1."
+  },
+  "x07": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Excluded (not-substantive): Added only a copyright maintenance template ('{{Tekijänoikeus_201009|diff=600}}') with no prose, fact, or citation, and was also added by a bot-flagged account before being removed once the diff check passed."
+  },
+  "x08": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Added an infobox outcome claim ('Neuvostoliiton voitto (sotilaallinen), Suomen torjuntavoitto (poliittinen)' / 'Soviet victory (military), Finnish defensive victory (political)'). Removed with dispute summaries ('epämääräisiä käsitteitä' / 'vague concepts'; 'lähteet ensin' / 'sources first') and put back three times in a one-day back-and-forth on a single article by addresses within one masked anonymous IP range (counting as one editor)."
+  },
+  "x09": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Added a slanted passage framing Finnish wartime morale as racism against an inferior culture ('Ryssäviha lue rasismi oli yksi menestymisen tae sodassa. Taisteltiin alempiarvoista kansaa ja kultturia vastaan tunnontuskista piittaamatta' / 'Anti-Russian hatred, read racism, was one guarantee of success in the war. They fought against an inferior people and culture without caring about pangs of conscience'). Removed by another account as 'Lähteetön mielipidekirjoitus' ('Unsourced opinion piece'), signaling a neutrality and sourcing dispute."
+  },
+  "x10": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 1: Changed the cited lower estimate of soldiers shot by Simo Häyhä from 'noin 200 sotilasta' ('around 200 soldiers') to '2000' right after text stating the upper figure was 542, with an edit summary claiming a prior number was wrong. Removed 12 minutes later with a generic undo summary and never put back, so there is no community dispute signal for Level 2."
+  },
+  "x11": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "vandalism",
+   "why": "Excluded (blanking): Removed 82,926 bytes—wiping almost the entire Winter War article—and replaced it with two paragraphs about pornography. Blanking applies ahead of graffiti."
+  },
+  "x12": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded (graffiti): Replaced the infobox title, image caption, and opening bold title with Russian-language obscenities and slurs, removed 73 seconds later."
+  },
+  "x13": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Added a short paragraph describing a Japanese manga featuring a female sniper named after Simo Häyhä, removed 34 days later with summary 'merkittävyys epäselvä' ('notability unclear'). Pop-culture trivia removed for unclear notability involves no contested claim and is capped at Level 1."
+  },
+  "x14": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded (graffiti): Added an absurd hoax claiming Finland fired the Mainila shots in a conspiracy and invaded the Soviet Union in 1939 'yhdessä saksalaisten, namibialaisten ja amerikkalaisten joukkojen kanssa' ('together with German, Namibian, and American troops'), removed three minutes later."
+  },
+  "x15": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Added ten books (mostly Books on Demand self-publications) by a single author to the further reading section and adjusted one citation format. Removed 21 days later as 'omakustannespämmiä' ('self-published spam'); bibliography additions without an article claim stay at Level 1."
+  },
+  "x16": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Rewrote the lead paragraph to state that foreign journalists coined the name 'Mannerheim-linja' ('Mannerheim Line') and that official Finnish military usage did not use that term. Removed as 'Lähteetön muutos pois' ('Unsourced change out'); plausible, unslanted historical prose whose only recorded problem is missing sourcing is capped at Level 1."
+  },
+  "x17": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 1: Replaced 'Mainilan laukaukset' ('Shelling of Mainila') as the infobox casus belli of the 30 November 1939 war with the 1 December 1939 Terijoki Government request for Soviet assistance. Removed 6.4 hours later with summary 'Kts. keskustelu' ('See talk page') and not put back; a talk-page pointer alone is not a community dispute signal."
+  },
+  "x18": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Updated the ceded-territories list and peace terms on the 1940 Moscow Peace Treaty page (including 'molemminpuolinen liittoutumattomuus' / 'mutual non-alignment' and official Finlex treaty links) across edits from one masked anonymous IP range. Removed as 'eston kiertoa' ('block evasion') and put back once within the same range; routine copyedits removed for block evasion contain no contested claim and are capped at Level 1."
+  },
+  "x19": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 1: Altered four sourced infobox troop strength and casualty figures on the Winter War page (e.g., Finnish strength 250,000 to 90,000 and Soviet dead 126,875 to 200,000) while leaving existing citations attached. Coherent numeric changes are not excluded as graffiti merely because the remover wrote 'vandalismia pois' ('vandalism out'), but there is no accuracy/neutrality/sourcing removal summary or re-insertion to reach Level 2."
+  },
+  "x20": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Added unslanted pop-culture descriptions of Simo Häyhä characters in two Japanese manga series, removed nearly four months later as 'Lähteetöntä' ('Unsourced'). Plausible text removed solely for lacking sources stays at Level 1."
+  },
+  "x21": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Added loaded claims to the Moscow negotiations section blaming Foreign Minister Eljas Erkko ('85 000 ihmistä sai maksaa hengellään Erkon tyhmyyden. Tosiasiaksi jää että Erkko oli numero yksi sotarikollinen' / '85,000 people had to pay with their lives for Erkko's stupidity. The fact remains that Erkko was the number one war criminal'). Put back once by a second distinct account after removal on the same day, meeting Level 2 and only one of the two signals needed for Level 3."
+  },
+  "x22": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Added a sentence of unsourced pop-culture trivia about Simo Häyhä fighting Loki in the manga Record of Ragnarok, removed seven days later with a generic undo summary and no dispute signal."
+  },
+  "x23": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded (graffiti): Inserted random keyboard mashing and nonsense ('TUMPsdfsdfUTTAJIEN PARATIISI!!', 'sksfdsfdsfdi') across the infobox and lead paragraph, removed within minutes."
+  },
+  "x24": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Added claims calling a 1941 wartime magazine 'Yksi luotettavimmista Häyhää koskevista tiedoista' ('One of the most reliable pieces of information about Häyhä') and citing 600 kills and uncounted retreat kills. Removed as unreliable wartime propaganda ('sodanaikaisen propagandan alaiset julkaisut eivät ole asiassa luotettavia' / 'publications subject to wartime propaganda are not reliable on the matter') and put back once by the same account."
+  },
+  "x25": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Added Finnish region names to the infobox location field alongside capitalization, wikilink, and line-break formatting changes, put back once within the same masked anonymous IP range and removed for 'kh ja w ongelmia, ei parannuksia' ('language and wikification problems, no improvements'). Under the asymmetry rule, back-and-forth over formatting and style without a contested claim stays at Level 1."
+  }
+ },
+ "rev_id_concerns": {},
+ "usage": {
+  "total_tokens": 73014,
+  "total_input_tokens": 47880,
+  "input_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 47880
+   }
+  ],
+  "total_cached_tokens": 0,
+  "total_output_tokens": 2878,
+  "output_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 2878
+   }
+  ],
+  "total_tool_use_tokens": 0,
+  "total_thought_tokens": 22256,
+  "initial_input_tokens": 47880,
+  "cost_usd_est": 0.3471,
+  "seconds": 305.1
+ }
+}

@@ -1,0 +1,750 @@
+{
+  "topic": {
+    "id": "finlandization",
+    "title": "Finlandization and Finland's ties to the Soviet Union and Russia",
+    "split": "dev",
+    "kind": "topic",
+    "queries": [
+      {
+        "id": "finlandization.en",
+        "style": "en",
+        "lang": "en",
+        "text": "Finlandization: Soviet influence on Finnish politics and self-censorship in the Kekkonen era"
+      },
+      {
+        "id": "finlandization.fi",
+        "style": "fi",
+        "lang": "fi",
+        "text": "suomettuminen: Neuvostoliiton vaikutusvalta Suomen politiikkaan ja itsesensuuri Kekkosen aikana"
+      },
+      {
+        "id": "finlandization.broad",
+        "style": "broad",
+        "lang": "en",
+        "text": "Finland's relationship with the Soviet Union and Russia"
+      },
+      {
+        "id": "finlandization.sv",
+        "style": "sv",
+        "lang": "sv",
+        "text": "finlandisering och Sovjetunionens inflytande på finsk politik under Kekkonen"
+      }
+    ],
+    "articles": [
+      {
+        "page_id": 5261,
+        "grade": 2,
+        "title": "Suomettuminen"
+      },
+      {
+        "page_id": 20984,
+        "grade": 2,
+        "title": "Paasikiven–Kekkosen linja"
+      },
+      {
+        "page_id": 9564,
+        "grade": 2,
+        "title": "YYA-sopimus"
+      },
+      {
+        "page_id": 1690220,
+        "grade": 2,
+        "title": "Kansakunta rähmällään"
+      },
+      {
+        "page_id": 1275,
+        "grade": 2,
+        "title": "Urho Kekkonen"
+      },
+      {
+        "page_id": 1570458,
+        "grade": 2,
+        "title": "Suomen ja Venäjän suhteet"
+      },
+      {
+        "page_id": 22604,
+        "grade": 2,
+        "title": "Noottikriisi"
+      },
+      {
+        "page_id": 23945,
+        "grade": 2,
+        "title": "Yöpakkaset"
+      },
+      {
+        "page_id": 69647,
+        "grade": 1,
+        "title": "Suomi–Neuvostoliitto-Seura"
+      },
+      {
+        "page_id": 57804,
+        "grade": 1,
+        "title": "Neuvostovastaisuus"
+      },
+      {
+        "page_id": 71558,
+        "grade": 1,
+        "title": "Zavidovo-vuoto"
+      },
+      {
+        "page_id": 1678952,
+        "grade": 1,
+        "title": "Suomen ja Neuvostoliiton kommunikeakiista"
+      },
+      {
+        "page_id": 565073,
+        "grade": 1,
+        "title": "Moskovan kortti"
+      },
+      {
+        "page_id": 1702617,
+        "grade": 1,
+        "title": "Natottuminen"
+      },
+      {
+        "page_id": 828065,
+        "grade": 1,
+        "title": "Sensuuri Suomessa"
+      },
+      {
+        "page_id": 966372,
+        "grade": 1,
+        "title": "Suomi 1970-luvulla"
+      },
+      {
+        "page_id": 7904,
+        "grade": 1,
+        "title": "Taistolaisuus"
+      },
+      {
+        "page_id": 102270,
+        "grade": 1,
+        "title": "Suomi–Venäjä-Seura"
+      },
+      {
+        "page_id": 601751,
+        "grade": 1,
+        "title": "Suomen ulkopolitiikka"
+      },
+      {
+        "page_id": 20742,
+        "grade": 1,
+        "title": "Venäläisvastaisuus"
+      },
+      {
+        "page_id": 942,
+        "grade": 1,
+        "title": "Paavo Lipponen"
+      },
+      {
+        "page_id": 1187,
+        "grade": 1,
+        "title": "Tarja Halonen"
+      }
+    ],
+    "items": [
+      {
+        "id": "finlandization/i01",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 5261,
+        "inserting_rev_ids": [
+          772360
+        ],
+        "removing_rev_ids": [
+          772340,
+          772549
+        ],
+        "description": "Puts back a paragraph saying Finland interpreted free speech 'moderately' in the national interest, that this principle 'still has fairly strong support', with PM Matti Vanhanen's stance on the Jyllands-Posten cartoons as the example.",
+        "why": "Level 2. Claim: it ties Finlandization-era self-censorship to present-day politics: 'Maltillisen sananvapauden tulkitsemisen periaatteella on Suomessa edelleen varsin vahvaa kannatusta' ('the principle of moderate interpretation of free speech still has fairly strong support in Finland'), with Vanhanen's cartoon-row stance as the example. Community dispute: E2 removed it at 772340 (2006-02-05 13:28) with 'liian epämääräinen yhteys (muutenkin koko kappale kaipaa lähteitä)' ('too vague a connection; the whole paragraph needs sources anyway'), E8 put it back 3 min later (772360, c01 is that revert), and E2 removed it again 39 min later (772549, c02: 'palautus; ks. keskustelu', 'restoration; see talk'). So: a removal reason about accuracy/sourcing plus one put-back. The original insertion predates the pack; only E8's re-insertion is listed. One known editor, one article, so not level 3.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/i02",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 5261,
+        "inserting_rev_ids": [
+          20291337
+        ],
+        "removing_rev_ids": [
+          20302034
+        ],
+        "description": "Adds an unsourced section 'Suomettaminen 2000-luvulla' saying the Kremlin 'finlandizes' other countries by placing pro-Russian people in power, stirring unrest and influencing elections, with these methods 'especially successful' in EU and North American countries.",
+        "why": "Level 2. Claim: sweeping, unsourced political assertions, e.g. 'Nämä 2000-luvulle ominaiset suomettamismenetelmät näyttävät olleen erikoisen menestyksellisiä EU-maissa, sekä keskeisissä Pohjois-Amerikan maissa' ('these 21st-century finlandization methods appear to have been especially successful in EU countries and in key North American countries'). Community dispute: removed by E593 after 4.6 days with 'rv, lähteetöntä' ('rv, unsourced'), a sourcing reason. Partial removal (c31): the insertion diff confirms 20291337 added the section; the removal also took out a follow-on subsection ('Henkilövaikuttaminen', about supporting anti-immigration views) whose inserting revision is not in the pack. One editor (E35), one article, never put back: not level 3.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/i03",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 1187,
+        "inserting_rev_ids": [
+          10928732,
+          10928739,
+          10928767
+        ],
+        "removing_rev_ids": [
+          10928777
+        ],
+        "description": "Adds three unsourced critical sentences about Halonen: her 1980-81 SETA chairmanship 'has shown in personnel choices', her appointments 'favoured especially female applicants', and she weakened Finland's defence by banning 'practically irreplaceable' landmines.",
+        "why": "Level 2. Claim: loaded framing of a president, e.g. 'Tarja Halonen vaikutti merkittävästi Suomen sotilaallisen puolustuskykyyn kieltämällä Suomen armeijalta käytännössä korvaamattomat maamiinat' ('Halonen significantly affected Finland's military defence capability by denying the army practically irreplaceable landmines') and 'Tarja Halosen nimitykset ovat suosineet erityisesti naishakijoita' ('Halonen's appointments have favoured especially female applicants'). Community dispute: E394 removed all three edits 3-12 min after they were made with 'rv, lähteetöntä ja epäneutraalilta haiskahtavaa' ('rv, unsourced and smells non-neutral'): sourcing and neutrality (c03). One editor (E1270), one article, not put back: not level 3.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/i04",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 942,
+        "inserting_rev_ids": [
+          21539843,
+          21540288,
+          21540390
+        ],
+        "removing_rev_ids": [
+          21540061,
+          21540573
+        ],
+        "description": "Adds that in 2018 Lipponen 'humiliated' professor Veli-Pekka Tynkkynen, who had warned Parliament about Nord Stream, at a Grand Committee hearing (Iltalehti source); later expanded with Tynkkynen's view of Lipponen's motive.",
+        "why": "Level 2. Claim: loaded wording about a politician's Nord Stream role, 'Lipponen nöyryytti Nord Stream -hankkeesta eduskunnassa varoittanutta ... professori Veli-Pekka Tynkkystä' ('Lipponen humiliated professor Veli-Pekka Tynkkynen, who had warned Parliament about the Nord Stream project'). Community dispute: an edit war. E32 removed it after 4.9 h (21540061, c04: 'Epämääräinen nöyryyttämisväite ei ole tietosanakirjamerkittävä', 'a vague humiliation claim is not encyclopedically notable'); E1748 put it back 2.3 h later (21540288, c17 is that revert: 'the matter must be seen in context: the Nord Stream project that turned out to be a Russian strategic factor and its furious defence'), expanded it (21540390), and E411 removed it again (21540573, c16: 'rv, ei kuulu tietosanakirjaan', 'rv, does not belong in an encyclopedia'). Put back once after a removal. One editor, one article, about 10 h in total: not level 3. The category edit 21539701 in the same run is a separate item (n02).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/i05",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 942,
+        "inserting_rev_ids": [
+          3540937
+        ],
+        "removing_rev_ids": [
+          3543599
+        ],
+        "description": "Adds to the 'issues that drew criticism' list that in 1971 Lipponen, as SDP international secretary, co-wrote a memo saying the YYA treaty's military articles should be read like the Soviet treaties with Warsaw Pact states, criticised by Keijo Korhonen; also rewrites the 2003 EU food agency item.",
+        "why": "Level 2. Claim: an attribution that matters to the topic, placed under criticism: the memo said 'Suomen YYA-sopimuksesta Neuvostoliiton kanssa tulisi tulkita sotilaallisilta artikloiltaan niin kuin niitä ... sopimuksia, jotka Neuvostoliitto oli tehnyt Varsovan liiton kanssa' ('the military articles of Finland's YYA treaty should be interpreted like the treaties the Soviet Union had made with the Warsaw Pact') and 'Lipposen menettelyä on jälkikäteen arvioinut erittäin kriittisesti ... Keijo Korhonen' ('Lipponen's conduct was later judged very critically by Keijo Korhonen'). The 2003 rewrite adds that Italy's correction was readable the day before the election. Community dispute: removed by E291 after 14.6 h with 'Poistettu lähteettömiä väitteitä' ('removed unsourced claims'), and the same edit swapped the page's {{neutraalius}} template for {{lähteetön}}: a sourcing reason plus dispute templates in the episode. Partial removal (c32): the insertion diff confirms 3540937 added the 1971 paragraph and the 2003 rewrite; the other removed list items (Pekkarinen remark, helicopters) came from revisions not in the pack. One anonymous editor (80.223.x.x), one article: not level 3.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/i06",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 20742,
+        "inserting_rev_ids": [
+          350580,
+          354247
+        ],
+        "removing_rev_ids": [
+          351578,
+          357525
+        ],
+        "description": "Puts back an external link to a personal homepage titled 'Toisenlainen näkökulma ryssävihaan' ('A different perspective on hatred of Russians').",
+        "why": "Level 2, low confidence on the claim test. Claim: a content dispute over including a non-expert viewpoint page; the quoted text is the link label 'Toisenlainen näkökulma ryssävihaan'. Community dispute: an edit war. E200 put the link back at 350580 (2005-08-04; summary says it goes 'back' until the earlier remover justifies the removals), E14 removed it after 17.9 h saying the viewpoint 'ei ole tieteellinen tai asiantuntijan' ('is not scientific or an expert's'), an anonymous editor (80.220.x.x) put it back at 354247 (c18, an identical re-insertion), and E14 removed it again after 39.8 h ('palautus, perustelut aiemmin', 'restoration, reasons given earlier', saying nobody had justified the link). Put back at least twice, removal reason about the source's reliability. Level 3 not met: two inserting editors is one signal, but one article, the known insertions are 2 days apart (the first insertion predates the pack), and no source manipulation. Could be capped at level 1 if a bare link is not read as a claim.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/i07",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 20742,
+        "inserting_rev_ids": [
+          22159468
+        ],
+        "removing_rev_ids": [
+          22244059
+        ],
+        "description": "Adds an unsourced paragraph saying anti-Russianness/russophobia has not been problematised in research, that it is undefined which derives from which, and that the concept's 'possible narrativity' is unresearched.",
+        "why": "Level 2, moderate confidence. Claim about the state of research on a contested concept: 'Käsitetasolla venäläisvastaisuutta tai russofobiaa ei ole tieteellisessä keskustelussa problematisoitu' ('at the conceptual level, anti-Russianness or russophobia has not been problematised in scholarly discussion') and 'Käsitteen semantiikasta ja mahdollisesta narratiivisuudesta ei ole saatavilla riittävästi tutkimustietoa' ('not enough research is available on the semantics and possible narrativity of the concept'). Community dispute: removed after 34 days by E539 with 'lähteetöntä, määritelmävirkkeen perusteella venäläisvastaisuus ja russofobia ovat synonyymejä' ('unsourced; per the definition sentence anti-Russianness and russophobia are synonyms'), a sourcing reason that also says the premise is wrong. Partial removal (c34); the insertion diff confirms 22159468 added the paragraph. One editor, one article, not put back.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/i08",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 1275,
+        "inserting_rev_ids": [
+          22501735,
+          22501749,
+          22501787
+        ],
+        "removing_rev_ids": [
+          22501773,
+          22547453
+        ],
+        "description": "Adds that in 1932 Germany Kekkonen wrote home about his aversion to Jews ('ei koskaan jutin luo, jos saa kristittyjen parissa olla'), sourced to Seppo Papunen, Kanava 4/2017.",
+        "why": "Level 1. Substantive, sourced text taken out by a different account after 23 days; the final removal by E655 says 'Siirto elämäkertaan' ('moved to the biography'), i.e. relocated, not disputed. Earlier the same day E658 cut 281 bytes asking 'Mikähän tämä on?' ('what is this?') and E241 put 282 bytes back 8 min later as 'viite-fix' ('reference fix'); the byte counts suggest the same passage, but neither summary disputes accuracy or neutrality. The text cites a published source and no removal says it is wrong, so it is not read as a disputed claim: capped at level 1 (c14). 22501749 is E366's own 5-byte tweak; 22501787 is listed as the put-back.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/i09",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 1275,
+        "inserting_rev_ids": [
+          8236664
+        ],
+        "removing_rev_ids": [
+          8236681
+        ],
+        "description": "Adds a section saying Kekkonen appeared as a space character in the 'Itse valtiaat' space musical.",
+        "why": "Level 1. Plausible pop-culture trivia, no slant, removed 3 min later by a different account with 'ei merkittävä tieto, tai ei ainakaan tuossa kohdassa' ('not significant information, or at least not in that place'): a relevance reason, not accuracy or neutrality. Not put back (c21).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n01",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "other",
+        "page_id": 5261,
+        "inserting_rev_ids": [
+          772355
+        ],
+        "removing_rev_ids": [
+          772360
+        ],
+        "description": "Adds a sentence that historian Kalervo Hovi finds similar survival strategies in Poland's relations with Russia.",
+        "why": "Excluded: self-removal. E8 added the sentence at 772355 and took it out 1 min later at 772360, an identity revert to 772336 that also restored the Vanhanen paragraph (that part is i01). c01's other undone edit (772340) was E2's removal, not an addition.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n02",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 942,
+        "inserting_rev_ids": [
+          21539701
+        ],
+        "removing_rev_ids": [
+          21541209
+        ],
+        "description": "Adds the category 'Pakkoruotsin kannattajat' (supporters of compulsory Swedish) to Lipponen's article.",
+        "why": "Excluded: not substantive. The only net change of the c05 removal is the category line '[[Luokka:Pakkoruotsin kannattajat]]', removed by E513 with HotCat after 16.6 h. The Nord Stream text inside the same run had already been removed and is item i04.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n03",
+        "label": "not-incident",
+        "exclusion": "blanking",
+        "category": "other",
+        "page_id": 69647,
+        "inserting_rev_ids": [
+          5674548,
+          5785631,
+          5789946,
+          5790716,
+          9061259
+        ],
+        "removing_rev_ids": [
+          5779927,
+          5789513,
+          5790612,
+          9060933,
+          9092459
+        ],
+        "description": "Restores the full Suomi–Neuvostoliitto-Seura article each time it was turned into a redirect to Suomi–Venäjä-Seura (2008-2010).",
+        "why": "Excluded: blanking. Every removal replaced the whole article with '#OHJAUS [[Suomi–Venäjä-Seura]]' (a redirect), i.e. emptied the page: E343 at 5779927, 5789513, 5790612 and 9092459 ('Ohjaus tynkään Suomi-Venäjä-Seura', 'redirect to the stub'; 'same society, founded 16.10.1944'), and E78's merge at 9060933. The dispute was whether the society gets its own article, not any claim in the text: c07 shows merge and deletion templates and E27 undoing the merge 'äänestys on kesken' ('vote in progress'). Every removal was undone (flags), and the article exists in the latest revision with nearly the same lead, so it was also kept in substance. Inserting revisions are the restorations by E5 (c10, c12, c13), E182 and E27 (c07); edits by others inside c07's 682-day run are tweaks.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n04",
+        "label": "not-incident",
+        "exclusion": "blanking",
+        "category": "other",
+        "page_id": 1275,
+        "inserting_rev_ids": [
+          7627,
+          9814
+        ],
+        "removing_rev_ids": [
+          9809,
+          154919
+        ],
+        "description": "Restores the full Kekkonen article text (2004), which two removals reverted to a near-empty early version.",
+        "why": "Excluded: blanking. Both removals restored a version that contains none of the article's paragraphs (every paragraph, image and interwiki line shows as added in the diffs): E48 at 9809 restored 6973 (c11, no summary, undone by 9810), and an anonymous editor at 154919 restored 9812 (c08, no summary), wiping 400 days of routine edits by many editors; undone by 160401. 7627 and 9814 are E41's restorations of the same text (same chain). Not an editorial removal of content.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n05",
+        "label": "not-incident",
+        "exclusion": "blanking",
+        "category": "other",
+        "page_id": 1187,
+        "inserting_rev_ids": [
+          3972627
+        ],
+        "removing_rev_ids": [
+          4160250
+        ],
+        "description": "Restores the full Tarja Halonen article after an earlier blanking; a month later another edit blanks it again.",
+        "why": "Excluded: blanking. The removal 4160250 restored 3972625, a blanked version; its automatic summary is 'Ak: Sivu tyhjennettiin' ('page was blanked'). It was undone in the next revision (4160251). 3972627 is E270's restoration of the article; the 38 swept-away edits are routine edits and vandalism reverts (c09).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n06",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 1187,
+        "inserting_rev_ids": [
+          385223
+        ],
+        "removing_rev_ids": [
+          385231
+        ],
+        "description": "Adds an internal link to the article 'Tarja Halosen vuodet' in the external-links list.",
+        "why": "Excluded: not substantive. The edit only adds a navigation link '[[Tarja Halosen vuodet|Wikipedia: Vuosi vuodelta - Tarja Halonen]]'; no prose, number, date, name or citation. Rolled back 5 min later (c19).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n07",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 1187,
+        "inserting_rev_ids": [
+          3782640
+        ],
+        "removing_rev_ids": [
+          3782653
+        ],
+        "description": "Adds an obscene sentence about Halonen ending in a run of capital letters.",
+        "why": "Excluded: graffiti. Clear vandalism ('PORNOOOO…' appended to a sexual claim), rolled back 3 min later (c20).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n08",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 1187,
+        "inserting_rev_ids": [
+          7113026
+        ],
+        "removing_rev_ids": [
+          7113028
+        ],
+        "description": "Renames Halonen 'harja talonen', calls her the first 'male president' and adds shouted nonsense.",
+        "why": "Excluded: graffiti. Name mangling, 'miespresidentti' and 'Natzien neuvosto' in place of the Council of Europe; rolled back 53 s later (c22).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n09",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "other",
+        "page_id": 1187,
+        "inserting_rev_ids": [
+          3990576
+        ],
+        "removing_rev_ids": [
+          3990579
+        ],
+        "description": "A vandalism revert that restored the vandalised version (3990568), cutting 4,618 bytes of campaign text.",
+        "why": "Excluded: self-removal. E268 made the revert and undid it 27 s later (c23); the undone edit removed text rather than adding any.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n10",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "test_or_nonsense",
+        "page_id": 1275,
+        "inserting_rev_ids": [
+          2495968,
+          2495975
+        ],
+        "removing_rev_ids": [
+          2495984
+        ],
+        "description": "Adds 'kekkonen oli hyvä sydämmestään hyvä mies se meni näin late<3 kekkonen' ('Kekkonen was good at heart, a good man...').",
+        "why": "Excluded: self-removal. The same anonymous editor (62.165.x.x) added the line in two edits and removed it 4 min later (c24); it would otherwise be test/nonsense.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n11",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 5261,
+        "inserting_rev_ids": [
+          9113846
+        ],
+        "removing_rev_ids": [
+          9192900
+        ],
+        "description": "A bot-like account adds a copyright-check template {{Tekijänoikeus_201009}} to the article.",
+        "why": "Excluded: not substantive (template only; the bot exclusion would also apply). Removed after 17 days by E21 ('crashin muutokset ok', 'the changes are OK') (c25).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n12",
+        "label": "not-incident",
+        "exclusion": "blanking",
+        "category": "vandalism",
+        "page_id": 1187,
+        "inserting_rev_ids": [
+          5515057
+        ],
+        "removing_rev_ids": [
+          5515058
+        ],
+        "description": "Replaces the whole Halonen article with the word 'PERKELE'.",
+        "why": "Excluded: blanking. The edit blanked the page (automatic summary 'Sivun sisältö korvattiin sisällöllä ”PERKELE”'); rolled back 13 s later (c26).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n13",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 1187,
+        "inserting_rev_ids": [
+          5845270
+        ],
+        "removing_rev_ids": [
+          5845272
+        ],
+        "description": "Renames the 'As president' section 'As a porn star' and replaces her spouse's name with an obscenity.",
+        "why": "Excluded: graffiti. Obscene vandalism, rolled back 20 s later (c27).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n14",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 1275,
+        "inserting_rev_ids": [
+          8729721
+        ],
+        "removing_rev_ids": [
+          8730165
+        ],
+        "description": "Adds a {{Selvennä|tarkemmin ja lähde}} (clarify, more detail and source) maintenance template to a sentence on government lifespans.",
+        "why": "Excluded: not substantive (template only). Removed after 114 min by E78, who said a paragraph source had been given and the sentence seemed clear (c28).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n15",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 1275,
+        "inserting_rev_ids": [
+          7728715
+        ],
+        "removing_rev_ids": [
+          7728717
+        ],
+        "description": "A revert that removed an anonymous editor's sentence about the punk band 'Kuolleet Kekkoset'; it added no text.",
+        "why": "Excluded: not substantive. The undone edit 7728715 only deleted a sentence (-169 bytes) and added no prose, number, date, name or citation, so the c29 'removal' (7728717, the sentence's author putting it back) took nothing out. The band trivia itself (added by 7728711, removed again by 7728721) has no inserting edit in the pack.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n16",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 1275,
+        "inserting_rev_ids": [
+          23358930
+        ],
+        "removing_rev_ids": [
+          23359071
+        ],
+        "description": "A rollback, summarised as block evasion, of infobox changes listing Kekkonen's foreign-minister posts; it added no text.",
+        "why": "Excluded: not substantive. The undone edit 23358930 (E647: 'rv, eston kiertoa', 'rv, block evasion') removed infobox rows (-480 bytes) and only renumbered template fields; the c30 'removal' by an anonymous IPv6 editor put the infobox rows back and was itself undone (23359110). No added prose, number, date, name or citation to label.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "finlandization/n17",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 942,
+        "inserting_rev_ids": [
+          59431
+        ],
+        "removing_rev_ids": [
+          2374425
+        ],
+        "description": "Adds a 'Lähteet' (sources) list with a link to Lipponen's Parliament biography page.",
+        "why": "Excluded: not substantive. The removal after 873 days was 'lähde merkintöjen yhtenäistämistä' ('unifying source markup'): E291 turned the source list into inline <ref> tags, and the same Parliament URL stays in the text as a reference (c33). Only citation markup changed.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      }
+    ],
+    "notes": "Labelled from the pack only. i01 and i06: the first insertion predates the pack, only re-insertions are listed. c15 skipped: an SDP-to-Communist-Party change on Tarja Halonen whose own revisions are not candidate edits. n03-n05: removals that emptied the page (redirect or restore of an empty version), all undone."
+  },
+  "item_sources": {
+    "finlandization/i01": [
+      "c02",
+      "c01"
+    ],
+    "finlandization/i02": [
+      "c31"
+    ],
+    "finlandization/i03": [
+      "c03"
+    ],
+    "finlandization/i04": [
+      "c04",
+      "c16",
+      "c17"
+    ],
+    "finlandization/i05": [
+      "c32"
+    ],
+    "finlandization/i06": [
+      "c06",
+      "c18"
+    ],
+    "finlandization/i07": [
+      "c34"
+    ],
+    "finlandization/i08": [
+      "c14"
+    ],
+    "finlandization/i09": [
+      "c21"
+    ],
+    "finlandization/n01": [
+      "c01"
+    ],
+    "finlandization/n02": [
+      "c05"
+    ],
+    "finlandization/n03": [
+      "c10",
+      "c12",
+      "c13",
+      "c07"
+    ],
+    "finlandization/n04": [
+      "c11",
+      "c08"
+    ],
+    "finlandization/n05": [
+      "c09"
+    ],
+    "finlandization/n06": [
+      "c19"
+    ],
+    "finlandization/n07": [
+      "c20"
+    ],
+    "finlandization/n08": [
+      "c22"
+    ],
+    "finlandization/n09": [
+      "c23"
+    ],
+    "finlandization/n10": [
+      "c24"
+    ],
+    "finlandization/n11": [
+      "c25"
+    ],
+    "finlandization/n12": [
+      "c26"
+    ],
+    "finlandization/n13": [
+      "c27"
+    ],
+    "finlandization/n14": [
+      "c28"
+    ],
+    "finlandization/n15": [
+      "c29"
+    ],
+    "finlandization/n16": [
+      "c30"
+    ],
+    "finlandization/n17": [
+      "c33"
+    ]
+  },
+  "skipped": [
+    {
+      "cid": "c15",
+      "reason": "Edit-war other side. The removal 3467091 by an anonymous editor (80.222.x.x) re-applied that editor's change of Halonen's party from SDP to the Communist Party (SKP) in nine places, which E2's rollback 3450640 had undone; 3467091 was itself undone by 3467093. The content added and taken out is the SKP change, whose revisions (3450624, 3467091) are not inserting edits of any candidate, so it cannot be built as an item; the swept-away run (E2's rollback, E961's cut and E12's undo) only restored established text. Likely a contested false factual claim (put back once) if the pack had its insertions."
+    }
+  ]
+}

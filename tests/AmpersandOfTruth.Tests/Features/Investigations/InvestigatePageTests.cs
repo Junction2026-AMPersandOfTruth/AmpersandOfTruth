@@ -1,5 +1,4 @@
 using AmpersandOfTruth.Tests.Features.Embedding;
-using AmpersandOfTruth.Web.Features.Embedding;
 using AmpersandOfTruth.Web.Features.Investigations;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,15 +7,11 @@ namespace AmpersandOfTruth.Tests.Features.Investigations;
 
 public class InvestigatePageTests : BunitContext
 {
-    private readonly FakeQueryEmbedder _embedder = new();
-    private readonly FakeInvestigationCorpus _corpus = FakeInvestigationCorpus.WithWinterWar();
+    private readonly PipelineKit _kit = new();
+    private FakeQueryEmbedder _embedder => _kit.Embedder;
+    private FakeInvestigationCorpus _corpus => _kit.Corpus;
 
-    public InvestigatePageTests()
-    {
-        Services.AddSingleton<IQueryEmbedder>(_embedder);
-        Services.AddSingleton<IInvestigationCorpus>(_corpus);
-        Services.AddSingleton<InvestigationService>();
-    }
+    public InvestigatePageTests() => _kit.AddTo(Services);
 
     private IRenderedComponent<InvestigatePage> Search(string topic)
     {
@@ -42,7 +37,7 @@ public class InvestigatePageTests : BunitContext
 
         cut.WaitForAssertion(() =>
         {
-            Assert.Equal(3, cut.FindAll("[data-testid=investigate-article]").Count);
+            Assert.Equal(3, cut.FindAll("[data-testid=investigate-article]").Count); // Talvisota, Jatkosota, Lapin sota
             var rows = cut.FindAll("[data-testid=revert-row]");
             Assert.Equal(2, rows.Count);
             Assert.Contains("Rollbacker", rows[0].TextContent);
@@ -50,8 +45,7 @@ public class InvestigatePageTests : BunitContext
             Assert.NotNull(rows[0].QuerySelector("[data-testid=revert-when] a[href='https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2000']"));
             Assert.NotNull(rows[0].QuerySelector("[data-testid=revert-undid] a[href='https://fi.wikipedia.org/w/index.php?diff=prev&oldid=1999']"));
         });
-        Assert.Contains("only loaded for Finnish", cut.Markup);
-        Assert.Contains("No reverts found", cut.Markup);
+        Assert.Contains("No removed edits found", cut.Markup);
     }
 
     [Fact]
@@ -153,5 +147,38 @@ public class InvestigatePageTests : BunitContext
 
         cut.WaitForAssertion(() =>
             Assert.Contains("Topic search not available", cut.Find("[data-testid=investigate-unavailable]").TextContent));
+    }
+
+    [Fact]
+    public void Incidents_stream_in_with_the_because_sentence_and_claim()
+    {
+        var cut = Search("Talvisota");
+
+        cut.WaitForAssertion(() =>
+        {
+            var incident = Assert.Single(cut.FindAll("[data-testid=incident]"));
+            Assert.StartsWith("Removed by Wikipedia editors", cut.Find("[data-testid=incident-reason]").TextContent.Trim());
+            Assert.Equal(PipelineKit.ClaimEn, cut.Find("[data-testid=incident-claim]").TextContent.Trim());
+            Assert.NotNull(incident.QuerySelector("a[href='https://fi.wikipedia.org/w/index.php?diff=prev&oldid=1999']"));
+            Assert.Contains("2/2 removed edits read", cut.Find("[data-testid=investigate-progress]").TextContent);
+            Assert.Contains("done in", cut.Find("[data-testid=investigate-progress]").TextContent);
+        });
+    }
+
+    [Fact]
+    public void Cancel_stops_a_slow_run_and_re_enables_the_form()
+    {
+        _kit.Model.Delay = TimeSpan.FromSeconds(30);
+        var cut = Search("Talvisota");
+        cut.WaitForElement("[data-testid=investigate-cancel]");
+        cut.WaitForAssertion(() => Assert.Contains("reading removed edits", cut.Find("[data-testid=investigate-progress]").TextContent));
+
+        cut.Find("[data-testid=investigate-cancel]").Click();
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Contains("cancelled", cut.Find("[data-testid=investigate-progress]").TextContent);
+            Assert.False(cut.Find("[data-testid=investigate-submit]").HasAttribute("disabled"));
+        });
     }
 }

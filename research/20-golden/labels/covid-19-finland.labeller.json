@@ -1,0 +1,499 @@
+{
+  "topic": {
+    "id": "covid-19-finland",
+    "title": "The COVID-19 pandemic in Finland: restrictions, vaccines, Uusimaa lockdown",
+    "split": "dev",
+    "kind": "topic",
+    "queries": [
+      {
+        "id": "covid-19-finland.en",
+        "style": "en",
+        "lang": "en",
+        "text": "COVID-19 pandemic in Finland: restrictions, vaccinations and the Uusimaa lockdown"
+      },
+      {
+        "id": "covid-19-finland.fi",
+        "style": "fi",
+        "lang": "fi",
+        "text": "koronaviruspandemia Suomessa: rajoitukset, rokotukset ja Uudenmaan sulku"
+      },
+      {
+        "id": "covid-19-finland.broad",
+        "style": "broad",
+        "lang": "en",
+        "text": "how Finland handled the coronavirus crisis"
+      },
+      {
+        "id": "covid-19-finland.sv",
+        "style": "sv",
+        "lang": "sv",
+        "text": "coronapandemin i Finland: restriktioner, vaccinationer och avspärrningen av Nyland"
+      }
+    ],
+    "articles": [
+      {
+        "page_id": 1562418,
+        "grade": 2,
+        "title": "Koronaviruspandemia Suomessa"
+      },
+      {
+        "page_id": 1577934,
+        "grade": 2,
+        "title": "Suomen toimenpiteet koronaviruspandemiaa vastaan"
+      },
+      {
+        "page_id": 1582912,
+        "grade": 2,
+        "title": "Suomen koronavirusstrategia"
+      },
+      {
+        "page_id": 1577657,
+        "grade": 2,
+        "title": "Suomen koronaviruspandemian aikajana"
+      },
+      {
+        "page_id": 1593343,
+        "grade": 2,
+        "title": "Koronavilkku"
+      },
+      {
+        "page_id": 1675610,
+        "grade": 2,
+        "title": "Koronaviruspandemia Ahvenanmaalla"
+      },
+      {
+        "page_id": 1574358,
+        "grade": 2,
+        "title": "Etäopetus koronaviruspandemian aikana Suomessa"
+      },
+      {
+        "page_id": 1577930,
+        "grade": 2,
+        "title": "Suomen koronavirusepidemiaa ennustavat mallit"
+      },
+      {
+        "page_id": 1549479,
+        "grade": 1,
+        "title": "Marinin hallitus"
+      },
+      {
+        "page_id": 1121620,
+        "grade": 1,
+        "title": "Sanna Marin"
+      },
+      {
+        "page_id": 1650988,
+        "grade": 1,
+        "title": "Suomi 2020-luvulla"
+      },
+      {
+        "page_id": 1427910,
+        "grade": 1,
+        "title": "Kuntavaalit 2021"
+      }
+    ],
+    "items": [
+      {
+        "id": "covid-19-finland/i01",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          18894761
+        ],
+        "removing_rev_ids": [
+          18912236
+        ],
+        "description": "Adds the editor's own inference from an antibody survey that the coronavirus is much more dangerous per infection than THL had stated.",
+        "why": "Level 2. Claim, quoted from the inserting edit 18894761 (E113, 2020-04-30): 'Tällöin koronavirus on paljon vaarallisempi infektiota kohden, kuin mitä THL laskelmissaan on väittänyt' ('In that case the coronavirus is much more dangerous per infection than THL has claimed in its calculations'), an unsourced conclusion about lethality, the figure this article's other disputes are about, with loaded wording ('väittänyt', 'claimed') about the agency. By the time of the removal the paragraph also said 'Kuolleisuus on ainakin 2%' ('Mortality is at least 2%'), added by edits not in the pack. Community dispute: E4 removed the paragraph after 8.3 days (18912236, 2020-05-08) with the summary 'poistettu lähteettömiä tietoja ja triviaa' ('removed unsourced information and trivia'), a sourcing reason. The same edit's herd-immunity paragraph was kept in reworded form, so it is not part of the item. Not level 3: one anonymous range (2001:14BA:…), one article, no re-insertion in the pack. Candidate c17 (partial removal; the text-search inserting edit does add the quoted sentence).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/i02",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          18844642
+        ],
+        "removing_rev_ids": [
+          18844646
+        ],
+        "description": "Raises the WHO case fatality rate in the lead from 'about 1 percent' to 'about 1-3.4 percent' and the upper end of the range from 15 to 'over 25' percent, citing English Wikipedia among other sources.",
+        "why": "Level 2. Claim: changes a number that matters to the topic. 'Tapauskuolleisuus on WHO:n mukaan noin 1 prosentti' becomes 'noin 1-3,4 prosenttia' ('the case fatality rate is, according to WHO, about 1 percent' becomes 'about 1-3.4 percent'), and 'vaihtelee 0,2 prosentista 15 prosenttiin' becomes 'yli 25 prosenttiin' (the range from 0.2 to 15 percent becomes 0.2 to over 25 percent). Lethality is the figure this page's forecast disputes are about. One of the new references is the English Wikipedia article on the pandemic in Italy. Community dispute: E32 removed it 2 min later (18844646) with 'Enwikipediaa, jo sanottua ym' ('English Wikipedia, already said, etc.'), a sourcing reason. The brief's good-faith cap does not apply because a number that matters changed. Doubt: the text is plausible and the other references are BBC. A similar upper bound ('yli 25 prosenttiin') with different sources was in the lead by 2020-04-30 (visible in c17's insertion diff), but '1-3,4' did not come back. Not level 3: one anonymous range (2001:14BA:…), one article, not put back. Candidate c11.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/i03",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          18951354
+        ],
+        "removing_rev_ids": [
+          18951650
+        ],
+        "description": "Adds that domestic hospital-grade mask production had started and that ministers said it could at best cover healthcare's needs for respirators and surgical masks.",
+        "why": "Level 2. Claim, quoted: 'tuotanto voi parhaimmillaan kattaa terveydenhuollon tarpeet hengityssuojainten ja suu-nenäsuojusten osalta' ('production can at best cover healthcare's needs for respirators and surgical masks') and 'sairaalatasojen maskituotannon, jonka uskottiin keäkuusta alkaen riittävän koronapotilaiden hoitohenkilökunnalle' ('hospital-grade mask production, which was expected to suffice from June for staff treating corona patients'), attributed to ministers and cited to HS and IS. Community dispute: E4 removed it after 101 min (18951650) as 'harhaanjohtavaa tekstiä' ('misleading text'), explaining that 'mask' is the usual word for protection anyone can use and 'hengityssuojain' ('respirator') the word for healthcare professionals' protection. That is an accuracy reason, and a removal that calls the text misleading makes it a claim under the brief. Doubt: the text follows its HS headlines and the objection is about wording, so a reviewer may read it as a good-faith wording error (level 1). Not level 3: one editor (E75, 87.95.x.x), one article, not put back. Candidate c05.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/i04",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          18832960
+        ],
+        "removing_rev_ids": [
+          18833004
+        ],
+        "description": "Adds that projected deaths would be higher still if Italy's observed mortality were used, citing Ilta-Sanomat, at the end of a paragraph of hypothetical Finnish death tolls.",
+        "why": "Level 1, capped. E23's edit 18832960 ('tekstin korjausta', 'text corrections', 2020-04-01) mostly reworded an existing paragraph criticising THL's forecast. The part E2 removed 24 min later (18833004) is the new sentence 'Kuolleisuus kasvaisi tästäkin, jos käytetään esim Italiassa ilmennyttä kuolleisuutta' ('Mortality would grow even from this if, for example, the mortality seen in Italy were used') and its Ilta-Sanomat reference. E2 also removed the older WHO 2-4 % / 44,000-88,000 deaths sentence, which predates this edit and so is not in the item. The dispute signals are about sourcing only: the removal summary 'paska lähde pois' ('crap source out', 'lähteenmukaistettu', 'made to match the sources'), and a {{Korjattava}} ('needs fixing') template on the paragraph asking for more precise references for hypothetical figures and a cross-check of the Ilta-Sanomat figures. The sentence is a hedged conditional with no changed number, so it falls under the brief's good-faith cap (only recorded problem is the source, no slant). The remover kept the rest of the THL critique, including E23's influenza comparison. Doubt: a reader who sees the sentence as pushing the death-toll narrative would make it level 2 (template and sourcing summary are both present). Candidate c18 (partial removal; the text-search inserting edit created the paragraph's final form but most of its figures are older).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/i05",
+        "label": "reverted",
+        "category": "content_dispute",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          18936386,
+          18936394,
+          18936409,
+          18936429,
+          18936544,
+          18936547,
+          18936557,
+          18936560,
+          18936562
+        ],
+        "removing_rev_ids": [
+          18936939
+        ],
+        "description": "Restructures a section on preparedness, strategy and forecasts: adds THL-forecast criticism and model summaries ('this model would thus also be unreliable'), an all-caps note to move text to a new article, and a lead update saying the restrictions had worked.",
+        "why": "Level 1. Substantive prose in nine edits by one editor (E64, 87.95.x.x) over 85 min on 2020-05-20, including slanted lines such as 'THL:n ennusteet herättivät alusta asti kovaa kritiikkiä' ('THL's forecasts drew harsh criticism from the start') and 'Näin tämäkin malli oliso epäluotettava' ('Thus this model too would be unreliable'), plus scaffolding ('ALLA OLEVA TEKSTI PITÄISI OTTAA POIS…', 'THE TEXT BELOW SHOULD BE TAKEN OUT…'). E4 removed all of it after 4.6 h (18936939): 'sotkua, asioista keskustellaan artikkelin keskustelusivulla' ('mess; these matters are discussed on the article's talk page'). 'Mess' is not an accuracy, neutrality or sourcing reason, and a talk-page pointer alone does not count. Not put back in the pack, no dispute template. So a claim with no community dispute signal stays at level 1. Candidate c02.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/i06",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          18789223
+        ],
+        "removing_rev_ids": [
+          18790133
+        ],
+        "description": "Adds that Finland has just over 200 ICU beds with trained staff as the bottleneck, and that MP Päivi Räsänen (KD) asked whether care places would suffice, cited to the KD party newspaper.",
+        "why": "Level 1, capped. E114 added on 2020-03-12 (18789223, 'tehohoitopohdintoja', 'ICU musings') 'Suomessa on reilut 200 tehohoitopaikkaa…' ('Finland has just over 200 ICU beds…') and that MP and physician Päivi Räsänen 'on esittänyt kysymyksen riittävätkö hoitopaikat ja henkilökunta Suomessa' ('has asked whether care places and staff are sufficient in Finland'), sourced to KD-Lehti. E2 removed it 9.1 h later (18790133): 'Poistettu vanhaa ja kristillisdemokraattien puoluelehdellä lähteistetty väite Päivi Räsäsen toimista, joka ei ole edes merkittävää' ('Removed an old claim about Päivi Räsänen's actions, sourced to the Christian Democrats' party newspaper, which is not even notable'). E2 replaced the bed sentence with 'reilut 300' ('just over 300') beds from a HUS briefing. The wording is neutral and attributed, and the recorded problems are a partisan source and notability, so the brief's good-faith cap applies. The same removal also took out an older sentence by someone else (Eeva Ruotsalainen on seasonal flu), which is not part of this item. Doubt: a reviewer could read the bed count, corrected by the remover, as a changed number. Candidate c19 (partial removal; the inserting edit is confirmed by its insertion diff).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/i07",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          18838874
+        ],
+        "removing_rev_ids": [
+          18839435
+        ],
+        "description": "Updates the lead's case, hospital, ICU and death counts to 4 April 2020 with Ilta-Sanomat and HS references.",
+        "why": "Level 1. A routine statistics update (E26, 'Päivitys:tekstiä, lähteitä', 'Update: text, sources', 2020-04-04 12:34) with numbers and citations. It was swept away 4.7 h later when E4 undid the run that ended in the next editor's nonsense line (18839435, summary 'roskaa', 'rubbish'; see n02). That summary concerns the other edit, not accuracy, neutrality or sourcing. Not put back in the pack. Removed by a different account, no exclusion, so level 1. Candidate c03.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/i08",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          19441963
+        ],
+        "removing_rev_ids": [
+          19442215
+        ],
+        "description": "Adds that the first vaccinations were due to start on 28 December 2020, citing an Ilta-Sanomat article of 26 December.",
+        "why": "Level 1, capped. E91 added 'Ensimmäisten rokoitusten oli määrä alkaa 28. joulukuuta' ('The first vaccinations were due to start on 28 December'). The cited headline says the first vaccines are given 'huomenna' ('tomorrow') in an article dated 26 December, so the date does not match its own source. E4 removed it after 111 min (19442215): 'ei ennustuksia... oli määrä...' ('no predictions... \"was due to\"...'), a style objection to forecasting, not a dispute about accuracy or neutrality. A sincere sourced update, so level 1. Candidate c04.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/i09",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          18949075
+        ],
+        "removing_rev_ids": [
+          18949843
+        ],
+        "description": "Updates the lead's statistics to 26 May 2020 (6,628 cases, 95 in hospital, 11 in ICU, 312 dead) with a new Ilta-Sanomat reference, also placing a reference before the pandemic template.",
+        "why": "Level 1, capped. A routine daily-statistics update by E73 ('Päivitys: viite, muokkaus', 'Update: reference, edit') that also put a stray <ref> in front of the {{Pandemia template. E4 removed it after 6.0 h (18949843) with 'sekoituista' (roughly 'mix-ups'), not an accuracy, neutrality or sourcing reason. No slant and no dispute signal: a good-faith update someone else undid. Candidate c06.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/i10",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          23385821
+        ],
+        "removing_rev_ids": [
+          23385822
+        ],
+        "description": "Adds an all-caps note to the article saying it contains several untrue claims and should be deleted.",
+        "why": "Level 1. E107 added 'TÄSSÄ KIRJOITUKSESSA ON USEITA VALHEELLISIA VÄITTÄMIÄ. EN RUPEA ERITTELEMÄÄN NIITÄ. KOKO KIRJOITUS PITÄISI POISTAA…' ('THIS ARTICLE CONTAINS SEVERAL UNTRUE CLAIMS. I WILL NOT LIST THEM. THE WHOLE ARTICLE SHOULD BE DELETED…'). The edit summary also complains that the article has errors. E108 removed it after 88 s with a standard rollback (23385822), no reason given. It is coherent prose and a complaint, not obscenity or gibberish, so it is borderline rather than clear graffiti and is judged as content: a meta-comment, not a claim about the topic, with no dispute signal. Level 1. Candidate c08.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/i11",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          18825382
+        ],
+        "removing_rev_ids": [
+          18825387
+        ],
+        "description": "Updates the per-hospital-district case table with higher counts (total 880 to 1,221) and re-orders its rows.",
+        "why": "Level 1, capped. E19 ('luvut', 'figures') replaced the regional counts in the table. E20 undid it after 5 min (18825387): 'luvuissa heittoa, älkää käyttäkö hs:ää lähteenä näihin' ('the figures are off; don't use HS as the source for these'). The removal says the numbers are off and names the source. Read literally, the brief's claim test would make that level 2. But this is a routine daily case-count update from a newspaper rather than the official figures, a sincere contribution that was wrong, so it stays at level 1 under 'good-faith mistakes someone else fixed' and 'when in doubt, the lower level'. Candidate c13.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/i12",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          19575954
+        ],
+        "removing_rev_ids": [
+          19576008
+        ],
+        "description": "Updates the lead's statistics to 17 February 2021 (51,595 cases, variant counts, 5.1 % positive share) but leaves the variant line dated 16 February.",
+        "why": "Level 1, capped. E91 ('Päivitys, tapausmäärät', 'Update, case numbers') moved the date to 17 February and changed the counts, but left '(16.2.2021)' on the variant line. E4 undid it after 25 min (19576008): 'päivitys ei hyväksyttävä, muutovirustartuntojen pvm väärä' ('update not acceptable, the variant infections' date is wrong'). The removal says one detail is wrong, but this is a routine daily update with a stale date: a sincere error someone else fixed, no slant. It stays at level 1 under the good-faith reading and 'when in doubt, the lower level'. Candidate c14.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/n01",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          18923569
+        ],
+        "removing_rev_ids": [
+          18922795,
+          18923570
+        ],
+        "description": "A sentence saying the pandemic caused discussion in Finland about the sexual orientation of 'Sopsy' and the mental-health problems of 'Bora'.",
+        "why": "Excluded: graffiti. The sentence 'Koronaviruspandemia on aiheuttanut Suomessa keskustelua muun muassa Sopsyn seksuaalisesta suuntautumisesta sekä Boran mielenterveyden ongelmista' ('The coronavirus pandemic has caused discussion in Finland about, among other things, Sopsy's sexual orientation and Bora's mental-health problems') is personal gossip about named individuals with no link to the subject: clearly vandalism, not a claim about the pandemic. History, all 2020-05-13/14: it was already in the article before the pack's window. E4 removed it (18922795, 'sotkua', 'mess', c07). E58 (85.76.x.x) put it back with a revert-style summary (18923569, c16). E59 rolled that back after 93 s (18923570). E61 (same 85.76.x.x range) put it back again next morning (18924069, summary 'paska lisäys', 'crap addition', c01), which also undid E60's statistics update. That was undone in turn (18924170). 18924069 and 18924170 are not edits in the pack, so the checker cannot list them; the pack-visible insertion and removals are listed. c07 and c01 are the other side of this back-and-forth (their diffs remove the sentence).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "Also re-inserted by 18924069 (E61, 85.76.x.x) and removed by 18924170; both are outside the pack's edit lists."
+      },
+      {
+        "id": "covid-19-finland/n02",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          18839426
+        ],
+        "removing_rev_ids": [
+          18839435
+        ],
+        "description": "Adds to the lead that 'about 16,000,000,000,000 people' have already died of it in Finland.",
+        "why": "Excluded: graffiti. E15 (86.115.x.x) added 'Sen vuoksi on Suomessa kuollut jo kotqin 16000000000000 ihmistä' ('Because of it about 16,000,000,000,000 people have already died in Finland'), edit summary 'Kakka' ('poop'), at 17:13:54. E4 removed it 3 min later (18839435, 'roskaa', 'rubbish'). An absurd number with a scatological summary is clearly nonsense. Candidate c03 (the earlier edit in the same run is i07).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/n03",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          19915701
+        ],
+        "removing_rev_ids": [
+          19915719
+        ],
+        "description": "Adds a casino advertisement with a link and a line saying blocking is impossible because of a VPN.",
+        "why": "Excluded: graffiti. E96 added '[MAINOS] Ilmaiskierroksia nyt vain rajoitetun ajan! https://spin247.com' ('[AD] Free spins now for a limited time!') and 'Minulla on VPN, eli siis estää ei voi' ('I have a VPN, so blocking is impossible'). E97 removed it after 7 min 'sotkemisena' ('as vandalism', 19915719). Link spam plus a taunt is clearly vandalism. Candidate c09.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/n04",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "vandalism",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          19795544
+        ],
+        "removing_rev_ids": [
+          19795547
+        ],
+        "description": "Wraps the whole article in a <div> whose CSS rotates the page by two degrees.",
+        "why": "Excluded: not-substantive. The edit only adds markup: a <div style=\"…transform: rotate(-2deg)…\"> before the {{Ajankohtaista}} template and a closing </div> after the category. The summary says 'päivitin luvut' ('I updated the figures') but no figure changed. E90 rolled it back after 41 s (19795547). Candidate c10.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/n05",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "good_faith_error",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          18885699
+        ],
+        "removing_rev_ids": [
+          18885703
+        ],
+        "description": "Adds a title to an existing citation in the infobox.",
+        "why": "Excluded: self-removal. E41 added a 'Nimeke' (title) to the HS citation (18885699) and undid it 91 s later (18885703): 'Eiku joo ei tähän pidä laittaa nimekettä, kumoon oman jutun' ('Oh wait, no title should go here, I'm undoing my own edit'). It also changes only a citation template's parameter, so not-substantive could arguably apply first; self-removal is the unambiguous exclusion. Candidate c12.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "covid-19-finland/n06",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 1562418,
+        "inserting_rev_ids": [
+          19283567
+        ],
+        "removing_rev_ids": [
+          19283569
+        ],
+        "description": "Replaces the infobox map of per-capita cases with an obscene image file name and the caption with '...'.",
+        "why": "Excluded: graffiti. E89 (2001:14BB:…) changed 'kuva = COVID-19 per capita cases map of Finland.svg' to an obscene file name ('Hairy pussy.jpg') and the caption to '...'. E90 undid it after 83 s (19283569). The flags show the removal was itself undone (19283577, not an edit in the pack) but the text is not in the latest revision, so 'kept' does not apply. Clearly vandalism. Candidate c15.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "Put back by 19283577 (outside the pack's edit lists); its later removal is not in the pack."
+      }
+    ],
+    "notes": "All 19 candidates are on Koronaviruspandemia Suomessa (1562418); the other two seed pages had no candidates. Three of the four disputed passages (i01, i02, i04) come from one anonymous IPv6 range (2001:14BA:…, editors E23, E31, E113; E26 in i07 is the same range) and push the 2020 lethality and death-toll figures upward against THL's estimates. They are different texts, so they are separate items, and one masked range on one article cannot reach level 3. c01 also undid E60's 14 May statistics update (18923995, 18923997). That removal was itself undone (18924170) but the text is not in the latest revision, so neither 'kept' nor a meaningful level 1 fits cleanly. It is not labelled as an item; c01 is listed under n01 as the other side of the graffiti back-and-forth. Revisions outside the pack's edit lists (18924069, 18924170, 19283577) are mentioned in item notes but not listed, because the checker accepts only pack edits."
+  },
+  "item_sources": {
+    "covid-19-finland/i01": [
+      "c17"
+    ],
+    "covid-19-finland/i02": [
+      "c11"
+    ],
+    "covid-19-finland/i03": [
+      "c05"
+    ],
+    "covid-19-finland/i04": [
+      "c18"
+    ],
+    "covid-19-finland/i05": [
+      "c02"
+    ],
+    "covid-19-finland/i06": [
+      "c19"
+    ],
+    "covid-19-finland/i07": [
+      "c03"
+    ],
+    "covid-19-finland/i08": [
+      "c04"
+    ],
+    "covid-19-finland/i09": [
+      "c06"
+    ],
+    "covid-19-finland/i10": [
+      "c08"
+    ],
+    "covid-19-finland/i11": [
+      "c13"
+    ],
+    "covid-19-finland/i12": [
+      "c14"
+    ],
+    "covid-19-finland/n01": [
+      "c16",
+      "c07",
+      "c01"
+    ],
+    "covid-19-finland/n02": [
+      "c03"
+    ],
+    "covid-19-finland/n03": [
+      "c09"
+    ],
+    "covid-19-finland/n04": [
+      "c10"
+    ],
+    "covid-19-finland/n05": [
+      "c12"
+    ],
+    "covid-19-finland/n06": [
+      "c15"
+    ]
+  },
+  "skipped": []
+}

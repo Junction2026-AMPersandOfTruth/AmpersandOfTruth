@@ -1,0 +1,149 @@
+{
+ "topic_id": "nato-debate",
+ "labels": {
+  "x01": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: one anonymous range added a long run of text in 36 minutes (EU security guarantee, 'NATO-jäsenyyteen on suhtautunut kriittisesti ... Ilkka ja Keskisuomalainen' = 'newspapers Ilkka and Keskisuomalainen have been critical of NATO membership'). Removed once as 'omaa tutkimusta ja tulkintaa' (own research and interpretation), not put back. Mostly plausible additions without sources; no clear slant or dispute beyond that, so capped at reverted."
+  },
+  "x02": {
+   "label": "campaign",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 3: edit war over one list entry. Added text says Finland is 'sisällissodan osapuoli' (a party to a civil war) in Afghanistan, later with a 'sodan kaltaisiin sotatoimiin' (war-like operations) claim cited to a 1995 document. Removals: 'vääristelevä lähteen käyttö ja oma tutkimus' (misleading use of source and own research), 'ei kuulune joukkoon' (does not belong). Added by 3 distinct editors/ranges (two anonymous ranges and one named), put back 5 times between 2009-10-07 and 2009-10-29 (over 7 days). Meets the structural signals; a possible ordinary content dispute among several editors, so least certain."
+  },
+  "x03": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: restored list of disadvantages of NATO membership including 'NATOlla on salainen lisäpöytäkirja' (NATO has a secret additional protocol obliging members to set up an anti-communist cadre), sourced to a book. Removed with 'WP:FRINGE, WP:RELIABLE ... epäluotettavia lähteitä' (unreliable sources); put back once, then removed again; a {{Korjattava}} template is in the episode. Claim plus sourcing dispute and put-back; one inserting editor, so not campaign."
+  },
+  "x04": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: an external link to a publisher's page about the person was added and undone 4 days later by a different account with a standard undo summary. No claim, no dispute signal."
+  },
+  "x05": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: a batch of about 19 edits by several editors (update template, polls, images, caption date changes) undone by one account because 'kieliopillisesti oikein kirjoitettuja asioita uudelleenkirjoitettu ... väärin' (correct grammar rewritten wrongly). Good-faith mixed edits, no claim in dispute."
+  },
+  "x06": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added 'Lähes kaikki turvallisuuspolitiikan asiantuntijat kannattavat Suomen jäsenyyttä NATO:ssa ... Poliitikot ovat kuitenkin kuunnelleet enemmän yleistä mielipidettä kuin asiantuntijoita' (almost all security experts support NATO membership ... politicians listened more to public opinion than experts). Removed as 'epäselviä, poleemisia väitteitä ilman lähdettä' (unclear, polemical claims without source). Slanted unsourced claim and a neutrality/sourcing removal reason; not put back, one editor."
+  },
+  "x07": {
+   "label": "not-incident",
+   "exclusion": "kept",
+   "category": "other",
+   "why": "Level 0: the listed 'inserting' edits are undo edits by regular accounts restoring the correct birth date (24 August 1948) after edits replacing it with '6.6.666'. Each removal was itself undone by the next listed edit; the community kept the content, so treated as kept despite the latest-revision flag being false."
+  },
+  "x08": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "test_or_nonsense",
+   "why": "Level 1: anonymous editor added 'Sauli Niinistö on Suomen presidentti. Ja sitten vielä lisäinformaatiota alempana.' (is the president. And more information further below.); undone after 26 seconds. Filler text that reads like a test, but coherent, so borderline and kept at reverted."
+  },
+  "x09": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: anonymous editor added unsourced family details (parents' names and dates) to the private-life section; undone after about 5 hours. No slant, only missing sourcing, no dispute."
+  },
+  "x10": {
+   "label": "not-incident",
+   "exclusion": "kept",
+   "category": "other",
+   "why": "Level 0: the 'inserting' edit actually deleted a redundant sentence ('Sauli Niinistö voitti presidentinvaalit' = won the presidential election); it was undone and the undo was itself undone within minutes. No added prose; part of a short undo exchange."
+  },
+  "x11": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: added 'Kokoomus on vuoden 2006 puoluekokouksesta lähtien kannattanut Suomen Nato-jäsenyyttä' (the party has supported NATO membership since the 2006 party congress). Removed after 31 days as lacking a reference ('Pitäisi olla lähde'). Plausible, no slant, only missing source."
+  },
+  "x12": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Level 0: replaced the name with a nonsense name and inserted an offensive sentence in the education passage; undone after 66 seconds."
+  },
+  "x13": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: two anonymous ranges rewrote the civil-war entry and caption in a list of wars over 6 weeks. Removed after 61 days with 'rv, tämä on luettelo' (this is a list). A scope disagreement; no accuracy or neutrality reason."
+  },
+  "x14": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: anonymous editor added a 46,000-byte copy of biography content (infobox, lead, career sections); undone after 35 seconds with a standard undo. Looks like a paste error or duplicate; no dispute."
+  },
+  "x15": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Level 0: only category lines added ('Luokka:Kapitalistit', 'Luokka:Populistit' = capitalists, populists); no prose, citation or number."
+  },
+  "x16": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added to a politician's article that an association supported his campaign with 15 000 euros, that he 'kielsi tienneensä' (denied knowing) who was behind it and later took part in applying for an honorary title for the person behind it, with two news sources. Removal summary refers to the adding editor's ideological leanings rather than accuracy; the removal was itself undone (put back once) in a 4-edit back-and-forth. Claim about a living person plus put-back; moderately sure."
+  },
+  "x17": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: the same bulk undo as x05, covering 12 edits by several editors (poll sections, images, templates, caption fixes). Removal reason is grammar, not accuracy or neutrality; no claim in dispute."
+  },
+  "x18": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: added trivia that a satirical character 'poltti tupakkaa' (smoked) with the catchphrase 'jep jep'; removed 'epäoleellisena' (as irrelevant); same editor put it back once, removed again. Relevance dispute, not a claim about accuracy or neutrality."
+  },
+  "x19": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "vandalism",
+   "why": "Level 0: the same account added a short line of unrelated names and a word under a 'Lapset' heading and removed it again 103 seconds later."
+  },
+  "x20": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: anonymous editor added 'valitettavasti' (unfortunately) after a mention of surviving a tsunami; undone after 44 seconds, put back once later. Single loaded word, no claim."
+  },
+  "x21": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "other",
+   "why": "Level 0: the edit emptied almost the whole page (-17,619 bytes) and was undone after 5 minutes with 'käsitelkää tuo häirikkö'; flagged as blanking."
+  },
+  "x22": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Level 0: the same account added a link and name clarification (Jaroslav I Viisas) and undid it 4 minutes later ('Ei välttämättä olekkaan' = might not be so after all)."
+  },
+  "x23": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Level 0: replaced the name, birth year (with a game link), job and photo caption with nonsense/jokes ('Humalatila' = intoxication link, 'Counter-Strike' year); undone after 62 seconds."
+  }
+ },
+ "rev_id_concerns": {
+  "x07": "Listed inserting revs 14445437, 14445443, 14461119, 14467635 are undo edits restoring the earlier correct version, not authored additions.",
+  "x10": "Rev 11237381 deletes a sentence rather than adding text; the item has no inserted content.",
+  "x05": "Overlaps x17 (same removal rev 20434133); inserting rev 20427576 is one of ~19 mixed edits.",
+  "x02": "Reverts 7425332, 7461676 are themselves undos of earlier removals, so the 'added' text pre-dates them."
+ }
+}

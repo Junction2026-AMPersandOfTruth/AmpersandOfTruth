@@ -1,0 +1,757 @@
+{
+  "topic": {
+    "id": "russification-independence",
+    "title": "Russification, the Jäger movement and the road to independence",
+    "split": "dev",
+    "kind": "topic",
+    "queries": [
+      {
+        "id": "russification-independence.en",
+        "style": "en",
+        "lang": "en",
+        "text": "Russification of Finland under Bobrikov, the Jäger movement and Finland's road to independence in 1917"
+      },
+      {
+        "id": "russification-independence.fi",
+        "style": "fi",
+        "lang": "fi",
+        "text": "sortovuodet, Bobrikov, jääkäriliike ja Suomen itsenäistyminen 1917"
+      },
+      {
+        "id": "russification-independence.broad",
+        "style": "broad",
+        "lang": "en",
+        "text": "how Finland broke away from Russian rule"
+      },
+      {
+        "id": "russification-independence.sv",
+        "style": "sv",
+        "lang": "sv",
+        "text": "förryskningen av Finland, jägarrörelsen och Finlands väg till självständighet"
+      }
+    ],
+    "articles": [
+      {
+        "page_id": 11113,
+        "grade": 2,
+        "title": "Sortovuodet"
+      },
+      {
+        "page_id": 137930,
+        "grade": 2,
+        "title": "Ensimmäinen sortokausi"
+      },
+      {
+        "page_id": 137931,
+        "grade": 2,
+        "title": "Toinen sortokausi"
+      },
+      {
+        "page_id": 10758,
+        "grade": 2,
+        "title": "Jääkäriliike"
+      },
+      {
+        "page_id": 96542,
+        "grade": 2,
+        "title": "Jääkäripataljoona 27"
+      },
+      {
+        "page_id": 32957,
+        "grade": 2,
+        "title": "Suomen itsenäistyminen"
+      },
+      {
+        "page_id": 46938,
+        "grade": 2,
+        "title": "Helmikuun manifesti"
+      },
+      {
+        "page_id": 11601,
+        "grade": 2,
+        "title": "Nikolai Bobrikov"
+      },
+      {
+        "page_id": 77298,
+        "grade": 2,
+        "title": "Sortokausien aktivismi"
+      },
+      {
+        "page_id": 162670,
+        "grade": 1,
+        "title": "Suomen itsenäisyysjulistus"
+      },
+      {
+        "page_id": 11517,
+        "grade": 1,
+        "title": "Eugen Schauman"
+      },
+      {
+        "page_id": 1629793,
+        "grade": 1,
+        "title": "Suuri venäläistämisohjelma"
+      },
+      {
+        "page_id": 46724,
+        "grade": 1,
+        "title": "Suuri adressi"
+      },
+      {
+        "page_id": 1213440,
+        "grade": 1,
+        "title": "Keskuskomitea (jääkäriliike)"
+      },
+      {
+        "page_id": 155986,
+        "grade": 1,
+        "title": "Perustuslailliset"
+      },
+      {
+        "page_id": 146724,
+        "grade": 1,
+        "title": "Vuoden 1905 suurlakko"
+      },
+      {
+        "page_id": 129666,
+        "grade": 1,
+        "title": "Marraskuun manifesti"
+      },
+      {
+        "page_id": 508861,
+        "grade": 1,
+        "title": "Vuoden 1910 laki yleisvaltakunnallisesta lainsäädännöstä"
+      },
+      {
+        "page_id": 108539,
+        "grade": 1,
+        "title": "Franz Albert Seyn"
+      },
+      {
+        "page_id": 902733,
+        "grade": 1,
+        "title": "Postimanifesti"
+      },
+      {
+        "page_id": 508885,
+        "grade": 1,
+        "title": "Maaliskuun manifesti"
+      },
+      {
+        "page_id": 6944,
+        "grade": 1,
+        "title": "Suomen suuriruhtinaskunta"
+      },
+      {
+        "page_id": 112881,
+        "grade": 1,
+        "title": "Leo Mechelin"
+      },
+      {
+        "page_id": 202089,
+        "grade": 1,
+        "title": "Tornio ja ensimmäinen maailmansota"
+      }
+    ],
+    "items": [
+      {
+        "id": "russification-independence/i01",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 10758,
+        "inserting_rev_ids": [
+          8704345,
+          8774679
+        ],
+        "removing_rev_ids": [
+          8714999,
+          8774724
+        ],
+        "description": "Adds passages saying the Jägers knowingly committed treason and 'took the path of a coup' against the lawful government, calls the 1917 government a coup government and says the declaration of independence did not meet legal requirements.",
+        "why": "Level 2. Claim (narrative push, unsourced): 'täten miehet syyllistyivät maanpetokseen' (thus the men committed treason), 'miehet lähtivät vallankaappauksen tielle' (the men took the path of a coup), 'uskollisia 1917 vallankaappauksen tehneelle hallinnolle' (loyal to the administration that made the 1917 coup). Community dispute: E40 removed it after 2.4 days (8714999) with the summary 'Poliittinen propaganda ei kuulu Wikipediaan!' (political propaganda does not belong in Wikipedia: a neutrality objection); E46 put the identical text back 15 days later (8774679, c11/c28), and E18 removed it after 14 min with 'rv, uutta tutkimusta' (revert, original research). Not level 3: one account (E46), one article, put back only once.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "Same theme as i02 (Jägers as traitors under Finnish law) but different text two years earlier; kept as separate items. A claim-level cluster (P1.S7) could join them."
+      },
+      {
+        "id": "russification-independence/i02",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 10758,
+        "inserting_rev_ids": [
+          12331497,
+          12337379
+        ],
+        "removing_rev_ids": [
+          12336776,
+          12337677
+        ],
+        "description": "Puts back the section 'Legality of the Jäger movement under Finland's constitutional laws', which reads the treason chapter of the 1734 law as making the Jägers, and the Finns who helped them, guilty of treason punishable by death.",
+        "why": "Level 2. Claim (legal/narrative interpretation cited only to the law text): 'Saksan puolella taisteleminen voidaan katsoa erityisen raskauttavaksi asianhaaraksi' (fighting on Germany's side can be regarded as an especially aggravating circumstance); 'suomalaiset, jotka auttoivat jääkäreitä siirtymään Saksaan, olivat myös syyllisiä samaan perustuslain vastaiseen toimintaan' (Finns who helped the Jägers move to Germany were also guilty of the same unconstitutional activity). Community dispute: edit war 13-15 Nov 2012. E57 took the section out (parent of 12331497), E58 put it back (12331497); E59 took it out (12336776, 'Tarpeeton osio - kaikki vapaustaistelijat ovat miehittäjän näkökulmasta laittomia' = unnecessary section, all freedom fighters are illegal from the occupier's view, c29); E60 put it back (12337379); E43 removed it (12337677) with 'lähde vertautuu primäärilähteeseen. Tulkintoja voidaan esittää vain sekundäärilähteiden perusteella' (the source is comparable to a primary source; interpretations only from secondary sources = sourcing reason). Not in the latest revision. Level 3 checked, not assigned: two distinct inserting accounts (E58, E60) is one signal; one article; the two put-backs in the pack are 2 days apart. The core paragraph already stood in the 23 March 2012 version (c31's restored side), so a first-to-last span over 7 days is arguable, but that original insertion is outside the pack and E58 put back its own reworded version; when in doubt, the lower level.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "Reviewer: borderline level 3 (accounts E58+E60; persistence only if the pre-March-2012 original insertion counts). Both put-backs used the FlaggedRevs reject function ('Hylättiin viimeisin tekstimuutos')."
+      },
+      {
+        "id": "russification-independence/i03",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 10758,
+        "inserting_rev_ids": [
+          11472549
+        ],
+        "removing_rev_ids": [
+          12322429
+        ],
+        "description": "Adds a sentence in the Jäger-legality section that the SDP's path from order guards to Red Guards and revolution 'fully meets' the elements of treason under the old law, and that many Red Guards were convicted of it.",
+        "why": "Level 2. Claim (legal/narrative interpretation of the Social Democrats and Red Guards as treasonous, unsourced): 'kehitys vallankumoukseen täyttää täysin vuoden 1743 lain \"Petoxesta waldacunda wastan\" tunnusmerkistön' (the development towards revolution fully meets the elements of the 1743 [sic, 1734] law on treason). Community dispute on sourcing: in the removed version the section carried {{lähteetön|vahvoja tulkintoja ilman lähteitä tai omaa tutkimusta}} (strong interpretations without sources, or original research), and E41 removed this and other additions after 219 days (12322429), restoring the 23 March 2012 state with 'Pois uusi hömppä' (out with the new fluff) plus the same quote. Partial removal; insertion checked in insertion_diff. Not level 3: one account (E347), one article, not put back.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/i04",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 96542,
+        "inserting_rev_ids": [
+          11003387,
+          11003390
+        ],
+        "removing_rev_ids": [
+          11003417
+        ],
+        "description": "Puts back a paragraph saying several Jägers took part in the post-civil-war 'purges' in which hundreds of Red Guards were killed, naming four Jägers and the towns.",
+        "why": "Level 2. Claim (unsourced attribution of killings to four named Jägers: 'ottivat osaa punaisten surmaamisiin' = took part in killing Reds). Community dispute by back-and-forth over the passage: E314's 11003387 is itself an undo of an earlier removal of this paragraph (summary 'Kumottu muokkaus 11003380'; flag first_undone_edit_is_itself_a_revert); E161 removed it 8 min later ('rv', 11003417); that removal was itself undone (11003422); the paragraph is not in the latest revision. Put back at least twice in total; no removal gives a reason, so the level rests on the put-backs. Not level 3: the only inserting editor in the pack is E314 (one masked range), one article. 11003390 is E314's own 2-byte follow-up in the same section.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "The earlier remover's username appears unmasked in the pack's edit summary for 11003387; it is not repeated here."
+      },
+      {
+        "id": "russification-independence/i05",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 11517,
+        "inserting_rev_ids": [
+          22573798,
+          22573831
+        ],
+        "removing_rev_ids": [
+          22574369
+        ],
+        "description": "Changes Eugen Schauman's infobox nationality from 'Venäjä (Suomi)' (Russia (Finland)) to 'Russian Empire and Grand Duchy of Finland', adds lead wording that the Grand Duchy was then under the rule of the Russian Empire, with three web citations.",
+        "why": "Level 2. Claim: a disputed attribution that matters to the topic (Schauman's nationality); quote 'kansallisuus = Venäjän keisarikunta ja Suomen suuriruhtinaskunta', and E180's own summary argues 'hänen kansallisuus ei missään nimessä ollut Venäläinen' (his nationality was in no way Russian). Community dispute by back-and-forth: E180's first edit 22573798 undid E84's earlier change to this field; E179 rejected the run after 11.8 h (22574369, 'rv, sotkua' = revert, mess) restoring E84's version; that removal was itself undone (22574679); the text is not in the latest revision. Not level 3: one account (E180), one article. E181's 22574354 (IABot link rescue) is a bot's maintenance edit and is left out; the 'look-alike:bot' bucket comes from that edit only.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/i06",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 96542,
+        "inserting_rev_ids": [
+          18340421,
+          18340671,
+          18342099,
+          18357147
+        ],
+        "removing_rev_ids": [
+          18340627,
+          18340859,
+          18342469,
+          18358386
+        ],
+        "description": "Replaces the German historical place names (Libau, Misse, Schmarden, Eckau, Aa) with modern Latvian ones (Liepāja, Misa, Smārdes, Iecava, Lielupe) and reorders the battalion's official Finnish name to 'Preussin kuninkaallinen jääkäripataljoona 27'.",
+        "why": "Level 1. Substantive (place names and the unit's name in prose), removed four times by other accounts, each with 'rv, eston kiertoa (E93)' (revert, block evasion); put back on 12, 13 and 21 Aug 2019 by IPs that all fall in one masked range (2001:999:…, one editor for counting). Not level 2: the change is a naming convention for the same places and unit, with no claim about a contested fact, and the removals cite block evasion, not accuracy or neutrality; an edit war over naming alone is not a disputed claim. Category other, capped at level 1. Two further put-backs (18341274, 18343307) appear only as removal_undone_by_rev_id and cannot be listed.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "Same chain (sha1) across c06-c09. The removers are anonymous IPs from four different ranges using a block-evasion summary, which is unusual."
+      },
+      {
+        "id": "russification-independence/i07",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 96542,
+        "inserting_rev_ids": [
+          3668136,
+          3668141,
+          3668143
+        ],
+        "removing_rev_ids": [
+          3677523
+        ],
+        "description": "Adds a 'Matrikkeli' section: an alphabetical list of several hundred Jäger names as wikilinks.",
+        "why": "Level 1. Substantive (a list of names), removed after 35.5 h by a different account (E75): 'lisätty vaillinainen ja osin virheellinen luettelo jääkäreistä (muoto linkityskelvoton, oikeudet?)' (added an incomplete and partly erroneous list of Jägers; format not linkable; rights?). The removal mentions errors, but the list has no slant and the visible errors are duplicates and misspellings (three names listed twice, 'Rerikallio' beside 'Merikallio'): a good-faith error, capped at level 1. Not put back. E307's formatting edit 3670213, swept away by the same removal, is another editor's and is left out.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/i08",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 10758,
+        "inserting_rev_ids": [
+          10542561,
+          10542701,
+          10542710,
+          10547513
+        ],
+        "removing_rev_ids": [
+          10548234
+        ],
+        "description": "Adds sub-sections on Russian counter-measures against the Jäger movement (death sentences, the Špalernaja prisoners, railway gendarmerie, border guard, counter-intelligence, Finnish informers, the Oulu governor, recruitment routes), partly cited to Lackman.",
+        "why": "Level 1. Substantive content removed after 32.8 h by a different account (E50) with the standard rollback summary and no reason; not put back, no dispute template. Without a community-dispute signal it stays at level 1 whatever the content.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/i09",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 32957,
+        "inserting_rev_ids": [
+          19544834
+        ],
+        "removing_rev_ids": [
+          19551979
+        ],
+        "description": "Adds that Svinhufvud also represented opponents of Russian rule and had a personal motive for anti-Russian feeling because of his exile to Siberia.",
+        "why": "Level 1. Removed after 2.1 days by E84: 'Lähteetön lisäys ja pääosin toistaa edellisen tekstikappaleen asioita' (unsourced addition that mostly repeats the previous paragraph). Plausible interpretive text whose recorded problems are a missing source and redundancy; no changed fact, the remover does not call it wrong: good-faith error, capped at level 1. Not put back.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/i10",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 32957,
+        "inserting_rev_ids": [
+          19131205
+        ],
+        "removing_rev_ids": [
+          19132590
+        ],
+        "description": "Changes 'the Bolshevik government granted Finland independence' to 'also recognised' it, and adds that Finland correspondingly recognised the new Soviet Russian government.",
+        "why": "Level 1. Removed after 14.3 h by E195: 'Hyvä lisäys. Lähde pitäisi vain lisätä myös.' (good addition; a source should just be added too). The wording change touches a framing point (granted vs recognised), but the only recorded problem is the missing source and the remover endorsed the content, so there is no community dispute of the claim: good-faith error, capped at level 1. Not put back.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/i11",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 10758,
+        "inserting_rev_ids": [
+          15384753
+        ],
+        "removing_rev_ids": [
+          15387210
+        ],
+        "description": "Puts back the name forms 'Jääkäriliikkeen keskuskomitea', 'Preussin kuninkaallinen jääkäripataljoona nro 27' and 'Liepāja' over an edit that had changed them to 'Itsenäisyysliikkeen keskuskomitea', 'Kuninkaallinen Preussin Jääkäripataljoona 27' and 'Libau'.",
+        "why": "Level 1. Substantive (names in prose and in a quoted source note), an undo of another editor's change, removed after 31.9 h by a different account with 'RV sittenkin' (revert after all). Naming-convention change with no claim about a contested fact and no accuracy/neutrality reason: category other, level 1. Not put back.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "Part of the same 2015-2019 naming disagreement as i06 and n01 (Libau/Liepāja, word order of the battalion's name)."
+      },
+      {
+        "id": "russification-independence/i12",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 32957,
+        "inserting_rev_ids": [
+          15633602
+        ],
+        "removing_rev_ids": [
+          15711370
+        ],
+        "description": "Adds an unsourced observation that between the Power Act and the declaration of independence power had shifted left-to-right in Finland and right-to-left in Russia, with Russian troops present at both decisions.",
+        "why": "Level 1. Removed after 39 days by E348: 'lähteetön pätkä pois, ei muutenkaan kuulu tähän' (unsourced snippet out, does not belong here anyway). Editorial juxtaposition ('Näyttää merkittävältä' = it seems significant) with no changed number, date, name or attribution; the inserting summary argued it was basic knowledge needing no source. No slant beyond the editorialising: capped at level 1. Not put back. Partial removal; insertion checked in insertion_diff.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/n01",
+        "label": "not-incident",
+        "exclusion": "kept",
+        "category": "content_dispute",
+        "page_id": 96542,
+        "inserting_rev_ids": [
+          15377454,
+          15380636
+        ],
+        "removing_rev_ids": [
+          15380404,
+          15381056
+        ],
+        "description": "Puts back the long-standing wording (Libau, 'Kuninkaallinen preussilainen jääkäripataljoona 27', 'vapaussota' for the 1918 war, 'for the freedom of Estonia, Karelia and Olonets') over an anonymous edit that had changed it.",
+        "why": "Excluded: kept. E75 (15377454) and E321 (15380636) put this text back with the reject function; both later replacements (15380404 by E78, 15381056 by E322) were themselves undone (15380636, 15389530) and the text is in the latest revision (flags removal_was_itself_undone and added_text_in_latest_revision).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "The other side of this Dec 2015 edit war (E74 and E78, one masked range 85.76.x.x, then E322 in 2001:999:…; 'vapaussota' -> 'sisällissota', Libau -> Liepāja, 'Viroon ja Venäjän Karjalaan') would be its own item, but its revisions appear in the pack only as removing_rev_ids, so it cannot be built here."
+      },
+      {
+        "id": "russification-independence/n02",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 10758,
+        "inserting_rev_ids": [
+          16776650,
+          16776665
+        ],
+        "removing_rev_ids": [
+          16776904
+        ],
+        "description": "Inserts slurs against gay and Jewish people and words such as 'terrorists', 'Nazis' and 'fascist' throughout the lead and history sections, with summary 'typo'.",
+        "why": "Excluded: graffiti. Clearly vandalism (hateful insults and a mocking line about the last Jäger's death), rolled back after 7.5 h by E83.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/n03",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "test_or_nonsense",
+        "page_id": 32957,
+        "inserting_rev_ids": [
+          12775102
+        ],
+        "removing_rev_ids": [
+          12777783
+        ],
+        "description": "Adds an IP signature and timestamp inside the {{Lähteetön}} template at the top of the article.",
+        "why": "Excluded: not-substantive. Only a maintenance template's content changed; no prose, number, date, name or citation. Rolled back after 16.7 h by E65.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "The pack's diff text contains the full unmasked IPv4 address; it is not repeated here."
+      },
+      {
+        "id": "russification-independence/n04",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 32957,
+        "inserting_rev_ids": [
+          22514006
+        ],
+        "removing_rev_ids": [
+          22514221
+        ],
+        "description": "Replaces flag templates in the table of countries recognising Finland with {{lippukuvake}} templates and links to period-specific state articles.",
+        "why": "Excluded: not-substantive. Only templates and link targets changed; the country names shown stay the same. Removed after 6.1 h by E92 as block evasion ('rv, eston kiertoa').",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/n05",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 11601,
+        "inserting_rev_ids": [
+          18545245
+        ],
+        "removing_rev_ids": [
+          18545246
+        ],
+        "description": "Adds a bold line that Bobrikov had also lived in a present-day residential area, naming the house's current resident.",
+        "why": "Excluded: graffiti. A prank line naming a private present-day person, rolled back in 15 s.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/n06",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "test_or_nonsense",
+        "page_id": 32957,
+        "inserting_rev_ids": [
+          12174249
+        ],
+        "removing_rev_ids": [
+          12174250
+        ],
+        "description": "Prefixes a paragraph with a keyboard-mash string.",
+        "why": "Excluded: graffiti (test/nonsense), rolled back in 12 s.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/n07",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "test_or_nonsense",
+        "page_id": 32957,
+        "inserting_rev_ids": [
+          16092466
+        ],
+        "removing_rev_ids": [
+          16092471
+        ],
+        "description": "Replaces the bold title word in the lead with keyboard mash (the summary is keyboard mash too).",
+        "why": "Excluded: graffiti (test/nonsense), rolled back after 4 min.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/n08",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "other",
+        "page_id": 11113,
+        "inserting_rev_ids": [
+          6367874
+        ],
+        "removing_rev_ids": [
+          6367878
+        ],
+        "description": "Restores sourced paragraphs on the 1880s background (Russian nationalist press, the Ordin-Mechelin debate) to the start of the article.",
+        "why": "Excluded: self-removal. E18 took its own edit out 3 min later ('rv, ne olikin siirretty möyhemmäksi...' = they had been moved further down after all).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/n09",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "test_or_nonsense",
+        "page_id": 32957,
+        "inserting_rev_ids": [
+          12174267,
+          12174269
+        ],
+        "removing_rev_ids": [
+          12174273
+        ],
+        "description": "Inserts a nonsense phrase into the first sentence of a paragraph.",
+        "why": "Excluded: self-removal (first in order): the same anonymous editor (E242) took it out 2 min later. The text is also test/nonsense.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/n10",
+        "label": "not-incident",
+        "exclusion": "blanking",
+        "category": "vandalism",
+        "page_id": 11113,
+        "inserting_rev_ids": [
+          18800839
+        ],
+        "removing_rev_ids": [
+          18800852
+        ],
+        "description": "Replaces the article's lead (definition of the oppression periods and its references, about 1.8 KB) with the single word 'sorto' (oppression), summary 'I made it better'.",
+        "why": "Excluded: blanking (the lead section was blanked), rejected after 10 min by E28.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/n11",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "test_or_nonsense",
+        "page_id": 32957,
+        "inserting_rev_ids": [
+          16897361
+        ],
+        "removing_rev_ids": [
+          16897396
+        ],
+        "description": "Deletes the first letter of the bold title word in the lead.",
+        "why": "Excluded: graffiti (test/nonsense): a one-character mutilation of the title, no summary, rejected after 12 min.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/n12",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "test_or_nonsense",
+        "page_id": 32957,
+        "inserting_rev_ids": [
+          16387071
+        ],
+        "removing_rev_ids": [
+          16387072
+        ],
+        "description": "Deletes the words 'Venäjällä valtaan' (to power in Russia) from a sentence, leaving it ungrammatical; summary 'Kkk'.",
+        "why": "Excluded: graffiti (test/nonsense), rolled back in 33 s.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/n13",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 10758,
+        "inserting_rev_ids": [
+          628693
+        ],
+        "removing_rev_ids": [
+          3159633
+        ],
+        "description": "E75's 2005 section on the Pfadfinder course (training, weapons, course length), which the text search matched to a paragraph 'removed' in 2007.",
+        "why": "Excluded: not-substantive. The removing revision (E346, '{{ref}} -> <ref> + {{viitteet|fontti|sarakkeet}} + kirjallisuutta -> Lähteet') only converted footnote markup; the matched paragraph reappears verbatim in the same diff with an inline <ref>, so no prose was taken out. The partial-removal text search matched a paragraph that was not taken out.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "russification-independence/n14",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "other",
+        "page_id": 11517,
+        "inserting_rev_ids": [
+          12046260
+        ],
+        "removing_rev_ids": [
+          12050219
+        ],
+        "description": "Adds that Paasikivi wrote an editorial condemning the assassination and that Old Finns and clergy condemned it, and a paragraph on the later Schauman cult; a day later the same account trims the section.",
+        "why": "Excluded: self-removal. Text search attributes the removed paragraph to 12046260 by E84, and the removing revision 12050219 is by E84 too ('Pois tarpeetonta ylistystä ja lähteetöntä' = removed unnecessary praise and unsourced material, references checked, condensed). 12046260 also reworded an existing paragraph, so part of what was removed may be older text by others whose insertion is not in the pack; the listed revision is not an incident either way.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      }
+    ],
+    "notes": "Labelled from the pack only (33 candidates on 6 of the 7 seed articles; none on Helmikuun manifesti). Main disputed thread: the section 'Jääkäriliikkeen laillisuus Suomen perustuslakien mukaan' on Jääkäriliike (2010-2012): i01 (Jägers as traitors, 2010), i03 (Red Guards as traitors, 2012) and i02 (1734-law treason section, Nov 2012 edit war) are separate texts on one theme; a claim-level cluster could join i01 and i02 (three inserting accounts over two years), which would raise the level-3 question. Second thread: a 2015-2019 naming disagreement on Jääkäripataljoona 27 and Jääkäriliike (Libau/Liepāja, word order of the battalion's name, once also 'vapaussota'/'sisällissota'), largely from one masked range 2001:999:…, labelled level 1 or kept (i06, i11, n01). Pack oddities: the pack masks editor columns but not diff text or every summary (an unmasked IPv4 in c13's diff, an earlier remover's username in c19's edit summary, a private person's name in c18's diff); c06-c09 removers are four anonymous IPs from different ranges using a block-evasion summary; c24 is bucketed look-alike:bot only because of an IABot link rescue in the run; c30's partial-removal match is a footnote-markup conversion; c32's text-search insertion reworded an older paragraph."
+  },
+  "item_sources": {
+    "russification-independence/i01": [
+      "c01",
+      "c11",
+      "c28"
+    ],
+    "russification-independence/i02": [
+      "c03",
+      "c29"
+    ],
+    "russification-independence/i03": [
+      "c31"
+    ],
+    "russification-independence/i04": [
+      "c19"
+    ],
+    "russification-independence/i05": [
+      "c24"
+    ],
+    "russification-independence/i06": [
+      "c06",
+      "c07",
+      "c08",
+      "c09"
+    ],
+    "russification-independence/i07": [
+      "c02"
+    ],
+    "russification-independence/i08": [
+      "c05"
+    ],
+    "russification-independence/i09": [
+      "c10"
+    ],
+    "russification-independence/i10": [
+      "c16"
+    ],
+    "russification-independence/i11": [
+      "c14"
+    ],
+    "russification-independence/i12": [
+      "c33"
+    ],
+    "russification-independence/n01": [
+      "c04",
+      "c17"
+    ],
+    "russification-independence/n02": [
+      "c12"
+    ],
+    "russification-independence/n03": [
+      "c13"
+    ],
+    "russification-independence/n04": [
+      "c15"
+    ],
+    "russification-independence/n05": [
+      "c18"
+    ],
+    "russification-independence/n06": [
+      "c20"
+    ],
+    "russification-independence/n07": [
+      "c21"
+    ],
+    "russification-independence/n08": [
+      "c22"
+    ],
+    "russification-independence/n09": [
+      "c23"
+    ],
+    "russification-independence/n10": [
+      "c25"
+    ],
+    "russification-independence/n11": [
+      "c26"
+    ],
+    "russification-independence/n12": [
+      "c27"
+    ],
+    "russification-independence/n13": [
+      "c30"
+    ],
+    "russification-independence/n14": [
+      "c32"
+    ]
+  },
+  "skipped": []
+}
