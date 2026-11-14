@@ -176,6 +176,18 @@ public sealed class OxylabsClientTests
     }
 
     [Fact]
+    public async Task A_fetch_too_big_for_oxylabs_is_not_retried()
+    {
+        var (client, handler) = Sut(new OxylabsOptions { ApiKey = "k", MaxAttempts = 3 });
+        handler.Reply(HttpStatusCode.InternalServerError, """{"status":500,"title":"REQUEST_FAILED_RESPONSE_TOO_BIG","state":"faulted"}""");
+
+        var r = await client.FetchAsync("https://repo.example/big");
+
+        Assert.Equal(WebCallOutcome.Failed, r.Outcome);
+        Assert.Single(handler.Requests);
+    }
+
+    [Fact]
     public async Task A_fetch_oxylabs_already_retried_is_not_retried_again()
     {
         var (client, handler) = Sut(new OxylabsOptions { ApiKey = "k", MaxAttempts = 3 });

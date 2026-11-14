@@ -41,7 +41,7 @@ public sealed class WebSpreadTracer(
     ILogger<WebSpreadTracer> log)
 {
     /// <summary>Bump when a trace's output changes: stored results (<see cref="Store.WebSpreadResults"/>) of other versions are ignored.</summary>
-    public const int Version = 1;
+    public const int Version = 2;
 
     private sealed class Candidate(string url)
     {

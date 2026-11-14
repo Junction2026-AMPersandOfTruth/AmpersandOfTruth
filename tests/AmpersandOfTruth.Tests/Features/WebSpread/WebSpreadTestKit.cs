@@ -30,6 +30,8 @@ public sealed class FakeWebSearch : IWebSearchClient
 public sealed class FakePageFetcher : IPageFetcher
 {
     public Dictionary<string, FetchedPage> Pages { get; } = [];
+    /// <summary>URL → error text for a failing fetch (default for unknown URLs: "fake: 404").</summary>
+    public Dictionary<string, string> Errors { get; } = [];
     public ConcurrentQueue<string> Requests { get; } = new();
 
     public FakePageFetcher Add(string url, string text, string? html = null, string? title = null)
@@ -43,7 +45,7 @@ public sealed class FakePageFetcher : IPageFetcher
         Requests.Enqueue(url);
         return Task.FromResult(Pages.TryGetValue(url, out var p)
             ? new PageFetchResponse(WebCallOutcome.Ok, p)
-            : PageFetchResponse.Fail(WebCallOutcome.Failed, "fake: 404"));
+            : PageFetchResponse.Fail(WebCallOutcome.Failed, Errors.GetValueOrDefault(url, "fake: 404")));
     }
 }
 
