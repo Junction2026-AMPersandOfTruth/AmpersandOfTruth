@@ -80,7 +80,7 @@ public sealed class LayoutTests : BunitContext
         var analysisLink = Assert.Single(
             footer.QuerySelectorAll("a"),
             a => a.GetAttribute("href") == "/analysis");
-        Assert.Equal("LLM usage", analysisLink.TextContent.Trim());
+        Assert.Equal("Assessment usage", analysisLink.TextContent.Trim());
 
         var debugLink = Assert.Single(
             footer.QuerySelectorAll("a"),
