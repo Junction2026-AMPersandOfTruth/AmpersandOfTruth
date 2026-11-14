@@ -305,7 +305,7 @@ del.aot-del, .aot-del { background: var(--diff-del-bg); color: var(--diff-del-in
 .aot-assess blockquote { margin: var(--space-3) 0; padding: var(--space-2) var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); font: 400 14px/21px var(--font-serif); }
 .aot-meter { display: inline-flex; gap: 2px; vertical-align: -1px; }
 .aot-meter i { width: 14px; height: 8px; border-radius: 1px; background: var(--line); }
-.aot-meter i.on { background: var(--ink-muted); }
+.aot-meter i.on { background: var(--accent); }
 
 /* Stage tracker */
 .aot-stages { display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: var(--space-2); align-items: stretch; background: var(--surface-sunken); border: 1px solid var(--line); border-radius: var(--radius-md); padding: var(--space-3); }
