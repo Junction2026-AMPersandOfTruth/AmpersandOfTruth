@@ -17,10 +17,14 @@ public sealed class FakeIncidentCorpus : IIncidentCorpus
     public int RevisionCalls => Volatile.Read(ref _revisionCalls);
     public int ArticleCalls => Volatile.Read(ref _articleCalls);
 
+    /// <summary>Article and revision lookups in flight, counted together.</summary>
+    public InFlightCalls Calls { get; } = new();
+
     public async Task<IReadOnlyList<RevisionRow>> RevisionsAsync(
         long pageId, IReadOnlyCollection<long> revIds, CancellationToken ct = default)
     {
         Interlocked.Increment(ref _revisionCalls);
+        using var call = await Calls.EnterAsync(ct);
         if (Delay > TimeSpan.Zero)
         {
             await Task.Delay(Delay, ct);
@@ -38,6 +42,7 @@ public sealed class FakeIncidentCorpus : IIncidentCorpus
         IReadOnlyCollection<long> pageIds, CancellationToken ct = default)
     {
         Interlocked.Increment(ref _articleCalls);
+        using var call = await Calls.EnterAsync(ct);
         if (Delay > TimeSpan.Zero)
         {
             await Task.Delay(Delay, ct);

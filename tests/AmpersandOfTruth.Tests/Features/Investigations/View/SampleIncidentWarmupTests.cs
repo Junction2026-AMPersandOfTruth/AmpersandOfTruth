@@ -1,5 +1,4 @@
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using AmpersandOfTruth.Web.Features.Evidence;
 using AmpersandOfTruth.Web.Features.Investigations;
 using AmpersandOfTruth.Web.Features.Investigations.Fixtures;
@@ -17,36 +16,37 @@ public class SampleIncidentWarmupTests
     private static readonly TimeSpan TextDelay = TimeSpan.FromMilliseconds(200);
 
     [Fact]
-    public async Task Six_incidents_with_200ms_text_delay_map_in_under_3x_single_incident_time_and_keep_rank_order()
+    public async Task Six_incidents_fetch_texts_concurrently_within_and_across_incidents_and_keep_rank_order()
     {
-        var (singleCorpus, singleRevisions, singleRecords) = BuildSixIncidentFixture(TextDelay);
+        var (singleCorpus, singleRevisions, singleRecords) = BuildSixIncidentFixture(TimeSpan.Zero);
         var singleMapper = new IncidentMapper(singleCorpus, singleRevisions);
 
-        var swSingle = Stopwatch.StartNew();
-        var one = await singleMapper.MapAsync(singleRecords[0], rank: 1);
-        swSingle.Stop();
+        // Text fetches are held open, so the parent text is in flight only if it was requested before the revision
+        // text came back. One after the other would stop at 1 and fail the wait.
+        singleRevisions.TextCalls.Hold();
+        var mappingOne = singleMapper.MapAsync(singleRecords[0], rank: 1);
+        await singleRevisions.TextCalls.WaitForAsync(2);
+        singleRevisions.TextCalls.Release();
+        var one = await mappingOne;
 
         Assert.NotNull(one.Passage);
-        // Revision text + parent text are fetched concurrently (~200 ms instead of ~400 ms).
-        Assert.True(
-            swSingle.Elapsed < TimeSpan.FromMilliseconds(380),
-            $"Expected concurrent rev+parent fetch (< 380 ms), actual {swSingle.Elapsed.TotalMilliseconds:F0} ms");
+        Assert.Equal(2, singleRevisions.TextCalls.Max);
 
-        var (corpus, revisions, records) = BuildSixIncidentFixture(TextDelay);
+        var (corpus, revisions, records) = BuildSixIncidentFixture(TimeSpan.Zero);
         // Shuffle input order to verify rank ordering by descending score is preserved under concurrency.
         var shuffled = new[] { records[3], records[0], records[5], records[2], records[1], records[4] };
         var samples = SampleIncidents.From(new SampleTopic("winter-war", "Winter War", ["talvisota"], shuffled));
         var source = new FixtureIncidentSource(samples, new IncidentMapper(corpus, revisions));
 
-        var swSix = Stopwatch.StartNew();
-        var views = await source.ForTopicAsync("winter-war");
-        swSix.Stop();
+        // One incident fetches two texts, so a third in flight means a second incident is being mapped at the same time.
+        revisions.TextCalls.Hold();
+        var mappingSix = source.ForTopicAsync("winter-war");
+        await revisions.TextCalls.WaitForAsync(3);
+        revisions.TextCalls.Release();
+        var views = await mappingSix;
 
         Assert.NotNull(views);
         Assert.Equal(6, views.Count);
-        Assert.True(
-            swSix.Elapsed < 3 * swSingle.Elapsed,
-            $"Expected 6 incidents ({swSix.Elapsed.TotalMilliseconds:F0} ms) < 3x single incident ({swSingle.Elapsed.TotalMilliseconds:F0} ms)");
 
         // Expected order is records[0..5] (scores 60, 50, 40, 30, 20, 10) with ranks 1..6.
         Assert.Equal(
@@ -55,7 +55,7 @@ public class SampleIncidentWarmupTests
         Assert.All(views, v => Assert.NotNull(v.Passage));
 
         // Max 4 incidents in flight × 2 concurrent text calls per incident = at most 8 concurrent text reads.
-        Assert.InRange(revisions.MaxConcurrentTextCalls, 2, 8);
+        Assert.InRange(revisions.TextCalls.Max, 3, 8);
     }
 
     [Fact]
@@ -329,11 +329,10 @@ public class SampleIncidentWarmupTests
     private sealed class DelayedRevisionStore : IRevisionStore
     {
         private int _totalTextCalls;
-        private int _inFlightTextCalls;
-        private int _maxConcurrentTextCalls;
 
         public ConcurrentDictionary<(long Page, long Rev), string> Texts { get; } = new();
         public ConcurrentDictionary<(long Page, long Rev), int> CallsPerText { get; } = new();
+        public InFlightCalls TextCalls { get; } = new();
         public TimeSpan TextDelay { get; set; }
 
         public Task<IReadOnlyList<RevisionRow>> RestoresAsync(
@@ -342,7 +341,6 @@ public class SampleIncidentWarmupTests
         public bool Unavailable { get; set; }
         public Exception? Fault { get; set; }
         public int TotalTextCalls => Volatile.Read(ref _totalTextCalls);
-        public int MaxConcurrentTextCalls => Volatile.Read(ref _maxConcurrentTextCalls);
 
         public Task<int> RevisionCountAsync(IReadOnlyCollection<long> pageIds, CancellationToken ct = default) =>
             Task.FromResult(0);
@@ -356,48 +354,23 @@ public class SampleIncidentWarmupTests
             Interlocked.Increment(ref _totalTextCalls);
             CallsPerText.AddOrUpdate((pageId, revId), 1, static (_, c) => c + 1);
 
-            var current = Interlocked.Increment(ref _inFlightTextCalls);
-            UpdateMax(ref _maxConcurrentTextCalls, current);
-            try
+            using var call = await TextCalls.EnterAsync(ct);
+            if (TextDelay > TimeSpan.Zero)
             {
-                if (TextDelay > TimeSpan.Zero)
-                {
-                    await Task.Delay(TextDelay, ct);
-                }
-
-                if (Fault is not null)
-                {
-                    throw Fault;
-                }
-
-                if (Unavailable)
-                {
-                    throw new CorpusUnavailableException("delayed fake revision store is down");
-                }
-
-                return Texts.GetValueOrDefault((pageId, revId));
+                await Task.Delay(TextDelay, ct);
             }
-            finally
+
+            if (Fault is not null)
             {
-                Interlocked.Decrement(ref _inFlightTextCalls);
+                throw Fault;
             }
-        }
 
-        private static void UpdateMax(ref int target, int candidate)
-        {
-            while (true)
+            if (Unavailable)
             {
-                var snapshot = Volatile.Read(ref target);
-                if (candidate <= snapshot)
-                {
-                    return;
-                }
-
-                if (Interlocked.CompareExchange(ref target, candidate, snapshot) == snapshot)
-                {
-                    return;
-                }
+                throw new CorpusUnavailableException("delayed fake revision store is down");
             }
+
+            return Texts.GetValueOrDefault((pageId, revId));
         }
     }
 

@@ -4,10 +4,11 @@ Python 3.10+, standard library only. Same check order, thresholds, validation ru
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import timedelta
 from enum import Enum
 import math
+from typing import Any, Iterable
 
 
 class EvidenceTier(str, Enum):
@@ -126,6 +127,83 @@ class TierThresholds:
 
 
 DEFAULT_THRESHOLDS = TierThresholds()
+
+_THRESHOLD_ALIASES: dict[str, str] = {
+    "min_model_confidence": "min_model_confidence",
+    "minmodelconfidence": "min_model_confidence",
+    "min_distinct_editors": "min_distinct_editors",
+    "mindistincteditors": "min_distinct_editors",
+    "min_distinct_articles": "min_distinct_articles",
+    "mindistinctarticles": "min_distinct_articles",
+    "min_persistence_reinsertions": "min_persistence_reinsertions",
+    "minpersistencereinsertions": "min_persistence_reinsertions",
+    "min_persistence_span": "min_persistence_span",
+    "minpersistencespan": "min_persistence_span",
+    "min_persistence_span_days": "min_persistence_span",
+    "min_coordination_signals": "min_coordination_signals",
+    "mincoordinationsignals": "min_coordination_signals",
+}
+
+
+def _parse_span_value(raw: str) -> timedelta:
+    s = raw.strip().lower()
+    if not s:
+        raise ValueError("min_persistence_span value must not be empty.")
+    unit = "d"
+    if s[-1] in ("d", "h", "m", "s"):
+        unit = s[-1]
+        s = s[:-1].strip()
+    val = float(s)
+    if math.isnan(val) or math.isinf(val) or val < 0:
+        raise ValueError(f"min_persistence_span must be non-negative, got {raw!r}.")
+    if unit == "d":
+        return timedelta(days=val)
+    if unit == "h":
+        return timedelta(hours=val)
+    if unit == "m":
+        return timedelta(minutes=val)
+    return timedelta(seconds=val)
+
+
+def parse_threshold_overrides(
+    specs: Iterable[str] | None,
+    base: TierThresholds = DEFAULT_THRESHOLDS,
+) -> TierThresholds:
+    """Parse repeatable `name=value` overrides for every `TierThresholds` field."""
+    if not specs:
+        return base
+    updates: dict[str, Any] = {}
+    for spec in specs:
+        if "=" not in spec:
+            raise ValueError(f"Invalid --threshold {spec!r}; expected name=value.")
+        raw_name, raw_val = spec.split("=", 1)
+        key = _THRESHOLD_ALIASES.get(raw_name.strip().lower())
+        if key is None:
+            valid = sorted({v for v in _THRESHOLD_ALIASES.values()})
+            raise ValueError(f"Unknown threshold {raw_name.strip()!r}; valid fields: {valid}")
+        v_str = raw_val.strip()
+        if key == "min_persistence_span":
+            updates[key] = _parse_span_value(v_str)
+        else:
+            ival = int(v_str)
+            if key == "min_model_confidence" and not (1 <= ival <= 5):
+                raise ValueError(f"min_model_confidence must be in 1..5, got {ival}.")
+            if key != "min_model_confidence" and ival < 0:
+                raise ValueError(f"{key} must be >= 0, got {ival}.")
+            updates[key] = ival
+    return replace(base, **updates) if updates else base
+
+
+def thresholds_to_dict(t: TierThresholds) -> dict[str, int | float]:
+    """Serialise `TierThresholds` for debug output."""
+    return {
+        "min_model_confidence": t.min_model_confidence,
+        "min_distinct_editors": t.min_distinct_editors,
+        "min_distinct_articles": t.min_distinct_articles,
+        "min_persistence_reinsertions": t.min_persistence_reinsertions,
+        "min_persistence_span_days": round(t.min_persistence_span.total_seconds() / 86400.0, 6),
+        "min_coordination_signals": t.min_coordination_signals,
+    }
 
 
 @dataclass(frozen=True)
