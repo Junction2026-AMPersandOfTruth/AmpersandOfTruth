@@ -1,0 +1,72 @@
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Investigations.View
+
+@{
+    var maxScore = Categories.Count > 0
+        ? Math.Max(0.0001, Categories.Max(static c => c.ContestScore > 0 ? c.ContestScore : c.DisputeReverts))
+        : 1.0;
+    var visibleCount = _showAll ? Categories.Count : Math.Min(InitialVisible, Categories.Count);
+}
+
+<div class="aot-panel aot-stack" style="gap:10px" data-testid="contested-categories">
+    @for (var i = 0; i < visibleCount; i++)
+    {
+        var cat = Categories[i];
+        var metric = cat.ContestScore > 0 ? cat.ContestScore : cat.DisputeReverts;
+        var ratio = Math.Clamp(metric / maxScore, 0.0, 1.0);
+        var barW = metric <= 0 ? 0.0 : Math.Max(3.0, ratio * BarTrackWidth);
+
+        <div class="aot-stack" style="gap:3px" data-testid="contested-category" @key="cat.Category">
+            <div class="aot-row" style="justify-content:space-between;align-items:baseline;gap:8px">
+                <div style="min-width:0">
+                    <span class="aot-num aot-muted aot-small" style="margin-right:6px">@((i + 1).ToString(CultureInfo.InvariantCulture)).</span>
+                    <a href="@TopicSlug.Route(cat.Category)" lang="fi" style="font-weight:600">@cat.Category</a>
+                </div>
+                <span class="aot-num aot-small aot-muted" style="white-space:nowrap">
+                    @cat.Episodes.ToString("N0", CultureInfo.InvariantCulture) ep · @cat.Articles.ToString("N0", CultureInfo.InvariantCulture) art.
+                </span>
+            </div>
+
+            <svg class="aot-chart"
+                 viewBox="0 0 @F(BarTrackWidth) 7"
+                 width="100%"
+                 height="7"
+                 preserveAspectRatio="none"
+                 aria-hidden="true">
+                <rect x="0" y="0" width="@F(BarTrackWidth)" height="7" style="fill:var(--line)" />
+                <rect class="named" x="0" y="0" width="@F(barW)" height="7" style="fill:var(--chart-named)" />
+            </svg>
+
+            <div class="aot-num aot-small aot-muted">
+                @cat.DisputeReverts.ToString("N0", CultureInfo.InvariantCulture) disputed removals (@cat.Reverts.ToString("N0", CultureInfo.InvariantCulture) total)
+            </div>
+        </div>
+    }
+
+    @if (Categories.Count > InitialVisible)
+    {
+        <div>
+            <button type="button"
+                    class="aot-btn aot-btn--sm"
+                    data-testid="toggle-all-categories"
+                    @onclick="ToggleShowAll">
+                @(_showAll
+                    ? $"Show top {InitialVisible.ToString(CultureInfo.InvariantCulture)}"
+                    : $"Show all {Categories.Count.ToString(CultureInfo.InvariantCulture)} categories")
+            </button>
+        </div>
+    }
+</div>
+
+@code {
+    private const int InitialVisible = 15;
+    private const double BarTrackWidth = 260.0;
+
+    private bool _showAll;
+
+    [Parameter, EditorRequired] public IReadOnlyList<HotCategory> Categories { get; set; } = [];
+
+    private void ToggleShowAll() => _showAll = !_showAll;
+
+    private static string F(double v) => v.ToString("0.##", CultureInfo.InvariantCulture);
+}
