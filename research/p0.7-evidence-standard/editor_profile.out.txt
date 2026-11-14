@@ -1,0 +1,48 @@
+
+## editor kinds
+SELECT CASE
+  WHEN user IS NULL OR user = '' THEN 'hidden/empty'
+  WHEN user LIKE '~%' THEN 'temporary account'
+  WHEN user REGEXP '^[0-9]{1,3}(\\.[0-9]{1,3}){3}$' THEN 'ipv4'
+  WHEN user REGEXP '^[0-9A-Fa-f:]+$' AND user LIKE '%:%' THEN 'ipv6'
+  WHEN user REGEXP '(?i)bot$' THEN 'bot-like name'
+  ELSE 'named' END AS kind,
+  anonymous, COUNT(*) n, COUNT(DISTINCT user) editors, MIN(ts), MAX(ts)
+FROM revision GROUP BY kind, anonymous ORDER BY n DESC
+   ('named', 0, 622974, 15180, datetime.datetime(2003, 2, 21, 13, 15, 35), datetime.datetime(2026, 10, 1, 10, 59, 12))
+   ('ipv4', 1, 151419, 51056, datetime.datetime(2003, 11, 29, 10, 37, 29), datetime.datetime(2025, 9, 10, 10, 56, 56))
+   ('bot-like name', 0, 72727, 179, datetime.datetime(2004, 2, 23, 12, 56, 22), datetime.datetime(2026, 10, 1, 10, 15, 18))
+   ('ipv6', 1, 11709, 5245, datetime.datetime(2004, 10, 28, 15, 38, 1), datetime.datetime(2025, 9, 10, 8, 33, 38))
+   ('temporary account', 1, 3228, 1769, datetime.datetime(2025, 9, 10, 18, 2, 57), datetime.datetime(2026, 9, 30, 21, 16, 25))
+   ('hidden/empty', 0, 18, 0, datetime.datetime(2008, 11, 14, 15, 40, 26), datetime.datetime(2025, 6, 18, 4, 47))
+   ('temporary account', 0, 1, 1, datetime.datetime(2017, 7, 24, 9, 37, 58), datetime.datetime(2017, 7, 24, 9, 37, 58))
+
+## sample temp accounts
+SELECT DISTINCT user FROM revision WHERE user LIKE '~%' LIMIT 5
+   ('~2025-26183-73',)
+   ('~2025-26418-80',)
+   ('~2025-26440-35',)
+   ('~2025-26445-77',)
+   ('~2025-26511-45',)
+
+## sample ipv6 (masked to first two groups, as the UI shows them)
+SELECT DISTINCT CONCAT(SUBSTRING_INDEX(user, ':', 2), ':…') FROM revision WHERE user LIKE '%:%' AND anonymous LIMIT 5
+   ('2A02:2788:…',)
+   ('2001:14BA:…',)
+   ('2001:14BB:…',)
+   ('2001:14BB:…',)
+   ('2001:14BB:…',)
+
+## anonymous but not IP-shaped
+SELECT user, COUNT(*) FROM revision WHERE anonymous
+  AND NOT user REGEXP '^[0-9]{1,3}(\\.[0-9]{1,3}){3}$' AND user NOT LIKE '%:%' GROUP BY user ORDER BY 2 DESC LIMIT 10
+   ('~2026-54975-0', 75)
+   ('~2026-41472-88', 74)
+   ('~2025-34728-96', 35)
+   ('~2026-38421-00', 34)
+   ('~2025-32736-35', 31)
+   ('~2025-41602-37', 29)
+   ('~2025-39767-65', 24)
+   ('~2025-60660-7', 23)
+   ('~2026-13276-93', 22)
+   ('~2025-57078-6', 20)
