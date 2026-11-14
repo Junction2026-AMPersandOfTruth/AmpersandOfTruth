@@ -102,15 +102,95 @@ public sealed class MethodologyPageTests : BunitContext
     }
 
     [Fact]
-    public void Quality_coverage_limitations_and_attribution_sections_match_contracts()
+    public void Quality_section_renders_four_figures_from_MeasuredQuality_caveats_and_source_link()
     {
         var cut = Render<MethodologyPage>();
 
         var quality = cut.Find("[data-testid=methodology-section][data-section=quality]");
-        Assert.Contains("Being measured", quality.TextContent);
-        Assert.Contains("Precision", quality.TextContent, StringComparison.OrdinalIgnoreCase);
-        var qualityBodyText = string.Join(" ", quality.QuerySelectorAll("p, li, dd").Select(e => e.TextContent));
-        Assert.DoesNotMatch(new Regex(@"\d"), qualityBodyText);
+        Assert.DoesNotContain("Being measured", quality.TextContent, StringComparison.OrdinalIgnoreCase);
+
+        Assert.Contains(
+            $"We checked the top results for {MeasuredQuality.FormatCount(MeasuredQuality.HeldOutTopics)} held-out topics " +
+            $"against a hand-labelled set ({MeasuredQuality.FormatCount(MeasuredQuality.ExpectedDisputedItems)} expected disputed items), " +
+            "with an automated judge and a second reviewer for anything it couldn't match.",
+            quality.TextContent);
+
+        var table = quality.QuerySelector("table.aot-wikitable[data-testid=quality-table]");
+        Assert.NotNull(table);
+
+        var rows = table.QuerySelectorAll("tbody tr[data-testid=quality-row]");
+        Assert.Equal(4, rows.Length);
+
+        var values = table.QuerySelectorAll("[data-testid=quality-value]")
+            .Select(v => v.TextContent.Trim())
+            .ToArray();
+        Assert.Equal(
+            [
+                MeasuredQuality.FormatPercent(MeasuredQuality.PrecisionAt10),
+                MeasuredQuality.FormatPercent(MeasuredQuality.Recall),
+                MeasuredQuality.FormatPercent(MeasuredQuality.OverclaimRate),
+                MeasuredQuality.FormatCount(MeasuredQuality.Duplicates),
+            ],
+            values);
+
+        Assert.Contains("Of the first 10 results, share that are real disputed insertions", rows[0].TextContent);
+        Assert.Contains(
+            $"(a simple word-only baseline: {MeasuredQuality.FormatPercent(MeasuredQuality.BaselinePrecisionAt10)})",
+            rows[0].TextContent);
+
+        Assert.Contains("Share of known disputed insertions we find", rows[1].TextContent);
+        Assert.Contains("Results shown at a higher level than the evidence supports", rows[2].TextContent);
+        Assert.Contains("Duplicates", rows[3].TextContent);
+
+        Assert.Contains("What this means", quality.TextContent);
+        var caveats = quality.QuerySelectorAll("[data-testid=quality-caveats] li");
+        Assert.Equal(5, caveats.Length);
+        Assert.Contains(caveats, c => c.TextContent.Contains("miss about half", StringComparison.OrdinalIgnoreCase));
+        Assert.Contains(caveats, c => c.TextContent.Contains("higher level", StringComparison.OrdinalIgnoreCase) && c.TextContent.Contains("regular editors", StringComparison.OrdinalIgnoreCase));
+        Assert.Contains(caveats, c => c.TextContent.Contains("Partial removals", StringComparison.Ordinal));
+        Assert.Contains(caveats, c => c.TextContent.Contains("4 topics, 26 items", StringComparison.Ordinal) && c.TextContent.Contains("4 points", StringComparison.Ordinal));
+        Assert.Contains(caveats, c => c.TextContent.Contains("automated judge", StringComparison.OrdinalIgnoreCase) && c.TextContent.Contains("generous", StringComparison.OrdinalIgnoreCase));
+
+        var note = quality.QuerySelector("[data-testid=quality-note]");
+        Assert.NotNull(note);
+        Assert.Contains($"Measured on {MeasuredQuality.FormatMeasuredOn()} on the shipped configuration.", note.TextContent);
+        Assert.Contains(
+            "These numbers describe the analysis pipeline, not the sample incidents shown while the demo runs in sample mode.",
+            note.TextContent);
+
+        var sourceLink = quality.QuerySelector("a[data-testid=quality-source-link]");
+        Assert.NotNull(sourceLink);
+        Assert.Equal(MeasuredQuality.SourceUrl.AbsoluteUri, sourceLink.GetAttribute("href"));
+        Assert.EndsWith($"/blob/main/{MeasuredQuality.SourcePath}", sourceLink.GetAttribute("href"), StringComparison.Ordinal);
+        Assert.Contains(MeasuredQuality.SourcePath, sourceLink.TextContent);
+
+        // Spec explicitly forbids ML/eval jargon in the quality section in addition to CopyRules.
+        Assert.DoesNotMatch(new Regex(@"\b(?:p\s*@\s*10|recall|tiers?|llms?|revert(?:s|ed|ing)?)\b", RegexOptions.IgnoreCase), quality.TextContent);
+    }
+
+    [Fact]
+    public void MeasuredQuality_constants_and_source_path_match_s11_decision()
+    {
+        Assert.Equal(new DateOnly(2026, 11, 14), MeasuredQuality.MeasuredOn);
+        Assert.Equal("14 Nov 2026", MeasuredQuality.FormatMeasuredOn());
+        Assert.Equal(4, MeasuredQuality.HeldOutTopics);
+        Assert.Equal(26, MeasuredQuality.ExpectedDisputedItems);
+        Assert.Equal("85%", MeasuredQuality.FormatPercent(MeasuredQuality.PrecisionAt10));
+        Assert.Equal("25%", MeasuredQuality.FormatPercent(MeasuredQuality.BaselinePrecisionAt10));
+        Assert.Equal("56%", MeasuredQuality.FormatPercent(MeasuredQuality.PrecisionAt25));
+        Assert.Equal("50%", MeasuredQuality.FormatPercent(MeasuredQuality.Recall));
+        Assert.Equal("56%", MeasuredQuality.FormatPercent(MeasuredQuality.LevelAccuracy));
+        Assert.Equal("33%", MeasuredQuality.FormatPercent(MeasuredQuality.OverclaimRate));
+        Assert.Equal("0", MeasuredQuality.FormatCount(MeasuredQuality.Duplicates));
+
+        var fullSourcePath = Path.Combine(FindRepoRoot(), MeasuredQuality.SourcePath);
+        Assert.True(File.Exists(fullSourcePath), $"Expected source file to exist at {fullSourcePath}");
+    }
+
+    [Fact]
+    public void Coverage_limitations_and_attribution_sections_match_contracts()
+    {
+        var cut = Render<MethodologyPage>();
 
         var coverage = cut.Find("[data-testid=methodology-section][data-section=coverage]");
         Assert.Contains("19,742", coverage.TextContent);
@@ -174,5 +254,16 @@ public sealed class MethodologyPageTests : BunitContext
     {
         var cut = Render<PipelineDiagram>();
         Assert.DoesNotMatch(new Regex(@"#[0-9a-fA-F]{3,8}\b"), cut.Markup);
+    }
+
+    private static string FindRepoRoot()
+    {
+        var dir = new DirectoryInfo(AppContext.BaseDirectory);
+        while (dir is not null && !File.Exists(Path.Combine(dir.FullName, "AmpersandOfTruth.sln")))
+        {
+            dir = dir.Parent;
+        }
+
+        return dir?.FullName ?? throw new InvalidOperationException("Repository root containing AmpersandOfTruth.sln not found.");
     }
 }

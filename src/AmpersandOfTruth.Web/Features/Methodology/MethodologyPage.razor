@@ -51,7 +51,51 @@
     <section class="methodology-section aot-stack" data-testid="methodology-section" data-section="quality" aria-labelledby="quality">
         <h2 id="quality" class="aot-h2">Measured quality</h2>
         <p>
-            <strong>Being measured.</strong> Precision numbers from our hand-checked evaluation set will appear here after the evaluation.
+            We checked the top results for @MeasuredQuality.FormatCount(MeasuredQuality.HeldOutTopics) held-out topics against a hand-labelled set (@MeasuredQuality.FormatCount(MeasuredQuality.ExpectedDisputedItems) expected disputed items), with an automated judge and a second reviewer for anything it couldn't match.
+        </p>
+
+        <table class="aot-wikitable methodology-table" data-testid="quality-table">
+            <thead>
+                <tr>
+                    <th scope="col">Measure</th>
+                    <th scope="col">Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-testid="quality-row" data-metric="first-10">
+                    <td>Of the first 10 results, share that are real disputed insertions</td>
+                    <td>
+                        <span class="aot-num" data-testid="quality-value">@MeasuredQuality.FormatPercent(MeasuredQuality.PrecisionAt10)</span>
+                        <span class="aot-small aot-muted">(a simple word-only baseline: <span class="aot-num">@MeasuredQuality.FormatPercent(MeasuredQuality.BaselinePrecisionAt10)</span>)</span>
+                    </td>
+                </tr>
+                <tr data-testid="quality-row" data-metric="known-found">
+                    <td>Share of known disputed insertions we find</td>
+                    <td class="aot-num" data-testid="quality-value">@MeasuredQuality.FormatPercent(MeasuredQuality.Recall)</td>
+                </tr>
+                <tr data-testid="quality-row" data-metric="higher-level">
+                    <td>Results shown at a higher level than the evidence supports</td>
+                    <td class="aot-num" data-testid="quality-value">@MeasuredQuality.FormatPercent(MeasuredQuality.OverclaimRate)</td>
+                </tr>
+                <tr data-testid="quality-row" data-metric="duplicates">
+                    <td>Duplicates</td>
+                    <td class="aot-num" data-testid="quality-value">@MeasuredQuality.FormatCount(MeasuredQuality.Duplicates)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 class="aot-h3">What this means</h3>
+        <ul class="methodology-list" data-testid="quality-caveats">
+            <li>We miss about half of known disputed insertions — including 6 of 9 in one held-out topic — because per-topic and per-article limits leave out real cases before they are shown.</li>
+            <li>A third of matched results are shown at a higher level than the evidence supports: long disputes between regular editors can look consistent with coordination when several accounts edit the same passage over time, and some routine removals are read as disputed.</li>
+            <li>Partial removals — where a later editor rewrites or trims a claim instead of undoing the whole edit — are not covered yet.</li>
+            <li>The test set is small (@MeasuredQuality.FormatCount(MeasuredQuality.HeldOutTopics) topics, @MeasuredQuality.FormatCount(MeasuredQuality.ExpectedDisputedItems) items), so a single item moves a percentage by about 4 points.</li>
+            <li>The automated judge used on unlabelled results is itself slightly generous (rating about 1 in 10 items too high in earlier checks), though the second review pass catches the clearest cases.</li>
+        </ul>
+
+        <p class="aot-small aot-muted methodology-note" data-testid="quality-note">
+            Measured on @MeasuredQuality.FormatMeasuredOn() on the shipped configuration. These numbers describe the analysis pipeline, not the sample incidents shown while the demo runs in sample mode.
+            Source: <a class="aot-ext" href="@MeasuredQuality.SourceUrl.AbsoluteUri" target="_blank" rel="noopener" data-testid="quality-source-link">@MeasuredQuality.SourcePath</a>.
         </p>
     </section>
 
