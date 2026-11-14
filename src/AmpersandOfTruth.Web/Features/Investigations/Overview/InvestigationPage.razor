@@ -405,7 +405,7 @@
         return Task.CompletedTask;
     }
 
-    private async Task StartRunAsync()
+    private async Task StartRunAsync(bool refresh = false)
     {
         if (_disposed) return;
 
@@ -431,7 +431,7 @@
 
         try
         {
-            await foreach (var evt in Runner.RunAsync(query, ct))
+            await foreach (var evt in Runner.RunAsync(query, refresh, ct))
             {
                 if (!ReferenceEquals(runCts, _cts) || _disposed) return;
 
@@ -493,7 +493,7 @@
         _cts?.Cancel();
     }
 
-    private Task RerunAsync() => StartRunAsync();
+    private Task RerunAsync() => StartRunAsync(refresh: true);
 
     private async Task<IncidentView> MapAndCacheAsync(IncidentRecord record, int rank, CancellationToken ct)
     {

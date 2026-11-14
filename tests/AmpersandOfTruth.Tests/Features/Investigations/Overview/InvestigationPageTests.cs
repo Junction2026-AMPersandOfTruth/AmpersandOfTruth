@@ -478,7 +478,7 @@ public sealed class InvestigationPageTests : BunitContext
         }
 
         public async IAsyncEnumerable<InvestigationEvent> RunAsync(
-            string topic,
+            string topic, bool refresh,
             [EnumeratorCancellation] CancellationToken ct = default)
         {
             RunCount++;
