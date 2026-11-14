@@ -9,9 +9,9 @@ public sealed class DemoOptions
 
     public static IReadOnlyList<string> DefaultSeedTopics { get; } =
     [
-        "Winter War",
-        "Continuation War",
-        "Finnish Civil War",
+        "Talvisota",
+        "Jatkosota",
+        "Suomen sisällissota",
     ];
 
     public bool SafeMode { get; set; }

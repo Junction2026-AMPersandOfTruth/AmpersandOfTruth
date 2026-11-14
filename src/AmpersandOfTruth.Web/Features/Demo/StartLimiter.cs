@@ -12,7 +12,10 @@ public sealed class ClientIdentity(IHttpContextAccessor? httpContextAccessor = n
 {
     public string? Key { get; private set; } = ExtractIp(httpContextAccessor?.HttpContext);
 
-    public string EffectiveKey => string.IsNullOrWhiteSpace(Key) ? "unknown" : Key;
+    // No IP known (no HttpContext in this circuit) → a key unique to this circuit, never one bucket shared by everyone.
+    private readonly string _circuitKey = "circuit:" + Guid.NewGuid().ToString("N");
+
+    public string EffectiveKey => string.IsNullOrWhiteSpace(Key) ? _circuitKey : Key;
 
     public void Capture(HttpContext? httpContext = null)
     {

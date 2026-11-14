@@ -86,7 +86,9 @@ public sealed class DemoLibrarySeeder : IHostedService
                 continue;
             }
 
-            var cached = await _cache.TryGetAsync(topic, ct);
+            // As typed, else as the investigation page runs it (the URL slug form that scripts/warm.sh warms).
+            var cached = await _cache.TryGetAsync(topic, ct)
+                ?? (slug.Length > 0 ? await _cache.TryGetAsync(TopicSlug.ToQuery(slug), ct) : null);
             if (cached is null)
             {
                 skipped.Add(topic);

@@ -172,7 +172,22 @@ public sealed class DemoLibrarySeederTests : IDisposable
         Assert.Equal(2, opts.MaxConcurrentColdRuns);
         Assert.Equal(6, opts.StartsPerClientPerMinute);
         Assert.False(opts.SeedLibrary);
-        Assert.Equal(["Winter War", "Continuation War", "Finnish Civil War"], opts.SeedTopics);
+        Assert.Equal(["Talvisota", "Jatkosota", "Suomen sisällissota"], opts.SeedTopics);
+    }
+
+    [Fact]
+    public async Task Seeder_finds_a_topic_warmed_in_its_url_slug_form()
+    {
+        var cache = BuildCache();
+        var store = new LibraryStore(_db.Factory, _clock);
+        // scripts/warm.sh runs "Talvisota" as the page will: "talvisota".
+        await cache.StoreAsync("talvisota", MakeRunSnapshot("Talvisota", "inc-tv", EvidenceTier.Campaign));
+        var seeder = new DemoLibrarySeeder(
+            new DemoOptions { SeedLibrary = true, SeedTopics = ["Talvisota"] }, cache, store, new ListLogger<DemoLibrarySeeder>());
+
+        await seeder.StartAsync(CancellationToken.None);
+
+        Assert.Single(await store.ListExamplesAsync());
     }
 
     private InvestigationRunCache BuildCache()
