@@ -1,0 +1,146 @@
+@page "/investigate"
+@implements IDisposable
+@inject InvestigationService Investigations
+
+<PageTitle>Investigate</PageTitle>
+
+<h1>Investigate a topic</h1>
+<p class="text-muted">
+    Walking skeleton: topic → nearest Wikipedia articles (bge-m3) → raw identity reverts on the Finnish ones.
+    No diffing, no LLM yet.
+</p>
+
+<EditForm Model="_input" OnValidSubmit="Run" FormName="investigate" class="d-flex gap-2 mb-3">
+    <DataAnnotationsValidator />
+    <InputText @bind-Value="_input.Topic" class="form-control" placeholder="e.g. Talvisota, Suomen sisällissota…"
+               data-testid="investigate-topic" disabled="@_busy" />
+    <button type="submit" class="btn btn-primary text-nowrap" data-testid="investigate-submit" disabled="@_busy">
+        @(_busy ? "Searching…" : "Investigate")
+    </button>
+</EditForm>
+
+@if (_busy)
+{
+    <div class="text-muted" data-testid="investigate-busy">Searching “@_input.Topic”…</div>
+}
+else if (_result is null)
+{
+    <EmptyState Message="Enter a topic to find related articles and their reverted edits." />
+}
+else if (_result.Status != InvestigationStatus.Ok)
+{
+    <div class="alert alert-warning" role="alert" data-testid="investigate-unavailable">
+        <strong>@(_result.Status == InvestigationStatus.CorpusUnavailable ? "Corpus not available." : "Topic search not available.")</strong>
+        @(_result.Status == InvestigationStatus.CorpusUnavailable
+            ? " The Wikipedia corpus (MariaDB) can't be reached — is scripts/corpus-tunnel.sh running and Corpus:Password set?"
+            : " The bge-m3 embedder (Ollama) can't be reached and this topic isn't cached yet.")
+        <div class="small text-muted mt-1">@_result.Error</div>
+    </div>
+}
+else if (_result.Articles.Count == 0)
+{
+    <EmptyState Message="No articles found." />
+}
+else
+{
+    <p class="text-muted" data-testid="investigate-summary">
+        @_result.Articles.Count articles for “@_result.Topic” ·
+        @_result.Articles.Sum(a => a.Reverts.Count) reverts on Finnish articles
+        (newest @InvestigationService.RevertsPerArticle per article).
+    </p>
+
+    @foreach (var item in _result.Articles)
+    {
+        var a = item.Article;
+        <section class="mb-4" data-testid="investigate-article" @key="(a.Lang, a.PageId)">
+            <h2 class="h5">
+                <span class="badge text-bg-secondary text-uppercase">@a.Lang</span>
+                <a href="@a.Url" target="_blank" rel="noopener">@a.Title</a>
+                <small class="text-muted">distance @a.Distance.ToString("0.000")</small>
+            </h2>
+
+            @if (!a.HasHistory)
+            {
+                <div class="small text-muted">Revision history is only loaded for Finnish articles.</div>
+            }
+            else if (item.Reverts.Count == 0)
+            {
+                <div class="small text-muted">No reverts found.</div>
+            }
+            else
+            {
+                <table class="table table-sm table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th>Reverted (UTC)</th>
+                            <th>Reverted by</th>
+                            <th>Revert comment</th>
+                            <th>Undid</th>
+                            <th>Last undone edit by</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var r in item.Reverts)
+                        {
+                            <tr data-testid="revert-row" @key="r.RevId">
+                                <td class="text-nowrap">
+                                    <a href="@r.RevisionUrl" target="_blank" rel="noopener">@r.Timestamp.ToString("yyyy-MM-dd HH:mm")</a>
+                                </td>
+                                <td>@r.User</td>
+                                <td class="small">@r.Comment</td>
+                                <td class="text-nowrap">
+                                    <a href="@r.DiffUrl" target="_blank" rel="noopener">@r.RevertedCount edit@(r.RevertedCount == 1 ? "" : "s")</a>
+                                </td>
+                                <td>
+                                    <a href="@r.RevertedRevisionUrl" target="_blank" rel="noopener">@(r.RevertedUser ?? "(hidden)")</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </section>
+    }
+}
+
+@code {
+    private readonly TopicInput _input = new();
+    private CancellationTokenSource? _cts;
+    private InvestigationResult? _result;
+    private bool _busy;
+
+    private async Task Run()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = new CancellationTokenSource();
+        var ct = _cts.Token;
+
+        _busy = true;
+        _result = null;
+        try
+        {
+            _result = await Investigations.InvestigateAsync(_input.Topic!, ct);
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            // Superseded by a newer search, or the circuit went away.
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+
+    private sealed class TopicInput
+    {
+        [System.ComponentModel.DataAnnotations.Required, System.ComponentModel.DataAnnotations.StringLength(500)]
+        public string? Topic { get; set; }
+    }
+}
