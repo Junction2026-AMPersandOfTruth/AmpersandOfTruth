@@ -8,7 +8,6 @@ public class AppSmokeTests(AppFactory factory) : IClassFixture<AppFactory>
 {
     [Theory]
     [InlineData("/")]
-    [InlineData("/notes")]
     [InlineData("/analysis")]
     [InlineData("/investigate")]
     [InlineData("/health")]
@@ -21,10 +20,12 @@ public class AppSmokeTests(AppFactory factory) : IClassFixture<AppFactory>
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 
-    [Fact]
-    public async Task Unknown_route_returns_404()
+    [Theory]
+    [InlineData("/definitely-not-a-page")]
+    [InlineData("/notes")]
+    public async Task Unknown_route_returns_404(string url)
     {
-        var response = await factory.CreateClient().GetAsync("/definitely-not-a-page");
+        var response = await factory.CreateClient().GetAsync(url);
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 }
