@@ -492,3 +492,6 @@ $RECYCLE.BIN/
 
 # Gemini worker task state (specs, logs, outputs)
 .tasks/
+
+# Local SSH keys (VPS access) — never commit
+.ssh/

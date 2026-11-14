@@ -1,0 +1,23 @@
+# Corpus tuning for the team VPS (2 vCPU, 8 GB RAM, no other DB). See issue #7 for the budget:
+# MariaDB gets ~3.5 GB; Ollama/bge-m3 (~1.5 GB), the app and the OS share the rest.
+# Defaults checked against mariadb:12.3.3 (`mariadbd --verbose --help`) — noted per line.
+
+[mariadbd]
+# --- memory ---
+innodb_buffer_pool_size = 3G          # default 128M. Revision text (12 GB) will never fit; keep metadata narrow.
+mhnsw_max_cache_size    = 512M        # default 16M. 29,460 x 1024 floats ≈ 120 MB + graph; too small → disk-bound search.
+performance_schema      = OFF         # already the 12.3.3 default; pinned so nobody turns it on (~100-200 MB)
+max_connections         = 100
+
+# --- vector search ---
+mhnsw_ef_search         = 80          # default 20. Upstream demo sets 80 per session; this makes it the default too.
+
+# --- bulk loading (P0.2 / P0.3) ---
+max_allowed_packet      = 256M        # default 16M. Largest wikitext revisions + batched INSERTs.
+innodb_log_file_size    = 1G          # fewer checkpoints during the 862k-revision load
+innodb_flush_log_at_trx_commit = 2    # corpus is reloadable from Parquet; trade 1 s of durability for load speed
+innodb_io_capacity      = 1000        # SSD
+
+# --- hygiene ---
+character_set_server    = utf8mb4
+skip_name_resolve       = ON          # tunnel clients arrive from the docker bridge IP; skip DNS lookups
