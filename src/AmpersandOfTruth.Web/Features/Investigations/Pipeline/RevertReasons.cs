@@ -17,9 +17,12 @@ public static class RevertReasons
         Copyright = "copyright", Maintenance = "maintenance", Consensus = "consensus";
 
     /// <summary>The removal reason the evidence standard uses: accuracy &gt; neutrality &gt; sourcing (incl. original research)
-    /// &gt; vandalism &gt; other. Only the first three count as a community-dispute signal (docs/evidence-standard.md).</summary>
+    /// &gt; vandalism &gt; other. Only the first three count as a community-dispute signal (docs/evidence-standard.md).
+    /// A block-evasion revert (<see cref="BlockEvasion"/>) is procedural — it undoes an edit for who made it, not for what it
+    /// says — so it is always <see cref="RemovalReason.Other"/>, whatever else its summary mentions (#38 red team).</summary>
     public static RemovalReason ToRemovalReason(IReadOnlySet<string> categories) =>
-        categories.Contains(FactualError) ? RemovalReason.Accuracy
+        categories.Contains(BlockEvasion) ? RemovalReason.Other
+        : categories.Contains(FactualError) ? RemovalReason.Accuracy
         : categories.Contains(NeutralityPov) ? RemovalReason.Neutrality
         : categories.Contains(Sourcing) || categories.Contains(OriginalResearch) ? RemovalReason.Sourcing
         : categories.Contains(VandalismTest) ? RemovalReason.Vandalism
@@ -28,6 +31,11 @@ public static class RevertReasons
 
     /// <summary>Removal reason of a revert from its raw edit summary.</summary>
     public static RemovalReason Of(string? revertComment) => ToRemovalReason(Categories(ReasonText(revertComment)));
+
+    /// <summary>The revert undid a blocked user's edit (block evasion / sockpuppet): a procedural removal, not a content
+    /// objection. Read from the whole summary, since the rollback template itself can carry the reason.</summary>
+    public static bool IsProcedural(string? revertComment) =>
+        Categories(ReasonText(revertComment)).Contains(BlockEvasion) || BlockEvasionRe.IsMatch(StripSection(revertComment));
 
     private const RegexOptions I = RegexOptions.IgnoreCase | RegexOptions.CultureInvariant;
     private const RegexOptions IS = I | RegexOptions.Singleline;

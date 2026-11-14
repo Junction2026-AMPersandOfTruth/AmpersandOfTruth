@@ -41,6 +41,10 @@ public sealed class InvestigationPipelineOptions
     /// <summary>Run P1.S8's citation detectors on each removed edit (tier input "source change"). As above.</summary>
     public bool SourceChangeSignal { get; set; } = true;
 
+    /// <summary>The evidence standard's <c>kept</c> exclusion (P1.S10): drop a removed edit whose longest added sentence is
+    /// still in the article's latest revision. One latest-text read per article per run. Off = ablation.</summary>
+    public bool KeptSignal { get; set; } = true;
+
     /// <summary>P1.S10 (#37) B+rel: within a tier, rank by the additive score × topic relevance (bge-m3 cosine of topic and
     /// claim). Off = additive score only (ablation, or if the extra embeddings hurt latency).</summary>
     public bool TopicRelevance { get; set; } = true;

@@ -37,6 +37,9 @@ public interface IRevisionStore
 
     /// <summary>Wikitext of one revision; null if the corpus has no text for it.</summary>
     Task<string?> TextAsync(long pageId, long revId, CancellationToken ct = default);
+
+    /// <summary>Wikitext of the page's latest revision in the corpus (highest rev id, as P1.S10); null if it has none.</summary>
+    Task<string?> LatestTextAsync(long pageId, CancellationToken ct = default);
 }
 
 /// <summary>Raw SQL against <c>corpus.revision</c> / <c>corpus.revision_text</c> (PK lookups and one <c>idx_page_ts</c> range).</summary>
@@ -90,6 +93,12 @@ public sealed class MariaDbRevisionStore(CorpusConnectionFactory corpus, ILogger
         """;
 
     internal const string TextSql = "SELECT text FROM revision_text WHERE page_id = @page AND rev_id = @rev";
+
+    // PK lookups only: the page's highest rev id (idx_page_ts / PK prefix), then its text.
+    internal const string LatestTextSql = """
+        SELECT t.text FROM revision_text t
+        WHERE t.page_id = @page AND t.rev_id = (SELECT MAX(r.rev_id) FROM revision r WHERE r.page_id = @page)
+        """;
 
     public async Task<int> RevisionCountAsync(IReadOnlyCollection<long> pageIds, CancellationToken ct = default)
     {
@@ -212,15 +221,29 @@ public sealed class MariaDbRevisionStore(CorpusConnectionFactory corpus, ILogger
             await using var cmd = new MySqlCommand(TextSql, conn);
             cmd.Parameters.AddWithValue("@page", pageId);
             cmd.Parameters.AddWithValue("@rev", revId);
-            text = await cmd.ExecuteScalarAsync(ct) switch
-            {
-                null or DBNull => null,
-                byte[] bytes => System.Text.Encoding.UTF8.GetString(bytes),
-                var value => Convert.ToString(value),
-            };
+            text = AsText(await cmd.ExecuteScalarAsync(ct));
         }, ct);
         return text;
     }
+
+    public async Task<string?> LatestTextAsync(long pageId, CancellationToken ct = default)
+    {
+        string? text = null;
+        await RunAsync(async conn =>
+        {
+            await using var cmd = new MySqlCommand(LatestTextSql, conn);
+            cmd.Parameters.AddWithValue("@page", pageId);
+            text = AsText(await cmd.ExecuteScalarAsync(ct));
+        }, ct);
+        return text;
+    }
+
+    private static string? AsText(object? value) => value switch
+    {
+        null or DBNull => null,
+        byte[] bytes => System.Text.Encoding.UTF8.GetString(bytes),
+        _ => Convert.ToString(value),
+    };
 
     private async Task RunAsync(Func<MySqlConnection, Task> query, CancellationToken ct)
     {

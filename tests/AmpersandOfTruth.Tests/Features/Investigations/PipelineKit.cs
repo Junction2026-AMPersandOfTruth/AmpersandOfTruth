@@ -44,6 +44,18 @@ public sealed class FakeRevisionStore : IRevisionStore
         return Task.FromResult(Texts.GetValueOrDefault((pageId, revId)));
     }
 
+    /// <summary>Latest revision text per page (the fake has no revert revisions, so this is explicit; none = not kept).</summary>
+    public Dictionary<long, string> LatestTexts { get; } = [];
+    private int _latestReads;
+    public int LatestReads => _latestReads;
+
+    public Task<string?> LatestTextAsync(long pageId, CancellationToken ct = default)
+    {
+        ThrowIfDown();
+        Interlocked.Increment(ref _latestReads);
+        return Task.FromResult(LatestTexts.GetValueOrDefault(pageId));
+    }
+
     public Task<IReadOnlyList<RevisionRow>> RestoresAsync(
         long pageId, DateTime afterTs, long afterRevId, IReadOnlyCollection<string> sha1s, int limit, CancellationToken ct = default)
     {
@@ -184,7 +196,7 @@ public sealed class PipelineKit
             new RevertCandidateSource(Corpus, Revisions, o),
             reader ?? new CorpusEditReader(Revisions, o, Conflicts),
             new GeminiEditClassifier(Model, o, NullLogger<GeminiEditClassifier>.Instance),
-            o, TimeProvider.System, NullLogger<InvestigationPipeline>.Instance, Relevance);
+            o, TimeProvider.System, NullLogger<InvestigationPipeline>.Instance, Relevance, Revisions);
     }
 
     /// <summary>The app's composition: run cache + reading cache on <paramref name="db"/> around the real pipeline.</summary>

@@ -60,6 +60,7 @@ public sealed record IncidentEvidence
     public bool KeptInLatestRevision { get; init; }
     public ContentAssessment? Assessment { get; init; }          // null = not run / failed / over budget
     public RemovalReason RemovalReason { get; init; } = RemovalReason.None;
+    public bool ProceduralRemoval { get; init; }                 // removed as block evasion (who, not what): put-backs are no dispute
     public int ReinsertionCount { get; init; }                   // times put back after a removal, >= 0
     public bool InEditWar { get; init; }
     public bool DisputeTemplateAdded { get; init; }

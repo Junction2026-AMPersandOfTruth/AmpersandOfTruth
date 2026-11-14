@@ -26,7 +26,7 @@ UI copy says "level", never "tier".
 - **Self-removal.** The same account that added the content took it out again.
 - **Bot.** The content was added by a bot account.
 - **Blanking.** The edit blanked the page or a whole section.
-- **Kept.** Someone undid the removal and the content is still in the latest revision. In that case the community kept it.
+- **Kept.** Someone undid the removal and the content is still in the latest revision. In that case the community kept it. Measured as in P1.S10: the longest added prose sentence (≥ 25 characters) occurs in the article's latest revision, as wikitext or as prose (`KeptInLatest`).
 - **Graffiti.** The automated assessment classed it as `vandalism` or `test/nonsense` with confidence ≥ 3. Below that, the item stays at Level 1.
 
 **Level 1 · Removed by Wikipedia editors.** Substantive content was added and later taken out by a *different* account, and no exclusion applies.
@@ -36,7 +36,7 @@ This is literally true of every item at this level, so it is also where everythi
 1. **It is a claim.** The automated assessment (P1.S9) classes it as one of `content dispute`, `POV/narrative push`, `false factual claim` or `source manipulation`. Its confidence must be ≥ 3 of 5, and at least one of its quoted evidence spans must be found verbatim in the inserted text.
 2. **The community disputed it.** At least one of these:
    - the removal reason (P1.S5) is about accuracy, neutrality or sourcing;
-   - the content was put back at least once after a removal;
+   - the content was put back at least once after a removal — unless that removal was a block-evasion / sockpuppet revert. Such a revert undoes an edit because of who made it, not what it says, so it is procedural: neither the revert nor putting the content back is a dispute about the content, whatever else its summary says (#38 red team, `RevertReasons.IsProcedural`);
    - it was part of a back-and-forth over the passage (edit war): the claim's own content was removed at least twice and put back at least once, by different editors (P1.S10, frozen in `research/eval/CONTRACT.md` §3; a page-level P1.S4 conflict episode is not enough);
    - a dispute template (`{{Neutraalius}}`, `{{Lähteetön}}`, `{{Korjattava}}`, …) was added in the same episode.
 
@@ -107,7 +107,7 @@ Rules:
   Account descriptions state observable facts only ("12 edits in this dataset, 9 removed by others, all on 2 articles"), next to the caveat "Only edits within our dataset of 19,742 articles are shown."
 - **No pages or search by IP.** `/accounts/{name}` (P2.8) exists only for named and temporary accounts.
 - **Counting editors uses the same masking.** IPs in one masked range (IPv4 /16, IPv6 /32) count as one editor for Level 3 (`EditorLabel.GroupingKey`). Shared and reassigned addresses would otherwise fake "multiple accounts". This errs low, on purpose.
-- **Model prompts never contain usernames or IPs.** Editors become "Editor 1", "Editor 2", … plus their kind (named, anonymous, temporary). This keeps personal data out of the third-party API and keeps names from biasing the assessment.
+- **Model prompts never contain usernames or IPs.** Editors become "Editor 1", "Editor 2", … plus their kind (named, anonymous, temporary). This keeps personal data out of the third-party API and keeps names from biasing the assessment. Edit summaries in a prompt go through `PromptEditors`: every involved account becomes its "Editor n", any other name in a revert template's editor slot ("jonka teki X", "(tehneet X, Y)", "Käyttäjän X …", user links) becomes "[editor]", then IPs are masked.
 - Storage and pipeline keep the raw `user` string. It is public data and is needed for clustering. Masking is a display rule applied in exactly one place (`EditorDisplay`) and in every export.
 - **Edit summaries are shown as plain text with every IP address masked** (`EditorDisplay.MaskComment`). fi.wikipedia's revert summaries name the reverted editor, so masking only the user columns is not enough.
 

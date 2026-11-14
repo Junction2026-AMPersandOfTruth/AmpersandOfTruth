@@ -431,4 +431,114 @@ public class InvestigationPipelineTests
 
         Assert.Equal([2003L, 2006], removals.Select(r => r.RevId));
     }
+
+    // ── kept in the latest revision (evidence standard: kept) ──
+
+    [Fact]
+    public async Task Content_still_in_the_latest_revision_is_excluded_as_kept_without_an_llm_call()
+    {
+        _kit.Revisions.LatestTexts[1256] = "Johdanto.\n\n" + PipelineKit.After + "\n\nMyöhempi kappale.";
+
+        var events = await _kit.RunAsync();
+
+        var kept = events.OfType<CandidateScored>().Single(c => c.Candidate.Revert.RevId == 2000);
+        Assert.Null(kept.Incident);
+        Assert.Equal("kept", kept.Exclusion);
+        Assert.Empty(Assert.IsType<Completed>(events[^1]).Incidents);
+        Assert.Empty(_kit.Model.Requests);
+    }
+
+    [Fact]
+    public async Task Kept_matches_the_prose_of_the_latest_revision_when_the_sentence_carries_a_link()
+    {
+        _kit.Revisions.LatestTexts[1256] =
+            "Talvisota alkoi 30. marraskuuta 1939, kun [[Suomi]] hyökkäsi ensin [[Neuvostoliitto]]on [[Mainilan laukaukset|Mainilassa]].";
+
+        Assert.Equal("kept", (await _kit.RunAsync()).OfType<CandidateScored>().Single(c => c.Candidate.Revert.RevId == 2000).Exclusion);
+    }
+
+    [Fact]
+    public async Task Content_gone_from_the_latest_revision_stays_an_incident_and_the_latest_text_is_read_once_per_article()
+    {
+        _kit.Revisions.LatestTexts[1256] = PipelineKit.Before;
+        _kit.Revisions.Edit(1256, 2998, 2999, "198.51.100.1", PipelineKit.Before, PipelineKit.Before + " Toinen pitkä lisätty väite talvisodasta tähän.");
+        _kit.Corpus.Reverts.Add(FakeInvestigationCorpus.Revert(1256, 3000));
+
+        var events = await _kit.RunAsync();
+
+        Assert.Equal(2, Assert.IsType<Completed>(events[^1]).Incidents.Count);
+        Assert.Equal(1, _kit.Revisions.LatestReads);
+    }
+
+    [Fact]
+    public async Task Switching_the_kept_signal_off_reads_no_latest_revision()
+    {
+        _kit.Options.KeptSignal = false;
+        _kit.Revisions.LatestTexts[1256] = PipelineKit.After;
+
+        Assert.Single(Assert.IsType<Completed>((await _kit.RunAsync())[^1]).Incidents);
+        Assert.Equal(0, _kit.Revisions.LatestReads);
+    }
+
+    [Fact]
+    public void The_kept_probe_is_the_longest_added_sentence_of_at_least_25_characters()
+    {
+        var diff = Web.Features.WikiDiff.WikitextDiff.Compare(
+            "Alku.", "Alku. Lyhyt lause. Tämä on se pisin lisätty lause tässä muokkauksessa. Toinen lause, keskipitkä.");
+        Assert.Equal("Tämä on se pisin lisätty lause tässä muokkauksessa.", KeptInLatest.LongestAddedSentence(diff));
+
+        Assert.Null(KeptInLatest.LongestAddedSentence(Web.Features.WikiDiff.WikitextDiff.Compare("Alku.", "Alku. Lyhyt lause.")));
+    }
+
+    // ── block evasion (#38 red team) ──
+
+    [Fact]
+    public async Task A_put_back_after_a_block_evasion_revert_is_no_dispute()
+    {
+        RevertComment("rv, eston kiertoa (Estetty)");
+        _kit.Revisions.Later(1256, 2001, "Someone", PipelineKit.Before + " muu", FakeRevisionStore.T0.AddMinutes(2001));
+        _kit.Revisions.Later(1256, 2002, "Palauttaja",
+            PipelineKit.After, FakeRevisionStore.T0.AddMinutes(2002),
+            "Hylättiin viimeisin tekstimuutos (tehnyt 188.238.1.2) ja palautettiin versio 1999, jonka on tehnyt Estetty: liiallista poistoa");
+
+        var incident = await TheIncident();
+
+        Assert.Equal(1, incident.ReinsertionCount);
+        Assert.Equal(EvidenceTier.Reverted, incident.Tier);
+        Assert.DoesNotContain("reinserted", incident.Signals.Select(s => s.Kind));
+    }
+
+    [Fact]
+    public async Task A_block_evasion_revert_that_also_says_unsourced_is_not_a_sourcing_dispute()
+    {
+        RevertComment("rv, eston kiertoa, lähteetöntä");
+
+        Assert.Equal(EvidenceTier.Reverted, (await TheIncident()).Tier);
+    }
+
+    // ── no account names in the classifier prompt (evidence standard §3) ──
+
+    [Fact]
+    public async Task The_classifier_prompt_names_no_account()
+    {
+        _kit.Revisions.Rows.Clear();
+        _kit.Revisions.Edit(1256, 1998, 1999, "Anrikki", PipelineKit.Before, PipelineKit.After, "Lisäsin tiedon, ks. [[Käyttäjä:Kolmas|Kolmas]]");
+        _kit.Corpus.Reverts.RemoveAll(r => r.RevId == 2000);
+        _kit.Corpus.Reverts.Add(FakeInvestigationCorpus.Revert(1256, 2000, user: "Pekka Palauttaja",
+            comment: "Kumottu muokkaus 1999, jonka teki [[Special:Contributions/Anrikki|Anrikki]] ([[User talk:Anrikki|keskustelu]]) " +
+                     "väärää tietoa, vrt. Anrikki:n aiempi muokkaus ja Ulkopuolinen", revertedUser: "Anrikki"));
+
+        await _kit.RunAsync();
+
+        var vars = Assert.Single(_kit.Model.Requests).Variables;
+        Assert.Equal("Kumottu muokkaus 1999, jonka teki Editor 1 (keskustelu) väärää tietoa, vrt. Editor 1:n aiempi muokkaus ja Ulkopuolinen",
+            vars["revert_summary"]);
+        Assert.Equal("Lisäsin tiedon, ks. [editor]", vars["edit_summary"]);
+        foreach (var value in vars.Values)
+        {
+            Assert.DoesNotContain("Anrikki", value);
+            Assert.DoesNotContain("Kolmas", value);
+            Assert.DoesNotContain("Palauttaja", value);
+        }
+    }
 }

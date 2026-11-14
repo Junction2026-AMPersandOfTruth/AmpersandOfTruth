@@ -152,7 +152,13 @@ docs/known-limitations.md     # P1.P3 (#41): what the app cannot tell a user, wi
   Ranking = S10 mode B+rel: `score` = 100 × tier + `IncidentAssembler.ScoreA` (exact port of `score_variant_a`, parity values in
   `S10RankingTests`) × `TopicRelevance` (max(0, cos) of bge-m3(topic) and bge-m3(claim_en, else added prose)[:500]); the
   embedder down → relevance 1 and `Completed.Unranked` > 0, never cached. `Investigations:Pipeline:TopicRelevance=false` =
-  ScoreA only. Not yet: dispute templates, kept-in-latest, multiple articles (needs S7 clusters), S10's per-article cap of 5.
+  ScoreA only. Kept (#39 follow-up): `KeptInLatest` = S10's probe (longest added prose sentence ≥ 25 chars found in the page's
+  latest revision, wikitext or prose), one `IRevisionStore.LatestTextAsync` per article per run, checked before the LLM call;
+  `Investigations:Pipeline:KeptSignal=false` = ablation. A block-evasion revert (S5 `block_evasion`, `RevertReasons.IsProcedural`)
+  is `RemovalReason.Other` and its put-backs are no dispute (`IncidentEvidence.ProceduralRemoval`).
+  Classifier prompt summaries go through `PromptEditors` (involved accounts → `Editor n`, other names in template slots →
+  `[editor]`, then `MaskComment`) — never `MaskComment` alone, which masks only IPs.
+  Not yet: dispute templates, multiple articles (needs S7 clusters), S10's per-article cap of 5.
 - Stage 2 (`RevertCandidateSource`) ranks **every** identity revert of the found articles by `CandidateRanking.Score` = P1.S3's
   formula 3 (`f3_dispute_gated`) on the revert row — undone byte delta, time live, `Reappearances` (span put back), S5 reasons,
   named vs anonymous inserter — across the whole topic, drops row-decidable S1 exclusions (bot, lone self-revert), and reads
