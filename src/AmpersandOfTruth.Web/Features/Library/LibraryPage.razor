@@ -95,6 +95,7 @@
                                 <div class="aot-row" style="gap:6px">
                                     <a class="aot-btn aot-btn--sm" href="@openHref" data-testid="library-open">Open</a>
                                     <a class="aot-btn aot-btn--sm" href="@($"/library/{item.Id}/report")" data-testid="library-report">Report</a>
+                                    <AmpersandOfTruth.Web.Features.Sharing.ShareButton InvestigationId="item.Id" />
                                     @if (_renamingId != item.Id)
                                     {
                                         <button type="button"
