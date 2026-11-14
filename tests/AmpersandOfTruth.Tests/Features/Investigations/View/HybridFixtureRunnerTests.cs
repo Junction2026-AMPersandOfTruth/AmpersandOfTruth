@@ -80,7 +80,13 @@ public class HybridFixtureRunnerTests
 
         Assert.Collection(
             events,
-            e => Assert.Equal(3, Assert.IsType<ArticlesFound>(e).Items.Count),
+            e =>
+            {
+                // The sample's own article (9001, not returned by search) is listed first, then the 3 search hits.
+                var items = Assert.IsType<ArticlesFound>(e).Items;
+                Assert.Equal(4, items.Count);
+                Assert.Equal(9001, items[0].PageId);
+            },
             e =>
             {
                 var scan = Assert.IsType<RevisionsScanned>(e);

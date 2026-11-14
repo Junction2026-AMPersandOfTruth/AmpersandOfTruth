@@ -95,11 +95,11 @@
                     <title>@incident.FirstSeen.UtcDateTime.ToString("d MMM yyyy", CultureInfo.InvariantCulture)</title>
                     @if (incident.Tier == EvidenceTier.Reverted)
                     {
-                        <circle class="aot-mk aot-mk--reverted@shapeHot" cx="@F(cx)" cy="@F(cy)" r="5" />
+                        <circle class="aot-mk aot-mk--reverted@(shapeHot)" cx="@F(cx)" cy="@F(cy)" r="5" />
                     }
                     else if (incident.Tier == EvidenceTier.Contested)
                     {
-                        <rect class="aot-mk aot-mk--contested@shapeHot"
+                        <rect class="aot-mk aot-mk--contested@(shapeHot)"
                               x="@F(cx - 5)"
                               y="@F(cy - 5)"
                               width="10"
@@ -108,7 +108,7 @@
                     }
                     else
                     {
-                        <rect class="aot-mk aot-mk--campaign@shapeHot"
+                        <rect class="aot-mk aot-mk--campaign@(shapeHot)"
                               x="@F(cx - 5.5)"
                               y="@F(cy - 5.5)"
                               width="11"

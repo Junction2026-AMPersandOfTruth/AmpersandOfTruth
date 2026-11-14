@@ -321,7 +321,8 @@
     [SupplyParameterFromQuery(Name = "from")] public int? FromQuery { get; set; }
     [SupplyParameterFromQuery(Name = "to")] public int? ToQuery { get; set; }
 
-    private string TopicText => TopicSlug.ToQuery(Topic ?? "");
+    private string TopicText => Services.GetService<AmpersandOfTruth.Web.Features.Investigations.Fixtures.SampleIncidents>()?.Match(Topic ?? "")?.Title
+        ?? (TopicSlug.ToQuery(Topic ?? "") is { Length: > 0 } q ? char.ToUpperInvariant(q[0]) + q[1..] : "");
 
     private string EffectiveSlug
     {
@@ -426,7 +427,7 @@
         StartSlowMonitor();
         await RenderNowAsync();
 
-        var query = TopicText;
+        var query = TopicSlug.ToQuery(Topic ?? "");
         var slug = EffectiveSlug;
 
         try

@@ -31,12 +31,16 @@ public sealed class HybridFixtureRunner(
         ArgumentException.ThrowIfNullOrWhiteSpace(topic);
         var trimmed = topic.Trim();
         var started = time.GetTimestamp();
+        var sample = samples.Match(trimmed);
 
         IReadOnlyList<TopicArticle>? articles = null;
         StageFailed? stageOneFailure = null;
         try
         {
-            articles = await search.FindArticlesAsync(trimmed, ct);
+            // A sample topic searches with its proper title ("winter war" slug text → "Winter War") and always lists the
+            // samples' own articles first, so the rail and its incident counts match the cards.
+            var found = await search.FindArticlesAsync(sample?.Title ?? trimmed, ct);
+            articles = sample is null ? found : WithSampleArticles(sample, found);
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
         {
@@ -78,7 +82,6 @@ public sealed class HybridFixtureRunner(
 
         yield return new RevisionsScanned(scan!.RevisionsScanned, scan.Candidates);
 
-        var sample = samples.Match(trimmed);
         var ranked = sample is null
             ? []
             : sample.Incidents.OrderByDescending(i => i.Score).ToList();
@@ -102,6 +105,18 @@ public sealed class HybridFixtureRunner(
 
         ct.ThrowIfCancellationRequested();
         yield return new Completed(FromCache: false, ranked, time.GetElapsedTime(started));
+    }
+
+    private static IReadOnlyList<TopicArticle> WithSampleArticles(SampleTopic sample, IReadOnlyList<TopicArticle> found)
+    {
+        var have = found.Where(a => a.Lang == "fi").Select(a => a.PageId).ToHashSet();
+        var missing = sample.Incidents
+            .SelectMany(i => i.Articles.Select(a => (a.PageId, Title: a.TitleFi))
+                .Prepend((i.PageId, Title: i.Articles.FirstOrDefault(a => a.PageId == i.PageId)?.TitleFi)))
+            .Where(a => have.Add(a.PageId))
+            .Select(a => new TopicArticle("fi", a.PageId, a.Title ?? $"Page {a.PageId}", 0.0))
+            .ToList();
+        return [.. missing, .. found];
     }
 
     private static RemovedEdit FindOrSynthesiseCandidate(
