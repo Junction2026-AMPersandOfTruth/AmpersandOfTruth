@@ -1,0 +1,35 @@
+<!-- @dsCard group="Charts" height=200 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../aot.css"><meta charset="utf-8"><title>preview</title></head>
+<body>
+<div class="aot-pad aot-stack"><svg class="aot-chart" id="strip" role="img" aria-label="Incidents over time by article"></svg><div class="aot-legend" aria-hidden="false">
+  <span><svg viewBox="0 0 12 12"><circle class="aot-mk aot-mk--reverted" cx="6" cy="6" r="4.5"/></svg>Removed by Wikipedia editors</span>
+  <span><svg viewBox="0 0 12 12"><rect class="aot-mk aot-mk--contested" x="2" y="2" width="8" height="8" transform="rotate(45 6 6)"/></svg>Disputed and removed</span>
+  <span><svg viewBox="0 0 12 12"><rect class="aot-mk aot-mk--campaign" x="1.5" y="1.5" width="9" height="9" rx="1"/></svg>Coordinated pattern</span>
+</div></div>
+<script>
+
+(function(){
+  var W=900, lanes=[["Talvisota",[[2014.2,"campaign",1],[2015.1,"campaign",0],[2009.6,"contested",0],[2019.4,"reverted",0]]],
+    ["Mainilan laukaukset",[[2014.25,"campaign",0],[2016.8,"contested",0]]],
+    ["Neuvostoliiton hyökkäys",[[2011.3,"contested",0]]],
+    ["Terijoen hallitus",[[2021.7,"reverted",0]]]];
+  var L=150, R=W-12, x=function(y){return L+(y-2003)/(2026.9-2003)*(R-L)}, lh=22, top=6;
+  var s='';
+  lanes.forEach(function(ln,i){var y=top+i*lh;
+    s+='<rect class="lane" x="'+L+'" y="'+(y+3)+'" width="'+(R-L)+'" height="'+(lh-6)+'" rx="3"/>';
+    s+='<text x="'+(L-8)+'" y="'+(y+lh/2+4)+'" text-anchor="end">'+ln[0]+'</text>';
+    ln[1].forEach(function(m){var cx=x(m[0]),cy=y+lh/2,h=m[2]?' is-hot':'';
+      if(m[1]=="reverted") s+='<circle class="aot-mk aot-mk--reverted'+h+'" cx="'+cx+'" cy="'+cy+'" r="5"/>';
+      else if(m[1]=="contested") s+='<rect class="aot-mk aot-mk--contested'+h+'" x="'+(cx-5)+'" y="'+(cy-5)+'" width="10" height="10" transform="rotate(45 '+cx+' '+cy+')"/>';
+      else s+='<rect class="aot-mk aot-mk--campaign'+h+'" x="'+(cx-5.5)+'" y="'+(cy-5.5)+'" width="11" height="11" rx="1"/>';
+    });
+  });
+  var ay=top+lanes.length*lh+4;
+  for(var yr=2004;yr<=2026;yr+=2){var gx=x(yr);s+='<line class="grid" x1="'+gx+'" x2="'+gx+'" y1="'+ay+'" y2="'+(ay+4)+'"/><text x="'+gx+'" y="'+(ay+16)+'" text-anchor="middle">'+yr+'</text>';}
+  var el=document.getElementById('strip'); el.setAttribute('viewBox','0 0 '+W+' '+(ay+20)); el.innerHTML=s;
+})();
+</script>
+</body>
+</html>

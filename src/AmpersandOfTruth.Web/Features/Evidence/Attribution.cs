@@ -9,7 +9,7 @@ public static class Attribution
     public static Uri LicenseUrl { get; } = new("https://creativecommons.org/licenses/by-sa/4.0/");
 
     public const string FooterText =
-        "Wikipedia text © its contributors, CC BY-SA 4.0, quoted from the fi.wikipedia.org revisions linked on each passage. " +
+        "Wikipedia text © its contributors, CC BY-SA 4.0, quoted from fi.wikipedia.org revisions linked on each passage. " +
         "Data: Wikimedia dumps, FineWiki, MariaDB Foundation datasets; embeddings: bge-m3. " +
         "Translations and assessments are automated and can be wrong.";
 

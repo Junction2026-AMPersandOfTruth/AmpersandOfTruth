@@ -1,4 +1,4 @@
-# Corpus DB — MariaDB on the team VPS (issue #7)
+# Corpus DB — MariaDB on the team VPS (issue #7) + bge-m3 embedder (issue #15)
 
 `srv2158939.hstgr.cloud` · Ubuntu 24.04 · 2 vCPU · 8 GB RAM (+2 GB swapfile, swappiness 10) · 100 GB SSD
 
@@ -49,6 +49,20 @@ Synthetic benchmark (2026-11-14, 29,460 random unit vectors, 1024-d, `DISTANCE=c
 load 11 s, HNSW build 5 s, table+index 154 MB. Top-10 query: **~0.7–0.9 ms with the 512M cache vs ~3.3 ms
 with the 16M default**, brute force (`IGNORE INDEX`) 38 ms. `corpus-mariadb` RSS with the index warm: ~730 MiB
 (the buffer pool grows towards 3 GB as revision data is loaded).
+
+## Ollama / bge-m3 (issue #15)
+
+| | |
+|---|---|
+| Image | `ollama/ollama` (pinned in `docker-compose.yml`), container `corpus-ollama`, `mem_limit: 3g` |
+| Model | `bge-m3` (1024-d, the dataset's model), pulled by `corpus-up.sh` into volume `ollama-models` |
+| Listener | `127.0.0.1:11434` on the VPS only; laptops get it on `127.0.0.1:11435` via `scripts/corpus-tunnel.sh` |
+| Keep-alive | `OLLAMA_KEEP_ALIVE=-1` — the model stays loaded, so the first query after idle has no cold start |
+
+`corpus-up.sh` ends by printing the dims, first-call time, warm short-query latency and `corpus-ollama` memory —
+paste that into issue #15 after a deploy. Keys granted before #15 only allow port 3306: re-run
+`scripts/corpus-grant-tunnel.sh <key.pub>` (it replaces the line) so the tunnel can reach Ollama too.
+2 vCPUs → one short query at a time is fine; **never bulk-embed on the VPS**.
 
 Known harmless log warning: `io_uring_queue_init() failed with EPERM` — the host disables io_uring; InnoDB falls back to libaio.
 

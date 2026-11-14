@@ -1,0 +1,146 @@
+<!-- @dsCard group="Results" height=260 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../aot.css"><meta charset="utf-8"><title>preview</title></head>
+<body>
+<div class="aot-pad" style="max-width:320px"><div class="aot-label">Articles (14)</div><div class="aot-art" data-testid="article-rail-item">
+  <a class="aot-art__title" href="#">Winter War</a><a class="aot-art__count" href="#" title="Show only this article’s incidents">3</a>
+  <div class="aot-art__why"><span lang="fi">Talvisota</span> · title match</div>
+  <svg class="aot-chart aot-spark" id="s1" preserveAspectRatio="none" aria-label="Edits per month 2003–2026"></svg>
+</div><div class="aot-art" data-testid="article-rail-item">
+  <a class="aot-art__title" href="#">Shelling of Mainila</a><a class="aot-art__count" href="#" title="Show only this article’s incidents">2</a>
+  <div class="aot-art__why"><span lang="fi">Mainilan laukaukset</span> · section ‘Laukaukset’</div>
+  <svg class="aot-chart aot-spark" id="s2" preserveAspectRatio="none" aria-label="Edits per month 2003–2026"></svg>
+</div><div class="aot-art" data-testid="article-rail-item">
+  <a class="aot-art__title" href="#">Terijoki Government</a><a class="aot-art__count" href="#" title="Show only this article’s incidents">1</a>
+  <div class="aot-art__why"><span lang="fi">Terijoen hallitus</span> · similar text</div>
+  <svg class="aot-chart aot-spark" id="s3" preserveAspectRatio="none" aria-label="Edits per month 2003–2026"></svg>
+</div></div>
+<script>
+
+(function(){
+  var W=300, H=20, spark=true;
+  var seed=7; function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647;}
+  var months=(2026-2003)*12+10, L=spark?0:36, R=W-(spark?0:8), T=spark?1:8;
+  var barH=spark?H-2:150, sizeTop=T+barH+26, sizeH=spark?0:56;
+  var bw=(R-L)/months, s='';
+  function x(m){return L+m*bw;}
+  function mOf(y,mo){return (y-2003)*12+(mo-1);}
+  var vals=[]; for(var m=0;m<months;m++){var yr=2003+m/12;
+    var base=1+Math.max(0,8-Math.abs(yr-2010)*0.6)+rnd()*4;
+    if(yr>2014.8&&yr<2015.3) base+=22+rnd()*14;
+    if(yr>2009.4&&yr<2009.7) base+=10+rnd()*6;
+    if(yr>2017.9&&yr<2018.15) base+=8;
+    var an=base*(0.25+rnd()*0.3); vals.push([base-an,an]);}
+  var mx=0; vals.forEach(function(v){mx=Math.max(mx,v[0]+v[1]);});
+  var sy=function(v){return v/mx*barH;};
+  if(!spark){
+    [[mOf(2009,5),mOf(2009,9)],[mOf(2014,11),mOf(2015,4)],[mOf(2017,12),mOf(2018,3)]].forEach(function(b){s+='<rect class="band" x="'+x(b[0])+'" y="'+T+'" width="'+(x(b[1])-x(b[0]))+'" height="'+barH+'"/>';});
+    for(var g=0;g<=3;g++){var gy=T+barH-barH*g/3;s+='<line class="grid" x1="'+L+'" x2="'+R+'" y1="'+gy+'" y2="'+gy+'"/><text x="'+(L-6)+'" y="'+(gy+4)+'" text-anchor="end">'+Math.round(mx*g/3)+'</text>';}
+  }
+  vals.forEach(function(v,m){var h1=sy(v[0]),h2=sy(v[1]),bx=x(m)+(spark?0:0.3),w=Math.max(bw-(spark?0.2:0.6),0.6);
+    s+='<rect class="named" x="'+bx+'" y="'+(T+barH-h1)+'" width="'+w+'" height="'+h1+'"/>';
+    s+='<rect class="anon" x="'+bx+'" y="'+(T+barH-h1-h2)+'" width="'+w+'" height="'+h2+'"/>';});
+  if(!spark){
+    var mk=[[mOf(2014,3),"campaign"],[mOf(2015,2),"campaign"],[mOf(2009,7),"contested"],[mOf(2019,5),"reverted"]];
+    mk.forEach(function(k){var cx=x(k[0]),cy=T+6;
+      s+='<line class="grid" x1="'+cx+'" x2="'+cx+'" y1="'+(cy+6)+'" y2="'+(T+barH)+'" stroke-dasharray="2 2"/>';
+      if(k[1]=="reverted") s+='<circle class="aot-mk aot-mk--reverted" cx="'+cx+'" cy="'+cy+'" r="5"/>';
+      else if(k[1]=="contested") s+='<rect class="aot-mk aot-mk--contested" x="'+(cx-5)+'" y="'+(cy-5)+'" width="10" height="10" transform="rotate(45 '+cx+' '+cy+')"/>';
+      else s+='<rect class="aot-mk aot-mk--campaign" x="'+(cx-5.5)+'" y="'+(cy-5.5)+'" width="11" height="11" rx="1"/>';});
+    for(var yr=2004;yr<=2026;yr+=2){var gx=x(mOf(yr,1));s+='<text x="'+gx+'" y="'+(T+barH+16)+'" text-anchor="middle">'+yr+'</text>';}
+    // brush
+    s+='<rect class="brush" x="'+x(mOf(2014,11))+'" y="'+(sizeTop-2)+'" width="'+(x(mOf(2015,4))-x(mOf(2014,11)))+'" height="'+(sizeH+4)+'" fill-opacity=".6"/>';
+    var sz=8000, p='M'; for(var m2=0;m2<months;m2++){sz+=60+rnd()*40; var yr2=2003+m2/12;
+      if(Math.abs(yr2-2015.0)<0.04) sz-=9000; if(Math.abs(yr2-2015.08)<0.04) sz+=9000; if(Math.abs(yr2-2012.5)<0.04) sz+=6000;
+      p+=(m2?' L':'')+x(m2).toFixed(1)+' '+(sizeTop+sizeH-(sz/40000)*sizeH).toFixed(1);}
+    s+='<line class="grid" x1="'+L+'" x2="'+R+'" y1="'+(sizeTop+sizeH)+'" y2="'+(sizeTop+sizeH)+'"/>';
+    s+='<path class="size" d="'+p+'"/><text x="'+(L-6)+'" y="'+(sizeTop+10)+'" text-anchor="end">KB</text><text x="'+(L+4)+'" y="'+(sizeTop+10)+'">Article size</text>';
+  }
+  var el=document.getElementById('s1'); el.setAttribute('viewBox','0 0 '+W+' '+(spark?H:sizeTop+sizeH+4)); el.innerHTML=s;
+})();
+(function(){
+  var W=300, H=20, spark=true;
+  var seed=19; function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647;}
+  var months=(2026-2003)*12+10, L=spark?0:36, R=W-(spark?0:8), T=spark?1:8;
+  var barH=spark?H-2:150, sizeTop=T+barH+26, sizeH=spark?0:56;
+  var bw=(R-L)/months, s='';
+  function x(m){return L+m*bw;}
+  function mOf(y,mo){return (y-2003)*12+(mo-1);}
+  var vals=[]; for(var m=0;m<months;m++){var yr=2003+m/12;
+    var base=1+Math.max(0,8-Math.abs(yr-2010)*0.6)+rnd()*4;
+    if(yr>2014.8&&yr<2015.3) base+=22+rnd()*14;
+    if(yr>2009.4&&yr<2009.7) base+=10+rnd()*6;
+    if(yr>2017.9&&yr<2018.15) base+=8;
+    var an=base*(0.25+rnd()*0.3); vals.push([base-an,an]);}
+  var mx=0; vals.forEach(function(v){mx=Math.max(mx,v[0]+v[1]);});
+  var sy=function(v){return v/mx*barH;};
+  if(!spark){
+    [[mOf(2009,5),mOf(2009,9)],[mOf(2014,11),mOf(2015,4)],[mOf(2017,12),mOf(2018,3)]].forEach(function(b){s+='<rect class="band" x="'+x(b[0])+'" y="'+T+'" width="'+(x(b[1])-x(b[0]))+'" height="'+barH+'"/>';});
+    for(var g=0;g<=3;g++){var gy=T+barH-barH*g/3;s+='<line class="grid" x1="'+L+'" x2="'+R+'" y1="'+gy+'" y2="'+gy+'"/><text x="'+(L-6)+'" y="'+(gy+4)+'" text-anchor="end">'+Math.round(mx*g/3)+'</text>';}
+  }
+  vals.forEach(function(v,m){var h1=sy(v[0]),h2=sy(v[1]),bx=x(m)+(spark?0:0.3),w=Math.max(bw-(spark?0.2:0.6),0.6);
+    s+='<rect class="named" x="'+bx+'" y="'+(T+barH-h1)+'" width="'+w+'" height="'+h1+'"/>';
+    s+='<rect class="anon" x="'+bx+'" y="'+(T+barH-h1-h2)+'" width="'+w+'" height="'+h2+'"/>';});
+  if(!spark){
+    var mk=[[mOf(2014,3),"campaign"],[mOf(2015,2),"campaign"],[mOf(2009,7),"contested"],[mOf(2019,5),"reverted"]];
+    mk.forEach(function(k){var cx=x(k[0]),cy=T+6;
+      s+='<line class="grid" x1="'+cx+'" x2="'+cx+'" y1="'+(cy+6)+'" y2="'+(T+barH)+'" stroke-dasharray="2 2"/>';
+      if(k[1]=="reverted") s+='<circle class="aot-mk aot-mk--reverted" cx="'+cx+'" cy="'+cy+'" r="5"/>';
+      else if(k[1]=="contested") s+='<rect class="aot-mk aot-mk--contested" x="'+(cx-5)+'" y="'+(cy-5)+'" width="10" height="10" transform="rotate(45 '+cx+' '+cy+')"/>';
+      else s+='<rect class="aot-mk aot-mk--campaign" x="'+(cx-5.5)+'" y="'+(cy-5.5)+'" width="11" height="11" rx="1"/>';});
+    for(var yr=2004;yr<=2026;yr+=2){var gx=x(mOf(yr,1));s+='<text x="'+gx+'" y="'+(T+barH+16)+'" text-anchor="middle">'+yr+'</text>';}
+    // brush
+    s+='<rect class="brush" x="'+x(mOf(2014,11))+'" y="'+(sizeTop-2)+'" width="'+(x(mOf(2015,4))-x(mOf(2014,11)))+'" height="'+(sizeH+4)+'" fill-opacity=".6"/>';
+    var sz=8000, p='M'; for(var m2=0;m2<months;m2++){sz+=60+rnd()*40; var yr2=2003+m2/12;
+      if(Math.abs(yr2-2015.0)<0.04) sz-=9000; if(Math.abs(yr2-2015.08)<0.04) sz+=9000; if(Math.abs(yr2-2012.5)<0.04) sz+=6000;
+      p+=(m2?' L':'')+x(m2).toFixed(1)+' '+(sizeTop+sizeH-(sz/40000)*sizeH).toFixed(1);}
+    s+='<line class="grid" x1="'+L+'" x2="'+R+'" y1="'+(sizeTop+sizeH)+'" y2="'+(sizeTop+sizeH)+'"/>';
+    s+='<path class="size" d="'+p+'"/><text x="'+(L-6)+'" y="'+(sizeTop+10)+'" text-anchor="end">KB</text><text x="'+(L+4)+'" y="'+(sizeTop+10)+'">Article size</text>';
+  }
+  var el=document.getElementById('s2'); el.setAttribute('viewBox','0 0 '+W+' '+(spark?H:sizeTop+sizeH+4)); el.innerHTML=s;
+})();
+(function(){
+  var W=300, H=20, spark=true;
+  var seed=41; function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647;}
+  var months=(2026-2003)*12+10, L=spark?0:36, R=W-(spark?0:8), T=spark?1:8;
+  var barH=spark?H-2:150, sizeTop=T+barH+26, sizeH=spark?0:56;
+  var bw=(R-L)/months, s='';
+  function x(m){return L+m*bw;}
+  function mOf(y,mo){return (y-2003)*12+(mo-1);}
+  var vals=[]; for(var m=0;m<months;m++){var yr=2003+m/12;
+    var base=1+Math.max(0,8-Math.abs(yr-2010)*0.6)+rnd()*4;
+    if(yr>2014.8&&yr<2015.3) base+=22+rnd()*14;
+    if(yr>2009.4&&yr<2009.7) base+=10+rnd()*6;
+    if(yr>2017.9&&yr<2018.15) base+=8;
+    var an=base*(0.25+rnd()*0.3); vals.push([base-an,an]);}
+  var mx=0; vals.forEach(function(v){mx=Math.max(mx,v[0]+v[1]);});
+  var sy=function(v){return v/mx*barH;};
+  if(!spark){
+    [[mOf(2009,5),mOf(2009,9)],[mOf(2014,11),mOf(2015,4)],[mOf(2017,12),mOf(2018,3)]].forEach(function(b){s+='<rect class="band" x="'+x(b[0])+'" y="'+T+'" width="'+(x(b[1])-x(b[0]))+'" height="'+barH+'"/>';});
+    for(var g=0;g<=3;g++){var gy=T+barH-barH*g/3;s+='<line class="grid" x1="'+L+'" x2="'+R+'" y1="'+gy+'" y2="'+gy+'"/><text x="'+(L-6)+'" y="'+(gy+4)+'" text-anchor="end">'+Math.round(mx*g/3)+'</text>';}
+  }
+  vals.forEach(function(v,m){var h1=sy(v[0]),h2=sy(v[1]),bx=x(m)+(spark?0:0.3),w=Math.max(bw-(spark?0.2:0.6),0.6);
+    s+='<rect class="named" x="'+bx+'" y="'+(T+barH-h1)+'" width="'+w+'" height="'+h1+'"/>';
+    s+='<rect class="anon" x="'+bx+'" y="'+(T+barH-h1-h2)+'" width="'+w+'" height="'+h2+'"/>';});
+  if(!spark){
+    var mk=[[mOf(2014,3),"campaign"],[mOf(2015,2),"campaign"],[mOf(2009,7),"contested"],[mOf(2019,5),"reverted"]];
+    mk.forEach(function(k){var cx=x(k[0]),cy=T+6;
+      s+='<line class="grid" x1="'+cx+'" x2="'+cx+'" y1="'+(cy+6)+'" y2="'+(T+barH)+'" stroke-dasharray="2 2"/>';
+      if(k[1]=="reverted") s+='<circle class="aot-mk aot-mk--reverted" cx="'+cx+'" cy="'+cy+'" r="5"/>';
+      else if(k[1]=="contested") s+='<rect class="aot-mk aot-mk--contested" x="'+(cx-5)+'" y="'+(cy-5)+'" width="10" height="10" transform="rotate(45 '+cx+' '+cy+')"/>';
+      else s+='<rect class="aot-mk aot-mk--campaign" x="'+(cx-5.5)+'" y="'+(cy-5.5)+'" width="11" height="11" rx="1"/>';});
+    for(var yr=2004;yr<=2026;yr+=2){var gx=x(mOf(yr,1));s+='<text x="'+gx+'" y="'+(T+barH+16)+'" text-anchor="middle">'+yr+'</text>';}
+    // brush
+    s+='<rect class="brush" x="'+x(mOf(2014,11))+'" y="'+(sizeTop-2)+'" width="'+(x(mOf(2015,4))-x(mOf(2014,11)))+'" height="'+(sizeH+4)+'" fill-opacity=".6"/>';
+    var sz=8000, p='M'; for(var m2=0;m2<months;m2++){sz+=60+rnd()*40; var yr2=2003+m2/12;
+      if(Math.abs(yr2-2015.0)<0.04) sz-=9000; if(Math.abs(yr2-2015.08)<0.04) sz+=9000; if(Math.abs(yr2-2012.5)<0.04) sz+=6000;
+      p+=(m2?' L':'')+x(m2).toFixed(1)+' '+(sizeTop+sizeH-(sz/40000)*sizeH).toFixed(1);}
+    s+='<line class="grid" x1="'+L+'" x2="'+R+'" y1="'+(sizeTop+sizeH)+'" y2="'+(sizeTop+sizeH)+'"/>';
+    s+='<path class="size" d="'+p+'"/><text x="'+(L-6)+'" y="'+(sizeTop+10)+'" text-anchor="end">KB</text><text x="'+(L+4)+'" y="'+(sizeTop+10)+'">Article size</text>';
+  }
+  var el=document.getElementById('s3'); el.setAttribute('viewBox','0 0 '+W+' '+(spark?H:sizeTop+sizeH+4)); el.innerHTML=s;
+})();
+</script>
+</body>
+</html>
