@@ -8,6 +8,7 @@ using AmpersandOfTruth.Web.Features.Embedding;
 using AmpersandOfTruth.Web.Features.Hotspots;
 using AmpersandOfTruth.Web.Features.Investigations;
 using AmpersandOfTruth.Web.Features.Library;
+using AmpersandOfTruth.Web.Features.Reports;
 using AmpersandOfTruth.Web.Features.Network;
 using AmpersandOfTruth.Web.Features.Search;
 using AmpersandOfTruth.Web.Features.TimeMachine;
@@ -34,6 +35,7 @@ builder.Services.AddTimeMachineFeature();
 builder.Services.AddAccountsFeature();
 builder.Services.AddLibraryFeature();
 builder.Services.AddHotspotsFeature();
+builder.Services.AddReportsFeature();
 builder.Services.AddNetworkFeature();
 
 var app = builder.Build();
@@ -52,6 +54,7 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 app.MapHealthChecks("/health");
+app.MapReportEndpoints();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 

@@ -1,0 +1,4763 @@
+{
+ "contract": 1,
+ "kind": "signals",
+ "variant": "s7-clusters",
+ "split": "test",
+ "golden_version": "2026-11-14.1",
+ "dataset": "m-2026-10",
+ "git_commit": "d5779f50a2ef-dirty",
+ "ran_at": "2026-11-14T19:34:48Z",
+ "command": "research/eval/run signals --split test --name s7-clusters -- python3 research/34-s7-repeat/variant.py",
+ "limit": 50,
+ "k": 20,
+ "partial": false,
+ "topics": 4,
+ "requests": 4,
+ "metrics": {
+  "strict_p@10": 0.75,
+  "strict_p@25": 0.7035714285714286,
+  "lenient_p@10": 1.0,
+  "lenient_p@25": 0.95,
+  "unlabelled@10": 6.5,
+  "unlabelled@25": 19.0,
+  "recall": 0.6538461538461539,
+  "level_accuracy": 0.3235294117647059,
+  "overclaim_rate": 0.17647058823529413,
+  "duplicates": 0,
+  "quiet_shown": 0,
+  "quiet_contested_or_above": 0,
+  "seconds_per_topic": 0.91,
+  "llm_calls": 0,
+  "input_tokens": 0,
+  "output_tokens": 0
+ },
+ "per_topic": [
+  {
+   "id": "language-politics",
+   "topic_id": "language-politics",
+   "kind": "topic",
+   "shown": 50,
+   "seconds": 0.89,
+   "failed": false,
+   "outcomes": {
+    "contested": 5,
+    "campaign": 1,
+    "unlabelled": 42,
+    "reverted": 2
+   },
+   "strict_p@10": 1.0,
+   "lenient_p@10": 1.0,
+   "unlabelled@10": 5,
+   "strict_p@25": 1.0,
+   "lenient_p@25": 1.0,
+   "unlabelled@25": 19,
+   "expected": 7,
+   "found": [
+    "language-politics/i01",
+    "language-politics/i02",
+    "language-politics/i04",
+    "language-politics/i05",
+    "language-politics/i06",
+    "language-politics/i07"
+   ],
+   "missed": [
+    "language-politics/i03"
+   ],
+   "matched": 8,
+   "level_correct": 2,
+   "overclaims": 0,
+   "duplicates": 0,
+   "shown_contested_or_above": 0,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "1389255+1389563+1389644+1389663+1390021+1390096+1392435+1392480+1397523+1398258+1398321+1398988+1399002+1399034+1399097+1399156+1399159+1399184+1399190+1399196+1400439+1400527+1400591+1400625+1400629+1400664+1400727+1400785+1400797+1400799+1402079+1402080+1402591+1402621+1402623+1402637+1402794+1402819+1402950+1403006+1404092+1404108+1404125+1404174+1404183+1404233+1404235+1404525+1404539+1404545+1405850+1405894+1406943+1407012+1407780+1407786+1407794+1407813+1407821+1407839+11150609+11431512+11457462+11465452",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "language-politics/i02"
+    },
+    {
+     "rank": 2,
+     "key": "2845109+2845241+2845588+2845821+2845822+2845829+2847228+18302212+18302504+18305592+18305995+18308010+18308014+18310349+18311811+18328607+18331668+18333872+22343803",
+     "page_id": 72145,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "language-politics/i04"
+    },
+    {
+     "rank": 3,
+     "key": "1397224+1434614+1770495+2902007+2902141+2902498+2952340+2964191+3006937+3007149+3007225+3007249",
+     "page_id": 255,
+     "tier": "reverted",
+     "outcome": "campaign",
+     "item_id": "language-politics/i01"
+    },
+    {
+     "rank": 4,
+     "key": "1399005+1399017+1400555+1402116+1402247+1402344+1402566+1402894+1402902",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 5,
+     "key": "1393289+1398365+1398910",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 6,
+     "key": "1888632+1888640+1901309+1901484",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 7,
+     "key": "17665265+17671197",
+     "page_id": 72145,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 8,
+     "key": "8384609+8386131",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "language-politics/i06"
+    },
+    {
+     "rank": 9,
+     "key": "8443343+8443386",
+     "page_id": 202404,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "language-politics/i05"
+    },
+    {
+     "rank": 10,
+     "key": "1405860+1406925+1406993",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "1886222+1886266",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 12,
+     "key": "11737640",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 13,
+     "key": "2836894",
+     "page_id": 72145,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "3434937+3434944",
+     "page_id": 255,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 15,
+     "key": "16748443+16748445",
+     "page_id": 202404,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "654717",
+     "page_id": 72145,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "22346053+22346056+22346063+22346068",
+     "page_id": 72145,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "731580",
+     "page_id": 53740,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "12226504",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "2883170+2883466+2883481+2883547",
+     "page_id": 72145,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 21,
+     "key": "1427268+1427285",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 22,
+     "key": "8607498+8607500+8607514",
+     "page_id": 53740,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "10626469",
+     "page_id": 11634,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 24,
+     "key": "13188490+13188516+13188547",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "language-politics/i07"
+    },
+    {
+     "rank": 25,
+     "key": "3419307+3419311+3419337+3419348",
+     "page_id": 255,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 26,
+     "key": "1886238",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "3192218",
+     "page_id": 53740,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 28,
+     "key": "2546974",
+     "page_id": 53740,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 29,
+     "key": "2824300",
+     "page_id": 72145,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 30,
+     "key": "3404305",
+     "page_id": 53740,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 31,
+     "key": "1902049",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 32,
+     "key": "3192280",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "3427315",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "13200313",
+     "page_id": 255,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 35,
+     "key": "8385092+8385096+8385099+8385148+8385207",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "824044+824053",
+     "page_id": 72145,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 37,
+     "key": "2074977",
+     "page_id": 255,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "language-politics/i11"
+    },
+    {
+     "rank": 38,
+     "key": "15198057+15198060",
+     "page_id": 109236,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "language-politics/i08"
+    },
+    {
+     "rank": 39,
+     "key": "19638769",
+     "page_id": 1549193,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 40,
+     "key": "1415220+1415222",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 41,
+     "key": "17773561",
+     "page_id": 72145,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 42,
+     "key": "2845104",
+     "page_id": 72145,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 43,
+     "key": "3187311",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 44,
+     "key": "2780795",
+     "page_id": 72145,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 45,
+     "key": "1392418",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 46,
+     "key": "2047962+2047965+2047975",
+     "page_id": 255,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 47,
+     "key": "6044148+6044161",
+     "page_id": 72257,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 48,
+     "key": "17705235",
+     "page_id": 72145,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 49,
+     "key": "10819899",
+     "page_id": 200797,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 50,
+     "key": "18222036+18222039",
+     "page_id": 72145,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  },
+  {
+   "id": "sami-prehistory",
+   "topic_id": "sami-prehistory",
+   "kind": "topic",
+   "shown": 50,
+   "seconds": 0.85,
+   "failed": false,
+   "outcomes": {
+    "unlabelled": 43,
+    "campaign": 1,
+    "contested": 4,
+    "reverted": 2
+   },
+   "strict_p@10": 0.5,
+   "lenient_p@10": 1.0,
+   "unlabelled@10": 6,
+   "strict_p@25": 0.7142857142857143,
+   "lenient_p@25": 1.0,
+   "unlabelled@25": 18,
+   "expected": 9,
+   "found": [
+    "sami-prehistory/i01",
+    "sami-prehistory/i03",
+    "sami-prehistory/i04",
+    "sami-prehistory/i05",
+    "sami-prehistory/i09"
+   ],
+   "missed": [
+    "sami-prehistory/i02",
+    "sami-prehistory/i06",
+    "sami-prehistory/i07",
+    "sami-prehistory/i08"
+   ],
+   "matched": 7,
+   "level_correct": 2,
+   "overclaims": 0,
+   "duplicates": 0,
+   "shown_contested_or_above": 0,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "8303722+8303748+8303749+8303792+8303797+8303823+8303827+8303828+8303836+8303841+8303860+8303862+8303991+8304095+15912106+16070911+16715189",
+     "page_id": 7283,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 2,
+     "key": "16917076+16917077+16918614+16920192+17123375+17123380",
+     "page_id": 997401,
+     "tier": "reverted",
+     "outcome": "campaign",
+     "item_id": "sami-prehistory/i01"
+    },
+    {
+     "rank": 3,
+     "key": "3411964+3411974+3411996+3412001+3412014+3412079+3412132+3412146+8300211+8300353",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 4,
+     "key": "13315464+13407096+13437781+13437783+13437786+13437789+13440838+13442165",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "sami-prehistory/i03"
+    },
+    {
+     "rank": 5,
+     "key": "5190082+5190862+5191121+5191130+5191229+5196575",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 6,
+     "key": "20024970+20024973+20025251+20025696",
+     "page_id": 7283,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 7,
+     "key": "824661+824717+824725+824731+824740+824744+824936+824943+824950+824953+824957+824959+824961+824963",
+     "page_id": 20813,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "sami-prehistory/i10"
+    },
+    {
+     "rank": 8,
+     "key": "22587531+22826898+22826902",
+     "page_id": 8905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 9,
+     "key": "16029887+16029951+16029953",
+     "page_id": 997401,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "sami-prehistory/i11"
+    },
+    {
+     "rank": 10,
+     "key": "8265119+8266274",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "6383688",
+     "page_id": 8905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 12,
+     "key": "407493",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "sami-prehistory/i04"
+    },
+    {
+     "rank": 13,
+     "key": "19755782+19755790+19755857",
+     "page_id": 20813,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "220285+220291",
+     "page_id": 20813,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 15,
+     "key": "22680763+22680834",
+     "page_id": 72966,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "21927489+21928013",
+     "page_id": 7283,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "18625121",
+     "page_id": 8905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "9516933",
+     "page_id": 20813,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "1167154",
+     "page_id": 20813,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "23680740",
+     "page_id": 1096144,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 21,
+     "key": "3595309+3611225",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "sami-prehistory/i05"
+    },
+    {
+     "rank": 22,
+     "key": "8197608",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "21047443+21047458+21047501+21047631+21047641",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "sami-prehistory/i09"
+    },
+    {
+     "rank": 24,
+     "key": "16920612+16924001+16936098+16939646+17017711+17017714+17044107+17051591+17100871",
+     "page_id": 7283,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 25,
+     "key": "3735742",
+     "page_id": 8905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 26,
+     "key": "13315992",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "368943",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 28,
+     "key": "20026829",
+     "page_id": 7283,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 29,
+     "key": "373181",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 30,
+     "key": "23317016",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 31,
+     "key": "3625216+3625225+3625287+3625300",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 32,
+     "key": "21123051",
+     "page_id": 8905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "21516905+21516911",
+     "page_id": 7283,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "19731118+19731133+19731137+19731218+19731229",
+     "page_id": 8905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 35,
+     "key": "16878235+16878237",
+     "page_id": 997401,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "16785529",
+     "page_id": 7283,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 37,
+     "key": "16783903",
+     "page_id": 8905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 38,
+     "key": "11206358+11206369",
+     "page_id": 7283,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 39,
+     "key": "8774577+8774586+8774590",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 40,
+     "key": "16621708",
+     "page_id": 22508,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 41,
+     "key": "2428137+2428179",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 42,
+     "key": "1475602",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 43,
+     "key": "18425919+18425920+18425921+18425922",
+     "page_id": 7283,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 44,
+     "key": "17735900+17735917",
+     "page_id": 8905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 45,
+     "key": "4043247",
+     "page_id": 7283,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 46,
+     "key": "8248679",
+     "page_id": 1100,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 47,
+     "key": "220287",
+     "page_id": 20813,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 48,
+     "key": "23233577",
+     "page_id": 22508,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 49,
+     "key": "1976343",
+     "page_id": 20813,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 50,
+     "key": "22741016",
+     "page_id": 1096144,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  },
+  {
+   "id": "far-right",
+   "topic_id": "far-right",
+   "kind": "topic",
+   "shown": 50,
+   "seconds": 0.82,
+   "failed": false,
+   "outcomes": {
+    "unlabelled": 43,
+    "contested": 2,
+    "reverted": 3,
+    "campaign": 1,
+    "not-incident": 1
+   },
+   "strict_p@10": 0.5,
+   "lenient_p@10": 1.0,
+   "unlabelled@10": 8,
+   "strict_p@25": 0.5,
+   "lenient_p@25": 1.0,
+   "unlabelled@25": 19,
+   "expected": 7,
+   "found": [
+    "far-right/i01",
+    "far-right/i04",
+    "far-right/i05"
+   ],
+   "missed": [
+    "far-right/i02",
+    "far-right/i03",
+    "far-right/i06",
+    "far-right/i07"
+   ],
+   "matched": 7,
+   "level_correct": 3,
+   "overclaims": 1,
+   "duplicates": 0,
+   "shown_contested_or_above": 0,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "10033522+14199100+14731555+14826624+15234759+15234761+15234763+16035342+16037500+23781880",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 2,
+     "key": "15217729+15217730+15217731+20245244+20245246",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 3,
+     "key": "2601735+2601743+2601748+2658330+2658341+2659125+2659193+2659231+2659237+2659601+2659633+2659665+2659727+2659736+2659741+2659763+2659784+2662512+2662516+2662591+2662603+2663378+2663385+2669840+2669841+2935368",
+     "page_id": 11537,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "far-right/i04"
+    },
+    {
+     "rank": 4,
+     "key": "17685056+17685194+17685392+17685911+17685978+17685995+17686010+17693227+17693874+17694013+17696230+17703751+17703752+17703899+17712224+17712228+17712231+17718272+17729471",
+     "page_id": 1395607,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "far-right/i10"
+    },
+    {
+     "rank": 5,
+     "key": "22871429+23209952+23778722+23779148",
+     "page_id": 1679936,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 6,
+     "key": "9466285+9466286+9466324+9466347+9466350+9466354+9466357",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 7,
+     "key": "10759608+10904999",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 8,
+     "key": "15218867+16403811",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 9,
+     "key": "17684504+17684522+17684533+17684542+17685019",
+     "page_id": 1445320,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 10,
+     "key": "15217949+15217950+15217959",
+     "page_id": 926229,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "19396031+19396034+19452238+19452725",
+     "page_id": 1445320,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 12,
+     "key": "18372280+18372282+18372283+18391571+18391590+18392074",
+     "page_id": 1445320,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "far-right/i05"
+    },
+    {
+     "rank": 13,
+     "key": "20992269+21010471+21010838+21010855+21010865+21010876",
+     "page_id": 17808,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "17675145+17688856",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 15,
+     "key": "17701488+17703758+17703898+17713003",
+     "page_id": 1445320,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "far-right/i11"
+    },
+    {
+     "rank": 16,
+     "key": "15627394+15627396+15653429",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "17902442+17902455+17902459+17902463+17902499+17902560+17902563",
+     "page_id": 1445320,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "far-right/i13"
+    },
+    {
+     "rank": 18,
+     "key": "14891696+14891707+14891774",
+     "page_id": 981456,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "23953278+23956829",
+     "page_id": 1679936,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "18111698+18111750+18111760+18111761+18111762+18111769+18111775",
+     "page_id": 1445320,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 21,
+     "key": "16702708+16702713+16714697+16714705",
+     "page_id": 981456,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 22,
+     "key": "18181046+18181098+18181100+18181147",
+     "page_id": 1395607,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "17619176+17619550",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 24,
+     "key": "17769622+17769627+17769628+17769632+17769633+17769635+17769637",
+     "page_id": 1395607,
+     "tier": "reverted",
+     "outcome": "campaign",
+     "item_id": "far-right/i01"
+    },
+    {
+     "rank": 25,
+     "key": "17769544+17769561",
+     "page_id": 1445320,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 26,
+     "key": "16551967+16552157",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "15955577+15955580+15955584+15955838+15955840",
+     "page_id": 981456,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 28,
+     "key": "21010488+21010844+21010860",
+     "page_id": 11477,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 29,
+     "key": "14512764",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 30,
+     "key": "1769558",
+     "page_id": 13184,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 31,
+     "key": "15221848",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 32,
+     "key": "21027367+21029707",
+     "page_id": 1105958,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "4169213+4169214+4169220",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "15985211+15985213+15985218+15985220",
+     "page_id": 1324148,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 35,
+     "key": "15579382",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "24163635+24164979",
+     "page_id": 1679936,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 37,
+     "key": "10063571",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 38,
+     "key": "16006354+16006356+16006358+16006359+16006360+16012724",
+     "page_id": 1324148,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 39,
+     "key": "10121286+10121362",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 40,
+     "key": "11033854",
+     "page_id": 981456,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 41,
+     "key": "16387032+16387050",
+     "page_id": 981456,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 42,
+     "key": "18255193+18255262",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 43,
+     "key": "17677119",
+     "page_id": 1395607,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "far-right/n01"
+    },
+    {
+     "rank": 44,
+     "key": "15234123",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 45,
+     "key": "18545104+18545105",
+     "page_id": 981456,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 46,
+     "key": "13775750+13776082",
+     "page_id": 1072792,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 47,
+     "key": "16474962+16474968",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 48,
+     "key": "15898965",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 49,
+     "key": "16545289+16545295+16545430",
+     "page_id": 1370905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 50,
+     "key": "11051536+11051542+11051554+11051556+11052385",
+     "page_id": 981456,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  },
+  {
+   "id": "national-myths",
+   "topic_id": "national-myths",
+   "kind": "topic",
+   "shown": 50,
+   "seconds": 1.07,
+   "failed": false,
+   "outcomes": {
+    "unlabelled": 38,
+    "campaign": 1,
+    "contested": 2,
+    "reverted": 4,
+    "not-incident": 5
+   },
+   "strict_p@10": 1.0,
+   "lenient_p@10": 1.0,
+   "unlabelled@10": 7,
+   "strict_p@25": 0.6,
+   "lenient_p@25": 0.8,
+   "unlabelled@25": 20,
+   "expected": 3,
+   "found": [
+    "language-politics/i01",
+    "national-myths/i01",
+    "national-myths/i02"
+   ],
+   "missed": [],
+   "matched": 12,
+   "level_correct": 4,
+   "overclaims": 5,
+   "duplicates": 0,
+   "shown_contested_or_above": 0,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "11776232+11776386+11777947+11778479+11778480+11778745+11780042+11801593+11803595+11805561+11807500+20378702+20383728+20392340+20394872+20395300",
+     "page_id": 57277,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 2,
+     "key": "2431649+2431666+2461979+6281653+6281655+6281658+6368785",
+     "page_id": 19873,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 3,
+     "key": "1397224+1434614+1770495+2902007+2902141+2902498+2952340+2964191+3006937+3007149+3007225+3007249",
+     "page_id": 255,
+     "tier": "reverted",
+     "outcome": "campaign",
+     "item_id": "language-politics/i01"
+    },
+    {
+     "rank": 4,
+     "key": "3953639+12327782+15967062+16023685",
+     "page_id": 13182,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 5,
+     "key": "1131002+3537166+4394191",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 6,
+     "key": "2136042+2136098+2136106+2428689",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 7,
+     "key": "2434386+2434506+2434565+2435056+2435060+2435116+2435126",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "national-myths/i01"
+    },
+    {
+     "rank": 8,
+     "key": "2138193+2138403+2138438",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "national-myths/i02"
+    },
+    {
+     "rank": 9,
+     "key": "11763589+11764963+11766443+11766523+11766527",
+     "page_id": 57277,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 10,
+     "key": "15329899+15330222",
+     "page_id": 13182,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "11756612+11759235+11759822+11762945",
+     "page_id": 57277,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 12,
+     "key": "2210398+2210407+2217183",
+     "page_id": 19873,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 13,
+     "key": "4444563+4444570",
+     "page_id": 13182,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "national-myths/i07"
+    },
+    {
+     "rank": 14,
+     "key": "13451782+13456063+13460551",
+     "page_id": 57277,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 15,
+     "key": "2133944+2133986+2134016",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "13177156+13177305",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "18485248+18485279+18485283",
+     "page_id": 13959,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "4444554",
+     "page_id": 13182,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "3434937+3434944",
+     "page_id": 255,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "4620006",
+     "page_id": 13959,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 21,
+     "key": "65857",
+     "page_id": 14460,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "national-myths/n08"
+    },
+    {
+     "rank": 22,
+     "key": "3830926",
+     "page_id": 13182,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "18104770",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 24,
+     "key": "11771118+11771167+11773194",
+     "page_id": 57277,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 25,
+     "key": "8143015",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 26,
+     "key": "2160149+2160170+2163259+2163261",
+     "page_id": 13959,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "8077983+8077988",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 28,
+     "key": "5882606+5882614+5882625+5882687",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "national-myths/i05"
+    },
+    {
+     "rank": 29,
+     "key": "4166610",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 30,
+     "key": "5526500",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 31,
+     "key": "4166520",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "national-myths/n16"
+    },
+    {
+     "rank": 32,
+     "key": "6283732",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "12970183+12970226",
+     "page_id": 38257,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "18535393",
+     "page_id": 38257,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 35,
+     "key": "14685530",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "15364218+15366584+15366591+15366597+15366601",
+     "page_id": 13182,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "national-myths/i04"
+    },
+    {
+     "rank": 37,
+     "key": "15920580",
+     "page_id": 13182,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 38,
+     "key": "16312774+16312782+16312791+16312792+16312794",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "national-myths/n06"
+    },
+    {
+     "rank": 39,
+     "key": "5760984",
+     "page_id": 13182,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "national-myths/n04"
+    },
+    {
+     "rank": 40,
+     "key": "16054174",
+     "page_id": 14460,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "national-myths/n01"
+    },
+    {
+     "rank": 41,
+     "key": "15521344",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 42,
+     "key": "17697080",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "national-myths/i09"
+    },
+    {
+     "rank": 43,
+     "key": "6334981",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 44,
+     "key": "11755933+11755935",
+     "page_id": 720906,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 45,
+     "key": "2133801",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 46,
+     "key": "8267842",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 47,
+     "key": "4329356+4329378+4329416",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 48,
+     "key": "2176625",
+     "page_id": 13959,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 49,
+     "key": "22657338",
+     "page_id": 14460,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 50,
+     "key": "4340811",
+     "page_id": 498,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  }
+ ],
+ "best": [
+  {
+   "kind": "true_positive",
+   "unit": "language-politics",
+   "rank": 1,
+   "tier": "reverted",
+   "item_id": "language-politics/i02",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 200797,
+   "description": "Adds that Freudenthal called Finns an inferior 'Turanian' people, a medal section tying the SFP's Freudenthal medal to compulsory Swedish, and (in later versions) that the SFP never disowned his 'racist doctrines'."
+  },
+  {
+   "kind": "true_positive",
+   "unit": "language-politics",
+   "rank": 2,
+   "tier": "reverted",
+   "item_id": "language-politics/i04",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 72145,
+   "description": "Puts back a sentence, cited to a 2002 Helsingin Sanomat editorial critical of the league, that the association has a few hundred active members."
+  },
+  {
+   "kind": "true_positive",
+   "unit": "sami-prehistory",
+   "rank": 2,
+   "tier": "reverted",
+   "item_id": "sami-prehistory/i01",
+   "label": "campaign",
+   "exclusion": null,
+   "page_id": 997401,
+   "description": "Adds paragraphs, cited to one magazine article, saying the Sámi are not more indigenous than the Finns, that prehistoric people cannot be divided into Sámi and Finns, that Sámi identity is under 100 years old and that 'Sápmi' was invented in the 1980s."
+  },
+  {
+   "kind": "true_positive",
+   "unit": "far-right",
+   "rank": 3,
+   "tier": "reverted",
+   "item_id": "far-right/i04",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 11537,
+   "description": "Rewrites the IKL lead as a 'far-right fascist party that took many influences from German National Socialism and European fascism' and says its black-shirt uniform had a swastika armband 'like the Nazis'."
+  },
+  {
+   "kind": "true_positive",
+   "unit": "language-politics",
+   "rank": 3,
+   "tier": "reverted",
+   "item_id": "language-politics/i01",
+   "label": "campaign",
+   "exclusion": null,
+   "page_id": 255,
+   "description": "Adds a section 'Fennomania in the internet era': the term now means opponents of compulsory Swedish, some of whom 'oppose anything with even a hint of Swedishness'."
+  }
+ ],
+ "worst": [
+  {
+   "kind": "missed",
+   "unit": "sami-prehistory",
+   "rank": null,
+   "tier": null,
+   "item_id": "sami-prehistory/i02",
+   "label": "campaign",
+   "exclusion": null,
+   "page_id": 1096144,
+   "description": "Turns the redirect 'Metsäsaamelaiset' into an article stating that the Forest Sámi are one of the (four) Sámi groups living in Finland and were refused the Sámi Parliament electoral roll because they lost their language."
+  },
+  {
+   "kind": "missed",
+   "unit": "far-right",
+   "rank": null,
+   "tier": null,
+   "item_id": "far-right/i02",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 1395607,
+   "description": "Recasts de Wit's 'Laiton lehti?' publication as a 'vulgar nationalist blog' and adds that he became known for transporting corpses on a van floor (Yle MOT story, cited) and that his partner sits on the SKE board as treasurer."
+  },
+  {
+   "kind": "missed",
+   "unit": "far-right",
+   "rank": null,
+   "tier": null,
+   "item_id": "far-right/i03",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 1105958,
+   "description": "Adds a 'Criticism' section saying Turtiainen's pro-Russia line would likely drop Finnish living standards to Russian levels (average wage 621 euros a month), cited to an article on Russian army pay."
+  },
+  {
+   "kind": "missed",
+   "unit": "far-right",
+   "rank": null,
+   "tier": null,
+   "item_id": "far-right/i06",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 11477,
+   "description": "Adds a paragraph saying the Lapua movement's first meetings were in Swedish-speaking parishes, that its Swedish-speaking support 'has been more or less hushed up', and that Swedish-speaking nobles in it looked down on Finnish."
+  },
+  {
+   "kind": "missed",
+   "unit": "far-right",
+   "rank": null,
+   "tier": null,
+   "item_id": "far-right/i07",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 1445320,
+   "description": "Changes the SKE infobox title of its secretary from 'party secretary' to 'secretary', on the grounds that SKE was not yet a registered party."
+  }
+ ],
+ "unlabelled": [
+  {
+   "key": "1399005+1399017+1400555+1402116+1402247+1402344+1402566+1402894+1402902",
+   "topic_id": "language-politics",
+   "rank": 4,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    1399005,
+    1399017,
+    1400555,
+    1402116,
+    1402247,
+    1402344,
+    1402566,
+    1402894,
+    1402902
+   ],
+   "removing_rev_ids": [
+    1399034,
+    1400591,
+    1402591,
+    1402950
+   ],
+   "tier": "reverted",
+   "score": 9.754058,
+   "claim_en": null
+  },
+  {
+   "key": "1393289+1398365+1398910",
+   "topic_id": "language-politics",
+   "rank": 5,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    1393289,
+    1398365,
+    1398910
+   ],
+   "removing_rev_ids": [
+    1395449,
+    1398378,
+    1398964
+   ],
+   "tier": "reverted",
+   "score": 9.233779,
+   "claim_en": null
+  },
+  {
+   "key": "1888632+1888640+1901309+1901484",
+   "topic_id": "language-politics",
+   "rank": 6,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    1888632,
+    1888640,
+    1901309,
+    1901484
+   ],
+   "removing_rev_ids": [
+    1895436,
+    1901316,
+    1901498
+   ],
+   "tier": "reverted",
+   "score": 8.691833,
+   "claim_en": null
+  },
+  {
+   "key": "17665265+17671197",
+   "topic_id": "language-politics",
+   "rank": 7,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    17665265,
+    17671197
+   ],
+   "removing_rev_ids": [
+    17705210
+   ],
+   "tier": "reverted",
+   "score": 8.029934,
+   "claim_en": null
+  },
+  {
+   "key": "1405860+1406925+1406993",
+   "topic_id": "language-politics",
+   "rank": 10,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    1405860,
+    1406925,
+    1406993
+   ],
+   "removing_rev_ids": [
+    1405894,
+    1406943,
+    1407012
+   ],
+   "tier": "reverted",
+   "score": 5.958513,
+   "claim_en": null
+  },
+  {
+   "key": "1886222+1886266",
+   "topic_id": "language-politics",
+   "rank": 11,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    1886222,
+    1886266
+   ],
+   "removing_rev_ids": [
+    1886238,
+    1886327
+   ],
+   "tier": "reverted",
+   "score": 5.793974,
+   "claim_en": null
+  },
+  {
+   "key": "11737640",
+   "topic_id": "language-politics",
+   "rank": 12,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    11737640
+   ],
+   "removing_rev_ids": [
+    11737882
+   ],
+   "tier": "reverted",
+   "score": 4.97658,
+   "claim_en": null
+  },
+  {
+   "key": "2836894",
+   "topic_id": "language-politics",
+   "rank": 13,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    2836894
+   ],
+   "removing_rev_ids": [
+    2836950
+   ],
+   "tier": "reverted",
+   "score": 4.97658,
+   "claim_en": null
+  },
+  {
+   "key": "3434937+3434944",
+   "topic_id": "language-politics",
+   "rank": 14,
+   "page_id": 255,
+   "inserting_rev_ids": [
+    3434937,
+    3434944
+   ],
+   "removing_rev_ids": [
+    3434952
+   ],
+   "tier": "reverted",
+   "score": 4.972819,
+   "claim_en": null
+  },
+  {
+   "key": "16748443+16748445",
+   "topic_id": "language-politics",
+   "rank": 15,
+   "page_id": 202404,
+   "inserting_rev_ids": [
+    16748443,
+    16748445
+   ],
+   "removing_rev_ids": [
+    16752936
+   ],
+   "tier": "reverted",
+   "score": 4.361352,
+   "claim_en": null
+  },
+  {
+   "key": "654717",
+   "topic_id": "language-politics",
+   "rank": 16,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    654717
+   ],
+   "removing_rev_ids": [
+    654721
+   ],
+   "tier": "reverted",
+   "score": 4.134365,
+   "claim_en": null
+  },
+  {
+   "key": "22346053+22346056+22346063+22346068",
+   "topic_id": "language-politics",
+   "rank": 17,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    22346053,
+    22346056,
+    22346063,
+    22346068
+   ],
+   "removing_rev_ids": [
+    22347809
+   ],
+   "tier": "reverted",
+   "score": 4.095276,
+   "claim_en": null
+  },
+  {
+   "key": "731580",
+   "topic_id": "language-politics",
+   "rank": 18,
+   "page_id": 53740,
+   "inserting_rev_ids": [
+    731580
+   ],
+   "removing_rev_ids": [
+    731590
+   ],
+   "tier": "reverted",
+   "score": 3.991718,
+   "claim_en": null
+  },
+  {
+   "key": "12226504",
+   "topic_id": "language-politics",
+   "rank": 19,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    12226504
+   ],
+   "removing_rev_ids": [
+    12226554
+   ],
+   "tier": "reverted",
+   "score": 3.949215,
+   "claim_en": null
+  },
+  {
+   "key": "2883170+2883466+2883481+2883547",
+   "topic_id": "language-politics",
+   "rank": 20,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    2883170,
+    2883466,
+    2883481,
+    2883547
+   ],
+   "removing_rev_ids": [
+    2883560
+   ],
+   "tier": "reverted",
+   "score": 3.765986,
+   "claim_en": null
+  },
+  {
+   "key": "1427268+1427285",
+   "topic_id": "language-politics",
+   "rank": 21,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    1427268,
+    1427285
+   ],
+   "removing_rev_ids": [
+    1427534
+   ],
+   "tier": "reverted",
+   "score": 3.639665,
+   "claim_en": null
+  },
+  {
+   "key": "8607498+8607500+8607514",
+   "topic_id": "language-politics",
+   "rank": 22,
+   "page_id": 53740,
+   "inserting_rev_ids": [
+    8607498,
+    8607500,
+    8607514
+   ],
+   "removing_rev_ids": [
+    8607543
+   ],
+   "tier": "reverted",
+   "score": 3.627003,
+   "claim_en": null
+  },
+  {
+   "key": "10626469",
+   "topic_id": "language-politics",
+   "rank": 23,
+   "page_id": 11634,
+   "inserting_rev_ids": [
+    10626469
+   ],
+   "removing_rev_ids": [
+    10626472
+   ],
+   "tier": "reverted",
+   "score": 3.560937,
+   "claim_en": null
+  },
+  {
+   "key": "3419307+3419311+3419337+3419348",
+   "topic_id": "language-politics",
+   "rank": 25,
+   "page_id": 255,
+   "inserting_rev_ids": [
+    3419307,
+    3419311,
+    3419337,
+    3419348
+   ],
+   "removing_rev_ids": [
+    3419384
+   ],
+   "tier": "reverted",
+   "score": 3.270623,
+   "claim_en": null
+  },
+  {
+   "key": "1886238",
+   "topic_id": "language-politics",
+   "rank": 26,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    1886238
+   ],
+   "removing_rev_ids": [
+    1886266
+   ],
+   "tier": "reverted",
+   "score": 3.260233,
+   "claim_en": null
+  },
+  {
+   "key": "3192218",
+   "topic_id": "language-politics",
+   "rank": 27,
+   "page_id": 53740,
+   "inserting_rev_ids": [
+    3192218
+   ],
+   "removing_rev_ids": [
+    3197367
+   ],
+   "tier": "reverted",
+   "score": 3.193806,
+   "claim_en": null
+  },
+  {
+   "key": "2546974",
+   "topic_id": "language-politics",
+   "rank": 28,
+   "page_id": 53740,
+   "inserting_rev_ids": [
+    2546974
+   ],
+   "removing_rev_ids": [
+    2546988
+   ],
+   "tier": "reverted",
+   "score": 3.157614,
+   "claim_en": null
+  },
+  {
+   "key": "2824300",
+   "topic_id": "language-politics",
+   "rank": 29,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    2824300
+   ],
+   "removing_rev_ids": [
+    2824305
+   ],
+   "tier": "reverted",
+   "score": 3.122404,
+   "claim_en": null
+  },
+  {
+   "key": "3404305",
+   "topic_id": "language-politics",
+   "rank": 30,
+   "page_id": 53740,
+   "inserting_rev_ids": [
+    3404305
+   ],
+   "removing_rev_ids": [
+    3406229
+   ],
+   "tier": "reverted",
+   "score": 3.119098,
+   "claim_en": null
+  },
+  {
+   "key": "1902049",
+   "topic_id": "language-politics",
+   "rank": 31,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    1902049
+   ],
+   "removing_rev_ids": [
+    1902417
+   ],
+   "tier": "reverted",
+   "score": 3.052558,
+   "claim_en": null
+  },
+  {
+   "key": "3192280",
+   "topic_id": "language-politics",
+   "rank": 32,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    3192280
+   ],
+   "removing_rev_ids": [
+    3192283
+   ],
+   "tier": "reverted",
+   "score": 2.960684,
+   "claim_en": null
+  },
+  {
+   "key": "3427315",
+   "topic_id": "language-politics",
+   "rank": 33,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    3427315
+   ],
+   "removing_rev_ids": [
+    3427339
+   ],
+   "tier": "reverted",
+   "score": 2.857304,
+   "claim_en": null
+  },
+  {
+   "key": "13200313",
+   "topic_id": "language-politics",
+   "rank": 34,
+   "page_id": 255,
+   "inserting_rev_ids": [
+    13200313
+   ],
+   "removing_rev_ids": [
+    13200419
+   ],
+   "tier": "reverted",
+   "score": 2.820288,
+   "claim_en": null
+  },
+  {
+   "key": "8385092+8385096+8385099+8385148+8385207",
+   "topic_id": "language-politics",
+   "rank": 35,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    8385092,
+    8385096,
+    8385099,
+    8385148,
+    8385207
+   ],
+   "removing_rev_ids": [
+    8386131
+   ],
+   "tier": "reverted",
+   "score": 2.798063,
+   "claim_en": null
+  },
+  {
+   "key": "824044+824053",
+   "topic_id": "language-politics",
+   "rank": 36,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    824044,
+    824053
+   ],
+   "removing_rev_ids": [
+    824209
+   ],
+   "tier": "reverted",
+   "score": 2.798063,
+   "claim_en": null
+  },
+  {
+   "key": "19638769",
+   "topic_id": "language-politics",
+   "rank": 39,
+   "page_id": 1549193,
+   "inserting_rev_ids": [
+    19638769
+   ],
+   "removing_rev_ids": [
+    19639259
+   ],
+   "tier": "reverted",
+   "score": 2.763102,
+   "claim_en": null
+  },
+  {
+   "key": "1415220+1415222",
+   "topic_id": "language-politics",
+   "rank": 40,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    1415220,
+    1415222
+   ],
+   "removing_rev_ids": [
+    1415239
+   ],
+   "tier": "reverted",
+   "score": 2.693182,
+   "claim_en": null
+  },
+  {
+   "key": "17773561",
+   "topic_id": "language-politics",
+   "rank": 41,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    17773561
+   ],
+   "removing_rev_ids": [
+    17773581
+   ],
+   "tier": "reverted",
+   "score": 2.665591,
+   "claim_en": null
+  },
+  {
+   "key": "2845104",
+   "topic_id": "language-politics",
+   "rank": 42,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    2845104
+   ],
+   "removing_rev_ids": [
+    2845109
+   ],
+   "tier": "reverted",
+   "score": 2.65849,
+   "claim_en": null
+  },
+  {
+   "key": "3187311",
+   "topic_id": "language-politics",
+   "rank": 43,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    3187311
+   ],
+   "removing_rev_ids": [
+    3187385
+   ],
+   "tier": "reverted",
+   "score": 2.651304,
+   "claim_en": null
+  },
+  {
+   "key": "2780795",
+   "topic_id": "language-politics",
+   "rank": 44,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    2780795
+   ],
+   "removing_rev_ids": [
+    2780817
+   ],
+   "tier": "reverted",
+   "score": 2.636669,
+   "claim_en": null
+  },
+  {
+   "key": "1392418",
+   "topic_id": "language-politics",
+   "rank": 45,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    1392418
+   ],
+   "removing_rev_ids": [
+    1392435
+   ],
+   "tier": "reverted",
+   "score": 2.629216,
+   "claim_en": null
+  },
+  {
+   "key": "2047962+2047965+2047975",
+   "topic_id": "language-politics",
+   "rank": 46,
+   "page_id": 255,
+   "inserting_rev_ids": [
+    2047962,
+    2047965,
+    2047975
+   ],
+   "removing_rev_ids": [
+    2074977
+   ],
+   "tier": "reverted",
+   "score": 2.582439,
+   "claim_en": null
+  },
+  {
+   "key": "6044148+6044161",
+   "topic_id": "language-politics",
+   "rank": 47,
+   "page_id": 72257,
+   "inserting_rev_ids": [
+    6044148,
+    6044161
+   ],
+   "removing_rev_ids": [
+    6044171
+   ],
+   "tier": "reverted",
+   "score": 2.549097,
+   "claim_en": null
+  },
+  {
+   "key": "17705235",
+   "topic_id": "language-politics",
+   "rank": 48,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    17705235
+   ],
+   "removing_rev_ids": [
+    17773561
+   ],
+   "tier": "reverted",
+   "score": 2.531705,
+   "claim_en": null
+  },
+  {
+   "key": "10819899",
+   "topic_id": "language-politics",
+   "rank": 49,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    10819899
+   ],
+   "removing_rev_ids": [
+    10824686
+   ],
+   "tier": "reverted",
+   "score": 2.522816,
+   "claim_en": null
+  },
+  {
+   "key": "18222036+18222039",
+   "topic_id": "language-politics",
+   "rank": 50,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    18222036,
+    18222039
+   ],
+   "removing_rev_ids": [
+    18222302
+   ],
+   "tier": "reverted",
+   "score": 2.513793,
+   "claim_en": null
+  },
+  {
+   "key": "8303722+8303748+8303749+8303792+8303797+8303823+8303827+8303828+8303836+8303841+8303860+8303862+8303991+8304095+15912106+16070911+16715189",
+   "topic_id": "sami-prehistory",
+   "rank": 1,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    8303722,
+    8303748,
+    8303749,
+    8303792,
+    8303797,
+    8303823,
+    8303827,
+    8303828,
+    8303836,
+    8303841,
+    8303860,
+    8303862,
+    8303991,
+    8304095,
+    15912106,
+    16070911,
+    16715189
+   ],
+   "removing_rev_ids": [
+    8304114,
+    15912135,
+    16070929,
+    16715193
+   ],
+   "tier": "reverted",
+   "score": 17.05298,
+   "claim_en": null
+  },
+  {
+   "key": "3411964+3411974+3411996+3412001+3412014+3412079+3412132+3412146+8300211+8300353",
+   "topic_id": "sami-prehistory",
+   "rank": 3,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    3411964,
+    3411974,
+    3411996,
+    3412001,
+    3412014,
+    3412079,
+    3412132,
+    3412146,
+    8300211,
+    8300353
+   ],
+   "removing_rev_ids": [
+    3412776,
+    8329971
+   ],
+   "tier": "reverted",
+   "score": 13.947979,
+   "claim_en": null
+  },
+  {
+   "key": "5190082+5190862+5191121+5191130+5191229+5196575",
+   "topic_id": "sami-prehistory",
+   "rank": 5,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    5190082,
+    5190862,
+    5191121,
+    5191130,
+    5191229,
+    5196575
+   ],
+   "removing_rev_ids": [
+    5196614
+   ],
+   "tier": "reverted",
+   "score": 10.346128,
+   "claim_en": null
+  },
+  {
+   "key": "20024970+20024973+20025251+20025696",
+   "topic_id": "sami-prehistory",
+   "rank": 6,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    20024970,
+    20024973,
+    20025251,
+    20025696
+   ],
+   "removing_rev_ids": [
+    20024999,
+    20025259,
+    20025697
+   ],
+   "tier": "reverted",
+   "score": 9.640905,
+   "claim_en": null
+  },
+  {
+   "key": "22587531+22826898+22826902",
+   "topic_id": "sami-prehistory",
+   "rank": 8,
+   "page_id": 8905,
+   "inserting_rev_ids": [
+    22587531,
+    22826898,
+    22826902
+   ],
+   "removing_rev_ids": [
+    22587535,
+    22826910
+   ],
+   "tier": "reverted",
+   "score": 9.30152,
+   "claim_en": null
+  },
+  {
+   "key": "8265119+8266274",
+   "topic_id": "sami-prehistory",
+   "rank": 10,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    8265119,
+    8266274
+   ],
+   "removing_rev_ids": [
+    8265133,
+    8266442
+   ],
+   "tier": "reverted",
+   "score": 6.617425,
+   "claim_en": null
+  },
+  {
+   "key": "6383688",
+   "topic_id": "sami-prehistory",
+   "rank": 11,
+   "page_id": 8905,
+   "inserting_rev_ids": [
+    6383688
+   ],
+   "removing_rev_ids": [
+    6383712
+   ],
+   "tier": "reverted",
+   "score": 4.97658,
+   "claim_en": null
+  },
+  {
+   "key": "19755782+19755790+19755857",
+   "topic_id": "sami-prehistory",
+   "rank": 13,
+   "page_id": 20813,
+   "inserting_rev_ids": [
+    19755782,
+    19755790,
+    19755857
+   ],
+   "removing_rev_ids": [
+    19755987
+   ],
+   "tier": "reverted",
+   "score": 4.830422,
+   "claim_en": null
+  },
+  {
+   "key": "220285+220291",
+   "topic_id": "sami-prehistory",
+   "rank": 14,
+   "page_id": 20813,
+   "inserting_rev_ids": [
+    220285,
+    220291
+   ],
+   "removing_rev_ids": [
+    221024
+   ],
+   "tier": "reverted",
+   "score": 4.61909,
+   "claim_en": null
+  },
+  {
+   "key": "22680763+22680834",
+   "topic_id": "sami-prehistory",
+   "rank": 15,
+   "page_id": 72966,
+   "inserting_rev_ids": [
+    22680763,
+    22680834
+   ],
+   "removing_rev_ids": [
+    22680893
+   ],
+   "tier": "reverted",
+   "score": 4.546273,
+   "claim_en": null
+  },
+  {
+   "key": "21927489+21928013",
+   "topic_id": "sami-prehistory",
+   "rank": 16,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    21927489,
+    21928013
+   ],
+   "removing_rev_ids": [
+    21928042
+   ],
+   "tier": "reverted",
+   "score": 4.497991,
+   "claim_en": null
+  },
+  {
+   "key": "18625121",
+   "topic_id": "sami-prehistory",
+   "rank": 17,
+   "page_id": 8905,
+   "inserting_rev_ids": [
+    18625121
+   ],
+   "removing_rev_ids": [
+    18625900
+   ],
+   "tier": "reverted",
+   "score": 4.293238,
+   "claim_en": null
+  },
+  {
+   "key": "9516933",
+   "topic_id": "sami-prehistory",
+   "rank": 18,
+   "page_id": 20813,
+   "inserting_rev_ids": [
+    9516933
+   ],
+   "removing_rev_ids": [
+    9519905
+   ],
+   "tier": "reverted",
+   "score": 4.2923,
+   "claim_en": null
+  },
+  {
+   "key": "1167154",
+   "topic_id": "sami-prehistory",
+   "rank": 19,
+   "page_id": 20813,
+   "inserting_rev_ids": [
+    1167154
+   ],
+   "removing_rev_ids": [
+    1167167
+   ],
+   "tier": "reverted",
+   "score": 4.260016,
+   "claim_en": null
+  },
+  {
+   "key": "23680740",
+   "topic_id": "sami-prehistory",
+   "rank": 20,
+   "page_id": 1096144,
+   "inserting_rev_ids": [
+    23680740
+   ],
+   "removing_rev_ids": [
+    23680749
+   ],
+   "tier": "reverted",
+   "score": 4.202384,
+   "claim_en": null
+  },
+  {
+   "key": "8197608",
+   "topic_id": "sami-prehistory",
+   "rank": 22,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    8197608
+   ],
+   "removing_rev_ids": [
+    8200246
+   ],
+   "tier": "reverted",
+   "score": 4.182438,
+   "claim_en": null
+  },
+  {
+   "key": "16920612+16924001+16936098+16939646+17017711+17017714+17044107+17051591+17100871",
+   "topic_id": "sami-prehistory",
+   "rank": 24,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    16920612,
+    16924001,
+    16936098,
+    16939646,
+    17017711,
+    17017714,
+    17044107,
+    17051591,
+    17100871
+   ],
+   "removing_rev_ids": [
+    17123380
+   ],
+   "tier": "reverted",
+   "score": 4.059023,
+   "claim_en": null
+  },
+  {
+   "key": "3735742",
+   "topic_id": "sami-prehistory",
+   "rank": 25,
+   "page_id": 8905,
+   "inserting_rev_ids": [
+    3735742
+   ],
+   "removing_rev_ids": [
+    3743470
+   ],
+   "tier": "reverted",
+   "score": 4.052063,
+   "claim_en": null
+  },
+  {
+   "key": "13315992",
+   "topic_id": "sami-prehistory",
+   "rank": 26,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    13315992
+   ],
+   "removing_rev_ids": [
+    13407096
+   ],
+   "tier": "reverted",
+   "score": 4.051362,
+   "claim_en": null
+  },
+  {
+   "key": "368943",
+   "topic_id": "sami-prehistory",
+   "rank": 27,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    368943
+   ],
+   "removing_rev_ids": [
+    368944
+   ],
+   "tier": "reverted",
+   "score": 3.77048,
+   "claim_en": null
+  },
+  {
+   "key": "20026829",
+   "topic_id": "sami-prehistory",
+   "rank": 28,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    20026829
+   ],
+   "removing_rev_ids": [
+    20026832
+   ],
+   "tier": "reverted",
+   "score": 3.749985,
+   "claim_en": null
+  },
+  {
+   "key": "373181",
+   "topic_id": "sami-prehistory",
+   "rank": 29,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    373181
+   ],
+   "removing_rev_ids": [
+    373185
+   ],
+   "tier": "reverted",
+   "score": 3.694187,
+   "claim_en": null
+  },
+  {
+   "key": "23317016",
+   "topic_id": "sami-prehistory",
+   "rank": 30,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    23317016
+   ],
+   "removing_rev_ids": [
+    23317369
+   ],
+   "tier": "reverted",
+   "score": 3.627003,
+   "claim_en": null
+  },
+  {
+   "key": "3625216+3625225+3625287+3625300",
+   "topic_id": "sami-prehistory",
+   "rank": 31,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    3625216,
+    3625225,
+    3625287,
+    3625300
+   ],
+   "removing_rev_ids": [
+    3625313
+   ],
+   "tier": "reverted",
+   "score": 3.551336,
+   "claim_en": null
+  },
+  {
+   "key": "21123051",
+   "topic_id": "sami-prehistory",
+   "rank": 32,
+   "page_id": 8905,
+   "inserting_rev_ids": [
+    21123051
+   ],
+   "removing_rev_ids": [
+    21123177
+   ],
+   "tier": "reverted",
+   "score": 3.536642,
+   "claim_en": null
+  },
+  {
+   "key": "21516905+21516911",
+   "topic_id": "sami-prehistory",
+   "rank": 33,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    21516905,
+    21516911
+   ],
+   "removing_rev_ids": [
+    21516918
+   ],
+   "tier": "reverted",
+   "score": 3.519881,
+   "claim_en": null
+  },
+  {
+   "key": "19731118+19731133+19731137+19731218+19731229",
+   "topic_id": "sami-prehistory",
+   "rank": 34,
+   "page_id": 8905,
+   "inserting_rev_ids": [
+    19731118,
+    19731133,
+    19731137,
+    19731218,
+    19731229
+   ],
+   "removing_rev_ids": [
+    19731276
+   ],
+   "tier": "reverted",
+   "score": 3.468446,
+   "claim_en": null
+  },
+  {
+   "key": "16878235+16878237",
+   "topic_id": "sami-prehistory",
+   "rank": 35,
+   "page_id": 997401,
+   "inserting_rev_ids": [
+    16878235,
+    16878237
+   ],
+   "removing_rev_ids": [
+    16878276
+   ],
+   "tier": "reverted",
+   "score": 3.412185,
+   "claim_en": null
+  },
+  {
+   "key": "16785529",
+   "topic_id": "sami-prehistory",
+   "rank": 36,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    16785529
+   ],
+   "removing_rev_ids": [
+    16785560
+   ],
+   "tier": "reverted",
+   "score": 3.410148,
+   "claim_en": null
+  },
+  {
+   "key": "16783903",
+   "topic_id": "sami-prehistory",
+   "rank": 37,
+   "page_id": 8905,
+   "inserting_rev_ids": [
+    16783903
+   ],
+   "removing_rev_ids": [
+    16784232
+   ],
+   "tier": "reverted",
+   "score": 3.387268,
+   "claim_en": null
+  },
+  {
+   "key": "11206358+11206369",
+   "topic_id": "sami-prehistory",
+   "rank": 38,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    11206358,
+    11206369
+   ],
+   "removing_rev_ids": [
+    11206373
+   ],
+   "tier": "reverted",
+   "score": 3.331776,
+   "claim_en": null
+  },
+  {
+   "key": "8774577+8774586+8774590",
+   "topic_id": "sami-prehistory",
+   "rank": 39,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    8774577,
+    8774586,
+    8774590
+   ],
+   "removing_rev_ids": [
+    8774592
+   ],
+   "tier": "reverted",
+   "score": 3.329446,
+   "claim_en": null
+  },
+  {
+   "key": "16621708",
+   "topic_id": "sami-prehistory",
+   "rank": 40,
+   "page_id": 22508,
+   "inserting_rev_ids": [
+    16621708
+   ],
+   "removing_rev_ids": [
+    16621776
+   ],
+   "tier": "reverted",
+   "score": 3.322401,
+   "claim_en": null
+  },
+  {
+   "key": "2428137+2428179",
+   "topic_id": "sami-prehistory",
+   "rank": 41,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    2428137,
+    2428179
+   ],
+   "removing_rev_ids": [
+    2428186
+   ],
+   "tier": "reverted",
+   "score": 3.317657,
+   "claim_en": null
+  },
+  {
+   "key": "1475602",
+   "topic_id": "sami-prehistory",
+   "rank": 42,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    1475602
+   ],
+   "removing_rev_ids": [
+    1515104
+   ],
+   "tier": "reverted",
+   "score": 3.241606,
+   "claim_en": null
+  },
+  {
+   "key": "18425919+18425920+18425921+18425922",
+   "topic_id": "sami-prehistory",
+   "rank": 43,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    18425919,
+    18425920,
+    18425921,
+    18425922
+   ],
+   "removing_rev_ids": [
+    18426021
+   ],
+   "tier": "reverted",
+   "score": 3.175983,
+   "claim_en": null
+  },
+  {
+   "key": "17735900+17735917",
+   "topic_id": "sami-prehistory",
+   "rank": 44,
+   "page_id": 8905,
+   "inserting_rev_ids": [
+    17735900,
+    17735917
+   ],
+   "removing_rev_ids": [
+    17735925
+   ],
+   "tier": "reverted",
+   "score": 3.169922,
+   "claim_en": null
+  },
+  {
+   "key": "4043247",
+   "topic_id": "sami-prehistory",
+   "rank": 45,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    4043247
+   ],
+   "removing_rev_ids": [
+    4043306
+   ],
+   "tier": "reverted",
+   "score": 3.063567,
+   "claim_en": null
+  },
+  {
+   "key": "8248679",
+   "topic_id": "sami-prehistory",
+   "rank": 46,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    8248679
+   ],
+   "removing_rev_ids": [
+    8262778
+   ],
+   "tier": "reverted",
+   "score": 3.05992,
+   "claim_en": null
+  },
+  {
+   "key": "220287",
+   "topic_id": "sami-prehistory",
+   "rank": 47,
+   "page_id": 20813,
+   "inserting_rev_ids": [
+    220287
+   ],
+   "removing_rev_ids": [
+    220291
+   ],
+   "tier": "reverted",
+   "score": 3.05992,
+   "claim_en": null
+  },
+  {
+   "key": "23233577",
+   "topic_id": "sami-prehistory",
+   "rank": 48,
+   "page_id": 22508,
+   "inserting_rev_ids": [
+    23233577
+   ],
+   "removing_rev_ids": [
+    23238767
+   ],
+   "tier": "reverted",
+   "score": 3.05625,
+   "claim_en": null
+  },
+  {
+   "key": "1976343",
+   "topic_id": "sami-prehistory",
+   "rank": 49,
+   "page_id": 20813,
+   "inserting_rev_ids": [
+    1976343
+   ],
+   "removing_rev_ids": [
+    1980948
+   ],
+   "tier": "reverted",
+   "score": 3.052558,
+   "claim_en": null
+  },
+  {
+   "key": "22741016",
+   "topic_id": "sami-prehistory",
+   "rank": 50,
+   "page_id": 1096144,
+   "inserting_rev_ids": [
+    22741016
+   ],
+   "removing_rev_ids": [
+    22741097
+   ],
+   "tier": "reverted",
+   "score": 3.037557,
+   "claim_en": null
+  },
+  {
+   "key": "10033522+14199100+14731555+14826624+15234759+15234761+15234763+16035342+16037500+23781880",
+   "topic_id": "far-right",
+   "rank": 1,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    10033522,
+    14199100,
+    14731555,
+    14826624,
+    15234759,
+    15234761,
+    15234763,
+    16035342,
+    16037500,
+    23781880
+   ],
+   "removing_rev_ids": [
+    10045409,
+    14199103,
+    14731576,
+    14826633,
+    15234775,
+    15234776,
+    15234777,
+    16037686,
+    23781887
+   ],
+   "tier": "reverted",
+   "score": 22.505501,
+   "claim_en": null
+  },
+  {
+   "key": "15217729+15217730+15217731+20245244+20245246",
+   "topic_id": "far-right",
+   "rank": 2,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    15217729,
+    15217730,
+    15217731,
+    20245244,
+    20245246
+   ],
+   "removing_rev_ids": [
+    15217748,
+    15217749,
+    15217750,
+    20245245,
+    20245247
+   ],
+   "tier": "reverted",
+   "score": 17.994845,
+   "claim_en": null
+  },
+  {
+   "key": "22871429+23209952+23778722+23779148",
+   "topic_id": "far-right",
+   "rank": 5,
+   "page_id": 1679936,
+   "inserting_rev_ids": [
+    22871429,
+    23209952,
+    23778722,
+    23779148
+   ],
+   "removing_rev_ids": [
+    22882416,
+    23211533,
+    23779054,
+    23781899
+   ],
+   "tier": "reverted",
+   "score": 14.298443,
+   "claim_en": null
+  },
+  {
+   "key": "9466285+9466286+9466324+9466347+9466350+9466354+9466357",
+   "topic_id": "far-right",
+   "rank": 6,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    9466285,
+    9466286,
+    9466324,
+    9466347,
+    9466350,
+    9466354,
+    9466357
+   ],
+   "removing_rev_ids": [
+    9466359
+   ],
+   "tier": "reverted",
+   "score": 12.926247,
+   "claim_en": null
+  },
+  {
+   "key": "10759608+10904999",
+   "topic_id": "far-right",
+   "rank": 7,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    10759608,
+    10904999
+   ],
+   "removing_rev_ids": [
+    10759611,
+    10905001
+   ],
+   "tier": "reverted",
+   "score": 10.274512,
+   "claim_en": null
+  },
+  {
+   "key": "15218867+16403811",
+   "topic_id": "far-right",
+   "rank": 8,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    15218867,
+    16403811
+   ],
+   "removing_rev_ids": [
+    15218871,
+    16403820
+   ],
+   "tier": "reverted",
+   "score": 10.025281,
+   "claim_en": null
+  },
+  {
+   "key": "17684504+17684522+17684533+17684542+17685019",
+   "topic_id": "far-right",
+   "rank": 9,
+   "page_id": 1445320,
+   "inserting_rev_ids": [
+    17684504,
+    17684522,
+    17684533,
+    17684542,
+    17685019
+   ],
+   "removing_rev_ids": [
+    17684513,
+    17684537,
+    17684545,
+    17685054
+   ],
+   "tier": "reverted",
+   "score": 9.615899,
+   "claim_en": null
+  },
+  {
+   "key": "15217949+15217950+15217959",
+   "topic_id": "far-right",
+   "rank": 10,
+   "page_id": 926229,
+   "inserting_rev_ids": [
+    15217949,
+    15217950,
+    15217959
+   ],
+   "removing_rev_ids": [
+    15217951,
+    15217952,
+    15217964
+   ],
+   "tier": "reverted",
+   "score": 9.512757,
+   "claim_en": null
+  },
+  {
+   "key": "19396031+19396034+19452238+19452725",
+   "topic_id": "far-right",
+   "rank": 11,
+   "page_id": 1445320,
+   "inserting_rev_ids": [
+    19396031,
+    19396034,
+    19452238,
+    19452725
+   ],
+   "removing_rev_ids": [
+    19401538,
+    19452250,
+    19452743
+   ],
+   "tier": "reverted",
+   "score": 9.070095,
+   "claim_en": null
+  },
+  {
+   "key": "20992269+21010471+21010838+21010855+21010865+21010876",
+   "topic_id": "far-right",
+   "rank": 13,
+   "page_id": 17808,
+   "inserting_rev_ids": [
+    20992269,
+    21010471,
+    21010838,
+    21010855,
+    21010865,
+    21010876
+   ],
+   "removing_rev_ids": [
+    20995064,
+    21010803,
+    21010843,
+    21010858,
+    21010867,
+    21010878
+   ],
+   "tier": "reverted",
+   "score": 8.490799,
+   "claim_en": null
+  },
+  {
+   "key": "17675145+17688856",
+   "topic_id": "far-right",
+   "rank": 14,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    17675145,
+    17688856
+   ],
+   "removing_rev_ids": [
+    17675148,
+    17688858
+   ],
+   "tier": "reverted",
+   "score": 7.834069,
+   "claim_en": null
+  },
+  {
+   "key": "15627394+15627396+15653429",
+   "topic_id": "far-right",
+   "rank": 16,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    15627394,
+    15627396,
+    15653429
+   ],
+   "removing_rev_ids": [
+    15627442,
+    15653477
+   ],
+   "tier": "reverted",
+   "score": 7.703135,
+   "claim_en": null
+  },
+  {
+   "key": "14891696+14891707+14891774",
+   "topic_id": "far-right",
+   "rank": 18,
+   "page_id": 981456,
+   "inserting_rev_ids": [
+    14891696,
+    14891707,
+    14891774
+   ],
+   "removing_rev_ids": [
+    14891713,
+    14891846
+   ],
+   "tier": "reverted",
+   "score": 6.992281,
+   "claim_en": null
+  },
+  {
+   "key": "23953278+23956829",
+   "topic_id": "far-right",
+   "rank": 19,
+   "page_id": 1679936,
+   "inserting_rev_ids": [
+    23953278,
+    23956829
+   ],
+   "removing_rev_ids": [
+    23956790,
+    23958342
+   ],
+   "tier": "reverted",
+   "score": 6.824738,
+   "claim_en": null
+  },
+  {
+   "key": "18111698+18111750+18111760+18111761+18111762+18111769+18111775",
+   "topic_id": "far-right",
+   "rank": 20,
+   "page_id": 1445320,
+   "inserting_rev_ids": [
+    18111698,
+    18111750,
+    18111760,
+    18111761,
+    18111762,
+    18111769,
+    18111775
+   ],
+   "removing_rev_ids": [
+    18111742,
+    18111759,
+    18111764,
+    18111770,
+    18111777
+   ],
+   "tier": "reverted",
+   "score": 6.806801,
+   "claim_en": null
+  },
+  {
+   "key": "16702708+16702713+16714697+16714705",
+   "topic_id": "far-right",
+   "rank": 21,
+   "page_id": 981456,
+   "inserting_rev_ids": [
+    16702708,
+    16702713,
+    16714697,
+    16714705
+   ],
+   "removing_rev_ids": [
+    16702924,
+    16714773
+   ],
+   "tier": "reverted",
+   "score": 6.615653,
+   "claim_en": null
+  },
+  {
+   "key": "18181046+18181098+18181100+18181147",
+   "topic_id": "far-right",
+   "rank": 22,
+   "page_id": 1395607,
+   "inserting_rev_ids": [
+    18181046,
+    18181098,
+    18181100,
+    18181147
+   ],
+   "removing_rev_ids": [
+    18181095,
+    18181099,
+    18181111,
+    18181151
+   ],
+   "tier": "reverted",
+   "score": 6.241896,
+   "claim_en": null
+  },
+  {
+   "key": "17619176+17619550",
+   "topic_id": "far-right",
+   "rank": 23,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    17619176,
+    17619550
+   ],
+   "removing_rev_ids": [
+    17619178,
+    17619551
+   ],
+   "tier": "reverted",
+   "score": 6.044328,
+   "claim_en": null
+  },
+  {
+   "key": "17769544+17769561",
+   "topic_id": "far-right",
+   "rank": 25,
+   "page_id": 1445320,
+   "inserting_rev_ids": [
+    17769544,
+    17769561
+   ],
+   "removing_rev_ids": [
+    17769546,
+    17769565
+   ],
+   "tier": "reverted",
+   "score": 5.837337,
+   "claim_en": null
+  },
+  {
+   "key": "16551967+16552157",
+   "topic_id": "far-right",
+   "rank": 26,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    16551967,
+    16552157
+   ],
+   "removing_rev_ids": [
+    16552072,
+    16552228
+   ],
+   "tier": "reverted",
+   "score": 5.750603,
+   "claim_en": null
+  },
+  {
+   "key": "15955577+15955580+15955584+15955838+15955840",
+   "topic_id": "far-right",
+   "rank": 27,
+   "page_id": 981456,
+   "inserting_rev_ids": [
+    15955577,
+    15955580,
+    15955584,
+    15955838,
+    15955840
+   ],
+   "removing_rev_ids": [
+    15955603,
+    15955841
+   ],
+   "tier": "reverted",
+   "score": 5.599828,
+   "claim_en": null
+  },
+  {
+   "key": "21010488+21010844+21010860",
+   "topic_id": "far-right",
+   "rank": 28,
+   "page_id": 11477,
+   "inserting_rev_ids": [
+    21010488,
+    21010844,
+    21010860
+   ],
+   "removing_rev_ids": [
+    21010804,
+    21010848,
+    21010870
+   ],
+   "tier": "reverted",
+   "score": 5.548282,
+   "claim_en": null
+  },
+  {
+   "key": "14512764",
+   "topic_id": "far-right",
+   "rank": 29,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    14512764
+   ],
+   "removing_rev_ids": [
+    14512768
+   ],
+   "tier": "reverted",
+   "score": 4.97658,
+   "claim_en": null
+  },
+  {
+   "key": "1769558",
+   "topic_id": "far-right",
+   "rank": 30,
+   "page_id": 13184,
+   "inserting_rev_ids": [
+    1769558
+   ],
+   "removing_rev_ids": [
+    1769562
+   ],
+   "tier": "reverted",
+   "score": 4.97658,
+   "claim_en": null
+  },
+  {
+   "key": "15221848",
+   "topic_id": "far-right",
+   "rank": 31,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    15221848
+   ],
+   "removing_rev_ids": [
+    15221850
+   ],
+   "tier": "reverted",
+   "score": 4.729389,
+   "claim_en": null
+  },
+  {
+   "key": "21027367+21029707",
+   "topic_id": "far-right",
+   "rank": 32,
+   "page_id": 1105958,
+   "inserting_rev_ids": [
+    21027367,
+    21029707
+   ],
+   "removing_rev_ids": [
+    21027382,
+    21029713
+   ],
+   "tier": "reverted",
+   "score": 4.667482,
+   "claim_en": null
+  },
+  {
+   "key": "4169213+4169214+4169220",
+   "topic_id": "far-right",
+   "rank": 33,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    4169213,
+    4169214,
+    4169220
+   ],
+   "removing_rev_ids": [
+    4169215,
+    4169222
+   ],
+   "tier": "reverted",
+   "score": 4.66634,
+   "claim_en": null
+  },
+  {
+   "key": "15985211+15985213+15985218+15985220",
+   "topic_id": "far-right",
+   "rank": 34,
+   "page_id": 1324148,
+   "inserting_rev_ids": [
+    15985211,
+    15985213,
+    15985218,
+    15985220
+   ],
+   "removing_rev_ids": [
+    15988674
+   ],
+   "tier": "reverted",
+   "score": 4.534484,
+   "claim_en": null
+  },
+  {
+   "key": "15579382",
+   "topic_id": "far-right",
+   "rank": 35,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    15579382
+   ],
+   "removing_rev_ids": [
+    15579389
+   ],
+   "tier": "reverted",
+   "score": 4.466198,
+   "claim_en": null
+  },
+  {
+   "key": "24163635+24164979",
+   "topic_id": "far-right",
+   "rank": 36,
+   "page_id": 1679936,
+   "inserting_rev_ids": [
+    24163635,
+    24164979
+   ],
+   "removing_rev_ids": [
+    24163875,
+    24165048
+   ],
+   "tier": "reverted",
+   "score": 4.445973,
+   "claim_en": null
+  },
+  {
+   "key": "10063571",
+   "topic_id": "far-right",
+   "rank": 37,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    10063571
+   ],
+   "removing_rev_ids": [
+    10063632
+   ],
+   "tier": "reverted",
+   "score": 4.311687,
+   "claim_en": null
+  },
+  {
+   "key": "16006354+16006356+16006358+16006359+16006360+16012724",
+   "topic_id": "far-right",
+   "rank": 38,
+   "page_id": 1324148,
+   "inserting_rev_ids": [
+    16006354,
+    16006356,
+    16006358,
+    16006359,
+    16006360,
+    16012724
+   ],
+   "removing_rev_ids": [
+    16012980
+   ],
+   "tier": "reverted",
+   "score": 4.305294,
+   "claim_en": null
+  },
+  {
+   "key": "10121286+10121362",
+   "topic_id": "far-right",
+   "rank": 39,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    10121286,
+    10121362
+   ],
+   "removing_rev_ids": [
+    10121366
+   ],
+   "tier": "reverted",
+   "score": 4.286644,
+   "claim_en": null
+  },
+  {
+   "key": "11033854",
+   "topic_id": "far-right",
+   "rank": 40,
+   "page_id": 981456,
+   "inserting_rev_ids": [
+    11033854
+   ],
+   "removing_rev_ids": [
+    11033887
+   ],
+   "tier": "reverted",
+   "score": 4.245992,
+   "claim_en": null
+  },
+  {
+   "key": "16387032+16387050",
+   "topic_id": "far-right",
+   "rank": 41,
+   "page_id": 981456,
+   "inserting_rev_ids": [
+    16387032,
+    16387050
+   ],
+   "removing_rev_ids": [
+    16387036,
+    16387097
+   ],
+   "tier": "reverted",
+   "score": 4.24599,
+   "claim_en": null
+  },
+  {
+   "key": "18255193+18255262",
+   "topic_id": "far-right",
+   "rank": 42,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    18255193,
+    18255262
+   ],
+   "removing_rev_ids": [
+    18255244,
+    18255353
+   ],
+   "tier": "reverted",
+   "score": 4.211409,
+   "claim_en": null
+  },
+  {
+   "key": "15234123",
+   "topic_id": "far-right",
+   "rank": 44,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    15234123
+   ],
+   "removing_rev_ids": [
+    15234125
+   ],
+   "tier": "reverted",
+   "score": 4.193601,
+   "claim_en": null
+  },
+  {
+   "key": "18545104+18545105",
+   "topic_id": "far-right",
+   "rank": 45,
+   "page_id": 981456,
+   "inserting_rev_ids": [
+    18545104,
+    18545105
+   ],
+   "removing_rev_ids": [
+    18545546
+   ],
+   "tier": "reverted",
+   "score": 4.186928,
+   "claim_en": null
+  },
+  {
+   "key": "13775750+13776082",
+   "topic_id": "far-right",
+   "rank": 46,
+   "page_id": 1072792,
+   "inserting_rev_ids": [
+    13775750,
+    13776082
+   ],
+   "removing_rev_ids": [
+    13776050,
+    13776088
+   ],
+   "tier": "reverted",
+   "score": 4.141727,
+   "claim_en": null
+  },
+  {
+   "key": "16474962+16474968",
+   "topic_id": "far-right",
+   "rank": 47,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    16474962,
+    16474968
+   ],
+   "removing_rev_ids": [
+    16474963,
+    16474969
+   ],
+   "tier": "reverted",
+   "score": 4.134108,
+   "claim_en": null
+  },
+  {
+   "key": "15898965",
+   "topic_id": "far-right",
+   "rank": 48,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    15898965
+   ],
+   "removing_rev_ids": [
+    15898968
+   ],
+   "tier": "reverted",
+   "score": 4.111979,
+   "claim_en": null
+  },
+  {
+   "key": "16545289+16545295+16545430",
+   "topic_id": "far-right",
+   "rank": 49,
+   "page_id": 1370905,
+   "inserting_rev_ids": [
+    16545289,
+    16545295,
+    16545430
+   ],
+   "removing_rev_ids": [
+    16565248
+   ],
+   "tier": "reverted",
+   "score": 4.100465,
+   "claim_en": null
+  },
+  {
+   "key": "11051536+11051542+11051554+11051556+11052385",
+   "topic_id": "far-right",
+   "rank": 50,
+   "page_id": 981456,
+   "inserting_rev_ids": [
+    11051536,
+    11051542,
+    11051554,
+    11051556,
+    11052385
+   ],
+   "removing_rev_ids": [
+    11053904
+   ],
+   "tier": "reverted",
+   "score": 4.040041,
+   "claim_en": null
+  },
+  {
+   "key": "11776232+11776386+11777947+11778479+11778480+11778745+11780042+11801593+11803595+11805561+11807500+20378702+20383728+20392340+20394872+20395300",
+   "topic_id": "national-myths",
+   "rank": 1,
+   "page_id": 57277,
+   "inserting_rev_ids": [
+    11776232,
+    11776386,
+    11777947,
+    11778479,
+    11778480,
+    11778745,
+    11780042,
+    11801593,
+    11803595,
+    11805561,
+    11807500,
+    20378702,
+    20383728,
+    20392340,
+    20394872,
+    20395300
+   ],
+   "removing_rev_ids": [
+    11777519,
+    11779610,
+    11780947,
+    11801617,
+    11803721,
+    11807516,
+    20395662
+   ],
+   "tier": "reverted",
+   "score": 20.704866,
+   "claim_en": null
+  },
+  {
+   "key": "2431649+2431666+2461979+6281653+6281655+6281658+6368785",
+   "topic_id": "national-myths",
+   "rank": 2,
+   "page_id": 19873,
+   "inserting_rev_ids": [
+    2431649,
+    2431666,
+    2461979,
+    6281653,
+    6281655,
+    6281658,
+    6368785
+   ],
+   "removing_rev_ids": [
+    2431655,
+    2431672,
+    2461982,
+    6281660,
+    6368787
+   ],
+   "tier": "reverted",
+   "score": 16.25244,
+   "claim_en": null
+  },
+  {
+   "key": "3953639+12327782+15967062+16023685",
+   "topic_id": "national-myths",
+   "rank": 4,
+   "page_id": 13182,
+   "inserting_rev_ids": [
+    3953639,
+    12327782,
+    15967062,
+    16023685
+   ],
+   "removing_rev_ids": [
+    3953648,
+    12327796,
+    15967111,
+    16023686
+   ],
+   "tier": "reverted",
+   "score": 15.576597,
+   "claim_en": null
+  },
+  {
+   "key": "1131002+3537166+4394191",
+   "topic_id": "national-myths",
+   "rank": 5,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    1131002,
+    3537166,
+    4394191
+   ],
+   "removing_rev_ids": [
+    1131004,
+    3537172,
+    4394193
+   ],
+   "tier": "reverted",
+   "score": 14.786355,
+   "claim_en": null
+  },
+  {
+   "key": "2136042+2136098+2136106+2428689",
+   "topic_id": "national-myths",
+   "rank": 6,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    2136042,
+    2136098,
+    2136106,
+    2428689
+   ],
+   "removing_rev_ids": [
+    2136081,
+    2136117,
+    2428697
+   ],
+   "tier": "reverted",
+   "score": 9.230092,
+   "claim_en": null
+  },
+  {
+   "key": "11763589+11764963+11766443+11766523+11766527",
+   "topic_id": "national-myths",
+   "rank": 9,
+   "page_id": 57277,
+   "inserting_rev_ids": [
+    11763589,
+    11764963,
+    11766443,
+    11766523,
+    11766527
+   ],
+   "removing_rev_ids": [
+    11766629
+   ],
+   "tier": "reverted",
+   "score": 7.892834,
+   "claim_en": null
+  },
+  {
+   "key": "15329899+15330222",
+   "topic_id": "national-myths",
+   "rank": 10,
+   "page_id": 13182,
+   "inserting_rev_ids": [
+    15329899,
+    15330222
+   ],
+   "removing_rev_ids": [
+    15329901,
+    15330228
+   ],
+   "tier": "reverted",
+   "score": 7.329851,
+   "claim_en": null
+  },
+  {
+   "key": "11756612+11759235+11759822+11762945",
+   "topic_id": "national-myths",
+   "rank": 11,
+   "page_id": 57277,
+   "inserting_rev_ids": [
+    11756612,
+    11759235,
+    11759822,
+    11762945
+   ],
+   "removing_rev_ids": [
+    11758974,
+    11759284,
+    11763005
+   ],
+   "tier": "reverted",
+   "score": 7.325515,
+   "claim_en": null
+  },
+  {
+   "key": "2210398+2210407+2217183",
+   "topic_id": "national-myths",
+   "rank": 12,
+   "page_id": 19873,
+   "inserting_rev_ids": [
+    2210398,
+    2210407,
+    2217183
+   ],
+   "removing_rev_ids": [
+    2210626,
+    2217197
+   ],
+   "tier": "reverted",
+   "score": 6.403779,
+   "claim_en": null
+  },
+  {
+   "key": "13451782+13456063+13460551",
+   "topic_id": "national-myths",
+   "rank": 14,
+   "page_id": 57277,
+   "inserting_rev_ids": [
+    13451782,
+    13456063,
+    13460551
+   ],
+   "removing_rev_ids": [
+    13452181,
+    13456550,
+    13460567
+   ],
+   "tier": "reverted",
+   "score": 6.23942,
+   "claim_en": null
+  },
+  {
+   "key": "2133944+2133986+2134016",
+   "topic_id": "national-myths",
+   "rank": 15,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    2133944,
+    2133986,
+    2134016
+   ],
+   "removing_rev_ids": [
+    2133952,
+    2134034
+   ],
+   "tier": "reverted",
+   "score": 6.153018,
+   "claim_en": null
+  },
+  {
+   "key": "13177156+13177305",
+   "topic_id": "national-myths",
+   "rank": 16,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    13177156,
+    13177305
+   ],
+   "removing_rev_ids": [
+    13177159,
+    13177308
+   ],
+   "tier": "reverted",
+   "score": 5.696833,
+   "claim_en": null
+  },
+  {
+   "key": "18485248+18485279+18485283",
+   "topic_id": "national-myths",
+   "rank": 17,
+   "page_id": 13959,
+   "inserting_rev_ids": [
+    18485248,
+    18485279,
+    18485283
+   ],
+   "removing_rev_ids": [
+    18485252,
+    18485281,
+    18485284
+   ],
+   "tier": "reverted",
+   "score": 5.27087,
+   "claim_en": null
+  },
+  {
+   "key": "4444554",
+   "topic_id": "national-myths",
+   "rank": 18,
+   "page_id": 13182,
+   "inserting_rev_ids": [
+    4444554
+   ],
+   "removing_rev_ids": [
+    4444558
+   ],
+   "tier": "reverted",
+   "score": 4.97658,
+   "claim_en": null
+  },
+  {
+   "key": "3434937+3434944",
+   "topic_id": "national-myths",
+   "rank": 19,
+   "page_id": 255,
+   "inserting_rev_ids": [
+    3434937,
+    3434944
+   ],
+   "removing_rev_ids": [
+    3434952
+   ],
+   "tier": "reverted",
+   "score": 4.972819,
+   "claim_en": null
+  },
+  {
+   "key": "4620006",
+   "topic_id": "national-myths",
+   "rank": 20,
+   "page_id": 13959,
+   "inserting_rev_ids": [
+    4620006
+   ],
+   "removing_rev_ids": [
+    4621030
+   ],
+   "tier": "reverted",
+   "score": 4.885762,
+   "claim_en": null
+  },
+  {
+   "key": "3830926",
+   "topic_id": "national-myths",
+   "rank": 22,
+   "page_id": 13182,
+   "inserting_rev_ids": [
+    3830926
+   ],
+   "removing_rev_ids": [
+    3830943
+   ],
+   "tier": "reverted",
+   "score": 4.742822,
+   "claim_en": null
+  },
+  {
+   "key": "18104770",
+   "topic_id": "national-myths",
+   "rank": 23,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    18104770
+   ],
+   "removing_rev_ids": [
+    18104773
+   ],
+   "tier": "reverted",
+   "score": 4.497658,
+   "claim_en": null
+  },
+  {
+   "key": "11771118+11771167+11773194",
+   "topic_id": "national-myths",
+   "rank": 24,
+   "page_id": 57277,
+   "inserting_rev_ids": [
+    11771118,
+    11771167,
+    11773194
+   ],
+   "removing_rev_ids": [
+    11772612,
+    11774326
+   ],
+   "tier": "reverted",
+   "score": 4.430461,
+   "claim_en": null
+  },
+  {
+   "key": "8143015",
+   "topic_id": "national-myths",
+   "rank": 25,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    8143015
+   ],
+   "removing_rev_ids": [
+    8143017
+   ],
+   "tier": "reverted",
+   "score": 4.355892,
+   "claim_en": null
+  },
+  {
+   "key": "2160149+2160170+2163259+2163261",
+   "topic_id": "national-myths",
+   "rank": 26,
+   "page_id": 13959,
+   "inserting_rev_ids": [
+    2160149,
+    2160170,
+    2163259,
+    2163261
+   ],
+   "removing_rev_ids": [
+    2165782
+   ],
+   "tier": "reverted",
+   "score": 4.279019,
+   "claim_en": null
+  },
+  {
+   "key": "8077983+8077988",
+   "topic_id": "national-myths",
+   "rank": 27,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    8077983,
+    8077988
+   ],
+   "removing_rev_ids": [
+    8077992
+   ],
+   "tier": "reverted",
+   "score": 4.247005,
+   "claim_en": null
+  },
+  {
+   "key": "4166610",
+   "topic_id": "national-myths",
+   "rank": 29,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    4166610
+   ],
+   "removing_rev_ids": [
+    4166611
+   ],
+   "tier": "reverted",
+   "score": 4.19083,
+   "claim_en": null
+  },
+  {
+   "key": "5526500",
+   "topic_id": "national-myths",
+   "rank": 30,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    5526500
+   ],
+   "removing_rev_ids": [
+    5526503
+   ],
+   "tier": "reverted",
+   "score": 3.984709,
+   "claim_en": null
+  },
+  {
+   "key": "6283732",
+   "topic_id": "national-myths",
+   "rank": 32,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    6283732
+   ],
+   "removing_rev_ids": [
+    6283734
+   ],
+   "tier": "reverted",
+   "score": 3.802095,
+   "claim_en": null
+  },
+  {
+   "key": "12970183+12970226",
+   "topic_id": "national-myths",
+   "rank": 33,
+   "page_id": 38257,
+   "inserting_rev_ids": [
+    12970183,
+    12970226
+   ],
+   "removing_rev_ids": [
+    12970229
+   ],
+   "tier": "reverted",
+   "score": 3.717866,
+   "claim_en": null
+  },
+  {
+   "key": "18535393",
+   "topic_id": "national-myths",
+   "rank": 34,
+   "page_id": 38257,
+   "inserting_rev_ids": [
+    18535393
+   ],
+   "removing_rev_ids": [
+    18535400
+   ],
+   "tier": "reverted",
+   "score": 3.682636,
+   "claim_en": null
+  },
+  {
+   "key": "14685530",
+   "topic_id": "national-myths",
+   "rank": 35,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    14685530
+   ],
+   "removing_rev_ids": [
+    14685540
+   ],
+   "tier": "reverted",
+   "score": 3.673496,
+   "claim_en": null
+  },
+  {
+   "key": "15920580",
+   "topic_id": "national-myths",
+   "rank": 37,
+   "page_id": 13182,
+   "inserting_rev_ids": [
+    15920580
+   ],
+   "removing_rev_ids": [
+    15920584
+   ],
+   "tier": "reverted",
+   "score": 3.646585,
+   "claim_en": null
+  },
+  {
+   "key": "15521344",
+   "topic_id": "national-myths",
+   "rank": 41,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    15521344
+   ],
+   "removing_rev_ids": [
+    15521345
+   ],
+   "tier": "reverted",
+   "score": 3.451544,
+   "claim_en": null
+  },
+  {
+   "key": "6334981",
+   "topic_id": "national-myths",
+   "rank": 43,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    6334981
+   ],
+   "removing_rev_ids": [
+    6334987
+   ],
+   "tier": "reverted",
+   "score": 3.397776,
+   "claim_en": null
+  },
+  {
+   "key": "11755933+11755935",
+   "topic_id": "national-myths",
+   "rank": 44,
+   "page_id": 720906,
+   "inserting_rev_ids": [
+    11755933,
+    11755935
+   ],
+   "removing_rev_ids": [
+    11755936
+   ],
+   "tier": "reverted",
+   "score": 3.374411,
+   "claim_en": null
+  },
+  {
+   "key": "2133801",
+   "topic_id": "national-myths",
+   "rank": 45,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    2133801
+   ],
+   "removing_rev_ids": [
+    2133839
+   ],
+   "tier": "reverted",
+   "score": 3.354592,
+   "claim_en": null
+  },
+  {
+   "key": "8267842",
+   "topic_id": "national-myths",
+   "rank": 46,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    8267842
+   ],
+   "removing_rev_ids": [
+    8267880
+   ],
+   "tier": "reverted",
+   "score": 3.350098,
+   "claim_en": null
+  },
+  {
+   "key": "4329356+4329378+4329416",
+   "topic_id": "national-myths",
+   "rank": 47,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    4329356,
+    4329378,
+    4329416
+   ],
+   "removing_rev_ids": [
+    4329418
+   ],
+   "tier": "reverted",
+   "score": 3.322401,
+   "claim_en": null
+  },
+  {
+   "key": "2176625",
+   "topic_id": "national-myths",
+   "rank": 48,
+   "page_id": 13959,
+   "inserting_rev_ids": [
+    2176625
+   ],
+   "removing_rev_ids": [
+    2178310
+   ],
+   "tier": "reverted",
+   "score": 3.315272,
+   "claim_en": null
+  },
+  {
+   "key": "22657338",
+   "topic_id": "national-myths",
+   "rank": 49,
+   "page_id": 14460,
+   "inserting_rev_ids": [
+    22657338
+   ],
+   "removing_rev_ids": [
+    22657343
+   ],
+   "tier": "reverted",
+   "score": 3.312877,
+   "claim_en": null
+  },
+  {
+   "key": "4340811",
+   "topic_id": "national-myths",
+   "rank": 50,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    4340811
+   ],
+   "removing_rev_ids": [
+    4340820
+   ],
+   "tier": "reverted",
+   "score": 3.298301,
+   "claim_en": null
+  }
+ ],
+ "failures": [],
+ "cost": {
+  "requests": 4,
+  "jobs": 1,
+  "seconds_total": 3.6,
+  "seconds_per_request": 0.91,
+  "seconds_max": 1.07,
+  "llm_calls": 0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "sql_queries": 4,
+  "cost_usd": 0.0
+ }
+}

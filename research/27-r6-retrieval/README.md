@@ -68,6 +68,11 @@ dev (nDCG 0.41), equal on test (0.57) — unstable, not worth a stage. R5 claim 
 - recall@20 = 0.45: about half of the golden articles (many grade-1 "related") are not in the top 20; the signal
   stage only sees what retrieval returns.
 
+**Build status (cloud lane):** ported as `ExpandedTopicSearch` (`src/AmpersandOfTruth.Web/Features/Investigations/Pipeline/`),
+the app's default stage 1; the prompt file is a byte-identical copy, so research cache entries are reused. Not yet run against the
+corpus (the cloud lane has no corpus or Gemini key): the dev parity scorecard is the remaining step —
+`research/eval/run retrieval --name r6-app --out research/27-r6-retrieval/results --baseline research/24-r3-query/results/r3-d.dev.scorecard.json -- scripts/investigate.sh variant`.
+
 **Build (cloud lane, #27 "Build").** Port mode D (+ the scope verdict as a warning) into `TopicSearch`
 (`Features/Investigations/`): the `expand-topic` prompt into `Features/*/Prompts/`, the multi-query RRF, the fold, R1 as
 the fallback. Score it through the eval adapter against **`research/24-r3-query/results/r3-d.dev.scorecard.json`**

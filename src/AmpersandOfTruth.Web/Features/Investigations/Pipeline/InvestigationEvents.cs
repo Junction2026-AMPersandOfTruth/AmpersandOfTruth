@@ -19,7 +19,17 @@ public abstract record InvestigationEvent;
 
 /// <summary>Stage 1 done: articles closest to the topic, closest first. The real pipeline returns fi articles only (en/sv hits
 /// folded onto them); other runners may include other languages, which have no edit history.</summary>
-public sealed record ArticlesFound(int Count, IReadOnlyList<TopicArticle> Items) : InvestigationEvent;
+public sealed record ArticlesFound(int Count, IReadOnlyList<TopicArticle> Items) : InvestigationEvent
+{
+    /// <summary>The topic search's scope verdict (R6 #27). <c>InScope == false</c> → the UI warns and still shows the results.</summary>
+    public TopicScope? Scope { get; init; }
+
+    /// <summary>The search fell back to plain vector retrieval (LLM unavailable); such a run is not cached.</summary>
+    public bool SearchFallback { get; init; }
+
+    public static ArticlesFound From(TopicSearchResult r) =>
+        new(r.Articles.Count, r.Articles) { Scope = r.Scope, SearchFallback = r.Fallback };
+}
 
 /// <summary>
 /// Stage 2 done: <paramref name="Count"/> revisions of the found fi articles were scanned and these removed edits
