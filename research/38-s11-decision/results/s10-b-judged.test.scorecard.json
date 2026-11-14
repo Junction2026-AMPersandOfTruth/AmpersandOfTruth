@@ -1,0 +1,3736 @@
+{
+ "contract": 1,
+ "kind": "signals",
+ "variant": "s10-b-judged",
+ "split": "test",
+ "golden_version": "2026-11-14.1",
+ "dataset": "m-2026-10",
+ "git_commit": "d5779f50a2ef-dirty",
+ "ran_at": "2026-11-14T19:34:51Z",
+ "command": "research/eval/run signals --split test --name s10-b -- python3 research/37-s10-assembly/variant.py --mode B --sides off --edit-war-source s4 --assessments research/38-s11-decision/results/test-candidates.assess.carbon.jsonl",
+ "limit": 50,
+ "k": 20,
+ "partial": false,
+ "topics": 4,
+ "requests": 4,
+ "judgements_file": "research/38-s11-decision/results/test-union.judgements.jsonl",
+ "reviews_file": "research/38-s11-decision/results/test-union.reviews.jsonl",
+ "replayed_from": "research/38-s11-decision/results/s10-b.test.responses.jsonl",
+ "replayed_at": "2026-11-14T19:55:46Z",
+ "metrics": {
+  "strict_p@10": 0.85,
+  "strict_p@25": 0.530952380952381,
+  "lenient_p@10": 0.95,
+  "lenient_p@25": 0.9285714285714286,
+  "unlabelled@10": 6.0,
+  "unlabelled@25": 18.75,
+  "strict_p@10_judged": 0.7749999999999999,
+  "strict_p@25_judged": 0.55,
+  "unjudged@10": 0,
+  "unjudged@25": 1,
+  "recall": 0.5384615384615384,
+  "level_accuracy": 0.5384615384615384,
+  "overclaim_rate": 0.38461538461538464,
+  "duplicates": 1,
+  "quiet_shown": 0,
+  "quiet_contested_or_above": 0,
+  "seconds_per_topic": 13.46,
+  "llm_calls": 230,
+  "input_tokens": 586886,
+  "output_tokens": 88399
+ },
+ "per_topic": [
+  {
+   "id": "language-politics",
+   "topic_id": "language-politics",
+   "kind": "topic",
+   "shown": 26,
+   "seconds": 12.33,
+   "failed": false,
+   "outcomes": {
+    "campaign": 1,
+    "unlabelled": 21,
+    "contested": 2,
+    "reverted": 2
+   },
+   "strict_p@10": 1.0,
+   "lenient_p@10": 1.0,
+   "unlabelled@10": 7,
+   "strict_p@10_judged": 0.8,
+   "unjudged@10": 0,
+   "strict_p@25": 0.6,
+   "lenient_p@25": 1.0,
+   "unlabelled@25": 20,
+   "strict_p@25_judged": 0.48,
+   "unjudged@25": 0,
+   "expected": 7,
+   "found": [
+    "language-politics/i01",
+    "language-politics/i05",
+    "language-politics/i06"
+   ],
+   "missed": [
+    "language-politics/i02",
+    "language-politics/i03",
+    "language-politics/i04",
+    "language-politics/i07"
+   ],
+   "matched": 5,
+   "level_correct": 4,
+   "overclaims": 1,
+   "duplicates": 0,
+   "shown_contested_or_above": 14,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "1397224+1434614+1770495+2902007+2902141+2902498+2952340+2964191+3006937+3007149+3007225+3007249",
+     "page_id": 255,
+     "tier": "campaign",
+     "outcome": "campaign",
+     "item_id": "language-politics/i01"
+    },
+    {
+     "rank": 2,
+     "key": "1888632+1888640+1901309+1901484",
+     "page_id": 200797,
+     "tier": "campaign",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 3,
+     "key": "1399005+1399017+1400555+1402116+1402247+1402344+1402566+1402894+1402902",
+     "page_id": 200797,
+     "tier": "campaign",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 4,
+     "key": "2883170+2883466+2883481+2883547",
+     "page_id": 72145,
+     "tier": "campaign",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 5,
+     "key": "1393289+1398365+1398910",
+     "page_id": 200797,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 6,
+     "key": "8384609+8386131",
+     "page_id": 200797,
+     "tier": "contested",
+     "outcome": "contested",
+     "item_id": "language-politics/i06"
+    },
+    {
+     "rank": 7,
+     "key": "1886222+1886266",
+     "page_id": 200797,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 8,
+     "key": "8443343+8443386",
+     "page_id": 202404,
+     "tier": "contested",
+     "outcome": "contested",
+     "item_id": "language-politics/i05"
+    },
+    {
+     "rank": 9,
+     "key": "22346053+22346056+22346063+22346068",
+     "page_id": 72145,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 10,
+     "key": "2047962+2047965+2047975",
+     "page_id": 255,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "2780795",
+     "page_id": 72145,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 12,
+     "key": "3419307+3419311+3419337+3419348",
+     "page_id": 255,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 13,
+     "key": "2824300",
+     "page_id": 72145,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "2074977",
+     "page_id": 255,
+     "tier": "contested",
+     "outcome": "reverted",
+     "item_id": "language-politics/i11"
+    },
+    {
+     "rank": 15,
+     "key": "17665265+17671197",
+     "page_id": 72145,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "3192218",
+     "page_id": 53740,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "731580",
+     "page_id": 53740,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "3404305",
+     "page_id": 53740,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "1359428",
+     "page_id": 53740,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "8607498+8607500+8607514",
+     "page_id": 53740,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 21,
+     "key": "15198057+15198060",
+     "page_id": 109236,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "language-politics/i08"
+    },
+    {
+     "rank": 22,
+     "key": "17612864",
+     "page_id": 11634,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "19638769",
+     "page_id": 1549193,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 24,
+     "key": "23327984",
+     "page_id": 1623503,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 25,
+     "key": "10626469",
+     "page_id": 11634,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 26,
+     "key": "13200313",
+     "page_id": 255,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  },
+  {
+   "id": "sami-prehistory",
+   "topic_id": "sami-prehistory",
+   "kind": "topic",
+   "shown": 40,
+   "seconds": 12.02,
+   "failed": false,
+   "outcomes": {
+    "campaign": 1,
+    "reverted": 2,
+    "contested": 3,
+    "unlabelled": 34
+   },
+   "strict_p@10": 0.8,
+   "lenient_p@10": 1.0,
+   "unlabelled@10": 5,
+   "strict_p@10_judged": 0.8,
+   "unjudged@10": 0,
+   "strict_p@25": 0.6666666666666666,
+   "lenient_p@25": 1.0,
+   "unlabelled@25": 19,
+   "strict_p@25_judged": 0.52,
+   "unjudged@25": 1,
+   "expected": 9,
+   "found": [
+    "sami-prehistory/i01",
+    "sami-prehistory/i03",
+    "sami-prehistory/i04",
+    "sami-prehistory/i05"
+   ],
+   "missed": [
+    "sami-prehistory/i02",
+    "sami-prehistory/i06",
+    "sami-prehistory/i07",
+    "sami-prehistory/i08",
+    "sami-prehistory/i09"
+   ],
+   "matched": 6,
+   "level_correct": 5,
+   "overclaims": 1,
+   "duplicates": 0,
+   "shown_contested_or_above": 15,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "16917076+16917077+16918614+16920192+17123375+17123380",
+     "page_id": 997401,
+     "tier": "campaign",
+     "outcome": "campaign",
+     "item_id": "sami-prehistory/i01"
+    },
+    {
+     "rank": 2,
+     "key": "824661+824717+824725+824731+824740+824744+824936+824943+824950+824953+824957+824959+824961+824963",
+     "page_id": 20813,
+     "tier": "campaign",
+     "outcome": "reverted",
+     "item_id": "sami-prehistory/i10"
+    },
+    {
+     "rank": 3,
+     "key": "13315464+13407096+13437781+13437783+13437786+13437789+13440838+13442165",
+     "page_id": 1100,
+     "tier": "contested",
+     "outcome": "contested",
+     "item_id": "sami-prehistory/i03"
+    },
+    {
+     "rank": 4,
+     "key": "20024970+20024973+20025251+20025696",
+     "page_id": 7283,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 5,
+     "key": "8265119+8266274",
+     "page_id": 1100,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 6,
+     "key": "8197608",
+     "page_id": 1100,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 7,
+     "key": "407493",
+     "page_id": 1100,
+     "tier": "contested",
+     "outcome": "contested",
+     "item_id": "sami-prehistory/i04"
+    },
+    {
+     "rank": 8,
+     "key": "3595309+3611225",
+     "page_id": 1100,
+     "tier": "contested",
+     "outcome": "contested",
+     "item_id": "sami-prehistory/i05"
+    },
+    {
+     "rank": 9,
+     "key": "24292773",
+     "page_id": 1096144,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 10,
+     "key": "19945223",
+     "page_id": 22508,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "23233577",
+     "page_id": 22508,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 12,
+     "key": "6383688",
+     "page_id": 8905,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 13,
+     "key": "18425919+18425920+18425921+18425922",
+     "page_id": 7283,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "22741016",
+     "page_id": 1096144,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 15,
+     "key": "20023522",
+     "page_id": 624151,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "8303722+8303748+8303749+8303792+8303797+8303823+8303827+8303828+8303836+8303841+8303860+8303862+8303991+8304095+15912106+16070911+16715189",
+     "page_id": 7283,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "16920612+16924001+16936098+16939646+17017711+17017714+17044107+17051591+17100871",
+     "page_id": 7283,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "16935955+17026978",
+     "page_id": 997401,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "16029887+16029951+16029953",
+     "page_id": 997401,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "sami-prehistory/i11"
+    },
+    {
+     "rank": 20,
+     "key": "19755782+19755790+19755857",
+     "page_id": 20813,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 21,
+     "key": "21927489+21928013",
+     "page_id": 7283,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 22,
+     "key": "9516933",
+     "page_id": 20813,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "21123051",
+     "page_id": 8905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 24,
+     "key": "23991266+23991577+23991583",
+     "page_id": 1096144,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 25,
+     "key": "1976343",
+     "page_id": 20813,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 26,
+     "key": "22680763+22680834",
+     "page_id": 72966,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "23680740",
+     "page_id": 1096144,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 28,
+     "key": "1167154",
+     "page_id": 20813,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 29,
+     "key": "16621708",
+     "page_id": 22508,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 30,
+     "key": "24282606",
+     "page_id": 1096144,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 31,
+     "key": "22617161",
+     "page_id": 1373598,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 32,
+     "key": "19731118+19731133+19731137+19731218+19731229",
+     "page_id": 8905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "6396980",
+     "page_id": 378020,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "18625121",
+     "page_id": 8905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 35,
+     "key": "3735742",
+     "page_id": 8905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "22096058+22096059",
+     "page_id": 22508,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 37,
+     "key": "22993320",
+     "page_id": 72966,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 38,
+     "key": "20060126",
+     "page_id": 22508,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 39,
+     "key": "22969633+22969636",
+     "page_id": 997401,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 40,
+     "key": "20272904",
+     "page_id": 997401,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  },
+  {
+   "id": "far-right",
+   "topic_id": "far-right",
+   "kind": "topic",
+   "shown": 50,
+   "seconds": 14.86,
+   "failed": false,
+   "outcomes": {
+    "contested": 3,
+    "unlabelled": 42,
+    "reverted": 3,
+    "duplicate": 1,
+    "campaign": 1
+   },
+   "strict_p@10": 0.6,
+   "lenient_p@10": 0.8,
+   "unlabelled@10": 5,
+   "strict_p@10_judged": 0.7,
+   "unjudged@10": 0,
+   "strict_p@25": 0.42857142857142855,
+   "lenient_p@25": 0.8571428571428571,
+   "unlabelled@25": 18,
+   "strict_p@25_judged": 0.76,
+   "unjudged@25": 0,
+   "expected": 7,
+   "found": [
+    "far-right/i01",
+    "far-right/i03",
+    "far-right/i04",
+    "far-right/i05"
+   ],
+   "missed": [
+    "far-right/i02",
+    "far-right/i06",
+    "far-right/i07"
+   ],
+   "matched": 7,
+   "level_correct": 0,
+   "overclaims": 5,
+   "duplicates": 1,
+   "shown_contested_or_above": 25,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "2601735+2601743+2601748+2658330+2658341+2659125+2659193+2659231+2659237+2659601+2659633+2659665+2659727+2659736+2659741+2659763+2659784+2662512+2662516+2662591+2662603+2663378+2663385+2669840+2669841+2935368",
+     "page_id": 11537,
+     "tier": "campaign",
+     "outcome": "contested",
+     "item_id": "far-right/i04"
+    },
+    {
+     "rank": 2,
+     "key": "22871429+23209952+23778722+23779148",
+     "page_id": 1679936,
+     "tier": "campaign",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 3,
+     "key": "17685056+17685194+17685392+17685911+17685978+17685995+17686010+17693227+17693874+17694013+17696230+17703751+17703752+17703899+17712224+17712228+17712231+17718272+17729471",
+     "page_id": 1395607,
+     "tier": "campaign",
+     "outcome": "reverted",
+     "item_id": "far-right/i10"
+    },
+    {
+     "rank": 4,
+     "key": "18392075+18396968+18480943+18513639+18518408",
+     "page_id": 1445320,
+     "tier": "campaign",
+     "outcome": "contested",
+     "item_id": "far-right/i05"
+    },
+    {
+     "rank": 5,
+     "key": "18372280+18372282+18372283+18391571+18391590+18392074",
+     "page_id": 1445320,
+     "tier": "contested",
+     "outcome": "duplicate",
+     "item_id": "far-right/i05",
+     "duplicate_of": 4
+    },
+    {
+     "rank": 6,
+     "key": "19396031+19396034+19452238+19452725",
+     "page_id": 1445320,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 7,
+     "key": "20992269+21010471+21010838+21010855+21010865+21010876",
+     "page_id": 17808,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 8,
+     "key": "17769622+17769627+17769628+17769632+17769633+17769635+17769637",
+     "page_id": 1395607,
+     "tier": "contested",
+     "outcome": "campaign",
+     "item_id": "far-right/i01"
+    },
+    {
+     "rank": 9,
+     "key": "23953278+23956829",
+     "page_id": 1679936,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 10,
+     "key": "17684504+17684522+17684533+17684542+17685019",
+     "page_id": 1445320,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "17701488+17703758+17703898+17713003",
+     "page_id": 1445320,
+     "tier": "contested",
+     "outcome": "reverted",
+     "item_id": "far-right/i11"
+    },
+    {
+     "rank": 12,
+     "key": "16006354+16006356+16006358+16006359+16006360+16012724",
+     "page_id": 1324148,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 13,
+     "key": "17577450",
+     "page_id": 1395607,
+     "tier": "contested",
+     "outcome": "reverted",
+     "item_id": "far-right/i12"
+    },
+    {
+     "rank": 14,
+     "key": "21010488+21010844+21010860",
+     "page_id": 11477,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 15,
+     "key": "24163635+24164979",
+     "page_id": 1679936,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "15955577+15955580+15955584+15955838+15955840",
+     "page_id": 981456,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "15420673+15420739+15420743",
+     "page_id": 1105958,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "16702708+16702713+16714697+16714705",
+     "page_id": 981456,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "16551967+16552157",
+     "page_id": 41622,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "13916771",
+     "page_id": 1072792,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 21,
+     "key": "15962814",
+     "page_id": 981456,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 22,
+     "key": "16880713+16880714",
+     "page_id": 1395607,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "18140345",
+     "page_id": 1105958,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 24,
+     "key": "13775750+13776082",
+     "page_id": 1072792,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 25,
+     "key": "21027367+21029707",
+     "page_id": 1105958,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 26,
+     "key": "10033522+14199100+14731555+14826624+15234759+15234761+15234763+16035342+16037500+23781880",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "9466285+9466286+9466324+9466347+9466350+9466354+9466357",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 28,
+     "key": "16387045+16387048+16387097+16402585",
+     "page_id": 981456,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 29,
+     "key": "15627394+15627396+15653429",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 30,
+     "key": "11051536+11051542+11051554+11051556+11052385",
+     "page_id": 981456,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 31,
+     "key": "16545289+16545295+16545430",
+     "page_id": 1370905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 32,
+     "key": "2669845+2669847+2669849",
+     "page_id": 11537,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "16335202+16335233",
+     "page_id": 1370905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "20295712+20295746+20295770+20313098",
+     "page_id": 1679936,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 35,
+     "key": "20374306",
+     "page_id": 1324148,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "334369+334384",
+     "page_id": 17808,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 37,
+     "key": "20812244+20812380",
+     "page_id": 1105958,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 38,
+     "key": "15985211+15985213+15985218+15985220",
+     "page_id": 1324148,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 39,
+     "key": "2708917",
+     "page_id": 11537,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 40,
+     "key": "16319195",
+     "page_id": 1370905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 41,
+     "key": "17684991+17684993+17685025",
+     "page_id": 1395607,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 42,
+     "key": "16387557",
+     "page_id": 41622,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 43,
+     "key": "16782760",
+     "page_id": 1370905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 44,
+     "key": "16700371+16715872",
+     "page_id": 17808,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 45,
+     "key": "16874609",
+     "page_id": 1370905,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 46,
+     "key": "18933265",
+     "page_id": 93295,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 47,
+     "key": "21024113",
+     "page_id": 1105958,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "far-right/i03"
+    },
+    {
+     "rank": 48,
+     "key": "22730548",
+     "page_id": 1679936,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 49,
+     "key": "13590491",
+     "page_id": 1072792,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 50,
+     "key": "13590399",
+     "page_id": 1072792,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  },
+  {
+   "id": "national-myths",
+   "topic_id": "national-myths",
+   "kind": "topic",
+   "shown": 38,
+   "seconds": 14.65,
+   "failed": false,
+   "outcomes": {
+    "campaign": 1,
+    "unlabelled": 30,
+    "contested": 2,
+    "reverted": 3,
+    "not-incident": 2
+   },
+   "strict_p@10": 1.0,
+   "lenient_p@10": 1.0,
+   "unlabelled@10": 7,
+   "strict_p@10_judged": 0.8,
+   "unjudged@10": 0,
+   "strict_p@25": 0.42857142857142855,
+   "lenient_p@25": 0.8571428571428571,
+   "unlabelled@25": 18,
+   "strict_p@25_judged": 0.44,
+   "unjudged@25": 0,
+   "expected": 3,
+   "found": [
+    "language-politics/i01",
+    "national-myths/i01",
+    "national-myths/i02"
+   ],
+   "missed": [],
+   "matched": 8,
+   "level_correct": 5,
+   "overclaims": 3,
+   "duplicates": 0,
+   "shown_contested_or_above": 14,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "1397224+1434614+1770495+2902007+2902141+2902498+2952340+2964191+3006937+3007149+3007225+3007249",
+     "page_id": 255,
+     "tier": "campaign",
+     "outcome": "campaign",
+     "item_id": "language-politics/i01"
+    },
+    {
+     "rank": 2,
+     "key": "2136042+2136098+2136106+2428689",
+     "page_id": 498,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 3,
+     "key": "11756612+11759235+11759822+11762945",
+     "page_id": 57277,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 4,
+     "key": "2138193+2138403+2138438",
+     "page_id": 498,
+     "tier": "contested",
+     "outcome": "contested",
+     "item_id": "national-myths/i02"
+    },
+    {
+     "rank": 5,
+     "key": "2133944+2133986+2134016",
+     "page_id": 498,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 6,
+     "key": "13451782+13456063+13460551",
+     "page_id": 57277,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 7,
+     "key": "2160149+2160170+2163259+2163261",
+     "page_id": 13959,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 8,
+     "key": "2434386+2434506+2434565+2435056+2435060+2435116+2435126",
+     "page_id": 498,
+     "tier": "contested",
+     "outcome": "contested",
+     "item_id": "national-myths/i01"
+    },
+    {
+     "rank": 9,
+     "key": "2210398+2210407+2217183",
+     "page_id": 19873,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 10,
+     "key": "2047962+2047965+2047975",
+     "page_id": 255,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "8267842",
+     "page_id": 498,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 12,
+     "key": "3419307+3419311+3419337+3419348",
+     "page_id": 255,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 13,
+     "key": "16168879",
+     "page_id": 13182,
+     "tier": "contested",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "2074977",
+     "page_id": 255,
+     "tier": "contested",
+     "outcome": "reverted",
+     "item_id": "language-politics/i11"
+    },
+    {
+     "rank": 15,
+     "key": "11776232+11776386+11777947+11778479+11778480+11778745+11780042+11801593+11803595+11805561+11807500+20378702+20383728+20392340+20394872+20395300",
+     "page_id": 57277,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "11779610",
+     "page_id": 57277,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "11763589+11764963+11766443+11766523+11766527",
+     "page_id": 57277,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "20783922+20788299+20788304",
+     "page_id": 13182,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "national-myths/i03"
+    },
+    {
+     "rank": 19,
+     "key": "18535393",
+     "page_id": 38257,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "5668788",
+     "page_id": 13959,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 21,
+     "key": "16054174",
+     "page_id": 14460,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "national-myths/n01"
+    },
+    {
+     "rank": 22,
+     "key": "4620006",
+     "page_id": 13959,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "4444563+4444570",
+     "page_id": 13182,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "national-myths/i07"
+    },
+    {
+     "rank": 24,
+     "key": "14586055+14586056",
+     "page_id": 13182,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 25,
+     "key": "4444554",
+     "page_id": 13182,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 26,
+     "key": "2176625",
+     "page_id": 13959,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "16066372",
+     "page_id": 14460,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "national-myths/n09"
+    },
+    {
+     "rank": 28,
+     "key": "16096416+16096422+16096423",
+     "page_id": 13959,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 29,
+     "key": "12970183+12970226",
+     "page_id": 38257,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 30,
+     "key": "19638769",
+     "page_id": 1549193,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 31,
+     "key": "13200313",
+     "page_id": 255,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 32,
+     "key": "7620187",
+     "page_id": 38257,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "9852256",
+     "page_id": 14460,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "16865465+16865466+16865477",
+     "page_id": 14460,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 35,
+     "key": "1841797",
+     "page_id": 14460,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "5869104",
+     "page_id": 38257,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 37,
+     "key": "18808155",
+     "page_id": 72450,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 38,
+     "key": "18759654",
+     "page_id": 19873,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  }
+ ],
+ "best": [
+  {
+   "kind": "true_positive",
+   "unit": "far-right",
+   "rank": 1,
+   "tier": "campaign",
+   "item_id": "far-right/i04",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 11537,
+   "description": "Rewrites the IKL lead as a 'far-right fascist party that took many influences from German National Socialism and European fascism' and says its black-shirt uniform had a swastika armband 'like the Nazis'."
+  },
+  {
+   "kind": "true_positive",
+   "unit": "language-politics",
+   "rank": 1,
+   "tier": "campaign",
+   "item_id": "language-politics/i01",
+   "label": "campaign",
+   "exclusion": null,
+   "page_id": 255,
+   "description": "Adds a section 'Fennomania in the internet era': the term now means opponents of compulsory Swedish, some of whom 'oppose anything with even a hint of Swedishness'."
+  },
+  {
+   "kind": "true_positive",
+   "unit": "sami-prehistory",
+   "rank": 1,
+   "tier": "campaign",
+   "item_id": "sami-prehistory/i01",
+   "label": "campaign",
+   "exclusion": null,
+   "page_id": 997401,
+   "description": "Adds paragraphs, cited to one magazine article, saying the Sámi are not more indigenous than the Finns, that prehistoric people cannot be divided into Sámi and Finns, that Sámi identity is under 100 years old and that 'Sápmi' was invented in the 1980s."
+  },
+  {
+   "kind": "true_positive",
+   "unit": "sami-prehistory",
+   "rank": 3,
+   "tier": "contested",
+   "item_id": "sami-prehistory/i03",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 1100,
+   "description": "Rewrites the etymology of 'kuningas' so the Germanic-loan origin is only 'claimed', argues the word was used in Finland before Germanic influence, and alters the wording of a quoted source."
+  },
+  {
+   "kind": "true_positive",
+   "unit": "far-right",
+   "rank": 4,
+   "tier": "campaign",
+   "item_id": "far-right/i05",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 1445320,
+   "description": "Replaces the SKE board in the infobox with the rival board elected in 2019 and adds a signed note that the PRH removed de Wit's signing rights; later adds that the Tampere district court backed the new board (YouTube source)."
+  }
+ ],
+ "worst": [
+  {
+   "kind": "missed",
+   "unit": "sami-prehistory",
+   "rank": null,
+   "tier": null,
+   "item_id": "sami-prehistory/i02",
+   "label": "campaign",
+   "exclusion": null,
+   "page_id": 1096144,
+   "description": "Turns the redirect 'Metsäsaamelaiset' into an article stating that the Forest Sámi are one of the (four) Sámi groups living in Finland and were refused the Sámi Parliament electoral roll because they lost their language."
+  },
+  {
+   "kind": "missed",
+   "unit": "far-right",
+   "rank": null,
+   "tier": null,
+   "item_id": "far-right/i02",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 1395607,
+   "description": "Recasts de Wit's 'Laiton lehti?' publication as a 'vulgar nationalist blog' and adds that he became known for transporting corpses on a van floor (Yle MOT story, cited) and that his partner sits on the SKE board as treasurer."
+  },
+  {
+   "kind": "missed",
+   "unit": "far-right",
+   "rank": null,
+   "tier": null,
+   "item_id": "far-right/i06",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 11477,
+   "description": "Adds a paragraph saying the Lapua movement's first meetings were in Swedish-speaking parishes, that its Swedish-speaking support 'has been more or less hushed up', and that Swedish-speaking nobles in it looked down on Finnish."
+  },
+  {
+   "kind": "missed",
+   "unit": "far-right",
+   "rank": null,
+   "tier": null,
+   "item_id": "far-right/i07",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 1445320,
+   "description": "Changes the SKE infobox title of its secretary from 'party secretary' to 'secretary', on the grounds that SKE was not yet a registered party."
+  },
+  {
+   "kind": "missed",
+   "unit": "language-politics",
+   "rank": null,
+   "tier": null,
+   "item_id": "language-politics/i02",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 200797,
+   "description": "Adds that Freudenthal called Finns an inferior 'Turanian' people, a medal section tying the SFP's Freudenthal medal to compulsory Swedish, and (in later versions) that the SFP never disowned his 'racist doctrines'."
+  }
+ ],
+ "unlabelled": [
+  {
+   "key": "1888632+1888640+1901309+1901484",
+   "topic_id": "language-politics",
+   "rank": 2,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    1888632,
+    1888640,
+    1901309,
+    1901484
+   ],
+   "removing_rev_ids": [
+    1895436,
+    1901316,
+    1901498
+   ],
+   "tier": "campaign",
+   "score": 321.377649,
+   "claim_en": "Finnish nationalists opposed racial oppression everywhere and rejected racial theories."
+  },
+  {
+   "key": "1399005+1399017+1400555+1402116+1402247+1402344+1402566+1402894+1402902",
+   "topic_id": "language-politics",
+   "rank": 3,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    1399005,
+    1399017,
+    1400555,
+    1402116,
+    1402247,
+    1402344,
+    1402566,
+    1402894,
+    1402902
+   ],
+   "removing_rev_ids": [
+    1399034,
+    1400591,
+    1402591,
+    1402950
+   ],
+   "tier": "campaign",
+   "score": 317.543705,
+   "claim_en": "Axel Olof Freudenthal's views on Finnish speakers were negative and based on 19th-century racial ideas, while unsourced claims framing modern Swedish People's Party awards and language policy as 'Freudenthalist racism' should be omitted or marked disputed."
+  },
+  {
+   "key": "2883170+2883466+2883481+2883547",
+   "topic_id": "language-politics",
+   "rank": 4,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    2883170,
+    2883466,
+    2883481,
+    2883547
+   ],
+   "removing_rev_ids": [
+    2883560
+   ],
+   "tier": "campaign",
+   "score": 314.796646,
+   "claim_en": "Following parliamentary written questions accusing the Association of Finnish Culture and Identity of ethnic agitation, the Finnish Government concluded that the association had committed no crime, while broader criticism of the association stems from its leadership's radical statements and activities rather than its program alone."
+  },
+  {
+   "key": "1393289+1398365+1398910",
+   "topic_id": "language-politics",
+   "rank": 5,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    1393289,
+    1398365,
+    1398910
+   ],
+   "removing_rev_ids": [
+    1395449,
+    1398378,
+    1398964
+   ],
+   "tier": "contested",
+   "score": 220.321164,
+   "claim_en": "Axel Olof Freudenthal promoted racial doctrines holding that the Swedish-speaking upper class belonged to a Swedish master race while Finns were an inferior, dim-witted, and barbaric Turanian race incapable of creating culture independently."
+  },
+  {
+   "key": "1886222+1886266",
+   "topic_id": "language-politics",
+   "rank": 7,
+   "page_id": 200797,
+   "inserting_rev_ids": [
+    1886222,
+    1886266
+   ],
+   "removing_rev_ids": [
+    1886238,
+    1886327
+   ],
+   "tier": "contested",
+   "score": 215.723134,
+   "claim_en": "Nineteenth-century defenders of Finnish speakers also participated in racial hierarchies, while Freudenthal's racial theories reflected common contemporary European attitudes used to justify colonialism."
+  },
+  {
+   "key": "22346053+22346056+22346063+22346068",
+   "topic_id": "language-politics",
+   "rank": 9,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    22346053,
+    22346056,
+    22346063,
+    22346068
+   ],
+   "removing_rev_ids": [
+    22347809
+   ],
+   "tier": "contested",
+   "score": 215.185278,
+   "claim_en": "Past criticism and funding controversies regarding Suomalaisuuden Liitto are outdated or irrelevant, and the organisation focuses on non-discriminatory cultural preservation and selling flag products rather than anti-Swedish bigotry or anti-immigration."
+  },
+  {
+   "key": "2047962+2047965+2047975",
+   "topic_id": "language-politics",
+   "rank": 10,
+   "page_id": 255,
+   "inserting_rev_ids": [
+    2047962,
+    2047965,
+    2047975
+   ],
+   "removing_rev_ids": [
+    2074977
+   ],
+   "tier": "contested",
+   "score": 212.054812,
+   "claim_en": "18th-century Fennophile figures should be referred to by their established Swedish/Latinate names (such as Daniel rather than Taneli) without Finnish-language patronymic glosses."
+  },
+  {
+   "key": "2780795",
+   "topic_id": "language-politics",
+   "rank": 11,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    2780795
+   ],
+   "removing_rev_ids": [
+    2780817
+   ],
+   "tier": "contested",
+   "score": 211.635226,
+   "claim_en": "A declaration by the Association of Finnish Culture and Identity proves that Enestam's accusations of fascism were completely unfounded."
+  },
+  {
+   "key": "3419307+3419311+3419337+3419348",
+   "topic_id": "language-politics",
+   "rank": 12,
+   "page_id": 255,
+   "inserting_rev_ids": [
+    3419307,
+    3419311,
+    3419337,
+    3419348
+   ],
+   "removing_rev_ids": [
+    3419384
+   ],
+   "tier": "contested",
+   "score": 211.14415,
+   "claim_en": "In 18th-century Sweden, isolated proposals were made to assimilate Finnish commoners and eradicate the Finnish language without leading to action, while monolingual Swedish-speaking officials' lack of Finnish skills was frequently seen as a problem despite state promises to consider language skills in appointments."
+  },
+  {
+   "key": "2824300",
+   "topic_id": "language-politics",
+   "rank": 13,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    2824300
+   ],
+   "removing_rev_ids": [
+    2824305
+   ],
+   "tier": "contested",
+   "score": 210.481464,
+   "claim_en": "The Association of Finnish Culture and Identity responded to criticism of its narrow-mindedness by arguing that Finns should have the right to live in Finland without mandatory Swedish as part of accepting multiculturalism and diversity in EU-Finland."
+  },
+  {
+   "key": "17665265+17671197",
+   "topic_id": "language-politics",
+   "rank": 15,
+   "page_id": 72145,
+   "inserting_rev_ids": [
+    17665265,
+    17671197
+   ],
+   "removing_rev_ids": [
+    17705210
+   ],
+   "tier": "reverted",
+   "score": 112.394226,
+   "claim_en": null
+  },
+  {
+   "key": "3192218",
+   "topic_id": "language-politics",
+   "rank": 16,
+   "page_id": 53740,
+   "inserting_rev_ids": [
+    3192218
+   ],
+   "removing_rev_ids": [
+    3197367
+   ],
+   "tier": "reverted",
+   "score": 111.007076,
+   "claim_en": "Svecomania has not completely disappeared, as the Swedish People's Party still honors Axel Olof Freudenthal as a spiritual father with medals named after him, and contemporary activists continue the tradition."
+  },
+  {
+   "key": "731580",
+   "topic_id": "language-politics",
+   "rank": 17,
+   "page_id": 53740,
+   "inserting_rev_ids": [
+    731580
+   ],
+   "removing_rev_ids": [
+    731590
+   ],
+   "tier": "reverted",
+   "score": 110.59576,
+   "claim_en": "The contemporary equivalent of a Svecoman is a 'pakkoruotsittaja' (enforcer of mandatory Swedish), a label applying to politicians such as Tarja Halonen, Paavo Lipponen, and Johannes Virolainen who allegedly pushed through mandatory Swedish education and language laws over quality teaching, impact assessments, and expert opinions."
+  },
+  {
+   "key": "3404305",
+   "topic_id": "language-politics",
+   "rank": 18,
+   "page_id": 53740,
+   "inserting_rev_ids": [
+    3404305
+   ],
+   "removing_rev_ids": [
+    3406229
+   ],
+   "tier": "reverted",
+   "score": 110.160847,
+   "claim_en": "Svecomania did not completely die out, and the radical views of contemporary activists like Ida Asplund regarding relations between Swedish-speaking Finns and the linguistic majority can be considered remnants of it."
+  },
+  {
+   "key": "1359428",
+   "topic_id": "language-politics",
+   "rank": 19,
+   "page_id": 53740,
+   "inserting_rev_ids": [
+    1359428
+   ],
+   "removing_rev_ids": [
+    1397201
+   ],
+   "tier": "reverted",
+   "score": 109.996124,
+   "claim_en": "Axel Olof Freudenthal was a linguist and the spiritual father of the Swedish People's Party of Finland (RKP)."
+  },
+  {
+   "key": "8607498+8607500+8607514",
+   "topic_id": "language-politics",
+   "rank": 20,
+   "page_id": 53740,
+   "inserting_rev_ids": [
+    8607498,
+    8607500,
+    8607514
+   ],
+   "removing_rev_ids": [
+    8607543
+   ],
+   "tier": "reverted",
+   "score": 109.587712,
+   "claim_en": "Svecomans, like the Nazis later, used the term 'Aryan' unscientifically, though Svecomans claimed Aryans were dark-haired whereas Nazis claimed they were blonde."
+  },
+  {
+   "key": "17612864",
+   "topic_id": "language-politics",
+   "rank": 22,
+   "page_id": 11634,
+   "inserting_rev_ids": [
+    17612864
+   ],
+   "removing_rev_ids": [
+    17620495
+   ],
+   "tier": "reverted",
+   "score": 106.095726,
+   "claim_en": "The Finnish Party was a predecessor of, and its members transitioned in 1918 into, the National Coalition Party under its historical name Kansallinen Kokoomuspuolue."
+  },
+  {
+   "key": "19638769",
+   "topic_id": "language-politics",
+   "rank": 23,
+   "page_id": 1549193,
+   "inserting_rev_ids": [
+    19638769
+   ],
+   "removing_rev_ids": [
+    19639259
+   ],
+   "tier": "reverted",
+   "score": 105.979873,
+   "claim_en": "In 2020, a youth action group called Uudenmaan akseli was founded under Suomen Sisu."
+  },
+  {
+   "key": "23327984",
+   "topic_id": "language-politics",
+   "rank": 24,
+   "page_id": 1623503,
+   "inserting_rev_ids": [
+    23327984
+   ],
+   "removing_rev_ids": [
+    23350684
+   ],
+   "tier": "reverted",
+   "score": 105.969951,
+   "claim_en": "Ruins of Russian fortifications in Åland exist in multiple locations, with Boxö island being one example."
+  },
+  {
+   "key": "10626469",
+   "topic_id": "language-politics",
+   "rank": 25,
+   "page_id": 11634,
+   "inserting_rev_ids": [
+    10626469
+   ],
+   "removing_rev_ids": [
+    10626472
+   ],
+   "tier": "reverted",
+   "score": 105.43246,
+   "claim_en": "Today in Finland there are two registered associations named Suomalainen Puolue, one founded in Vantaa and another founded in Nivala in 2006 by former members of the Independence Party who split over participating in the 2009 European Parliament election."
+  },
+  {
+   "key": "13200313",
+   "topic_id": "language-politics",
+   "rank": 26,
+   "page_id": 255,
+   "inserting_rev_ids": [
+    13200313
+   ],
+   "removing_rev_ids": [
+    13200419
+   ],
+   "tier": "reverted",
+   "score": 105.391494,
+   "claim_en": "Fennomania is closely related to general concepts of nationalism construction, such as invented traditions, imagined communities, statuomania, and cultural canons."
+  },
+  {
+   "key": "20024970+20024973+20025251+20025696",
+   "topic_id": "sami-prehistory",
+   "rank": 4,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    20024970,
+    20024973,
+    20025251,
+    20025696
+   ],
+   "removing_rev_ids": [
+    20024999,
+    20025259,
+    20025697
+   ],
+   "tier": "contested",
+   "score": 218.001837,
+   "claim_en": "The Sámi Parliament of Finland is controlled by descendants of 19th-century arrivals who systematically discriminate against Inari Sámi and Forest Sámi by excluding them from the electoral roll and denying their indigenous status."
+  },
+  {
+   "key": "8265119+8266274",
+   "topic_id": "sami-prehistory",
+   "rank": 5,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    8265119,
+    8266274
+   ],
+   "removing_rev_ids": [
+    8265133,
+    8266442
+   ],
+   "tier": "contested",
+   "score": 217.075977,
+   "claim_en": "The existence of 'Kuningas' as a personal name in medieval Finland does not preclude the existence of actual kings, just as 'King' exists as a surname in England despite England having had Iron Age monarchs."
+  },
+  {
+   "key": "8197608",
+   "topic_id": "sami-prehistory",
+   "rank": 6,
+   "page_id": 1100,
+   "inserting_rev_ids": [
+    8197608
+   ],
+   "removing_rev_ids": [
+    8200246
+   ],
+   "tier": "contested",
+   "score": 215.542822,
+   "claim_en": "Early Germanic and Nordic kings before the 10th century were merely elected war chiefs rather than autocratic or hereditary monarchs, and Finland had a comparable 'royal era'."
+  },
+  {
+   "key": "24292773",
+   "topic_id": "sami-prehistory",
+   "rank": 9,
+   "page_id": 1096144,
+   "inserting_rev_ids": [
+    24292773
+   ],
+   "removing_rev_ids": [
+    24293890
+   ],
+   "tier": "contested",
+   "score": 213.901566,
+   "claim_en": "Forest Sámi are reviving the Kemi Sámi language, starting with an upcoming Kemi Sámi ABC book."
+  },
+  {
+   "key": "19945223",
+   "topic_id": "sami-prehistory",
+   "rank": 10,
+   "page_id": 22508,
+   "inserting_rev_ids": [
+    19945223
+   ],
+   "removing_rev_ids": [
+    20006977
+   ],
+   "tier": "contested",
+   "score": 213.098037,
+   "claim_en": "The historical definition of 'lappalaiset' as nomadic hunter-gatherers outside agricultural areas is merely an older conception, and another view in the article is controversial."
+  },
+  {
+   "key": "23233577",
+   "topic_id": "sami-prehistory",
+   "rank": 11,
+   "page_id": 22508,
+   "inserting_rev_ids": [
+    23233577
+   ],
+   "removing_rev_ids": [
+    23238767
+   ],
+   "tier": "contested",
+   "score": 212.941065,
+   "claim_en": "Associating the term 'lappalaiset' with the Sámi belongs to the past, the term is derogatory when applied to the Sámi today, and it is uncertain whether historical mentions of 'lappalaiset' referred to Sámi ancestors at all."
+  },
+  {
+   "key": "6383688",
+   "topic_id": "sami-prehistory",
+   "rank": 12,
+   "page_id": 8905,
+   "inserting_rev_ids": [
+    6383688
+   ],
+   "removing_rev_ids": [
+    6383712
+   ],
+   "tier": "contested",
+   "score": 212.5806,
+   "claim_en": null
+  },
+  {
+   "key": "18425919+18425920+18425921+18425922",
+   "topic_id": "sami-prehistory",
+   "rank": 13,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    18425919,
+    18425920,
+    18425921,
+    18425922
+   ],
+   "removing_rev_ids": [
+    18426021
+   ],
+   "tier": "contested",
+   "score": 212.478738,
+   "claim_en": "The Sámi differ greatly in ethnic origin from Baltic Finns, as evidenced primarily by their small stature and distinct facial features."
+  },
+  {
+   "key": "22741016",
+   "topic_id": "sami-prehistory",
+   "rank": 14,
+   "page_id": 1096144,
+   "inserting_rev_ids": [
+    22741016
+   ],
+   "removing_rev_ids": [
+    22741097
+   ],
+   "tier": "contested",
+   "score": 212.420248,
+   "claim_en": "Forest Sámi are an established Sámi group in Finland with their own language, Kemi Sámi, which is being revitalised rather than extinct."
+  },
+  {
+   "key": "20023522",
+   "topic_id": "sami-prehistory",
+   "rank": 15,
+   "page_id": 624151,
+   "inserting_rev_ids": [
+    20023522
+   ],
+   "removing_rev_ids": [
+    20023529
+   ],
+   "tier": "contested",
+   "score": 211.087256,
+   "claim_en": "The Kemi Sámi (Forest Sámi) still exist today as a distinct people numbering approximately 5,000 to 15,000, with much of their culture preserved."
+  },
+  {
+   "key": "8303722+8303748+8303749+8303792+8303797+8303823+8303827+8303828+8303836+8303841+8303860+8303862+8303991+8304095+15912106+16070911+16715189",
+   "topic_id": "sami-prehistory",
+   "rank": 16,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    8303722,
+    8303748,
+    8303749,
+    8303792,
+    8303797,
+    8303823,
+    8303827,
+    8303828,
+    8303836,
+    8303841,
+    8303860,
+    8303862,
+    8303991,
+    8304095,
+    15912106,
+    16070911,
+    16715189
+   ],
+   "removing_rev_ids": [
+    8304114,
+    15912135,
+    16070929,
+    16715193
+   ],
+   "tier": "reverted",
+   "score": 121.773339,
+   "claim_en": null
+  },
+  {
+   "key": "16920612+16924001+16936098+16939646+17017711+17017714+17044107+17051591+17100871",
+   "topic_id": "sami-prehistory",
+   "rank": 17,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    16920612,
+    16924001,
+    16936098,
+    16939646,
+    17017711,
+    17017714,
+    17044107,
+    17051591,
+    17100871
+   ],
+   "removing_rev_ids": [
+    17123380
+   ],
+   "tier": "reverted",
+   "score": 120.211725,
+   "claim_en": "Three endangered Sámi languages—Northern, Inari, and Skolt Sámi—are spoken in Finland, and 75% of Sámi children under 10 live outside the Sámi homeland, while claims that Finns and Sámi are equally indigenous and recently differentiated should be omitted."
+  },
+  {
+   "key": "16935955+17026978",
+   "topic_id": "sami-prehistory",
+   "rank": 18,
+   "page_id": 997401,
+   "inserting_rev_ids": [
+    16935955,
+    17026978
+   ],
+   "removing_rev_ids": [
+    17123375
+   ],
+   "tier": "reverted",
+   "score": 114.895754,
+   "claim_en": null
+  },
+  {
+   "key": "19755782+19755790+19755857",
+   "topic_id": "sami-prehistory",
+   "rank": 20,
+   "page_id": 20813,
+   "inserting_rev_ids": [
+    19755782,
+    19755790,
+    19755857
+   ],
+   "removing_rev_ids": [
+    19755987
+   ],
+   "tier": "reverted",
+   "score": 111.810742,
+   "claim_en": "Modern Finns derive most of their genetic ancestry from Central Europe and earlier Germanic inhabitants rather than from Finno-Ugric-speaking migrants from the Volga–Oka–Kama region."
+  },
+  {
+   "key": "21927489+21928013",
+   "topic_id": "sami-prehistory",
+   "rank": 21,
+   "page_id": 7283,
+   "inserting_rev_ids": [
+    21927489,
+    21928013
+   ],
+   "removing_rev_ids": [
+    21928042
+   ],
+   "tier": "reverted",
+   "score": 111.4345,
+   "claim_en": "There are other state-recognized and self-declared indigenous peoples in Europe besides the Sámi, and the Sámi's status as an indigenous people with cultural autonomy is recognized in the Constitution of Finland."
+  },
+  {
+   "key": "9516933",
+   "topic_id": "sami-prehistory",
+   "rank": 22,
+   "page_id": 20813,
+   "inserting_rev_ids": [
+    9516933
+   ],
+   "removing_rev_ids": [
+    9519905
+   ],
+   "tier": "reverted",
+   "score": 111.330582,
+   "claim_en": "Western Finns are of Frankish descent, Franks inhabited Southwest Finland prior to Finns and named the Aura River after Franconian 'Aurach' rivers before adopting the Finnish language."
+  },
+  {
+   "key": "21123051",
+   "topic_id": "sami-prehistory",
+   "rank": 23,
+   "page_id": 8905,
+   "inserting_rev_ids": [
+    21123051
+   ],
+   "removing_rev_ids": [
+    21123177
+   ],
+   "tier": "reverted",
+   "score": 110.842633,
+   "claim_en": "Finland did not exist as a historical concept prior to being artificially invented in the 19th century by Swedish-speaking elites, and there is no historical evidence for the existence of a Finnish people or identity."
+  },
+  {
+   "key": "23991266+23991577+23991583",
+   "topic_id": "sami-prehistory",
+   "rank": 24,
+   "page_id": 1096144,
+   "inserting_rev_ids": [
+    23991266,
+    23991577,
+    23991583
+   ],
+   "removing_rev_ids": [
+    23996513
+   ],
+   "tier": "reverted",
+   "score": 110.228249,
+   "claim_en": "Forest Sámi are an official or established Sámi group in Finland, and Kemi Sámi is still spoken by some people and only erroneously considered extinct."
+  },
+  {
+   "key": "1976343",
+   "topic_id": "sami-prehistory",
+   "rank": 25,
+   "page_id": 20813,
+   "inserting_rev_ids": [
+    1976343
+   ],
+   "removing_rev_ids": [
+    1980948
+   ],
+   "tier": "reverted",
+   "score": 110.217682,
+   "claim_en": "Archaeology shows that no migrations to Finland took place, rendering the Volga bend homeland theory irrelevant and supported as possible only by a portion of linguists."
+  },
+  {
+   "key": "22680763+22680834",
+   "topic_id": "sami-prehistory",
+   "rank": 26,
+   "page_id": 72966,
+   "inserting_rev_ids": [
+    22680763,
+    22680834
+   ],
+   "removing_rev_ids": [
+    22680893
+   ],
+   "tier": "reverted",
+   "score": 109.721136,
+   "claim_en": "Tacitus's description of the Fenni aligns with Finnish wilderness tradition and gender equality research, representing a narrow but accurate view formed by foreign fur traders visiting temporary seasonal trading posts."
+  },
+  {
+   "key": "23680740",
+   "topic_id": "sami-prehistory",
+   "rank": 27,
+   "page_id": 1096144,
+   "inserting_rev_ids": [
+    23680740
+   ],
+   "removing_rev_ids": [
+    23680749
+   ],
+   "tier": "reverted",
+   "score": 109.550678,
+   "claim_en": "Forest Sámi vocabulary survived into the 20th century and up to the present day among elders, large-scale reindeer herding is the youngest Sámi livelihood, and Forest Sámi became recorded as settler farmers in tax registers after turning to agriculture when hunting declined."
+  },
+  {
+   "key": "1167154",
+   "topic_id": "sami-prehistory",
+   "rank": 28,
+   "page_id": 20813,
+   "inserting_rev_ids": [
+    1167154
+   ],
+   "removing_rev_ids": [
+    1167167
+   ],
+   "tier": "reverted",
+   "score": 109.350567,
+   "claim_en": "The Mesolithic Suomusjärvi, Kunda, and Swiderian cultures were already Finno-Ugric-speaking, meaning the linguistic ancestors of Finns arrived in Finland around 10,000 years ago immediately after the Ice Age."
+  },
+  {
+   "key": "16621708",
+   "topic_id": "sami-prehistory",
+   "rank": 29,
+   "page_id": 22508,
+   "inserting_rev_ids": [
+    16621708
+   ],
+   "removing_rev_ids": [
+    16621776
+   ],
+   "tier": "reverted",
+   "score": 109.189708,
+   "claim_en": "Karelians are traditionally identical to Lapps (lappalaiset)."
+  },
+  {
+   "key": "24282606",
+   "topic_id": "sami-prehistory",
+   "rank": 30,
+   "page_id": 1096144,
+   "inserting_rev_ids": [
+    24282606
+   ],
+   "removing_rev_ids": [
+    24282694
+   ],
+   "tier": "reverted",
+   "score": 109.18131,
+   "claim_en": "Forest Sámi have an ongoing revitalization project for their nearly extinct language and expect to publish a Kemi Sámi primer soon."
+  },
+  {
+   "key": "22617161",
+   "topic_id": "sami-prehistory",
+   "rank": 31,
+   "page_id": 1373598,
+   "inserting_rev_ids": [
+    22617161
+   ],
+   "removing_rev_ids": [
+    22617170
+   ],
+   "tier": "reverted",
+   "score": 108.7689,
+   "claim_en": "Sápmi is used as a primary name alongside Saamenmaa in Finnish, and the region encompasses Finnish Lapland, Northern Sweden, Central and Northern Norway, and Murmansk Oblast."
+  },
+  {
+   "key": "19731118+19731133+19731137+19731218+19731229",
+   "topic_id": "sami-prehistory",
+   "rank": 32,
+   "page_id": 8905,
+   "inserting_rev_ids": [
+    19731118,
+    19731133,
+    19731137,
+    19731218,
+    19731229
+   ],
+   "removing_rev_ids": [
+    19731276
+   ],
+   "tier": "reverted",
+   "score": 107.886224,
+   "claim_en": "An ancient language called \"paleojärvimaa\" (Palaeo-Lakelandic) was theorised to have been spoken in Finland, and ancient languages spoken in the region left traces in current place names as well as in Sámi and Finnish vocabularies."
+  },
+  {
+   "key": "6396980",
+   "topic_id": "sami-prehistory",
+   "rank": 33,
+   "page_id": 378020,
+   "inserting_rev_ids": [
+    6396980
+   ],
+   "removing_rev_ids": [
+    6396983
+   ],
+   "tier": "reverted",
+   "score": 107.850981,
+   "claim_en": "The Sámi people settled the entirety of Northern Europe."
+  },
+  {
+   "key": "18625121",
+   "topic_id": "sami-prehistory",
+   "rank": 34,
+   "page_id": 8905,
+   "inserting_rev_ids": [
+    18625121
+   ],
+   "removing_rev_ids": [
+    18625900
+   ],
+   "tier": "reverted",
+   "score": 107.64916,
+   "claim_en": "Ancient DNA indicates that the ancestors of the Sámi probably formed the original population of Finland, and Sámi languages were spoken across the region before the arrival of the ancestors of modern Finns."
+  },
+  {
+   "key": "3735742",
+   "topic_id": "sami-prehistory",
+   "rank": 35,
+   "page_id": 8905,
+   "inserting_rev_ids": [
+    3735742
+   ],
+   "removing_rev_ids": [
+    3743470
+   ],
+   "tier": "reverted",
+   "score": 107.562049,
+   "claim_en": "The archaeological dating of the Ristola and Orimattila sites is questionable, and a proposed 130,000–140,000-year timeline for dog domestication could push back the dating of Finno-Ugric peoples."
+  },
+  {
+   "key": "22096058+22096059",
+   "topic_id": "sami-prehistory",
+   "rank": 36,
+   "page_id": 22508,
+   "inserting_rev_ids": [
+    22096058,
+    22096059
+   ],
+   "removing_rev_ids": [
+    22096204
+   ],
+   "tier": "reverted",
+   "score": 105.744216,
+   "claim_en": null
+  },
+  {
+   "key": "22993320",
+   "topic_id": "sami-prehistory",
+   "rank": 37,
+   "page_id": 72966,
+   "inserting_rev_ids": [
+    22993320
+   ],
+   "removing_rev_ids": [
+    22993354
+   ],
+   "tier": "reverted",
+   "score": 105.281881,
+   "claim_en": "Tacitus's description of the Fenni was long considered the first detailed description of the Finns, but according to modern consensus it refers to the Sámi."
+  },
+  {
+   "key": "20060126",
+   "topic_id": "sami-prehistory",
+   "rank": 38,
+   "page_id": 22508,
+   "inserting_rev_ids": [
+    20060126
+   ],
+   "removing_rev_ids": [
+    20060130
+   ],
+   "tier": "reverted",
+   "score": 105.135082,
+   "claim_en": null
+  },
+  {
+   "key": "22969633+22969636",
+   "topic_id": "sami-prehistory",
+   "rank": 39,
+   "page_id": 997401,
+   "inserting_rev_ids": [
+    22969633,
+    22969636
+   ],
+   "removing_rev_ids": [
+    22969647
+   ],
+   "tier": "reverted",
+   "score": 104.579035,
+   "claim_en": null
+  },
+  {
+   "key": "20272904",
+   "topic_id": "sami-prehistory",
+   "rank": 40,
+   "page_id": 997401,
+   "inserting_rev_ids": [
+    20272904
+   ],
+   "removing_rev_ids": [
+    20272916
+   ],
+   "tier": "reverted",
+   "score": 104.553261,
+   "claim_en": null
+  },
+  {
+   "key": "22871429+23209952+23778722+23779148",
+   "topic_id": "far-right",
+   "rank": 2,
+   "page_id": 1679936,
+   "inserting_rev_ids": [
+    22871429,
+    23209952,
+    23778722,
+    23779148
+   ],
+   "removing_rev_ids": [
+    22882416,
+    23211533,
+    23779054,
+    23781899
+   ],
+   "tier": "campaign",
+   "score": 324.360755,
+   "claim_en": "Materials from the Blue-and-Black Movement were found at the home of a minor who committed a racist stabbing in Oulu, an activist of the movement was arrested for carrying a knife, and various violent offenders as well as local politicians from other parties have signed its supporter cards."
+  },
+  {
+   "key": "19396031+19396034+19452238+19452725",
+   "topic_id": "far-right",
+   "rank": 6,
+   "page_id": 1445320,
+   "inserting_rev_ids": [
+    19396031,
+    19396034,
+    19452238,
+    19452725
+   ],
+   "removing_rev_ids": [
+    19401538,
+    19452250,
+    19452743
+   ],
+   "tier": "contested",
+   "score": 218.820105,
+   "claim_en": "The Finnish People First (SKE) party is nationalist and socioeconomically left-centrist rather than far-right, and since expelling Marco de Wit, chairwoman Riikka Salmi has steered it in a more humane direction."
+  },
+  {
+   "key": "20992269+21010471+21010838+21010855+21010865+21010876",
+   "topic_id": "far-right",
+   "rank": 7,
+   "page_id": 17808,
+   "inserting_rev_ids": [
+    20992269,
+    21010471,
+    21010838,
+    21010855,
+    21010865,
+    21010876
+   ],
+   "removing_rev_ids": [
+    20995064,
+    21010803,
+    21010843,
+    21010858,
+    21010867,
+    21010878
+   ],
+   "tier": "contested",
+   "score": 218.762004,
+   "claim_en": "Vihtori Kosola is still a highly respected man in Lapua."
+  },
+  {
+   "key": "23953278+23956829",
+   "topic_id": "far-right",
+   "rank": 9,
+   "page_id": 1679936,
+   "inserting_rev_ids": [
+    23953278,
+    23956829
+   ],
+   "removing_rev_ids": [
+    23956790,
+    23958342
+   ],
+   "tier": "contested",
+   "score": 217.533463,
+   "claim_en": "Twelve out of the Blue-and-Black Movement's 88 parliamentary election candidates in 2023 had criminal convictions for various offenses including assault, attempted manslaughter, ethnic agitation, drug crimes, and firearms offenses."
+  },
+  {
+   "key": "17684504+17684522+17684533+17684542+17685019",
+   "topic_id": "far-right",
+   "rank": 10,
+   "page_id": 1445320,
+   "inserting_rev_ids": [
+    17684504,
+    17684522,
+    17684533,
+    17684542,
+    17685019
+   ],
+   "removing_rev_ids": [
+    17684513,
+    17684537,
+    17684545,
+    17685054
+   ],
+   "tier": "contested",
+   "score": 217.017415,
+   "claim_en": "Suomen Kansa Ensin's events have frequently involved violent crimes and disturbances, and its chairman Marco de Wit has been involved in funeral home corpse-handling controversies, convicted of financial crimes, and suspected by police of a sexual offense."
+  },
+  {
+   "key": "16006354+16006356+16006358+16006359+16006360+16012724",
+   "topic_id": "far-right",
+   "rank": 12,
+   "page_id": 1324148,
+   "inserting_rev_ids": [
+    16006354,
+    16006356,
+    16006358,
+    16006359,
+    16006360,
+    16012724
+   ],
+   "removing_rev_ids": [
+    16012980
+   ],
+   "tier": "contested",
+   "score": 216.813646,
+   "claim_en": "A mole infiltrated the administration of the Rajat kiinni! group in October 2016 to delete members, and certain critical characterisations of the movement are merely matters of opinion or erroneous."
+  },
+  {
+   "key": "21010488+21010844+21010860",
+   "topic_id": "far-right",
+   "rank": 14,
+   "page_id": 11477,
+   "inserting_rev_ids": [
+    21010488,
+    21010844,
+    21010860
+   ],
+   "removing_rev_ids": [
+    21010804,
+    21010848,
+    21010870
+   ],
+   "tier": "contested",
+   "score": 215.729958,
+   "claim_en": "The Lapua Movement (or its leader Vihtori Kosola) is still highly respected in Lapua today."
+  },
+  {
+   "key": "24163635+24164979",
+   "topic_id": "far-right",
+   "rank": 15,
+   "page_id": 1679936,
+   "inserting_rev_ids": [
+    24163635,
+    24164979
+   ],
+   "removing_rev_ids": [
+    24163875,
+    24165048
+   ],
+   "tier": "contested",
+   "score": 215.143198,
+   "claim_en": "Historian Oula Silvennoinen has political commitments to the Green League that should be noted alongside his academic assessment of the Blue-and-Black Movement as fascist."
+  },
+  {
+   "key": "15955577+15955580+15955584+15955838+15955840",
+   "topic_id": "far-right",
+   "rank": 16,
+   "page_id": 981456,
+   "inserting_rev_ids": [
+    15955577,
+    15955580,
+    15955584,
+    15955838,
+    15955840
+   ],
+   "removing_rev_ids": [
+    15955603,
+    15955841
+   ],
+   "tier": "contested",
+   "score": 215.076016,
+   "claim_en": "During a September 2016 Finnish Resistance Movement demonstration at Helsinki's Asema-aukio, a man who intervened was knocked down onto his head due to provocation and died a week later of a cerebral hemorrhage after being discharged from the hospital."
+  },
+  {
+   "key": "15420673+15420739+15420743",
+   "topic_id": "far-right",
+   "rank": 17,
+   "page_id": 1105958,
+   "inserting_rev_ids": [
+    15420673,
+    15420739,
+    15420743
+   ],
+   "removing_rev_ids": [
+    15420748
+   ],
+   "tier": "contested",
+   "score": 214.532724,
+   "claim_en": "Ano Turtiainen stated that Molotov cocktail attacks on reception centres are important elimination tasks that should next target the Finnish Red Cross, a Facebook comment liked by MP Laura Huhtasaari, without describing him as an 'immigration critic'."
+  },
+  {
+   "key": "16702708+16702713+16714697+16714705",
+   "topic_id": "far-right",
+   "rank": 18,
+   "page_id": 981456,
+   "inserting_rev_ids": [
+    16702708,
+    16702713,
+    16714697,
+    16714705
+   ],
+   "removing_rev_ids": [
+    16702924,
+    16714773
+   ],
+   "tier": "contested",
+   "score": 214.161631,
+   "claim_en": "The Finnish Resistance Movement should be described as National Socialist rather than neo-Nazi, as the latter term unfairly smears nationalists."
+  },
+  {
+   "key": "16551967+16552157",
+   "topic_id": "far-right",
+   "rank": 19,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    16551967,
+    16552157
+   ],
+   "removing_rev_ids": [
+    16552072,
+    16552228
+   ],
+   "tier": "contested",
+   "score": 213.929423,
+   "claim_en": "Timo Soini is politically independent as of June 16, 2017, having been expelled from the Finns Party after being a member from 1995 to 2017."
+  },
+  {
+   "key": "13916771",
+   "topic_id": "far-right",
+   "rank": 20,
+   "page_id": 1072792,
+   "inserting_rev_ids": [
+    13916771
+   ],
+   "removing_rev_ids": [
+    13918532
+   ],
+   "tier": "contested",
+   "score": 213.091896,
+   "claim_en": "The authors of a cited work on the Finnish far-right are left-wing radicals, and researcher Vesa Puuronen formerly belonged to the minority communists."
+  },
+  {
+   "key": "15962814",
+   "topic_id": "far-right",
+   "rank": 21,
+   "page_id": 981456,
+   "inserting_rev_ids": [
+    15962814
+   ],
+   "removing_rev_ids": [
+    15963133
+   ],
+   "tier": "contested",
+   "score": 213.075766,
+   "claim_en": "At the Helsinki Railway Square demonstration, a passerby spat toward a Finnish Resistance Movement member and argued with him, prompting a participant to kick the departing man to the ground in retaliation for his disrespectful behaviour."
+  },
+  {
+   "key": "16880713+16880714",
+   "topic_id": "far-right",
+   "rank": 22,
+   "page_id": 1395607,
+   "inserting_rev_ids": [
+    16880713,
+    16880714
+   ],
+   "removing_rev_ids": [
+    16880720
+   ],
+   "tier": "contested",
+   "score": 212.791609,
+   "claim_en": "Marco de Wit is the leader of the Suomen Kansa Ensin association and previously participated in both the Suomi Ensin and Rajat kiinni! civic movements."
+  },
+  {
+   "key": "18140345",
+   "topic_id": "far-right",
+   "rank": 23,
+   "page_id": 1105958,
+   "inserting_rev_ids": [
+    18140345
+   ],
+   "removing_rev_ids": [
+    18140430
+   ],
+   "tier": "contested",
+   "score": 212.6688,
+   "claim_en": "Ano Turtiainen has never received a competition ban in sports, contrary to news reports by STT and Helsingin Sanomat."
+  },
+  {
+   "key": "13775750+13776082",
+   "topic_id": "far-right",
+   "rank": 24,
+   "page_id": 1072792,
+   "inserting_rev_ids": [
+    13775750,
+    13776082
+   ],
+   "removing_rev_ids": [
+    13776050,
+    13776088
+   ],
+   "tier": "contested",
+   "score": 212.104621,
+   "claim_en": "The definition of the far right as radical political right-wing movements (or right-wing radicalism) stems from Marxist terminology."
+  },
+  {
+   "key": "21027367+21029707",
+   "topic_id": "far-right",
+   "rank": 25,
+   "page_id": 1105958,
+   "inserting_rev_ids": [
+    21027367,
+    21029707
+   ],
+   "removing_rev_ids": [
+    21027382,
+    21029713
+   ],
+   "tier": "contested",
+   "score": 211.29052,
+   "claim_en": "Ano Turtiainen is a long-time entrepreneur, odd-job man, and the permanent leader of the Power Belongs to the People party."
+  },
+  {
+   "key": "10033522+14199100+14731555+14826624+15234759+15234761+15234763+16035342+16037500+23781880",
+   "topic_id": "far-right",
+   "rank": 26,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    10033522,
+    14199100,
+    14731555,
+    14826624,
+    15234759,
+    15234761,
+    15234763,
+    16035342,
+    16037500,
+    23781880
+   ],
+   "removing_rev_ids": [
+    10045409,
+    14199103,
+    14731576,
+    14826633,
+    15234775,
+    15234776,
+    15234777,
+    16037686,
+    23781887
+   ],
+   "tier": "reverted",
+   "score": 133.470668,
+   "claim_en": null
+  },
+  {
+   "key": "9466285+9466286+9466324+9466347+9466350+9466354+9466357",
+   "topic_id": "far-right",
+   "rank": 27,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    9466285,
+    9466286,
+    9466324,
+    9466347,
+    9466350,
+    9466354,
+    9466357
+   ],
+   "removing_rev_ids": [
+    9466359
+   ],
+   "tier": "reverted",
+   "score": 118.349264,
+   "claim_en": null
+  },
+  {
+   "key": "16387045+16387048+16387097+16402585",
+   "topic_id": "far-right",
+   "rank": 28,
+   "page_id": 981456,
+   "inserting_rev_ids": [
+    16387045,
+    16387048,
+    16387097,
+    16402585
+   ],
+   "removing_rev_ids": [
+    16402599
+   ],
+   "tier": "reverted",
+   "score": 115.22296,
+   "claim_en": "Demonstrations by the Nordic Resistance Movement in Finland are typically peaceful and only become violent due to deliberate provocation by outsiders."
+  },
+  {
+   "key": "15627394+15627396+15653429",
+   "topic_id": "far-right",
+   "rank": 29,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    15627394,
+    15627396,
+    15653429
+   ],
+   "removing_rev_ids": [
+    15627442,
+    15653477
+   ],
+   "tier": "reverted",
+   "score": 114.411852,
+   "claim_en": "Populism is not a political party line or program, but rather an activity aimed at gaining popularity, making it a means rather than a goal."
+  },
+  {
+   "key": "11051536+11051542+11051554+11051556+11052385",
+   "topic_id": "far-right",
+   "rank": 30,
+   "page_id": 981456,
+   "inserting_rev_ids": [
+    11051536,
+    11051542,
+    11051554,
+    11051556,
+    11052385
+   ],
+   "removing_rev_ids": [
+    11053904
+   ],
+   "tier": "reverted",
+   "score": 113.665377,
+   "claim_en": "The Finnish Resistance Movement has a racist agenda."
+  },
+  {
+   "key": "16545289+16545295+16545430",
+   "topic_id": "far-right",
+   "rank": 31,
+   "page_id": 1370905,
+   "inserting_rev_ids": [
+    16545289,
+    16545295,
+    16545430
+   ],
+   "removing_rev_ids": [
+    16565248
+   ],
+   "tier": "reverted",
+   "score": 113.421268,
+   "claim_en": "A Suomi Ensin activist was arrested on June 11 for brandishing a handgun in central Helsinki, and police are investigating the movement's activists for maintaining an illegal registry of political opponents such as anti-fascists."
+  },
+  {
+   "key": "2669845+2669847+2669849",
+   "topic_id": "far-right",
+   "rank": 32,
+   "page_id": 11537,
+   "inserting_rev_ids": [
+    2669845,
+    2669847,
+    2669849
+   ],
+   "removing_rev_ids": [
+    2671994
+   ],
+   "tier": "reverted",
+   "score": 112.165486,
+   "claim_en": "The Patriotic People's Movement (IKL) should not be characterized in the lead as a far-right party heavily influenced by German National Socialism and European fascism or as wearing Nazi-like swastika armbands."
+  },
+  {
+   "key": "16335202+16335233",
+   "topic_id": "far-right",
+   "rank": 33,
+   "page_id": 1370905,
+   "inserting_rev_ids": [
+    16335202,
+    16335233
+   ],
+   "removing_rev_ids": [
+    16335239
+   ],
+   "tier": "reverted",
+   "score": 111.581146,
+   "claim_en": "Members of the Suomi Ensin movement filmed an asylum seeker's suicide attempt on March 8, 2017, while laughing, rejoicing, and shouting 'die' at the victim."
+  },
+  {
+   "key": "20295712+20295746+20295770+20313098",
+   "topic_id": "far-right",
+   "rank": 34,
+   "page_id": 1679936,
+   "inserting_rev_ids": [
+    20295712,
+    20295746,
+    20295770,
+    20313098
+   ],
+   "removing_rev_ids": [
+    20313132
+   ],
+   "tier": "reverted",
+   "score": 111.229658,
+   "claim_en": "Sinimusta Liike's ideology includes ethnonationalism and anti-Russian sentiment, and chairperson Tuukka Kuru stated that the party program was shortened for the Party Register mainly due to its length rather than its clauses."
+  },
+  {
+   "key": "20374306",
+   "topic_id": "far-right",
+   "rank": 35,
+   "page_id": 1324148,
+   "inserting_rev_ids": [
+    20374306
+   ],
+   "removing_rev_ids": [
+    20417006
+   ],
+   "tier": "reverted",
+   "score": 110.950988,
+   "claim_en": "The Rajat kiinni! movement began in Salo on August 30, 2015, at a demonstration organized by Jani Salomaa where the phrase was first used, and claims that it began at later demonstrations in September 2015 are false."
+  },
+  {
+   "key": "334369+334384",
+   "topic_id": "far-right",
+   "rank": 36,
+   "page_id": 17808,
+   "inserting_rev_ids": [
+    334369,
+    334384
+   ],
+   "removing_rev_ids": [
+    334385
+   ],
+   "tier": "reverted",
+   "score": 110.579787,
+   "claim_en": "Vihtori Kosola was the driving force of the Lapua Movement rather than merely its figurehead, whereas in the Patriotic People's Movement (IKL) he was a charismatic figurehead while Vilho Annala was the true leader."
+  },
+  {
+   "key": "20812244+20812380",
+   "topic_id": "far-right",
+   "rank": 37,
+   "page_id": 1105958,
+   "inserting_rev_ids": [
+    20812244,
+    20812380
+   ],
+   "removing_rev_ids": [
+    20812433
+   ],
+   "tier": "reverted",
+   "score": 110.546808,
+   "claim_en": "Ano Turtiainen has published numerous pro-Russian statements on Twitter since Russia invaded Ukraine in 2022, including demanding the lifting of sanctions against Russia."
+  },
+  {
+   "key": "15985211+15985213+15985218+15985220",
+   "topic_id": "far-right",
+   "rank": 38,
+   "page_id": 1324148,
+   "inserting_rev_ids": [
+    15985211,
+    15985213,
+    15985218,
+    15985220
+   ],
+   "removing_rev_ids": [
+    15988674
+   ],
+   "tier": "reverted",
+   "score": 110.402094,
+   "claim_en": "In 2016, the Rajat Kiinni! movement protested against mainstream media, left-wing violence, and the Peli Poikki demonstration attended by society's elite, resulting in arrests and profanity-filled speeches."
+  },
+  {
+   "key": "2708917",
+   "topic_id": "far-right",
+   "rank": 39,
+   "page_id": 11537,
+   "inserting_rev_ids": [
+    2708917
+   ],
+   "removing_rev_ids": [
+    2710684
+   ],
+   "tier": "reverted",
+   "score": 110.325988,
+   "claim_en": "Despite fierce pressure from Finnish communists, the banned Patriotic People's Movement's property was not confiscated, and the proceeds from winding down its businesses were used in 1953 to establish the Foundation for the History of Finland in the 1920s–1940s."
+  },
+  {
+   "key": "16319195",
+   "topic_id": "far-right",
+   "rank": 40,
+   "page_id": 1370905,
+   "inserting_rev_ids": [
+    16319195
+   ],
+   "removing_rev_ids": [
+    16319257
+   ],
+   "tier": "reverted",
+   "score": 110.212812,
+   "claim_en": "On 16 February, police ordered demonstrations at Kiasma and Lasipalatsi to relocate, and after Suomi Ensin protesters disobeyed the order, police removed eight individuals and detained two."
+  },
+  {
+   "key": "17684991+17684993+17685025",
+   "topic_id": "far-right",
+   "rank": 41,
+   "page_id": 1395607,
+   "inserting_rev_ids": [
+    17684991,
+    17684993,
+    17685025
+   ],
+   "removing_rev_ids": [
+    17685056
+   ],
+   "tier": "reverted",
+   "score": 110.109522,
+   "claim_en": null
+  },
+  {
+   "key": "16387557",
+   "topic_id": "far-right",
+   "rank": 42,
+   "page_id": 41622,
+   "inserting_rev_ids": [
+    16387557
+   ],
+   "removing_rev_ids": [
+    16393982
+   ],
+   "tier": "reverted",
+   "score": 109.751485,
+   "claim_en": null
+  },
+  {
+   "key": "16782760",
+   "topic_id": "far-right",
+   "rank": 43,
+   "page_id": 1370905,
+   "inserting_rev_ids": [
+    16782760
+   ],
+   "removing_rev_ids": [
+    16782871
+   ],
+   "tier": "reverted",
+   "score": 109.568749,
+   "claim_en": "One of the leading figures of the Suomi Ensin movement was arrested on suspicion of rape at a demonstration in Helsinki in September 2017."
+  },
+  {
+   "key": "16700371+16715872",
+   "topic_id": "far-right",
+   "rank": 44,
+   "page_id": 17808,
+   "inserting_rev_ids": [
+    16700371,
+    16715872
+   ],
+   "removing_rev_ids": [
+    16717944
+   ],
+   "tier": "reverted",
+   "score": 109.283876,
+   "claim_en": "Some contemporaries wanted Vihtori Kosola to become a fascist-style dictator of Finland, rather than merely suspecting or perceiving that such plans existed."
+  },
+  {
+   "key": "16874609",
+   "topic_id": "far-right",
+   "rank": 45,
+   "page_id": 1370905,
+   "inserting_rev_ids": [
+    16874609
+   ],
+   "removing_rev_ids": [
+    16875126
+   ],
+   "tier": "reverted",
+   "score": 108.739541,
+   "claim_en": "Suomi Ensin chairperson Mario Argenta publicly distanced himself from demonstrations, registering as a party, and supporting MV-lehti and Ilja Janitskin in the 2018 presidential election, considering these actions unilateral moves by Marco de Wit."
+  },
+  {
+   "key": "18933265",
+   "topic_id": "far-right",
+   "rank": 46,
+   "page_id": 93295,
+   "inserting_rev_ids": [
+    18933265
+   ],
+   "removing_rev_ids": [
+    18933453
+   ],
+   "tier": "reverted",
+   "score": 108.683008,
+   "claim_en": "In summer 1935, police confiscated 56 copies of the Sinimusta magazine in Helsinki and charged it with incitement against the state order, prompted at least by Elias Simojoki's May 31, 1935 article 'Luo lippujen' which mentioned a 'final solution'."
+  },
+  {
+   "key": "22730548",
+   "topic_id": "far-right",
+   "rank": 48,
+   "page_id": 1679936,
+   "inserting_rev_ids": [
+    22730548
+   ],
+   "removing_rev_ids": [
+    22730565
+   ],
+   "tier": "reverted",
+   "score": 108.418474,
+   "claim_en": null
+  },
+  {
+   "key": "13590491",
+   "topic_id": "far-right",
+   "rank": 49,
+   "page_id": 1072792,
+   "inserting_rev_ids": [
+    13590491
+   ],
+   "removing_rev_ids": [
+    13590504
+   ],
+   "tier": "reverted",
+   "score": 108.299931,
+   "claim_en": null
+  },
+  {
+   "key": "13590399",
+   "topic_id": "far-right",
+   "rank": 50,
+   "page_id": 1072792,
+   "inserting_rev_ids": [
+    13590399
+   ],
+   "removing_rev_ids": [
+    13590491
+   ],
+   "tier": "reverted",
+   "score": 108.141981,
+   "claim_en": null
+  },
+  {
+   "key": "2136042+2136098+2136106+2428689",
+   "topic_id": "national-myths",
+   "rank": 2,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    2136042,
+    2136098,
+    2136106,
+    2428689
+   ],
+   "removing_rev_ids": [
+    2136081,
+    2136117,
+    2428697
+   ],
+   "tier": "contested",
+   "score": 219.820266,
+   "claim_en": "Before Swedish rule, a traditional 'Kalevala faith' and poetry existed in southern Finland, which Swedish authorities banned and forced underground, causing it to retreat to eastern Finland and Border Karelia."
+  },
+  {
+   "key": "11756612+11759235+11759822+11762945",
+   "topic_id": "national-myths",
+   "rank": 3,
+   "page_id": 57277,
+   "inserting_rev_ids": [
+    11756612,
+    11759235,
+    11759822,
+    11762945
+   ],
+   "removing_rev_ids": [
+    11758974,
+    11759284,
+    11763005
+   ],
+   "tier": "contested",
+   "score": 216.244665,
+   "claim_en": "White Karelia is also called 'Belaja Karelija' and abbreviated 'Belomorje' in Russian, and bears the same name in Karelian as in Finnish."
+  },
+  {
+   "key": "2133944+2133986+2134016",
+   "topic_id": "national-myths",
+   "rank": 5,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    2133944,
+    2133986,
+    2134016
+   ],
+   "removing_rev_ids": [
+    2133952,
+    2134034
+   ],
+   "tier": "contested",
+   "score": 215.889209,
+   "claim_en": "Kalevala poetry originated in southern Finland (Tavastia) and shifted eastward to Border Karelia during Swedish rule due to 16th–17th century witch trials and church orthodoxy."
+  },
+  {
+   "key": "13451782+13456063+13460551",
+   "topic_id": "national-myths",
+   "rank": 6,
+   "page_id": 57277,
+   "inserting_rev_ids": [
+    13451782,
+    13456063,
+    13460551
+   ],
+   "removing_rev_ids": [
+    13452181,
+    13456550,
+    13460567
+   ],
+   "tier": "contested",
+   "score": 215.003268,
+   "claim_en": "The White Sea Isthmus, Dvina Bay, and Northern Dvina river are closely related to the history and cultural sphere of White Karelia."
+  },
+  {
+   "key": "2160149+2160170+2163259+2163261",
+   "topic_id": "national-myths",
+   "rank": 7,
+   "page_id": 13959,
+   "inserting_rev_ids": [
+    2160149,
+    2160170,
+    2163259,
+    2163261
+   ],
+   "removing_rev_ids": [
+    2165782
+   ],
+   "tier": "contested",
+   "score": 214.187839,
+   "claim_en": "Archaeological evidence of a 1150s pagan reaction in the Nousiainen region suggests that the killing of Bishop Henry stemmed from broader regional socio-political currents rather than solely the reaction of Lalli and his wife."
+  },
+  {
+   "key": "2210398+2210407+2217183",
+   "topic_id": "national-myths",
+   "rank": 9,
+   "page_id": 19873,
+   "inserting_rev_ids": [
+    2210398,
+    2210407,
+    2217183
+   ],
+   "removing_rev_ids": [
+    2210626,
+    2217197
+   ],
+   "tier": "contested",
+   "score": 212.323162,
+   "claim_en": "Following the Swedish conquest in the 1250s, old Finnish chieftains were executed and replaced by loyalists called 'munkkilaiset', while earlier settlers known as 'hiidet' were assimilated and non-Sámi 'lappalaiset' in Tavastia maintained witchcraft before disappearing or assimilating."
+  },
+  {
+   "key": "2047962+2047965+2047975",
+   "topic_id": "national-myths",
+   "rank": 10,
+   "page_id": 255,
+   "inserting_rev_ids": [
+    2047962,
+    2047965,
+    2047975
+   ],
+   "removing_rev_ids": [
+    2074977
+   ],
+   "tier": "contested",
+   "score": 212.054812,
+   "claim_en": "18th-century Fennophile figures should be referred to by their established Swedish/Latinate names (such as Daniel rather than Taneli) without Finnish-language patronymic glosses."
+  },
+  {
+   "key": "8267842",
+   "topic_id": "national-myths",
+   "rank": 11,
+   "page_id": 498,
+   "inserting_rev_ids": [
+    8267842
+   ],
+   "removing_rev_ids": [
+    8267880
+   ],
+   "tier": "contested",
+   "score": 211.765503,
+   "claim_en": "The view that Kalevala poems were solely Karelian enabled Svecomans to disparage Finnish-speakers' poetic abilities, whereas the poems actually had a Finnish or Western Finnish origin, supported by Agricola listing Väinämöinen, Ilmarinen, and Ahti as Tavastian rather than Karelian gods."
+  },
+  {
+   "key": "3419307+3419311+3419337+3419348",
+   "topic_id": "national-myths",
+   "rank": 12,
+   "page_id": 255,
+   "inserting_rev_ids": [
+    3419307,
+    3419311,
+    3419337,
+    3419348
+   ],
+   "removing_rev_ids": [
+    3419384
+   ],
+   "tier": "contested",
+   "score": 211.14415,
+   "claim_en": "In 18th-century Sweden, isolated proposals were made to assimilate Finnish commoners and eradicate the Finnish language without leading to action, while monolingual Swedish-speaking officials' lack of Finnish skills was frequently seen as a problem despite state promises to consider language skills in appointments."
+  },
+  {
+   "key": "16168879",
+   "topic_id": "national-myths",
+   "rank": 13,
+   "page_id": 13182,
+   "inserting_rev_ids": [
+    16168879
+   ],
+   "removing_rev_ids": [
+    16168886
+   ],
+   "tier": "contested",
+   "score": 210.635685,
+   "claim_en": null
+  },
+  {
+   "key": "11776232+11776386+11777947+11778479+11778480+11778745+11780042+11801593+11803595+11805561+11807500+20378702+20383728+20392340+20394872+20395300",
+   "topic_id": "national-myths",
+   "rank": 15,
+   "page_id": 57277,
+   "inserting_rev_ids": [
+    11776232,
+    11776386,
+    11777947,
+    11778479,
+    11778480,
+    11778745,
+    11780042,
+    11801593,
+    11803595,
+    11805561,
+    11807500,
+    20378702,
+    20383728,
+    20392340,
+    20394872,
+    20395300
+   ],
+   "removing_rev_ids": [
+    11777519,
+    11779610,
+    11780947,
+    11801617,
+    11803721,
+    11807516,
+    20395662
+   ],
+   "tier": "reverted",
+   "score": 126.462595,
+   "claim_en": null
+  },
+  {
+   "key": "11779610",
+   "topic_id": "national-myths",
+   "rank": 16,
+   "page_id": 57277,
+   "inserting_rev_ids": [
+    11779610
+   ],
+   "removing_rev_ids": [
+    11780042
+   ],
+   "tier": "reverted",
+   "score": 112.045973,
+   "claim_en": "The Russian name Belaja Karelija and the etymology of Viena from the Russian river name Dvina should not be included based on unreliable sources like wikis and blogs."
+  },
+  {
+   "key": "11763589+11764963+11766443+11766523+11766527",
+   "topic_id": "national-myths",
+   "rank": 17,
+   "page_id": 57277,
+   "inserting_rev_ids": [
+    11763589,
+    11764963,
+    11766443,
+    11766523,
+    11766527
+   ],
+   "removing_rev_ids": [
+    11766629
+   ],
+   "tier": "reverted",
+   "score": 111.512357,
+   "claim_en": null
+  },
+  {
+   "key": "18535393",
+   "topic_id": "national-myths",
+   "rank": 19,
+   "page_id": 38257,
+   "inserting_rev_ids": [
+    18535393
+   ],
+   "removing_rev_ids": [
+    18535400
+   ],
+   "tier": "reverted",
+   "score": 111.17285,
+   "claim_en": "During the First Swedish Crusade in the 1150s, Swedes invaded pagan Finland to conquer land and spread Christianity, prompting Finns to rebel against paying church taxes."
+  },
+  {
+   "key": "5668788",
+   "topic_id": "national-myths",
+   "rank": 20,
+   "page_id": 13959,
+   "inserting_rev_ids": [
+    5668788
+   ],
+   "removing_rev_ids": [
+    5668801
+   ],
+   "tier": "reverted",
+   "score": 110.16628,
+   "claim_en": null
+  },
+  {
+   "key": "4620006",
+   "topic_id": "national-myths",
+   "rank": 22,
+   "page_id": 13959,
+   "inserting_rev_ids": [
+    4620006
+   ],
+   "removing_rev_ids": [
+    4621030
+   ],
+   "tier": "reverted",
+   "score": 107.794961,
+   "claim_en": null
+  },
+  {
+   "key": "14586055+14586056",
+   "topic_id": "national-myths",
+   "rank": 24,
+   "page_id": 13182,
+   "inserting_rev_ids": [
+    14586055,
+    14586056
+   ],
+   "removing_rev_ids": [
+    14586066
+   ],
+   "tier": "reverted",
+   "score": 107.143912,
+   "claim_en": null
+  },
+  {
+   "key": "4444554",
+   "topic_id": "national-myths",
+   "rank": 25,
+   "page_id": 13182,
+   "inserting_rev_ids": [
+    4444554
+   ],
+   "removing_rev_ids": [
+    4444558
+   ],
+   "tier": "reverted",
+   "score": 106.788817,
+   "claim_en": null
+  },
+  {
+   "key": "2176625",
+   "topic_id": "national-myths",
+   "rank": 26,
+   "page_id": 13959,
+   "inserting_rev_ids": [
+    2176625
+   ],
+   "removing_rev_ids": [
+    2178310
+   ],
+   "tier": "reverted",
+   "score": 106.598612,
+   "claim_en": "A pagan reaction in 12th-century Southwestern Finland would mean that the killing of Bishop Henry was driven by a broader societal reaction rather than merely the personal emotional outbursts of Lalli and his wife."
+  },
+  {
+   "key": "16096416+16096422+16096423",
+   "topic_id": "national-myths",
+   "rank": 28,
+   "page_id": 13959,
+   "inserting_rev_ids": [
+    16096416,
+    16096422,
+    16096423
+   ],
+   "removing_rev_ids": [
+    16096425
+   ],
+   "tier": "reverted",
+   "score": 106.347918,
+   "claim_en": null
+  },
+  {
+   "key": "12970183+12970226",
+   "topic_id": "national-myths",
+   "rank": 29,
+   "page_id": 38257,
+   "inserting_rev_ids": [
+    12970183,
+    12970226
+   ],
+   "removing_rev_ids": [
+    12970229
+   ],
+   "tier": "reverted",
+   "score": 105.992028,
+   "claim_en": "Bishop Henry was killed on the ice of Lake Köyliö by the peasant Lalli after Lalli's wife Kerttu lied that Henry had taken food without paying, and the crusade took place possibly in the 1150s."
+  },
+  {
+   "key": "19638769",
+   "topic_id": "national-myths",
+   "rank": 30,
+   "page_id": 1549193,
+   "inserting_rev_ids": [
+    19638769
+   ],
+   "removing_rev_ids": [
+    19639259
+   ],
+   "tier": "reverted",
+   "score": 105.979873,
+   "claim_en": "In 2020, a youth action group called Uudenmaan akseli was founded under Suomen Sisu."
+  },
+  {
+   "key": "13200313",
+   "topic_id": "national-myths",
+   "rank": 31,
+   "page_id": 255,
+   "inserting_rev_ids": [
+    13200313
+   ],
+   "removing_rev_ids": [
+    13200419
+   ],
+   "tier": "reverted",
+   "score": 105.391494,
+   "claim_en": "Fennomania is closely related to general concepts of nationalism construction, such as invented traditions, imagined communities, statuomania, and cultural canons."
+  },
+  {
+   "key": "7620187",
+   "topic_id": "national-myths",
+   "rank": 32,
+   "page_id": 38257,
+   "inserting_rev_ids": [
+    7620187
+   ],
+   "removing_rev_ids": [
+    7620457
+   ],
+   "tier": "reverted",
+   "score": 105.152568,
+   "claim_en": "Bishop Henry died on Lake Köyliönjärvi as a result of a blow to the head from Lalli's axe."
+  },
+  {
+   "key": "9852256",
+   "topic_id": "national-myths",
+   "rank": 33,
+   "page_id": 14460,
+   "inserting_rev_ids": [
+    9852256
+   ],
+   "removing_rev_ids": [
+    9852260
+   ],
+   "tier": "reverted",
+   "score": 104.976795,
+   "claim_en": null
+  },
+  {
+   "key": "16865465+16865466+16865477",
+   "topic_id": "national-myths",
+   "rank": 34,
+   "page_id": 14460,
+   "inserting_rev_ids": [
+    16865465,
+    16865466,
+    16865477
+   ],
+   "removing_rev_ids": [
+    16865488
+   ],
+   "tier": "reverted",
+   "score": 104.847143,
+   "claim_en": null
+  },
+  {
+   "key": "1841797",
+   "topic_id": "national-myths",
+   "rank": 35,
+   "page_id": 14460,
+   "inserting_rev_ids": [
+    1841797
+   ],
+   "removing_rev_ids": [
+    1841798
+   ],
+   "tier": "reverted",
+   "score": 104.80945,
+   "claim_en": null
+  },
+  {
+   "key": "5869104",
+   "topic_id": "national-myths",
+   "rank": 36,
+   "page_id": 38257,
+   "inserting_rev_ids": [
+    5869104
+   ],
+   "removing_rev_ids": [
+    5869110
+   ],
+   "tier": "reverted",
+   "score": 104.693718,
+   "claim_en": null
+  },
+  {
+   "key": "18808155",
+   "topic_id": "national-myths",
+   "rank": 37,
+   "page_id": 72450,
+   "inserting_rev_ids": [
+    18808155
+   ],
+   "removing_rev_ids": [
+    18808202
+   ],
+   "tier": "reverted",
+   "score": 104.484327,
+   "claim_en": "The Kalevala is also part of history."
+  },
+  {
+   "key": "18759654",
+   "topic_id": "national-myths",
+   "rank": 38,
+   "page_id": 19873,
+   "inserting_rev_ids": [
+    18759654
+   ],
+   "removing_rev_ids": [
+    18759656
+   ],
+   "tier": "reverted",
+   "score": 104.305506,
+   "claim_en": "The poems of the Kalevala have retained their place in Finland to this day."
+  }
+ ],
+ "challenges": [],
+ "failures": [],
+ "cost": {
+  "requests": 4,
+  "jobs": 1,
+  "seconds_total": 53.9,
+  "seconds_per_request": 13.46,
+  "seconds_max": 14.86,
+  "llm_calls": 230,
+  "input_tokens": 586886,
+  "output_tokens": 88399,
+  "sql_queries": 58,
+  "cost_usd": 2.0294
+ }
+}
