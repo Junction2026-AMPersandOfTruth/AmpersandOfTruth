@@ -62,6 +62,7 @@ research/<issue>/             # experiment scripts, small samples, results and r
 research/eval/                # ⭐ P1 eval contract: CONTRACT.md, schemas/, validate.py, run (runner.py), examples/ (golden.json lands here)
 docs/design/                  # ⭐ UI design system: brand book, plan, tokens, .aot-* CSS, component + page previews
 docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, editor display, golden-set TP definition
+docs/known-limitations.md     # P1.P3 (#41): what the app cannot tell a user, with measured numbers — source for the methodology page (P2.10)
 ```
 
 `Features/Articles` is the **reference slice** (page + corpus interface/fake + cached service + bUnit/`[CorpusFact]` tests) — copy its shape.
