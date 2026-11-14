@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "properties": {
+    "ordinary_reading_en": {
+      "type": "string",
+      "description": "Strongest plausible ordinary-editing explanation of the edit in one or two English sentences."
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["upheld", "downgraded"]
+    },
+    "corrected_category": {
+      "type": "string",
+      "enum": [
+        "vandalism",
+        "test_or_nonsense",
+        "good_faith_error",
+        "content_dispute",
+        "pov_push",
+        "false_factual_claim",
+        "source_manipulation",
+        "other"
+      ]
+    },
+    "confidence": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "evidence": {
+      "type": "array",
+      "description": "1-4 spans copied verbatim from the removed/inserted text or summaries.",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "maxItems": 4
+    },
+    "reason_en": {
+      "type": "string",
+      "description": "One or two sentences explaining why first_category was upheld or downgraded."
+    }
+  },
+  "required": [
+    "ordinary_reading_en",
+    "verdict",
+    "corrected_category",
+    "confidence",
+    "evidence",
+    "reason_en"
+  ],
+  "additionalProperties": false
+}
