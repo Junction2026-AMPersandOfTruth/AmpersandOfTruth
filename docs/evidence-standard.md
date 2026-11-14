@@ -27,7 +27,7 @@ UI copy says "level", never "tier".
 - **Bot.** The content was added by a bot account.
 - **Blanking.** The edit blanked the page or a whole section.
 - **Kept.** Someone undid the removal and the content is still in the latest revision. In that case the community kept it.
-- **Graffiti.** The automated assessment classed it as `vandalism` or `test/nonsense`.
+- **Graffiti.** The automated assessment classed it as `vandalism` or `test/nonsense` with confidence ≥ 3. Below that, the item stays at Level 1.
 
 **Level 1 · Removed by Wikipedia editors.** Substantive content was added and later taken out by a *different* account, and no exclusion applies.
 This is literally true of every item at this level, so it is also where everything lands when the automated assessment is missing, failed or over budget.
