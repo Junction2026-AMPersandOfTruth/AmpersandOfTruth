@@ -30,14 +30,3 @@ public sealed record RevertEvent(
     public Uri DiffUrl => WikipediaLinks.Diff(RevId);                  // the revert itself: diff=prev&oldid=RevId
     public Uri RevertedDiffUrl => WikipediaLinks.Diff(RevertedRevId);  // the last undone edit: diff=prev&oldid=RevertedRevId
 }
-
-public sealed record ArticleReverts(TopicArticle Article, IReadOnlyList<RevertEvent> Reverts);
-
-public enum InvestigationStatus { Ok, EmbeddingUnavailable, CorpusUnavailable }
-
-public sealed record InvestigationResult(
-    InvestigationStatus Status, string Topic, IReadOnlyList<ArticleReverts> Articles, string? Error = null)
-{
-    public static InvestigationResult Unavailable(InvestigationStatus status, string topic, string error) =>
-        new(status, topic, [], error);
-}

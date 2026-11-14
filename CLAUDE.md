@@ -118,6 +118,19 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   the VPS pins 0.40.16 (verified cosine 1.00000 vs stored vectors). Use a recent Ollama on laptops too.
 - `embedding` health check reports `Degraded` when no endpoint has the model; startup never depends on it.
 
+## Investigation pipeline (`Features/Investigations/Pipeline`, issue #39)
+
+- `/investigate` consumes `IInvestigationRunner.RunAsync(topic, ct)` → `IAsyncEnumerable<InvestigationEvent>`:
+  `ArticlesFound → RevisionsScanned → CandidateScored × N → Completed`, or a `StageFailed` that ends the run (never an exception;
+  cancellation ends the stream with `OperationCanceledException`). The P2 fixture runner (#98) implements the same interface.
+- Output = `IncidentRecord`, the C# twin of `research/eval/schemas/incident.schema.json` (serialise with `IncidentJson.Options`;
+  `IncidentRecordTests` keeps record and schema in sync — change both together).
+- Stages are interfaces, one per P1 experiment, swapped in `InvestigationsFeature` without touching the orchestrator or the UI:
+  `ITopicSearch` (R6), `ICandidateSource` (S1/S4), `IEditReader` (S2/S3), `IEditClassifier` (S9), `IncidentAssembler` (S10, static).
+  Today's implementations are placeholders from P0.8 + `wikidiff` + `classify-edit` v1; without S5/S1/S4 signals every incident is `reverted`.
+- Edits the evidence standard excludes without an assessment are never sent to the LLM. Limits: `Investigations:Pipeline` options.
+- Tests: `PipelineKit` = the real stages over fakes (`FakeInvestigationCorpus`, `FakeRevisionStore`, `FakeAnalysisModel`, `FakeQueryEmbedder`).
+
 ## LLM analysis (Gemini, `Features/Analysis`, issue #16)
 
 - **Every product LLM call** goes through `IAnalysisModel.RunAsync<T>(new AnalysisRequest("<prompt-id>", vars) { Scope = investigationId })`.

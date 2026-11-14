@@ -1,14 +1,15 @@
 @page "/investigate"
 @implements IDisposable
 @using AmpersandOfTruth.Web.Features.Evidence
-@inject InvestigationService Investigations
+@using AmpersandOfTruth.Web.Features.Investigations.Pipeline
+@inject IInvestigationRunner Runner
 
 <PageTitle>Investigate</PageTitle>
 
 <h1>Investigate a topic</h1>
 <p class="text-muted">
-    Walking skeleton: topic → nearest Wikipedia articles (bge-m3) → raw identity reverts on the Finnish ones.
-    No diffing, no LLM yet.
+    Topic → nearest Wikipedia articles (bge-m3) → edits other editors removed from the Finnish ones → what each edit
+    changed and an automated assessment → incidents by level of evidence. Placeholder stages until the P1 experiments land (#39).
 </p>
 
 <EditForm Model="_input" OnValidSubmit="Run" FormName="investigate" class="d-flex gap-2 mb-3">
@@ -18,122 +19,239 @@
     <button type="submit" class="btn btn-primary text-nowrap" data-testid="investigate-submit" disabled="@_busy">
         @(_busy ? "Searching…" : "Investigate")
     </button>
+    @if (_busy)
+    {
+        <button type="button" class="btn btn-outline-secondary" data-testid="investigate-cancel" @onclick="Cancel">Cancel</button>
+    }
 </EditForm>
 
-@if (_busy)
+@if (_topic is null)
 {
-    <div class="text-muted" data-testid="investigate-busy">Searching “@_input.Topic”…</div>
-}
-else if (_result is null)
-{
-    <EmptyState Message="Enter a topic to find related articles and their reverted edits." />
-}
-else if (_result.Status != InvestigationStatus.Ok)
-{
-    <div class="alert alert-warning" role="alert" data-testid="investigate-unavailable">
-        <strong>@(_result.Status == InvestigationStatus.CorpusUnavailable ? "Corpus not available." : "Topic search not available.")</strong>
-        @(_result.Status == InvestigationStatus.CorpusUnavailable
-            ? " The Wikipedia corpus (MariaDB) can't be reached — is scripts/corpus-tunnel.sh running and Corpus:Password set?"
-            : " The bge-m3 embedder (Ollama) can't be reached and this topic isn't cached yet.")
-        <div class="small text-muted mt-1">@_result.Error</div>
-    </div>
-}
-else if (_result.Articles.Count == 0)
-{
-    <EmptyState Message="No articles found." />
+    <EmptyState Message="Enter a topic to find related articles and the edits removed from them." />
 }
 else
 {
-    <p class="text-muted" data-testid="investigate-summary">
-        @_result.Articles.Count articles for “@_result.Topic” ·
-        @_result.Articles.Sum(a => a.Reverts.Count) reverts on Finnish articles
-        (newest @InvestigationService.RevertsPerArticle per article).
-    </p>
+    <p class="text-muted" role="status" aria-live="polite" data-testid="investigate-progress">@ProgressText()</p>
 
-    @foreach (var item in _result.Articles)
+    @if (_failure is not null)
     {
-        var a = item.Article;
-        <section class="mb-4" data-testid="investigate-article" @key="(a.Lang, a.PageId)">
-            <h2 class="h5">
-                <span class="badge text-bg-secondary text-uppercase">@a.Lang</span>
-                <a href="@a.Url" target="_blank" rel="noopener">@a.Title</a>
-                <small class="text-muted">distance @a.Distance.ToString("0.000")</small>
-            </h2>
+        <div class="alert alert-warning" role="alert" data-testid="investigate-unavailable">
+            <strong>@FailureTitle(_failure)</strong> @FailureHint(_failure)
+            <div class="small text-muted mt-1">@_failure.Error</div>
+        </div>
+    }
 
-            @if (!a.HasHistory)
+    @if (_incidents.Count > 0)
+    {
+        <h2 class="h4">Incidents</h2>
+        <ol class="list-unstyled mb-4">
+            @foreach (var incident in _incidents)
             {
-                <div class="small text-muted">Revision history is only loaded for Finnish articles.</div>
-            }
-            else if (item.Reverts.Count == 0)
-            {
-                <div class="small text-muted">No reverts found.</div>
-            }
-            else
-            {
-                <table class="table table-sm table-striped align-middle">
-                    <thead>
-                        <tr>
-                            <th>Reverted (UTC)</th>
-                            <th>Reverted by</th>
-                            <th>Revert comment</th>
-                            <th>Undid</th>
-                            <th>Last undone edit by</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var r in item.Reverts)
+                var first = incident.Edits.FirstOrDefault();
+                <li class="border rounded p-2 mb-2" data-testid="incident" @key="incident.Id">
+                    <div class="fw-semibold" data-testid="incident-reason">@incident.TierReason</div>
+                    <div data-testid="incident-claim">@(incident.ClaimEn ?? incident.SummaryEn ?? "No automated assessment for this edit.")</div>
+                    <div class="small text-muted">
+                        @incident.Articles.FirstOrDefault()?.TitleFi
+                        @if (first?.Timestamp is { } ts)
                         {
-                            <tr data-testid="revert-row" @key="r.RevId">
-                                <td class="text-nowrap" data-testid="revert-when">
-                                    <a href="@r.DiffUrl.AbsoluteUri" target="_blank" rel="noopener">@r.Timestamp.ToString("yyyy-MM-dd HH:mm")</a>
-                                </td>
-                                <td data-testid="revert-user">
-                                    @EditorCell(r.User)
-                                </td>
-                                <td class="small" data-testid="revert-comment">@EditorDisplay.MaskComment(r.Comment)</td>
-                                <td class="text-nowrap" data-testid="revert-undid">
-                                    <a href="@r.RevertedDiffUrl.AbsoluteUri" target="_blank" rel="noopener">@r.RevertedCount edit@(r.RevertedCount == 1 ? "" : "s")</a>
-                                </td>
-                                <td data-testid="revert-reverted-user">
-                                    @EditorCell(r.RevertedUser)
-                                </td>
-                            </tr>
+                            <text> · added @ts.ToString("yyyy-MM-dd")</text>
                         }
-                    </tbody>
-                </table>
+                        @if (first?.DiffRef is { } diff)
+                        {
+                            <text> · </text><a href="@diff" target="_blank" rel="noopener">first edit</a>
+                        }
+                    </div>
+                </li>
             }
-        </section>
+        </ol>
+    }
+    else if (_completed is not null)
+    {
+        <EmptyState Message="No incidents found for this topic." />
+    }
+
+    @if (_articles is { Count: 0 })
+    {
+        <EmptyState Message="No articles found." />
+    }
+    else if (_articles is not null)
+    {
+        <h2 class="h4">Articles</h2>
+        @foreach (var a in _articles)
+        {
+            var removed = _candidates?.Where(c => c.Article.PageId == a.PageId && a.HasHistory).Select(c => c.Revert).ToList();
+            <section class="mb-4" data-testid="investigate-article" @key="(a.Lang, a.PageId)">
+                <h3 class="h5">
+                    <span class="badge text-bg-secondary text-uppercase">@a.Lang</span>
+                    <a href="@a.Url" target="_blank" rel="noopener">@a.Title</a>
+                    <small class="text-muted">distance @a.Distance.ToString("0.000")</small>
+                </h3>
+
+                @if (!a.HasHistory)
+                {
+                    <div class="small text-muted">Revision history is only loaded for Finnish articles.</div>
+                }
+                else if (removed is null)
+                {
+                    <div class="small text-muted">Scanning edit history…</div>
+                }
+                else if (removed.Count == 0)
+                {
+                    <div class="small text-muted">No removed edits found.</div>
+                }
+                else
+                {
+                    <table class="table table-sm table-striped align-middle">
+                        <thead>
+                            <tr>
+                                <th>Removed (UTC)</th>
+                                <th>Removed by</th>
+                                <th>Comment</th>
+                                <th>Undid</th>
+                                <th>Last undone edit by</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var r in removed)
+                            {
+                                <tr data-testid="revert-row" @key="r.RevId">
+                                    <td class="text-nowrap" data-testid="revert-when">
+                                        <a href="@r.DiffUrl.AbsoluteUri" target="_blank" rel="noopener">@r.Timestamp.ToString("yyyy-MM-dd HH:mm")</a>
+                                    </td>
+                                    <td data-testid="revert-user">
+                                        @EditorCell(r.User)
+                                    </td>
+                                    <td class="small" data-testid="revert-comment">@EditorDisplay.MaskComment(r.Comment)</td>
+                                    <td class="text-nowrap" data-testid="revert-undid">
+                                        <a href="@r.RevertedDiffUrl.AbsoluteUri" target="_blank" rel="noopener">@r.RevertedCount edit@(r.RevertedCount == 1 ? "" : "s")</a>
+                                    </td>
+                                    <td data-testid="revert-reverted-user">
+                                        @EditorCell(r.RevertedUser)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </section>
+        }
     }
 }
 
 @code {
     private readonly TopicInput _input = new();
     private CancellationTokenSource? _cts;
-    private InvestigationResult? _result;
     private bool _busy;
+
+    private string? _topic;
+    private IReadOnlyList<TopicArticle>? _articles;
+    private int? _revisions;
+    private IReadOnlyList<RemovedEdit>? _candidates;
+    private int _scored;
+    private readonly List<IncidentRecord> _incidents = [];
+    private StageFailed? _failure;
+    private Completed? _completed;
+    private bool _cancelled;
 
     private async Task Run()
     {
         _cts?.Cancel();
         _cts?.Dispose();
-        _cts = new CancellationTokenSource();
-        var ct = _cts.Token;
+        var run = _cts = new CancellationTokenSource();
+        var ct = run.Token;
 
+        _topic = _input.Topic!.Trim();
+        _articles = null;
+        _revisions = null;
+        _candidates = null;
+        _scored = 0;
+        _incidents.Clear();
+        _failure = null;
+        _completed = null;
+        _cancelled = false;
         _busy = true;
-        _result = null;
         try
         {
-            _result = await Investigations.InvestigateAsync(_input.Topic!, ct);
+            await foreach (var e in Runner.RunAsync(_topic, ct))
+            {
+                Apply(e);
+                StateHasChanged();
+            }
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
         {
-            // Superseded by a newer search, or the circuit went away.
+            // Cancel button, a newer search, or the circuit went away.
+            if (ReferenceEquals(run, _cts)) _cancelled = true;
         }
         finally
         {
-            _busy = false;
+            if (ReferenceEquals(run, _cts)) _busy = false; // a newer search owns the page state now
         }
     }
+
+    private void Apply(InvestigationEvent e)
+    {
+        switch (e)
+        {
+            case ArticlesFound a:
+                _articles = a.Items;
+                break;
+            case RevisionsScanned s:
+                _revisions = s.Count;
+                _candidates = s.Candidates;
+                break;
+            case CandidateScored c:
+                _scored = c.Index;
+                if (c.Incident is not null)
+                {
+                    _incidents.Add(c.Incident);
+                    _incidents.Sort((x, y) => y.Score.CompareTo(x.Score));
+                }
+                break;
+            case StageFailed f:
+                _failure = f;
+                break;
+            case Completed done:
+                _completed = done;
+                _incidents.Clear();
+                _incidents.AddRange(done.Incidents);
+                break;
+        }
+    }
+
+    private void Cancel() => _cts?.Cancel();
+
+    private string ProgressText()
+    {
+        if (_articles is null) return _failure is null ? $"Finding articles for “{_topic}”…" : "Stopped.";
+        var parts = new List<string> { $"{_articles.Count} article{(_articles.Count == 1 ? "" : "s")}" };
+        if (_revisions is { } n) parts.Add($"{n:N0} revisions scanned");
+        if (_candidates is { } c) parts.Add($"{_scored}/{c.Count} removed edits read");
+        parts.Add($"{_incidents.Count} incident{(_incidents.Count == 1 ? "" : "s")}");
+        var status = _completed is not null ? $"done in {_completed.Elapsed.TotalSeconds:0.0} s"
+            : _cancelled ? "cancelled"
+            : _failure is not null ? "stopped"
+            : _revisions is null ? "scanning edit history…"
+            : "reading removed edits…";
+        return $"{string.Join(" · ", parts)} — {status}";
+    }
+
+    private static string FailureTitle(StageFailed f) => f.Kind switch
+    {
+        StageFailureKind.CorpusUnavailable => "Corpus not available.",
+        StageFailureKind.EmbeddingUnavailable => "Topic search not available.",
+        _ => "Investigation stopped.",
+    };
+
+    private static string FailureHint(StageFailed f) => f.Kind switch
+    {
+        StageFailureKind.CorpusUnavailable =>
+            " The Wikipedia corpus (MariaDB) can't be reached — is scripts/corpus-tunnel.sh running and Corpus:Password set?",
+        StageFailureKind.EmbeddingUnavailable =>
+            " The bge-m3 embedder (Ollama) can't be reached and this topic isn't cached yet.",
+        _ => " Something went wrong while analysing this topic.",
+    };
 
     public void Dispose()
     {
