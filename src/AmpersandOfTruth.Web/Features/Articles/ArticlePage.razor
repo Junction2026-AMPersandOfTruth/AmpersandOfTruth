@@ -11,7 +11,7 @@
 @inject NavigationManager Nav
 @inject IServiceProvider Services
 
-<PageTitle>@(_aggregates is not null ? $"{_aggregates.TitleFi} · Ampersand of Truth" : "Article · Ampersand of Truth")</PageTitle>
+<PageTitle>@FormatPageTitle(_aggregates)</PageTitle>
 
 <div class="aot-page aot-stack">
     @if (_loading)
@@ -75,7 +75,7 @@
                        rel="noopener"
                        class="aot-small"
                        style="margin-left:8px"
-                       data-testid="wiki-article-link">fi.wikipedia ↗</a>
+                       data-testid="wiki-article-link">Finnish Wikipedia ↗</a>
                 }
             </h1>
             <div class="aot-row aot-small aot-muted">
@@ -118,10 +118,10 @@
                                 <tr>
                                     <th>Time (UTC)</th>
                                     <th>Editor</th>
-                                    <th>Edit summary</th>
-                                    <th>Size change</th>
+                                    <th>Edit summary (Finnish)</th>
+                                    <th>Bytes changed</th>
                                     <th>Status</th>
-                                    <th>Diff</th>
+                                    <th>On Wikipedia</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -146,13 +146,14 @@
                                             <a href="@WikipediaLinks.Diff(rev.RevId).AbsoluteUri"
                                                target="_blank"
                                                rel="noopener"
-                                               data-testid="wiki-diff-link">diff ↗</a>
+                                               data-testid="wiki-diff-link">View change ↗</a>
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
                     </div>
+                    <p class="aot-small aot-muted" style="margin:4px 0 0">Edit summaries above are shown in their original Finnish from Wikipedia.</p>
                 }
             </section>
         }
@@ -510,6 +511,15 @@
 
         return uri;
     }
+
+    internal static string FormatPageTitle(ArticleAggregates? a) => a switch
+    {
+        null => "Article · Ampersand of Truth",
+        { TitleEn: { Length: > 0 } en } when !string.Equals(en, a.TitleFi, StringComparison.Ordinal) =>
+            $"{en} ({a.TitleFi}) · Ampersand of Truth",
+        { TitleEn: { Length: > 0 } en } => $"{en} · Ampersand of Truth",
+        _ => $"{a.TitleFi} (Finnish Wikipedia) · Ampersand of Truth",
+    };
 
     internal static string FormatHeaderCounts(ArticleAggregates a)
     {

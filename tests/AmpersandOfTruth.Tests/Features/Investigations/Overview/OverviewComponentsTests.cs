@@ -35,7 +35,7 @@ public sealed class OverviewComponentsTests : BunitContext
         Assert.Contains("Finding articles", cut.Find("[data-testid=stage-1]").TextContent);
         Assert.Contains("Still working…", cut.Find("[data-testid=stage-1]").TextContent);
         Assert.Contains("Scanning edit history", cut.Find("[data-testid=stage-2]").TextContent);
-        Assert.Contains("Reading suspicious edits", cut.Find("[data-testid=stage-3]").TextContent);
+        Assert.Contains("Reading removed edits", cut.Find("[data-testid=stage-3]").TextContent);
         Assert.Contains("Assembling incidents", cut.Find("[data-testid=stage-4]").TextContent);
 
         cut.Find("[data-testid=cancel-run]").Click();

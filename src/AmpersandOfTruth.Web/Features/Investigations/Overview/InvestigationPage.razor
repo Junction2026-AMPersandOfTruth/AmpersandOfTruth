@@ -704,6 +704,12 @@
                 var aggregates = await timelineService.AggregatesAsync(article.PageId, ct);
                 if (ct.IsCancellationRequested || _disposed || !ReferenceEquals(ownerCts, _cts)) return;
 
+                if (!string.IsNullOrWhiteSpace(aggregates?.TitleEn) && !_articleTitlesEn.ContainsKey(article.PageId))
+                {
+                    _articleTitlesEn[article.PageId] = aggregates.TitleEn;
+                    loadedAny = true;
+                }
+
                 if (aggregates is { Months.Count: > 0 })
                 {
                     _sparklines[article.PageId] = aggregates;

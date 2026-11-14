@@ -3,7 +3,7 @@
 @using AmpersandOfTruth.Web.Features.Investigations.Pipeline
 
 <details class="aot-collapsed" data-testid="unflagged-toggle" open="@Open">
-    <summary>Removed edits we did not flag (@Items.Count.ToString("N0", CultureInfo.InvariantCulture))</summary>
+    <summary>Removed edits we did not flag (@Items.Count.ToString("N0", CultureInfo.InvariantCulture)) — routine cleanup, formatting, vandalism</summary>
     @if (Items.Count > 0)
     {
         <div style="overflow-x:auto;margin-top:12px">
@@ -11,10 +11,10 @@
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>Article</th>
+                        <th>Article (Finnish Wikipedia)</th>
                         <th>Account</th>
-                        <th>Removal summary</th>
-                        <th>Diff</th>
+                        <th>Removal summary (Finnish)</th>
+                        <th>On Wikipedia</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,12 +36,13 @@
                                 }
                             </td>
                             <td style="white-space:nowrap">
-                                <a href="@item.Revert.RevertedDiffUrl.AbsoluteUri" target="_blank" rel="noopener">diff ↗</a>
+                                <a href="@item.Revert.RevertedDiffUrl.AbsoluteUri" target="_blank" rel="noopener">View change ↗</a>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
+            <p class="aot-small aot-muted" style="margin:8px 0 0">Article titles and edit summaries above are shown in their original Finnish from Wikipedia.</p>
         </div>
     }
 </details>

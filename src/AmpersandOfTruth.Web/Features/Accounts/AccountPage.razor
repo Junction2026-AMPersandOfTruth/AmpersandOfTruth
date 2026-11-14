@@ -111,7 +111,7 @@
                     <table class="aot-wikitable" style="width:100%" data-testid="account-articles">
                         <thead>
                             <tr>
-                                <th scope="col">Article</th>
+                                <th scope="col">Article (Finnish Wikipedia)</th>
                                 <th scope="col">Edits</th>
                                 <th scope="col">Later removed</th>
                             </tr>
@@ -129,6 +129,7 @@
                             }
                         </tbody>
                     </table>
+                    <p class="aot-small aot-muted" style="margin:0">Article titles above are shown in their original Finnish from Wikipedia.</p>
                 </section>
             }
         }
@@ -153,7 +154,7 @@
     private string PageTitleText =>
         _editor.IsAnonymous || _editor.Kind != EditorKind.Named
             ? "Anonymous editor · Ampersand of Truth"
-            : $"{_editor.DisplayName} · Ampersand of Truth";
+            : "Account activity · Ampersand of Truth";
 
     protected override async Task OnParametersSetAsync()
     {

@@ -32,7 +32,9 @@ public sealed class AccountPageTests : BunitContext
         var cut = Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
 
         var title = cut.FindComponent<PageTitle>();
-        Assert.Contains("Pohjantähti77 · Ampersand of Truth", Render(title.Instance.ChildContent!).Markup);
+        var titleMarkup = Render(title.Instance.ChildContent!).Markup;
+        Assert.Contains("Account activity · Ampersand of Truth", titleMarkup);
+        Assert.DoesNotContain("Pohjantähti77", titleMarkup, StringComparison.OrdinalIgnoreCase);
 
         var editorLabel = cut.Find("[data-testid=account-heading] [data-testid=editor-label]");
         var contrib = editorLabel.QuerySelector("a");

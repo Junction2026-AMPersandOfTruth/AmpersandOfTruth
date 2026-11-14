@@ -103,7 +103,7 @@
         <ul class="methodology-list">
             <li><strong>Wikimedia dumps</strong> — revision history of Finnish Wikipedia (<code>fi.wikipedia.org</code>), licensed under @Attribution.License.</li>
             <li><strong>FineWiki</strong> — cleaned Wikipedia article prose.</li>
-            <li><strong>MariaDB Foundation datasets</strong> — structured Wikipedia corpus tables and <code>bge-m3</code> article embeddings.</li>
+            <li><strong>MariaDB Foundation datasets</strong> — structured Wikipedia article and revision tables and <code>bge-m3</code> article embeddings.</li>
         </ul>
     </section>
 </div>
@@ -125,7 +125,7 @@
             EvidenceTiers.Contested,
             [
                 "Everything required for Level 1.",
-                "Automated assessment reads the added text with confidence of at least 3 out of 5 as a factual claim, a point-of-view push, a content dispute, or source manipulation, quoting exact words from the edit.",
+                "Automated assessment reads the added text with confidence of at least 3 out of 5 as an unverified or disputed factual claim, one-sided wording, a content dispute, or a change to cited sources, quoting exact words from the edit.",
                 "Wikipedia editors disputed it in at least one observable way: the removal summary raised accuracy, neutrality or sourcing; the content was put back at least once after removal; editors went back and forth over the passage; or an editor added a dispute notice to the article in the same episode.",
                 "Neither the automated assessment nor edit-history signals can reach Level 2 on their own — both must agree.",
             ]),
@@ -137,7 +137,7 @@
                 "Multiple editors: the same claim was added by at least 2 distinct editors (anonymous edits from the same masked IP range count as one editor).",
                 "Multiple articles: the same claim was added to at least 2 articles.",
                 "Persistence: the claim was put back at least 2 times, with at least 7 days between its first and last insertion.",
-                "Sources: a cited source was removed, replaced, or made up alongside the claim.",
+                "Sources: a cited source was removed, replaced, or did not support the claim.",
                 "A single account editing one article, no matter how many times, stays at Level 2.",
             ]),
     ];

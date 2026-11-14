@@ -33,6 +33,10 @@
                 <span lang="fi">@Article.Title</span>
                 <text> · @EffectiveMatchReason</text>
             }
+            else if (string.IsNullOrWhiteSpace(TitleEn))
+            {
+                <text>Finnish Wikipedia · @EffectiveMatchReason</text>
+            }
             else
             {
                 @EffectiveMatchReason
