@@ -1,0 +1,58 @@
+{
+  "total_seconds": 57.25,
+  "steps": [
+    {
+      "step": "1. Drop previous staging & target tables",
+      "seconds": 0.53
+    },
+    {
+      "step": "2. Order revisions per page, drop null revisions, compute SHA-1 lag/lead",
+      "seconds": 10.35
+    },
+    {
+      "step": "3. Detect canonical identity reverts (P.sha1 = R.sha1, latest P < R - 1)",
+      "seconds": 1.89
+    },
+    {
+      "step": "4. Aggregate span editor flags, bot/self flags, and re-insertion seq per revert",
+      "seconds": 6.51
+    },
+    {
+      "step": "5. Detect 48-hour mutual-revert edit-war user pairs",
+      "seconds": 7.14
+    },
+    {
+      "step": "6. Build research.s1_reverted_edit (earliest non-excluded reverting R per edit)",
+      "seconds": 8.36
+    },
+    {
+      "step": "7. Build research.s1_revert (auto-summary family 1-6, re-insertion, 7-way class)",
+      "seconds": 2.24
+    },
+    {
+      "step": "8. Build research.s1_page_stats (all 19,742 corpus pages)",
+      "seconds": 2.27
+    },
+    {
+      "step": "9. Build research.s1_user_stats (exact utf8mb4_bin usernames)",
+      "seconds": 9.56
+    },
+    {
+      "step": "10. Clean up staging tables",
+      "seconds": 0.53
+    },
+    {
+      "step": "11. Verify invariants (uniqueness, zero null revisions)",
+      "seconds": 7.87
+    }
+  ],
+  "invariants": {
+    "s1_revert_rows": 46049,
+    "s1_reverted_edit_rows": 58886,
+    "s1_page_stats_rows": 19742,
+    "s1_user_stats_rows": 73436,
+    "duplicate_reverted_edits": 0,
+    "null_revs_in_reverted_edit": 0,
+    "non_excluded_zero_owned": 0
+  }
+}
