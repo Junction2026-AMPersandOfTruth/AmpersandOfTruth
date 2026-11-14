@@ -60,7 +60,8 @@ def main() -> int:
     user = f"Topic: {topic}\n<data>\n{json.dumps(blind, ensure_ascii=False)}\n</data>"
     body = {
         "model": model, "store": False, "system_instruction": system, "input": user,
-        "generation_config": {"temperature": 0, "max_output_tokens": 32768, "thinking_level": "medium"},
+        "generation_config": {"temperature": 0, "max_output_tokens": int(os.environ.get("GEMINI_MAX_OUT", "65536")),
+                              "thinking_level": os.environ.get("GEMINI_THINKING", "medium")},
         "response_format": {"type": "text", "mime_type": "application/json", "schema": SCHEMA},
         "safety_settings": [{"type": t, "threshold": "off"} for t in ("hate_speech", "harassment", "dangerous_content", "sexually_explicit")],
     }
@@ -80,7 +81,7 @@ def main() -> int:
     text = "".join(c.get("text", "") for s in resp.get("steps", []) if s.get("type") == "model_output"
                    for c in s.get("content", []) if c.get("type") == "text")
     if resp.get("status") not in (None, "completed") or not text:
-        print(f"❌ {topic}: status {resp.get('status')}, no text", file=sys.stderr); return 1
+        print(f"❌ {topic}: status {resp.get('status')}, no text; usage {resp.get('usage')}", file=sys.stderr); return 1
     out = json.loads(text)
     ids = {i["id"] for i in blind["items"]}
     labels = {x["id"]: {k: x[k] for k in ("label", "exclusion", "category", "why")} for x in out["labels"] if x["id"] in ids}
