@@ -174,6 +174,7 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
 ## Testing
 
 - DB tests: `using var db = new TestDb();` gives a real in-memory SQLite DB with migrations applied. `db.Factory` for services, `db.AddTo(Services)` for bUnit.
+  Every context opens its own connection, as in the app, so code that queries from parallel tasks is safe (#106: never share one `SqliteConnection` between contexts).
 - bUnit 2.x API: test class inherits `BunitContext`; use `Render<T>()`, `Services.Add...`, `cut.Find(...)`, `.Change()`, `.Click()`, `.Submit()`.
 - Async data loading → use `cut.WaitForElement(...)` / `cut.WaitForAssertion(...)`, not immediate `Find`.
 - Every new page: add its route to `AppSmokeTests` `InlineData` — this catches DI and routing breakage cheaply.

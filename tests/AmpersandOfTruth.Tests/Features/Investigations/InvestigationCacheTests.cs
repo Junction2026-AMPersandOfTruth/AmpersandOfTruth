@@ -21,6 +21,7 @@ public class InvestigationCacheTests : IDisposable
     public async Task Second_run_replays_the_same_events_from_cache_without_the_corpus_or_llm()
     {
         var cold = await Run();
+        Assert.Equal(0, Assert.IsType<Completed>(cold[^1]).Degraded); // a degraded run isn't cached, so nothing could replay
         _kit.Corpus.Unavailable = true;
         _kit.Revisions.Unavailable = true;
         _kit.Embedder.Unavailable = true;
@@ -109,6 +110,18 @@ public class InvestigationCacheTests : IDisposable
         Assert.Equal(reads, _kit.Revisions.TextReads);
         await using var db = _db.CreateContext();
         Assert.Equal(2, await db.Set<EditReadingCacheRow>().CountAsync());
+    }
+
+    [Fact]
+    public async Task A_reading_cache_storage_problem_does_not_cost_the_reading()
+    {
+        await using (var db = _db.CreateContext())
+            await db.Database.ExecuteSqlRawAsync("DROP TABLE EditReadingCache");
+
+        var done = Assert.IsType<Completed>((await Run())[^1]);
+
+        Assert.Equal(0, done.Degraded);
+        Assert.NotNull(Assert.Single(done.Incidents).Assessment);
     }
 
     [Fact]
