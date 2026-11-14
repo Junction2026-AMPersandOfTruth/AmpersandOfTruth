@@ -4,6 +4,7 @@
 @using Microsoft.Extensions.Diagnostics.HealthChecks
 @using Microsoft.Extensions.Options
 @inject HealthCheckService HealthChecks
+@inject IServiceProvider Services
 @inject RecentTopics Recent
 @inject IOptions<SearchOptions> Options
 
@@ -103,11 +104,9 @@
     {
         try
         {
-            var report = await HealthChecks.CheckHealthAsync(
-                static reg => reg.Name is "corpus" or "embedding"
-                    || reg.Tags.Contains("corpus")
-                    || reg.Tags.Contains("embedding"),
-                _cts.Token);
+            // Cached for 30 s (SearchServiceStatus) so the landing page never waits on a DB/Ollama ping per load.
+            var status = Services.GetService<SearchServiceStatus>() ?? new SearchServiceStatus(HealthChecks, TimeProvider.System);
+            var report = await status.GetAsync(_cts.Token);
 
             var degraded = report.Entries
                 .Where(static e => e.Value.Status != HealthStatus.Healthy)

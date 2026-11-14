@@ -19,6 +19,9 @@ public static class SearchFeature
             });
 
         services.AddSingleton<IScopeCheck, AlwaysInScope>();
+        services.AddSingleton(sp => new SearchServiceStatus(
+            sp.GetRequiredService<Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckService>(),
+            sp.GetService<TimeProvider>() ?? TimeProvider.System));
         services.AddScoped<RecentTopics>();
         return services;
     }
