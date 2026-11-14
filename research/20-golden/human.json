@@ -2,7 +2,9 @@
  "_policy": {
   "spot_check_accepts_agreed": true,
   "by": "human:key44",
-  "note": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read."
+  "note": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
+  "disagreements_default": "labeller",
+  "labeller_note": "Unresolved disagreement: the labeller's label is kept, because the human review (2026-11-14) found the labeller the most reliable of the three passes."
  },
  "continuation-war/i16": {
   "label": "reverted",
@@ -84,5 +86,43 @@
   "note": "Sided with the labeller.",
   "exclusion": "not-substantive",
   "category": "other"
+ },
+ "nato-debate/n03": {
+  "label": "not-incident",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller.",
+  "exclusion": "graffiti",
+  "category": "test_or_nonsense"
+ },
+ "nato-debate/n09": {
+  "label": "not-incident",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller.",
+  "exclusion": "graffiti",
+  "category": "vandalism"
+ },
+ "nato-debate/n11": {
+  "label": "not-incident",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller.",
+  "exclusion": "not-substantive",
+  "category": "other"
+ },
+ "finlandization/i01": {
+  "label": "contested",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller.",
+  "category": "pov_push"
+ },
+ "finlandization/i02": {
+  "label": "contested",
+  "verified": true,
+  "by": "human:key44",
+  "note": "Sided with the labeller.",
+  "category": "pov_push"
  }
 }

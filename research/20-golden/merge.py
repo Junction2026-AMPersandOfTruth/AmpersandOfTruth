@@ -73,9 +73,10 @@ def main() -> int:
                              concern=concerns.get(it["id"]))
                 disagree = any(b["label"] != lab_l for _, b in others)
                 stats["disagree" if disagree else "agree"] += 1
+                labeller_wins = policy.get("disagreements_default") == "labeller"
                 if disagree:
                     low_tag, low = min(others, key=lambda o: LEVEL[o[1]["label"]])
-                    if LEVEL[low["label"]] < LEVEL[lab_l]:
+                    if LEVEL[low["label"]] < LEVEL[lab_l] and not labeller_wins:
                         it["label"] = low["label"]
                         if it["label"] == "not-incident":
                             it["exclusion"] = low.get("exclusion")
@@ -83,7 +84,8 @@ def main() -> int:
                             it.pop("exclusion", None)
                     it["notes"] = ("Labellers disagree: labeller " + fmt(lab_l, lab_e) + "; " +
                                    "; ".join(f"{tag} {fmt(b['label'], b.get('exclusion'))} ({b.get('why', '')})" for tag, b in others) +
-                                   ". Lowest level kept until a human decides.")
+                                   (". Labeller's label kept (human review policy)." if labeller_wins
+                                    else ". Lowest level kept until a human decides."))
                 for tag, b in others:
                     k = f"agree_{tag}"
                     stats[k] = stats.get(k, 0) + (b["label"] == lab_l)
@@ -111,11 +113,16 @@ def main() -> int:
                 by.append(policy["by"] + ":spot-check")
                 it["notes"] = (it.get("notes", "") + " " + policy["note"]).strip()
                 stats["spot_check_accepted"] = stats.get("spot_check_accepted", 0) + 1
+            elif policy.get("disagreements_default") == "labeller" and disagree:
+                it["human_verified"] = True
+                by.append(policy["by"] + ":labeller-default")
+                it["notes"] = (it.get("notes", "") + " " + policy["labeller_note"]).strip()
+                stats["labeller_default"] = stats.get("labeller_default", 0) + 1
             else:
                 it["human_verified"] = False
             it["labelled_by"] = by
             kept.append(it)
-            if disagree and not h:
+            if disagree and not h and policy.get("disagreements_default") != "labeller":
                 review_a.append(entry)
             elif it["label"] in contract.STRICT_RELEVANT and not it["human_verified"]:
                 review_b.append(entry)
@@ -162,7 +169,7 @@ def write_review(a: list, b: list, counts: dict, stats: dict, missing: list) -> 
            "**Record decisions** either in chat (e.g. \"winter-war: all B agree; i06 → contested\") and Claude writes",
            "`human.json`, or directly in `human.json`: `{\"<item id>\": {\"label\": \"contested\", \"verified\": true, \"by\": \"human:<initials>\"}}`",
            "(`\"exclusion\"` for not-incident, `\"drop\": true` to remove an item). Then `python3 research/20-golden/merge.py`.", "",
-           "- **A** = labellers disagree; the draft keeps the lowest level. Pick one.",
+           "- **A** = labellers disagree and no policy applies; the draft keeps the lowest level. Pick one.",
            "- **B** = labellers agree on contested/campaign; confirm (or demote) before sign-off.", "",
            f"Counts: {json.dumps(counts)}", f"Agreement: {json.dumps(stats)}",
            f"Topics not labelled yet: {', '.join(missing) or 'none'}", "", "## Contents", ""]
