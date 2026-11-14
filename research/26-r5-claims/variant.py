@@ -18,6 +18,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "lib"))
 import aot  # noqa: E402
 
 RRF_K = 60
+EXCLUDE_CLASSES: tuple[str, ...] = ()  # S1 classes whose passages are dropped (set by --exclude-classes)
 
 
 def _sql_retry(query: str) -> list[dict]:
@@ -33,7 +34,12 @@ def _sql_retry(query: str) -> list[dict]:
 
 def nearest_claims(vec: list[float], k_pages: int) -> tuple[list[dict], list[dict]]:
     """Query HNSW index on research.r5_claim_vector; return (raw_passages, grouped_by_page)."""
-    fetch = max(k_pages * 8, 100)
+    fetch = max(k_pages * 8, 100) * (3 if EXCLUDE_CLASSES else 1)
+    excl = ""
+    if EXCLUDE_CLASSES:
+        # Filter AFTER the HNSW scan (a WHERE inside the subquery would bypass the index); over-fetch 3x to compensate.
+        excl = ("JOIN research.s1_revert r ON r.reverting_rev_id = c.removing_rev_id WHERE r.class NOT IN ("
+                + ",".join(aot.quote(x) for x in EXCLUDE_CLASSES) + ")")
     rows = _sql_retry(
         f"""
         SELECT c.passage_id, c.page_id, c.removing_rev_id, a.title, v.distance
@@ -45,6 +51,7 @@ def nearest_claims(vec: list[float], k_pages: int) -> tuple[list[dict], list[dic
         ) v
         JOIN research.r5_claim_vector c USING (passage_id)
         LEFT JOIN corpus.article a ON a.lang = 'fi' AND a.page_id = c.page_id
+        {excl}
         ORDER BY v.distance ASC, c.passage_id ASC
         """
     )
@@ -196,7 +203,11 @@ def retrieve(text: str, k: int, mode: str) -> dict:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--mode", default="hybrid", choices=["claims", "hybrid"])
+    ap.add_argument("--exclude-classes", default="",
+                    help="comma-separated S1 classes whose passages are ignored, e.g. graffiti_cleanup")
     args = ap.parse_args()
+    global EXCLUDE_CLASSES
+    EXCLUDE_CLASSES = tuple(x.strip() for x in args.exclude_classes.split(",") if x.strip())
     req = json.load(sys.stdin)
     if req.get("kind") != "retrieval":
         sys.exit(f"r5 handles only kind 'retrieval', got {req.get('kind')!r}")

@@ -78,7 +78,7 @@ batches of 20).
 
 - On a `--limit 200` full-corpus run: **200** reverts → **196** substantive non-blanking diffs → **330** passages
   (**65,960** chars: `dispute` 53, `edit_war` 65, `graffiti_cleanup` 210, `other` 2). Extrapolating `330 / 200` gives
-  roughly **~14,500 passages** across all 8,767 reverts (~5,000–6,000 excluding `graffiti_cleanup`).
+  roughly **~14,500 passages** across all 8,767 reverts. *(Actual full run: **24,136**, 8,043 without `graffiti_cleanup`; see "Real runs" below.)*
 - **VPS throughput:** at idle, one 20-PK batch + `0.2s` throttle takes ~1.0 s (~15 min for all 877 batches). Under
   concurrent hackathon load on the shared 2-vCPU MariaDB VPS, 15 uncached PK batches took **68.8 s** (4.6 s/batch,
   projecting ~65 min for all 17,524 PKs). To avoid starving interactive queries on the 2-vCPU server, we stopped bulk
@@ -96,38 +96,50 @@ check page_id=1095 (3923 chars): cosine=0.999998 [OK, 4841 ms]
 
 ---
 
-## Smoke-test index & probe comparison vs R1
+## Real runs (teammate, Apple silicon, #94)
 
-> **IMPORTANT — SMOKE TEST ONLY, NOT THE REAL INDEX:** Until `vectors.jsonl` comes back from Apple silicon (#94),
-> `research.r5_claim_vector` is loaded with **180 short (`<= 600` char) passages across the 17 `CORE` demo articles**,
-> embedded one at a time via `aot.embed`. Because **only** `CORE` pages (the top 4 demo topics: Civil War, Continuation
-> War, Winter War, Karelia) are in this smoke-test table, RRF promotes those 17 pages on *every* query — artificially
-> inflating hits on the first 9 probes while pushing rank-20 non-`CORE` pages (`Suomen Nato-keskustelu` on `nato.en`)
-> out of top 20. Treat the table below strictly as an end-to-end plumbing check, **never** as a retrieval benchmark.
+| Step | Result |
+|---|---|
+| `embed.py --check` | cosine 0.999999 / 0.999999 / 0.999998 (Ollama 0.40.16, Apple M1 Pro 16 GB) |
+| CORE extract → embed → load | **697 passages over 17 pages**; embedding at 56 s per 1,000 passages (1,067/min); `load.py` 74.5 s |
+| Full extraction | **24,136 passages from 8,767 reverts** (dispute 4,291 · edit_war 3,227 · graffiti_cleanup **16,093** · other 525); 1.7× the estimate above |
+| Full embedding | ~750 passages/min (longer passages); the reload of `research.r5_claim_vector` is atomic (`__tmp` swap) |
 
-| Probe | Expected `fi` articles | R1 (`8-r1-vector`, all langs) ranks | R5 hybrid smoke test (`--mode hybrid`) ranks | R5 claims-only smoke test (`--mode claims`) ranks |
-|---|---|---|---|---|
-| `civil-war.en` | *Suomen sisällissota*; *Suomen sisällissodan nimet*; *Punakaarti*; *Suojeluskunta* | 1; 16; —; 9 | 1; 3; 5; 2 | 1; 5; 4; 2 |
-| `civil-war.fi` | *Suomen sisällissota*; *Suomen sisällissodan nimet* | 4; 1 | 2; 1 | 3; 1 |
-| `civil-war.broad` | *Suomen sisällissota*; *Punakaarti*; *Suojeluskunta* | —; 2; — | 2; 1; 3 | 1; 3; 2 |
-| `continuation-war.en` | *Jatkosota*; *Risto Ryti*; *Sotasyyllisyysoikeudenkäynti* | 3; —; — | 1; 6; 5 | 1; 5; 4 |
-| `continuation-war.sv` | *Jatkosota* | 2 | 1 | 1 |
-| `winter-war.en` | *Talvisota*; *Mainilan laukaukset*; *Talvisodan tausta* | 3; 1; 7 | 1; 2; 12 | 1; 9; — |
-| `winter-war.fi` | *Talvisota*; *Talvisodan tausta*; *Mainilan laukaukset* | 3; 1; — | 1; 9; 8 | 1; —; 8 |
-| `karelia.en` | *Karjala-kysymys*; *Luovutettu Karjala*; *Karjala*; *Suur-Suomi* | 5; —; 7; — | 2; 3; 1; 9 | 2; 3; 1; 7 |
-| `karelia.broad` | *Karjala-kysymys*; *Luovutettu Karjala* | —; — | 2; 13 | 2; 12 |
-| `nato.en` | *Suomen Nato-keskustelu* | 20 | — | — |
-| `finlandization.en` | *Suomettuminen*; *Urho Kekkonen*; *Suomi–Neuvostoliitto-Seura* | 5; 1; — | 10; 2; — | —; —; — |
-| `swedish.en` | *Fennomania*; *Suomalaisuuden liitto*; *Axel Olof Freudenthal* | —; —; — | —; —; — | —; —; — |
-| `sami.en` | *Saamelaiset*; *Saamelaisten historia*; *Metsäsaamelaiset* | 3; 2; 6 | 5; 3; 11 | —; —; — |
-| `lapua.fi` | *Lapuanliike*; *Isänmaallinen kansanliike* | 2; — | 3; — | —; —; — |
-| `oos.bitcoin` | *(out of corpus)* | `oos=False` | `oos=False` | `oos=False` |
-| `oos.kpop` | *(out of corpus)* | `oos=False` | `oos=False` | `oos=False` |
-| **Summary (smoke test)** | **37 expected titles** | **20 top-10 / 22 top-20** | **28 top-10 / 31 top-20*** | **20 top-10 / 23 top-20*** |
+- **`graffiti_cleanup` dominates:** 66.7% of passages and 82.7% of characters (multi-kilobyte copy-paste vandalism split
+  into 1,500-char chunks). Without it there are 8,043 passages. Use `--exclude-classes graffiti_cleanup` (below) instead of
+  reloading.
+- **Bulk text fetches through the SSH tunnel are the bottleneck, not MariaDB:** batches of 20 primary keys took 1–12 s while the VPS sat
+  idle, the tunnel threw TLS errors and finally stopped accepting connections. The same 5,901 texts took 12 s when fetched on
+  the VPS itself (byte-identical). For anything that pulls a lot of `revision_text`, fetch on the VPS or use the golden slice
+  (`research/slice/`).
 
-*\*Biased upward on probes 1–9 because the smoke-test index contains only the 17 `CORE` pages (full tables in `results/probe.hybrid.md` and `results/probe.claims.md`).*
+## `--exclude-classes`
 
-**Qualitative cross-lingual signal check (`--mode claims` alone):** querying English claim phrasings directly against
-Finnish removed passages lands on the target article:
-- `"occupied territories instead of ceded Karelia"` → *Luovutettu Karjala* (`410370:0`, cosine distance `0.468`), *Karjala* (`0.495`), *Suur-Suomi* (`0.528`) — whereas R1 missed *Luovutettu Karjala* on `karelia.en`.
-- `"War of Liberation rather than a civil war"` → *Suomen sisällissota* (`8000236:0`, cosine distance `0.439`).
+`variant.py --exclude-classes graffiti_cleanup[,other]` drops passages whose revert has that S1 class
+(`research.s1_revert.class`, joined on `removing_rev_id`). The filter runs after the HNSW scan (a `WHERE` inside the subquery
+would bypass the index), with a 3× over-fetch.
+
+## Probe check on the CORE table (697 passages, 17 pages): eyeball only, not a score
+
+`results/probe.core697.*.md`. **Biased upward:** the claim index only covers the 17 demo-topic core articles, so
+every hit the claim arm adds is on a probe's own topic. Treat the claim arm's value as unmeasured until the full table
+is loaded and scored on the golden set (incident recall with vs without the claim arm, which is what #26 asks for).
+
+| Variant | Expected in top 10 | Expected in top 20 |
+|---|---:|---:|
+| R1 (`8-r1-vector`) | 20 | 22 |
+| `--mode claims` | 18 | 22 |
+| `--mode claims --exclude-classes graffiti_cleanup` | 17 | 21 |
+| `--mode hybrid` (R1 + claim arm, RRF k=60) | **27** | **31** |
+| `--mode hybrid --exclude-classes graffiti_cleanup` | **27** | 29 |
+
+- The claim arm alone is about as good as R1 at *finding articles*, which is not its job. Its value is landing on the
+  rejected text itself (`debug.top_passages`), which this article-level probe cannot measure.
+- Leaving out graffiti barely changes article retrieval on CORE (−2 in the top 20), so the decision rests on what the passages look like
+  in the incident list. Score both on the golden set.
+
+## Still to do (needs the full load from #94)
+
+1. After the "loaded" comment on #94: rerun the probes on the full table (expect the CORE bias to disappear).
+2. On the golden set (#20/#21): incident recall with and without the claim arm, `hybrid` vs R1 and vs R3-E/R4-D, with and without
+   `graffiti_cleanup`; list the incidents only the claim arm finds.
