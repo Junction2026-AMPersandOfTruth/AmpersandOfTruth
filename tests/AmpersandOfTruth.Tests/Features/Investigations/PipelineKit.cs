@@ -3,6 +3,8 @@ using AmpersandOfTruth.Tests.Infrastructure;
 using AmpersandOfTruth.Web.Features.Analysis;
 using AmpersandOfTruth.Web.Features.Embedding;
 using AmpersandOfTruth.Web.Features.Investigations;
+using AmpersandOfTruth.Web.Features.Analysis.Prompts;
+using AmpersandOfTruth.Web.Features.Investigations.Cache;
 using AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -17,6 +19,8 @@ public sealed class FakeRevisionStore : IRevisionStore
     public Dictionary<(long Page, long Rev), string> Texts { get; } = [];
     public bool Unavailable { get; set; }
     public HashSet<long> BrokenRevisions { get; } = [];
+    private int _textReads;
+    public int TextReads => _textReads;
 
     public Task<int> RevisionCountAsync(IReadOnlyCollection<long> pageIds, CancellationToken ct = default)
     {
@@ -35,18 +39,46 @@ public sealed class FakeRevisionStore : IRevisionStore
     public Task<string?> TextAsync(long pageId, long revId, CancellationToken ct = default)
     {
         ThrowIfDown();
+        Interlocked.Increment(ref _textReads);
         if (BrokenRevisions.Contains(revId)) throw new CorpusUnavailableException($"fake: revision {revId} is unreadable");
         return Task.FromResult(Texts.GetValueOrDefault((pageId, revId)));
     }
 
-    /// <summary>Adds the restored revision and one undone edit (<paramref name="revertedRevId"/>) with their texts.</summary>
+    public Task<IReadOnlyList<RevisionRow>> RestoresAsync(
+        long pageId, DateTime afterTs, long afterRevId, IReadOnlyCollection<string> sha1s, int limit, CancellationToken ct = default)
+    {
+        ThrowIfDown();
+        var result = new List<RevisionRow>();
+        string? previous = null;
+        foreach (var r in Rows.Where(r => r.PageId == pageId && r.RevId > afterRevId).OrderBy(r => r.RevId))
+        {
+            if (r.Sha1 is not null && sha1s.Contains(r.Sha1) && r.Sha1 != previous) result.Add(r);
+            previous = r.Sha1;
+        }
+        return Task.FromResult<IReadOnlyList<RevisionRow>>(result.Take(limit).ToList());
+    }
+
+    public static readonly DateTime T0 = new(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
+
+    public static string Sha1(string text) =>
+        Convert.ToHexStringLower(System.Security.Cryptography.SHA1.HashData(System.Text.Encoding.UTF8.GetBytes(text)));
+
+    /// <summary>Adds the restored revision and one undone edit (<paramref name="revertedRevId"/>) with their texts.
+    /// Timestamps = <see cref="T0"/> + rev id minutes, matching <see cref="FakeInvestigationCorpus.Revert"/>.</summary>
     public FakeRevisionStore Edit(long pageId, long restoredRevId, long revertedRevId, string? user, string before, string after, string? comment = null)
     {
-        var ts = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
-        Rows.Add(new RevisionRow(pageId, restoredRevId, restoredRevId - 1, ts.AddMinutes(restoredRevId), "Someone", null, before.Length));
-        Rows.Add(new RevisionRow(pageId, revertedRevId, restoredRevId, ts.AddMinutes(revertedRevId), user, comment, after.Length));
+        Rows.Add(new RevisionRow(pageId, restoredRevId, restoredRevId - 1, T0.AddMinutes(restoredRevId), "Someone", null, before.Length, Sha1(before)));
+        Rows.Add(new RevisionRow(pageId, revertedRevId, restoredRevId, T0.AddMinutes(revertedRevId), user, comment, after.Length, Sha1(after)));
         Texts[(pageId, restoredRevId)] = before;
         Texts[(pageId, revertedRevId)] = after;
+        return this;
+    }
+
+    /// <summary>A later revision whose content is <paramref name="text"/> (e.g. someone putting removed content back).</summary>
+    public FakeRevisionStore Later(long pageId, long revId, string? user, string text, DateTime ts, string? comment = null)
+    {
+        Rows.Add(new RevisionRow(pageId, revId, revId - 1, ts, user, comment, text.Length, Sha1(text)));
+        Texts[(pageId, revId)] = text;
         return this;
     }
 
@@ -81,23 +113,40 @@ public sealed class PipelineKit
          "category": "{{category}}", "confidence": {{confidence}}, "historical_note_en": null, "uncertainty_note": null}
         """;
 
-    public InvestigationPipeline Build()
+    public GeminiOptions Gemini { get; } = new();
+
+    public InvestigationPipeline Build(IEditReader? reader = null)
     {
         var o = Microsoft.Extensions.Options.Options.Create(Options);
         return new InvestigationPipeline(
             new VectorTopicSearch(Embedder, Corpus, o),
             new RevertCandidateSource(Corpus, Revisions, o),
-            new CorpusEditReader(Revisions, o),
+            reader ?? new CorpusEditReader(Revisions, o),
             new GeminiEditClassifier(Model, o, NullLogger<GeminiEditClassifier>.Instance),
             o, TimeProvider.System, NullLogger<InvestigationPipeline>.Instance);
     }
 
+    /// <summary>The app's composition: run cache + reading cache on <paramref name="db"/> around the real pipeline.</summary>
+    public CachingInvestigationRunner BuildCaching(TestDb db)
+    {
+        var o = Microsoft.Extensions.Options.Options.Create(Options);
+        var reader = new CachedEditReader(new CorpusEditReader(Revisions, o), o, db.Factory, TimeProvider.System,
+            NullLogger<CachedEditReader>.Instance);
+        var gemini = Microsoft.Extensions.Options.Options.Create(Gemini);
+        var fingerprint = new PipelineFingerprint(o, gemini, new PromptLibrary(gemini, NullLogger<PromptLibrary>.Instance));
+        var cache = new InvestigationRunCache(db.Factory, fingerprint, TimeProvider.System, NullLogger<InvestigationRunCache>.Instance);
+        return new CachingInvestigationRunner(Build(reader), cache, TimeProvider.System);
+    }
+
     public void AddTo(IServiceCollection services) => services.AddSingleton<IInvestigationRunner>(Build());
 
-    public async Task<List<InvestigationEvent>> RunAsync(string topic = "Talvisota", CancellationToken ct = default)
+    public Task<List<InvestigationEvent>> RunAsync(string topic = "Talvisota", CancellationToken ct = default) =>
+        Collect(Build().RunAsync(topic, ct: ct));
+
+    public static async Task<List<InvestigationEvent>> Collect(IAsyncEnumerable<InvestigationEvent> run)
     {
         var events = new List<InvestigationEvent>();
-        await foreach (var e in Build().RunAsync(topic, ct)) events.Add(e);
+        await foreach (var e in run) events.Add(e);
         return events;
     }
 }

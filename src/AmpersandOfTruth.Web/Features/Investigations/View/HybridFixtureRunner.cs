@@ -26,7 +26,7 @@ public sealed class HybridFixtureRunner(
     ILogger<HybridFixtureRunner> log) : IInvestigationRunner
 {
     public async IAsyncEnumerable<InvestigationEvent> RunAsync(
-        string topic, [EnumeratorCancellation] CancellationToken ct = default)
+        string topic, bool refresh = false, [EnumeratorCancellation] CancellationToken ct = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(topic);
         var trimmed = topic.Trim();

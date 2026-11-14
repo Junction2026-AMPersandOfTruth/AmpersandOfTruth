@@ -9,8 +9,9 @@ namespace AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 /// Stage 4 placeholder: one removed edit (+ its LLM reading, if any) → <see cref="IncidentEvidence"/> →
 /// <see cref="TierRules.Assess"/> → <see cref="IncidentRecord"/>, or null when the evidence standard excludes it.
 /// One edit = one incident until P1.S10 (#37) groups edits by claim cluster / conflict episode.
-/// Signals not wired yet (left at their "no evidence" default): removal reason (S5), re-insertion (S1), edit war (S4),
-/// dispute template, multiple articles, source change (S8). Pure and thread-safe.
+/// Wired: removal reason (S5, <see cref="RevertReasons"/>), re-insertion (S1 identity restores), distinct editors.
+/// Not yet (left at their "no evidence" default): edit war (S4), dispute template, multiple articles, source change (S8),
+/// kept-in-latest. Pure and thread-safe.
 /// </summary>
 public static partial class IncidentAssembler
 {
@@ -26,6 +27,10 @@ public static partial class IncidentAssembler
         var reverterKey = EditorDisplay.For(revert.User).GroupingKey;
         var assessment = classification is null ? null : Assessment(classification, reading.InsertedText);
 
+        var reinsertions = reading.Reinsertions;
+        var inserters = span.Concat(reinsertions).ToList();
+        var removalReason = RevertReasons.Of(revert.Comment);
+
         var evidence = new IncidentEvidence
         {
             IsSubstantive = diff.Stats.IsSubstantive,
@@ -35,7 +40,10 @@ public static partial class IncidentAssembler
             Assessment = assessment is null
                 ? null
                 : new ContentAssessment(assessment.Category, assessment.Confidence, assessment.HasVerifiedQuote),
-            DistinctInsertingEditors = Math.Max(1, span.Select(r => EditorDisplay.For(r.User).GroupingKey).Distinct().Count()),
+            RemovalReason = removalReason,
+            ReinsertionCount = reinsertions.Count,
+            InsertionSpan = reinsertions.Count == 0 ? TimeSpan.Zero : reinsertions[^1].Timestamp - span[0].Timestamp,
+            DistinctInsertingEditors = Math.Max(1, inserters.Select(r => EditorDisplay.For(r.User).GroupingKey).Distinct().Count()),
         };
 
         var tier = TierRules.Assess(evidence);
@@ -50,7 +58,7 @@ public static partial class IncidentAssembler
         {
             Id = edit.Key,
             PageId = edit.Article.PageId,
-            InsertingRevIds = [.. span.Select(r => r.RevId)],
+            InsertingRevIds = [.. inserters.Select(r => r.RevId)],
             RemovingRevIds = [revert.RevId],
             Tier = level,
             Score = Score(level, assessment, exposure, diff.Stats),
@@ -66,15 +74,21 @@ public static partial class IncidentAssembler
             FirstInsertedAt = firstInserted,
             LastRemovedAt = removed,
             TotalExposureSeconds = exposure,
-            ReinsertionCount = 0,
+            ReinsertionCount = reinsertions.Count,
             Edits =
             [
                 .. span.Select(r => Edit(r.RevId, r.ParentRevId, edit.Article.PageId, r.User, r.Timestamp, IncidentEditRole.Inserted, r.Comment)),
                 Edit(revert.RevId, revert.RevertedRevId, edit.Article.PageId, revert.User, revert.Timestamp, IncidentEditRole.Removed, revert.Comment),
+                .. reinsertions.Select(r => Edit(r.RevId, r.ParentRevId, edit.Article.PageId, r.User, r.Timestamp, IncidentEditRole.Reinserted, r.Comment)),
             ],
             Signals = [.. tier.Reasons.Select(r => new IncidentSignal(
                 IncidentJson.Id(r.Kind), r.Text,
-                r.Kind == TierReasonKind.ClaimContent ? assessment?.Quotes.FirstOrDefault() : null))],
+                r.Kind switch
+                {
+                    TierReasonKind.ClaimContent => assessment?.Quotes.FirstOrDefault(),
+                    TierReasonKind.RemovalReason => EditorDisplay.MaskComment(RevertReasons.ReasonText(revert.Comment)),
+                    _ => null,
+                }))],
         };
         return new Result(incident, tier);
     }

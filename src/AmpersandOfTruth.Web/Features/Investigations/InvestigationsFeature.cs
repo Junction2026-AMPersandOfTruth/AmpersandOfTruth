@@ -1,3 +1,4 @@
+using AmpersandOfTruth.Web.Features.Investigations.Cache;
 using AmpersandOfTruth.Web.Features.Investigations.Fixtures;
 using AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 using AmpersandOfTruth.Web.Features.Investigations.View;
@@ -20,28 +21,35 @@ public static class InvestigationsFeature
         // Pipeline stages (#39). Each is swapped for the winning P1 experiment without touching the rest.
         services.AddSingleton<ITopicSearch, VectorTopicSearch>();
         services.AddSingleton<ICandidateSource, RevertCandidateSource>();
-        services.AddSingleton<IEditReader, CorpusEditReader>();
+        services.AddSingleton<CorpusEditReader>();
+        services.AddSingleton<IEditReader>(sp =>
+            ActivatorUtilities.CreateInstance<CachedEditReader>(sp, (IEditReader)sp.GetRequiredService<CorpusEditReader>()));
         services.AddSingleton<IEditClassifier, GeminiEditClassifier>();
+        services.AddSingleton<InvestigationPipeline>();
 
-        // P2.0 seam (#98 §1): sample fixtures, mapper, and source switch (default = Fixtures).
+        // Run cache (#40): a topic analysed before replays at once; the page's "Re-run" bypasses it.
+        services.AddSingleton<PipelineFingerprint>();
+        services.AddSingleton<InvestigationRunCache>();
+        services.AddSingleton<CachingInvestigationRunner>();
+
+        // P2.0 seam (#98 §1): Investigations:Source = Fixtures (default: stages 1–2 real, sample incidents replayed)
+        // | Pipeline (the cached real pipeline). Pages resolve IInvestigationRunner / IIncidentSource and never change.
         services.AddSingleton<SampleIncidents>();
         services.AddSingleton<IncidentMapper>();
         services.AddSingleton<RecentRuns>();
         services.AddSingleton<HybridFixtureRunner>();
-        services.AddSingleton<InvestigationPipeline>();
         services.AddSingleton<FixtureIncidentSource>();
         services.AddSingleton<RecentRunIncidentSource>();
 
         services.AddSingleton<IInvestigationRunner>(sp =>
             sp.GetRequiredService<IOptions<InvestigationSourceOptions>>().Value.Source == IncidentSourceKind.Pipeline
-                ? sp.GetRequiredService<InvestigationPipeline>()
+                ? sp.GetRequiredService<CachingInvestigationRunner>()
                 : sp.GetRequiredService<HybridFixtureRunner>());
 
         services.AddSingleton<IIncidentSource>(sp =>
             sp.GetRequiredService<IOptions<InvestigationSourceOptions>>().Value.Source == IncidentSourceKind.Pipeline
                 ? sp.GetRequiredService<RecentRunIncidentSource>()
                 : sp.GetRequiredService<FixtureIncidentSource>());
-
         return services;
     }
 }

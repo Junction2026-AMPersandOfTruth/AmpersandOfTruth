@@ -18,6 +18,14 @@ public interface IRevisionStore
     /// </summary>
     Task<IReadOnlyList<RevisionRow>> SpanAsync(long pageId, long restoredRevId, long lastRevId, int limit, CancellationToken ct = default);
 
+    /// <summary>
+    /// Revisions after (<paramref name="afterTs"/>, <paramref name="afterRevId"/>) on one page whose sha1 is one of
+    /// <paramref name="sha1s"/>, oldest first, at most <paramref name="limit"/>. A revision with the same sha1 as the
+    /// revision right before it (a null revision) is left out, so each restore counts once.
+    /// </summary>
+    Task<IReadOnlyList<RevisionRow>> RestoresAsync(
+        long pageId, DateTime afterTs, long afterRevId, IReadOnlyCollection<string> sha1s, int limit, CancellationToken ct = default);
+
     /// <summary>Wikitext of one revision; null if the corpus has no text for it.</summary>
     Task<string?> TextAsync(long pageId, long revId, CancellationToken ct = default);
 }
@@ -39,6 +47,21 @@ public sealed class MariaDbRevisionStore(CorpusConnectionFactory corpus, ILogger
           AND (r.ts > a.ts OR (r.ts = a.ts AND r.rev_id > a.rev_id))
           AND (r.ts < b.ts OR (r.ts = b.ts AND r.rev_id <= b.rev_id))
         ORDER BY r.ts, r.rev_id
+        LIMIT @limit
+        """;
+
+    // Window over the page's later history only (idx_page_ts), so LAG sees each row's real predecessor.
+    // {sha1s} is replaced by generated parameter names (@s0, @s1, …) — never by values.
+    internal const string RestoresSql = """
+        SELECT rev_id, parent_id, ts, `user`, comment, bytes, sha1
+        FROM (
+            SELECT r.rev_id, r.parent_id, r.ts, r.`user`, r.comment, r.bytes, r.sha1,
+                   LAG(r.sha1) OVER (ORDER BY r.ts, r.rev_id) AS prev_sha1
+            FROM revision r
+            WHERE r.page_id = @page AND (r.ts > @ts OR (r.ts = @ts AND r.rev_id > @rev))
+        ) x
+        WHERE x.sha1 IN ({sha1s}) AND (x.prev_sha1 IS NULL OR x.sha1 <> x.prev_sha1)
+        ORDER BY ts, rev_id
         LIMIT @limit
         """;
 
@@ -89,7 +112,40 @@ public sealed class MariaDbRevisionStore(CorpusConnectionFactory corpus, ILogger
                     Timestamp: DateTime.SpecifyKind(r.GetDateTime(2), DateTimeKind.Utc),
                     User: r.IsDBNull(3) ? null : r.GetString(3),
                     Comment: r.IsDBNull(4) ? null : r.GetString(4),
-                    Bytes: Convert.ToInt32(r.GetValue(5))));
+                    Bytes: Convert.ToInt32(r.GetValue(5)),
+                    Sha1: sha1));
+            }
+        }, ct);
+        return rows;
+    }
+
+    public async Task<IReadOnlyList<RevisionRow>> RestoresAsync(
+        long pageId, DateTime afterTs, long afterRevId, IReadOnlyCollection<string> sha1s, int limit, CancellationToken ct = default)
+    {
+        var rows = new List<RevisionRow>();
+        if (sha1s.Count == 0) return rows;
+        await RunAsync(async conn =>
+        {
+            var names = sha1s.Select((_, i) => $"@s{i}").ToArray();
+            await using var cmd = new MySqlCommand(RestoresSql.Replace("{sha1s}", string.Join(", ", names)), conn);
+            foreach (var (name, sha1) in names.Zip(sha1s))
+                cmd.Parameters.AddWithValue(name, sha1);
+            cmd.Parameters.AddWithValue("@page", pageId);
+            cmd.Parameters.AddWithValue("@ts", afterTs);
+            cmd.Parameters.AddWithValue("@rev", afterRevId);
+            cmd.Parameters.AddWithValue("@limit", limit);
+            await using var r = await cmd.ExecuteReaderAsync(ct);
+            while (await r.ReadAsync(ct))
+            {
+                rows.Add(new RevisionRow(
+                    PageId: pageId,
+                    RevId: Convert.ToInt64(r.GetValue(0)),
+                    ParentRevId: r.IsDBNull(1) ? null : Convert.ToInt64(r.GetValue(1)),
+                    Timestamp: DateTime.SpecifyKind(r.GetDateTime(2), DateTimeKind.Utc),
+                    User: r.IsDBNull(3) ? null : r.GetString(3),
+                    Comment: r.IsDBNull(4) ? null : r.GetString(4),
+                    Bytes: Convert.ToInt32(r.GetValue(5)),
+                    Sha1: r.IsDBNull(6) ? null : r.GetString(6)));
             }
         }, ct);
         return rows;

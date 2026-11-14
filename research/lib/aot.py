@@ -5,6 +5,7 @@
 
 Corpus access goes through the `mariadb` CLI (no pip installs), configured by the contract env vars:
 CORPUS_HOST (127.0.0.1), CORPUS_PORT (3307 = scripts/corpus-tunnel.sh), CORPUS_USER (corpus_ro), CORPUS_PW, CORPUS_DB.
+Set CORPUS_SLICE=1 to target the local golden slice container at 127.0.0.1:3308 instead (research/slice/).
 If CORPUS_PW is unset, MYSQL_PWD is used. Embeddings: OLLAMA_URL (default :11434), then :11435 (VPS via the tunnel).
 Everything logs to stderr; nothing here prints to stdout.
 """
@@ -45,11 +46,19 @@ def sql(query: str, timeout: int = 110) -> list[dict]:
     """
     env = dict(os.environ)
     env["MYSQL_PWD"] = os.environ.get("CORPUS_PW") or os.environ.get("MYSQL_PWD", "")
+    use_slice = os.environ.get("CORPUS_SLICE") == "1"
+    host = "127.0.0.1" if use_slice else os.environ.get("CORPUS_HOST", "127.0.0.1")
+    port = "3308" if use_slice else os.environ.get("CORPUS_PORT", "3307")
     cmd = ["mariadb", "--batch", "--default-character-set=utf8mb4",
-           "-h", os.environ.get("CORPUS_HOST", "127.0.0.1"), "-P", os.environ.get("CORPUS_PORT", "3307"),
+           "-h", host, "-P", port,
            "-u", os.environ.get("CORPUS_USER", "corpus_ro"), os.environ.get("CORPUS_DB", "corpus")]
     t0 = time.monotonic()
-    p = subprocess.run(cmd, input=query, capture_output=True, text=True, env=env, timeout=timeout)
+    for attempt in range(4):  # the tunnel/VPS drops connections under load (ERROR 2002/2003/2013/2026): retry those only
+        p = subprocess.run(cmd, input=query, capture_output=True, text=True, env=env, timeout=timeout)
+        if p.returncode == 0 or not re.search(r"ERROR 20(02|03|13|26)|Lost connection|TLS/SSL", p.stderr):
+            break
+        log(f"  mariadb connection error, retry {attempt + 1}: {p.stderr.strip()[:120]}")
+        time.sleep(1 + 2 * attempt)
     STATS["sql_queries"] += 1
     STATS["sql_seconds"] += time.monotonic() - t0
     if p.returncode != 0:
@@ -226,3 +235,32 @@ def mask_comment(comment: str | None) -> str:
                 return d.removesuffix(" (anonymous)") + ":"
         return c
     return _C_IPV6.sub(v6, text)
+
+
+# ── Revision wikitext (PK fetch only, cached on disk) ────────────────────────
+
+def rev_texts(pairs) -> dict[int, str | None]:
+    """{rev_id: wikitext} for (page_id, rev_id) pairs, fetched by PRIMARY KEY in batches of 20 and cached on disk.
+
+    Never use this to scan: revision_text is 5.7 GB on a 2-vCPU server. None = no text row (suppressed revision).
+    """
+    d = _CACHE.parent / "revtext"
+    out: dict[int, str | None] = {}
+    todo = []
+    for page_id, rev_id in dict.fromkeys((int(p), int(r)) for p, r in pairs):
+        f = d / f"{rev_id}.txt"
+        if f.exists():
+            out[rev_id] = f.read_text(encoding="utf-8")
+        else:
+            todo.append((page_id, rev_id))
+    d.mkdir(parents=True, exist_ok=True)
+    for i in range(0, len(todo), 20):
+        chunk = todo[i:i + 20]
+        cond = " OR ".join(f"(page_id={p} AND rev_id={r})" for p, r in chunk)
+        for row in sql(f"SELECT rev_id, text FROM revision_text WHERE {cond}"):
+            rid = int(row["rev_id"])
+            out[rid] = row["text"] or ""
+            (d / f"{rid}.txt").write_text(out[rid], encoding="utf-8")
+    for _, r in todo:
+        out.setdefault(r, None)
+    return out

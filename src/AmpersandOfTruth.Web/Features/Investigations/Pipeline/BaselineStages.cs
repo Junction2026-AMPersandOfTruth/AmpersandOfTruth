@@ -9,7 +9,7 @@ public sealed class InvestigationPipelineOptions
 {
     public const string Section = "Investigations:Pipeline";
 
-    /// <summary>Articles retrieved per topic (all languages).</summary>
+    /// <summary>fi articles retrieved per topic (after folding en/sv hits onto their fi sibling).</summary>
     public int ArticleLimit { get; set; } = 10;
 
     /// <summary>Newest identity reverts considered per fi article.</summary>
@@ -28,14 +28,33 @@ public sealed class InvestigationPipelineOptions
     public int MaxPromptChars { get; set; } = 6000;
 }
 
-/// <summary>Stage 1 placeholder (P0.8 query): bge-m3 vector of the topic → nearest articles. P1.R6 (#27) replaces it.</summary>
+/// <summary>
+/// Stage 1 = the R1 baseline (#8, <c>research/lib/aot.py</c> <c>nearest</c> + <c>fold_to_fi</c>): bge-m3 vector of the topic →
+/// nearest article vectors in every language (3 × the limit) → en/sv hits folded onto their fi sibling by wikidata id,
+/// best rank per fi article, hits without a fi article dropped. Only fi articles have edit history. P1.R6 (#27) replaces it.
+/// </summary>
 public sealed class VectorTopicSearch(IQueryEmbedder embedder, IInvestigationCorpus corpus, IOptions<InvestigationPipelineOptions> options)
     : ITopicSearch
 {
     public async Task<IReadOnlyList<TopicArticle>> FindArticlesAsync(string topic, CancellationToken ct = default)
     {
+        var k = options.Value.ArticleLimit;
         var vector = await embedder.EmbedAsync(topic, ct);
-        return await corpus.NearestArticlesAsync(vector, options.Value.ArticleLimit, ct);
+        var hits = await corpus.NearestArticlesAsync(vector, k * 3, ct);
+        var siblings = await corpus.FiSiblingsAsync(
+            hits.Where(h => !h.HasHistory && h.WikidataId is not null).Select(h => h.WikidataId!).ToList(), ct);
+
+        var folded = new List<TopicArticle>();
+        var seen = new HashSet<long>();
+        foreach (var h in hits)
+        {
+            var fi = h.HasHistory ? h
+                : h.WikidataId is { } w && siblings.TryGetValue(w, out var s) ? s with { Distance = h.Distance, ViaLang = h.Lang }
+                : null;
+            if (fi is not null && seen.Add(fi.PageId)) folded.Add(fi);
+            if (folded.Count == k) break;
+        }
+        return folded;
     }
 }
 
@@ -81,6 +100,12 @@ public sealed class RevertCandidateSource(IInvestigationCorpus corpus, IRevision
 /// <summary>Stage 3a: the undone revisions + <see cref="WikitextDiff"/> of restored → last undone revision (P1.S2).</summary>
 public sealed class CorpusEditReader(IRevisionStore revisions, IOptions<InvestigationPipelineOptions> options) : IEditReader
 {
+    /// <summary>Bump when what a reading contains changes (span rule, passages, context); invalidates the reading cache.</summary>
+    public const int Version = 2;
+
+    /// <summary>Re-insertions read per removed edit.</summary>
+    internal const int MaxReinsertions = 50;
+
     public async Task<EditReading> ReadAsync(RemovedEdit edit, CancellationToken ct = default)
     {
         var r = edit.Revert;
@@ -96,7 +121,15 @@ public sealed class CorpusEditReader(IRevisionStore revisions, IOptions<Investig
 
         var diff = WikitextDiff.Compare(before, after);
         var (inserted, removed) = Passages(before, after, diff);
-        return new EditReading(edit, span, diff, inserted, removed, Context(before, diff, options.Value.MaxPromptChars));
+
+        // P1.S1 re-insertion: a later revision restoring the exact content of a non-empty undone revision.
+        var sha1s = span.Where(s => s.Bytes > 0 && s.Sha1 is not null).Select(s => s.Sha1!).Distinct().ToList();
+        var restores = await revisions.RestoresAsync(pageId, r.Timestamp, r.RevId, sha1s, MaxReinsertions, ct);
+
+        return new EditReading(edit, span, diff, inserted, removed, Context(before, diff, options.Value.MaxPromptChars))
+        {
+            Reinsertions = restores,
+        };
     }
 
     /// <summary>A paragraph changed in place is widened to the whole paragraph on both sides up to this length.</summary>

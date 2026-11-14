@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmpersandOfTruth.Web.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20261114145659_DropNotes")]
+    [Migration("20261114154443_DropNotes")]
     partial class DropNotes
     {
         /// <inheritdoc />
@@ -167,6 +167,62 @@ namespace AmpersandOfTruth.Web.Data.Migrations
                     b.HasKey("Model", "Text");
 
                     b.ToTable("QueryEmbeddings", (string)null);
+                });
+
+            modelBuilder.Entity("AmpersandOfTruth.Web.Features.Investigations.Cache.EditReadingCacheRow", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CreatedAt")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Json")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("PageId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("RevertRevId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Key");
+
+                    b.HasIndex("PageId");
+
+                    b.ToTable("EditReadingCache", (string)null);
+                });
+
+            modelBuilder.Entity("AmpersandOfTruth.Web.Features.Investigations.Cache.InvestigationRunRow", b =>
+                {
+                    b.Property<string>("Fingerprint")
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Topic")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CreatedAt")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("ElapsedMs")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("IncidentCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Json")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Fingerprint", "Topic");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.ToTable("InvestigationRuns", (string)null);
                 });
 #pragma warning restore 612, 618
         }

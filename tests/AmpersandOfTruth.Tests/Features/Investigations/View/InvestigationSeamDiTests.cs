@@ -34,7 +34,7 @@ public class InvestigationSeamDiTests(AppFactory app) : IClassFixture<AppFactory
         var source = pipelineApp.Services.GetRequiredService<IIncidentSource>();
         var opts = pipelineApp.Services.GetRequiredService<IOptions<InvestigationSourceOptions>>().Value;
 
-        Assert.IsType<InvestigationPipeline>(runner);
+        Assert.IsType<AmpersandOfTruth.Web.Features.Investigations.Cache.CachingInvestigationRunner>(runner);
         Assert.IsType<RecentRunIncidentSource>(source);
         Assert.Equal(IncidentSourceKind.Pipeline, opts.Source);
         Assert.False(opts.IsSampleData);

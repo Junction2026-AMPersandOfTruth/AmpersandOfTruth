@@ -17,7 +17,8 @@ public enum StageFailureKind { EmbeddingUnavailable, CorpusUnavailable, Error }
 /// </summary>
 public abstract record InvestigationEvent;
 
-/// <summary>Stage 1 done: articles closest to the topic, closest first (all languages; only fi ones have history).</summary>
+/// <summary>Stage 1 done: articles closest to the topic, closest first. The real pipeline returns fi articles only (en/sv hits
+/// folded onto them); other runners may include other languages, which have no edit history.</summary>
 public sealed record ArticlesFound(int Count, IReadOnlyList<TopicArticle> Items) : InvestigationEvent;
 
 /// <summary>
@@ -30,12 +31,34 @@ public sealed record RevisionsScanned(int Count, IReadOnlyList<RemovedEdit> Cand
 /// <summary>
 /// Stages 3–4 progress, one per candidate in completion order (<paramref name="Index"/> is 1-based, ≤ <paramref name="Of"/>).
 /// <paramref name="Incident"/> null = the candidate was read and excluded by the evidence standard (not substantive,
-/// self-removal, bot, blanking, graffiti) or could not be read; <paramref name="Exclusion"/> says which when known.
+/// self-removal, bot, blanking, graffiti) or could not be read; <paramref name="Exclusion"/> says which when known
+/// (snake_case <c>ExclusionReason</c>, or <c>unreadable</c>).
 /// </summary>
 public sealed record CandidateScored(int Index, int Of, RemovedEdit Candidate, IncidentRecord? Incident, string? Exclusion = null)
-    : InvestigationEvent;
+    : InvestigationEvent
+{
+    /// <summary>The automated assessment was attempted and unavailable (LLM failed, blocked, over budget), so the incident
+    /// stays at the lowest level. The UI's "assessment unavailable" state.</summary>
+    public bool AssessmentUnavailable { get; init; }
+}
 
 public sealed record StageFailed(InvestigationStage Stage, StageFailureKind Kind, string Error) : InvestigationEvent;
 
-/// <summary>The run finished. <paramref name="Incidents"/> = every incident emitted, ranked (score descending).</summary>
-public sealed record Completed(bool FromCache, IReadOnlyList<IncidentRecord> Incidents, TimeSpan Elapsed) : InvestigationEvent;
+/// <summary>
+/// The run finished. <paramref name="Incidents"/> = every incident emitted, ranked (score descending).
+/// <paramref name="Elapsed"/> = this run's wall clock (a cached replay is near zero; see <see cref="AnalysedAt"/>).
+/// </summary>
+public sealed record Completed(bool FromCache, IReadOnlyList<IncidentRecord> Incidents, TimeSpan Elapsed) : InvestigationEvent
+{
+    /// <summary>When the analysis ran — for a cached replay, the original run ("loaded from previous analysis, 2 h ago").</summary>
+    public DateTimeOffset AnalysedAt { get; init; }
+
+    /// <summary>Candidates that could not be read or whose assessment was unavailable. A run with any is never cached.</summary>
+    public int Degraded { get; init; }
+
+    /// <summary>Wall clock per stage of the run that did the work (#40 latency budget).</summary>
+    public IReadOnlyDictionary<InvestigationStage, TimeSpan> StageTimings { get; init; } = new Dictionary<InvestigationStage, TimeSpan>();
+
+    /// <summary>From the start of the run to the first incident (budget: under 8 s cold). null when there is none.</summary>
+    public TimeSpan? FirstIncidentAfter { get; init; }
+}

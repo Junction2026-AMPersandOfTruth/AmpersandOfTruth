@@ -6,6 +6,8 @@
 
 <PageTitle>Investigate · Ampersand of Truth</PageTitle>
 
+<SampleDataBanner />
+
 <h1>Investigate a topic</h1>
 <p class="text-muted">
     Topic → nearest Wikipedia articles (bge-m3) → edits other editors removed from the Finnish ones → what each edit
@@ -22,6 +24,10 @@
     @if (_busy)
     {
         <button type="button" class="btn btn-outline-secondary" data-testid="investigate-cancel" @onclick="Cancel">Cancel</button>
+    }
+    else if (_completed is { FromCache: true })
+    {
+        <button type="button" class="btn btn-outline-secondary text-nowrap" data-testid="investigate-rerun" @onclick="Rerun">Re-run</button>
     }
 </EditForm>
 
@@ -154,14 +160,18 @@ else
     private Completed? _completed;
     private bool _cancelled;
 
-    private async Task Run()
+    private Task Run() => Start(refresh: false);
+
+    private Task Rerun() => Start(refresh: true);
+
+    private async Task Start(bool refresh)
     {
         _cts?.Cancel();
         _cts?.Dispose();
         var run = _cts = new CancellationTokenSource();
         var ct = run.Token;
 
-        _topic = _input.Topic!.Trim();
+        _topic = refresh && _topic is not null ? _topic : _input.Topic!.Trim();
         _articles = null;
         _revisions = null;
         _candidates = null;
@@ -173,7 +183,7 @@ else
         _busy = true;
         try
         {
-            await foreach (var e in Runner.RunAsync(_topic, ct))
+            await foreach (var e in Runner.RunAsync(_topic, refresh, ct))
             {
                 Apply(e);
                 StateHasChanged();
@@ -229,7 +239,9 @@ else
         if (_revisions is { } n) parts.Add($"{n:N0} revisions scanned");
         if (_candidates is { } c) parts.Add($"{_scored}/{c.Count} removed edits read");
         parts.Add($"{_incidents.Count} incident{(_incidents.Count == 1 ? "" : "s")}");
-        var status = _completed is not null ? $"done in {_completed.Elapsed.TotalSeconds:0.0} s"
+        var status = _completed is { FromCache: true } ? $"loaded from a previous analysis ({_completed.AnalysedAt:yyyy-MM-dd HH:mm} UTC)"
+            : _completed is not null ? $"done in {_completed.Elapsed.TotalSeconds:0.0} s"
+                + (_completed.Degraded > 0 ? $" · automated assessment unavailable for {_completed.Degraded}" : "")
             : _cancelled ? "cancelled"
             : _failure is not null ? "stopped"
             : _revisions is null ? "scanning edit history…"

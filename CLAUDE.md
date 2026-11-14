@@ -23,6 +23,8 @@ Query embeddings: **Ollama `bge-m3`** (local, else the VPS through the tunnel) b
 | Deploy/update corpus DB on VPS (needs root key) | `scripts/corpus-deploy.sh` — details in `deploy/corpus/README.md` |
 | Run an LLM prompt / batch from the shell (same client, prompts, cache as the app) | `scripts/analyze.sh prompts` · `run <prompt> --vars x.json` · `batch <prompt> --in x.jsonl --out y.jsonl --model a,b` · `usage` |
 | Diff revision vs parent wikitext (the app's engine, for experiments; contract `research/eval/CONTRACT.md` §9) | `scripts/wikidiff.sh batch < pairs.jsonl > diffs.jsonl` · `one --new b.txt [--old a.txt]` · `prose < page.txt` · parity: `python3 research/29-wikidiff/check.py` |
+| Run the app's investigation pipeline from the shell (same services, config, caches as the app) | `scripts/investigate.sh run "Talvisota" [--refresh] [--events]` · `variant < request.json` (eval contract §2) · `clear-runs` |
+| Warm caches before a demo + measure the #40 latency budget (Markdown table) | `scripts/warm.sh [topics-file] [--cold]` (default `scripts/demo-topics.txt`) |
 | Live Gemini tests (opt-in, real API calls) | `GEMINI_TESTS=1 dotnet test --filter Category=Gemini` |
 | Review walk: demo flow in system Chrome at 1280×720 + 390 px, screenshots + report.md | `scripts/walk.sh [--url http://localhost:PORT] [--out DIR]` (boots the app if no `--url`) |
 | Check a golden set / variant / judgement file against the eval contract (stdlib Python, no corpus) | `python3 research/eval/validate.py golden` · `variant retrieval\|signals -- <cmd>` · tests: `python3 -m unittest discover -s research/eval/tests` |
@@ -129,8 +131,16 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   `IncidentRecordTests` keeps record and schema in sync — change both together).
 - Stages are interfaces, one per P1 experiment, swapped in `InvestigationsFeature` without touching the orchestrator or the UI:
   `ITopicSearch` (R6), `ICandidateSource` (S1/S4), `IEditReader` (S2/S3), `IEditClassifier` (S9), `IncidentAssembler` (S10, static).
-  Today's implementations are placeholders from P0.8 + `wikidiff` + `classify-edit` v1; without S5/S1/S4 signals every incident is `reverted`.
+  Today's implementations are placeholders from P0.8 + `wikidiff` + `classify-edit` v1. Dispute signals wired: removal reason
+  (S5 lexicon ported as `RevertReasons`; `Fixtures/s5-parity.jsonl` + `s5_parity.py` keep it identical to the Python) and
+  re-insertion (S1 identity restores). Not yet: edit war (S4), dispute templates, source change (S8), kept-in-latest.
 - Edits the evidence standard excludes without an assessment are never sent to the LLM. Limits: `Investigations:Pipeline` options.
+- Stage 1 = R1 (#8): vector hits in every language, en/sv folded onto their fi sibling by `wikidata_id`; only fi articles come out.
+- Caches (#40, SQLite): `EditReadingCache` (span + diff per removed edit, keyed by revision ids + reader version) and
+  `InvestigationRuns` (a whole clean run per topic, keyed by `PipelineFingerprint` = versions + classify prompt + model + limits).
+  The app's runner is `CachingInvestigationRunner`; `refresh: true` (the page's Re-run) bypasses it. Runs with a degraded
+  candidate (LLM down/over budget) are never cached. Bump `InvestigationPipeline.Version` / `CorpusEditReader.Version` when
+  their output changes. Score the pipeline: `research/eval/run pipeline --name p1-app -- scripts/investigate.sh variant`.
 - Tests: `PipelineKit` = the real stages over fakes (`FakeInvestigationCorpus`, `FakeRevisionStore`, `FakeAnalysisModel`, `FakeQueryEmbedder`).
 
 ## P2 UI (issue #98)
@@ -139,7 +149,9 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   derives what P1 doesn't supply: diff passage (`WikitextDiff` of the first inserting rev vs its parent), incident kind, fi/en titles
   (`wikidata_id`), masked editors. It degrades field by field when the corpus is down.
 - `Investigations:Source = Fixtures | Pipeline` (default **Fixtures** until #39 is done): picks `IInvestigationRunner` (`HybridFixtureRunner`:
-  stages 1–2 real, sample incidents replayed vs `InvestigationPipeline`) and `IIncidentSource` (samples vs `RecentRuns`). Screens don't change.
+  stages 1–2 real, sample incidents replayed vs `CachingInvestigationRunner` → `InvestigationPipeline`) and `IIncidentSource` (samples vs
+  `RecentRuns`). Screens don't change. The `/investigate` debug page follows the switch too (it shows the sample banner in Fixtures mode):
+  to see the real pipeline locally, `dotnet user-secrets set "Investigations:Source" "Pipeline" --project src/AmpersandOfTruth.Web`.
 - Sample incidents: `Features/Investigations/Fixtures/<slug>.json` (contract JSON on real revisions; check with
   `python3 research/98-samples/check.py`). **Every page that shows incidents renders `<SampleDataBanner />`** — it shows only in Fixtures mode.
 - Signal ids and wording: only `Evidence/SignalCatalog` (canonical = `TierReasonKind` snake_case + 4 extras; old ids are aliases). Show with `SignalChip`.

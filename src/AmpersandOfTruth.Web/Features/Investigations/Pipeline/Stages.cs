@@ -7,7 +7,8 @@ namespace AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 /// the P2 fixture runner (#98) replays sample incidents through the same events.</summary>
 public interface IInvestigationRunner
 {
-    IAsyncEnumerable<InvestigationEvent> RunAsync(string topic, CancellationToken ct = default);
+    /// <param name="refresh">Ignore a cached analysis of this topic and run it again (the "Re-run" action).</param>
+    IAsyncEnumerable<InvestigationEvent> RunAsync(string topic, bool refresh = false, CancellationToken ct = default);
 }
 
 // ── Stage contracts. Each real stage is a placeholder built from what main had at W2; W4 swaps in the winners of the
@@ -48,8 +49,9 @@ public sealed record RemovedEdit(TopicArticle Article, RevertEvent Revert)
 
 public sealed record CandidateScan(int RevisionsScanned, IReadOnlyList<RemovedEdit> Candidates);
 
-/// <summary>One revision of a page (<c>corpus.revision</c> row, without text).</summary>
-public sealed record RevisionRow(long PageId, long RevId, long? ParentRevId, DateTime Timestamp, string? User, string? Comment, int Bytes);
+/// <summary>One revision of a page (<c>corpus.revision</c> row, without text). <see cref="Sha1"/> = content hash (base 36).</summary>
+public sealed record RevisionRow(
+    long PageId, long RevId, long? ParentRevId, DateTime Timestamp, string? User, string? Comment, int Bytes, string? Sha1 = null);
 
 /// <summary>
 /// What stage 3a learned about a removed edit. <see cref="Span"/> = the undone revisions, oldest first (never empty).
@@ -63,4 +65,10 @@ public sealed record EditReading(
     RemovedEdit Edit, IReadOnlyList<RevisionRow> Span, WikitextDiffResult Diff, string InsertedText, string RemovedText, string Context)
 {
     public RevisionRow FirstInsert => Span[0];
+
+    /// <summary>
+    /// Later revisions that restored the exact content of a (non-empty) undone revision after the revert — P1.S1's
+    /// re-insertion rule, every occurrence rather than only the first. Oldest first; identical consecutive revisions count once.
+    /// </summary>
+    public IReadOnlyList<RevisionRow> Reinsertions { get; init; } = [];
 }

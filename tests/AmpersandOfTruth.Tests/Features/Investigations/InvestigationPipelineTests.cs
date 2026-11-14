@@ -15,7 +15,7 @@ public class InvestigationPipelineTests
         var events = await _kit.RunAsync("  Talvisota  ");
 
         Assert.Collection(events,
-            e => Assert.Equal(["Talvisota", "Winter War", "Jatkosota"], Assert.IsType<ArticlesFound>(e).Items.Select(a => a.Title)),
+            e => Assert.Equal(["Talvisota", "Jatkosota", "Lapin sota"], Assert.IsType<ArticlesFound>(e).Items.Select(a => a.Title)),
             e =>
             {
                 var scan = Assert.IsType<RevisionsScanned>(e);
@@ -24,7 +24,14 @@ public class InvestigationPipelineTests
             },
             e => Assert.Equal((1, 2), (Assert.IsType<CandidateScored>(e).Index, ((CandidateScored)e).Of)),
             e => Assert.Equal((2, 2), (Assert.IsType<CandidateScored>(e).Index, ((CandidateScored)e).Of)),
-            e => Assert.False(Assert.IsType<Completed>(e).FromCache));
+            e =>
+            {
+                var done = Assert.IsType<Completed>(e);
+                Assert.False(done.FromCache);
+                Assert.Equal(0, done.Degraded);
+                Assert.NotNull(done.FirstIncidentAfter);
+                Assert.Equal(Enum.GetValues<InvestigationStage>(), done.StageTimings.Keys.Order());
+            });
         Assert.Equal(1, _kit.Embedder.Calls);
     }
 
@@ -146,17 +153,61 @@ public class InvestigationPipelineTests
     }
 
     [Fact]
-    public async Task Topic_with_only_non_finnish_articles_completes_with_nothing_to_read()
+    public async Task Topic_with_no_finnish_article_completes_with_nothing_to_read()
     {
-        _kit.Corpus.Articles.RemoveAll(a => a.HasHistory);
+        _kit.Corpus.Articles.RemoveAll(a => a.Title != "Soviet propaganda");
 
         var events = await _kit.RunAsync();
 
         Assert.Collection(events,
-            e => Assert.Single(Assert.IsType<ArticlesFound>(e).Items),
+            e => Assert.Empty(Assert.IsType<ArticlesFound>(e).Items),
             e => Assert.Empty(Assert.IsType<RevisionsScanned>(e).Candidates),
             e => Assert.Empty(Assert.IsType<Completed>(e).Incidents));
         Assert.Empty(_kit.Corpus.RevertQueries);
+    }
+
+    [Fact]
+    public async Task En_hits_fold_onto_their_fi_sibling_keeping_the_best_rank()
+    {
+        var found = Assert.IsType<ArticlesFound>((await _kit.RunAsync())[0]);
+
+        Assert.All(found.Items, a => Assert.Equal("fi", a.Lang));
+        var lapland = Assert.Single(found.Items, a => a.PageId == 9012);
+        Assert.Equal(("en", 0.25), (lapland.ViaLang, lapland.Distance));
+        Assert.Null(Assert.Single(found.Items, a => a.PageId == 1256).ViaLang); // its own fi hit ranked first
+    }
+
+    [Fact]
+    public async Task Article_limit_applies_after_folding()
+    {
+        _kit.Options.ArticleLimit = 2;
+
+        var found = Assert.IsType<ArticlesFound>((await _kit.RunAsync())[0]);
+
+        Assert.Equal([1256L, 5263L], found.Items.Select(a => a.PageId));
+    }
+
+    [Fact]
+    public async Task Given_articles_skip_topic_search()
+    {
+        var articles = await _kit.Corpus.FiArticlesAsync([1256]);
+
+        var events = await PipelineKit.Collect(_kit.Build().RunOnArticlesAsync("Winter War causes", articles));
+
+        Assert.Equal(0, _kit.Embedder.Calls);
+        Assert.Equal([1256L], Assert.IsType<ArticlesFound>(events[0]).Items.Select(a => a.PageId));
+        Assert.Single(Assert.IsType<Completed>(events[^1]).Incidents);
+    }
+
+    [Fact]
+    public async Task Llm_failure_counts_as_degraded_and_marks_the_candidate()
+    {
+        _kit.Model.Returns("classify-edit", AnalysisOutcome.BudgetExceeded);
+
+        var events = await _kit.RunAsync();
+
+        Assert.Equal(1, Assert.IsType<Completed>(events[^1]).Degraded);
+        Assert.Single(events.OfType<CandidateScored>(), c => c.AssessmentUnavailable);
     }
 
     [Fact]
@@ -168,7 +219,7 @@ public class InvestigationPipelineTests
 
         await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
         {
-            await foreach (var e in _kit.Build().RunAsync("Talvisota", cts.Token))
+            await foreach (var e in _kit.Build().RunAsync("Talvisota", ct: cts.Token))
             {
                 seen.Add(e);
                 if (e is RevisionsScanned) await cts.CancelAsync();
@@ -191,5 +242,66 @@ public class InvestigationPipelineTests
         var scan = (await _kit.RunAsync()).OfType<RevisionsScanned>().Single();
 
         Assert.Equal([300L, 400L, 200L], scan.Candidates.Select(c => c.Revert.RevId));
+    }
+
+    private async Task<IncidentRecord> TheIncident() =>
+        Assert.Single(Assert.IsType<Completed>((await _kit.RunAsync())[^1]).Incidents);
+
+    private void RevertComment(string comment)
+    {
+        _kit.Corpus.Reverts.RemoveAll(r => r.RevId == 2000);
+        _kit.Corpus.Reverts.Add(FakeInvestigationCorpus.Revert(1256, 2000, comment: comment));
+    }
+
+    [Fact]
+    public async Task A_claim_removed_as_inaccurate_is_disputed()
+    {
+        RevertComment("Kumottu muokkaus 1999, jonka teki 192.0.2.1 (keskustelu) väärää tietoa");
+
+        var incident = await TheIncident();
+
+        Assert.Equal(EvidenceTier.Contested, incident.Tier);
+        Assert.Equal(["removal_reason", "claim_content"], incident.Signals.Select(s => s.Kind));
+        Assert.Equal("väärää tietoa", incident.Signals[0].Evidence);
+    }
+
+    [Fact]
+    public async Task A_removal_reason_without_a_verified_claim_stays_at_level_one()
+    {
+        RevertComment("rv, väärää tietoa");
+        _kit.Model.Returns("classify-edit", PipelineKit.ClassificationJson(quote: "not in the edit"));
+
+        Assert.Equal(EvidenceTier.Reverted, (await TheIncident()).Tier);
+    }
+
+    [Fact]
+    public async Task Content_put_back_after_removal_is_disputed_and_listed_as_reinserted()
+    {
+        _kit.Revisions.Later(1256, 2001, "Someone", PipelineKit.Before + " muu", FakeRevisionStore.T0.AddMinutes(2001));
+        _kit.Revisions.Later(1256, 2002, "192.0.2.1", PipelineKit.After, FakeRevisionStore.T0.AddMinutes(2002));
+        _kit.Revisions.Later(1256, 2003, "VakauttajaBot", PipelineKit.After, FakeRevisionStore.T0.AddMinutes(2003)); // null revision
+
+        var incident = await TheIncident();
+
+        Assert.Equal(EvidenceTier.Contested, incident.Tier);
+        Assert.Equal(1, incident.ReinsertionCount);
+        Assert.Equal([1999L, 2002L], incident.InsertingRevIds);
+        Assert.Equal([IncidentEditRole.Inserted, IncidentEditRole.Removed, IncidentEditRole.Reinserted], incident.Edits.Select(e => e.Role));
+        Assert.Contains("reinserted", incident.Signals.Select(s => s.Kind));
+    }
+
+    [Fact]
+    public async Task Put_back_by_other_editors_over_more_than_a_week_is_a_possible_campaign()
+    {
+        _kit.Revisions.Later(1256, 2002, "198.51.100.7", PipelineKit.After, FakeRevisionStore.T0.AddDays(3));
+        _kit.Revisions.Later(1256, 2003, "Someone", PipelineKit.Before, FakeRevisionStore.T0.AddDays(4));
+        _kit.Revisions.Later(1256, 2004, "203.0.113.9", PipelineKit.After, FakeRevisionStore.T0.AddDays(12));
+
+        var incident = await TheIncident();
+
+        Assert.Equal(EvidenceTier.Campaign, incident.Tier);
+        Assert.Equal(2, incident.ReinsertionCount);
+        Assert.Equal(["multiple_editors", "persistence", "claim_content"], incident.Signals.Select(s => s.Kind));
+        Assert.All(incident.Edits, e => Assert.DoesNotMatch(@"\d+\.\d+\.\d+\.\d+", e.UserDisplay!));
     }
 }
