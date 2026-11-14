@@ -1,13 +1,15 @@
+using Xunit.Abstractions;
 using System.Diagnostics;
 using AmpersandOfTruth.Tests.Features.Corpus;
 using AmpersandOfTruth.Tests.Infrastructure;
 using AmpersandOfTruth.Web.Features.Articles;
 using Microsoft.Extensions.DependencyInjection;
+using Xunit.Abstractions;
 
 namespace AmpersandOfTruth.Tests.Features.Articles;
 
 [Trait("Category", "Corpus")]
-public sealed class ArticleCorpusIntegrationTests(AppFactory app) : IClassFixture<AppFactory>
+public sealed class ArticleCorpusIntegrationTests(AppFactory app, ITestOutputHelper output) : IClassFixture<AppFactory>
 {
     private const long SuomenSisallissota = 1150;
 
@@ -63,5 +65,49 @@ public sealed class ArticleCorpusIntegrationTests(AppFactory app) : IClassFixtur
         Assert.NotNull(summary);
         Assert.StartsWith("Most contested period:", summary, StringComparison.Ordinal);
         Assert.Contains("back-and-forth edits", summary, StringComparison.Ordinal);
+    }
+
+    [CorpusFact]
+    public async Task Cold_vs_warm_timeline_service_and_article_route_latency()
+    {
+        var freshService = new ArticleTimelineService(Corpus);
+
+        var coldAggSw = Stopwatch.StartNew();
+        var agg = await freshService.AggregatesAsync(SuomenSisallissota);
+        coldAggSw.Stop();
+        Assert.NotNull(agg);
+
+        var defaultRange = ArticlePage.DefaultRange(agg);
+        var coldRevSw = Stopwatch.StartNew();
+        var revs = await freshService.RevisionsAsync(SuomenSisallissota, defaultRange, limit: 500);
+        coldRevSw.Stop();
+        Assert.NotEmpty(revs);
+
+        var warmSw = Stopwatch.StartNew();
+        var warmAgg = await freshService.AggregatesAsync(SuomenSisallissota);
+        var warmRevs = await freshService.RevisionsAsync(SuomenSisallissota, defaultRange, limit: 500);
+        warmSw.Stop();
+
+        Assert.Same(agg, warmAgg);
+        Assert.Same(revs, warmRevs);
+        Assert.True(warmSw.Elapsed.TotalMilliseconds < 5.0, $"Warm cache lookup took {warmSw.Elapsed.TotalMilliseconds:F3} ms.");
+
+        using var client = app.CreateClient();
+        // Ensure app singleton cache is populated, then time warm HTTP GET /articles/1150
+        var firstHttpSw = Stopwatch.StartNew();
+        var firstHtml = await client.GetStringAsync("/articles/1150?topic=civil-war-1918&incident=cw18-01");
+        firstHttpSw.Stop();
+
+        var warmHttpSw = Stopwatch.StartNew();
+        var warmHtml = await client.GetStringAsync("/articles/1150?topic=civil-war-1918&incident=cw18-01");
+        warmHttpSw.Stop();
+
+        Assert.Contains("data-testid=\"article-timeline\"", firstHtml, StringComparison.Ordinal);
+        Assert.Contains("data-testid=\"article-timeline\"", warmHtml, StringComparison.Ordinal);
+
+        output.WriteLine(
+            $"R1-02 benchmark (page 1150 Suomen sisällissota): cold AggregatesAsync={coldAggSw.Elapsed.TotalMilliseconds:F1} ms, " +
+            $"cold RevisionsAsync={coldRevSw.Elapsed.TotalMilliseconds:F1} ms (cold total={(coldAggSw.Elapsed + coldRevSw.Elapsed).TotalMilliseconds:F1} ms) " +
+            $"vs warm cache={(warmSw.Elapsed.TotalMilliseconds):F3} ms; HTTP GET 1st={firstHttpSw.Elapsed.TotalMilliseconds:F1} ms, warm={warmHttpSw.Elapsed.TotalMilliseconds:F1} ms");
     }
 }

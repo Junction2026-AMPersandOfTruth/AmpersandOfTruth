@@ -41,6 +41,11 @@ public sealed class LayoutTests : BunitContext
 
         Assert.Contains(aotCss, appCss, StringComparison.Ordinal);
 
+        Assert.Contains("--bs-code-color: var(--ink);", tokensCss, StringComparison.Ordinal);
+        Assert.Contains(".aot-num, .t-data", aotCss, StringComparison.Ordinal);
+        Assert.Contains("@media (max-width: 599.98px)", aotCss, StringComparison.Ordinal);
+        Assert.Contains(".aot-steps { grid-template-columns: 1fr; }", aotCss, StringComparison.Ordinal);
+
         Assert.Contains("#blazor-error-ui", appCss, StringComparison.Ordinal);
         Assert.Contains(".valid.modified", appCss, StringComparison.Ordinal);
         Assert.Contains(".invalid", appCss, StringComparison.Ordinal);

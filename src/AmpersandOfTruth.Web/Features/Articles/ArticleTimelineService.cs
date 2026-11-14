@@ -16,26 +16,70 @@ public sealed class ArticleTimelineService(IArticleCorpus corpus, TimeProvider? 
 
     private readonly TimeProvider _time = time ?? TimeProvider.System;
     private readonly ConcurrentDictionary<long, CacheEntry> _cache = new();
+    private readonly ConcurrentDictionary<long, Task<ArticleAggregates?>> _inFlight = new();
+    private readonly ConcurrentDictionary<(long PageId, DateTime From, DateTime To, int Limit), RevisionsCacheEntry> _revisionsCache = new();
 
-    public async Task<ArticleAggregates?> AggregatesAsync(long pageId, CancellationToken ct = default)
+    public bool TryGetCachedAggregates(long pageId, out ArticleAggregates? aggregates)
     {
+        if (_cache.TryGetValue(pageId, out var cached) && cached.ExpiresAt > _time.GetUtcNow())
+        {
+            aggregates = cached.Value;
+            return true;
+        }
+
+        aggregates = null;
+        return false;
+    }
+
+    public Task<ArticleAggregates?> AggregatesAsync(long pageId, CancellationToken ct = default)
+    {
+        ct.ThrowIfCancellationRequested();
         var now = _time.GetUtcNow();
         if (_cache.TryGetValue(pageId, out var cached) && cached.ExpiresAt > now)
+        {
+            return Task.FromResult(cached.Value);
+        }
+
+        var shared = _inFlight.GetOrAdd(pageId, FetchAndCacheAggregatesAsync);
+        if (shared.IsCompleted)
+        {
+            _inFlight.TryRemove(KeyValuePair.Create(pageId, shared));
+        }
+
+        return shared.WaitAsync(ct);
+    }
+
+    private async Task<ArticleAggregates?> FetchAndCacheAggregatesAsync(long pageId)
+    {
+        try
+        {
+            var fresh = await corpus.AggregatesAsync(pageId, CancellationToken.None);
+            _cache[pageId] = new CacheEntry(fresh, _time.GetUtcNow() + CacheTtl);
+            return fresh;
+        }
+        finally
+        {
+            _inFlight.TryRemove(pageId, out _);
+        }
+    }
+
+    public async Task<IReadOnlyList<ArticleRevision>> RevisionsAsync(
+        long pageId,
+        DateRange range,
+        int limit = 500,
+        CancellationToken ct = default)
+    {
+        var key = (pageId, range.From, range.To, limit);
+        var now = _time.GetUtcNow();
+        if (_revisionsCache.TryGetValue(key, out var cached) && cached.ExpiresAt > now)
         {
             return cached.Value;
         }
 
-        var fresh = await corpus.AggregatesAsync(pageId, ct);
-        _cache[pageId] = new CacheEntry(fresh, _time.GetUtcNow() + CacheTtl);
+        var fresh = await corpus.RevisionsAsync(pageId, range, limit, ct);
+        _revisionsCache[key] = new RevisionsCacheEntry(fresh, _time.GetUtcNow() + CacheTtl);
         return fresh;
     }
-
-    public Task<IReadOnlyList<ArticleRevision>> RevisionsAsync(
-        long pageId,
-        DateRange range,
-        int limit = 500,
-        CancellationToken ct = default) =>
-        corpus.RevisionsAsync(pageId, range, limit, ct);
 
     /// <summary>
     /// Finds the span of up to 6 consecutive calendar months with the most removals (trimmed to months with removals &gt; 0).
@@ -133,4 +177,5 @@ public sealed class ArticleTimelineService(IArticleCorpus corpus, TimeProvider? 
     internal static int MonthIndex(int year, int month) => year * 12 + (month - 1);
 
     private sealed record CacheEntry(ArticleAggregates? Value, DateTimeOffset ExpiresAt);
+    private sealed record RevisionsCacheEntry(IReadOnlyList<ArticleRevision> Value, DateTimeOffset ExpiresAt);
 }

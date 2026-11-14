@@ -89,7 +89,36 @@ public sealed class ArticleTimelineServiceTests
 
         // After 1h TTL expires, the next call refreshes from the corpus
         clock.Advance(TimeSpan.FromMinutes(31));
+        Assert.False(service.TryGetCachedAggregates(1150, out _));
         await service.AggregatesAsync(1150);
+        Assert.True(service.TryGetCachedAggregates(1150, out var cached) && cached?.TitleEn == "Finnish Civil War");
         Assert.Equal(2, corpus.AggregatesCalls);
+    }
+
+    [Fact]
+    public async Task RevisionsAsync_caches_second_call_until_ttl_expires()
+    {
+        var corpus = new FakeArticleCorpus();
+        corpus.Revisions[1150] =
+        [
+            new ArticleRevision(1, null, new DateTime(2019, 2, 1, 12, 0, 0, DateTimeKind.Utc), "Editor", false, "summary", 1000, 100, false),
+        ];
+
+        var range = new DateRange(
+            new DateTime(2019, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            new DateTime(2019, 3, 1, 0, 0, 0, DateTimeKind.Utc));
+        var clock = new FakeTimeProvider(new DateTimeOffset(2026, 11, 14, 12, 0, 0, TimeSpan.Zero));
+        var service = new ArticleTimelineService(corpus, clock);
+
+        var first = await service.RevisionsAsync(1150, range);
+        clock.Advance(TimeSpan.FromMinutes(30));
+        var second = await service.RevisionsAsync(1150, range);
+
+        Assert.Same(first, second);
+        Assert.Equal(1, corpus.RevisionsCalls);
+
+        clock.Advance(TimeSpan.FromMinutes(31));
+        await service.RevisionsAsync(1150, range);
+        Assert.Equal(2, corpus.RevisionsCalls);
     }
 }

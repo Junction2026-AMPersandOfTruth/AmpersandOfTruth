@@ -37,9 +37,30 @@ main.aot-page {
     .aot-appbar {
         flex-wrap: wrap;
         height: auto;
-        min-height: 52px;
-        padding: var(--space-2) var(--space-4);
-        gap: var(--space-2) var(--space-4);
+        min-height: 48px;
+        padding: var(--space-2) var(--space-3);
+        gap: var(--space-2);
+    }
+
+    .aot-brand {
+        font-size: 16px;
+        white-space: nowrap;
+    }
+
+    .aot-brand em {
+        font-size: 21px;
+    }
+
+    ::deep nav {
+        gap: var(--space-2);
+        font-size: 12.5px;
+        white-space: nowrap;
+    }
+
+    .aot-appbar__search {
+        order: 3;
+        flex: 1 1 100%;
+        max-width: none;
     }
 
     .aot-appbar__search:empty {
@@ -48,7 +69,7 @@ main.aot-page {
 
     ::deep .aot-theme-toggle {
         margin-left: 0;
-        padding: 4px 6px;
+        padding: 4px;
     }
 
     ::deep .aot-theme-toggle__label {

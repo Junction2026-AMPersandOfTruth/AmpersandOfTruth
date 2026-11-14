@@ -155,7 +155,7 @@
   --radius-lg: 2px;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Lato, Helvetica, Arial, sans-serif;
   --font-serif: "Linux Libertine", "Georgia", "Times", "Source Serif Pro", serif;
-  --font-mono: Menlo, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-mono: Menlo, "Liberation Mono", Consolas, "Courier New", monospace;
   /* Bootstrap 5 mapping */
   --bs-body-bg: var(--paper);
   --bs-body-color: var(--ink);
@@ -163,6 +163,8 @@
   --bs-tertiary-bg: var(--surface-sunken);
   --bs-body-font-family: var(--font-sans);
   --bs-font-sans-serif: var(--font-sans);
+  --bs-font-monospace: var(--font-mono);
+  --bs-code-color: var(--ink);
   --bs-link-color: var(--accent);
   --bs-link-hover-color: var(--accent);
   --bs-border-color: var(--line);

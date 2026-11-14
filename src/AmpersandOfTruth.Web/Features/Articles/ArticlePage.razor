@@ -3,6 +3,7 @@
 @using System.Globalization
 @using AmpersandOfTruth.Web.Features.Evidence
 @using AmpersandOfTruth.Web.Features.Investigations
+@using AmpersandOfTruth.Web.Features.Investigations.Fixtures
 @using AmpersandOfTruth.Web.Features.Investigations.View
 @using Microsoft.Extensions.Options
 @inject ArticleTimelineService TimelineService
@@ -11,15 +12,45 @@
 @inject NavigationManager Nav
 @inject IServiceProvider Services
 
-<PageTitle>@FormatPageTitle(_aggregates)</PageTitle>
+<PageTitle>@FormatPageTitle(_aggregates, _knownTitle)</PageTitle>
 
-<div class="aot-page aot-stack">
+<div class="aot-page aot-stack" data-testid="article-page">
     @if (_loading)
     {
         <div class="aot-stack" data-testid="article-loading" role="status" aria-label="Loading article history">
-            <div class="aot-skel" style="width:280px;height:28px"></div>
+            @if (_knownTitle is { } known)
+            {
+                <header class="aot-stack" data-testid="article-loading-header">
+                    <h1 class="aot-h1">
+                        @if (!string.IsNullOrWhiteSpace(known.TitleEn) &&
+                             !string.Equals(known.TitleEn, known.TitleFi, StringComparison.Ordinal))
+                        {
+                            <span>@known.TitleEn</span>
+                            <span class="aot-muted aot-small" style="margin-left:8px">
+                                FI <a href="@WikipediaLinks.Article(known.TitleFi).AbsoluteUri"
+                                      target="_blank"
+                                      rel="noopener"
+                                      lang="fi">@known.TitleFi ↗</a>
+                            </span>
+                        }
+                        else
+                        {
+                            <span lang="fi">@known.TitleFi</span>
+                            <a href="@WikipediaLinks.Article(known.TitleFi).AbsoluteUri"
+                               target="_blank"
+                               rel="noopener"
+                               class="aot-small"
+                               style="margin-left:8px">Finnish Wikipedia ↗</a>
+                        }
+                    </h1>
+                </header>
+            }
+            else
+            {
+                <div class="aot-skel" style="width:280px;height:28px"></div>
+            }
             <div class="aot-skel" style="width:180px;height:14px"></div>
-            <svg class="aot-chart" viewBox="0 0 900 180" width="100%" aria-hidden="true">
+            <svg style="display:block;width:100%;height:auto" viewBox="0 0 900 180" width="100%" aria-hidden="true">
                 @for (var i = 0; i < 36; i++)
                 {
                     var x = 36 + (i * 23.5);
@@ -179,12 +210,15 @@
     private long? _loadedPageId;
     private DateRange? _loadedRange;
     private string? _loadedTopic;
+    private KnownArticleTitle? _knownTitle;
     private ArticleAggregates? _aggregates;
     private DateRange? _selectedRange;
     private IReadOnlyList<ArticleRevision> _revisions = [];
     private IReadOnlyList<IncidentMark> _marks = [];
     private IReadOnlyList<ConflictEpisode> _episodes = [];
     private IReadOnlyList<ConflictBand> _bands = [];
+
+    private sealed record KnownArticleTitle(string TitleFi, string? TitleEn);
 
     [Parameter]
     public long PageId { get; set; }
@@ -246,14 +280,18 @@
 
         var ct = ResetCancellation();
         _loading = true;
+        _revisionsLoading = false;
         _isSlow = false;
         _hasError = false;
         _errorTitle = "The Wikipedia data is not reachable right now.";
         _errorDetail = null;
+        _knownTitle = ResolveCheapTitle(PageId);
         StartSlowTimer();
 
         try
         {
+            var marksTask = LoadMarksAsync(PageId, topicSlug, ct);
+            var episodesTask = LoadEpisodesAsync(PageId, ct);
             var aggregates = await TimelineService.AggregatesAsync(PageId, ct);
             _loadedPageId = PageId;
             _aggregates = aggregates;
@@ -270,12 +308,15 @@
                 return;
             }
 
+            _knownTitle = new KnownArticleTitle(aggregates.TitleFi, aggregates.TitleEn);
             var initialRange = queryRange ?? DefaultRange(aggregates);
             _selectedRange = initialRange;
-            _revisions = await TimelineService.RevisionsAsync(PageId, initialRange, limit: 500, ct: ct);
-            _marks = await LoadMarksAsync(PageId, topicSlug, ct);
-            _episodes = await LoadEpisodesAsync(PageId, ct);
+            var revisionsTask = TimelineService.RevisionsAsync(PageId, initialRange, limit: 500, ct: ct);
+
+            _marks = await marksTask;
+            _episodes = await episodesTask;
             _bands = ConflictEpisodes.ToBands(_episodes);
+            _revisions = await revisionsTask;
             _loadedRange = initialRange;
             _loadedTopic = topicSlug;
         }
@@ -380,16 +421,29 @@
 
             var escapedSlug = Uri.EscapeDataString(topicSlug);
             var marks = new List<IncidentMark>();
+            KnownArticleTitle? discoveredTitle = null;
             foreach (var incident in incidents)
             {
-                if (incident.Articles.Any(a => a.PageId == pageId))
+                var matchingArticle = incident.Articles.FirstOrDefault(a => a.PageId == pageId);
+                if (matchingArticle is not null)
                 {
+                    if (discoveredTitle is null && !string.IsNullOrWhiteSpace(matchingArticle.TitleFi))
+                    {
+                        discoveredTitle = new KnownArticleTitle(matchingArticle.TitleFi, matchingArticle.TitleEn);
+                    }
+
                     marks.Add(new IncidentMark(
                         incident.FirstSeen.UtcDateTime,
                         incident.Tier,
                         incident.Id,
                         $"/investigate/{escapedSlug}/incidents/{Uri.EscapeDataString(incident.Id)}"));
                 }
+            }
+
+            if (_knownTitle is null && discoveredTitle is not null && _loading && !ct.IsCancellationRequested)
+            {
+                _knownTitle = discoveredTitle;
+                StateHasChanged();
             }
 
             return marks;
@@ -545,14 +599,51 @@
         return uri;
     }
 
-    internal static string FormatPageTitle(ArticleAggregates? a) => a switch
+    private KnownArticleTitle? ResolveCheapTitle(long pageId)
     {
-        null => "Article · Ampersand of Truth",
-        { TitleEn: { Length: > 0 } en } when !string.Equals(en, a.TitleFi, StringComparison.Ordinal) =>
-            $"{en} ({a.TitleFi}) · Ampersand of Truth",
-        { TitleEn: { Length: > 0 } en } => $"{en} · Ampersand of Truth",
-        _ => $"{a.TitleFi} (Finnish Wikipedia) · Ampersand of Truth",
-    };
+        if (pageId <= 0)
+        {
+            return null;
+        }
+
+        if (TimelineService.TryGetCachedAggregates(pageId, out var cached) && cached is not null)
+        {
+            return new KnownArticleTitle(cached.TitleFi, cached.TitleEn);
+        }
+
+        var samples = Services.GetService<SampleIncidents>();
+        if (samples is not null)
+        {
+            foreach (var topic in samples.Topics)
+            {
+                foreach (var incident in topic.Incidents)
+                {
+                    foreach (var article in incident.Articles)
+                    {
+                        if (article.PageId == pageId && !string.IsNullOrWhiteSpace(article.TitleFi))
+                        {
+                            return new KnownArticleTitle(article.TitleFi, article.TitleEn);
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    internal static string FormatPageTitle(ArticleAggregates? a) =>
+        FormatPageTitle(a, known: null);
+
+    private static string FormatPageTitle(ArticleAggregates? a, KnownArticleTitle? known) =>
+        (a?.TitleFi ?? known?.TitleFi, a?.TitleEn ?? known?.TitleEn) switch
+        {
+            (null, _) => "Article · Ampersand of Truth",
+            (var fi, { Length: > 0 } en) when !string.Equals(en, fi, StringComparison.Ordinal) =>
+                $"{en} ({fi}) · Ampersand of Truth",
+            (_, { Length: > 0 } en) => $"{en} · Ampersand of Truth",
+            (var fi, _) => $"{fi} (Finnish Wikipedia) · Ampersand of Truth",
+        };
 
     internal static string FormatHeaderCounts(ArticleAggregates a)
     {

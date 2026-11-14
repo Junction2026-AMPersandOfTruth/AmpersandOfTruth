@@ -338,6 +338,77 @@ public sealed class ArticlePageTests : BunitContext
     }
 
     [Fact]
+    public void Skeleton_shows_known_article_title_immediately_when_referenced_by_sample_incident()
+    {
+        var pending = new PendingArticleCorpus();
+        var sampleIncident = new IncidentRecord
+        {
+            Id = "cw18-01",
+            PageId = 1150,
+            InsertingRevIds = [10],
+            RemovingRevIds = [11],
+            Tier = EvidenceTier.Campaign,
+            Score = 0.96,
+            Articles = [new IncidentArticle(1150, "Suomen sisällissota", "Finnish Civil War")],
+        };
+        var samples = AmpersandOfTruth.Web.Features.Investigations.Fixtures.SampleIncidents.From(
+            new AmpersandOfTruth.Web.Features.Investigations.Fixtures.SampleTopic("civil-war-1918", "Civil War 1918", [], [sampleIncident]));
+
+        using var ctx = new BunitContext();
+        ctx.Services.AddSingleton<IArticleCorpus>(pending);
+        ctx.Services.AddSingleton<ArticleTimelineService>();
+        ctx.Services.AddSingleton(samples);
+        ctx.Services.AddSingleton<IIncidentSource>(_incidentSource);
+        ctx.Services.AddSingleton(Options.Create(_sourceOptions));
+
+        var cut = ctx.Render<ArticlePage>(p => p.Add(x => x.PageId, 1150));
+
+        var loadingHeader = cut.Find("[data-testid=article-loading-header]");
+        Assert.Contains("Finnish Civil War", loadingHeader.TextContent);
+        Assert.Contains("Suomen sisällissota", loadingHeader.TextContent);
+        Assert.Equal(36, cut.Find("[data-testid=article-loading]").QuerySelectorAll("rect").Length);
+    }
+
+    [Fact]
+    public async Task Warm_aggregates_and_revisions_render_header_timeline_and_revisions_with_zero_corpus_calls()
+    {
+        var corpus = new FakeArticleCorpus();
+        corpus.Articles[1256] = new ArticleAggregates(
+            PageId: 1256,
+            TitleFi: "Talvisota",
+            TitleEn: "Winter War",
+            Revisions: 3104,
+            FirstEdit: new DateTime(2003, 5, 12, 0, 0, 0, DateTimeKind.Utc),
+            LastEdit: new DateTime(2026, 9, 28, 0, 0, 0, DateTimeKind.Utc),
+            Months: [new MonthBucket(2015, 3, NamedEdits: 30, AnonEdits: 12, Removals: 22, MaxBytes: 64_000)]);
+        corpus.Revisions[1256] =
+        [
+            new ArticleRevision(1, null, new DateTime(2015, 3, 10, 12, 0, 0, DateTimeKind.Utc), "Editor", false, "summary", 1000, 100, false),
+        ];
+
+        using var ctx = new BunitContext();
+        var timeline = new ArticleTimelineService(corpus);
+        var agg = await timeline.AggregatesAsync(1256);
+        await timeline.RevisionsAsync(1256, ArticlePage.DefaultRange(agg!));
+        Assert.Equal(1, corpus.AggregatesCalls);
+        Assert.Equal(1, corpus.RevisionsCalls);
+
+        ctx.Services.AddSingleton<IArticleCorpus>(corpus);
+        ctx.Services.AddSingleton(timeline);
+        ctx.Services.AddSingleton<IIncidentSource>(_incidentSource);
+        ctx.Services.AddSingleton(Options.Create(_sourceOptions));
+
+        var cut = ctx.Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        Assert.Empty(cut.FindAll("[data-testid=article-loading]"));
+        Assert.Contains("Winter War", cut.Find("[data-testid=article-header]").TextContent);
+        Assert.NotNull(cut.Find("[data-testid=article-timeline]"));
+        Assert.Single(cut.FindAll("[data-testid=revision-row]"));
+        Assert.Equal(1, corpus.AggregatesCalls);
+        Assert.Equal(1, corpus.RevisionsCalls);
+    }
+
+    [Fact]
     public void State_article_empty()
     {
         var cut = Render<ArticlePage>(p => p.Add(x => x.PageId, 404404));
