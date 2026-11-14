@@ -1,9 +1,20 @@
+@implements IDisposable
 @using System.Globalization
+@using Microsoft.AspNetCore.WebUtilities
+@inject NavigationManager Nav
 
 <div class="aot-banner aot-banner--info" role="status" data-testid="saved-banner">
     <div class="aot-banner__body">
         Saved investigation · analysed @FormatDate(AnalysedAt)
     </div>
+    @if (EffectiveSavedId is { } savedId)
+    {
+        <a class="aot-btn aot-btn--sm"
+           href="@($"/library/{savedId}/report")"
+           data-testid="saved-report">
+            Report
+        </a>
+    }
     <button type="button"
             class="aot-btn aot-btn--sm"
             data-testid="rerun-latest"
@@ -15,8 +26,39 @@
 
 @code {
     [Parameter, EditorRequired] public DateTimeOffset AnalysedAt { get; set; }
+    [Parameter] public Guid? SavedId { get; set; }
     [Parameter] public bool Running { get; set; }
     [Parameter] public EventCallback OnRerunLatest { get; set; }
+
+    private Guid? EffectiveSavedId => SavedId ?? TryParseSavedFromUri(Nav.Uri);
+
+    protected override void OnInitialized()
+    {
+        Nav.LocationChanged += HandleLocationChanged;
+    }
+
+    private void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        Nav.LocationChanged -= HandleLocationChanged;
+    }
+
+    private static Guid? TryParseSavedFromUri(string uri)
+    {
+        if (!Uri.TryCreate(uri, UriKind.Absolute, out var abs) || string.IsNullOrEmpty(abs.Query))
+        {
+            return null;
+        }
+
+        var query = QueryHelpers.ParseQuery(abs.Query);
+        return query.TryGetValue("saved", out var raw) && Guid.TryParse(raw.ToString(), out var id)
+            ? id
+            : null;
+    }
 
     private static string FormatDate(DateTimeOffset date) =>
         date.UtcDateTime.ToString("d MMM yyyy", CultureInfo.InvariantCulture);

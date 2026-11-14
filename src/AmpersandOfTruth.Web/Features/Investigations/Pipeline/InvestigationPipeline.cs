@@ -37,15 +37,15 @@ public sealed class InvestigationPipeline(
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(topic);
         topic = topic.Trim();
-        return StreamAsync(topic, token => search.FindArticlesAsync(topic, token), ct);
+        return StreamAsync(topic, token => search.SearchAsync(topic, token), ct);
     }
 
     /// <summary>Stages 2–4 on given articles (the eval's oracle retrieval, contract §2.2). Stage 1 just echoes them.</summary>
     public IAsyncEnumerable<InvestigationEvent> RunOnArticlesAsync(string topic, IReadOnlyList<TopicArticle> articles, CancellationToken ct = default) =>
-        StreamAsync(topic, _ => Task.FromResult(articles), ct);
+        StreamAsync(topic, _ => Task.FromResult(new TopicSearchResult(articles)), ct);
 
     private async IAsyncEnumerable<InvestigationEvent> StreamAsync(
-        string topic, Func<CancellationToken, Task<IReadOnlyList<TopicArticle>>> findArticles, [EnumeratorCancellation] CancellationToken ct)
+        string topic, Func<CancellationToken, Task<TopicSearchResult>> findArticles, [EnumeratorCancellation] CancellationToken ct)
     {
         var channel = Channel.CreateUnbounded<InvestigationEvent>(new UnboundedChannelOptions { SingleReader = true });
         using var run = CancellationTokenSource.CreateLinkedTokenSource(ct);
@@ -63,7 +63,7 @@ public sealed class InvestigationPipeline(
     }
 
     private async Task ProduceAsync(
-        string topic, Func<CancellationToken, Task<IReadOnlyList<TopicArticle>>> findArticles,
+        string topic, Func<CancellationToken, Task<TopicSearchResult>> findArticles,
         ChannelWriter<InvestigationEvent> writer, CancellationToken ct)
     {
         var now = time.GetUtcNow();
@@ -83,8 +83,9 @@ public sealed class InvestigationPipeline(
 
         try
         {
-            var articles = await findArticles(ct);
-            writer.TryWrite(new ArticlesFound(articles.Count, articles));
+            var found = await findArticles(ct);
+            var articles = found.Articles;
+            writer.TryWrite(ArticlesFound.From(found));
             Done(InvestigationStage.ScanHistory);
 
             var scan = await candidates.ScanAsync(articles, ct);

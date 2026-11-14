@@ -282,6 +282,41 @@ public sealed class InvestigationPageTests : BunitContext
     }
 
     [Fact]
+    public async Task Out_of_scope_verdict_shows_a_warning_and_the_articles_anyway()
+    {
+        var session = _runner.EnqueueChannelRun();
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "bitcoin-price-history"));
+        cut.WaitForAssertion(() => Assert.Equal(1, _runner.RunCount));
+        Assert.Empty(cut.FindAll("[data-testid=scope-warning]"));
+
+        var article = new TopicArticle("fi", 1150, "Talvisota", 0.4);
+        await session.WriteAsync(new ArticlesFound(1, [article]) { Scope = new TopicScope(false, "Cryptocurrency prices are not about Finland.") });
+
+        cut.WaitForAssertion(() =>
+        {
+            var warning = cut.Find("[data-testid=scope-warning]");
+            Assert.Contains("may be outside the corpus", warning.TextContent);
+            Assert.Contains("Cryptocurrency prices are not about Finland.", warning.TextContent);
+            Assert.Contains("1 article", cut.Find("[data-testid=summary-header]").TextContent);
+        });
+        session.Complete();
+    }
+
+    [Fact]
+    public async Task In_scope_verdict_shows_no_warning()
+    {
+        var session = _runner.EnqueueChannelRun();
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+        cut.WaitForAssertion(() => Assert.Equal(1, _runner.RunCount));
+
+        await session.WriteAsync(new ArticlesFound(1, [new TopicArticle("fi", 1150, "Talvisota", 0.1)]) { Scope = new TopicScope(true, "Finnish history.") });
+
+        cut.WaitForAssertion(() => Assert.Contains("1 article", cut.Find("[data-testid=summary-header]").TextContent));
+        Assert.Empty(cut.FindAll("[data-testid=scope-warning]"));
+        session.Complete();
+    }
+
+    [Fact]
     public async Task Completed_with_zero_incidents_renders_empty_state_with_what_was_checked()
     {
         var session = _runner.EnqueueChannelRun();

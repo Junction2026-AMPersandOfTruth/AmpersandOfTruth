@@ -214,8 +214,14 @@ public static class InvestigateCli
             {
                 case "retrieval":
                 {
-                    var articles = await services.GetRequiredService<ITopicSearch>().FindArticlesAsync(text, ct);
-                    response = new JsonObject { ["contract"] = 1, ["out_of_scope"] = false, ["results"] = Results(articles) };
+                    var search = services.GetRequiredService<ITopicSearch>();
+                    var found = await search.SearchAsync(text, ct);
+                    Console.Error.WriteLine($"search {search.Fingerprint}: {found.Articles.Count} articles, scope {found.Scope}, fallback {found.Fallback}");
+                    // R6 (#27): the scope verdict is reported (R3-E's oos metric) but results are still returned, as in the app.
+                    response = new JsonObject
+                    {
+                        ["contract"] = 1, ["out_of_scope"] = OutOfScope(found.Scope), ["results"] = Results(found.Articles, llm: found.Scope is not null),
+                    };
                     break;
                 }
                 case "signals":
@@ -229,10 +235,11 @@ public static class InvestigateCli
                 }
                 case "pipeline":
                 {
-                    var (articles, incidents) = await CollectAsync(pipeline.RunAsync(text, ct: ct));
+                    var (found, incidents) = await CollectAsync(pipeline.RunAsync(text, ct: ct));
                     response = new JsonObject
                     {
-                        ["contract"] = 1, ["out_of_scope"] = false, ["results"] = Results(articles), ["incidents"] = Incidents(incidents, limit),
+                        ["contract"] = 1, ["out_of_scope"] = OutOfScope(found.Scope), ["results"] = Results(found.Items, llm: found.Scope is not null),
+                        ["incidents"] = Incidents(incidents, limit),
                     };
                     break;
                 }
@@ -253,15 +260,15 @@ public static class InvestigateCli
 
     private sealed class StageFailedException(StageFailed f) : Exception($"{f.Stage} failed ({f.Kind}): {f.Error}");
 
-    private static async Task<(IReadOnlyList<TopicArticle> Articles, IReadOnlyList<IncidentRecord> Incidents)> CollectAsync(
+    private static async Task<(ArticlesFound Articles, IReadOnlyList<IncidentRecord> Incidents)> CollectAsync(
         IAsyncEnumerable<InvestigationEvent> run)
     {
-        IReadOnlyList<TopicArticle> articles = [];
+        var articles = new ArticlesFound(0, []);
         await foreach (var e in run)
         {
             switch (e)
             {
-                case ArticlesFound a: articles = a.Items; break;
+                case ArticlesFound a: articles = a; break;
                 case StageFailed f: throw new StageFailedException(f);
                 case Completed c:
                     Console.Error.WriteLine($"{c.Incidents.Count} incidents, {c.Degraded} degraded, {Timings(c).ToJsonString()}");
@@ -271,12 +278,16 @@ public static class InvestigateCli
         throw new InvalidOperationException("the pipeline ended without a result");
     }
 
-    private static JsonArray Results(IReadOnlyList<TopicArticle> articles) =>
-        [.. articles.Where(a => a.HasHistory).Select(a => (JsonNode)new JsonObject
+    private static bool OutOfScope(TopicScope? scope) => scope is { InScope: false };
+
+    /// <summary>Contract §2.1 results in rank order (the runner scores the order; <c>score</c> is informational). <c>why</c>:
+    /// <c>keyword</c> = an LLM title guess matched, <c>vector</c> = bge-m3, <c>llm</c> = the expansion shaped the query.</summary>
+    private static JsonArray Results(IReadOnlyList<TopicArticle> articles, bool llm) =>
+        [.. articles.Where(a => a.HasHistory).Select((a, i) => (JsonNode)new JsonObject
         {
             ["page_id"] = a.PageId,
-            ["score"] = Math.Round(1 - a.Distance, 5),
-            ["why"] = new JsonArray("vector"),
+            ["score"] = Math.Round(a.TitleMatch ? 2 - i * 0.01 : 1 - a.Distance, 5),
+            ["why"] = a.TitleMatch ? new JsonArray("keyword", "llm") : llm ? new JsonArray("vector", "llm") : new JsonArray("vector"),
         })];
 
     private static JsonArray Incidents(IReadOnlyList<IncidentRecord> incidents, int limit) =>

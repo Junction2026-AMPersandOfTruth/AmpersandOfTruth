@@ -39,6 +39,9 @@ public sealed class RunProgress
 
     public StageFailed? Failure { get; private set; }
 
+    /// <summary>The topic search's scope verdict (R6 #27); <c>InScope == false</c> → the page warns but still shows results.</summary>
+    public TopicScope? Scope { get; private set; }
+
     public bool IsRunning { get; private set; }
 
     public bool IsComplete { get; private set; }
@@ -81,6 +84,7 @@ public sealed class RunProgress
         Scored = 0;
         Of = 0;
         Failure = null;
+        Scope = null;
         IsComplete = false;
         IsCancelled = false;
         FromCache = false;
@@ -139,6 +143,7 @@ public sealed class RunProgress
             case ArticlesFound a:
                 _articles = a.Items;
                 _articlesCount = a.Count;
+                Scope = a.Scope;
                 MarkDone(InvestigationStage.FindArticles);
                 Activate(InvestigationStage.ScanHistory, now);
                 break;
