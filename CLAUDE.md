@@ -137,7 +137,10 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   `ITopicSearch` (R6), `ICandidateSource` (S1/S4), `IEditReader` (S2/S3), `IEditClassifier` (S9), `IncidentAssembler` (S10, static).
   Today's implementations are placeholders from P0.8 + `wikidiff` + `classify-edit` v1. Dispute signals wired: removal reason
   (S5 lexicon ported as `RevertReasons`; `Fixtures/s5-parity.jsonl` + `s5_parity.py` keep it identical to the Python) and
-  re-insertion (S1 identity restores). Not yet: edit war (S4), dispute templates, source change (S8), kept-in-latest.
+  re-insertion (S1 identity restores). Not yet: dispute templates, kept-in-latest, and edit war (S4) + source change (S8),
+  which are computed on every reading (next bullet but one) but not yet copied into `IncidentEvidence`: that is two lines in
+  `IncidentAssembler` (`InEditWar = reading.EditWar is not null`, `SourceManipulation = reading.SourceChanges.Count > 0`),
+  left for S10 (#37) because it rewrites assembly around S7 clusters. Bump `InvestigationPipeline.Version` with it.
 - Edits the evidence standard excludes without an assessment are never sent to the LLM. Limits: `Investigations:Pipeline` options.
 - Per-edit signals ported ahead of the S11 decision (#38) sit on `EditReading`, computed in stage 3a (`CorpusEditReader`), so they
   hold whatever the incident unit becomes (S10): `Conflicts` / `EditWar` = P1.S4 (`IConflictEpisodes` reads the precomputed
