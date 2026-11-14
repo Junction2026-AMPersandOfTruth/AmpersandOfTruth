@@ -21,8 +21,9 @@ public sealed class InvestigationPipelineOptions
     /// <summary>Reverts that undid more revisions than this are skipped (P1.S1's <c>wide_span</c> exclusion).</summary>
     public int MaxSpanRevisions { get; set; } = 15;
 
-    /// <summary>Candidates read + classified at once (corpus connections and LLM calls in flight).</summary>
-    public int Parallelism { get; set; } = 4;
+    /// <summary>Candidates read + classified at once (corpus connections and LLM calls in flight). #40: 20 measured fastest —
+    /// 4 left a 40-candidate topic at ~50 s cold (LLM-bound, ~5 s per call); 40 was slower again (2-vCPU VPS contention).</summary>
+    public int Parallelism { get; set; } = 20;
 
     /// <summary>Cap on each text variable sent to the LLM (inserted, removed, context).</summary>
     public int MaxPromptChars { get; set; } = 6000;
