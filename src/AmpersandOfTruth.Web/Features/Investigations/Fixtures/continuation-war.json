@@ -1,0 +1,659 @@
+{
+  "slug": "continuation-war",
+  "title": "Continuation War",
+  "aliases": [
+    "jatkosota",
+    "continuation war 1941–1944",
+    "continuation war 1941-1944",
+    "jatkosota 1941–1944",
+    "the continuation war"
+  ],
+  "incidents": [
+    {
+      "id": "cnt-01",
+      "page_id": 11398,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        13635593,
+        13639308,
+        15215087,
+        15217931
+      ],
+      "removing_rev_ids": [
+        13636810,
+        13640450,
+        15216511,
+        15217941
+      ],
+      "tier": "campaign",
+      "score": 0.95,
+      "claim_en": "Repeatedly rewrites wartime President Risto Ryti's August 1944 resignation date from 1 August to 4 August across two years.",
+      "claim_fi": "[[4. elokuuta|4.8.]][[1944]]",
+      "summary_en": "Across November 2013 and September 2015, three distinct editor identities (masked IPv4 85.76.x.x, named account FiCiW, and IPv6 2001:999:…) repeatedly altered Risto Ryti's presidential term end date from 1 August to 4 August 1944, adding web references in later rounds; four named editors restored the consensus date.",
+      "narrative": "Constitutional dating of Finland's August 1944 wartime leadership handover",
+      "category": "content_dispute",
+      "articles": [
+        {
+          "page_id": 11398,
+          "title_fi": "Risto Ryti",
+          "title_en": "Risto Ryti"
+        }
+      ],
+      "first_inserted_at": "2013-11-03T15:58:13Z",
+      "last_removed_at": "2015-09-16T23:12:32Z",
+      "total_exposure_seconds": 155210,
+      "reinsertion_count": 3,
+      "edits": [
+        {
+          "rev_id": 13635593,
+          "parent_rev_id": 13614745,
+          "page_id": 11398,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2013-11-03T15:58:13Z",
+          "role": "inserted",
+          "summary": "Kallio ilmoitti erostaan 27.11.1940, mutta erosi 19.12. (kuollessaan); Ryti ilmoitti erostaan 1.8.1944, mutta erosi 4.8.; Mannerheim ilmoitti erostaan 4.3.1946, mutta erosi 11.8. ja Kekkonen ilmoitti eroavansa 26.10.1981, mutta erosi 27.1.1982.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13635593",
+          "flags": []
+        },
+        {
+          "rev_id": 13636810,
+          "parent_rev_id": 13635593,
+          "page_id": 11398,
+          "user_display": "Pxos",
+          "is_anonymous": false,
+          "timestamp": "2013-11-04T02:56:21Z",
+          "role": "removed",
+          "summary": "Käyttäjän [[Special:Contributions/85.76.x.x|85.76.x.x]] ([[User talk:85.76.x.x|keskustelu]]) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän [[User:Cortex|Cortex]] tekemään versioon.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13636810",
+          "flags": []
+        },
+        {
+          "rev_id": 13639308,
+          "parent_rev_id": 13637576,
+          "page_id": 11398,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2013-11-05T00:41:41Z",
+          "role": "reinserted",
+          "summary": "Suomessa tasavallan presidenttiys on ollut katkeamaton alusta 1919 saakka: Ryti jätti eroilmoituksen 1.8.1944, mutta ero astui voimaan 4.8.1944.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13639308",
+          "flags": []
+        },
+        {
+          "rev_id": 13640450,
+          "parent_rev_id": 13639309,
+          "page_id": 11398,
+          "user_display": "Otrfan",
+          "is_anonymous": false,
+          "timestamp": "2013-11-05T14:00:05Z",
+          "role": "removed",
+          "summary": "rv, WPK:n muokkauksia",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13640450",
+          "flags": []
+        },
+        {
+          "rev_id": 15215087,
+          "parent_rev_id": 15204511,
+          "page_id": 11398,
+          "user_display": "FiCiW",
+          "is_anonymous": false,
+          "timestamp": "2015-09-15T14:39:22Z",
+          "role": "reinserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15215087",
+          "flags": []
+        },
+        {
+          "rev_id": 15216511,
+          "parent_rev_id": 15216030,
+          "page_id": 11398,
+          "user_display": "Ppntori",
+          "is_anonymous": false,
+          "timestamp": "2015-09-16T09:25:11Z",
+          "role": "removed",
+          "summary": "Käyttäjän [[Special:Contributions/FiCiW|FiCiW]] ([[User talk:FiCiW|keskustelu]]) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän [[User:Pxos|Pxos]] tekemään versioon.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15216511",
+          "flags": []
+        },
+        {
+          "rev_id": 15217931,
+          "parent_rev_id": 15216511,
+          "page_id": 11398,
+          "user_display": "2001:999:…",
+          "is_anonymous": true,
+          "timestamp": "2015-09-16T23:08:03Z",
+          "role": "reinserted",
+          "summary": "Kumottu muokkaus 15216511, jonka teki [[Special:Contributions/Ppntori|Ppntori]] ([[User talk:Ppntori|keskustelu]])",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15217931",
+          "flags": []
+        },
+        {
+          "rev_id": 15217941,
+          "parent_rev_id": 15217931,
+          "page_id": 11398,
+          "user_display": "Anr",
+          "is_anonymous": false,
+          "timestamp": "2015-09-16T23:12:32Z",
+          "role": "removed",
+          "summary": "Käyttäjän [[Special:Contributions/2001:999:…|2001:999:…]] ([[User talk:2001:999:20:4902:18BA:8FF1:6FBE:6071|keskustelu]]) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän [[U...",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15217941",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed four times by four different named editors (Pxos, Otrfan, Ppntori, and Anr)."
+        },
+        {
+          "kind": "removal_reason",
+          "label": "Removal gave a reason",
+          "evidence": "Removal summary attributed the repeated date changes to a long-running banned-editor pattern ('rv, WPK:n muokkauksia')."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Put back 3 times after removals across two multi-edit episodes."
+        },
+        {
+          "kind": "edit_war",
+          "label": "Edit-war pattern",
+          "evidence": "Four insertions and four removals contesting the same infobox and resignation-section dates."
+        },
+        {
+          "kind": "multiple_editors",
+          "label": "Multiple accounts",
+          "evidence": "Pushed from three distinct editor groupings: 85.76.x.x, named account FiCiW, and IPv6 prefix 2001:999:…."
+        },
+        {
+          "kind": "persistence",
+          "label": "Returned over weeks",
+          "evidence": "Re-insertions spanned 682 days between 3 November 2013 and 16 September 2015."
+        },
+        {
+          "kind": "source_change",
+          "label": "Citation changed",
+          "evidence": "Later insertions attached kysy.fi and presidentti.fi <ref> citations to support the 4 August end date."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Contests when Ryti's wartime presidency legally ended during Finland's break from the Ryti–Ribbentrop agreement."
+        }
+      ],
+      "tier_reason": "Sustained push — because: removal summary questioned accuracy, neutrality or sourcing, put back 3 times after removal, repeated back-and-forth removals, pushed by 3 distinct editors, re-inserted across 682 days, altered or fabricated source citation, substantive factual or framing claim.",
+      "assessment": {
+        "category": "content_dispute",
+        "confidence": 4,
+        "what_changed_en": "Changed the end of Risto Ryti's presidential term in the infobox and resignation narrative from 1 August 1944 (when he submitted his resignation so Finland could disavow his personal pact with Ribbentrop) to 4 August 1944 (when Parliament swore in Mannerheim).",
+        "quotes": [
+          "[[4. elokuuta|4.8.]][[1944]]"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "Both dates reflect real constitutional milestones in August 1944: Ryti resigned on 1 August (Prime Minister Linkomies acted as head of state in the interim), and Mannerheim took office by special law on 4 August.",
+        "historical_note_en": "Ryti's resignation on 1 August 1944 was a pivotal diplomatic manoeuvre enabling Finland to argue that the June 1944 Ryti–Ribbentrop commitment not to seek a separate peace bound Ryti personally rather than his successor Mannerheim."
+      },
+      "confidence_note": "Extended from golden-set item continuation-war/i06 with its earlier November 2013 predecessors on the same article."
+    },
+    {
+      "id": "cnt-02",
+      "page_id": 440,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        302423,
+        302458
+      ],
+      "removing_rev_ids": [
+        302435,
+        302922
+      ],
+      "tier": "contested",
+      "score": 0.89,
+      "claim_en": "Asserts Finland's government clings to the separate-war thesis even though Finnish officers helped Germany plan Operation Barbarossa.",
+      "claim_fi": "Suomen hallitus pitää edelleen kiinni näkemystä erillissodasta, vaikka todellisuudessa joukko korkea-arvoisia suomalaisupseereita osallistui operaatio Barbarossan suunnitteluun",
+      "summary_en": "Added two unattributed sentences to the lead of Jatkosota stating that the Finnish government still maintains the 'separate war' doctrine despite senior Finnish officers participating in Barbarossa planning and international historians viewing Finland as Germany's ally; re-inserted once during an active neutrality dispute.",
+      "narrative": "Separate-war thesis (erillissota) vs. de facto alliance with Nazi Germany",
+      "category": "pov_push",
+      "articles": [
+        {
+          "page_id": 440,
+          "title_fi": "Jatkosota",
+          "title_en": "Continuation War"
+        }
+      ],
+      "first_inserted_at": "2005-07-05T13:53:51Z",
+      "last_removed_at": "2005-07-05T22:21:33Z",
+      "total_exposure_seconds": 29222,
+      "reinsertion_count": 1,
+      "edits": [
+        {
+          "rev_id": 302423,
+          "parent_rev_id": 302408,
+          "page_id": 440,
+          "user_display": "128.214.x.x",
+          "is_anonymous": true,
+          "timestamp": "2005-07-05T13:53:51Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=302423",
+          "flags": []
+        },
+        {
+          "rev_id": 302435,
+          "parent_rev_id": 302427,
+          "page_id": 440,
+          "user_display": "Thule",
+          "is_anonymous": false,
+          "timestamp": "2005-07-05T14:01:16Z",
+          "role": "removed",
+          "summary": "palautus, asiasta keskustellaan keskustelisivulla",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=302435",
+          "flags": []
+        },
+        {
+          "rev_id": 302458,
+          "parent_rev_id": 302435,
+          "page_id": 440,
+          "user_display": "128.214.x.x",
+          "is_anonymous": true,
+          "timestamp": "2005-07-05T14:21:56Z",
+          "role": "reinserted",
+          "summary": "palautus. NPOV. Kuten thule, sanoi \"noudatetaan mainstream-historian tulkintaa\" mikä kansainvälisesti vallitsee, eikä anneta joidenkin suomalaisjääräpäiden sotkea meidän NPOV:ta",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=302458",
+          "flags": []
+        },
+        {
+          "rev_id": 302922,
+          "parent_rev_id": 302458,
+          "page_id": 440,
+          "user_display": "81.197.x.x",
+          "is_anonymous": true,
+          "timestamp": "2005-07-05T22:21:33Z",
+          "role": "removed",
+          "summary": "Pitäisiköhän kaverille tarjota jo ip:n perusteella jotain?",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=302922",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed twice—first by named editor Thule after 7 minutes, then by another editor after 8 hours."
+        },
+        {
+          "kind": "removal_reason",
+          "label": "Removal gave a reason",
+          "evidence": "First removal directed editors to ongoing talk-page NPOV discussion ('palautus, asiasta keskustellaan keskustelisivulla')."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Put back 1 time 20 minutes after removal with an edit summary invoking international mainstream historiography."
+        },
+        {
+          "kind": "dispute_template",
+          "label": "Dispute tag on article",
+          "evidence": "Parent revision 302408 carried an active {{NPOV}} neutrality dispute tag placed on the article 19 minutes earlier."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "States a contested characterisation of contemporary Finnish state policy and wartime Barbarossa planning in Wikipedia's voice."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edits",
+          "evidence": "Inserted from masked IPv4 range 128.214.x.x."
+        }
+      ],
+      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, put back 1 time after removal, article carried a neutrality or accuracy tag, substantive factual or framing claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 5,
+        "what_changed_en": "Appended a categorical rebuttal of the separate-war thesis to the opening section without inline citations, asserting that Finnish officers helped plan Barbarossa and that the war could not have been fought 'for a single day' without German support.",
+        "quotes": [
+          "Suomen hallitus pitää edelleen kiinni näkemystä erillissodasta, vaikka todellisuudessa joukko korkea-arvoisia suomalaisupseereita osallistui operaatio Barbarossan suunnitteluun saksalaisten kanssa",
+          "Suomen jatkosotaa sellaisena kun se tapahtui ei olisi käyty päivääkään ilman Saksan merkittävää materiaalista ja strategista tukea."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "Subsequent scholarship (e.g. Markku Jokisipilä 2004; Henrik Meinander 2008) was later integrated into a dedicated attributed historiography section of Jatkosota.",
+        "historical_note_en": "Whether Finland fought a 'separate war' alongside Germany or acted as a de facto Axis ally in 1941–1944 has been the central historiographical debate on twentieth-century Finland since the Cold War."
+      },
+      "confidence_note": "Verified against golden-set item continuation-war/i01 during the July 2005 Jatkosota neutrality dispute."
+    },
+    {
+      "id": "cnt-03",
+      "page_id": 440,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        2247824
+      ],
+      "removing_rev_ids": [
+        2247845
+      ],
+      "tier": "contested",
+      "score": 0.83,
+      "claim_en": "Removed: statement that the war ended in Finland's defeat and loss of Petsamo, softened to 'agreed to territorial concessions'.",
+      "claim_fi": "Suomi myöntyi alueluovutuksiin.",
+      "summary_en": "Deleted 'Suomen tappio' ('Finland's defeat'), the loss of Petsamo and re-taken Winter War territories, and the postwar Finno-Soviet treaty from the Jatkosota infobox outcome summary, replacing them with 'Finland agreed to territorial concessions' and 'Moscow Armistice'; undone two minutes later with a factual rebuttal.",
+      "narrative": "Framing of the 1944 outcome: military defeat vs. negotiated armistice",
+      "category": "pov_push",
+      "articles": [
+        {
+          "page_id": 440,
+          "title_fi": "Jatkosota",
+          "title_en": "Continuation War"
+        }
+      ],
+      "first_inserted_at": "2007-01-24T14:22:52Z",
+      "last_removed_at": "2007-01-24T14:25:01Z",
+      "total_exposure_seconds": 129,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 2247824,
+          "parent_rev_id": 2231033,
+          "page_id": 440,
+          "user_display": "Jarmo T.A.",
+          "is_anonymous": false,
+          "timestamp": "2007-01-24T14:22:52Z",
+          "role": "inserted",
+          "summary": "Jatkosodan alun jälkeen, ainoastaan viimeisessä taistelussa, Ilomantsissa, puna-armeija pääsi v. 1941 rajalle, mutta sielläkin kaksi neuvostodivisioonaa murskattiin, ja rippeet ajettiin peräytymään !",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2247824",
+          "flags": []
+        },
+        {
+          "rev_id": 2247845,
+          "parent_rev_id": 2247824,
+          "page_id": 440,
+          "user_display": "ML",
+          "is_anonymous": false,
+          "timestamp": "2007-01-24T14:25:01Z",
+          "role": "removed",
+          "summary": "Suomen tavoite sotaan lähtiessa oli palauttaa menetetyt alueet ja hankkia Itä-Karjalasta lisää. Tämä epäonnistui täydellisesti.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2247845",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed 2 minutes 9 seconds after insertion by named editor ML."
+        },
+        {
+          "kind": "removal_reason",
+          "label": "Removal gave a reason",
+          "evidence": "Removal summary pointed out that Finland's war aim—recovering lost areas and East Karelia—failed completely ('Tämä epäonnistui täydellisesti')."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Deletes explicit mention of defeat and specific territorial losses from the war's headline summary box."
+        }
+      ],
+      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 5,
+        "what_changed_en": "Removed 'Suomen tappio' ('Finland's defeat'), the cession of Petsamo, and the Finno-Soviet FCMA treaty from the infobox outcome and consequences fields, replacing them with 'Suomi myöntyi alueluovutuksiin' ('Finland agreed to territorial concessions').",
+        "quotes": [
+          "Suomi myöntyi alueluovutuksiin."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "Finland avoided Soviet occupation in 1944, which leads editors to debate how the infobox should summarise a strategic defeat that preserved national sovereignty.",
+        "historical_note_en": "Under the September 1944 Moscow Armistice, Finland withdrew to the 1940 border, ceded Petsamo on the Arctic coast, leased Porkkala as a Soviet naval base, paid reparations, and expelled German forces."
+      },
+      "confidence_note": "Illustrates a deletion incident where key outcome facts were removed and replaced by a softened euphemism."
+    },
+    {
+      "id": "cnt-04",
+      "page_id": 105157,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        2355623
+      ],
+      "removing_rev_ids": [
+        2357823
+      ],
+      "tier": "contested",
+      "score": 0.77,
+      "claim_en": "Asserts Finland's 'war cabinet' broke the Moscow Peace Treaty before Barbarossa and flagrantly violated the Geneva Conventions.",
+      "claim_fi": "Jatkosodan aikana Suomi rikkoi räikeästi myös Geneven sopimuksia siviilien ja sotavankien kohtelusta, joten mitään takautuvia lakeja sotasyyllisten tuomitsemiseen ei olisi tarvittu.",
+      "summary_en": "Added an unattributed paragraph to Sotasyyllisyysoikeudenkäynti ('War-responsibility trials in Finland') stating that 'according to many interpretations' Ryti and Mannerheim broke the 1940 peace treaty and that Finland flagrantly violated the Geneva Conventions; removed after 7.3 hours with a legal accuracy rebuttal.",
+      "narrative": "Legitimacy of the 1945–1946 war-responsibility trials and POW treatment",
+      "category": "pov_push",
+      "articles": [
+        {
+          "page_id": 105157,
+          "title_fi": "Sotasyyllisyysoikeudenkäynti",
+          "title_en": "War-responsibility trials in Finland"
+        }
+      ],
+      "first_inserted_at": "2007-02-13T13:39:27Z",
+      "last_removed_at": "2007-02-13T21:00:33Z",
+      "total_exposure_seconds": 26466,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 2355623,
+          "parent_rev_id": 2229790,
+          "page_id": 105157,
+          "user_display": "193.166.x.x",
+          "is_anonymous": true,
+          "timestamp": "2007-02-13T13:39:27Z",
+          "role": "inserted",
+          "summary": "/* Kritiikkiä */",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2355623",
+          "flags": []
+        },
+        {
+          "rev_id": 2357823,
+          "parent_rev_id": 2355623,
+          "page_id": 105157,
+          "user_display": "Whiskey~fiwiki",
+          "is_anonymous": false,
+          "timestamp": "2007-02-13T21:00:33Z",
+          "role": "removed",
+          "summary": "rv. Kerro kenen mielestä, älä käytä sanaa \"monien\". Geneven sopimus pätee vain ratifioijien välillä, niin Suomi kuin NL eivät olleet ratifioineet k.o. sopimusta.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2357823",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed after 7 hours 21 minutes by named editor Whiskey~fiwiki."
+        },
+        {
+          "kind": "removal_reason",
+          "label": "Removal gave a reason",
+          "evidence": "Removal summary challenged unattributed 'according to many' wording and noted neither Finland nor the USSR had ratified the 1929 Geneva POW Convention."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Makes unattributed legal and atrocity assertions arguing retroactive legislation was unnecessary to convict Finnish wartime leaders."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edits",
+          "evidence": "Inserted from masked IPv4 range 193.166.x.x."
+        }
+      ],
+      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 5,
+        "what_changed_en": "Inserted four sentences into the Criticism section asserting that a Ryti–Mannerheim 'war cabinet' handed northern Finland and ten airfields to Germany without Parliament and 'flagrantly' broke the Geneva Conventions on civilians and POWs.",
+        "quotes": [
+          "Monien tulkintojen mukaan Rytin ja Mannerheimin johtama ns. sotakapinetti rikkoi  lainvoimaista Eduskunnan ratifioimaa Moskovan rauhansopimusta",
+          "Jatkosodan aikana Suomi rikkoi räikeästi myös Geneven sopimuksia siviilien ja sotavankien kohtelusta, joten mitään takautuvia lakeja sotasyyllisten tuomitsemiseen ei olisi tarvittu."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "High mortality in Finnish Soviet-POW and East Karelian civilian camps in 1941–1942 is well documented by historians, even though the specific treaty claim about Geneva ratification was legally inaccurate.",
+        "historical_note_en": "The 1945–1946 war-responsibility trials prosecuted political leaders for crimes against peace under a retroactive law demanded by the Allied Control Commission; actual war-crimes cases concerning POWs were tried separately in Finnish courts."
+      },
+      "confidence_note": "Verified against golden-set item continuation-war/i03; combines treaty-law error with unattributed framing."
+    },
+    {
+      "id": "cnt-05",
+      "page_id": 440,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        1512124
+      ],
+      "removing_rev_ids": [
+        1573135
+      ],
+      "tier": "contested",
+      "score": 0.7,
+      "claim_en": "Argues the 1944 battles proved crossing the old 1939 border and invading East Karelia in 1941 had been the right decision.",
+      "claim_fi": "Kesän 1944 taistelut Laatokan pohjoispuolella osoittivat, että sotilaalliselta kannalta vanhojen rajojen ylittäminen ja Itä-Karjalaan hyökkäys olivat oikea päätös.",
+      "summary_en": "Inserted an unsourced counterfactual paragraph into Jatkosota claiming that without occupying Soviet East Karelia as a buffer zone in 1941, the Red Army's 1944 offensive would only have been halted deep inside central Finland; remained visible for 14 days before removal as original research.",
+      "narrative": "Justification of the 1941 advance across the old border into East Karelia",
+      "category": "pov_push",
+      "articles": [
+        {
+          "page_id": 440,
+          "title_fi": "Jatkosota",
+          "title_en": "Continuation War"
+        }
+      ],
+      "first_inserted_at": "2006-08-19T07:08:07Z",
+      "last_removed_at": "2006-09-02T12:30:40Z",
+      "total_exposure_seconds": 1228953,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 1512124,
+          "parent_rev_id": 1471307,
+          "page_id": 440,
+          "user_display": "Hku",
+          "is_anonymous": false,
+          "timestamp": "2006-08-19T07:08:07Z",
+          "role": "inserted",
+          "summary": "/* Suur-Suomea rakentamassa */",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=1512124",
+          "flags": []
+        },
+        {
+          "rev_id": 1573135,
+          "parent_rev_id": 1567481,
+          "page_id": 440,
+          "user_display": "Joonasl",
+          "is_anonymous": false,
+          "timestamp": "2006-09-02T12:30:40Z",
+          "role": "removed",
+          "summary": "/* Suur-Suomea rakentamassa */ poistetaan lähtteetön spekulaatio -> uutta tutkimusta",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=1573135",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed after 14 days by named editor Joonasl."
+        },
+        {
+          "kind": "removal_reason",
+          "label": "Removal gave a reason",
+          "evidence": "Removal summary rejected unsourced speculation and original research ('poistetaan lähtteetön spekulaatio -> uutta tutkimusta')."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Endorses the contested 1941 offensive into East Karelia as 'the right decision' in encyclopedic voice."
+        }
+      ],
+      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 5,
+        "what_changed_en": "Added a three-sentence strategic defence of the 1941 conquest of East Karelia to the 'Building Greater Finland' section, asserting it enabled a 100 km delaying battle in summer 1944.",
+        "quotes": [
+          "Kesän 1944 taistelut Laatokan pohjoispuolella osoittivat, että sotilaalliselta kannalta vanhojen rajojen ylittäminen ja Itä-Karjalaan hyökkäys olivat oikea päätös."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "Finnish wartime commanders did invoke the buffer-zone argument, so the viewpoint exists in military memoirs, but presenting it unattributed as settled fact violates neutrality.",
+        "historical_note_en": "Crossing the 1939 border into East Karelia triggered British war declarations on Finland in December 1941, strained domestic political unity, and tied down divisions north of Lake Ladoga when the main 1944 Soviet offensive struck the Karelian Isthmus."
+      },
+      "confidence_note": "Verified against golden-set item continuation-war/i04; survived over two weeks on the main Jatkosota article."
+    },
+    {
+      "id": "cnt-06",
+      "page_id": 440,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        22210310
+      ],
+      "removing_rev_ids": [
+        22210311
+      ],
+      "tier": "reverted",
+      "score": 0.5,
+      "claim_en": "Appends a sentence claiming Finland nevertheless continued the war in 1944 and gained a large amount of territory.",
+      "claim_fi": "Suomi kuitenkin jatkoi sotaa ja sai paljon alueita.",
+      "summary_en": "Added an unsourced sentence to the 1944 peace section of Jatkosota claiming Finland continued fighting and gained extensive territory; undone 66 seconds later without editorial commentary, with automated assessment unavailable.",
+      "narrative": null,
+      "category": null,
+      "articles": [
+        {
+          "page_id": 440,
+          "title_fi": "Jatkosota",
+          "title_en": "Continuation War"
+        }
+      ],
+      "first_inserted_at": "2024-02-21T22:54:52Z",
+      "last_removed_at": "2024-02-21T22:55:58Z",
+      "total_exposure_seconds": 66,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 22210310,
+          "parent_rev_id": 22166828,
+          "page_id": 440,
+          "user_display": "2001:999:…",
+          "is_anonymous": true,
+          "timestamp": "2024-02-21T22:54:52Z",
+          "role": "inserted",
+          "summary": "Se oli hyvä muutos siihen mielestäni",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=22210310",
+          "flags": []
+        },
+        {
+          "rev_id": 22210311,
+          "parent_rev_id": 22210310,
+          "page_id": 440,
+          "user_display": "Linkkerpar",
+          "is_anonymous": false,
+          "timestamp": "2024-02-21T22:55:58Z",
+          "role": "removed",
+          "summary": "Käyttäjän [[Special:Contributions/2001:999:…|2001:999:…]] muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän [[Special:Contributions/Rdt404|Rdt404]] tekemään versioon.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=22210311",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Undone after 66 seconds by named editor Linkkerpar."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edits",
+          "evidence": "Inserted from masked IPv6 prefix 2001:999:…."
+        }
+      ],
+      "tier_reason": "Removed by Wikipedia editors — because: taken out by another editor.",
+      "assessment": null,
+      "confidence_note": "Automated assessment was unavailable for this edit; capped at the base evidence level from revision history alone."
+    }
+  ]
+}

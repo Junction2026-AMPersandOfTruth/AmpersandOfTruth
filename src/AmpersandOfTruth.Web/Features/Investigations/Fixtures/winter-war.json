@@ -1,0 +1,772 @@
+{
+  "slug": "winter-war",
+  "title": "Winter War",
+  "aliases": [
+    "talvisota",
+    "winter war 1939",
+    "talvisota 1939–1940",
+    "the winter war"
+  ],
+  "incidents": [
+    {
+      "id": "ww-01",
+      "page_id": 1256,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        8960158,
+        8960194,
+        8962713,
+        8963132
+      ],
+      "removing_rev_ids": [
+        8960166,
+        8960205,
+        8963091,
+        8963567
+      ],
+      "tier": "contested",
+      "score": 0.95,
+      "claim_en": "Rewrites the Winter War infobox outcome from 'Moscow Peace' to 'Soviet military victory, Finnish political defensive victory'.",
+      "claim_fi": "Neuvostoliiton voitto (sotilaallinen),<br>\nSuomen torjuntavoitto (poliittinen),<br>",
+      "summary_en": "Inserted four times within 14 hours into the Talvisota infobox outcome field to replace the neutral treaty link ('Moscow Peace') with a dual verdict of Soviet military victory and Finnish political 'defensive victory' (torjuntavoitto); undone four times by two named editors.",
+      "narrative": "Who won the Winter War: Moscow Peace vs. Finnish defensive victory (torjuntavoitto)",
+      "category": "content_dispute",
+      "articles": [
+        {
+          "page_id": 1256,
+          "title_fi": "Talvisota",
+          "title_en": "Winter War"
+        }
+      ],
+      "first_inserted_at": "2010-08-27T09:53:08Z",
+      "last_removed_at": "2010-08-28T05:55:05Z",
+      "total_exposure_seconds": 31891,
+      "reinsertion_count": 3,
+      "edits": [
+        {
+          "rev_id": 8960158,
+          "parent_rev_id": 8954412,
+          "page_id": 1256,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2010-08-27T09:53:08Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8960158",
+          "flags": []
+        },
+        {
+          "rev_id": 8960166,
+          "parent_rev_id": 8960158,
+          "page_id": 1256,
+          "user_display": "ML",
+          "is_anonymous": false,
+          "timestamp": "2010-08-27T09:55:04Z",
+          "role": "removed",
+          "summary": "rv, epämääräisiä käsitteitä",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8960166",
+          "flags": []
+        },
+        {
+          "rev_id": 8960194,
+          "parent_rev_id": 8960166,
+          "page_id": 1256,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2010-08-27T10:04:58Z",
+          "role": "reinserted",
+          "summary": "Täsmennetty myös ru-Wikiin Победа СССР:ään: Победа СССР (военная), отраженная победа Финляндии (политическая)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8960194",
+          "flags": []
+        },
+        {
+          "rev_id": 8960205,
+          "parent_rev_id": 8960194,
+          "page_id": 1256,
+          "user_display": "ML",
+          "is_anonymous": false,
+          "timestamp": "2010-08-27T10:07:20Z",
+          "role": "removed",
+          "summary": "lähteet ensin",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8960205",
+          "flags": []
+        },
+        {
+          "rev_id": 8962713,
+          "parent_rev_id": 8960205,
+          "page_id": 1256,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2010-08-27T20:45:00Z",
+          "role": "reinserted",
+          "summary": "Suomihan ei voinut voittaa sotilaallisesti, koska joutui vetäytymään Rajajoelta Viipurin itäreunalle, toki poliittisesti Suomi saavutti torjuntavoiton.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8962713",
+          "flags": []
+        },
+        {
+          "rev_id": 8963091,
+          "parent_rev_id": 8962713,
+          "page_id": 1256,
+          "user_display": "Care",
+          "is_anonymous": false,
+          "timestamp": "2010-08-27T23:19:39Z",
+          "role": "removed",
+          "summary": "Palautus - ilmeinen konsensus versiohistoriasta päätellen",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8963091",
+          "flags": []
+        },
+        {
+          "rev_id": 8963132,
+          "parent_rev_id": 8963091,
+          "page_id": 1256,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2010-08-27T23:42:31Z",
+          "role": "reinserted",
+          "summary": "Monissa muissa ja muun kielisissä sota-artikkeleissa mainitaan voittaja(t), miksi ei sitten myös Suomen osuuksissa toisessa maailmansodassa.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8963132",
+          "flags": []
+        },
+        {
+          "rev_id": 8963567,
+          "parent_rev_id": 8963132,
+          "page_id": 1256,
+          "user_display": "Care",
+          "is_anonymous": false,
+          "timestamp": "2010-08-28T05:55:05Z",
+          "role": "removed",
+          "summary": "Kumottu muokkaus 8963132, jonka teki [[Special:Contributions/85.76.x.x|85.76.x.x]] ([[User talk:85.76.x.x|keskustelu]])",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8963567",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed four times by named editors ML and Care across a 20-hour span."
+        },
+        {
+          "kind": "removal_reason",
+          "label": "Removal gave a reason",
+          "evidence": "Removal summaries called the added labels vague concepts ('epämääräisiä käsitteitä'), demanded sources first ('lähteet ensin'), and cited long-standing version-history consensus."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Put back 3 times after removals with edit summaries pointing to Russian and other Wikipedia editions."
+        },
+        {
+          "kind": "edit_war",
+          "label": "Edit-war pattern",
+          "evidence": "Four insertions and four removals on the Talvisota infobox result line within twenty hours."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Replaces neutral treaty-based outcome wording with contested interpretive victory labels."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edits",
+          "evidence": "All four insertions came from masked IPv4 range 85.76.x.x."
+        }
+      ],
+      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, put back 3 times after removal, repeated back-and-forth removals, substantive factual or framing claim.",
+      "assessment": {
+        "category": "content_dispute",
+        "confidence": 5,
+        "what_changed_en": "Prepended 'Soviet victory (military), Finnish defensive victory (political)' above 'Moscow Peace' in the Talvisota infobox result parameter across four successive edits.",
+        "quotes": [
+          "Neuvostoliiton voitto (sotilaallinen),<br>\nSuomen torjuntavoitto (poliittinen),<br>"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "Both parts of the summary reflect common historical interpretations, but Finnish Wikipedia's long-standing editorial consensus lists only 'Moscow Peace' in the infobox and explains interpretations in prose.",
+        "historical_note_en": "The Soviet Union forced painful territorial cessions (including Viipuri and 11% of Finnish territory) in March 1940, yet failed in its initial aim of conquering Finland and installing the Terijoki puppet regime—hence the popular Finnish term torjuntavoitto ('defensive victory')."
+      },
+      "confidence_note": "Verified against golden-set item winter-war/i01; two IPs in 85.76.x.x count as one grouped editor under /16 masking."
+    },
+    {
+      "id": "ww-02",
+      "page_id": 8295,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        15356346,
+        15356377,
+        15356383
+      ],
+      "removing_rev_ids": [
+        15356370,
+        15356378,
+        15356388
+      ],
+      "tier": "contested",
+      "score": 0.89,
+      "claim_en": "Rewrites the Shelling of Mainila lead to claim Russians have never admitted Soviet staging and that the fact remains disputed.",
+      "claim_fi": "Tämä historiallinen fakta on edelleen kiistanalainen",
+      "summary_en": "Inverted 'Russians have later admitted' to 'Russians have not admitted' in Mainilan laukaukset and added 'This historical fact is still disputed' three times within two hours; undone three times by named editor Kospo75 over misapplied citations.",
+      "narrative": "Who staged the 26 November 1939 Shelling of Mainila",
+      "category": "pov_push",
+      "articles": [
+        {
+          "page_id": 8295,
+          "title_fi": "Mainilan laukaukset",
+          "title_en": "Shelling of Mainila"
+        }
+      ],
+      "first_inserted_at": "2015-11-25T04:36:41Z",
+      "last_removed_at": "2015-11-25T06:11:29Z",
+      "total_exposure_seconds": 4908,
+      "reinsertion_count": 2,
+      "edits": [
+        {
+          "rev_id": 15356346,
+          "parent_rev_id": 14834809,
+          "page_id": 8295,
+          "user_display": "Dmitri 152",
+          "is_anonymous": false,
+          "timestamp": "2015-11-25T04:36:41Z",
+          "role": "inserted",
+          "summary": "Muutettu väite: Todellisuudessa... Lähde on puutteellinen.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15356346",
+          "flags": []
+        },
+        {
+          "rev_id": 15356370,
+          "parent_rev_id": 15356346,
+          "page_id": 8295,
+          "user_display": "Kospo75",
+          "is_anonymous": false,
+          "timestamp": "2015-11-25T05:56:17Z",
+          "role": "removed",
+          "summary": "Hylättiin viimeisin tekstimuutos (tehnyt [[Toiminnot:Muokkaukset/Dmitri 152|Dmitri 152]]) ja palautettiin versio 14834809, jonka on tehnyt Kospo75: lähteetön",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15356370",
+          "flags": []
+        },
+        {
+          "rev_id": 15356377,
+          "parent_rev_id": 15356370,
+          "page_id": 8295,
+          "user_display": "Dmitri 152",
+          "is_anonymous": false,
+          "timestamp": "2015-11-25T06:01:46Z",
+          "role": "reinserted",
+          "summary": "Kumottu muokkaus 15356370, jonka teki [[Special:Contributions/Kospo75|Kospo75]] ([[User talk:Kospo75|keskustelu]]) Tekstissä on Lähde. Luetko edes tekstejä ennun kuin poistat?",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15356377",
+          "flags": []
+        },
+        {
+          "rev_id": 15356378,
+          "parent_rev_id": 15356377,
+          "page_id": 8295,
+          "user_display": "Kospo75",
+          "is_anonymous": false,
+          "timestamp": "2015-11-25T06:02:35Z",
+          "role": "removed",
+          "summary": "Hylättiin viimeisin tekstimuutos (tehnyt [[Toiminnot:Muokkaukset/Dmitri 152|Dmitri 152]]) ja palautettiin versio 15356370, jonka on tehnyt Kospo75: ylen lähteessä asiaa ei mainita, venäjänkielistä en ymmärrä",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15356378",
+          "flags": []
+        },
+        {
+          "rev_id": 15356383,
+          "parent_rev_id": 15356378,
+          "page_id": 8295,
+          "user_display": "Dmitri 152",
+          "is_anonymous": false,
+          "timestamp": "2015-11-25T06:10:06Z",
+          "role": "reinserted",
+          "summary": "YLE:n lähde on spekulaatiota, eikä perustu tosiasioihin, ja on ristiriidassa kaikkien muiden lähteiden kanssa. Siksi sitä ei oikeastaan voi käyttää lähteenä.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15356383",
+          "flags": []
+        },
+        {
+          "rev_id": 15356388,
+          "parent_rev_id": 15356383,
+          "page_id": 8295,
+          "user_display": "Kospo75",
+          "is_anonymous": false,
+          "timestamp": "2015-11-25T06:11:29Z",
+          "role": "removed",
+          "summary": "Hylättiin viimeisin tekstimuutos (tehnyt [[Toiminnot:Muokkaukset/Dmitri 152|Dmitri 152]]) ja palautettiin versio 15356378, jonka on tehnyt Kospo75: ylen lähde on kuitenkin viitteenä tässä, korjaa",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15356388",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed three times within 95 minutes by named editor Kospo75."
+        },
+        {
+          "kind": "removal_reason",
+          "label": "Removal gave a reason",
+          "evidence": "Removal summaries noted the claim was unsourced and contradicted the attached Yle reference ('lähteetön'; 'ylen lähteessä asiaa ei mainita')."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Put back 2 times after removals, with edit summaries dismissing the Yle source as speculation."
+        },
+        {
+          "kind": "edit_war",
+          "label": "Edit-war pattern",
+          "evidence": "Three insertions and three removals flipping the lead's core factual conclusion within two hours."
+        },
+        {
+          "kind": "source_change",
+          "label": "Citation changed",
+          "evidence": "Repurposed existing Yle and Russian rkka.ru <ref> tags to back the inverted denial sentence."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Flips the historical consensus on the Soviet false-flag artillery incident that served as the pretext for invading Finland."
+        }
+      ],
+      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, put back 2 times after removal, repeated back-and-forth removals, substantive factual or framing claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 5,
+        "what_changed_en": "Changed 'Venäläiset ovat myöhemmin myöntäneet' ('Russians have later admitted') to 'Venäläiset eivät ole myöntäneet' ('Russians have not admitted') regarding Soviet staging of the Mainila artillery shots, adding that the historical fact remains disputed.",
+        "quotes": [
+          "Venäläiset eivät ole myöntäneet, että",
+          "Tämä historiallinen fakta on edelleen kiistanalainen"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "While contemporary Russian nationalist commentators occasionally revive ambiguity around Mainila, official post-Soviet statements—including Boris Yeltsin's May 1994 acknowledgement—recognised Soviet aggression.",
+        "historical_note_en": "On 26 November 1939 seven artillery shells fell near the Soviet border village of Mainila; Finnish border guards triangulated the firing site inside Soviet territory, and Finnish guns had already been pulled back out of range on Mannerheim's orders."
+      },
+      "confidence_note": "Verified against golden-set item winter-war/i02 on Mainilan laukaukset."
+    },
+    {
+      "id": "ww-03",
+      "page_id": 1256,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        2940776,
+        2942369
+      ],
+      "removing_rev_ids": [
+        2942005,
+        2942380
+      ],
+      "tier": "contested",
+      "score": 0.83,
+      "claim_en": "Claims Foreign Minister Erkko silenced Mannerheim on Soviet land swaps, cost 85,000 lives, and was 'the number-one war criminal'.",
+      "claim_fi": "Valitettavasti neuvottelut lopetettiin, Suomi joutui sotaan ja 85 000 ihmistä sai maksaa hengellään Erkon tyhmyyden.",
+      "summary_en": "Added an unsourced paragraph to the Moscow Negotiations section of Talvisota blaming Foreign Minister Eljas Erkko for the outbreak of war and 85,000 deaths and calling him 'the number-one war criminal'; after removal, a second editor account put the exact paragraph back.",
+      "narrative": "Blame for the breakdown of the autumn 1939 Moscow negotiations",
+      "category": "pov_push",
+      "articles": [
+        {
+          "page_id": 1256,
+          "title_fi": "Talvisota",
+          "title_en": "Winter War"
+        }
+      ],
+      "first_inserted_at": "2007-05-31T13:55:44Z",
+      "last_removed_at": "2007-05-31T18:18:11Z",
+      "total_exposure_seconds": 12018,
+      "reinsertion_count": 1,
+      "edits": [
+        {
+          "rev_id": 2940776,
+          "parent_rev_id": 2940711,
+          "page_id": 1256,
+          "user_display": "81.229.x.x",
+          "is_anonymous": true,
+          "timestamp": "2007-05-31T13:55:44Z",
+          "role": "inserted",
+          "summary": "/* Moskovan neuvottelut */",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2940776",
+          "flags": []
+        },
+        {
+          "rev_id": 2942005,
+          "parent_rev_id": 2940776,
+          "page_id": 1256,
+          "user_display": "B. Nuhanen",
+          "is_anonymous": false,
+          "timestamp": "2007-05-31T17:14:12Z",
+          "role": "removed",
+          "summary": "Käyttäjän [[Toiminnot:Contributions/81.229.x.x|81.229.x.x]] ([[Keskustelu_käyttäjästä:81.229.x.x|keskustelu]]) muokkaus 2940776 kumottiin",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2942005",
+          "flags": []
+        },
+        {
+          "rev_id": 2942369,
+          "parent_rev_id": 2942005,
+          "page_id": 1256,
+          "user_display": "Ekimlegna",
+          "is_anonymous": false,
+          "timestamp": "2007-05-31T18:16:21Z",
+          "role": "reinserted",
+          "summary": "Käyttäjän [[Toiminnot:Contributions/B. Nuhanen|B. Nuhanen]] ([[Keskustelu_käyttäjästä:B. Nuhanen|keskustelu]]) muokkaus 2942005 kumottiin",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2942369",
+          "flags": []
+        },
+        {
+          "rev_id": 2942380,
+          "parent_rev_id": 2942369,
+          "page_id": 1256,
+          "user_display": "Pikidi",
+          "is_anonymous": false,
+          "timestamp": "2007-05-31T18:18:11Z",
+          "role": "removed",
+          "summary": "Käyttäjän [[Toiminnot:Contributions/Ekimlegna|Ekimlegna]] ([[Keskustelu_käyttäjästä:Ekimlegna|keskustelu]]) muokkaus 2942369 kumottiin",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2942380",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed first by named editor B. Nuhanen after 3.3 hours and again by Pikidi 110 seconds after re-insertion."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Put back 1 time verbatim an hour after the initial removal."
+        },
+        {
+          "kind": "multiple_editors",
+          "label": "Multiple accounts",
+          "evidence": "Inserted first from masked IPv4 range 81.229.x.x and re-inserted by named account Ekimlegna."
+        },
+        {
+          "kind": "number_changed",
+          "label": "Figures changed",
+          "evidence": "Introduced unsourced figures of 5,000 km² of North Karelian territory and 85,000 lives lost to 'Erkko's stupidity'."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Makes a polemical accusation ('numero yksi sotarikollinen') assigning sole guilt for the Winter War to Finland's foreign minister."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edits",
+          "evidence": "Initial insertion came from unregistered IPv4 address 81.229.x.x."
+        }
+      ],
+      "tier_reason": "Contested push — because: put back 1 time after removal, substantive factual or framing claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 5,
+        "what_changed_en": "Inserted three unsourced sentences asserting that Erkko forbade Mannerheim from disclosing a favourable Soviet land-exchange offer, costing 85,000 lives and making Erkko 'the number-one war criminal'.",
+        "quotes": [
+          "Valitettavasti neuvottelut lopetettiin, Suomi joutui sotaan ja 85 000 ihmistä sai maksaa hengellään Erkon tyhmyyden.",
+          "Tosiasiaksi jää että Erkko oli numero yksi sotarikollinen."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "Historians do note that Mannerheim and Paasikivi favoured larger territorial concessions in autumn 1939 than Erkko believed Stalin would act upon, but the added text states fabricated prohibitions and invective.",
+        "historical_note_en": "Stalin offered roughly 5,529 km² of Soviet Karelia (Repola and Porajärvi) in exchange for strategic Karelian Isthmus territory, Gulf of Finland islands, and a naval base at Hanko—terms the Finnish cabinet and parliamentary groups unanimously considered incompatible with neutrality."
+      },
+      "confidence_note": "Verified against golden-set item winter-war/i03; has one coordination signal (multiple_editors) so remains Contested rather than Sustained."
+    },
+    {
+      "id": "ww-04",
+      "page_id": 1256,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        20060892
+      ],
+      "removing_rev_ids": [
+        20063041
+      ],
+      "tier": "contested",
+      "score": 0.76,
+      "claim_en": "Alters the Pavel Petrov archive citation inside <ref> to inflate listed Red Army dead and missing from 167,976 to 500,000.",
+      "claim_fi": "Pavel Petrov, Venäjän valtiollisen sota-arkiston tietokanta, johon on koottu yhteensä 500 000 kaatuneen, haavoihinsa kuolleen tai kadonneen puna-armeijan",
+      "summary_en": "Modified the <ref name=\"Petrov\"> footnote in the Talvisota infobox so that historian Pavel Petrov's Russian State Military Archive name-by-name database appeared to list 500,000 dead or missing Red Army soldiers instead of its actual 167,976 records; removed after 29.5 hours with an accuracy explanation.",
+      "narrative": "Scale of Red Army casualties in the Winter War",
+      "category": "source_manipulation",
+      "articles": [
+        {
+          "page_id": 1256,
+          "title_fi": "Talvisota",
+          "title_en": "Winter War"
+        }
+      ],
+      "first_inserted_at": "2021-10-19T01:17:44Z",
+      "last_removed_at": "2021-10-20T06:49:37Z",
+      "total_exposure_seconds": 106313,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 20060892,
+          "parent_rev_id": 20020712,
+          "page_id": 1256,
+          "user_display": "2001:14BA:…",
+          "is_anonymous": true,
+          "timestamp": "2021-10-19T01:17:44Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=20060892",
+          "flags": []
+        },
+        {
+          "rev_id": 20063041,
+          "parent_rev_id": 20060892,
+          "page_id": 1256,
+          "user_display": "Kospo75",
+          "is_anonymous": false,
+          "timestamp": "2021-10-20T06:49:37Z",
+          "role": "removed",
+          "summary": "Hylättiin viimeisin tekstimuutos (tehnyt [[Toiminnot:Muokkaukset/2001:14BA:…|2001:14BA:…]]) ja palautettiin versio 20020712, jonka on tehnyt Kospo75: tässä puhe tietokannasta, kaatuneiden määrä erikseen",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=20063041",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed after 29 hours 32 minutes by named editor Kospo75."
+        },
+        {
+          "kind": "removal_reason",
+          "label": "Removal gave a reason",
+          "evidence": "Removal summary pointed out that the footnote describes a specific archival database rather than total casualty estimates ('tässä puhe tietokannasta, kaatuneiden määrä erikseen')."
+        },
+        {
+          "kind": "source_change",
+          "label": "Citation changed",
+          "evidence": "Replaced <ref name=\"Petrov\"> citing 167,976 archival records with a modified <ref name=\"Petrov\"> claiming 500,000 records in the same database."
+        },
+        {
+          "kind": "number_changed",
+          "label": "Figures changed",
+          "evidence": "Tripled the cited archival record count inside the reference from 167,976 to 500,000."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Misattributes a tripled casualty figure to a named archival database footnote."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edits",
+          "evidence": "Inserted from masked IPv6 prefix 2001:14BA:…."
+        }
+      ],
+      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
+      "assessment": {
+        "category": "source_manipulation",
+        "confidence": 5,
+        "what_changed_en": "Edited the text inside <ref name=\"Petrov\"> in the casualty infobox so Pavel Petrov's Russian State Military Archive database was stated to contain 500,000 named Red Army dead and missing rather than 167,976.",
+        "quotes": [
+          "<ref name=\"Petrov\">Pavel Petrov, Venäjän valtiollisen sota-arkiston tietokanta, johon on koottu yhteensä 500 000 kaatuneen, haavoihinsa kuolleen tai kadonneen puna-armeijan"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "Higher unofficial Soviet casualty claims (ranging from 200,000 upward in memoirs such as Khrushchev's) exist in popular literature, but attributing 500,000 to Petrov's 167,976-entry RGVA database falsifies what the cited source says.",
+        "historical_note_en": "Post-Soviet archival tallies by Grigori Krivosheev (126,875 dead/missing) and Yuri Kilin / Pavel Petrov (167,976 named records in the Russian State Military Archive) form the modern scholarly baseline for Red Army Winter War fatalities."
+      },
+      "confidence_note": "Directly verified in corpus revision 20060892; exemplifies subtle number alteration inside a <ref> citation."
+    },
+    {
+      "id": "ww-05",
+      "page_id": 24889,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        7714924,
+        7716568
+      ],
+      "removing_rev_ids": [
+        7715566,
+        7717839
+      ],
+      "tier": "contested",
+      "score": 0.69,
+      "claim_en": "Cites a 1941 wartime magazine as 'one of the most reliable' sources to credit sniper Simo Häyhä with 600 kills and 40 in one day.",
+      "claim_fi": "Jutun otsikossa mainitaan 600 tappoa \"varman päälle\". Häyhä kertoi, että ampui niistä 259 pystykorvalla.",
+      "summary_en": "Added two paragraphs to Simo Häyhä presenting a 1941 Hurtti Ukko soldiers' magazine feature ('600 kills for sure', 40 in a single day) as among the most reliable data on Häyhä; removed twice by a named editor who noted wartime propaganda publications are unreliable.",
+      "narrative": "Simo Häyhä's Winter War sniper kill count",
+      "category": "content_dispute",
+      "articles": [
+        {
+          "page_id": 24889,
+          "title_fi": "Simo Häyhä",
+          "title_en": "Simo Häyhä"
+        }
+      ],
+      "first_inserted_at": "2009-12-11T21:48:16Z",
+      "last_removed_at": "2009-12-12T16:23:59Z",
+      "total_exposure_seconds": 46135,
+      "reinsertion_count": 1,
+      "edits": [
+        {
+          "rev_id": 7714924,
+          "parent_rev_id": 7637597,
+          "page_id": 24889,
+          "user_display": "Tykki111",
+          "is_anonymous": false,
+          "timestamp": "2009-12-11T21:48:16Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7714924",
+          "flags": []
+        },
+        {
+          "rev_id": 7715566,
+          "parent_rev_id": 7714924,
+          "page_id": 24889,
+          "user_display": "Riisipuuro",
+          "is_anonymous": false,
+          "timestamp": "2009-12-12T05:55:30Z",
+          "role": "removed",
+          "summary": "sodanaikaisen propagandan alaiset julkaisut eivät ole asiassa luotettavia , anekdoottina mielenkiintoisia kunhan lähde+sivunro",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7715566",
+          "flags": []
+        },
+        {
+          "rev_id": 7716568,
+          "parent_rev_id": 7715566,
+          "page_id": 24889,
+          "user_display": "Tykki111",
+          "is_anonymous": false,
+          "timestamp": "2009-12-12T11:42:18Z",
+          "role": "reinserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7716568",
+          "flags": []
+        },
+        {
+          "rev_id": 7717839,
+          "parent_rev_id": 7716568,
+          "page_id": 24889,
+          "user_display": "Riisipuuro",
+          "is_anonymous": false,
+          "timestamp": "2009-12-12T16:23:59Z",
+          "role": "removed",
+          "summary": "Kumottu muokkaus 7716568, jonka teki [[Special:Contributions/Tykki111|Tykki111]] ([[User talk:Tykki111|keskustelu]]) kuten aikaisempi",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7717839",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed twice within 19 hours by named editor Riisipuuro."
+        },
+        {
+          "kind": "removal_reason",
+          "label": "Removal gave a reason",
+          "evidence": "Removal summary explained that wartime propaganda publications are not reliable sources for factual counts ('sodanaikaisen propagandan alaiset julkaisut eivät ole asiassa luotettavia')."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Put back 1 time verbatim nearly six hours after the first removal."
+        },
+        {
+          "kind": "number_changed",
+          "label": "Figures changed",
+          "evidence": "Introduced kill counts of 600 ('varman päälle'), 259 with a standard rifle, and a single-day record of 40."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Frames unverified wartime press figures as 'one of the most reliable' sources on Häyhä's combat record."
+        }
+      ],
+      "tier_reason": "Contested push — because: removal summary questioned accuracy, neutrality or sourcing, put back 1 time after removal, substantive factual or framing claim.",
+      "assessment": {
+        "category": "content_dispute",
+        "confidence": 4,
+        "what_changed_en": "Inserted two paragraphs praising a 1941 Hurtti Ukko magazine article and a 1940 wartime book, crediting Häyhä with 600 confirmed kills and 40 kills on the day he was wounded.",
+        "quotes": [
+          "Yksi luotettavimmista Häyhää koskevista tiedoista löytynee vuonna 1941 ilmestuneestä Hurtti Ukko-lehdestä no 1.",
+          "Jutun otsikossa mainitaan 600 tappoa \"varman päälle\". Häyhä kertoi, että ampui niistä 259 pystykorvalla."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "The wartime Hurtti Ukko article itself existed, so the dispute concerns source reliability and framing it as 'most reliable' rather than complete invention.",
+        "historical_note_en": "Wartime Finnish press promoted elevated figures (505–542+) for morale, whereas historians such as Risto Marjomaa note sniper tallies could not be verified on the battlefield and Häyhä's own postwar memoir spoke more cautiously."
+      },
+      "confidence_note": "Verified against golden-set item winter-war/i04 on Simo Häyhä."
+    },
+    {
+      "id": "ww-06",
+      "page_id": 1256,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        5892101
+      ],
+      "removing_rev_ids": [
+        5894382
+      ],
+      "tier": "reverted",
+      "score": 0.55,
+      "claim_en": "Replaces the Shelling of Mainila as casus belli in the infobox with the Terijoki puppet government's 1 December request for Soviet aid.",
+      "claim_fi": "julistuksessa [[1. joulukuuta]] [[1939]] esitetty avunpyyntö [[SNTL|Neuvostoliitolle]].",
+      "summary_en": "Changed the casus belli parameter in the Talvisota infobox from the Shelling of Mainila (26 November 1939) to Otto Wille Kuusinen's Soviet-backed Terijoki government requesting Red Army assistance on 1 December 1939; undone after 6.4 hours with a pointer to the talk page.",
+      "narrative": null,
+      "category": "content_dispute",
+      "articles": [
+        {
+          "page_id": 1256,
+          "title_fi": "Talvisota",
+          "title_en": "Winter War"
+        }
+      ],
+      "first_inserted_at": "2008-11-29T15:16:31Z",
+      "last_removed_at": "2008-11-29T21:39:56Z",
+      "total_exposure_seconds": 23005,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 5892101,
+          "parent_rev_id": 5882422,
+          "page_id": 1256,
+          "user_display": "84.249.x.x",
+          "is_anonymous": true,
+          "timestamp": "2008-11-29T15:16:31Z",
+          "role": "inserted",
+          "summary": "Terijoen hallituksen perustamisen tarkoitus oli oikeuttaa talvisota esittämällä, että NL toimi Suomen työläisten kutsun perusteella..",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5892101",
+          "flags": []
+        },
+        {
+          "rev_id": 5894382,
+          "parent_rev_id": 5892101,
+          "page_id": 1256,
+          "user_display": "Whiskey~fiwiki",
+          "is_anonymous": false,
+          "timestamp": "2008-11-29T21:39:56Z",
+          "role": "removed",
+          "summary": "Käyttäjän [[Toiminnot:Contributions/84.249.x.x|84.249.x.x]] ([[Keskustelu_käyttäjästä:84.249.x.x|keskustelu]]) muokkaus 5892101 kumottiin Kts. keskustelu",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5894382",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed after 6 hours 23 minutes by named editor Whiskey~fiwiki."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edits",
+          "evidence": "Inserted from masked IPv4 range 84.249.x.x."
+        }
+      ],
+      "tier_reason": "Removed by Wikipedia editors — because: taken out by another editor.",
+      "assessment": {
+        "category": "content_dispute",
+        "confidence": 4,
+        "what_changed_en": "Replaced 'Mainilan laukaukset' in the infobox casus belli field with the Terijoki government's 1 December 1939 declaration requesting Soviet assistance.",
+        "quotes": [
+          "julistuksessa [[1. joulukuuta]] [[1939]] esitetty avunpyyntö [[SNTL|Neuvostoliitolle]]."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "The editor's summary accurately noted that Moscow used the Terijoki regime to legitimise the invasion diplomatically, even though the war had already begun the day before on 30 November following Mainila.",
+        "historical_note_en": "The Red Army crossed the Finnish border on 30 November 1939 citing the 26 November Mainila incident; the Terijoki 'Finnish Democratic Republic' under Kuusinen was proclaimed only on 1 December to justify refusing talks with Helsinki."
+      },
+      "confidence_note": "Verified against golden-set item winter-war/i06; removal summary ('Kts. keskustelu') gives no accuracy/neutrality/sourcing reason, keeping it at the base level."
+    }
+  ]
+}
