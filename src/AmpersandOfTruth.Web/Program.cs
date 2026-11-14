@@ -12,6 +12,7 @@ using AmpersandOfTruth.Web.Features.Library;
 using AmpersandOfTruth.Web.Features.Reports;
 using AmpersandOfTruth.Web.Features.Network;
 using AmpersandOfTruth.Web.Features.Search;
+using AmpersandOfTruth.Web.Features.Sharing;
 using AmpersandOfTruth.Web.Features.TimeMachine;
 using AmpersandOfTruth.Web.Features.Translation;
 
@@ -39,6 +40,7 @@ builder.Services.AddAnnotationsFeature();
 builder.Services.AddHotspotsFeature();
 builder.Services.AddReportsFeature();
 builder.Services.AddNetworkFeature();
+builder.Services.AddSharingFeature();
 
 var app = builder.Build();
 

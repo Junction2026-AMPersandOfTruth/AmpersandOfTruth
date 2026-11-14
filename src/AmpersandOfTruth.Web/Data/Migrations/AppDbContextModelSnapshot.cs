@@ -332,6 +332,31 @@ namespace AmpersandOfTruth.Web.Data.Migrations
                     b.ToTable("SavedInvestigations", (string)null);
                 });
 
+            modelBuilder.Entity("AmpersandOfTruth.Web.Features.Sharing.ShareLink", b =>
+                {
+                    b.Property<string>("TokenHash")
+                        .HasMaxLength(64)
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CreatedAt")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long?>("ExpiresAt")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("InvestigationId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long?>("RevokedAt")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("TokenHash");
+
+                    b.HasIndex("InvestigationId");
+
+                    b.ToTable("ShareLinks", (string)null);
+                });
+
             modelBuilder.Entity("AmpersandOfTruth.Web.Features.Annotations.IncidentAnnotation", b =>
                 {
                     b.HasOne("AmpersandOfTruth.Web.Features.Library.SavedInvestigation", null)
@@ -342,6 +367,15 @@ namespace AmpersandOfTruth.Web.Data.Migrations
                 });
 
             modelBuilder.Entity("AmpersandOfTruth.Web.Features.Library.PinnedIncident", b =>
+                {
+                    b.HasOne("AmpersandOfTruth.Web.Features.Library.SavedInvestigation", null)
+                        .WithMany()
+                        .HasForeignKey("InvestigationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AmpersandOfTruth.Web.Features.Sharing.ShareLink", b =>
                 {
                     b.HasOne("AmpersandOfTruth.Web.Features.Library.SavedInvestigation", null)
                         .WithMany()
