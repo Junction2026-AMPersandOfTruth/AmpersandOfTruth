@@ -404,13 +404,21 @@ def generate_from_corpus(
     return records_with_pages, stats
 
 
-def load_dev_topics(golden_path: pathlib.Path) -> tuple[list[dict[str, Any]], dict[int, str]]:
-    """Read ONLY `split == 'dev'` topics with articles from `golden.json` (never reads test split)."""
+
+def _check_split(split: str) -> None:
+    """The test split is sealed (CONTRACT.md §6): only the S11 decision (#38) may read it, with EVAL_ALLOW_TEST=1."""
+    import os
+    if split == "test" and os.environ.get("EVAL_ALLOW_TEST") != "1":
+        raise SystemExit("the test split is sealed: set EVAL_ALLOW_TEST=1 (decision issues R6/S11 only)")
+
+
+def load_dev_topics(golden_path: pathlib.Path, split: str = "dev") -> tuple[list[dict[str, Any]], dict[int, str]]:
+    """Read the topics of one split (default dev) with articles from `golden.json`: article lists and text only, never item labels."""
     doc = json.loads(golden_path.read_text(encoding="utf-8"))
     topics: list[dict[str, Any]] = []
     fallback_titles: dict[int, str] = {}
     for topic in doc.get("topics") or ():
-        if topic.get("split") != "dev":
+        if topic.get("split") != split:
             continue
         articles = topic.get("articles") or ()
         if not articles:
@@ -440,9 +448,11 @@ def main(argv: list[str] | None = None) -> int:
         help="Output JSONL path.",
     )
     ap.add_argument("--facts", action="store_true", help="Optionally include S9 `facts` variable.")
+    ap.add_argument("--split", choices=("dev", "test"), default="dev", help="test needs EVAL_ALLOW_TEST=1 (S11 only).")
     args = ap.parse_args(argv)
+    _check_split(args.split)
 
-    dev_topics, fallback_titles = load_dev_topics(args.golden)
+    dev_topics, fallback_titles = load_dev_topics(args.golden, args.split)
     all_dev_pages = sorted({pid for t in dev_topics for pid in t["page_ids"]})
     all_candidates, load_stats = load_candidates_for_pages(
         all_dev_pages,

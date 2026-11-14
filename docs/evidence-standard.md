@@ -37,10 +37,10 @@ This is literally true of every item at this level, so it is also where everythi
 2. **The community disputed it.** At least one of these:
    - the removal reason (P1.S5) is about accuracy, neutrality or sourcing;
    - the content was put back at least once after a removal;
-   - it was part of a back-and-forth over the passage (edit war, P1.S4);
+   - it was part of a back-and-forth over the passage (edit war): the claim's own content was removed at least twice and put back at least once, by different editors (P1.S10, frozen in `research/eval/CONTRACT.md` §3; a page-level P1.S4 conflict episode is not enough);
    - a dispute template (`{{Neutraalius}}`, `{{Lähteetön}}`, `{{Korjattava}}`, …) was added in the same episode.
 
-**Level 3 · Pattern consistent with a coordinated attempt.** Level 2, plus at least **two** of these four signals. At least one of the two must be about accounts or articles:
+**Level 3 · Pattern consistent with a coordinated attempt.** Level 2, plus at least **three** of these four signals. At least one of them must be about accounts or articles:
 - **Accounts:** the same claim (P1.S7 cluster) was added by ≥ 2 distinct editors. IP addresses in the same masked range count as **one** editor (see §3).
 - **Articles:** the same claim was added to ≥ 2 articles.
 - **Persistence:** the claim was put back ≥ 2 times, with ≥ 7 days between its first and last insertion.
@@ -48,7 +48,9 @@ This is literally true of every item at this level, so it is also where everythi
 
 One account pushing one article, however persistently, stays at Level 2. "Coordinated" needs more than one place or more than one editor.
 
-**Thresholds** (3/5 confidence, 2 editors, 2 articles, 2 re-insertions, 7 days, 2 signals) are defaults in `TierThresholds`. P1.S10 may tune them against the golden dev split and records any change here.
+**Thresholds** (3/5 confidence, 2 editors, 2 articles, 2 re-insertions, 7 days, 3 signals) are defaults in `TierThresholds`. P1.S10 may tune them against the golden dev split and records any change here.
+
+- **P1.S10 (#37), 2026-11-14:** coordination signals 2 → **3**. Two signals (for example several editors plus persistence) often co-occur on long-lived contested passages without any coordination. On golden dev the change cut overclaiming from 0.20 to 0.16 and raised strict p@10 from 0.83 to 0.86, with no true `campaign` item lost. The choice was made in-sample on dev; S11 (#38) confirms it on test. The edit-war signal became passage-level in the same change.
 The **structure** is frozen: which signals exist, which level they feed, and the asymmetry below.
 
 ### The asymmetry rule

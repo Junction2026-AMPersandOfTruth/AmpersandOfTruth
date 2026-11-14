@@ -26,6 +26,15 @@ public interface IRevisionStore
     Task<IReadOnlyList<RevisionRow>> RestoresAsync(
         long pageId, DateTime afterTs, long afterRevId, IReadOnlyCollection<string> sha1s, int limit, CancellationToken ct = default);
 
+    /// <summary>
+    /// Revisions after (<paramref name="afterTs"/>, <paramref name="afterRevId"/>) on one page whose content equals that of
+    /// revision <paramref name="stateRevId"/> (same sha1), oldest first, at most <paramref name="limit"/>; null revisions
+    /// left out as in <see cref="RestoresAsync"/>. With the restored revision of a revert: every later return to the page as
+    /// it stood before the removed edit (P1.S10's re-removals).
+    /// </summary>
+    Task<IReadOnlyList<RevisionRow>> ReturnsToAsync(
+        long pageId, DateTime afterTs, long afterRevId, long stateRevId, int limit, CancellationToken ct = default);
+
     /// <summary>Wikitext of one revision; null if the corpus has no text for it.</summary>
     Task<string?> TextAsync(long pageId, long revId, CancellationToken ct = default);
 }
@@ -61,6 +70,21 @@ public sealed class MariaDbRevisionStore(CorpusConnectionFactory corpus, ILogger
             WHERE r.page_id = @page AND (r.ts > @ts OR (r.ts = @ts AND r.rev_id > @rev))
         ) x
         WHERE x.sha1 IN ({sha1s}) AND (x.prev_sha1 IS NULL OR x.sha1 <> x.prev_sha1)
+        ORDER BY ts, rev_id
+        LIMIT @limit
+        """;
+
+    // As RestoresSql, with the one sha1 taken from the state revision (PK lookup).
+    internal const string ReturnsToSql = """
+        SELECT rev_id, parent_id, ts, `user`, comment, bytes, sha1
+        FROM (
+            SELECT r.rev_id, r.parent_id, r.ts, r.`user`, r.comment, r.bytes, r.sha1,
+                   LAG(r.sha1) OVER (ORDER BY r.ts, r.rev_id) AS prev_sha1
+            FROM revision r
+            WHERE r.page_id = @page AND (r.ts > @ts OR (r.ts = @ts AND r.rev_id > @rev))
+        ) x
+        WHERE x.sha1 = (SELECT s.sha1 FROM revision s WHERE s.page_id = @page AND s.rev_id = @state)
+          AND (x.prev_sha1 IS NULL OR x.sha1 <> x.prev_sha1)
         ORDER BY ts, rev_id
         LIMIT @limit
         """;
@@ -133,6 +157,35 @@ public sealed class MariaDbRevisionStore(CorpusConnectionFactory corpus, ILogger
             cmd.Parameters.AddWithValue("@page", pageId);
             cmd.Parameters.AddWithValue("@ts", afterTs);
             cmd.Parameters.AddWithValue("@rev", afterRevId);
+            cmd.Parameters.AddWithValue("@limit", limit);
+            await using var r = await cmd.ExecuteReaderAsync(ct);
+            while (await r.ReadAsync(ct))
+            {
+                rows.Add(new RevisionRow(
+                    PageId: pageId,
+                    RevId: Convert.ToInt64(r.GetValue(0)),
+                    ParentRevId: r.IsDBNull(1) ? null : Convert.ToInt64(r.GetValue(1)),
+                    Timestamp: DateTime.SpecifyKind(r.GetDateTime(2), DateTimeKind.Utc),
+                    User: r.IsDBNull(3) ? null : r.GetString(3),
+                    Comment: r.IsDBNull(4) ? null : r.GetString(4),
+                    Bytes: Convert.ToInt32(r.GetValue(5)),
+                    Sha1: r.IsDBNull(6) ? null : r.GetString(6)));
+            }
+        }, ct);
+        return rows;
+    }
+
+    public async Task<IReadOnlyList<RevisionRow>> ReturnsToAsync(
+        long pageId, DateTime afterTs, long afterRevId, long stateRevId, int limit, CancellationToken ct = default)
+    {
+        var rows = new List<RevisionRow>();
+        await RunAsync(async conn =>
+        {
+            await using var cmd = new MySqlCommand(ReturnsToSql, conn);
+            cmd.Parameters.AddWithValue("@page", pageId);
+            cmd.Parameters.AddWithValue("@ts", afterTs);
+            cmd.Parameters.AddWithValue("@rev", afterRevId);
+            cmd.Parameters.AddWithValue("@state", stateRevId);
             cmd.Parameters.AddWithValue("@limit", limit);
             await using var r = await cmd.ExecuteReaderAsync(ct);
             while (await r.ReadAsync(ct))

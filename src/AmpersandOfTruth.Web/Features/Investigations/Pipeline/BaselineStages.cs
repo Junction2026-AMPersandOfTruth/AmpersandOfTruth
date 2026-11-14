@@ -40,6 +40,10 @@ public sealed class InvestigationPipelineOptions
 
     /// <summary>Run P1.S8's citation detectors on each removed edit (tier input "source change"). As above.</summary>
     public bool SourceChangeSignal { get; set; } = true;
+
+    /// <summary>P1.S10 (#37) B+rel: within a tier, rank by the additive score × topic relevance (bge-m3 cosine of topic and
+    /// claim). Off = additive score only (ablation, or if the extra embeddings hurt latency).</summary>
+    public bool TopicRelevance { get; set; } = true;
 }
 
 /// <summary>
@@ -133,7 +137,7 @@ public sealed class CorpusEditReader(
     IRevisionStore revisions, IOptions<InvestigationPipelineOptions> options, IConflictEpisodes? conflicts = null) : IEditReader
 {
     /// <summary>Bump when what a reading contains changes (span rule, passages, context); invalidates the reading cache.</summary>
-    public const int Version = 4;   // 3: wikidiff no longer lets an unclosed <ref> swallow the text after it; 4: S4 + S8 signals
+    public const int Version = 5;   // 3: wikidiff no longer lets an unclosed <ref> swallow the text after it; 4: S4 + S8 signals; 5: S10 re-removals
 
     /// <summary>Re-insertions read per removed edit.</summary>
     internal const int MaxReinsertions = 50;
@@ -157,13 +161,38 @@ public sealed class CorpusEditReader(
         // P1.S1 re-insertion: a later revision restoring the exact content of a non-empty undone revision.
         var sha1s = span.Where(s => s.Bytes > 0 && s.Sha1 is not null).Select(s => s.Sha1!).Distinct().ToList();
         var restores = await revisions.RestoresAsync(pageId, r.Timestamp, r.RevId, sha1s, MaxReinsertions, ct);
+        var reRemovals = options.Value.EditWarSignal && restores.Count > 0
+            ? ReRemovals(restores, await revisions.ReturnsToAsync(pageId, r.Timestamp, r.RevId, r.RestoredRevId, MaxReinsertions, ct))
+            : [];
 
         return new EditReading(edit, span, diff, inserted, removed, Context(before, diff, options.Value.MaxPromptChars))
         {
             Reinsertions = restores,
+            ReRemovals = reRemovals,
             SourceChanges = options.Value.SourceChangeSignal ? SourceChangeDetector.Detect(before, diff) : [],
             Conflicts = await ConflictsAsync(pageId, span, r.RevId, ct),
         };
+    }
+
+    /// <summary>
+    /// The returns to the pre-edit state that took a re-inserted claim out again: walking re-insertions and returns in page
+    /// order, a return counts only while the content is in (after a re-insertion and before the next return).
+    /// </summary>
+    internal static IReadOnlyList<RevisionRow> ReRemovals(IReadOnlyList<RevisionRow> reinsertions, IReadOnlyList<RevisionRow> returns)
+    {
+        var removals = new List<RevisionRow>();
+        var present = false;   // the revert has just taken the content out
+        foreach (var (row, isReturn) in reinsertions.Select(r => (r, false)).Concat(returns.Select(r => (r, true)))
+                     .OrderBy(e => e.r.Timestamp).ThenBy(e => e.r.RevId))
+        {
+            if (!isReturn) present = true;
+            else if (present)
+            {
+                removals.Add(row);
+                present = false;
+            }
+        }
+        return removals;
     }
 
     /// <summary>

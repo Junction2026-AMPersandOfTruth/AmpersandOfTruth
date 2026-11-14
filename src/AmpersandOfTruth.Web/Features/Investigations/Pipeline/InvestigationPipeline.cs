@@ -26,10 +26,11 @@ public sealed class InvestigationPipeline(
     IEditClassifier classifier,
     IOptions<InvestigationPipelineOptions> options,
     TimeProvider time,
-    ILogger<InvestigationPipeline> log) : IInvestigationRunner
+    ILogger<InvestigationPipeline> log,
+    TopicRelevance? relevance = null) : IInvestigationRunner
 {
     /// <summary>Bump when the pipeline's logic changes what a run produces; part of the run-cache fingerprint.</summary>
-    public const int Version = 1;
+    public const int Version = 3;   // 2: S10 — passage-level edit war, source change, MinCoordinationSignals 3; 3: S10 B+rel ranking
 
     /// <inheritdoc />
     /// <remarks><paramref name="refresh"/> is a no-op here: this class caches nothing at the run level.</remarks>
@@ -92,7 +93,7 @@ public sealed class InvestigationPipeline(
             writer.TryWrite(new RevisionsScanned(scan.RevisionsScanned, scan.Candidates));
             Done(InvestigationStage.ReadEdits);
 
-            var scored = await ScoreAllAsync(scan.Candidates, $"investigation:{Guid.NewGuid():N}", started, writer, ct);
+            var scored = await ScoreAllAsync(topic, scan.Candidates, $"investigation:{Guid.NewGuid():N}", started, writer, ct);
             if (scored is null) return; // StageFailed already written
             Done(InvestigationStage.AssembleIncidents);
 
@@ -102,6 +103,7 @@ public sealed class InvestigationPipeline(
             {
                 AnalysedAt = startedAt,
                 Degraded = scored.Degraded,
+                Unranked = scored.Unranked,
                 StageTimings = timings,
                 FirstIncidentAfter = scored.FirstIncidentAfter,
             };
@@ -131,15 +133,18 @@ public sealed class InvestigationPipeline(
         double Ms(InvestigationStage s) => timings.TryGetValue(s, out var t) ? t.TotalMilliseconds : 0;
     }
 
-    private sealed record Scored(List<IncidentRecord> Incidents, int Degraded, TimeSpan? FirstIncidentAfter);
+    private sealed record Scored(List<IncidentRecord> Incidents, int Degraded, TimeSpan? FirstIncidentAfter)
+    {
+        public int Unranked { get; init; }
+    }
 
     /// <returns>The incidents, or null when every candidate failed (a <see cref="StageFailed"/> has been written).</returns>
     private async Task<Scored?> ScoreAllAsync(
-        IReadOnlyList<RemovedEdit> edits, string scope, long runStarted, ChannelWriter<InvestigationEvent> writer, CancellationToken ct)
+        string topic, IReadOnlyList<RemovedEdit> edits, string scope, long runStarted, ChannelWriter<InvestigationEvent> writer, CancellationToken ct)
     {
         var incidents = new List<IncidentRecord>();
         var gate = new Lock();
-        int done = 0, failed = 0, unassessed = 0;
+        int done = 0, failed = 0, unassessed = 0, unranked = 0;
         TimeSpan? firstIncident = null;
         Exception? lastFailure = null;
 
@@ -150,7 +155,7 @@ public sealed class InvestigationPipeline(
                 Outcome outcome;
                 try
                 {
-                    outcome = await ScoreAsync(edit, scope, token);
+                    outcome = await ScoreAsync(topic, edit, scope, token);
                 }
                 catch (Exception ex) when (ex is not OperationCanceledException || !token.IsCancellationRequested)
                 {
@@ -167,6 +172,7 @@ public sealed class InvestigationPipeline(
                         firstIncident ??= time.GetElapsedTime(runStarted);
                     }
                     if (outcome.AssessmentUnavailable) unassessed++;
+                    if (outcome.Unranked) unranked++;
                     writer.TryWrite(new CandidateScored(++done, edits.Count, edit, outcome.Incident, outcome.Exclusion)
                     {
                         AssessmentUnavailable = outcome.AssessmentUnavailable,
@@ -179,12 +185,15 @@ public sealed class InvestigationPipeline(
             writer.TryWrite(new StageFailed(InvestigationStage.ReadEdits, Classify(lastFailure!), lastFailure!.Message));
             return null;
         }
-        return new Scored(incidents, failed + unassessed, firstIncident);
+        return new Scored(incidents, failed + unassessed, firstIncident) { Unranked = unranked };
     }
 
-    private sealed record Outcome(IncidentRecord? Incident, string? Exclusion, bool AssessmentUnavailable);
+    private sealed record Outcome(IncidentRecord? Incident, string? Exclusion, bool AssessmentUnavailable)
+    {
+        public bool Unranked { get; init; }
+    }
 
-    private async Task<Outcome> ScoreAsync(RemovedEdit edit, string scope, CancellationToken ct)
+    private async Task<Outcome> ScoreAsync(string topic, RemovedEdit edit, string scope, CancellationToken ct)
     {
         var reading = await reader.ReadAsync(edit, ct);
 
@@ -195,10 +204,24 @@ public sealed class InvestigationPipeline(
 
         var classification = await classifier.ClassifyAsync(reading, scope, ct);
         if (classification is null)
-            return new Outcome(unassessed.Incident, null, AssessmentUnavailable: true);
+            return await RankAsync(topic, reading, null, unassessed, new Outcome(unassessed.Incident, null, AssessmentUnavailable: true), ct);
 
         var assessed = IncidentAssembler.Assemble(reading, classification);
-        return new Outcome(assessed.Incident, ExclusionId(assessed.Assessment), false);
+        return await RankAsync(topic, reading, classification, assessed, new Outcome(assessed.Incident, ExclusionId(assessed.Assessment), false), ct);
+    }
+
+    /// <summary>P1.S10 B+rel: scale the within-tier score by topic relevance. Off (or no embedder) = relevance 1.</summary>
+    private async Task<Outcome> RankAsync(
+        string topic, EditReading reading, Analysis.Prompts.EditClassification? classification, IncidentAssembler.Result result,
+        Outcome outcome, CancellationToken ct)
+    {
+        if (outcome.Incident is not { } incident || relevance is null || !options.Value.TopicRelevance) return outcome;
+        var rel = await relevance.OfAsync(topic, IncidentAssembler.RelevanceText(reading, classification), ct);
+        return outcome with
+        {
+            Incident = incident with { Score = IncidentAssembler.Rank(incident.Tier, result.WithinTier, rel ?? 1) },
+            Unranked = rel is null,
+        };
     }
 
     private static string? ExclusionId(Evidence.TierAssessment a) => a.Exclusion is { } x ? IncidentJson.Id(x) : null;

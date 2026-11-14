@@ -338,6 +338,9 @@ public class SampleIncidentWarmupTests
         public Task<IReadOnlyList<RevisionRow>> RestoresAsync(
             long pageId, DateTime afterTs, long afterRevId, IReadOnlyCollection<string> sha1s, int limit, CancellationToken ct = default) =>
             Task.FromResult<IReadOnlyList<RevisionRow>>([]);
+        public Task<IReadOnlyList<RevisionRow>> ReturnsToAsync(
+            long pageId, DateTime afterTs, long afterRevId, long stateRevId, int limit, CancellationToken ct = default) =>
+            Task.FromResult<IReadOnlyList<RevisionRow>>([]);
         public bool Unavailable { get; set; }
         public Exception? Fault { get; set; }
         public int TotalTextCalls => Volatile.Read(ref _totalTextCalls);

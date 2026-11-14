@@ -35,6 +35,7 @@ public sealed class PipelineFingerprint(
                $"prompt={prompts.Get(ClassifyEditPrompt.Id).FullVersion};model={model};" +
                $"limits={o.ArticleLimit},{o.RevertsPerArticle},{o.MaxCandidates},{o.MaxSpanRevisions},{o.MaxPromptChars};" +
                $"signals={(o.EditWarSignal ? "edit_war" : "")},{(o.SourceChangeSignal ? "source_change" : "")};" +
+               $"rank={(o.TopicRelevance ? "b+rel" : "b")};" +
                $"tiers={TierThresholds.Default}";
     }
 
@@ -151,7 +152,7 @@ public sealed class CachingInvestigationRunner(InvestigationPipeline inner, Inve
                 case ArticlesFound a: (articles, scope, searchFallback) = ([.. a.Items], a.Scope, a.SearchFallback); break;
                 case RevisionsScanned s: scan = s; break;
                 case CandidateScored c: scored.Add(c); break;
-                case Completed { Degraded: 0 } done when scan is not null && !searchFallback:
+                case Completed { Degraded: 0, Unranked: 0 } done when scan is not null && !searchFallback:
                     await cache.StoreAsync(topic, new RunSnapshot(
                         articles, scan.Count, scan.Candidates,
                         [.. scored.Select(c => new ScoredSnapshot(c.Candidate.Key, c.Incident?.Id, c.Exclusion))],

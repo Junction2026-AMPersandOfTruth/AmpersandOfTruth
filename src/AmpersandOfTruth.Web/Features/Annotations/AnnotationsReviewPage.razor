@@ -1,0 +1,147 @@
+@page "/dev/annotations"
+@using System.Globalization
+@using AmpersandOfTruth.Web.Components.Pages
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using Microsoft.Extensions.DependencyInjection
+@inject IServiceProvider Services
+
+@if (!_enabled)
+{
+    <NotFound />
+}
+else
+{
+    <PageTitle>Analyst annotations · Ampersand of Truth</PageTitle>
+
+    <div class="aot-page aot-stack" style="gap:var(--space-4)" data-testid="annotations-review">
+        <div class="aot-row" style="justify-content:space-between;align-items:baseline">
+            <h1 class="aot-h1" style="border-bottom:0;padding-bottom:0">Analyst annotations</h1>
+            <a class="aot-btn aot-btn--sm"
+               href="/dev/annotations.jsonl"
+               download="annotations.jsonl"
+               data-testid="annotations-export">
+                Export golden JSONL
+            </a>
+        </div>
+
+        <p class="aot-small aot-muted" style="margin:0">
+            @FormatCount(_allCount, "annotated incident", "annotated incidents") · @FormatCount(_disagreements.Count, "disagreement", "disagreements") with the automated level
+        </p>
+
+        @if (_disagreements.Count == 0)
+        {
+            <EmptyState Title="No disagreements yet"
+                        Message="Incidents where the analyst verdict differs from the automated level appear here." />
+        }
+        else
+        {
+            <div style="overflow-x:auto">
+                <table class="aot-wikitable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Incident</th>
+                            <th>Claim</th>
+                            <th>Automated level</th>
+                            <th>Analyst verdict</th>
+                            <th>Notes</th>
+                            <th>Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in _disagreements)
+                        {
+                            <tr @key="@($"{item.InvestigationId}:{item.IncidentId}")" data-testid="disagreement-row">
+                                <td style="white-space:nowrap">
+                                    <a href="@BuildIncidentHref(item)">@item.Topic / @item.IncidentId</a>
+                                </td>
+                                <td>@FormatClaim(item)</td>
+                                <td style="white-space:nowrap">
+                                    <TierBadge Tier="item.Incident.Tier" Short="true" />
+                                </td>
+                                <td style="white-space:nowrap">
+                                    <VerdictChip Verdict="item.Annotation.Verdict"
+                                                 DismissReason="item.Annotation.DismissReason"
+                                                 Note="@item.Annotation.Note" />
+                                </td>
+                                <td>@FormatNotes(item.Annotation)</td>
+                                <td class="aot-num" style="white-space:nowrap">@FormatDate(item.Annotation.UpdatedAt)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private bool _enabled = true;
+    private int _allCount;
+    private IReadOnlyList<AnnotatedIncident> _disagreements = [];
+
+    [CascadingParameter] private HttpContext? HttpContext { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _enabled = AnnotationsFeature.IsDevEnabled(Services);
+        if (!_enabled)
+        {
+            if (HttpContext is { Response.HasStarted: false })
+            {
+                HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+            }
+
+            return;
+        }
+
+        var store = Services.GetService<AnnotationStore>();
+        if (store is null)
+        {
+            return;
+        }
+
+        var all = await store.AllAnnotatedIncidentsAsync();
+        _allCount = all.Count;
+        _disagreements = all
+            .Where(static x => AnnotationLabels.IsDisagreement(x.Incident.Tier, x.Annotation.Verdict))
+            .ToList();
+    }
+
+    private static string BuildIncidentHref(AnnotatedIncident item)
+    {
+        var slug = TopicSlug.From(string.IsNullOrWhiteSpace(item.TopicSlug) ? item.Topic : item.TopicSlug);
+        var effectiveSlug = slug.Length > 0 ? slug : "investigation";
+        return $"/investigate/{Uri.EscapeDataString(effectiveSlug)}/incidents/{Uri.EscapeDataString(item.IncidentId)}?saved={item.InvestigationId}";
+    }
+
+    private static string FormatClaim(AnnotatedIncident item) =>
+        !string.IsNullOrWhiteSpace(item.Incident.ClaimEn)
+            ? item.Incident.ClaimEn.Trim()
+            : !string.IsNullOrWhiteSpace(item.Incident.ClaimFi)
+                ? item.Incident.ClaimFi.Trim()
+                : item.IncidentId;
+
+    private static string FormatNotes(IncidentAnnotation annotation)
+    {
+        if (annotation.DismissReason is { } reason && !string.IsNullOrWhiteSpace(annotation.Note))
+        {
+            return $"{AnnotationLabels.ForDismissReason(reason)}: {annotation.Note.Trim()}";
+        }
+
+        if (annotation.DismissReason is { } reasonOnly)
+        {
+            return AnnotationLabels.ForDismissReason(reasonOnly);
+        }
+
+        return string.IsNullOrWhiteSpace(annotation.Note) ? "—" : annotation.Note.Trim();
+    }
+
+    private static string FormatDate(DateTimeOffset date) =>
+        date.UtcDateTime.ToString("d MMM yyyy HH:mm 'UTC'", CultureInfo.InvariantCulture);
+
+    private static string FormatCount(int count, string singular, string plural) =>
+        count == 1
+            ? $"1 {singular}"
+            : string.Create(CultureInfo.InvariantCulture, $"{count:N0} {plural}");
+}

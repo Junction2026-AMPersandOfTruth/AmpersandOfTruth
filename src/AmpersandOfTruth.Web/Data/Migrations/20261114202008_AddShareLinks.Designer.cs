@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmpersandOfTruth.Web.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20261114200901_AddShareLinks")]
+    [Migration("20261114202008_AddShareLinks")]
     partial class AddShareLinks
     {
         /// <inheritdoc />
@@ -147,6 +147,39 @@ namespace AmpersandOfTruth.Web.Data.Migrations
                     b.HasIndex("Scope");
 
                     b.ToTable("AnalysisCalls", (string)null);
+                });
+
+            modelBuilder.Entity("AmpersandOfTruth.Web.Features.Annotations.IncidentAnnotation", b =>
+                {
+                    b.Property<Guid>("InvestigationId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IncidentId")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DismissReason")
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(4000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Source")
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("UpdatedAt")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Verdict")
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("InvestigationId", "IncidentId");
+
+                    b.ToTable("IncidentAnnotations", (string)null);
                 });
 
             modelBuilder.Entity("AmpersandOfTruth.Web.Features.Embedding.QueryEmbedding", b =>
@@ -325,6 +358,15 @@ namespace AmpersandOfTruth.Web.Data.Migrations
                     b.HasIndex("InvestigationId");
 
                     b.ToTable("ShareLinks", (string)null);
+                });
+
+            modelBuilder.Entity("AmpersandOfTruth.Web.Features.Annotations.IncidentAnnotation", b =>
+                {
+                    b.HasOne("AmpersandOfTruth.Web.Features.Library.SavedInvestigation", null)
+                        .WithMany()
+                        .HasForeignKey("InvestigationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("AmpersandOfTruth.Web.Features.Library.PinnedIncident", b =>

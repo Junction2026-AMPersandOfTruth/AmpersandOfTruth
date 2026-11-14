@@ -141,4 +141,20 @@ public sealed class EditReadingSignalsTests : IDisposable
         Assert.NotEqual(on, off);
         Assert.True(off.Length <= 100);   // the column's max length
     }
+
+    [Fact]
+    public async Task Re_removals_survive_the_reading_cache()
+    {
+        _kit.Revisions.Later(1256, 2002, "198.51.100.7", PipelineKit.After, FakeRevisionStore.T0.AddDays(3));
+        _kit.Revisions.Later(1256, 2003, "Someone", PipelineKit.Before, FakeRevisionStore.T0.AddDays(4));
+
+        var fresh = await Cached().ReadAsync(Edit);
+        _kit.Revisions.Rows.RemoveAll(r => r.RevId >= 2002);   // a second read must come from the cache
+        var cached = await Cached().ReadAsync(Edit);
+
+        Assert.Equal([2003L], fresh.ReRemovals.Select(r => r.RevId));
+        Assert.Equal([2003L], cached.ReRemovals.Select(r => r.RevId));
+        Assert.True(cached.InPassageEditWar);
+        Assert.Equal(1, await CachedRows());
+    }
 }
