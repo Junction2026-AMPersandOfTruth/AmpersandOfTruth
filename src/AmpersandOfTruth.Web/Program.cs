@@ -1,5 +1,6 @@
 using AmpersandOfTruth.Web.Components;
 using AmpersandOfTruth.Web.Data;
+using AmpersandOfTruth.Web.Features.Analysis;
 using AmpersandOfTruth.Web.Features.Corpus;
 using AmpersandOfTruth.Web.Features.Notes;
 
@@ -15,6 +16,7 @@ builder.Services.AddAppData();
 // ── Features ── one line per feature; keep registrations inside each feature folder.
 builder.Services.AddNotesFeature();
 builder.Services.AddCorpusFeature();
+builder.Services.AddAnalysisFeature();
 
 var app = builder.Build();
 

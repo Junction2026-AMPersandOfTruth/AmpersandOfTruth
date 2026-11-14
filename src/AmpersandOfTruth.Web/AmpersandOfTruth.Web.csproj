@@ -18,4 +18,10 @@
     <PackageReference Include="MySqlConnector" Version="3.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Versioned LLM prompts (issue #16): Features/<X>/Prompts/<id>.md + <id>.schema.json, loaded by PromptLibrary. -->
+    <InternalsVisibleTo Include="AmpersandOfTruth.Tests" />
+    <EmbeddedResource Include="Features\**\Prompts\*.md;Features\**\Prompts\*.schema.json" LogicalName="prompts/%(Filename)%(Extension)" />
+  </ItemGroup>
+
 </Project>

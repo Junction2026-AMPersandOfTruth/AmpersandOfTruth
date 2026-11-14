@@ -1,0 +1,142 @@
+{
+ "rev-400519": {
+  "A": "gemini-3.5-flash-lite",
+  "B": "gemini-4-hydrogen",
+  "C": "gemini-3.8-flash",
+  "D": "gemini-4-carbon",
+  "E": "gemini-4-argon"
+ },
+ "rev-1580551": {
+  "A": "gemini-4-argon",
+  "B": "gemini-3.5-flash-lite",
+  "C": "gemini-4-hydrogen",
+  "D": "gemini-3.8-flash",
+  "E": "gemini-4-carbon"
+ },
+ "rev-15144408": {
+  "A": "gemini-3.8-flash",
+  "B": "gemini-4-hydrogen",
+  "C": "gemini-3.5-flash-lite",
+  "D": "gemini-4-argon",
+  "E": "gemini-4-carbon"
+ },
+ "rev-18648732": {
+  "A": "gemini-4-hydrogen",
+  "B": "gemini-4-carbon",
+  "C": "gemini-3.8-flash",
+  "D": "gemini-4-argon",
+  "E": "gemini-3.5-flash-lite"
+ },
+ "rev-23739766": {
+  "A": "gemini-4-hydrogen",
+  "B": "gemini-4-carbon",
+  "C": "gemini-3.5-flash-lite",
+  "D": "gemini-4-argon",
+  "E": "gemini-3.8-flash"
+ },
+ "rev-2968411": {
+  "A": "gemini-3.8-flash",
+  "B": "gemini-4-carbon",
+  "C": "gemini-3.5-flash-lite",
+  "D": "gemini-4-argon",
+  "E": "gemini-4-hydrogen"
+ },
+ "rev-4225630": {
+  "A": "gemini-4-carbon",
+  "B": "gemini-4-argon",
+  "C": "gemini-3.8-flash",
+  "D": "gemini-3.5-flash-lite",
+  "E": "gemini-4-hydrogen"
+ },
+ "rev-1507690": {
+  "A": "gemini-4-carbon",
+  "B": "gemini-3.8-flash",
+  "C": "gemini-3.5-flash-lite",
+  "D": "gemini-4-argon",
+  "E": "gemini-4-hydrogen"
+ },
+ "rev-13268224": {
+  "A": "gemini-4-carbon",
+  "B": "gemini-3.5-flash-lite",
+  "C": "gemini-3.8-flash",
+  "D": "gemini-4-hydrogen",
+  "E": "gemini-4-argon"
+ },
+ "rev-16351052": {
+  "A": "gemini-4-hydrogen",
+  "B": "gemini-3.5-flash-lite",
+  "C": "gemini-3.8-flash",
+  "D": "gemini-4-carbon",
+  "E": "gemini-4-argon"
+ },
+ "rev-18422484": {
+  "A": "gemini-3.8-flash",
+  "B": "gemini-3.5-flash-lite",
+  "C": "gemini-4-carbon",
+  "D": "gemini-4-argon",
+  "E": "gemini-4-hydrogen"
+ },
+ "rev-19544342": {
+  "A": "gemini-4-hydrogen",
+  "B": "gemini-3.8-flash",
+  "C": "gemini-4-carbon",
+  "D": "gemini-3.5-flash-lite",
+  "E": "gemini-4-argon"
+ },
+ "rev-22741016": {
+  "A": "gemini-4-argon",
+  "B": "gemini-4-hydrogen",
+  "C": "gemini-3.5-flash-lite",
+  "D": "gemini-4-carbon",
+  "E": "gemini-3.8-flash"
+ },
+ "rev-8960233": {
+  "A": "gemini-3.5-flash-lite",
+  "B": "gemini-4-carbon",
+  "C": "gemini-3.8-flash",
+  "D": "gemini-4-hydrogen",
+  "E": "gemini-4-argon"
+ },
+ "rev-17089097": {
+  "A": "gemini-4-hydrogen",
+  "B": "gemini-4-carbon",
+  "C": "gemini-4-argon",
+  "D": "gemini-3.8-flash",
+  "E": "gemini-3.5-flash-lite"
+ },
+ "rev-18357147": {
+  "A": "gemini-4-argon",
+  "B": "gemini-4-hydrogen",
+  "C": "gemini-3.8-flash",
+  "D": "gemini-4-carbon",
+  "E": "gemini-3.5-flash-lite"
+ },
+ "rev-15356378": {
+  "A": "gemini-4-argon",
+  "B": "gemini-4-hydrogen",
+  "C": "gemini-3.8-flash",
+  "D": "gemini-3.5-flash-lite",
+  "E": "gemini-4-carbon"
+ },
+ "rev-23898635": {
+  "A": "gemini-3.8-flash",
+  "B": "gemini-4-argon",
+  "C": "gemini-4-hydrogen",
+  "D": "gemini-3.5-flash-lite",
+  "E": "gemini-4-carbon"
+ },
+ "rev-1412385": {
+  "A": "gemini-3.8-flash",
+  "B": "gemini-4-hydrogen",
+  "C": "gemini-3.5-flash-lite",
+  "D": "gemini-4-argon",
+  "E": "gemini-4-carbon"
+ },
+ "rev-23817012": {
+  "A": "gemini-4-hydrogen",
+  "B": "gemini-3.5-flash-lite",
+  "C": "gemini-3.8-flash",
+  "D": "gemini-4-argon",
+  "E": "gemini-4-carbon"
+ }
+}

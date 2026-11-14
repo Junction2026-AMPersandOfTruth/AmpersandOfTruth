@@ -1,0 +1,29 @@
+@using AmpersandOfTruth.Web.Features.Analysis
+
+<span class="@BadgeClass" data-testid="@TestId">@BadgeText</span>
+
+@code {
+    [Parameter, EditorRequired] public AnalysisOutcome Outcome { get; set; }
+    [Parameter] public string? TestId { get; set; }
+
+    private string BadgeClass => Outcome switch
+    {
+        AnalysisOutcome.Ok => "badge bg-success",
+        AnalysisOutcome.Blocked => "badge bg-dark",
+        AnalysisOutcome.Invalid or AnalysisOutcome.Truncated => "badge bg-warning text-dark",
+        AnalysisOutcome.Failed => "badge bg-danger",
+        AnalysisOutcome.BudgetExceeded => "badge bg-secondary",
+        _ => "badge bg-secondary",
+    };
+
+    private string BadgeText => Outcome switch
+    {
+        AnalysisOutcome.Ok => "ok",
+        AnalysisOutcome.Blocked => "blocked",
+        AnalysisOutcome.Invalid => "invalid",
+        AnalysisOutcome.Truncated => "truncated",
+        AnalysisOutcome.Failed => "failed",
+        AnalysisOutcome.BudgetExceeded => "budget_exceeded",
+        _ => Outcome.ToString().ToLowerInvariant(),
+    };
+}

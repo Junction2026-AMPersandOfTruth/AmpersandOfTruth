@@ -1,0 +1,21 @@
+files scanned: 16
+total revisions scanned: 862076
+anonymous revisions (IP or temp account): 166356 (19.3%)
+identity reverts (sha1 == sha1 of R_j, j < k-1): 46049
+single-edit identity reverts (j = k-2): 37629
+null edits (sha1 == previous revision, not counted as reverts): 5796
+single-edit reverted edits by editor kind: {'anonymous': 24960, 'registered': 12025, 'temporary': 644} (anonymous+temporary share 68.0%)
+single-edit reverts by skip rule: {'short-insert': 11794, 'kept': 21811, 'markup-only': 3175, 'blanking': 849}
+candidate pool after skip rules: 21811; editor kinds: {'registered': 6204, 'anonymous': 15212, 'temporary': 395} (anonymous+temporary share 71.6%)
+pool keyword-heuristic flags (overlapping, crude regexes, NOT labels): {'digits': 4455, 'e_is_revert': 2270, 'flag': 2826, 'obscene': 1685, 'page_replaced': 137, 'ref': 2970, 'rollback': 7776, 'self_revert': 1324, 'topic': 4988}
+  obscene=swear/graffiti word in inserted text; ref=<ref> in diff; digits=numbers on both sides; topic=history/politics keyword; flag=non-rollback revert summary with vandal/POV/lähde/... keyword; rollback=one-click rollback summary; e_is_revert=E's own summary looks like a revert (edit war); self_revert=same user made E and R_k
+pool by 5-year bin of E: {2000: 62, 2005: 5884, 2010: 5045, 2015: 5438, 2020: 4372, 2025: 1010}
+
+--- manual eyeball pass (approximate; NOT labels; buckets overlap) ---
+candidates looked at: ~170 (random draws from: Talvisota + Suomen sisällissota; 24 other war/Karelia/Mannerheim/Jäger
+articles; temporary-account edits; obscene-word hits on history articles; POV/vandalism/neutrality revert summaries)
+  graffiti / obscenity / nonsense       ~65  (dominant among anonymous edits; mostly reverted within 1 min)
+  substantive contested-history change  ~45  (infobox 'lopputulos'/casus/strength fields, naming 'vapaussota', framing words)
+  good-faith-looking, reverted anyway   ~35  (unsourced detail, 'not needed', block evasion 'rv, eston kiertoa (WPK)', link rules)
+  <ref>/source-centric                  ~15
+  revert summary says vandal/POV/lähde  ~25  (most reverts are bare rollback/undo summaries with no reason)

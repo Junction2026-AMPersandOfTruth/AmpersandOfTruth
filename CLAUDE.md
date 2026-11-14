@@ -19,6 +19,8 @@ Wikipedia corpus: **MariaDB 12.3 on the team VPS**, raw SQL via `MySqlConnector`
 | Corpus tunnel (localhost:3307 → VPS MariaDB) | `scripts/corpus-tunnel.sh` (background, idempotent) · `--status` · `--stop` |
 | Corpus integration tests (opt-in) | `scripts/corpus-tunnel.sh && CORPUS_TESTS=1 dotnet test --filter Category=Corpus` |
 | Deploy/update corpus DB on VPS (needs root key) | `scripts/corpus-deploy.sh` — details in `deploy/corpus/README.md` |
+| Run an LLM prompt / batch from the shell (same client, prompts, cache as the app) | `scripts/analyze.sh prompts` · `run <prompt> --vars x.json` · `batch <prompt> --in x.jsonl --out y.jsonl --model a,b` · `usage` |
+| Live Gemini tests (opt-in, costs cents) | `GEMINI_TESTS=1 dotnet test --filter Category=Gemini` |
 
 ## Layout
 
@@ -44,6 +46,8 @@ tests/AmpersandOfTruth.Tests/
   Infrastructure/             # TestDb (in-memory SQLite + real migrations), AppFactory (app on temp DB)
   Features/<Feature>/         # mirrors src: service unit tests + bUnit component tests
   Smoke/AppSmokeTests.cs      # boots the real app via WebApplicationFactory; add new routes to the InlineData list
+tools/AmpersandOfTruth.Analyze/ # console tool behind scripts/analyze.sh (LLM prompts from the shell / research)
+research/<issue>/             # experiment scripts, small samples, results and reports (no big data files)
 ```
 
 `Features/Notes` is the **reference slice** — copy its shape. Delete it once real features exist (remove its `AddNotesFeature()` line, nav link, tests, smoke route).
@@ -84,6 +88,23 @@ tests/AmpersandOfTruth.Tests/
   The `corpus` health check reports `Degraded` (still HTTP 200) when the tunnel is down; startup never depends on it.
 - Bulk jobs (loads, precompute) on 2 vCPUs starve interactive queries — run them early, never during a demo.
 
+## LLM analysis (Gemini, `Features/Analysis`, issue #16)
+
+- **Every product LLM call** goes through `IAnalysisModel.RunAsync<T>(new AnalysisRequest("<prompt-id>", vars) { Scope = investigationId })`.
+  It never throws for model-side problems — check `result.Outcome` (`Ok | Blocked | Invalid | Truncated | Failed | BudgetExceeded`)
+  and degrade that one item. It throws only for programmer errors (unknown prompt, missing variable) and cancellation.
+- Prompts are files: `Features/<X>/Prompts/<id>.md` (front matter `id, version, job, temperature, max_output_tokens, thinking_level`,
+  then `<<<system>>>` / `<<<user>>>`) + `<id>.schema.json` (JSON Schema → Gemini structured output, re-validated in code).
+  Embedded automatically. `{{name}}` = verbatim, `{{data:name}}` = untrusted text in an escaped `<data>` block — use it for anything
+  from Wikipedia. Output records are PascalCase C# ↔ snake_case JSON via `AnalysisJson.Options`; keep a schema↔record sync test.
+- Model per job (`Triage, Classify, Translate, QueryExpand, Summarize, Judge`) in `appsettings.json` `Gemini:Models` — swapping tiers is config.
+  Key: `dotnet user-secrets set "Gemini:ApiKey" "<key>" --project src/AmpersandOfTruth.Web` (or env `Gemini__ApiKey`). The app never reads `~/.gemini/.env`.
+- Response cache (SQLite `AnalysisCache`, key = prompt id + version + content hash + model + schema + rendered input) makes reruns free;
+  ledger `AnalysisCalls` + spend caps `Gemini:DailyCallCap / DailyCostCapUsd / PerScopeCallCap`. `/analysis` shows usage (playground in Development only).
+- Tests of LLM consumers: `tests/AmpersandOfTruth.Tests/Infrastructure/FakeAnalysisModel.cs` (`.Returns("prompt-id", json)`), no HTTP.
+- Gotchas: Gemini 4 models reject `thinking_level: minimal` (400); Gemini 4 bills ~300–600 more input tokens per call than 3.x for the same prompt;
+  Argon can take 30+ s; a truncated reply is `status: incomplete` with **no** `steps`; safety blocks are HTTP 400 `error.code = safety`.
+
 ## Testing
 
 - DB tests: `using var db = new TestDb();` gives a real in-memory SQLite DB with migrations applied. `db.Factory` for services, `db.AddTo(Services)` for bUnit.
@@ -91,6 +112,7 @@ tests/AmpersandOfTruth.Tests/
 - Async data loading → use `cut.WaitForElement(...)` / `cut.WaitForAssertion(...)`, not immediate `Find`.
 - Every new page: add its route to `AppSmokeTests` `InlineData` — this catches DI and routing breakage cheaply.
 - Every new service with logic: a few xUnit facts. Don't chase coverage; test what would embarrass us in the demo.
+- Time-dependent logic: `Microsoft.Extensions.TimeProvider.Testing` (`FakeTimeProvider`) is available in the test project.
 
 ## Agent workflow rules
 
@@ -108,6 +130,9 @@ Claude orchestrates, Gemini implements. Full workflow: `.claude/skills/gemini/SK
 (`../AmpersandOfTruth.worktrees/<id>`, branch `gemini/<id>`, macOS sandbox: writes confined to the worktree),
 then independently runs `verify.sh`. `land.sh <id> "<msg>"` rebases + re-verifies + squash-merges; `discard.sh`, `status.sh`.
 Worker-only rules are in `GEMINI.md`. API key: `~/.gemini/.env` (outside the repo) — never in the repo.
+**Known limitation:** inside the macOS seatbelt sandbox `dotnet` can't start (CoreCLR needs `sysctl` reads the profile denies), so
+workers write code without compiling; `run.sh`'s own `verify.sh` (outside the sandbox) is the real check — review its log, and expect
+a feedback round for compile errors. Workers also can't run `dotnet ef`/`dotnet sln` (they may hand-write the output — re-generate to confirm).
 
 ## Gotchas
 
