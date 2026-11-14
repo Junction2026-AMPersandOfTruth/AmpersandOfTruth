@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "survives",
+        "benign",
+        "unclear"
+      ],
+      "description": "Verdict on whether the flagged incident holds up against ordinary-editing explanations: survives, benign, or unclear."
+    },
+    "benign_explanation": {
+      "type": "string",
+      "enum": [
+        "vandalism_cleanup",
+        "good_faith_mistake",
+        "dispute_between_regulars",
+        "bot_or_tool",
+        "routine_maintenance",
+        "none"
+      ],
+      "description": "The ordinary editing category that explains the incident, or none if verdict is survives."
+    },
+    "reason": {
+      "type": "string",
+      "description": "1 to 3 English sentences stating the strongest benign reading and why it does or does not hold."
+    },
+    "would_change_mind": {
+      "type": "string",
+      "description": "One English sentence stating the concrete evidence that would flip the verdict."
+    },
+    "quoted": {
+      "type": "array",
+      "description": "0 to 3 spans copied verbatim from the inputs that the reason relies on.",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 0,
+      "maxItems": 3
+    }
+  },
+  "required": [
+    "verdict",
+    "benign_explanation",
+    "reason",
+    "would_change_mind",
+    "quoted"
+  ],
+  "additionalProperties": false
+}

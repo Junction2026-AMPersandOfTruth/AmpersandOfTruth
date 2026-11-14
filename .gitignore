@@ -495,3 +495,7 @@ $RECYCLE.BIN/
 
 # Local SSH keys (VPS access) — never commit
 .ssh/
+
+# Eval runner: default output dir and variant stderr logs (research/eval/run)
+research/eval/results/
+research/**/results/*.log

@@ -1,0 +1,165 @@
+{
+ "topic_id": "continuation-war",
+ "labeller": "gemini:blind/gemini-4-carbon",
+ "labels": {
+  "x01": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 2: Added the unhistorical claim \"(Palautettiin 1958)\" (\"(Returned in 1958)\") regarding Petsamo, removed with an accuracy dispute summary: \"Petsamoa ei palautettu ja sotilas kirjoitetaan pienellä\" (\"Petsamo was not returned and soldier is written in lowercase\")."
+  },
+  "x02": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Excluded as self-removal: the same account added the passage about the Chancellor of Justice's indictment and removed it three minutes later."
+  },
+  "x03": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Added an image thumbnail \"[[Kuva:Keskitysleiri Petroskoissa.jpg|thumb|Keskitysleiri Petroskoissa]]\" (\"Concentration camp in Petrozavodsk\") which was later removed without an edit summary; adding an image caption without a factual or narrative claim in prose is capped at Level 1."
+  },
+  "x04": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Changed the infobox outcome to \"Neuvostoliiton \\\"[[Pyrrhos|Pyrrhoksen]] voitto\\\"\" (\"Soviet Union's 'Pyrrhic victory'\") and added sections on Operation Barbarossa and prisoners of war, alongside a \"{{Korjattava/Suomi}}\" (\"Needs correction/Finland\") dispute template in the episode, before being removed."
+  },
+  "x05": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Added the claim \"sotilaalliselta kannalta vanhojen rajojen ylittäminen ja Itä-Karjalaan hyökkäys olivat oikea päätös\" (\"from a military standpoint, crossing the old borders and attacking East Karelia were the right decision\"), tagged with \"{{lähde}}\" (\"source needed\") and removed with summary \"poistetaan lähtteetön spekulaatio -> uutta tutkimusta\" (\"removing unsourced speculation -> original research\")."
+  },
+  "x06": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Added sourced claims about 1941 casualties, \"Vuonna 1941 kaatui sotilaita enemmän kuin koko talvisodassa ja enemmän kuin vuoden 1944 suurhyökkäyksessä\" (\"In 1941 more soldiers fell than in the entire Winter War and more than in the 1944 major offensive\"), which was removed and then put back (removal_was_itself_undone)."
+  },
+  "x07": {
+   "label": "campaign",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 3: Changed Risto Ryti's term end date from \"1. elokuuta\" (\"1 August\") to \"4. elokuuta\" (\"4 August\") 1944 and changed \"kansalaissodan\" (\"Citizen War\") to \"sisällissodan\" (\"Civil War\"). Disputed via removal and re-insertion by a second distinct editor (a named account and an anonymous range), and sources were added/altered alongside the date change."
+  },
+  "x08": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Added unsourced local detail about the reopening of the Rovaniemi post office (\"Evakon jälkeen Rovaniemen posti avattiin vanhalla asemalla...\", \"After the evacuation, the Rovaniemi post office was opened at the old station...\"), removed as unsourced and better suited for the Rovaniemi article with no slant or accuracy dispute."
+  },
+  "x09": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Added claims challenging the separate-war thesis, including \"Suomen hallitus pitää edelleen kiinni näkemystä erillissodasta, vaikka todellisuudessa joukko korkea-arvoisia suomalaisupseereita osallistui operaatio Barbarossan suunnitteluun\" (\"The Finnish government still holds on to the view of a separate war, although in reality a group of high-ranking Finnish officers participated in the planning of Operation Barbarossa\"), removed and put back in an edit war citing NPOV by editors from a single anonymous range."
+  },
+  "x10": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 2: Added claims that the wartime cabinet violated the Moscow Peace Treaty and \"Suomi rikkoi räikeästi myös Geneven sopimuksia siviilien ja sotavankien kohtelusta\" (\"Finland also blatantly violated the Geneva Conventions on the treatment of civilians and prisoners of war\"), removed with a neutrality and accuracy summary noting weasel words (\"monien\", \"many\") and that neither Finland nor the USSR had ratified that convention."
+  },
+  "x11": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Added framing such as \"kommunistien törkeät suorasanaiset uhkailut\" (\"communists' outrageous outspoken threats\") and \"Käytännöllisesti katsottuna Suomi kävi siis eri sotaa kuin Saksa\" (\"Practically speaking, Finland was therefore fighting a different war than Germany\"), removed and put back twice within one day by editors in the same anonymous IP range."
+  },
+  "x12": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "vandalism",
+   "why": "Excluded as blanking: the edit blanked the page (\"Sivu tyhjennettiin\", \"Page was blanked\", -17,584 bytes) and was undone 19 seconds later."
+  },
+  "x13": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 1: Added the claim \"Suomi kuitenkin jatkoi sotaa ja sai paljon alueita.\" (\"However, Finland continued the war and gained a lot of territory.\") to the 1944 peace negotiations paragraph; removed after 66 seconds with a standard revert summary and no community dispute signal."
+  },
+  "x14": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Back-and-forth edit war over the passage \"TV-toimittaja Boris Salomon pitää todistettuna, että Kaukasuksella taistelleet suomalaiset ottivat osaa siviilien surmatöihin\" (\"TV journalist Boris Salomon considers it established that Finns fighting in the Caucasus took part in the killings of civilians\"), with an edit summary alleging \"taitaa olla taas poliittista agendaa\" (\"seems to be a political agenda again\")."
+  },
+  "x15": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Excluded as not-substantive: converted an existing bulleted list of war-responsibility court members into a wikitable and added soft-hyphen formatting without changing any factual claims, removed solely over mobile table readability."
+  },
+  "x16": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "source_manipulation",
+   "why": "Level 2: Repeatedly removed sourced casualty figures (\"Leirin vangeista kuoli kaikkiaan 2 813...\", \"Of the camp's prisoners, 2,813 died in total...\") and \"{{Lähde}}\" (\"Source needed\") tags while inserting text about camp abuses and Eero Nero copied/adapted from a magazine article; disputed across multiple removals and re-insertions by one anonymous range over two days."
+  },
+  "x17": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: replaced \"Neuvostoliiton\" (\"Soviet Union's\") with nonsensical \"keijostoliiton\" and spammed over a dozen Soviet flag icons into the infobox."
+  },
+  "x18": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Excluded as not-substantive (and bot): a bot account added only a maintenance template \"{{Tekijänoikeus_201009|diff=300}}\" (\"Copyright_201009\"), later removed after human review."
+  },
+  "x19": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Added the brief statement \"Suomea ei miehitetty.\" (\"Finland was not occupied.\"), which was later removed with only a section header summary and no community dispute signal."
+  },
+  "x20": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 1: Added Italy, commander Giuseppe Bianchini, and \"100 italialaista\" (\"100 Italians\") to the Continuation War infobox combatants; removed 5 minutes later with only a talk-page pointer (\"ks. keskustelu\", \"see talk\") and not re-inserted here, so no qualifying Level 2 dispute signal is present."
+  },
+  "x21": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Changed \"natsi-Saksa\" (\"Nazi Germany\") to \"kansallissosialistinen Saksa\" (\"National Socialist Germany\"), removed an unsourced troop figure (\"runsaat 40 000\", \"over 40,000\"), and added a paragraph on the Red Army halting the Finnish advance at Koromyslovo in Oshta; another editor removed part of the text saying \"lukuhan on väärä\" (\"the figure is wrong\") before the entire run was reverted for block evasion."
+  },
+  "x22": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Excluded as self-removal: the same anonymous editor added an external link to an excerpt of Risto Ryti's wartime diary and removed it three minutes later."
+  }
+ },
+ "rev_id_concerns": {
+  "x01": "rev 1470935 adds an unrelated 'See also' link (*[[Tuntematon Sotilas]]) rather than the Petsamo claim.",
+  "x09": "rev 302427 in candidate c17 is just a minor typo fix, though not listed in top-level inserting_rev_ids."
+ },
+ "usage": {
+  "total_tokens": 59264,
+  "total_input_tokens": 56181,
+  "input_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 56181
+   }
+  ],
+  "total_cached_tokens": 0,
+  "total_output_tokens": 3083,
+  "output_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 3083
+   }
+  ],
+  "total_tool_use_tokens": 0,
+  "total_thought_tokens": 0,
+  "initial_input_tokens": 56181,
+  "cost_usd_est": 0.1432,
+  "seconds": 33.9
+ }
+}

@@ -1,0 +1,76 @@
+{
+  "total_seconds": 53.96,
+  "max_step_seconds": 18.64,
+  "thresholds": {
+    "single_purpose_min_edits": 5,
+    "single_purpose_top_page_share": 0.8,
+    "single_purpose_top_tight_category_share": 0.8,
+    "tight_category_max_pages": 200,
+    "throwaway_max_edits": 50,
+    "throwaway_max_lifespan_days": 7.0,
+    "throwaway_min_reverted_ratio_exclusive": 0.5,
+    "coactivity_window_seconds": 86400,
+    "coactivity_min_episodes": 3
+  },
+  "steps": [
+    {
+      "step": "1. Drop previous staging & target tables",
+      "seconds": 0.45
+    },
+    {
+      "step": "2. Build research.s6_coactivity from s1_revert + s1_reverted_edit",
+      "seconds": 2.33
+    },
+    {
+      "step": "3. Scan corpus.revision once for byte deltas, active days & comment flags",
+      "seconds": 6.14
+    },
+    {
+      "step": "4. Build research.s6_rev_author (PK rev_id for < 2 s feature lookup)",
+      "seconds": 1.24
+    },
+    {
+      "step": "5. Aggregate user-page counts (s6__user_page)",
+      "seconds": 1.08
+    },
+    {
+      "step": "6. Aggregate per-user active days, summary usage & median byte delta",
+      "seconds": 4.07
+    },
+    {
+      "step": "7. Compute per-user top page & Finnish category concentration (s6__user_conc)",
+      "seconds": 18.64
+    },
+    {
+      "step": "8. Build research.s6_editor_profile (reusing s1_user_stats + s6 aggregates)",
+      "seconds": 4.46
+    },
+    {
+      "step": "9. Build research.s6_ip_prefix (IPv4 /24, IPv4 /16, IPv6 /64)",
+      "seconds": 5.7
+    },
+    {
+      "step": "10. Clean up staging tables",
+      "seconds": 2.56
+    },
+    {
+      "step": "11. Verify invariants (completeness, PK/FK, bounds)",
+      "seconds": 7.29
+    }
+  ],
+  "invariants": {
+    "profile_rows": 73437,
+    "profile_edits_sum": 862076,
+    "corpus_revisions": 862076,
+    "rev_author_rows": 862076,
+    "orphan_rev_authors": 0,
+    "bot_flagged_sp_or_tw": 0,
+    "non_ip_with_prefix": 0,
+    "ip_missing_prefix": 0,
+    "missing_narrow_prefix_fk": 0,
+    "missing_16_prefix_fk": 0,
+    "ip_prefix_rows": 25514,
+    "coactivity_rows": 163,
+    "invalid_coactivity_rows": 0
+  }
+}

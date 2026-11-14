@@ -1,0 +1,140 @@
+{
+ "topic_id": "covid-19-finland",
+ "labeller": "gemini:blind/gemini-4-carbon",
+ "labels": {
+  "x01": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Excluded as graffiti: added an all-caps meta-comment directly into the article body (\"TÄSSÄ KIRJOITUKSESSA ON USEITA VALHEELLISIA VÄITTÄMIÄ. EN RUPEA ERITTELEMÄÄN NIITÄ. KOKO KIRJOITUS PITÄISI POISTAA\" — \"IN THIS ARTICLE THERE ARE SEVERAL UNTRUE CLAIMS. I WILL NOT START LISTING THEM. THE WHOLE ARTICLE SHOULD BE DELETED\"), which another editor removed after 88 seconds."
+  },
+  "x02": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: added a sourced statistical update for 4 April 2020 (\"4. huhtikuuta 2020 Suomessa oli todettu 1 882 tartuntaa\" — \"On 4 April 2020, 1,882 infections had been confirmed in Finland\"), which was removed alongside a subsequent editor's graffiti edit under the summary \"roskaa\" (\"rubbish\")."
+  },
+  "x03": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: nine edits added overview text, unreferenced model summaries with typos, broken HTML comments, and an all-caps working note in the article body (\"ALLA OLEVA TEKSTI PITÄISI OTTAA POIS KUN SE ON SIIRRETTY UUTEEN ARTIKKELIIN !!!!\" — \"THE TEXT BELOW SHOULD BE REMOVED ONCE IT HAS BEEN MOVED TO THE NEW ARTICLE !!!!\"); removed as \"sotkua, asioista keskustellaan artikkelin keskustelusivulla\" (\"mess, things are discussed on the article's talk page\"), which is a formatting and talk-page pointer rather than a dispute over accuracy, neutrality, or sourcing."
+  },
+  "x04": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: replaced the infobox map image filename and caption with vulgar text, removed by another editor after 83 seconds."
+  },
+  "x05": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: updated hospital-district case counts in a table while breaking wikitable row markup and mixing newspaper tracker figures into an official-registry table; removed after 5 minutes with \"luvuissa heittoa, älkää käyttäkö hs:ää lähteenä näihin\" (\"discrepancy in the numbers, do not use HS as a source for these\"). Capped at Level 1 as a good-faith statistical and table-formatting error."
+  },
+  "x06": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: inserted \"Sen vuoksi on Suomessa kuollut jo kotqin 16000000000000 ihmistä.\" (\"Because of it, some 16000000000000 people have already died in Finland.\") with edit summary \"Kakka\" (\"Poop\"), removed as \"roskaa\" (\"rubbish\")."
+  },
+  "x07": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added sourced claims that a Finnish firm had started \"sairaalatasojen maskituotannon\" (\"hospital-grade mask production\") sufficient for COVID-19 care staff and potentially covering healthcare \"hengityssuojainten\" (\"respirators\") needs; removed as \"harhaanjohtavaa tekstiä: sanaa maski käytetään tavallisesti jokaisen käytettävissä olevasta suojasta ja hoitoammattilaisten suojista sanaa hengityssuojain\" (\"misleading text: the word mask is ordinarily used for protection available to everyone, and the word respirator for healthcare professionals' protection\")."
+  },
+  "x08": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: added \"Ensimmäisten rokoitusten oli määrä alkaa 28. joulukuuta.\" (\"The first vaccinations were scheduled to begin on 28 December.\"), removed on editorial scope grounds regarding unconfirmed future events (\"ei ennustuksia... oli määrä...\" — \"no predictions... were scheduled to...\")."
+  },
+  "x09": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: added promotional gambling spam (\"[MAINOS] Ilmaiskierroksia nyt vain rajoitetun ajan!\" — \"[AD] Free spins now for a limited time only!\") and a note about using a VPN, removed as \"sotkemisena\" (\"as vandalism\")."
+  },
+  "x10": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added claims that Finland had \"reilut 200 tehohoitopaikkaa\" (\"just over 200 intensive care beds\") and cited a Christian Democrat MP questioning sufficiency of care capacity in a party newspaper; removed with \"Poistettu vanhaa ja kristillisdemokraattien puoluelehdellä lähteistetty väite\" (\"Removed outdated material and a claim sourced to the Christian Democrats' party newspaper\") while updating the figure to over 300 beds from a public broadcaster source."
+  },
+  "x11": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: routine update of 17 February 2021 case counts left the previous day's date \"(16.2.2021)\" next to updated variant case numbers; removed after 25 minutes with \"päivitys ei hyväksyttävä, muutovirustartuntojen pvm väärä\" (\"update not acceptable, date of variant infections wrong\"). Capped at Level 1 as a clerical date error."
+  },
+  "x12": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: changed the stated COVID-19 case fatality rate in the lead to \"noin 1-3,4 prosenttia, mutta se vaihtelee 0,2 prosentista yli 25 prosenttiin\" (\"about 1–3.4 percent, but it varies from 0.2 percent to over 25 percent\") and health guidance to \"pysymään kotona niin paljon kuin mahdollista\" (\"to stay at home as much as possible\"), citing English Wikipedia among other links; removed on sourcing and redundancy grounds (\"Enwikipediaa, jo sanottua ym\" — \"English Wikipedia, already stated, etc.\")."
+  },
+  "x13": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added unsourced commentary arguing from antibody test figures that \"koronavirus on paljon vaarallisempi infektiota kohden, kuin mitä THL laskelmissaan on väittänyt\" (\"the coronavirus is much more dangerous per infection than what THL has claimed in its calculations\"); removed on sourcing grounds (\"poistettu lähteettömiä tietoja ja triviaa\" — \"removed unsourced information and trivia\")."
+  },
+  "x14": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: added off-topic vandalism claiming the pandemic caused discussion in Finland about two individuals' sexual orientation and mental health problems, originally removed as \"sotkua\" (\"mess\") and removed again after re-insertion."
+  },
+  "x15": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "vandalism",
+   "why": "Excluded as not-substantive (first applicable exclusion before graffiti): added only HTML and CSS <div> rotation markup around the page with no prose, numbers, dates, names, or citations, under the summary \"päivitin luvut\" (\"I updated the numbers\")."
+  },
+  "x16": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: routine 26 May 2020 statistical update placed a duplicate <ref> citation tag before the infobox template; removed as \"sekoituista\" (\"mix-up\")."
+  },
+  "x17": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "good_faith_error",
+   "why": "Excluded as self-removal: the same account added a citation title and removed its own edit 91 seconds later (\"kumoon oman jutun\" — \"undoing my own thing\")."
+  },
+  "x18": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added the claim \"Kuolleisuus kasvaisi tästäkin, jos käytetään esim Italiassa ilmennyttä kuolleisuutta\" (\"Mortality would grow even further from this if using, for example, the mortality observed in Italy\") citing a tabloid source and swapped study percentages in a section carrying a {{Korjattava}} maintenance template; removed on sourcing and accuracy grounds (\"paska lähde pois. Lähteenmukaistettu.\" — \"removed rubbish source. Aligned with sources.\")."
+  }
+ },
+ "rev_id_concerns": {
+  "x18": "Revision 18832960 edited an existing paragraph in place and added only the final sentence on Italian mortality; other removed mortality claims in the diff came from earlier revisions."
+ },
+ "usage": {
+  "total_tokens": 70177,
+  "total_input_tokens": 38784,
+  "input_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 38784
+   }
+  ],
+  "total_cached_tokens": 0,
+  "total_output_tokens": 2243,
+  "output_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 2243
+   }
+  ],
+  "total_tool_use_tokens": 0,
+  "total_thought_tokens": 29150,
+  "initial_input_tokens": 38784,
+  "cost_usd_est": 0.3915,
+  "seconds": 357.5
+ }
+}

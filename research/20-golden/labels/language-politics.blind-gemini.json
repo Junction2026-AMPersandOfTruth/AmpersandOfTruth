@@ -1,0 +1,122 @@
+{
+ "topic_id": "language-politics",
+ "labeller": "gemini:blind/gemini-4-carbon",
+ "labels": {
+  "x01": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2 — Disputed and removed: added the claim \"Freudenthal esitti voimakkaasti ajassaan liikkuneita näkemyksiä ja filosofisia ja yhteiskunnallisia mietteitä, joihin kuuluivat muun muassa rasistiset ajatukset suomalaisista\" (\"Freudenthal strongly expressed views and philosophical and social reflections circulating in his time, which included among other things racist thoughts about Finns\") and \"uskoi suomenkielisten alempirotuisuuteen\" (\"believed in the racial inferiority of Finnish speakers\"); put back once after removal by a second editor and removed again with a summary disputing accuracy and sourcing (\"Freudenthal ei ole näitä mietteitä koskaan esittänyt, ja mikäli olen väärässä toivoisin suoran siteerauksen\" — \"Freudenthal never expressed these reflections, and if I am wrong I would wish for a direct quotation\"). Only one Level 3 signal (two distinct accounts) is met."
+  },
+  "x02": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2 — Disputed and removed: added the sweeping claim \"Suomenkielisten aseman puolustajat eivät kuitenkaan turvautuneet rasismiin\" (\"Defenders of the position of Finnish speakers, however, did not resort to racism\"), tagged as unsourced and then removed by another editor disputing accuracy (\"ei pidä paikkaansa, aitosuomalaisten näkemykset saamelaisista olivat samalla tavoin rasistisia\" — \"not true, Pure Finns' views of the Sámi were racist in the same way\")."
+  },
+  "x03": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2 — Disputed and removed: under a research-criticism heading, added an unattributed claim \"Freudenthalin kriitikot ovat huomauttaneet... hänen tietonsa näistä eivät lainkaan perustuneet omakohtaisiin havaintoihin, mikä luonnollisesti vähentää hänen suomenkielisiä koskevien väitteidensä luotettavuutta\" (\"Freudenthal's critics have pointed out... his knowledge of them was not at all based on firsthand observations, which naturally reduces the reliability of his claims concerning Finnish speakers\"), later removed with a summary questioning the scholarship/sourcing (\"tutkimus?\" — \"research?\")."
+  },
+  "x04": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Not an incident: added only a copyright maintenance template (\"{{Tekijänoikeus_201009|diff=300}}\") with no prose, citation, name, or number, and was also added by a bot account."
+  },
+  "x05": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2 — Disputed and removed: put back earlier disputed wording that removed \"jopa yksittäisiä\" (\"even isolated\") before proposals to Swedify the Finnish peasantry, added \"suomalainen\" (\"Finnish\") and \"(Kustaa Purtasen poika)\" (\"(son of Kustaa Purtanen)\") for Henrik Gabriel Porthan, and Fennicized Daniel Juslenius to \"Taneli Jusleniuksen\"; part of a rapid back-and-forth where the edit itself undid an earlier change and was undone 3 minutes later."
+  },
+  "x06": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2 — Disputed and removed: added to the lead \"Freudenthal harrasti ajalleen tyypillisiä rotuoppeja ja uskoi suomenkielisten alempiarvoisuuteen\" (\"Freudenthal engaged in racial theories typical of his time and believed in the inferiority of Finnish speakers\"); the first edit restored it after an earlier removal and its later removal was also undone, showing back-and-forth dispute, while the exact text is no longer in the latest revision. Within the item's inserting revisions, edits occurred within 10 minutes on one article, so Level 3 persistence is not established."
+  },
+  "x07": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2 — Disputed and removed: put back the contested claim \"Yhdistyksessä on muutama sata aktiivijäsentä\" (\"The association has a few hundred active members\") during an active back-and-forth on the page, and another editor removed it 6 minutes later challenging sourcing and neutrality (\"ei ole esittänyt kirjoituksessaan mitään lähdettä tiedolle joten se on poistettava omana ruotsinmielisenä fiiliksenä\" — \"has not presented any source for the information in his article so it must be removed as his own pro-Swedish feeling\")."
+  },
+  "x08": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 1 — Removed by Wikipedia editors: added the unsourced claim \"Kirkon nimi on selkeä näyttö Ahvenanmantereen eteläosan alkujaan suomenkielisestä kristitystä väestöstä\" (\"The name of the church is clear proof of an originally Finnish-speaking Christian population in the southern part of mainland Åland\"), which was taken out 4 minutes later with a standard automated undo summary and no recorded dispute reason, re-insertion, back-and-forth, or dispute template."
+  },
+  "x09": {
+   "label": "campaign",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 3 — Pattern consistent with a coordinated attempt: added a list of seven uncontextualized racial quotations attributed only to \"Wikisitaatit:\" (\"Wikiquote:\"), including \"Ruotsia puhuva sivistynyt luokka kuuluu ruotsalaiseen kansallisuuteen, joka näin ollen oli ollut ja on edelleenkin valtiaskansa\" (\"The Swedish-speaking educated class belongs to the Swedish nationality, which consequently had been and still is the master nation\"); disputed and removed multiple times (including \"väärä projekti, linkki wikisitaatteihin on riittävä\" — \"wrong project, a link to Wikiquote is sufficient\"), added across three distinct anonymous address ranges and put back three times over 80 days."
+  },
+  "x10": {
+   "label": "campaign",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 3 — Pattern consistent with a coordinated attempt: added an unsourced section claiming that in 2000s online discussions \"fennomaani-termillä ymmärretty erityisesti pakollista ruotsin lukemista kouluissa vastustavia henkilöitä. Näiden joukossa on myös henkilöitä, jotka vastustavat kaikkea ruotsalaisuuteen vivahtavaakin\" (\"the term Fennoman has been understood in particular to mean people who oppose compulsory study of Swedish in schools. Among these are also people who oppose anything even hinting at Swedishness\"); removed as unsourced guesswork (\"sisälsi lähinnä mutua\" — \"contained mostly guesswork\", \"lähteetöntä itse sanailtua huttua\" — \"unsourced self-worded nonsense\"), tagged with \"{{lähteetön}}\" (\"unsourced\"), added by three distinct editors, and put back three times over nearly 11 months."
+  },
+  "x11": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2 — Disputed and removed: four distinct editors added and put back contested claims on Axel Olof Freudenthal and the Swedish People's Party, including \"Freudenthalin rasistisista opeista se ei ole kuitenkaan koskaan sanoutunut ainakaan julkisesti irti\" (\"However, it has never, at least publicly, disavowed Freudenthal's racist teachings\") and an anecdote claiming \"että vain ruotsinkieliset ovat Suomessa sivistyneitä ja suomalaiset ovat moukkia\" (\"that only Swedish speakers are civilized in Finland and Finns are boors\"), amid intense back-and-forth on the page. Stays at Level 2 because only one Level 3 signal (multiple accounts) is met: all insertions occurred within roughly one day on a single article without source manipulation."
+  },
+  "x12": {
+   "label": "not-incident",
+   "exclusion": "kept",
+   "category": "content_dispute",
+   "why": "Not an incident: the inserting revisions restored the sourced \"Arvostelua\" (\"Criticism\") section on Suomalaisuuden Liitto after repeated removals; in the latest candidate (2024) the removal was undone and the exact prose remains in the latest revision of the article (earlier 2019 candidates carry the identical prose and differ only by citation capitalization and an archive link)."
+  },
+  "x13": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Not an incident: the same named account that expanded the article removed the subheadings and trimmed unsourced text before a citation 2.9 hours later (\"Pois lähdeviitteen edestä lähteeseen perustumaton sisältö\" — \"Out with content not based on the source in front of the citation\")."
+  },
+  "x14": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2 — Disputed and removed: added coherent political claims and polemic on Åland, including \"Ahvenanmaasta koituu Suomelle kaksi kertaa enemmän kuluja, kuin muista maakunnista keskimäärin\" (\"Åland causes Finland twice as many expenses as other regions on average\") and \"jos esimerkiksi sairaalatyöntekijä puhuu työaikanaan suomen kieltä, voi hänet irtisanoa\" (\"if for example a hospital worker speaks Finnish during working hours, they can be dismissed\"); put back once after removal and removed again as unsourced (\"lähteetöntä\" — \"unsourced\")."
+  },
+  "x15": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Not an incident: added joke graffiti \"Meitsi hei tuntee tän axelin\" (\"Hey, I know this Axel\") to a section heading on a 19th-century biography, removed 5 minutes later."
+  }
+ },
+ "rev_id_concerns": {
+  "x13": "rev 12066723 was matched via text search on a paragraph that rev 12067400 actually kept (only removing its subheading and capitalizing a link), whereas the prose removed in 12067400 appears to be pre-existing unsourced text."
+ },
+ "usage": {
+  "total_tokens": 84581,
+  "total_input_tokens": 52623,
+  "input_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 52623
+   }
+  ],
+  "total_cached_tokens": 0,
+  "total_output_tokens": 2478,
+  "output_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 2478
+   }
+  ],
+  "total_tool_use_tokens": 0,
+  "total_thought_tokens": 29480,
+  "initial_input_tokens": 52623,
+  "cost_usd_est": 0.4248,
+  "seconds": 341.7
+ }
+}

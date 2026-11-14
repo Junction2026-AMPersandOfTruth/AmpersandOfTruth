@@ -1,0 +1,637 @@
+{
+  "topic": {
+    "id": "sami-prehistory",
+    "title": "Sámi indigeneity and claims about Finnish prehistory",
+    "split": "test",
+    "kind": "topic",
+    "queries": [
+      {
+        "id": "sami-prehistory.en",
+        "style": "en",
+        "lang": "en",
+        "text": "Sámi indigenous status and origins in Finnish prehistory"
+      },
+      {
+        "id": "sami-prehistory.fi",
+        "style": "fi",
+        "lang": "fi",
+        "text": "saamelaisten alkuperäiskansa-asema ja alkuperä Suomen esihistoriassa"
+      },
+      {
+        "id": "sami-prehistory.broad",
+        "style": "broad",
+        "lang": "en",
+        "text": "indigenous peoples and ancient history of Finland"
+      },
+      {
+        "id": "sami-prehistory.sv",
+        "style": "sv",
+        "lang": "sv",
+        "text": "samernas ursprung och ställning som urfolk i Finlands förhistoria"
+      }
+    ],
+    "articles": [
+      {
+        "page_id": 7283,
+        "grade": 2,
+        "title": "Saamelaiset"
+      },
+      {
+        "page_id": 997401,
+        "grade": 2,
+        "title": "Saamelaisten historia"
+      },
+      {
+        "page_id": 1096144,
+        "grade": 2,
+        "title": "Metsäsaamelaiset"
+      },
+      {
+        "page_id": 8905,
+        "grade": 2,
+        "title": "Suomen esihistoria"
+      },
+      {
+        "page_id": 1100,
+        "grade": 2,
+        "title": "Suomen muinaiset kuninkaat"
+      },
+      {
+        "page_id": 20813,
+        "grade": 2,
+        "title": "Suomalaisten alkuperä"
+      },
+      {
+        "page_id": 1373598,
+        "grade": 1,
+        "title": "Saamenmaa"
+      },
+      {
+        "page_id": 378020,
+        "grade": 1,
+        "title": "Saamelaisten kotiseutualue"
+      },
+      {
+        "page_id": 624151,
+        "grade": 1,
+        "title": "Keminsaamelaiset"
+      },
+      {
+        "page_id": 1685595,
+        "grade": 1,
+        "title": "Kainuunsaamelaiset"
+      },
+      {
+        "page_id": 22508,
+        "grade": 1,
+        "title": "Lappalaiset"
+      },
+      {
+        "page_id": 1802024,
+        "grade": 1,
+        "title": "Luettelo Suomen saamelaisperäisistä paikannimistä"
+      },
+      {
+        "page_id": 1617222,
+        "grade": 1,
+        "title": "Saamelaisliike"
+      },
+      {
+        "page_id": 72966,
+        "grade": 1,
+        "title": "Fennit"
+      },
+      {
+        "page_id": 1093403,
+        "grade": 1,
+        "title": "Skrithifinnit"
+      },
+      {
+        "page_id": 75134,
+        "grade": 1,
+        "title": "Lapinkylä"
+      },
+      {
+        "page_id": 115924,
+        "grade": 1,
+        "title": "Suomen kronikka"
+      }
+    ],
+    "items": [
+      {
+        "id": "sami-prehistory/i01",
+        "label": "campaign",
+        "category": "pov_push",
+        "page_id": 997401,
+        "other_page_ids": [
+          7283
+        ],
+        "inserting_rev_ids": [
+          16917076,
+          16917077,
+          16920192,
+          17123375,
+          17123380
+        ],
+        "removing_rev_ids": [
+          16917081,
+          16920612,
+          16935955,
+          17123675,
+          17123933
+        ],
+        "description": "Adds paragraphs, cited to one magazine article, saying the Sámi are not more indigenous than the Finns, that prehistoric people cannot be divided into Sámi and Finns, that Sámi identity is under 100 years old and that 'Sápmi' was invented in the 1980s.",
+        "why": "Level 3. Claim (quoted from the added text): 'Saamelaiset eivät ole alkuperäisempiä kuin suomalaiset, vaikka heitä kutsutaan alkuperäiskansaksi' ('The Sámi are not more indigenous than the Finns, although they are called an indigenous people'), 'Suomalaiset ja saamelaiset ovat siis samassa määrin alkuperäisiä kansoja' ('Finns and Sámi are thus equally indigenous peoples'), 'Esihistoriallisia asukkaita ei voi jakaa saamelaisiin ja suomalaisiin' ('prehistoric inhabitants cannot be divided into Sámi and Finns'), 'Saamelaisidentiteetti on alle sata vuotta vanha' ('Sámi identity is under a hundred years old'), '\"Saamenmaa\" keksittiin 1980-luvulla' ('\"Sápmi\" was invented in the 1980s'), all cited to one Suomen Kuvalehti article. Community dispute: put back 3 times after removals (16920192 on Saamelaiset two days after the first removal; 17123375 and 17123380 three months later by a second account), and the second removal on Saamelaisten historia (17123675) gives a sourcing reason: 'ei kirjoiteta artikkelia uusiksi yhden lehtijutun perusteella' ('an article is not rewritten on the basis of one magazine article'). Level-3 signals, 3 of 4: articles (added to Saamelaisten historia and Saamelaiset 13 s apart by E173), accounts (two named accounts added it: E173, then E182 put it back with 'Palautettiin lähteistetty teksti' / 'Ihan hyvin näyttää olevan lähteistetty' = 'restored sourced text' / 'seems to be sourced quite well'), persistence (put back 3 times, first insertion 2017-11-23, last 2018-03-02, 99 days apart). Removals: on Saamelaiset rejected after 3 min (16917081) and 3.5 h (16920612), and removed after 4.1 h (17123933, 'palautettu mistä? pesuveden mukana meni paljon artikkeliin tehtyä pikkuhuoltoa' = 'restored from where? a lot of small maintenance went out with the bathwater'); on Saamelaisten historia removed after 8.6 days (16935955, 'Ei kuitenkaan näin' = 'not like this, though') and after 87 min (17123675). Not in the latest revision. The first insertion also tagged existing citations ({{Parempi lähde|kuin saamelaispoliitikon kirja}} = 'better source needed: than a Sámi politician's book'); not counted as source manipulation because no citation was removed or replaced. Candidates c01, c13 (Saamelaisten historia), c17, c06, c07 (Saamelaiset); c28 is the 17123380 re-insertion seen from the other side.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "c28's removal (17123380) restored a 2017 revision wholesale, so it also took out an anonymous editor's population update (17100871) and other maintenance; E178's 17123933 restored those 4 h later. No separate item for that collateral removal."
+      },
+      {
+        "id": "sami-prehistory/i02",
+        "label": "campaign",
+        "category": "pov_push",
+        "page_id": 1096144,
+        "inserting_rev_ids": [
+          20023558,
+          20023580,
+          20023594,
+          20024933,
+          20024935,
+          20025223,
+          20025687,
+          20036982
+        ],
+        "removing_rev_ids": [
+          20025194,
+          20025656,
+          20029336,
+          20081057
+        ],
+        "description": "Turns the redirect 'Metsäsaamelaiset' into an article stating that the Forest Sámi are one of the (four) Sámi groups living in Finland and were refused the Sámi Parliament electoral roll because they lost their language.",
+        "why": "Level 3. Claim: the article text states a disputed group status as fact: 'Metsäsaamelaiset ovat yksi neljästä Suomen alueella elävästä saamelaisryhmästä' ('The Forest Sámi are one of the four Sámi groups living in Finland') and 'Koska metsäsaamelaiset ovat menettäneet kielensä, heitä ei ole hyväksytty Saamelaiskäräjien vaaliluetteloon' ('Because the Forest Sámi have lost their language, they have not been accepted onto the Sámi Parliament's electoral roll'); first summary 'Poistettu ohjaus, koska tämä kansa on olemassa' ('Removed the redirect because this people exists'). (The current article attributes it instead: 'kokevat olevansa' = 'feel that they are'.) Community dispute: removed 4 times by 4 other accounts, twice with sourcing reasons ('lähteetöntä, pysyköön ohjauksena' = 'unsourced, let it stay a redirect', 20025656; 'takaisin ohjaukseksi: lähteetöntä omaa tutkimusta' = 'back to a redirect: unsourced original research', 20029336); {{Lähde}} (citation needed) tags added by another account in the same episode (20025690); a back-and-forth inside the first run (another account replaced the text as 'historiallisesti paikkaansapitävään ja totuudenmukaiseen kuvaukseen' = 'a historically accurate and truthful description', and E233 restored it with 'Sivu oli muokattu paikkansapitämättömäksi' = 'the page had been edited to be inaccurate'); put back 3 times after removals. Level-3 signals, 2 of 4: accounts (two named accounts added the text: E233 created it and put it back once, E235 put it back twice, the second time with references) and persistence (put back 3 times: 20025223, 20025687, 20036982; first insertion 2021-09-28 18:08 UTC, last 2021-10-05 19:00 UTC = 7 days 51 min). One article, no source manipulation. Last removal 20081057 after 23.1 days: 'Takaisin ohjaussivuksi. Tällä hetkellä pelkkä tiivistetty versio sivusta Keminsaamelaiset' ('back to a redirect; at the moment just a condensed version of Keminsaamelaiset'). Inserting revs exclude other accounts' edits swept up by the removals (E296/E297 rewrites, small tweaks by E235/E297/E298/E233 inside c16, E234's redirect-line removal, E100's tags, E76's category). Candidates c08, c16, c15, c02.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "must_include rev 20051659 is E76's HotCat category edit inside the c02 run; it added no content, so it is covered by this item's sources (c02) but is not an inserting rev. The persistence signal clears 7 days by 51 minutes; the accounts signal does not depend on it."
+      },
+      {
+        "id": "sami-prehistory/i03",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 1100,
+        "inserting_rev_ids": [
+          13315464,
+          13407096
+        ],
+        "removing_rev_ids": [
+          13315992,
+          13421340
+        ],
+        "description": "Rewrites the etymology of 'kuningas' so the Germanic-loan origin is only 'claimed', argues the word was used in Finland before Germanic influence, and alters the wording of a quoted source.",
+        "why": "Level 2. Claim: the edit says 'kuningas' is only 'väitetään periytyneen' ('claimed to derive') from Proto-Germanic, adds 'Kantagermaaninen kieli on kuitenkin rekonstruktio ja hypoteesi ... teorian paikkansapitävyyttä ja lainautumisen suuntaa voi vain arvella' ('Proto-Germanic is however a reconstruction and a hypothesis ... the validity of the theory and the direction of borrowing can only be guessed') and 'joten loogisesti sana kuningas tai vastaava on ollut käytössä Suomessakin jo ennen germaanisen kulttuurin vaikutteita' ('so logically the word king or similar was in use in Finland before Germanic influence'). Alongside it, it removed the sentence that Porthan was right that the words are Germanic loans, removed a sentence cited to Vahtola, and changed the wording of the Vahtola quotation inside the reference ('Suomen kuninkaissa oli nähtävästi kyse' -> 'Suomenkin kuninkaissa on voinut olla kyse', 'was apparently' -> 'may have been'). Community dispute: rolled back after 4.2 h (13315992), put back once 42 days later (13407096, summary: 'pitää sanoa \"väitetään perityneen kantagermaanista\"' = 'it must say \"claimed to derive from Proto-Germanic\"'), then removed after 6.9 days with 'rv, uutta tutkimusta ja lähteetöntä' ('rv, original research and unsourced'). Level 3: only one signal (sources); one anonymous range (91.155.x.x), one article, put back only once, so it stays at level 2. Candidates c11 and c05; c04 is the re-insertion seen from the other side.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/i04",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 1100,
+        "inserting_rev_ids": [
+          407493
+        ],
+        "removing_rev_ids": [
+          408454
+        ],
+        "description": "Adds a section saying Finland's history was distorted and suppressed by conquerors (including a death penalty for telling it) and lists eleven 'kings of Finland before the Swedes'.",
+        "why": "Level 2. Claim: 'Suomen historiaa on vääristelty ja yritetty tuhota valloittajien toimesta satoja vuosia' ('Finland's history has been distorted, and conquerors have worked to destroy it, for hundreds of years'), 'Ruotsin vallan aikan oli säädetty jopa kuolemantuomio sille joka kertoisi suomen historiasta' ('under Swedish rule a death sentence was even decreed for anyone who told Finland's history'), and a numbered list 'SUOMEN KUNINKAAT ENNEN RUOTSALAISIA' ('kings of Finland before the Swedes'). Community dispute: removed by another account after 8.4 h with 'huuhaat pois' ('out with the hokum'), a judgement on the accuracy of the content. Not graffiti: coherent prose with a numbered source list. One editor, one article, never put back, so level 2. Candidate c12.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/i05",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 1100,
+        "inserting_rev_ids": [
+          3595309,
+          3611225
+        ],
+        "removing_rev_ids": [
+          3611246
+        ],
+        "description": "Adds a 'genetic research' section saying genetic studies point to Finno-Ugric roots of historical rulers and that Rurik belonged to the Finno-Ugric haplogroup N.",
+        "why": "Level 2. Claim: 'Käynnissä olevien geenitutkimuksen projektien tuloksista on jo nyt löytynyt viitteitä historiallisten hallitsijoiden suomalais-ugrilaisista juurista' ('results of ongoing genetic research projects already show indications of Finno-Ugric roots of historical rulers') and 'Tähän mennessä on selvinnyt, että Rurik ei ollut haploryhmältään viikinkeihin kuuluvaa I-ryhmää eikä slaavilaista ryhmää, vaan suomalais-ugrilaista N-haploryhmää' ('it has so far turned out that Rurik was not in the Viking haplogroup I or a Slavic group but in the Finno-Ugric haplogroup N'), in an article on ancient Finnish kings. Community dispute: removed after 2.8 days by another account with 'poistettu asiaanliittymätön (suomalaisugrilainen != suomalainen), ja todennäköisesti täysi hömppä - Rurik tai ainakin suvut ovat fiktiivisiä' ('removed as irrelevant (Finno-Ugric != Finnish), and probably complete nonsense; Rurik or at least the lineages are fictional'): about accuracy. The flags also show this removal was undone by rev 3625211 (not in the pack, so not listed); the text is not in the latest revision. One editor (both edits by E385), one article, so level 2. Candidate c09.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/i06",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 1100,
+        "inserting_rev_ids": [
+          368901
+        ],
+        "removing_rev_ids": [
+          368911
+        ],
+        "description": "Adds a section arguing that the sagas show many links to Finland's old kingdoms and that Scandinavian and Finnish kingdoms can be assumed to have been equals.",
+        "why": "Level 2. Claim: 'Ei kuitenkaan voi olla huomaamatta niitä lukuisia yhteyksiä Suomen vanhoihin kuningaskuntiin' ('one cannot fail to notice the many connections to Finland's old kingdoms') and 'Voidaan siis olettaa skandinavisten ja suomalaisten kuningaskuntien olleen tasavertaisia' ('it can thus be assumed that the Scandinavian and Finnish kingdoms were equals'), with headings 'Fornjotr -kuningassuku' and 'Faravid, viimeinen kuningas' ('Faravid, the last king'). Community dispute: removed 5 min later by another account with 'eräs virheellisyys ja pari muuta mahtipontisuutta poistettu' ('removed an inaccuracy and a couple of other grandiosities'): about accuracy. The pack's insertion_diff confirms 368901 added the removed paragraph and headings. One editor, one article, never put back, so level 2. Candidate c32 (partial removal).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/i07",
+        "label": "contested",
+        "category": "false_factual_claim",
+        "page_id": 7283,
+        "inserting_rev_ids": [
+          10202792
+        ],
+        "removing_rev_ids": [
+          10327464
+        ],
+        "description": "Adds a section saying the Sámi still controlled over 90% of Finland at the start of the first millennium and were pushed north by taxation, mission work and settlement.",
+        "why": "Level 2. Claim: 'Vielä ensimmäisen vuosituhannen alussa saamelaiset hallitsivat yli 90% Suomesta' ('At the start of the first millennium the Sámi still controlled over 90% of Finland'; later edited to 'asuttivat' = 'inhabited'), plus a narrative of the Sámi moving north under taxation, mission work and settlement, cited to a school web page. Community dispute: during the episode a dispute template {{tarkistettava|kummallisia väitteitä}} ('to be checked: strange claims') and {{lähde}} were added, and the removal summary is 'pois koko luku, lähteetön, outo ja copyvio' ('the whole section out: unsourced, strange and a copyright violation'). Visible 30.7 days. The pack's insertion_diff confirms 10202792 added the removed section. One anonymous editor, one article, never put back, so level 2. Candidate c29 (partial removal).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/i08",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 997401,
+        "inserting_rev_ids": [
+          18558959
+        ],
+        "removing_rev_ids": [
+          18559242
+        ],
+        "description": "Adds that a 1930s encyclopedia concluded the Sámi learned their Finno-Ugric language from the Finns and that current DNA research does not support a separate origin of Sámi and Finns.",
+        "why": "Level 2. Claim: 'Nykyinen DNA-tutkimuksiin perustuva geneettinen tutkimustieto ei puolla saamelaisten ja suomalaisten eri alkuperää' ('current DNA-based genetic research does not support a different origin for the Sámi and the Finns'), unsourced, after a sentence cited to a 1934 encyclopedia that the Sámi 'olisivat oppineet suomalais-ugrilaisen kielimuodon suomalaisilta' ('would have learned the Finno-Ugric language from the Finns'). Community dispute: removed 6.4 h later by another account with a sourcing reason: 'Viittaaminen 1930-luvulta olevaan tietosanakirjaan ja genetiikasta puhuminen samassa lauseessa ilman lähdettä ei nyt vaan toimi' ('citing a 1930s encyclopedia and talking about genetics in the same sentence without a source just does not work'). The pack's insertion_diff confirms 18558959 added the removed sentences (the rest of that edit stayed). One editor, one article, so level 2. Same theme as i01 but different text, editor and year, so a separate item. Candidate c31 (partial removal).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/i09",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 1100,
+        "inserting_rev_ids": [
+          21047443,
+          21047458,
+          21047501,
+          21047631,
+          21047641
+        ],
+        "removing_rev_ids": [
+          21050141
+        ],
+        "description": "Rewords the article so 'kuningas' no longer derives from Germanic 'kuningaz' but only has it as a counterpart, turns a statement of modern research into a conditional, and adds unsourced sentences.",
+        "why": "Level 2 (less certain). Claim: under the summary 'korjattu lauserakenteita' ('fixed sentence structures') the edits changed 'joka juontaa juurensa muinaisgermaaniseen sanaan kuningaz' ('which derives from the ancient Germanic word kuningaz') to 'jonka vastine on muinaisgermaaninen sana kuningaz' ('whose counterpart is the ancient Germanic word kuningaz'), while the attached reference still reads 'Muinaisgermaaninen lainasana' ('ancient Germanic loanword'); changed the modern-research statement 'sodankäynti on perustunut' to 'olisi perustunut' ('was based' -> 'would have been based'); dropped 'mahdollisesti' ('possibly') from the Fymark/Tabast identification; and added unsourced sentences (Sigtuna 1187, Messenius, royal titles). The loanword direction is the point disputed on this article in 2013 (i03). Community dispute: removed after 28 h by another account with 'Kumottu lähteettömät lisäykset' ('undid unsourced additions'). One editor, one article, never put back, so level 2. If the rewording is read as stylistic, this drops to level 1. Candidate c14.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/i10",
+        "label": "reverted",
+        "category": "pov_push",
+        "page_id": 8905,
+        "inserting_rev_ids": [
+          824936,
+          824943,
+          824950,
+          824953,
+          824957,
+          824959,
+          824961,
+          824963
+        ],
+        "removing_rev_ids": [
+          825004
+        ],
+        "description": "Adds a section presenting as fact that Finns and Basques are Europe's original populations and that Europe's pre-1700 inhabitants can be called Finns.",
+        "why": "Level 1. Substantive, removed by another account. It is a claim ('Suomalaiset ja baskit ovat Euroopan alkuperäisväestöjä' = 'Finns and Basques are Europe's original populations'; 'Euroopan alkuperäisasukkaita ennen 1700 lukua voidaan kutsua yhteisellä nimellä suomalaiset' = 'Europe's original inhabitants before the 1700s can be called by the common name Finns'; 'Kielenvaihtoteoria on tapahtunut tosiasia' = 'the language-shift theory is an established fact'), but there is no community-dispute signal: removed after 23 min by an anonymous editor with 'palautus. oudossa paikassa omituinen osio' ('revert. a strange section in an odd place'), which is about placement and oddness, not accuracy, neutrality or sourcing; never put back; no template. So it stays at level 1. All 8 edits by one editor (E312). Candidate c03 (must-include 824963).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/i11",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 997401,
+        "inserting_rev_ids": [
+          16029887,
+          16029953
+        ],
+        "removing_rev_ids": [
+          16038142
+        ],
+        "description": "Replaces the statement on Sámi genetic distance with a paragraph on Sámi paternal and maternal genetic lines and a western European Ice-Age origin, cited partly to Wikipedia.",
+        "why": "Level 1, good-faith error. Replaced 'Nykyinen geenitutkimus kuitenkin osoittaa, että saamelaiset eivät ole ainakaan lähisukulaisia samojedeille...' ('current genetic research shows the Sámi are not close relatives of the Samoyeds...') with 'Uudempi tutkimus on muuttanut kuvaa' ('newer research has changed the picture') and added a genetics paragraph (eastern and western paternal lines, Ice-Age maternal lines, 'saamelaisten esi-isien uskotaan lähteneen jääkauden lopuilla pohjoiseen Länsi-Euroopasta' = 'the Sámi's ancestors are believed to have left Western Europe northwards at the end of the Ice Age') cited to a Wiik article, en.wikipedia and journal links. Removed after 4.5 days by another account with 'omaa tutkimusta, lähteenä wikipediaa, yms.' ('original research, Wikipedia as a source, etc.'). That is a sourcing reason, but the text reads as a plausible summary of genetic studies with no loaded wording, so it is capped at level 1. One anonymous editor (87.100.x.x). Candidate c10.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/i12",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1096144,
+        "inserting_rev_ids": [
+          24011480,
+          24011487
+        ],
+        "removing_rev_ids": [
+          24011494
+        ],
+        "description": "Adds that the Forest Sámi nowadays mostly speak Inari Sámi.",
+        "why": "Level 1. Changed 'Metsäsaamelaisilla ei enää ole omaa kieltä eikä heitä ole hyväksytty...' to '... ei enää ole omaa kieltä, mutta puhuvat nykyään enemmän Inarinsaamea' ('... no longer have their own language, but nowadays speak mostly Inari Sámi'), unsourced. Removed 5 min later by another account with a generic rejection summary; never put back; no template. Substantive and removed by a different account, no dispute signal, so level 1. Candidate c20.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/i13",
+        "label": "reverted",
+        "category": "false_factual_claim",
+        "page_id": 7283,
+        "inserting_rev_ids": [
+          17044089,
+          17044090,
+          17044092
+        ],
+        "removing_rev_ids": [
+          17044107
+        ],
+        "description": "Triples two figures in a Sámi population table (42,500 to 120,600 and 21,675 to 61,675).",
+        "why": "Level 1. Changed '42 500' to '120 600' and '21 675' to '61 675' in the population table, with no source or summary; rolled back by another account after 12 min. A changed number is not clearly graffiti, so it is judged as content, but there is no dispute signal (generic rollback summary, never put back). The pack flag says this removal was undone by 17123380, but that edit restored a 2017 revision from before these numbers (c28's diff shows the counts unchanged), so the numbers were not put back. Candidate c27.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/n01",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 7283,
+        "inserting_rev_ids": [
+          15683002
+        ],
+        "removing_rev_ids": [
+          15683003
+        ],
+        "description": "Inserts an insult accusing the Sámi of human sacrifice, cannibalism and paedophilia.",
+        "why": "Excluded: graffiti. Added 'Saamelaiset ovat tunnettuja ihmisuhreista ja kannibalismista ja pedofiliaista' ('The Sámi are known for human sacrifice and cannibalism and paedophilia'), an insult against an ethnic group, removed after 87 s. Candidate c19.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/n02",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 7283,
+        "inserting_rev_ids": [
+          21290734
+        ],
+        "removing_rev_ids": [
+          21290736
+        ],
+        "description": "Inserts an obscene sentence about children into the population paragraph.",
+        "why": "Excluded: graffiti. A sexual sentence about Sámi children inserted mid-paragraph, rolled back after 56 s. Candidate c18.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/n03",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 7283,
+        "inserting_rev_ids": [
+          19575433
+        ],
+        "removing_rev_ids": [
+          19575434
+        ],
+        "description": "Inserts a mocking remark about Swedish Sámi into the bolded lead title.",
+        "why": "Excluded: graffiti. Added '(ruotsalaiset saamelaiset ovat homoja)' ('Swedish Sámi are gay') into the bold title, rolled back after 14 s. Candidate c25.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/n04",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 7283,
+        "inserting_rev_ids": [
+          6353165
+        ],
+        "removing_rev_ids": [
+          6353167
+        ],
+        "description": "Inserts obscene words into the religion section.",
+        "why": "Excluded: graffiti. Inserted obscene words ('runkkuja', 'runkattava nukke') into two sentences on Sámi religion, rolled back after 10 s. Candidate c26.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/n05",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "content_dispute",
+        "page_id": 7283,
+        "inserting_rev_ids": [
+          18496473
+        ],
+        "removing_rev_ids": [
+          18497027
+        ],
+        "description": "Adds that it has been argued Finns are as indigenous as the Sámi (cited to vapaasana.net), plus a rebuttal sentence.",
+        "why": "Excluded: self-removal. E48 added 'On myös esitetty, että suomalaiset olisi alkuperäiskansa siinä kuin saamelaisetkin' ('It has also been argued that the Finns are an indigenous people just like the Sámi') with 'Tämä tulkinta jättää huomiotta, että suomalaisilla on itsenäinen kansallisvaltio' ('this interpretation ignores that the Finns have an independent nation state'), and the same account removed it 5.1 h later ('kelvoton lähde' = 'unusable source'). Candidate c22.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/n06",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "other",
+        "page_id": 8905,
+        "inserting_rev_ids": [
+          6243061,
+          6243067
+        ],
+        "removing_rev_ids": [
+          6243072
+        ],
+        "description": "Rewords an image caption (link label, adds 'in Rauma').",
+        "why": "Excluded: self-removal. The same anonymous editor undid their own caption edit 76 s later (flags: self_removal; the text is also in the latest revision). The change adds the place name 'Raumassa', so not-substantive does not strictly apply. Candidate c21.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/n07",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 7283,
+        "inserting_rev_ids": [
+          7063946
+        ],
+        "removing_rev_ids": [
+          7098713
+        ],
+        "description": "Bot changes the Spanish interwiki link target.",
+        "why": "Excluded: not-substantive (interwiki only: 'es:Pueblo lapón' -> 'es:Pueblo Saami'); a bot added it and another bot reverted it, so bot also applies, but not-substantive comes first. Candidate c23.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "sami-prehistory/n08",
+        "label": "not-incident",
+        "exclusion": "blanking",
+        "category": "vandalism",
+        "page_id": 997401,
+        "inserting_rev_ids": [
+          15302864
+        ],
+        "removing_rev_ids": [
+          15302880
+        ],
+        "description": "Blanks the whole article (summary 'cxgcg').",
+        "why": "Excluded: blanking. The edit removed the whole page (-20,419 bytes, summary 'cxgcg'); rejected by another account after 7 min. Candidate c24.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      }
+    ],
+    "notes": "Two level-3 items: the 2017-18 'Sámi are not more indigenous than Finns' paragraphs on Saamelaisten historia and Saamelaiset (i01), and the 2021 Forest Sámi redirect-to-article episode (i02; its persistence signal clears 7 days by 51 min, accounts is the other signal). Suomen muinaiset kuninkaat carries most level-2 items (i03-i06, i09): ancient-kingship and kuningas-etymology claims. Pack oddities: c27's removal_was_itself_undone flag points to 17123380, which restored an older revision, not c27's numbers; c30 and c33 text-search insertions did not add the removed text (skipped); c28 is i01's re-insertion seen from the other side and also swept away unrelated maintenance edits; must_include 20051659 is only a category edit inside the i02 run; i05's re-insertion 3625211 is not in the pack. E48 appears in n05 (self-removed) and i08 with related claims on Finnish and Sámi origins."
+  },
+  "item_sources": {
+    "sami-prehistory/i01": [
+      "c01",
+      "c13",
+      "c17",
+      "c06",
+      "c07",
+      "c28"
+    ],
+    "sami-prehistory/i02": [
+      "c08",
+      "c16",
+      "c15",
+      "c02"
+    ],
+    "sami-prehistory/i03": [
+      "c11",
+      "c04",
+      "c05"
+    ],
+    "sami-prehistory/i04": [
+      "c12"
+    ],
+    "sami-prehistory/i05": [
+      "c09"
+    ],
+    "sami-prehistory/i06": [
+      "c32"
+    ],
+    "sami-prehistory/i07": [
+      "c29"
+    ],
+    "sami-prehistory/i08": [
+      "c31"
+    ],
+    "sami-prehistory/i09": [
+      "c14"
+    ],
+    "sami-prehistory/i10": [
+      "c03"
+    ],
+    "sami-prehistory/i11": [
+      "c10"
+    ],
+    "sami-prehistory/i12": [
+      "c20"
+    ],
+    "sami-prehistory/i13": [
+      "c27"
+    ],
+    "sami-prehistory/n01": [
+      "c19"
+    ],
+    "sami-prehistory/n02": [
+      "c18"
+    ],
+    "sami-prehistory/n03": [
+      "c25"
+    ],
+    "sami-prehistory/n04": [
+      "c26"
+    ],
+    "sami-prehistory/n05": [
+      "c22"
+    ],
+    "sami-prehistory/n06": [
+      "c21"
+    ],
+    "sami-prehistory/n07": [
+      "c23"
+    ],
+    "sami-prehistory/n08": [
+      "c24"
+    ]
+  },
+  "skipped": [
+    {
+      "cid": "c30",
+      "reason": "inserting edit found by text search (19172903) did not add the removed text: the two removed paragraphs ('Vanhemmassa tutkimuksessa saamelaisten on nähty tulleen Siperiasta...' and 'Saamelaisten geneettinen etäisyys...') are older text (already on the page in 2015, see c24/c10); 19172903 added the 'Saamelaisten juuret' paragraph, which the removal only edited. The pack's self_removal flag rests on that mismatch."
+    },
+    {
+      "cid": "c33",
+      "reason": "inserting edit found by text search (15221, 2004) did not add the removed text: it added the short 'alkaa noin 8000 eaa' lead, while the removed lead (Neanderthals in Susiluola 130,000 years ago, Cro-Magnon settlers from the Kunda culture) was written by a later edit that is not in the pack."
+    }
+  ]
+}

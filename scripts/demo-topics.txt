@@ -1,0 +1,4 @@
+# Demo topics for scripts/warm.sh — one per line, as a user would type them (research/profiling/prof_top/findings.md §3).
+Suomen sisällissota
+Jatkosota
+Talvisota

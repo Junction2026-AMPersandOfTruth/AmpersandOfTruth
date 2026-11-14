@@ -1,0 +1,1784 @@
+{
+  "build_timings": {
+    "total_seconds": 53.96,
+    "max_step_seconds": 18.64,
+    "thresholds": {
+      "single_purpose_min_edits": 5,
+      "single_purpose_top_page_share": 0.8,
+      "single_purpose_top_tight_category_share": 0.8,
+      "tight_category_max_pages": 200,
+      "throwaway_max_edits": 50,
+      "throwaway_max_lifespan_days": 7.0,
+      "throwaway_min_reverted_ratio_exclusive": 0.5,
+      "coactivity_window_seconds": 86400,
+      "coactivity_min_episodes": 3
+    },
+    "steps": [
+      {
+        "step": "1. Drop previous staging & target tables",
+        "seconds": 0.45
+      },
+      {
+        "step": "2. Build research.s6_coactivity from s1_revert + s1_reverted_edit",
+        "seconds": 2.33
+      },
+      {
+        "step": "3. Scan corpus.revision once for byte deltas, active days & comment flags",
+        "seconds": 6.14
+      },
+      {
+        "step": "4. Build research.s6_rev_author (PK rev_id for < 2 s feature lookup)",
+        "seconds": 1.24
+      },
+      {
+        "step": "5. Aggregate user-page counts (s6__user_page)",
+        "seconds": 1.08
+      },
+      {
+        "step": "6. Aggregate per-user active days, summary usage & median byte delta",
+        "seconds": 4.07
+      },
+      {
+        "step": "7. Compute per-user top page & Finnish category concentration (s6__user_conc)",
+        "seconds": 18.64
+      },
+      {
+        "step": "8. Build research.s6_editor_profile (reusing s1_user_stats + s6 aggregates)",
+        "seconds": 4.46
+      },
+      {
+        "step": "9. Build research.s6_ip_prefix (IPv4 /24, IPv4 /16, IPv6 /64)",
+        "seconds": 5.7
+      },
+      {
+        "step": "10. Clean up staging tables",
+        "seconds": 2.56
+      },
+      {
+        "step": "11. Verify invariants (completeness, PK/FK, bounds)",
+        "seconds": 7.29
+      }
+    ],
+    "invariants": {
+      "profile_rows": 73437,
+      "profile_edits_sum": 862076,
+      "corpus_revisions": 862076,
+      "rev_author_rows": 862076,
+      "orphan_rev_authors": 0,
+      "bot_flagged_sp_or_tw": 0,
+      "non_ip_with_prefix": 0,
+      "ip_missing_prefix": 0,
+      "missing_narrow_prefix_fk": 0,
+      "missing_16_prefix_fk": 0,
+      "ip_prefix_rows": 25514,
+      "coactivity_rows": 163,
+      "invalid_coactivity_rows": 0
+    }
+  },
+  "kind_summary": [
+    {
+      "kind_group": "named_human",
+      "profiles": 15161,
+      "edits": 617512,
+      "pct_corpus_edits": 71.63,
+      "single_purpose_n": 1248,
+      "single_purpose_pct": 8.23,
+      "single_purpose_edits": 19349,
+      "throwaway_n": 2308,
+      "throwaway_pct": 15.22,
+      "throwaway_edits": 4043,
+      "throwaway_ge2_n": 788,
+      "both_sp_and_tw_n": 79,
+      "in_coactivity_n": 86
+    },
+    {
+      "kind_group": "named_bot",
+      "profiles": 205,
+      "edits": 78190,
+      "pct_corpus_edits": 9.07,
+      "single_purpose_n": 0,
+      "single_purpose_pct": 0.0,
+      "single_purpose_edits": 0,
+      "throwaway_n": 0,
+      "throwaway_pct": 0.0,
+      "throwaway_edits": 0,
+      "throwaway_ge2_n": 0,
+      "both_sp_and_tw_n": 0,
+      "in_coactivity_n": 0
+    },
+    {
+      "kind_group": "ipv4",
+      "profiles": 51056,
+      "edits": 151419,
+      "pct_corpus_edits": 17.56,
+      "single_purpose_n": 1800,
+      "single_purpose_pct": 3.53,
+      "single_purpose_edits": 16468,
+      "throwaway_n": 13352,
+      "throwaway_pct": 26.15,
+      "throwaway_edits": 20663,
+      "throwaway_ge2_n": 3649,
+      "both_sp_and_tw_n": 268,
+      "in_coactivity_n": 13
+    },
+    {
+      "kind_group": "ipv6",
+      "profiles": 5245,
+      "edits": 11709,
+      "pct_corpus_edits": 1.36,
+      "single_purpose_n": 197,
+      "single_purpose_pct": 3.76,
+      "single_purpose_edits": 1781,
+      "throwaway_n": 1798,
+      "throwaway_pct": 34.28,
+      "throwaway_edits": 2945,
+      "throwaway_ge2_n": 530,
+      "both_sp_and_tw_n": 49,
+      "in_coactivity_n": 3
+    },
+    {
+      "kind_group": "temporary",
+      "profiles": 1769,
+      "edits": 3228,
+      "pct_corpus_edits": 0.37,
+      "single_purpose_n": 37,
+      "single_purpose_pct": 2.09,
+      "single_purpose_edits": 319,
+      "throwaway_n": 564,
+      "throwaway_pct": 31.88,
+      "throwaway_edits": 826,
+      "throwaway_ge2_n": 129,
+      "both_sp_and_tw_n": 4,
+      "in_coactivity_n": 0
+    },
+    {
+      "kind_group": "hidden",
+      "profiles": 1,
+      "edits": 18,
+      "pct_corpus_edits": 0.0,
+      "single_purpose_n": 0,
+      "single_purpose_pct": 0.0,
+      "single_purpose_edits": 0,
+      "throwaway_n": 0,
+      "throwaway_pct": 0.0,
+      "throwaway_edits": 0,
+      "throwaway_ge2_n": 0,
+      "both_sp_and_tw_n": 0,
+      "in_coactivity_n": 0
+    }
+  ],
+  "feature_distributions": {
+    "edits": [
+      {
+        "kind_group": "named_human",
+        "n": 15161,
+        "mean": 40.7303,
+        "p25": 1.0,
+        "p50": 2.0,
+        "p75": 5.0,
+        "p90": 22.0,
+        "max": 18036
+      },
+      {
+        "kind_group": "named_bot",
+        "n": 205,
+        "mean": 381.4146,
+        "p25": 5.0,
+        "p50": 24.0,
+        "p75": 131.0,
+        "p90": 760.4,
+        "max": 15466
+      },
+      {
+        "kind_group": "ipv4",
+        "n": 51056,
+        "mean": 2.9657,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 2.0,
+        "p90": 4.0,
+        "max": 2084
+      },
+      {
+        "kind_group": "ipv6",
+        "n": 5245,
+        "mean": 2.2324,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 2.0,
+        "p90": 4.0,
+        "max": 246
+      },
+      {
+        "kind_group": "temporary",
+        "n": 1769,
+        "mean": 1.8248,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 2.0,
+        "p90": 3.0,
+        "max": 75
+      },
+      {
+        "kind_group": "hidden",
+        "n": 1,
+        "mean": 18.0,
+        "p25": 18.0,
+        "p50": 18.0,
+        "p75": 18.0,
+        "p90": 18.0,
+        "max": 18
+      }
+    ],
+    "active_days": [
+      {
+        "kind_group": "named_human",
+        "n": 15161,
+        "mean": 13.9627,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 3.0,
+        "p90": 10.0,
+        "max": 3376
+      },
+      {
+        "kind_group": "named_bot",
+        "n": 205,
+        "mean": 66.3902,
+        "p25": 3.0,
+        "p50": 12.0,
+        "p75": 52.0,
+        "p90": 158.6,
+        "max": 1135
+      },
+      {
+        "kind_group": "ipv4",
+        "n": 51056,
+        "mean": 1.5079,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 2.0,
+        "max": 235
+      },
+      {
+        "kind_group": "ipv6",
+        "n": 5245,
+        "mean": 1.0654,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 16
+      },
+      {
+        "kind_group": "temporary",
+        "n": 1769,
+        "mean": 1.1888,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 15
+      },
+      {
+        "kind_group": "hidden",
+        "n": 1,
+        "mean": 14.0,
+        "p25": 14.0,
+        "p50": 14.0,
+        "p75": 14.0,
+        "p90": 14.0,
+        "max": 14
+      }
+    ],
+    "lifespan_days": [
+      {
+        "kind_group": "named_human",
+        "n": 15161,
+        "mean": 529.516,
+        "p25": 0.0,
+        "p50": 0.0037,
+        "p75": 183.9676,
+        "p90": 1901.9744,
+        "max": 8206.6555
+      },
+      {
+        "kind_group": "named_bot",
+        "n": 205,
+        "mean": 872.2051,
+        "p25": 97.7476,
+        "p50": 413.6732,
+        "p75": 1191.3884,
+        "p90": 2084.2024,
+        "max": 7161.9467
+      },
+      {
+        "kind_group": "ipv4",
+        "n": 51056,
+        "mean": 76.482,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 0.0033,
+        "p90": 20.5032,
+        "max": 7165.8711
+      },
+      {
+        "kind_group": "ipv6",
+        "n": 5245,
+        "mean": 1.6639,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 0.0018,
+        "p90": 0.0342,
+        "max": 1733.7479
+      },
+      {
+        "kind_group": "temporary",
+        "n": 1769,
+        "mean": 1.3288,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 0.0005,
+        "p90": 0.0419,
+        "max": 84.9592
+      },
+      {
+        "kind_group": "hidden",
+        "n": 1,
+        "mean": 6059.5462,
+        "p25": 6059.5462,
+        "p50": 6059.5462,
+        "p75": 6059.5462,
+        "p90": 6059.5462,
+        "max": 6059.5462
+      }
+    ],
+    "distinct_pages": [
+      {
+        "kind_group": "named_human",
+        "n": 15161,
+        "mean": 17.1588,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 2.0,
+        "p90": 10.0,
+        "max": 4320
+      },
+      {
+        "kind_group": "named_bot",
+        "n": 205,
+        "mean": 291.6488,
+        "p25": 5.0,
+        "p50": 22.0,
+        "p75": 117.0,
+        "p90": 617.4,
+        "max": 9537
+      },
+      {
+        "kind_group": "ipv4",
+        "n": 51056,
+        "mean": 1.7353,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 2.0,
+        "max": 384
+      },
+      {
+        "kind_group": "ipv6",
+        "n": 5245,
+        "mean": 1.4766,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 2.0,
+        "max": 208
+      },
+      {
+        "kind_group": "temporary",
+        "n": 1769,
+        "mean": 1.2809,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 2.0,
+        "max": 22
+      },
+      {
+        "kind_group": "hidden",
+        "n": 1,
+        "mean": 14.0,
+        "p25": 14.0,
+        "p50": 14.0,
+        "p75": 14.0,
+        "p90": 14.0,
+        "max": 14
+      }
+    ],
+    "top_page_share": [
+      {
+        "kind_group": "named_human",
+        "n": 15161,
+        "mean": 0.7859,
+        "p25": 0.5,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "named_bot",
+        "n": 205,
+        "mean": 0.1854,
+        "p25": 0.0211,
+        "p50": 0.0625,
+        "p75": 0.25,
+        "p90": 0.5,
+        "max": 1.0
+      },
+      {
+        "kind_group": "ipv4",
+        "n": 51056,
+        "mean": 0.9074,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "ipv6",
+        "n": 5245,
+        "mean": 0.9249,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "temporary",
+        "n": 1769,
+        "mean": 0.9448,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "hidden",
+        "n": 1,
+        "mean": 0.1667,
+        "p25": 0.1667,
+        "p50": 0.1667,
+        "p75": 0.1667,
+        "p90": 0.1667,
+        "max": 0.1667
+      }
+    ],
+    "top_category_share": [
+      {
+        "kind_group": "named_human",
+        "n": 15133,
+        "mean": 0.8175,
+        "p25": 0.6,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "named_bot",
+        "n": 205,
+        "mean": 0.2753,
+        "p25": 0.1034,
+        "p50": 0.1724,
+        "p75": 0.3333,
+        "p90": 0.5,
+        "max": 1.0
+      },
+      {
+        "kind_group": "ipv4",
+        "n": 51011,
+        "mean": 0.9233,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "ipv6",
+        "n": 5238,
+        "mean": 0.9486,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "temporary",
+        "n": 1712,
+        "mean": 0.9536,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "hidden",
+        "n": 1,
+        "mean": 0.5556,
+        "p25": 0.5556,
+        "p50": 0.5556,
+        "p75": 0.5556,
+        "p90": 0.5556,
+        "max": 0.5556
+      }
+    ],
+    "reverted_ratio": [
+      {
+        "kind_group": "named_human",
+        "n": 15161,
+        "mean": 0.1798,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 0.0274,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "named_bot",
+        "n": 205,
+        "mean": 0.001,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 0.0,
+        "p90": 0.0005,
+        "max": 0.05
+      },
+      {
+        "kind_group": "ipv4",
+        "n": 51056,
+        "mean": 0.2986,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "ipv6",
+        "n": 5245,
+        "mean": 0.3504,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "temporary",
+        "n": 1769,
+        "mean": 0.3316,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "hidden",
+        "n": 1,
+        "mean": 0.6667,
+        "p25": 0.6667,
+        "p50": 0.6667,
+        "p75": 0.6667,
+        "p90": 0.6667,
+        "max": 0.6667
+      }
+    ],
+    "reverts_of_others_ratio": [
+      {
+        "kind_group": "named_human",
+        "n": 15161,
+        "mean": 0.0226,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 0.0,
+        "p90": 0.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "named_bot",
+        "n": 205,
+        "mean": 0.0059,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 0.0,
+        "p90": 0.0189,
+        "max": 0.2
+      },
+      {
+        "kind_group": "ipv4",
+        "n": 51056,
+        "mean": 0.0236,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 0.0,
+        "p90": 0.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "ipv6",
+        "n": 5245,
+        "mean": 0.0369,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 0.0,
+        "p90": 0.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "temporary",
+        "n": 1769,
+        "mean": 0.0166,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 0.0,
+        "p90": 0.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "hidden",
+        "n": 1,
+        "mean": 0.0556,
+        "p25": 0.0556,
+        "p50": 0.0556,
+        "p75": 0.0556,
+        "p90": 0.0556,
+        "max": 0.0556
+      }
+    ],
+    "summary_usage": [
+      {
+        "kind_group": "named_human",
+        "n": 15161,
+        "mean": 0.64,
+        "p25": 0.1818,
+        "p50": 0.8923,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "named_bot",
+        "n": 205,
+        "mean": 0.9834,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "ipv4",
+        "n": 51056,
+        "mean": 0.5945,
+        "p25": 0.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "ipv6",
+        "n": 5245,
+        "mean": 0.6213,
+        "p25": 0.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "temporary",
+        "n": 1769,
+        "mean": 0.7153,
+        "p25": 0.2,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "hidden",
+        "n": 1,
+        "mean": 0.5,
+        "p25": 0.5,
+        "p50": 0.5,
+        "p75": 0.5,
+        "p90": 0.5,
+        "max": 0.5
+      }
+    ],
+    "custom_summary_usage": [
+      {
+        "kind_group": "named_human",
+        "n": 15161,
+        "mean": 0.4483,
+        "p25": 0.0,
+        "p50": 0.3333,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "named_bot",
+        "n": 205,
+        "mean": 0.9834,
+        "p25": 1.0,
+        "p50": 1.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "ipv4",
+        "n": 51056,
+        "mean": 0.2544,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 0.5,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "ipv6",
+        "n": 5245,
+        "mean": 0.3823,
+        "p25": 0.0,
+        "p50": 0.0,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "temporary",
+        "n": 1769,
+        "mean": 0.4814,
+        "p25": 0.0,
+        "p50": 0.25,
+        "p75": 1.0,
+        "p90": 1.0,
+        "max": 1.0
+      },
+      {
+        "kind_group": "hidden",
+        "n": 1,
+        "mean": 0.4444,
+        "p25": 0.4444,
+        "p50": 0.4444,
+        "p75": 0.4444,
+        "p90": 0.4444,
+        "max": 0.4444
+      }
+    ],
+    "median_abs_bytes_delta": [
+      {
+        "kind_group": "named_human",
+        "n": 15161,
+        "mean": 228.6153,
+        "p25": 12.0,
+        "p50": 38.0,
+        "p75": 118.0,
+        "p90": 364.0,
+        "max": 129597.0
+      },
+      {
+        "kind_group": "named_bot",
+        "n": 205,
+        "mean": 26.2854,
+        "p25": 15.0,
+        "p50": 22.0,
+        "p75": 27.0,
+        "p90": 35.5,
+        "max": 290.0
+      },
+      {
+        "kind_group": "ipv4",
+        "n": 51056,
+        "mean": 444.3731,
+        "p25": 5.0,
+        "p50": 24.0,
+        "p75": 81.0,
+        "p90": 258.75,
+        "max": 1542242.0
+      },
+      {
+        "kind_group": "ipv6",
+        "n": 5245,
+        "mean": 176.4553,
+        "p25": 6.0,
+        "p50": 24.5,
+        "p75": 98.0,
+        "p90": 333.8,
+        "max": 222075.0
+      },
+      {
+        "kind_group": "temporary",
+        "n": 1769,
+        "mean": 223.3802,
+        "p25": 5.0,
+        "p50": 28.5,
+        "p75": 111.5,
+        "p90": 372.4,
+        "max": 26101.0
+      },
+      {
+        "kind_group": "hidden",
+        "n": 1,
+        "mean": 29.5,
+        "p25": 29.5,
+        "p50": 29.5,
+        "p75": 29.5,
+        "p90": 29.5,
+        "max": 29.5
+      }
+    ]
+  },
+  "s1_class_mix": [
+    {
+      "cohort": "single_purpose = 1 (all non-bot)",
+      "total_edits": 37917,
+      "never_reverted": 32515,
+      "never_reverted_pct": 85.75,
+      "edit_war": 838,
+      "edit_war_pct": 2.21,
+      "dispute": 1549,
+      "dispute_pct": 4.09,
+      "graffiti_cleanup": 2209,
+      "graffiti_cleanup_pct": 5.83,
+      "other_rev": 268,
+      "other_pct": 0.71,
+      "self_revert": 534,
+      "self_revert_pct": 1.41,
+      "bot_rev": 4,
+      "bot_pct": 0.01
+    },
+    {
+      "cohort": "single_purpose = 0 (all non-bot)",
+      "total_edits": 745951,
+      "never_reverted": 693106,
+      "never_reverted_pct": 92.92,
+      "edit_war": 7759,
+      "edit_war_pct": 1.04,
+      "dispute": 11977,
+      "dispute_pct": 1.61,
+      "graffiti_cleanup": 26511,
+      "graffiti_cleanup_pct": 3.55,
+      "other_rev": 2841,
+      "other_pct": 0.38,
+      "self_revert": 3616,
+      "self_revert_pct": 0.48,
+      "bot_rev": 141,
+      "bot_pct": 0.02
+    },
+    {
+      "cohort": "single_purpose = 0 (edits >= 5, non-bot)",
+      "total_edits": 650714,
+      "never_reverted": 626819,
+      "never_reverted_pct": 96.33,
+      "edit_war": 5696,
+      "edit_war_pct": 0.88,
+      "dispute": 7158,
+      "dispute_pct": 1.1,
+      "graffiti_cleanup": 7227,
+      "graffiti_cleanup_pct": 1.11,
+      "other_rev": 1212,
+      "other_pct": 0.19,
+      "self_revert": 2493,
+      "self_revert_pct": 0.38,
+      "bot_rev": 109,
+      "bot_pct": 0.02
+    },
+    {
+      "cohort": "single_purpose = 1 (named human only)",
+      "total_edits": 19349,
+      "never_reverted": 17710,
+      "never_reverted_pct": 91.53,
+      "edit_war": 210,
+      "edit_war_pct": 1.09,
+      "dispute": 1160,
+      "dispute_pct": 6.0,
+      "graffiti_cleanup": 0,
+      "graffiti_cleanup_pct": 0.0,
+      "other_rev": 0,
+      "other_pct": 0.0,
+      "self_revert": 265,
+      "self_revert_pct": 1.37,
+      "bot_rev": 4,
+      "bot_pct": 0.02
+    },
+    {
+      "cohort": "single_purpose = 0 (named human, edits >= 5)",
+      "total_edits": 579801,
+      "never_reverted": 566800,
+      "never_reverted_pct": 97.76,
+      "edit_war": 4603,
+      "edit_war_pct": 0.79,
+      "dispute": 6291,
+      "dispute_pct": 1.09,
+      "graffiti_cleanup": 0,
+      "graffiti_cleanup_pct": 0.0,
+      "other_rev": 0,
+      "other_pct": 0.0,
+      "self_revert": 2007,
+      "self_revert_pct": 0.35,
+      "bot_rev": 100,
+      "bot_pct": 0.02
+    },
+    {
+      "cohort": "throwaway = 1 (all non-bot)",
+      "total_edits": 28477,
+      "never_reverted": 524,
+      "never_reverted_pct": 1.84,
+      "edit_war": 2583,
+      "edit_war_pct": 9.07,
+      "dispute": 5071,
+      "dispute_pct": 17.81,
+      "graffiti_cleanup": 18620,
+      "graffiti_cleanup_pct": 65.39,
+      "other_rev": 1625,
+      "other_pct": 5.71,
+      "self_revert": 53,
+      "self_revert_pct": 0.19,
+      "bot_rev": 1,
+      "bot_pct": 0.0
+    },
+    {
+      "cohort": "throwaway = 0 (all non-bot)",
+      "total_edits": 755391,
+      "never_reverted": 725097,
+      "never_reverted_pct": 95.99,
+      "edit_war": 6014,
+      "edit_war_pct": 0.8,
+      "dispute": 8455,
+      "dispute_pct": 1.12,
+      "graffiti_cleanup": 10100,
+      "graffiti_cleanup_pct": 1.34,
+      "other_rev": 1484,
+      "other_pct": 0.2,
+      "self_revert": 4097,
+      "self_revert_pct": 0.54,
+      "bot_rev": 144,
+      "bot_pct": 0.02
+    }
+  ],
+  "cohort_comparison": {
+    "all_non_bot": [
+      {
+        "bucket": "dispute_or_edit_war",
+        "edits_n": 22123,
+        "distinct_authors": 7210,
+        "named_pct": 72.68,
+        "ip_pct": 26.95,
+        "temporary_pct": 0.37,
+        "mean_edits": 988.08,
+        "mean_log1p_edits": 4.011,
+        "mean_active_days": 264.71,
+        "mean_lifespan_days": 1962.87,
+        "mean_distinct_pages": 319.89,
+        "mean_top_page_share": 0.4597,
+        "mean_top_category_share": 0.5476,
+        "mean_reverted_ratio": 0.4708,
+        "mean_loo_reverted_ratio_ge2": 0.3749,
+        "mean_reverts_of_others_ratio": 0.156,
+        "mean_summary_usage": 0.6539,
+        "mean_custom_summary_usage": 0.4879,
+        "mean_median_abs_bytes_delta": 196.74,
+        "single_purpose_pct": 10.79,
+        "throwaway_pct": 34.6,
+        "throwaway_pct_ge2": 25.86,
+        "coactivity_any_pct": 17.4,
+        "coactivity_reverted_pct": 10.61,
+        "ip_pfx_rev_pages_ge3_pct": 61.81
+      },
+      {
+        "bucket": "graffiti_cleanup",
+        "edits_n": 28720,
+        "distinct_authors": 16197,
+        "named_pct": 0.0,
+        "ip_pct": 97.47,
+        "temporary_pct": 2.53,
+        "mean_edits": 18.33,
+        "mean_log1p_edits": 1.605,
+        "mean_active_days": 4.33,
+        "mean_lifespan_days": 411.36,
+        "mean_distinct_pages": 7.26,
+        "mean_top_page_share": 0.769,
+        "mean_top_category_share": 0.7989,
+        "mean_reverted_ratio": 0.8699,
+        "mean_loo_reverted_ratio_ge2": 0.7711,
+        "mean_reverts_of_others_ratio": 0.0069,
+        "mean_summary_usage": 0.5677,
+        "mean_custom_summary_usage": 0.2087,
+        "mean_median_abs_bytes_delta": 848.14,
+        "single_purpose_pct": 7.69,
+        "throwaway_pct": 64.83,
+        "throwaway_pct_ge2": 47.68,
+        "coactivity_any_pct": 0.33,
+        "coactivity_reverted_pct": 0.33,
+        "ip_pfx_rev_pages_ge3_pct": 55.85
+      },
+      {
+        "bucket": "never_reverted",
+        "edits_n": 454614,
+        "distinct_authors": 44348,
+        "named_pct": 78.57,
+        "ip_pct": 21.1,
+        "temporary_pct": 0.34,
+        "mean_edits": 2576.03,
+        "mean_log1p_edits": 5.928,
+        "mean_active_days": 573.0,
+        "mean_lifespan_days": 3594.7,
+        "mean_distinct_pages": 696.21,
+        "mean_top_page_share": 0.2318,
+        "mean_top_category_share": 0.3578,
+        "mean_reverted_ratio": 0.0243,
+        "mean_loo_reverted_ratio_ge2": 0.0279,
+        "mean_reverts_of_others_ratio": 0.0402,
+        "mean_summary_usage": 0.7234,
+        "mean_custom_summary_usage": 0.5267,
+        "mean_median_abs_bytes_delta": 59.83,
+        "single_purpose_pct": 5.08,
+        "throwaway_pct": 0.09,
+        "throwaway_pct_ge2": 0.1,
+        "coactivity_any_pct": 16.42,
+        "coactivity_reverted_pct": 9.45,
+        "ip_pfx_rev_pages_ge3_pct": 39.07
+      }
+    ],
+    "named_human_only": [
+      {
+        "bucket": "dispute_or_edit_war",
+        "edits_n": 16079,
+        "distinct_authors": 4258,
+        "mean_edits": 1341.36,
+        "mean_log1p_edits": 4.727,
+        "mean_active_days": 361.11,
+        "mean_lifespan_days": 2590.11,
+        "mean_distinct_pages": 434.62,
+        "mean_top_page_share": 0.3783,
+        "mean_top_category_share": 0.471,
+        "mean_reverted_ratio": 0.3522,
+        "mean_loo_reverted_ratio_ge2": 0.2632,
+        "mean_reverts_of_others_ratio": 0.1057,
+        "mean_summary_usage": 0.6828,
+        "mean_custom_summary_usage": 0.5385,
+        "mean_median_abs_bytes_delta": 178.37,
+        "single_purpose_pct": 8.52,
+        "throwaway_pct": 24.49,
+        "throwaway_pct_ge2": 16.6,
+        "coactivity_any_pct": 22.61,
+        "coactivity_reverted_pct": 13.55
+      },
+      {
+        "bucket": "never_reverted",
+        "edits_n": 357178,
+        "distinct_authors": 10406,
+        "mean_edits": 3250.13,
+        "mean_log1p_edits": 6.821,
+        "mean_active_days": 724.55,
+        "mean_lifespan_days": 4474.16,
+        "mean_distinct_pages": 878.26,
+        "mean_top_page_share": 0.1338,
+        "mean_top_category_share": 0.2742,
+        "mean_reverted_ratio": 0.0186,
+        "mean_loo_reverted_ratio_ge2": 0.0195,
+        "mean_reverts_of_others_ratio": 0.0491,
+        "mean_summary_usage": 0.764,
+        "mean_custom_summary_usage": 0.6127,
+        "mean_median_abs_bytes_delta": 55.48,
+        "single_purpose_pct": 3.12,
+        "throwaway_pct": 0.02,
+        "throwaway_pct_ge2": 0.02,
+        "coactivity_any_pct": 20.31,
+        "coactivity_reverted_pct": 11.43
+      }
+    ],
+    "anonymous_and_temp_only": [
+      {
+        "bucket": "dispute_or_edit_war",
+        "edits_n": 6044,
+        "distinct_authors": 2952,
+        "mean_edits": 48.22,
+        "mean_lifespan_days": 294.22,
+        "mean_distinct_pages": 14.67,
+        "mean_top_page_share": 0.6764,
+        "mean_loo_reverted_ratio_ge2": 0.703,
+        "mean_summary_usage": 0.5771,
+        "mean_custom_summary_usage": 0.3535,
+        "mean_median_abs_bytes_delta": 245.58,
+        "single_purpose_pct": 16.83,
+        "ip_pfx_rev_pages_ge3_pct": 61.81,
+        "mean_ip_pfx_reverted_edits": 18.65
+      },
+      {
+        "bucket": "graffiti_cleanup",
+        "edits_n": 28720,
+        "distinct_authors": 16197,
+        "mean_edits": 18.33,
+        "mean_lifespan_days": 411.36,
+        "mean_distinct_pages": 7.26,
+        "mean_top_page_share": 0.769,
+        "mean_loo_reverted_ratio_ge2": 0.7711,
+        "mean_summary_usage": 0.5677,
+        "mean_custom_summary_usage": 0.2087,
+        "mean_median_abs_bytes_delta": 848.14,
+        "single_purpose_pct": 7.69,
+        "ip_pfx_rev_pages_ge3_pct": 55.85,
+        "mean_ip_pfx_reverted_edits": 15.89
+      },
+      {
+        "bucket": "never_reverted",
+        "edits_n": 97436,
+        "distinct_authors": 33942,
+        "mean_edits": 104.95,
+        "mean_lifespan_days": 370.81,
+        "mean_distinct_pages": 28.85,
+        "mean_top_page_share": 0.591,
+        "mean_loo_reverted_ratio_ge2": 0.0661,
+        "mean_summary_usage": 0.5744,
+        "mean_custom_summary_usage": 0.2114,
+        "mean_median_abs_bytes_delta": 75.74,
+        "single_purpose_pct": 12.27,
+        "ip_pfx_rev_pages_ge3_pct": 39.07,
+        "mean_ip_pfx_reverted_edits": 12.04
+      }
+    ]
+  },
+  "ip_prefixes": {
+    "summary": [
+      {
+        "prefix_kind": "ipv4_24",
+        "total_prefixes": 19267,
+        "multi_editor_prefixes": 10237,
+        "prefixes_with_reverts": 9599,
+        "prefixes_rev_ge3_pages": 2026,
+        "multi_ed_rev_ge3_pages": 1883,
+        "total_edits": 151419,
+        "total_reverted_edits": 33802
+      },
+      {
+        "prefix_kind": "ipv4_16",
+        "total_prefixes": 2508,
+        "multi_editor_prefixes": 885,
+        "prefixes_with_reverts": 998,
+        "prefixes_rev_ge3_pages": 336,
+        "multi_ed_rev_ge3_pages": 327,
+        "total_edits": 151419,
+        "total_reverted_edits": 33802
+      },
+      {
+        "prefix_kind": "ipv6_64",
+        "total_prefixes": 3739,
+        "multi_editor_prefixes": 283,
+        "prefixes_with_reverts": 1675,
+        "prefixes_rev_ge3_pages": 63,
+        "multi_ed_rev_ge3_pages": 28,
+        "total_edits": 11709,
+        "total_reverted_edits": 3131
+      }
+    ],
+    "top20_ipv4_24": [
+      {
+        "rank": 1,
+        "masked_prefix": "93.106.x.x",
+        "editors": 11,
+        "edits": 434,
+        "reverted_edits": 276,
+        "reverted_pct": 63.6,
+        "distinct_pages": 314,
+        "pages_with_reverted_edits": 212,
+        "dispute_war_reverted_edits": 21
+      },
+      {
+        "rank": 2,
+        "masked_prefix": "137.163.x.x",
+        "editors": 79,
+        "edits": 338,
+        "reverted_edits": 223,
+        "reverted_pct": 66.0,
+        "distinct_pages": 134,
+        "pages_with_reverted_edits": 92,
+        "dispute_war_reverted_edits": 3
+      },
+      {
+        "rank": 3,
+        "masked_prefix": "91.155.x.x",
+        "editors": 3,
+        "edits": 250,
+        "reverted_edits": 169,
+        "reverted_pct": 67.6,
+        "distinct_pages": 158,
+        "pages_with_reverted_edits": 121,
+        "dispute_war_reverted_edits": 3
+      },
+      {
+        "rank": 4,
+        "masked_prefix": "81.175.x.x",
+        "editors": 11,
+        "edits": 889,
+        "reverted_edits": 152,
+        "reverted_pct": 17.1,
+        "distinct_pages": 304,
+        "pages_with_reverted_edits": 85,
+        "dispute_war_reverted_edits": 59
+      },
+      {
+        "rank": 5,
+        "masked_prefix": "85.194.x.x",
+        "editors": 51,
+        "edits": 221,
+        "reverted_edits": 152,
+        "reverted_pct": 68.8,
+        "distinct_pages": 109,
+        "pages_with_reverted_edits": 66,
+        "dispute_war_reverted_edits": 2
+      },
+      {
+        "rank": 6,
+        "masked_prefix": "137.163.x.x",
+        "editors": 28,
+        "edits": 159,
+        "reverted_edits": 138,
+        "reverted_pct": 86.8,
+        "distinct_pages": 68,
+        "pages_with_reverted_edits": 59,
+        "dispute_war_reverted_edits": 5
+      },
+      {
+        "rank": 7,
+        "masked_prefix": "194.251.x.x",
+        "editors": 4,
+        "edits": 378,
+        "reverted_edits": 107,
+        "reverted_pct": 28.3,
+        "distinct_pages": 173,
+        "pages_with_reverted_edits": 49,
+        "dispute_war_reverted_edits": 19
+      },
+      {
+        "rank": 8,
+        "masked_prefix": "84.248.x.x",
+        "editors": 4,
+        "edits": 1224,
+        "reverted_edits": 98,
+        "reverted_pct": 8.0,
+        "distinct_pages": 389,
+        "pages_with_reverted_edits": 65,
+        "dispute_war_reverted_edits": 13
+      },
+      {
+        "rank": 9,
+        "masked_prefix": "91.159.x.x",
+        "editors": 2,
+        "edits": 482,
+        "reverted_edits": 94,
+        "reverted_pct": 19.5,
+        "distinct_pages": 124,
+        "pages_with_reverted_edits": 45,
+        "dispute_war_reverted_edits": 48
+      },
+      {
+        "rank": 10,
+        "masked_prefix": "213.216.x.x",
+        "editors": 10,
+        "edits": 359,
+        "reverted_edits": 88,
+        "reverted_pct": 24.5,
+        "distinct_pages": 171,
+        "pages_with_reverted_edits": 41,
+        "dispute_war_reverted_edits": 14
+      },
+      {
+        "rank": 11,
+        "masked_prefix": "137.163.x.x",
+        "editors": 29,
+        "edits": 161,
+        "reverted_edits": 86,
+        "reverted_pct": 53.4,
+        "distinct_pages": 92,
+        "pages_with_reverted_edits": 48,
+        "dispute_war_reverted_edits": 7
+      },
+      {
+        "rank": 12,
+        "masked_prefix": "86.115.x.x",
+        "editors": 27,
+        "edits": 99,
+        "reverted_edits": 84,
+        "reverted_pct": 84.8,
+        "distinct_pages": 40,
+        "pages_with_reverted_edits": 37,
+        "dispute_war_reverted_edits": 8
+      },
+      {
+        "rank": 13,
+        "masked_prefix": "193.64.x.x",
+        "editors": 90,
+        "edits": 207,
+        "reverted_edits": 80,
+        "reverted_pct": 38.6,
+        "distinct_pages": 95,
+        "pages_with_reverted_edits": 36,
+        "dispute_war_reverted_edits": 32
+      },
+      {
+        "rank": 14,
+        "masked_prefix": "81.175.x.x",
+        "editors": 17,
+        "edits": 747,
+        "reverted_edits": 78,
+        "reverted_pct": 10.4,
+        "distinct_pages": 332,
+        "pages_with_reverted_edits": 44,
+        "dispute_war_reverted_edits": 35
+      },
+      {
+        "rank": 15,
+        "masked_prefix": "178.75.x.x",
+        "editors": 1,
+        "edits": 454,
+        "reverted_edits": 78,
+        "reverted_pct": 17.2,
+        "distinct_pages": 144,
+        "pages_with_reverted_edits": 35,
+        "dispute_war_reverted_edits": 3
+      },
+      {
+        "rank": 16,
+        "masked_prefix": "193.111.x.x",
+        "editors": 15,
+        "edits": 273,
+        "reverted_edits": 74,
+        "reverted_pct": 27.1,
+        "distinct_pages": 131,
+        "pages_with_reverted_edits": 44,
+        "dispute_war_reverted_edits": 10
+      },
+      {
+        "rank": 17,
+        "masked_prefix": "95.175.x.x",
+        "editors": 95,
+        "edits": 262,
+        "reverted_edits": 69,
+        "reverted_pct": 26.3,
+        "distinct_pages": 167,
+        "pages_with_reverted_edits": 38,
+        "dispute_war_reverted_edits": 17
+      },
+      {
+        "rank": 18,
+        "masked_prefix": "217.112.x.x",
+        "editors": 3,
+        "edits": 2090,
+        "reverted_edits": 65,
+        "reverted_pct": 3.1,
+        "distinct_pages": 279,
+        "pages_with_reverted_edits": 40,
+        "dispute_war_reverted_edits": 42
+      },
+      {
+        "rank": 19,
+        "masked_prefix": "195.237.x.x",
+        "editors": 2,
+        "edits": 280,
+        "reverted_edits": 65,
+        "reverted_pct": 23.2,
+        "distinct_pages": 110,
+        "pages_with_reverted_edits": 30,
+        "dispute_war_reverted_edits": 19
+      },
+      {
+        "rank": 20,
+        "masked_prefix": "91.153.x.x",
+        "editors": 1,
+        "edits": 110,
+        "reverted_edits": 65,
+        "reverted_pct": 59.1,
+        "distinct_pages": 26,
+        "pages_with_reverted_edits": 18,
+        "dispute_war_reverted_edits": 18
+      }
+    ],
+    "top20_ipv6_64": [
+      {
+        "rank": 1,
+        "masked_prefix": "2001:14BA:…",
+        "editors": 158,
+        "edits": 686,
+        "reverted_edits": 74,
+        "reverted_pct": 10.8,
+        "distinct_pages": 335,
+        "pages_with_reverted_edits": 37,
+        "dispute_war_reverted_edits": 22
+      },
+      {
+        "rank": 2,
+        "masked_prefix": "2A00:1D50:…",
+        "editors": 58,
+        "edits": 84,
+        "reverted_edits": 57,
+        "reverted_pct": 67.9,
+        "distinct_pages": 49,
+        "pages_with_reverted_edits": 24,
+        "dispute_war_reverted_edits": 9
+      },
+      {
+        "rank": 3,
+        "masked_prefix": "2001:14BA:…",
+        "editors": 147,
+        "edits": 603,
+        "reverted_edits": 39,
+        "reverted_pct": 6.5,
+        "distinct_pages": 357,
+        "pages_with_reverted_edits": 23,
+        "dispute_war_reverted_edits": 0
+      },
+      {
+        "rank": 4,
+        "masked_prefix": "2001:14BA:…",
+        "editors": 106,
+        "edits": 859,
+        "reverted_edits": 39,
+        "reverted_pct": 4.5,
+        "distinct_pages": 591,
+        "pages_with_reverted_edits": 20,
+        "dispute_war_reverted_edits": 3
+      },
+      {
+        "rank": 5,
+        "masked_prefix": "2001:999:…",
+        "editors": 2,
+        "edits": 31,
+        "reverted_edits": 31,
+        "reverted_pct": 100.0,
+        "distinct_pages": 6,
+        "pages_with_reverted_edits": 6,
+        "dispute_war_reverted_edits": 31
+      },
+      {
+        "rank": 6,
+        "masked_prefix": "2001:14BA:…",
+        "editors": 84,
+        "edits": 349,
+        "reverted_edits": 28,
+        "reverted_pct": 8.0,
+        "distinct_pages": 105,
+        "pages_with_reverted_edits": 13,
+        "dispute_war_reverted_edits": 1
+      },
+      {
+        "rank": 7,
+        "masked_prefix": "2001:14BA:…",
+        "editors": 82,
+        "edits": 405,
+        "reverted_edits": 26,
+        "reverted_pct": 6.4,
+        "distinct_pages": 179,
+        "pages_with_reverted_edits": 9,
+        "dispute_war_reverted_edits": 17
+      },
+      {
+        "rank": 8,
+        "masked_prefix": "2001:999:…",
+        "editors": 1,
+        "edits": 17,
+        "reverted_edits": 17,
+        "reverted_pct": 100.0,
+        "distinct_pages": 16,
+        "pages_with_reverted_edits": 16,
+        "dispute_war_reverted_edits": 0
+      },
+      {
+        "rank": 9,
+        "masked_prefix": "2001:14BA:…",
+        "editors": 12,
+        "edits": 17,
+        "reverted_edits": 17,
+        "reverted_pct": 100.0,
+        "distinct_pages": 7,
+        "pages_with_reverted_edits": 7,
+        "dispute_war_reverted_edits": 2
+      },
+      {
+        "rank": 10,
+        "masked_prefix": "2001:999:…",
+        "editors": 2,
+        "edits": 17,
+        "reverted_edits": 16,
+        "reverted_pct": 94.1,
+        "distinct_pages": 16,
+        "pages_with_reverted_edits": 15,
+        "dispute_war_reverted_edits": 6
+      },
+      {
+        "rank": 11,
+        "masked_prefix": "2001:14BA:…",
+        "editors": 39,
+        "edits": 376,
+        "reverted_edits": 16,
+        "reverted_pct": 4.3,
+        "distinct_pages": 183,
+        "pages_with_reverted_edits": 11,
+        "dispute_war_reverted_edits": 2
+      },
+      {
+        "rank": 12,
+        "masked_prefix": "2001:14BA:…",
+        "editors": 33,
+        "edits": 116,
+        "reverted_edits": 15,
+        "reverted_pct": 12.9,
+        "distinct_pages": 4,
+        "pages_with_reverted_edits": 3,
+        "dispute_war_reverted_edits": 0
+      },
+      {
+        "rank": 13,
+        "masked_prefix": "2001:14BA:…",
+        "editors": 3,
+        "edits": 217,
+        "reverted_edits": 14,
+        "reverted_pct": 6.5,
+        "distinct_pages": 23,
+        "pages_with_reverted_edits": 11,
+        "dispute_war_reverted_edits": 0
+      },
+      {
+        "rank": 14,
+        "masked_prefix": "2001:999:…",
+        "editors": 1,
+        "edits": 12,
+        "reverted_edits": 12,
+        "reverted_pct": 100.0,
+        "distinct_pages": 12,
+        "pages_with_reverted_edits": 12,
+        "dispute_war_reverted_edits": 12
+      },
+      {
+        "rank": 15,
+        "masked_prefix": "2001:999:…",
+        "editors": 1,
+        "edits": 12,
+        "reverted_edits": 12,
+        "reverted_pct": 100.0,
+        "distinct_pages": 8,
+        "pages_with_reverted_edits": 8,
+        "dispute_war_reverted_edits": 3
+      },
+      {
+        "rank": 16,
+        "masked_prefix": "2001:999:…",
+        "editors": 1,
+        "edits": 11,
+        "reverted_edits": 11,
+        "reverted_pct": 100.0,
+        "distinct_pages": 11,
+        "pages_with_reverted_edits": 11,
+        "dispute_war_reverted_edits": 11
+      },
+      {
+        "rank": 17,
+        "masked_prefix": "2001:999:…",
+        "editors": 1,
+        "edits": 11,
+        "reverted_edits": 11,
+        "reverted_pct": 100.0,
+        "distinct_pages": 7,
+        "pages_with_reverted_edits": 7,
+        "dispute_war_reverted_edits": 4
+      },
+      {
+        "rank": 18,
+        "masked_prefix": "2001:14BA:…",
+        "editors": 82,
+        "edits": 149,
+        "reverted_edits": 11,
+        "reverted_pct": 7.4,
+        "distinct_pages": 109,
+        "pages_with_reverted_edits": 6,
+        "dispute_war_reverted_edits": 0
+      },
+      {
+        "rank": 19,
+        "masked_prefix": "2001:999:…",
+        "editors": 2,
+        "edits": 11,
+        "reverted_edits": 11,
+        "reverted_pct": 100.0,
+        "distinct_pages": 6,
+        "pages_with_reverted_edits": 6,
+        "dispute_war_reverted_edits": 8
+      },
+      {
+        "rank": 20,
+        "masked_prefix": "2001:999:…",
+        "editors": 1,
+        "edits": 10,
+        "reverted_edits": 10,
+        "reverted_pct": 100.0,
+        "distinct_pages": 10,
+        "pages_with_reverted_edits": 10,
+        "dispute_war_reverted_edits": 10
+      }
+    ]
+  },
+  "coactivity": {
+    "totals": {
+      "total_pairs": 163,
+      "distinct_accounts": 102,
+      "pairs_with_reverted": 34,
+      "pairs_with_reverting": 158,
+      "pairs_with_both": 29,
+      "pairs_reverted_ge3": 5,
+      "pairs_reverting_ge3": 146
+    },
+    "by_kind_pair": [
+      {
+        "kind_1": "named",
+        "kind_2": "named",
+        "pairs": 150,
+        "pairs_with_same_side_reverted": 28,
+        "pairs_with_same_side_reverting": 149,
+        "pairs_with_both": 27,
+        "both_patrollers_ge20_reverts": 148,
+        "mean_pages": 4.27,
+        "mean_episodes": 4.51,
+        "max_episodes": 21
+      },
+      {
+        "kind_1": "ipv4",
+        "kind_2": "named",
+        "pairs": 7,
+        "pairs_with_same_side_reverted": 3,
+        "pairs_with_same_side_reverting": 5,
+        "pairs_with_both": 1,
+        "both_patrollers_ge20_reverts": 3,
+        "mean_pages": 3.71,
+        "mean_episodes": 3.71,
+        "max_episodes": 5
+      },
+      {
+        "kind_1": "ipv4",
+        "kind_2": "ipv4",
+        "pairs": 4,
+        "pairs_with_same_side_reverted": 2,
+        "pairs_with_same_side_reverting": 3,
+        "pairs_with_both": 1,
+        "both_patrollers_ge20_reverts": 0,
+        "mean_pages": 3.5,
+        "mean_episodes": 3.5,
+        "max_episodes": 5
+      },
+      {
+        "kind_1": "ipv4",
+        "kind_2": "ipv6",
+        "pairs": 1,
+        "pairs_with_same_side_reverted": 0,
+        "pairs_with_same_side_reverting": 1,
+        "pairs_with_both": 0,
+        "both_patrollers_ge20_reverts": 0,
+        "mean_pages": 3.0,
+        "mean_episodes": 3.0,
+        "max_episodes": 3
+      },
+      {
+        "kind_1": "ipv6",
+        "kind_2": "ipv6",
+        "pairs": 1,
+        "pairs_with_same_side_reverted": 1,
+        "pairs_with_same_side_reverting": 0,
+        "pairs_with_both": 0,
+        "both_patrollers_ge20_reverts": 0,
+        "mean_pages": 5.0,
+        "mean_episodes": 5.0,
+        "max_episodes": 5
+      }
+    ],
+    "masked_examples_anonymous_pairs": [
+      {
+        "example": 1,
+        "user_a_display": "2001:999:… (anonymous)",
+        "user_b_display": "2001:999:… (anonymous)",
+        "same_masked_range": true,
+        "kinds": "ipv6+ipv6",
+        "pages": 5,
+        "episodes": 5,
+        "same_side_reverted": 5,
+        "same_side_reverting": 0,
+        "window": "2016-02-19 .. 2016-02-19"
+      },
+      {
+        "example": 2,
+        "user_a_display": "85.76.x.x (anonymous)",
+        "user_b_display": "85.76.x.x (anonymous)",
+        "same_masked_range": true,
+        "kinds": "ipv4+ipv4",
+        "pages": 5,
+        "episodes": 5,
+        "same_side_reverted": 0,
+        "same_side_reverting": 5,
+        "window": "2019-05-04 .. 2019-05-04"
+      },
+      {
+        "example": 3,
+        "user_a_display": "85.76.x.x (anonymous)",
+        "user_b_display": "85.76.x.x (anonymous)",
+        "same_masked_range": true,
+        "kinds": "ipv4+ipv4",
+        "pages": 3,
+        "episodes": 3,
+        "same_side_reverted": 3,
+        "same_side_reverting": 0,
+        "window": "2010-02-07 .. 2010-02-07"
+      },
+      {
+        "example": 4,
+        "user_a_display": "128.214.x.x (anonymous)",
+        "user_b_display": "128.214.x.x (anonymous)",
+        "same_masked_range": true,
+        "kinds": "ipv4+ipv4",
+        "pages": 3,
+        "episodes": 3,
+        "same_side_reverted": 2,
+        "same_side_reverting": 2,
+        "window": "2004-10-26 .. 2006-02-20"
+      },
+      {
+        "example": 5,
+        "user_a_display": "188.238.x.x (anonymous)",
+        "user_b_display": "188.238.x.x (anonymous)",
+        "same_masked_range": true,
+        "kinds": "ipv4+ipv4",
+        "pages": 3,
+        "episodes": 3,
+        "same_side_reverted": 0,
+        "same_side_reverting": 3,
+        "window": "2018-04-25 .. 2018-04-25"
+      }
+    ]
+  },
+  "features_benchmark_500": {
+    "n_rev_ids": 500,
+    "returned": 500,
+    "seconds": 0.4101
+  },
+  "report_elapsed_seconds": 35.0
+}

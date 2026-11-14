@@ -1,0 +1,117 @@
+{
+ "topic_id": "covid-19-finland",
+ "labels": {
+  "x01": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: An all-caps comment added to the article body says the article has 'several false claims' and should be deleted, without naming any; the removal summary gives no accuracy or sourcing reason, no put-back, so no dispute signal. Coherent text, not clearly graffiti."
+  },
+  "x02": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Summary 'Päivitys: tekstiä, lähteitä' (update: text, sources), +298 bytes by a different editor than the nonsense edit of x06. Taken out together with that edit in a two-edit undo ('roskaa' = rubbish); no slant visible in this edit's own text."
+  },
+  "x03": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Large restructuring by one editor (text moved to new articles, hidden comments such as 'TÄMÄ POIS'). Removal: 'sotkua, asioista keskustellaan keskustelusivulla' (a mess, discussed on the talk page): a talk pointer, not an accuracy or sourcing reason. Some added wording is slanted ('Näin tämäkin malli oliso epäluotettava', 'so this model too would be unreliable') but no dispute signal."
+  },
+  "x04": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Image name replaced with an obscene file name and caption replaced with '...'; clear vandalism. Removal undone later (rev 19283577) but the added text is not in the latest revision."
+  },
+  "x05": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Table of case counts per hospital district re-entered with different numbers. Removal: 'luvuissa heittoa, älkää käyttäkö hs:ää lähteenä' (figures are off, do not use HS as source). Data update with no visible slant; accuracy is the only issue, so capped at Level 1."
+  },
+  "x06": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Summary 'Kakka' (poo); added sentence 'Sen vuoksi on Suomessa kuollut jo kotqin 16000000000000 ihmistä' (so about 16,000,000,000,000 people have died in Finland): nonsense number, removed as 'roskaa' (rubbish) within 4 minutes."
+  },
+  "x07": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Sourced addition about domestic mask production. Removal: 'harhaanjohtavaa tekstiä: sanaa maski käytetään tavallisesti...' (misleading text: word 'mask' is usually used for...): a terminology objection to plausible text; no slant or changed fact visible, no put-back."
+  },
+  "x08": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Sourced sentence 'Ensimmäisten rokoitusten oli määrä alkaa 28. joulukuuta' (first vaccinations were due to start 28 December). Removal: 'ei ennustuksia... oli määrä...' (no predictions; 'was due'): wording objection, no dispute signal."
+  },
+  "x09": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Added '[MAINOS] Ilmaiskierroksia nyt vain rajoitetun ajan!' (advertisement: free spins) with a link and 'Minulla on VPN, eli siis estää ei voi' (I have a VPN, so you can't block me). Spam, clearly vandalism."
+  },
+  "x10": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 1: Partial removal. Inserted sentence cites a party-magazine report of a member of parliament's question on ICU capacity. Removal: 'vanhaa ja puoluelehdellä lähteistetty väite... ei ole edes merkittävää' (old, party-magazine-sourced claim, not even significant): a relevance/source-quality judgement on sourced text, no put-back."
+  },
+  "x11": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Case-count update 16->17 February. Removal: 'päivitys ei hyväksyttävä, muuntovirustartuntojen pvm väärä' (update not acceptable, date of variant infections wrong). Routine update, no slant; only an accuracy slip on a date, capped at Level 1."
+  },
+  "x12": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Case-fatality range changed to '1-3,4' / 'yli 25' with four added sources (one from English Wikipedia). Removal: 'Enwikipediaa, jo sanottua' (en-wiki material, already said). Sourced; objection is duplication/source type, no dispute claim."
+  },
+  "x13": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Partial removal of one editor's 1,570-byte addition after 8 days. Removal: 'poistettu lähteettömiä tietoja ja triviaa' (removed unsourced info and trivia). Insertion diff includes a passage saying the virus is 'much more dangerous than THL has claimed' and 'Kuolleisuus on ainakin 2%' (mortality at least 2%), which reads as an own conclusion, but the evidence does not show it was added in this revision and there is no put-back; kept at Level 1."
+  },
+  "x14": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Re-added line 'Koronaviruspandemia on aiheuttanut Suomessa keskustelua muun muassa [two named persons'] seksuaalisesta suuntautumisesta ... mielenterveyden ongelmista' (pandemic caused discussion about X's sexual orientation and Y's mental health problems), unsourced personal gossip. Back-and-forth over the line (removal itself undone, 'eston kiertoa'), but the content is not a quotable factual claim about the topic and borderline for graffiti, so Level 1."
+  },
+  "x15": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Only change is wrapping the {{Ajankohtaista}} template and category line in a rotating <div> style; no prose, number, date or citation added despite the summary 'päivitin luvut' (I updated the numbers)."
+  },
+  "x16": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Case-count update for 26 May with a new IS source. Removal: 'sekoituista' (confusion/mix-up). Numbers replaced, no slant visible, no dispute signal."
+  },
+  "x17": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "The same account added a title parameter to a citation and then reverted it itself: 'kumoon oman jutun' (undoing my own thing)."
+  },
+  "x18": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Partial removal. The edit mostly fixes typos and reformats % to 'prosenttia', but adds some loaded wording ('arvostetun ja kansainvälisesti laajalti siteeratun Imperial College', 'esteemed and widely cited') and edits a {{Korjattava}} dispute template. Remover calls it 'huolimaton' (careless) and objects to a source; slant is mild and the main content is copy-editing, so Level 1."
+  }
+ },
+ "rev_id_concerns": {
+  "x02": "Only rev 18838874 belongs to this item; rev 18839426 (nonsense, 'Kakka') is a separate item x06.",
+  "x13": "Not clear which of the paragraphs shown in the removal diff were added by rev 18894761 itself."
+ }
+}

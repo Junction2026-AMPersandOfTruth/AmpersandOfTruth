@@ -12,6 +12,12 @@ public interface IInvestigationCorpus
     /// <summary>Nearest articles (all languages) to a bge-m3 query vector, closest first.</summary>
     Task<IReadOnlyList<TopicArticle>> NearestArticlesAsync(float[] vector, int limit, CancellationToken ct = default);
 
+    /// <summary>The fi articles with these page ids (any order; unknown ids are left out). Distance = 0.</summary>
+    Task<IReadOnlyList<TopicArticle>> FiArticlesAsync(IReadOnlyCollection<long> pageIds, CancellationToken ct = default);
+
+    /// <summary>wikidata id → its fi article, for the ids that have one (R1's fold of en/sv hits). Distance = 0.</summary>
+    Task<IReadOnlyDictionary<string, TopicArticle>> FiSiblingsAsync(IReadOnlyCollection<string> wikidataIds, CancellationToken ct = default);
+
     /// <summary>Identity reverts on the given fi pages, newest first, at most <paramref name="perPage"/> per page.</summary>
     Task<IReadOnlyList<RevertEvent>> RevertsAsync(IReadOnlyCollection<long> pageIds, int perPage, CancellationToken ct = default);
 }
@@ -24,7 +30,7 @@ public sealed class MariaDbInvestigationCorpus(CorpusConnectionFactory corpus, I
 {
     // Top-k inside a subquery so the HNSW index is used, then join for titles (shape verified with EXPLAIN, see deploy/corpus/README.md).
     internal const string NearestSql = """
-        SELECT a.lang, a.page_id, a.title, v.distance
+        SELECT a.lang, a.page_id, a.title, v.distance, a.wikidata_id
         FROM (
             SELECT lang, page_id, VEC_DISTANCE_COSINE(embedding, @q) AS distance
             FROM article_vector
@@ -83,7 +89,41 @@ public sealed class MariaDbInvestigationCorpus(CorpusConnectionFactory corpus, I
             cmd.Parameters.AddWithValue("@limit", limit);
             await using var r = await cmd.ExecuteReaderAsync(ct);
             while (await r.ReadAsync(ct))
-                rows.Add(new TopicArticle(r.GetString(0), Convert.ToInt64(r.GetValue(1)), r.GetString(2), Convert.ToDouble(r.GetValue(3))));
+                rows.Add(new TopicArticle(r.GetString(0), Convert.ToInt64(r.GetValue(1)), r.GetString(2), Convert.ToDouble(r.GetValue(3)),
+                    r.IsDBNull(4) ? null : r.GetString(4)));
+        }, ct);
+        return rows;
+    }
+
+    // {ids} is replaced by generated parameter names (@p0, @p1, …) — never by values.
+    internal const string FiArticlesSql = "SELECT page_id, title, wikidata_id FROM article WHERE lang = 'fi' AND page_id IN ({ids})";
+    internal const string FiSiblingsSql = "SELECT page_id, title, wikidata_id FROM article WHERE lang = 'fi' AND wikidata_id IN ({ids})";
+
+    public async Task<IReadOnlyList<TopicArticle>> FiArticlesAsync(IReadOnlyCollection<long> pageIds, CancellationToken ct = default) =>
+        pageIds.Count == 0 ? [] : await FiArticlesWhereAsync(FiArticlesSql, pageIds.Cast<object>().ToList(), ct);
+
+    public async Task<IReadOnlyDictionary<string, TopicArticle>> FiSiblingsAsync(IReadOnlyCollection<string> wikidataIds, CancellationToken ct = default)
+    {
+        var ids = wikidataIds.Where(w => !string.IsNullOrEmpty(w)).Distinct(StringComparer.Ordinal).Cast<object>().ToList();
+        if (ids.Count == 0) return new Dictionary<string, TopicArticle>();
+        return (await FiArticlesWhereAsync(FiSiblingsSql, ids, ct))
+            .Where(a => a.WikidataId is not null)
+            .DistinctBy(a => a.WikidataId)
+            .ToDictionary(a => a.WikidataId!, StringComparer.Ordinal);
+    }
+
+    private async Task<IReadOnlyList<TopicArticle>> FiArticlesWhereAsync(string sql, IReadOnlyList<object> values, CancellationToken ct)
+    {
+        var rows = new List<TopicArticle>();
+        await RunAsync(async conn =>
+        {
+            var names = values.Select((_, i) => $"@p{i}").ToArray();
+            await using var cmd = new MySqlCommand(sql.Replace("{ids}", string.Join(", ", names)), conn);
+            foreach (var (name, value) in names.Zip(values))
+                cmd.Parameters.AddWithValue(name, value);
+            await using var r = await cmd.ExecuteReaderAsync(ct);
+            while (await r.ReadAsync(ct))
+                rows.Add(new TopicArticle("fi", Convert.ToInt64(r.GetValue(0)), r.GetString(1), 0, r.IsDBNull(2) ? null : r.GetString(2)));
         }, ct);
         return rows;
     }
