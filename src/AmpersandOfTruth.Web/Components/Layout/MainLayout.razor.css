@@ -13,6 +13,26 @@ main.aot-page {
     text-decoration: none;
 }
 
+::deep .aot-theme-toggle {
+    color: var(--ink-muted);
+    font-weight: 400;
+    padding: 3px 8px;
+    gap: 6px;
+    margin-left: calc(-1 * var(--space-2));
+}
+
+::deep .aot-theme-toggle:hover {
+    color: var(--ink);
+    background: var(--surface-sunken);
+    border-color: transparent;
+}
+
+::deep .aot-theme-toggle svg {
+    width: 16px;
+    height: 16px;
+    flex: none;
+}
+
 @media (max-width: 767.98px) {
     .aot-appbar {
         flex-wrap: wrap;
@@ -23,6 +43,15 @@ main.aot-page {
     }
 
     .aot-appbar__search:empty {
+        display: none;
+    }
+
+    ::deep .aot-theme-toggle {
+        margin-left: 0;
+        padding: 4px 6px;
+    }
+
+    ::deep .aot-theme-toggle__label {
         display: none;
     }
 

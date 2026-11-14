@@ -67,6 +67,9 @@ public sealed class LayoutTests : BunitContext
         Assert.Equal("/methodology", navLinks[1].GetAttribute("href"));
         Assert.Equal("Methodology", navLinks[1].TextContent.Trim());
 
+        var themeToggle = cut.Find("header.aot-appbar [data-testid=theme-toggle]");
+        Assert.Equal("Theme: System", themeToggle.GetAttribute("aria-label"));
+
         Assert.Equal("Page body", cut.Find("main.aot-page [data-testid=body-probe]").TextContent);
 
         var footer = cut.Find("[data-testid=site-footer]");
@@ -136,11 +139,18 @@ public sealed class LayoutTests : BunitContext
 
         var appRazor = File.ReadAllText(Path.Combine(webDir, "Components", "App.razor"));
         Assert.Contains(
+            """<meta name="color-scheme" content="light dark" />""",
+            appRazor,
+            StringComparison.Ordinal);
+        Assert.Contains("aot.theme", appRazor, StringComparison.Ordinal);
+        Assert.Contains("data-bs-theme", appRazor, StringComparison.Ordinal);
+        Assert.Contains(
             """<meta name="description" content="See what was pushed into Wikipedia, and what the community took out." />""",
             appRazor,
             StringComparison.Ordinal);
         Assert.Contains("""href="favicon.svg" """, appRazor, StringComparison.Ordinal);
         Assert.Contains("""href="favicon.png" """, appRazor, StringComparison.Ordinal);
+        Assert.True(File.Exists(Path.Combine(webDir, "wwwroot", "js", "theme.js")), "wwwroot/js/theme.js should exist.");
 
         var faviconSvgPath = Path.Combine(webDir, "wwwroot", "favicon.svg");
         Assert.True(File.Exists(faviconSvgPath), "wwwroot/favicon.svg should exist.");

@@ -1,5 +1,6 @@
 /* Ampersand of Truth — design tokens, generated from docs/design/tokens.json. Do not hand-edit: change tokens.json and regenerate. */
 :root, [data-theme="light"] {
+  color-scheme: light;
   --paper: #ffffff;
   --surface: #ffffff;
   --surface-sunken: #f8f9fa;
@@ -38,8 +39,15 @@
   --error-bg: #fbe7e6;
   --shadow-focus: inset 0 0 0 1px #3366cc;
   --shadow-overlay: 0 4px 8px rgba(0, 0, 0, 0.2);
+  --bs-body-bg-rgb: 255, 255, 255;
+  --bs-body-color-rgb: 32, 33, 34;
+  --bs-secondary-bg-rgb: 248, 249, 250;
+  --bs-tertiary-bg-rgb: 248, 249, 250;
+  --bs-link-color-rgb: 51, 102, 204;
+  --bs-link-hover-color-rgb: 51, 102, 204;
 }
 [data-theme="dark"] {
+  color-scheme: dark;
   --paper: #101418;
   --surface: #101418;
   --surface-sunken: #202122;
@@ -69,7 +77,7 @@
   --evidence-bg: #2e2a17;
   --chart-named: #9fb0c6;
   --chart-anon: #4f5d70;
-  --chart-band: #221f17;
+  --chart-band: #302918;
   --chart-grid: #2a2e33;
   --ok: #6fcf9e;
   --warn-bg: #25211a;
@@ -78,8 +86,63 @@
   --error-bg: #3d1517;
   --shadow-focus: inset 0 0 0 1px #88a3e8;
   --shadow-overlay: 0 4px 8px rgba(0, 0, 0, 0.6);
+  --bs-body-bg-rgb: 16, 20, 24;
+  --bs-body-color-rgb: 234, 236, 240;
+  --bs-secondary-bg-rgb: 32, 33, 34;
+  --bs-tertiary-bg-rgb: 32, 33, 34;
+  --bs-link-color-rgb: 136, 163, 232;
+  --bs-link-hover-color-rgb: 136, 163, 232;
 }
-:root {
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #101418;
+    --surface: #101418;
+    --surface-sunken: #202122;
+    --line: #54595d;
+    --line-strong: #a2a9b1;
+    --ink: #eaecf0;
+    --ink-muted: #a2a9b1;
+    --accent: #88a3e8;
+    --accent-ink: #101418;
+    --accent-tint: #1f2f4f;
+    --tier-reverted-bg: #1b1e22;
+    --tier-reverted-ink: #a2a9b1;
+    --tier-reverted-line: #54595d;
+    --tier-reverted-mark: #a2a9b1;
+    --tier-contested-bg: #25211a;
+    --tier-contested-ink: #d9b26a;
+    --tier-contested-line: #54482c;
+    --tier-contested-mark: #d9a24a;
+    --tier-campaign-bg: #231d22;
+    --tier-campaign-ink: #d2bccb;
+    --tier-campaign-line: #584653;
+    --tier-campaign-mark: #bfa0b6;
+    --diff-add-bg: #1a2a40;
+    --diff-add-ink: #b9d0f2;
+    --diff-del-bg: #33241a;
+    --diff-del-ink: #efc7a4;
+    --evidence-bg: #2e2a17;
+    --chart-named: #9fb0c6;
+    --chart-anon: #4f5d70;
+    --chart-band: #302918;
+    --chart-grid: #2a2e33;
+    --ok: #6fcf9e;
+    --warn-bg: #25211a;
+    --warn-ink: #f0cf7a;
+    --error: #ff8f8f;
+    --error-bg: #3d1517;
+    --shadow-focus: inset 0 0 0 1px #88a3e8;
+    --shadow-overlay: 0 4px 8px rgba(0, 0, 0, 0.6);
+    --bs-body-bg-rgb: 16, 20, 24;
+    --bs-body-color-rgb: 234, 236, 240;
+    --bs-secondary-bg-rgb: 32, 33, 34;
+    --bs-tertiary-bg-rgb: 32, 33, 34;
+    --bs-link-color-rgb: 136, 163, 232;
+    --bs-link-hover-color-rgb: 136, 163, 232;
+  }
+}
+:root, [data-bs-theme="light"], [data-bs-theme="dark"] {
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -96,10 +159,11 @@
   /* Bootstrap 5 mapping */
   --bs-body-bg: var(--paper);
   --bs-body-color: var(--ink);
+  --bs-secondary-bg: var(--surface-sunken);
+  --bs-tertiary-bg: var(--surface-sunken);
   --bs-body-font-family: var(--font-sans);
   --bs-font-sans-serif: var(--font-sans);
   --bs-link-color: var(--accent);
-  --bs-link-color-rgb: 51, 102, 204;
   --bs-link-hover-color: var(--accent);
   --bs-border-color: var(--line);
   --bs-border-radius: 2px;

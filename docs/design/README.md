@@ -40,18 +40,18 @@ Serious and investigative, not alarmist. We describe, we don't accuse.
 
 **Look and feel: Wikipedia-inspired.** The interface borrows the feel of Wikipedia's own interface (Vector 2022 skin, Codex components), so the evidence feels at home next to the articles it comes from:
 - near-square 2-px corners on everything
-- a white page
+- a flat `paper` ground (white in light mode, `#101418` in dark)
 - grey *infobox* panels (`surface-sunken`) for the side columns, toolbars and the stage tracker
 - 1-px grey hairlines (`line`) instead of shadows
 - serif page and section titles with a rule under them (`t-h1`, `t-h2`)
 - system sans body text
-- link blue (`accent` #3366cc), with links underlined only on hover
+- link blue (`accent` #3366cc in light, #88a3e8 in dark), with links underlined only on hover
 - bold, square buttons, with the primary one filled blue
 - a `wikitable`-style grid for revision lists
 
 It is **inspired by, not branded as** Wikipedia. We use our own wordmark, no puzzle globe and our own tier colours, and every Wikipedia quote carries a link to its revision. A viewer must never mistake our automated assessment for Wikipedia's own content.
 
-**Colour.** White `paper` and `surface`, `surface-sunken` (#f8f9fa) for panels, `ink` #202122 for text and `ink-muted` #54595d for metadata. The only brand hue is `accent`, Wikipedia's link blue, used for links, the primary action, focus and selection. It never means a tier.
+**Colour.** Light and dark themes share the same semantic tokens (`tokens.css` follows the OS `prefers-color-scheme` by default, with a System / Light / Dark toggle in the app bar stored in `aot.theme`). In light mode, `paper` and `surface` are white, `surface-sunken` (#f8f9fa) is for panels, `ink` #202122 for text and `ink-muted` #54595d for metadata; in dark mode, `paper` and `surface` shift to #101418, `surface-sunken` to #202122, `ink` to #eaecf0 and `ink-muted` to #a2a9b1. The only brand hue is `accent`, Wikipedia's link blue, used for links, the primary action, focus and selection. It never means a tier.
 
 **The three tiers** are told apart by lightness, shape and a pip count, so hue is never the only cue:
 
@@ -78,7 +78,7 @@ It is **inspired by, not branded as** Wikipedia. We use our own wordmark, no puz
 
 - **`wwwroot/app.css`** = the contents of [`tokens.css`](tokens.css) (custom properties plus the Bootstrap mapping) followed by [`aot.css`](aot.css). Keep the `.aot-*` class names, because each one maps to one Razor component. Use `.aot-wikitable` for revision tables.
 - **Bootstrap 5 stays.** Point its variables at our tokens instead of fighting it: `--bs-body-bg: var(--paper)`, `--bs-body-color: var(--ink)`, `--bs-link-color: var(--accent)`, `--bs-border-color: var(--line)`, `--bs-border-radius: 2px`, `--bs-font-sans-serif: var(--font-sans)`, `.btn-primary { --bs-btn-bg: var(--accent); … }`. Use Bootstrap for the grid, forms, `.visually-hidden` and collapse, and these classes for everything domain-specific.
-- **Light theme first** (#42). The dark values exist and pass contrast, but don't spend time on a theme switch until P2.11 is done.
+- **Light and dark themes.** `tokens.css` follows `prefers-color-scheme` out of the box (including without JS), `App.razor` sets `data-theme` and `data-bs-theme` before first paint from `localStorage['aot.theme']`, and `ThemeToggle` in the app bar cycles System → Light → Dark per browser.
 - **Test ids:** every interactive element in the previews names the `data-testid` the Razor version should carry (see *Build order*).
 
 ## 5 · Files in this folder

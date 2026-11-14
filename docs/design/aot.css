@@ -163,6 +163,7 @@ del.aot-del, .aot-del { background: var(--diff-del-bg); color: var(--diff-del-in
 .aot-legend { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-4); font-size: 12px; color: var(--ink-muted); }
 .aot-legend span { display: inline-flex; align-items: center; gap: 6px; }
 .aot-legend svg { width: 12px; height: 12px; }
+.aot-legend svg .band { stroke: var(--tier-contested-line); stroke-width: 1; }
 
 /* Article rail item */
 .aot-art { display: grid; grid-template-columns: 1fr auto; gap: 2px var(--space-3); padding: var(--space-3) 0; border-top: 1px solid var(--line); }
@@ -209,5 +210,5 @@ del.aot-del, .aot-del { background: var(--diff-del-bg); color: var(--diff-del-in
 /* Revision table (article page): Wikipedia's .wikitable */
 .aot-wikitable { border-collapse: collapse; background: var(--surface-sunken); color: var(--ink); border: 1px solid var(--line-strong); font-size: 13px; line-height: 18px; }
 .aot-wikitable th, .aot-wikitable td { border: 1px solid var(--line-strong); padding: 4px 8px; text-align: left; vertical-align: top; }
-.aot-wikitable th { background: var(--line); font-weight: 700; }
+.aot-wikitable th { background: var(--surface-sunken); font-weight: 700; }
 .aot-wikitable td { background: var(--surface); }
