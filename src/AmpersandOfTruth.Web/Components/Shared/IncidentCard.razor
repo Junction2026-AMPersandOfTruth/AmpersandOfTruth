@@ -1,0 +1,20 @@
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@* STUB (#98 wave 2): the overview worker implements this. Parameters are the contract — keep them. *@
+<article class="aot-card" data-testid="incident-card" data-incident="@Incident.Id">
+    <a href="@Href">@(Incident.ClaimEn ?? Incident.PrimaryArticle.TitleFi)</a>
+</article>
+
+@code {
+    [Parameter, EditorRequired] public IncidentView Incident { get; set; } = default!;
+    /// <summary>Topic slug of the investigation, for the link.</summary>
+    [Parameter, EditorRequired] public string Topic { get; set; } = "";
+    /// <summary>Query string to carry to the incident page (e.g. "?sort=recent&tier=2"), or empty.</summary>
+    [Parameter] public string Query { get; set; } = "";
+    [Parameter] public bool Highlighted { get; set; }
+    /// <summary>Smaller variant (no chips, no facts row) for "Related".</summary>
+    [Parameter] public bool Compact { get; set; }
+    /// <summary>Raised with the incident id on mouseenter and null on mouseleave.</summary>
+    [Parameter] public EventCallback<string?> OnHover { get; set; }
+
+    private string Href => $"/investigate/{Uri.EscapeDataString(Topic)}/incidents/{Uri.EscapeDataString(Incident.Id)}{Query}";
+}

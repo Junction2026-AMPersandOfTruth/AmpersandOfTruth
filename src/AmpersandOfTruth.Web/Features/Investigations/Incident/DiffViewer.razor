@@ -1,0 +1,25 @@
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@* STUB (#98 wave 2): the p2-diff worker implements this. Parameters are the contract — keep them. *@
+<section class="aot-diff" data-testid="diff-viewer">
+    @if (Passage is null)
+    {
+        <p>The text of this edit is not available right now.</p>
+    }
+    else
+    {
+        <pre>@Passage.Diff.AddedProse</pre>
+    }
+</section>
+
+@code {
+    [Parameter] public DiffPassage? Passage { get; set; }
+    [Parameter] public DiffMode Mode { get; set; } = DiffMode.Inline;
+    [Parameter] public DiffTextMode Text { get; set; } = DiffTextMode.Prose;
+    /// <summary>"en" (FI diff + aligned EN machine translation) or "fi" (FI only).</summary>
+    [Parameter] public string Lang { get; set; } = "en";
+    /// <summary>Verbatim spans to highlight (assessment quotes).</summary>
+    [Parameter] public IReadOnlyList<string> EvidenceQuotes { get; set; } = [];
+    [Parameter] public EventCallback<(DiffMode Mode, DiffTextMode Text, string Lang)> OnModeChanged { get; set; }
+    /// <summary>Analysis scope (investigation id) for translation calls.</summary>
+    [Parameter] public string? Scope { get; set; }
+}
