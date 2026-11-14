@@ -5,9 +5,11 @@ using AmpersandOfTruth.Web.Features.Analysis;
 using AmpersandOfTruth.Web.Features.Articles;
 using AmpersandOfTruth.Web.Features.Corpus;
 using AmpersandOfTruth.Web.Features.Embedding;
+using AmpersandOfTruth.Web.Features.Hotspots;
 using AmpersandOfTruth.Web.Features.Investigations;
 using AmpersandOfTruth.Web.Features.Library;
 using AmpersandOfTruth.Web.Features.Search;
+using AmpersandOfTruth.Web.Features.TimeMachine;
 using AmpersandOfTruth.Web.Features.Translation;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,8 +29,10 @@ builder.Services.AddInvestigationsFeature();
 builder.Services.AddSearchFeature();
 builder.Services.AddTranslationFeature();
 builder.Services.AddArticlesFeature();
+builder.Services.AddTimeMachineFeature();
 builder.Services.AddAccountsFeature();
 builder.Services.AddLibraryFeature();
+builder.Services.AddHotspotsFeature();
 
 var app = builder.Build();
 

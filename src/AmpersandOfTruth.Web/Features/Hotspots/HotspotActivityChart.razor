@@ -1,0 +1,192 @@
+@using System.Globalization
+
+@{
+    var count = Years.Count;
+    var maxReverts = count > 0 ? Years.Max(static y => y.Reverts) : 0;
+    var maxEpisodes = count > 0 ? Years.Max(static y => y.Episodes) : 0;
+    var maxBar = count > 0
+        ? Math.Max(1, Years.Max(y => HotspotAnalytics.YearBarValue(y, maxReverts, maxEpisodes)))
+        : 1;
+    var spikeByYear = Spikes.ToDictionary(static s => s.Year);
+    var plotWidth = RightEdge - LeftPad;
+    var slotWidth = count > 0 ? plotWidth / count : plotWidth;
+    var barWidth = Math.Clamp(slotWidth * 0.68, 4.0, 28.0);
+    var tickStep = count <= 12 ? 1 : (count <= 18 ? 2 : 3);
+}
+
+<div class="aot-stack" style="gap:8px" data-testid="activity-chart">
+    @if (count > 0)
+    {
+        <svg class="aot-chart"
+             viewBox="0 0 @F(SvgWidth) @F(SvgHeight)"
+             width="100%"
+             role="img"
+             aria-label="Disputed edits over time by year">
+            <line class="grid" x1="@F(LeftPad)" x2="@F(RightEdge)" y1="@F(TopPad)" y2="@F(TopPad)" />
+            <text x="@F(LeftPad - 6)" y="@F(TopPad + 4)" text-anchor="end">@maxBar.ToString("N0", CultureInfo.InvariantCulture)</text>
+
+            <line class="grid"
+                  x1="@F(LeftPad)"
+                  x2="@F(RightEdge)"
+                  y1="@F(BaselineY)"
+                  y2="@F(BaselineY)" />
+            <text x="@F(LeftPad - 6)" y="@F(BaselineY + 4)" text-anchor="end">0</text>
+
+            @for (var i = 0; i < count; i++)
+            {
+                var yr = Years[i];
+                var val = HotspotAnalytics.YearBarValue(yr, maxReverts, maxEpisodes);
+                var barH = val <= 0 ? 0.0 : Math.Max(2.0, (double)val / maxBar * BarAreaHeight);
+                var bx = LeftPad + (i * slotWidth) + ((slotWidth - barWidth) * 0.5);
+                var by = BaselineY - barH;
+                var cx = LeftPad + ((i + 0.5) * slotWidth);
+                var isSpike = spikeByYear.ContainsKey(yr.Year);
+
+                <g @key="@($"bar-{yr.Year.ToString(CultureInfo.InvariantCulture)}")">
+                    <rect class="@(isSpike ? null : "named")"
+                          style="@(isSpike ? "fill:var(--accent)" : "fill:var(--chart-named)")"
+                          x="@F(bx)"
+                          y="@F(by)"
+                          width="@F(barWidth)"
+                          height="@F(barH)"
+                          data-testid="activity-bar"
+                          data-year="@yr.Year">
+                        <title>@FormatTooltip(yr)</title>
+                    </rect>
+
+                    @if (i == 0 || i == count - 1 || i % tickStep == 0)
+                    {
+                        <g>
+                            <line class="grid" x1="@F(cx)" x2="@F(cx)" y1="@F(BaselineY)" y2="@F(BaselineY + 4)" />
+                            <text x="@F(cx)" y="@F(BaselineY + 16)" text-anchor="middle">@yr.Year.ToString(CultureInfo.InvariantCulture)</text>
+                        </g>
+                    }
+                </g>
+            }
+
+            @for (var sIdx = 0; sIdx < Spikes.Count; sIdx++)
+            {
+                var spike = Spikes[sIdx];
+                var yearIndex = FindYearIndex(Years, spike.Year);
+                if (yearIndex < 0)
+                {
+                    continue;
+                }
+
+                var yr = Years[yearIndex];
+                var val = HotspotAnalytics.YearBarValue(yr, maxReverts, maxEpisodes);
+                var barH = val <= 0 ? 0.0 : Math.Max(2.0, (double)val / maxBar * BarAreaHeight);
+                var barTopY = BaselineY - barH;
+                var cx = LeftPad + ((yearIndex + 0.5) * slotWidth);
+                var labelRow = sIdx % 3;
+                var labelY = 14.0 + (labelRow * 18.0);
+                var lineStartY = labelY + 3.0;
+                var anchor = ResolveAnchor(cx);
+                var textX = anchor == "start" ? cx - 3.0 : (anchor == "end" ? cx + 3.0 : cx);
+                var labelText = $"{spike.Year.ToString(CultureInfo.InvariantCulture)} · {Truncate(spike.DisplayTitle, 26)}";
+
+                <g data-testid="spike-label" data-year="@spike.Year" @key="@($"spike-{spike.Year.ToString(CultureInfo.InvariantCulture)}")">
+                    <line x1="@F(cx)"
+                          x2="@F(cx)"
+                          y1="@F(lineStartY)"
+                          y2="@F(Math.Max(lineStartY + 2.0, barTopY - 2.0))"
+                          stroke-dasharray="2 2"
+                          style="stroke:var(--accent);stroke-width:1" />
+                    @if (spike.PageId is > 0)
+                    {
+                        <a href="@($"/articles/{spike.PageId.Value.ToString(CultureInfo.InvariantCulture)}")">
+                            <text x="@F(textX)"
+                                  y="@F(labelY)"
+                                  text-anchor="@anchor"
+                                  style="fill:var(--accent);font-weight:600;font-size:11px">@labelText</text>
+                        </a>
+                    }
+                    else
+                    {
+                        <g>
+                            <text x="@F(textX)"
+                                  y="@F(labelY)"
+                                  text-anchor="@anchor"
+                                  style="fill:var(--ink);font-weight:600;font-size:11px">@labelText</text>
+                        </g>
+                    }
+                </g>
+            }
+        </svg>
+
+        <div class="aot-row" style="justify-content:space-between;flex-wrap:wrap;gap:8px">
+            <p class="aot-small aot-muted" style="margin:0" data-testid="activity-summary">
+                @HotspotAnalytics.ActivitySummary(Years, Spikes)
+            </p>
+            <div class="aot-legend">
+                <span>
+                    <svg viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="1" width="10" height="10" style="fill:var(--chart-named)" /></svg>
+                    Removed edits per year
+                </span>
+                <span>
+                    <svg viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="1" width="10" height="10" style="fill:var(--accent)" /></svg>
+                    Top 5 spike years
+                </span>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private const double SvgWidth = 900.0;
+    private const double LeftPad = 48.0;
+    private const double RightEdge = 888.0;
+    private const double TopPad = 68.0;
+    private const double BarAreaHeight = 132.0;
+    private const double BaselineY = TopPad + BarAreaHeight;
+    private const double SvgHeight = BaselineY + 24.0;
+
+    [Parameter, EditorRequired] public IReadOnlyList<HotYear> Years { get; set; } = [];
+    [Parameter, EditorRequired] public IReadOnlyList<HotSpike> Spikes { get; set; } = [];
+
+    private static int FindYearIndex(IReadOnlyList<HotYear> years, int targetYear)
+    {
+        for (var i = 0; i < years.Count; i++)
+        {
+            if (years[i].Year == targetYear)
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    private static string ResolveAnchor(double cx)
+    {
+        if (cx < LeftPad + 110.0)
+        {
+            return "start";
+        }
+
+        if (cx > RightEdge - 110.0)
+        {
+            return "end";
+        }
+
+        return "middle";
+    }
+
+    private static string Truncate(string text, int maxLen) =>
+        text.Length <= maxLen ? text : string.Concat(text.AsSpan(0, maxLen - 1), "…");
+
+    private static string FormatTooltip(HotYear yr)
+    {
+        var baseText =
+            $"{yr.Year.ToString(CultureInfo.InvariantCulture)}: " +
+            $"{yr.Reverts.ToString("N0", CultureInfo.InvariantCulture)} removed edits · " +
+            $"{yr.Episodes.ToString("N0", CultureInfo.InvariantCulture)} conflict episodes · " +
+            $"{yr.Edits.ToString("N0", CultureInfo.InvariantCulture)} total edits";
+
+        return !string.IsNullOrWhiteSpace(yr.TopDisplayTitle)
+            ? $"{baseText} — top article: {yr.TopDisplayTitle}"
+            : baseText;
+    }
+
+    private static string F(double v) => v.ToString("0.##", CultureInfo.InvariantCulture);
+}

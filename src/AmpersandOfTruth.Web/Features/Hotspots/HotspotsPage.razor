@@ -1,0 +1,239 @@
+@page "/hotspots"
+@implements IDisposable
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@inject IHotspotStore Store
+
+<PageTitle>Hot spots · Ampersand of Truth</PageTitle>
+
+<div class="aot-stack hotspots-page" data-testid="hotspots-page">
+    <header class="aot-stack" style="gap:6px">
+        <h1 class="aot-h1">Contested Finnish history on Wikipedia</h1>
+        <p class="aot-muted hotspots-lead">
+            Where editors disagreed across 20 years of Finnish Wikipedia history articles — ranked from conflict episodes and removed edits, with no query needed.
+        </p>
+    </header>
+
+    <div class="aot-banner aot-banner--info" role="note" data-testid="hotspots-caveat">
+        <svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="7" /><path d="M9 8v5M9 5.5v.5" /></svg>
+        <div class="aot-banner__body">
+            <strong>How to read these counts:</strong> A high dispute count shows that editors disagreed, not that the article contains misinformation. Prominent contested topics and heavily read biographies attract more edits, closer scrutiny, and more removals.
+        </div>
+    </div>
+
+    @if (_errorDetail is not null)
+    {
+        <StatusBanner Kind="StatusKind.Error"
+                      Title="The Wikipedia data is not reachable right now."
+                      Detail="@_errorDetail"
+                      OnRetry="ReloadAsync"
+                      TestId="hotspots-error" />
+    }
+    else if (_loading)
+    {
+        <div class="aot-stack" role="status" aria-label="Loading hot spots" data-testid="hotspots-loading">
+            <div class="aot-skel" style="width:100%;height:64px"></div>
+            <div class="aot-skel" style="width:100%;height:220px"></div>
+        </div>
+    }
+    else if (_data is null || (_data.Articles.Count == 0 && _data.Months.Count == 0 && _data.Categories.Count == 0))
+    {
+        <div data-testid="hotspots-empty">
+            <EmptyState Icon="info"
+                        Title="Hot-spot aggregates have not been built yet."
+                        Message="Run research/66-hotspots/build.sh against the corpus database to populate the precomputed tables." />
+        </div>
+    }
+    else
+    {
+        <section class="aot-panel hotspots-headline" aria-label="Dataset headline figures" data-testid="headline-numbers">
+            <dl class="aot-facts hotspots-facts">
+                <div>
+                    <dt>Revisions in dataset</dt>
+                    <dd class="aot-num">@FormatLong(_data.Headline.Revisions)</dd>
+                </div>
+                <div>
+                    <dt>Finnish articles</dt>
+                    <dd class="aot-num">@FormatInt(_data.Headline.Articles)</dd>
+                </div>
+                <div>
+                    <dt>Removed edits</dt>
+                    <dd class="aot-num">@FormatInt(_data.Headline.Reverts)</dd>
+                </div>
+                <div>
+                    <dt>Conflict episodes</dt>
+                    <dd class="aot-num">@FormatInt(_data.Headline.Episodes)</dd>
+                </div>
+                <div>
+                    <dt>Anonymous share of removals</dt>
+                    <dd class="aot-num">@FormatPercent(_data.Headline.AnonRevertedShare)</dd>
+                </div>
+            </dl>
+        </section>
+
+        @if (_years.Count > 0)
+        {
+            <section class="aot-stack" style="gap:10px" aria-labelledby="hotspots-activity-heading">
+                <h2 id="hotspots-activity-heading" class="aot-h2">Disputed activity over time (2003–2026)</h2>
+                <HotspotActivityChart Years="_years" Spikes="_spikes" />
+            </section>
+        }
+
+        <div class="hotspots-columns">
+            <section class="aot-stack" style="gap:10px" aria-labelledby="hotspots-articles-heading">
+                <h2 id="hotspots-articles-heading" class="aot-h2">Most contested articles</h2>
+
+                <div class="hotspots-articles" data-testid="contested-articles">
+                    @{
+                        var visibleArticles = _showAllArticles
+                            ? _data.Articles.Count
+                            : Math.Min(InitialArticlesVisible, _data.Articles.Count);
+                    }
+                    @for (var i = 0; i < visibleArticles; i++)
+                    {
+                        var art = _data.Articles[i];
+                        var articleHref = $"/articles/{art.PageId.ToString(CultureInfo.InvariantCulture)}";
+                        var investigateHref = TopicSlug.Route(art.DisplayTitle);
+
+                        <article class="hotspots-article" data-testid="contested-article" data-page-id="@art.PageId" @key="art.PageId">
+                            <div class="hotspots-article__rank aot-num aot-muted">
+                                @((i + 1).ToString(CultureInfo.InvariantCulture))
+                            </div>
+
+                            <div class="hotspots-article__main">
+                                <div class="hotspots-article__titles">
+                                    @if (art.HasDistinctEnglishTitle)
+                                    {
+                                        <a class="hotspots-article__title" href="@articleHref" data-testid="article-link">@art.TitleEn</a>
+                                        <div class="aot-small aot-muted" lang="fi">@art.TitleFi</div>
+                                    }
+                                    else
+                                    {
+                                        <a class="hotspots-article__title" href="@articleHref" lang="fi" data-testid="article-link">@art.TitleFi</a>
+                                    }
+                                </div>
+
+                                <div class="hotspots-article__meta aot-small aot-muted aot-num">
+                                    <span>@FormatInt(art.Episodes) @(art.Episodes == 1 ? "episode" : "episodes")</span>
+                                    <span>·</span>
+                                    <span>@FormatInt(art.Reverts) removals (@FormatInt(art.RevertsDispute) disputed)</span>
+                                    <span>·</span>
+                                    <span>@FormatPercent(art.AnonShare) anon</span>
+                                    <span>·</span>
+                                    <span>@FormatYearSpan(art.FirstTs, art.LastTs)</span>
+                                </div>
+                            </div>
+
+                            <div class="hotspots-article__side">
+                                <HotspotSparkline Values="art.YearlyReverts" />
+                                <a class="aot-btn aot-btn--sm" href="@investigateHref" data-testid="investigate-link">Investigate</a>
+                            </div>
+                        </article>
+                    }
+
+                    @if (_data.Articles.Count > InitialArticlesVisible)
+                    {
+                        <div style="padding-top:10px">
+                            <button type="button"
+                                    class="aot-btn aot-btn--sm"
+                                    data-testid="toggle-all-articles"
+                                    @onclick="ToggleAllArticles">
+                                @(_showAllArticles
+                                    ? $"Show top {InitialArticlesVisible.ToString(CultureInfo.InvariantCulture)} articles"
+                                    : $"Show all {_data.Articles.Count.ToString(CultureInfo.InvariantCulture)} articles")
+                            </button>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <section class="aot-stack" style="gap:10px" aria-labelledby="hotspots-categories-heading">
+                <h2 id="hotspots-categories-heading" class="aot-h2">Contested categories</h2>
+                <HotspotCategoryBars Categories="_data.Categories" />
+            </section>
+        </div>
+    }
+</div>
+
+@code {
+    private const int InitialArticlesVisible = 25;
+
+    private CancellationTokenSource? _cts;
+    private HotspotData? _data;
+    private IReadOnlyList<HotYear> _years = [];
+    private IReadOnlyList<HotSpike> _spikes = [];
+    private bool _loading = true;
+    private string? _errorDetail;
+    private bool _showAllArticles;
+
+    protected override async Task OnInitializedAsync() => await ReloadAsync();
+
+    private async Task ReloadAsync()
+    {
+        var ct = ResetCancellation();
+        _loading = true;
+        _errorDetail = null;
+
+        try
+        {
+            var data = await Store.LoadAsync(ct);
+            _data = data;
+            if (data is not null)
+            {
+                _years = HotspotAnalytics.AggregateByYear(data.Months);
+                _spikes = HotspotAnalytics.PickTopSpikes(_years, count: 5);
+            }
+            else
+            {
+                _years = [];
+                _spikes = [];
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        catch (Exception ex)
+        {
+            _data = null;
+            _years = [];
+            _spikes = [];
+            _errorDetail = ex.Message;
+        }
+        finally
+        {
+            if (!ct.IsCancellationRequested)
+            {
+                _loading = false;
+            }
+        }
+    }
+
+    private void ToggleAllArticles() => _showAllArticles = !_showAllArticles;
+
+    private static string FormatLong(long value) => value.ToString("N0", CultureInfo.InvariantCulture);
+
+    private static string FormatInt(int value) => value.ToString("N0", CultureInfo.InvariantCulture);
+
+    private static string FormatPercent(double ratio) =>
+        $"{(Math.Clamp(ratio, 0.0, 1.0) * 100.0).ToString("0.0", CultureInfo.InvariantCulture)}%";
+
+    private static string FormatYearSpan(DateTime first, DateTime last) =>
+        first.Year == last.Year
+            ? first.Year.ToString(CultureInfo.InvariantCulture)
+            : $"{first.Year.ToString(CultureInfo.InvariantCulture)}\u2013{last.Year.ToString(CultureInfo.InvariantCulture)}";
+
+    private CancellationToken ResetCancellation()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = new CancellationTokenSource();
+        return _cts.Token;
+    }
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+}

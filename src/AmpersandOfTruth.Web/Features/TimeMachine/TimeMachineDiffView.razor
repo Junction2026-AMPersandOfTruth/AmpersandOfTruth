@@ -1,0 +1,191 @@
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations.Incident
+@using AmpersandOfTruth.Web.Features.Investigations.View
+
+<section class="@RootClass" data-testid="tm-diff">
+    <div class="aot-diff__bar">
+        <span class="aot-label" style="margin-right:4px">Comparison</span>
+        <span class="aot-small aot-muted">
+            @FormatDate(Comparison.DateA)
+            @if (Comparison.RevisionA is { } revA)
+            {
+                <text> </text><a href="@WikipediaLinks.Revision(revA.RevId).AbsoluteUri" target="_blank" rel="noopener">(#@revA.RevId.ToString(CultureInfo.InvariantCulture))</a>
+            }
+            <text> → </text>
+            @FormatDate(Comparison.DateB)
+            @if (Comparison.RevisionB is { } revB)
+            {
+                <text> </text><a href="@WikipediaLinks.Revision(revB.RevId).AbsoluteUri" target="_blank" rel="noopener">(#@revB.RevId.ToString(CultureInfo.InvariantCulture))</a>
+            }
+        </span>
+
+        <span class="aot-spacer"></span>
+
+        <div class="aot-seg d-none d-md-inline-flex" role="group" aria-label="Layout">
+            <button type="button" aria-pressed="@BoolAttr(_mode == DiffMode.Inline)" @onclick="() => SetMode(DiffMode.Inline, _textMode)">Inline</button>
+            <button type="button" aria-pressed="@BoolAttr(_mode == DiffMode.Split)" @onclick="() => SetMode(DiffMode.Split, _textMode)">Side by side</button>
+        </div>
+        <div class="aot-seg" role="group" aria-label="Text">
+            <button type="button" aria-pressed="@BoolAttr(_textMode == DiffTextMode.Prose)" @onclick="() => SetMode(_mode, DiffTextMode.Prose)">Prose</button>
+            <button type="button" aria-pressed="@BoolAttr(_textMode == DiffTextMode.Wikitext)" @onclick="() => SetMode(_mode, DiffTextMode.Wikitext)">Wikitext</button>
+        </div>
+        @if (OnClear.HasDelegate)
+        {
+            <button type="button" class="aot-btn aot-btn--sm" @onclick="OnClear">Clear</button>
+        }
+    </div>
+
+    @if (_model is null || !_model.Blocks.Any(static b => b.IsChanged))
+    {
+        <div class="aot-diff__body">
+            <p class="aot-small aot-muted" style="margin:0">No text differences between these two dates.</p>
+        </div>
+    }
+    else if (_mode == DiffMode.Split)
+    {
+        <div class="aot-diff__body" lang="fi" style="overflow-wrap:anywhere">
+            <div class="aot-diff__col">
+                @foreach (var item in _model.Items)
+                {
+                    @if (item is DiffFoldItem fold && !_expandedFolds.Contains(fold.Id))
+                    {
+                        <button type="button" class="aot-diff__fold" @onclick="() => ExpandFold(fold.Id)">@fold.Label</button>
+                    }
+                    else
+                    {
+                        @foreach (var block in EnumerateBlocks(item))
+                        {
+                            var beforeTokens = GetSideTokens(block.Tokens, excludeKind: DiffTokenKind.Added);
+                            @if (beforeTokens.Count > 0)
+                            {
+                                <p>@RenderTokens(beforeTokens)</p>
+                            }
+                        }
+                    }
+                }
+            </div>
+            <div class="aot-diff__col">
+                @foreach (var item in _model.Items)
+                {
+                    @if (item is DiffFoldItem fold && !_expandedFolds.Contains(fold.Id))
+                    {
+                        <button type="button" class="aot-diff__fold" @onclick="() => ExpandFold(fold.Id)">@fold.Label</button>
+                    }
+                    else
+                    {
+                        @foreach (var block in EnumerateBlocks(item))
+                        {
+                            var afterTokens = GetSideTokens(block.Tokens, excludeKind: DiffTokenKind.Removed);
+                            @if (afterTokens.Count > 0)
+                            {
+                                <p>@RenderTokens(afterTokens)</p>
+                            }
+                        }
+                    }
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="aot-diff__body" lang="fi" style="overflow-wrap:anywhere">
+            @foreach (var item in _model.Items)
+            {
+                @if (item is DiffFoldItem fold && !_expandedFolds.Contains(fold.Id))
+                {
+                    <button type="button" class="aot-diff__fold" @onclick="() => ExpandFold(fold.Id)">@fold.Label</button>
+                }
+                else
+                {
+                    @foreach (var block in EnumerateBlocks(item))
+                    {
+                        <p>@RenderTokens(block.Tokens)</p>
+                    }
+                }
+            }
+        </div>
+    }
+</section>
+
+@code {
+    private readonly HashSet<int> _expandedFolds = [];
+    private DiffMode _mode = DiffMode.Inline;
+    private DiffTextMode _textMode = DiffTextMode.Prose;
+    private (DateOnly A, DateOnly B, long? RevA, long? RevB, DiffTextMode Text)? _modelKey;
+    private DiffModel? _model;
+
+    [Parameter, EditorRequired]
+    public TimeMachineComparison Comparison { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback OnClear { get; set; }
+
+    private string RootClass => (_mode, _textMode) switch
+    {
+        (DiffMode.Split, DiffTextMode.Wikitext) => "aot-diff aot-diff--split aot-diff--wikitext",
+        (DiffMode.Split, DiffTextMode.Prose) => "aot-diff aot-diff--split",
+        (DiffMode.Inline, DiffTextMode.Wikitext) => "aot-diff aot-diff--wikitext",
+        _ => "aot-diff",
+    };
+
+    protected override void OnParametersSet()
+    {
+        var nextKey = (Comparison.DateA, Comparison.DateB, Comparison.RevisionA?.RevId, Comparison.RevisionB?.RevId, _textMode);
+        if (_modelKey != nextKey)
+        {
+            _modelKey = nextKey;
+            _model = DiffModel.Build(Comparison.Passage, _textMode);
+            _expandedFolds.Clear();
+        }
+    }
+
+    private void SetMode(DiffMode mode, DiffTextMode textMode)
+    {
+        _mode = mode;
+        if (_textMode != textMode)
+        {
+            _textMode = textMode;
+            _modelKey = (Comparison.DateA, Comparison.DateB, Comparison.RevisionA?.RevId, Comparison.RevisionB?.RevId, _textMode);
+            _model = DiffModel.Build(Comparison.Passage, _textMode);
+            _expandedFolds.Clear();
+        }
+    }
+
+    private void ExpandFold(int id) => _expandedFolds.Add(id);
+
+    private static IEnumerable<DiffBlock> EnumerateBlocks(DiffItem item) => item switch
+    {
+        DiffBlockItem single => [single.Block],
+        DiffFoldItem fold => fold.Blocks,
+        _ => [],
+    };
+
+    private static IReadOnlyList<DiffToken> GetSideTokens(IReadOnlyList<DiffToken> tokens, DiffTokenKind excludeKind) =>
+        tokens.Where(t => t.Kind != excludeKind && t.Text.Length > 0).ToArray();
+
+    private static RenderFragment RenderTokens(IReadOnlyList<DiffToken> tokens) => __builder =>
+    {
+        foreach (var token in tokens)
+        {
+            if (token.Text.Length == 0) continue;
+
+            switch (token.Kind)
+            {
+                case DiffTokenKind.Added:
+                    <ins class="aot-add">@token.Text</ins>
+                    break;
+                case DiffTokenKind.Removed:
+                    <del class="aot-del">@token.Text</del>
+                    break;
+                default:
+                    @token.Text
+                    break;
+            }
+        }
+    };
+
+    private static string BoolAttr(bool v) => v ? "true" : "false";
+
+    private static string FormatDate(DateOnly d) => d.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+}
