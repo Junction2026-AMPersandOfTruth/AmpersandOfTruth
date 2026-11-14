@@ -147,7 +147,7 @@ public sealed class IncidentSubcomponentsTests : BunitContext
     [Theory]
     [InlineData(ContentCategory.ContentDispute, 1, "a content dispute", "low", 1)]
     [InlineData(ContentCategory.PovPush, 2, "one-sided wording", "low", 1)]
-    [InlineData(ContentCategory.FalseFactualClaim, 3, "a false factual claim", "medium", 2)]
+    [InlineData(ContentCategory.FalseFactualClaim, 3, "a disputed factual claim", "medium", 2)]
     [InlineData(ContentCategory.SourceManipulation, 4, "a change of sources", "high", 3)]
     [InlineData(ContentCategory.GoodFaithError, 5, "a good-faith error", "high", 3)]
     [InlineData(ContentCategory.Other, 3, "other", "medium", 2)]
@@ -174,8 +174,10 @@ public sealed class IncidentSubcomponentsTests : BunitContext
         Assert.Contains("Changed how the event is described.", root.TextContent);
 
         var quoteBox = Assert.Single(cut.FindAll("blockquote[data-testid=assessment-quotes]"));
+        Assert.Contains("Finnish original", quoteBox.TextContent);
         var quotes = quoteBox.QuerySelectorAll("q[data-testid=assessment-quote]");
         Assert.Equal(2, quotes.Length);
+        Assert.All(quotes, q => Assert.Equal("fi", q.GetAttribute("lang")));
         Assert.Equal("First span", quotes[0].TextContent);
         Assert.Equal("Second span", quotes[1].TextContent);
 
@@ -184,6 +186,25 @@ public sealed class IncidentSubcomponentsTests : BunitContext
         Assert.Equal(3, conf.QuerySelectorAll(".aot-meter i").Length);
         Assert.Equal(expectedOnSteps, conf.QuerySelectorAll(".aot-meter i.on").Length);
         Assert.Contains("Uncertainty: Talk page not read.", root.TextContent);
+        Assert.Empty(CopyRules.FindViolations(root.TextContent, includeJargon: true));
+    }
+
+    [Fact]
+    public void AssessmentNote_null_uncertainty_renders_plain_edit_uncertainty_without_jargon()
+    {
+        var view = new AssessmentView(
+            Category: ContentCategory.FalseFactualClaim,
+            Confidence: 3,
+            Reasoning: "Changed how the event is described.",
+            Quotes: [],
+            HasVerifiedQuote: false,
+            Uncertainty: null);
+
+        var cut = Render<AssessmentNote>(p => p.Add(x => x.Assessment, view));
+
+        var root = cut.Find("[data-testid=assessment]");
+        Assert.Contains("Uncertainty: generated automatically from the edit above; it can be wrong.", root.TextContent);
+        Assert.DoesNotContain("diff", root.TextContent, StringComparison.OrdinalIgnoreCase);
         Assert.Empty(CopyRules.FindViolations(root.TextContent, includeJargon: true));
     }
 
@@ -218,6 +239,8 @@ public sealed class IncidentSubcomponentsTests : BunitContext
         var fallbackOrig = failedCut.FindAll("[data-testid=event-row]")[0].QuerySelector(".aot-original[lang='fi']");
         Assert.NotNull(fallbackOrig);
         Assert.Equal("lainausmerkitty", fallbackOrig.TextContent);
+        Assert.Equal("Original Finnish edit summary", fallbackOrig.GetAttribute("title"));
+        Assert.Equal("View change", failedCut.FindAll("[data-testid=wiki-diff-link]")[0].TextContent.Trim());
 
         _translator.FailAll = false;
         var okCut = Render<EditSequence>(p => p.Add(x => x.Edits, [edits[0]]));

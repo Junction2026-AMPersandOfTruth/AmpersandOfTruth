@@ -69,7 +69,7 @@ public sealed class IncidentPageTests : BunitContext
         var facts = cut.Find("dl.aot-facts[data-testid=incident-facts]");
         var dts = facts.QuerySelectorAll("dt").Select(static e => e.TextContent.Trim()).ToArray();
         var dds = facts.QuerySelectorAll("dd").Select(static e => e.TextContent.Trim()).ToArray();
-        Assert.Equal(["First inserted", "Last removed", "Live in total", "Accounts", "Articles"], dts);
+        Assert.Equal(["First seen", "Last removed", "Live in total", "Accounts", "Articles"], dts);
         Assert.Equal("3 Mar 2014", dds[0]);
         Assert.Equal("9 Jan 2016", dds[1]);
         Assert.Equal("61 days", dds[2]);

@@ -1,9 +1,14 @@
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using AmpersandOfTruth.Web.Components.Layout;
+using AmpersandOfTruth.Web.Components.Pages;
 using AmpersandOfTruth.Web.Features.Evidence;
 using AmpersandOfTruth.Web.Features.Search;
 using Bunit;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 
 namespace AmpersandOfTruth.Tests.Components.Layout;
 
@@ -47,6 +52,8 @@ public sealed class LayoutTests : BunitContext
     [Fact]
     public void MainLayout_renders_wordmark_nav_links_search_slot_and_attribution_footer()
     {
+        Services.AddSingleton<IWebHostEnvironment>(new StubWebHostEnvironment { EnvironmentName = Environments.Development });
+
         var cut = Render<MainLayout>(parameters => parameters.Add(
             p => p.Body,
             builder => builder.AddMarkupContent(0, """<p data-testid="body-probe">Page body</p>""")));
@@ -65,7 +72,7 @@ public sealed class LayoutTests : BunitContext
         Assert.Equal("/", navLinks[0].GetAttribute("href"));
         Assert.Equal("Investigate", navLinks[0].TextContent.Trim());
         Assert.Equal("/methodology", navLinks[1].GetAttribute("href"));
-        Assert.Equal("Methodology", navLinks[1].TextContent.Trim());
+        Assert.Equal("How this works", navLinks[1].TextContent.Trim());
 
         var themeToggle = cut.Find("header.aot-appbar [data-testid=theme-toggle]");
         Assert.Equal("Theme: System", themeToggle.GetAttribute("aria-label"));
@@ -90,6 +97,46 @@ public sealed class LayoutTests : BunitContext
             footer.QuerySelectorAll("a"),
             a => a.GetAttribute("href") == "/investigate");
         Assert.Equal("Pipeline debug", debugLink.TextContent.Trim());
+    }
+
+    [Fact]
+    public void Footer_hides_pipeline_debug_link_in_production()
+    {
+        Services.AddSingleton<IWebHostEnvironment>(new StubWebHostEnvironment { EnvironmentName = Environments.Production });
+
+        var cut = Render<Footer>();
+
+        var footer = cut.Find("[data-testid=site-footer]");
+        Assert.Empty(footer.QuerySelectorAll("a[href='/investigate']"));
+        Assert.Single(footer.QuerySelectorAll("a[href='/analysis']"));
+    }
+
+    [Fact]
+    public void NotFound_renders_calm_copy_and_link_to_root()
+    {
+        var cut = Render<NotFound>();
+
+        var empty = cut.Find("[data-testid=empty-state]");
+        Assert.Contains("We can't find this page.", empty.TextContent);
+        var homeLink = cut.Find("a[href='/']");
+        Assert.NotNull(homeLink);
+        Assert.Empty(CopyRules.FindViolations(empty.TextContent, includeJargon: true));
+    }
+
+    [Fact]
+    public void Error_renders_calm_copy_link_to_root_and_request_id()
+    {
+        using var activity = new Activity("test-error").Start();
+
+        var cut = Render<Error>();
+
+        var page = cut.Find("[data-testid=error-page]");
+        Assert.Contains("Something went wrong loading this page.", page.TextContent);
+        Assert.DoesNotContain("ASPNETCORE_ENVIRONMENT", page.TextContent, StringComparison.Ordinal);
+        Assert.DoesNotContain("Development Mode", page.TextContent, StringComparison.Ordinal);
+        Assert.NotNull(cut.Find("a[href='/']"));
+        Assert.Contains(activity.Id!, cut.Find("[data-testid=error-request-id]").TextContent);
+        Assert.Empty(CopyRules.FindViolations(page.TextContent, includeJargon: true));
     }
 
     [Fact]
@@ -168,5 +215,15 @@ public sealed class LayoutTests : BunitContext
         }
 
         return dir?.FullName ?? throw new InvalidOperationException("Could not find repository root containing AmpersandOfTruth.sln");
+    }
+
+    private sealed class StubWebHostEnvironment : IWebHostEnvironment
+    {
+        public string EnvironmentName { get; set; } = Environments.Production;
+        public string ApplicationName { get; set; } = "AmpersandOfTruth.Web";
+        public string WebRootPath { get; set; } = string.Empty;
+        public IFileProvider WebRootFileProvider { get; set; } = new NullFileProvider();
+        public string ContentRootPath { get; set; } = string.Empty;
+        public IFileProvider ContentRootFileProvider { get; set; } = new NullFileProvider();
     }
 }

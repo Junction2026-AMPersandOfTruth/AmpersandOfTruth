@@ -19,9 +19,10 @@
         @if (quotes.Count > 0)
         {
             <blockquote class="aot-assess__quotes" data-testid="assessment-quotes">
+                <div class="aot-small aot-muted" style="font-family:var(--font-sans);margin-bottom:4px">Finnish original</div>
                 @foreach (var quote in quotes)
                 {
-                    <div class="aot-assess__quote"><q class="aot-ev" data-testid="assessment-quote">@quote</q></div>
+                    <div class="aot-assess__quote"><q class="aot-ev" lang="fi" data-testid="assessment-quote">@quote</q></div>
                 }
             </blockquote>
         }
@@ -41,7 +42,7 @@
     {
         ContentCategory.ContentDispute => "a content dispute",
         ContentCategory.PovPush => "one-sided wording",
-        ContentCategory.FalseFactualClaim => "a false factual claim",
+        ContentCategory.FalseFactualClaim => "a disputed factual claim",
         ContentCategory.SourceManipulation => "a change of sources",
         ContentCategory.GoodFaithError => "a good-faith error",
         _ => "other",
@@ -58,7 +59,7 @@
     {
         if (string.IsNullOrWhiteSpace(uncertainty))
         {
-            return "Uncertainty: automated from the diff above; it can be wrong.";
+            return "Uncertainty: generated automatically from the edit above; it can be wrong.";
         }
 
         var trimmed = uncertainty.Trim();

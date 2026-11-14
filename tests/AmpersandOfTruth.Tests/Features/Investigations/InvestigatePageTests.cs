@@ -88,10 +88,15 @@ public class InvestigatePageTests : BunitContext
             Assert.Null(revertedUserCell.QuerySelector("a"));
             Assert.Equal("2001:14BB:… (anonymous)", revertedUserCell.TextContent.Trim());
 
-            // Comment is masked as plain text
+            // Comment is masked as plain text with lang="fi", and timestamp uses UTC format
             var commentCell = row.QuerySelector("[data-testid=revert-comment]");
             Assert.NotNull(commentCell);
+            Assert.Equal("fi", commentCell.GetAttribute("lang"));
             Assert.Equal("Kumottu muokkaus 23181977, jonka teki 2001:14BB:… (keskustelu)", commentCell.TextContent.Trim());
+
+            var whenCell = row.QuerySelector("[data-testid=revert-when]");
+            Assert.NotNull(whenCell);
+            Assert.EndsWith("UTC", whenCell.TextContent.Trim(), StringComparison.Ordinal);
         });
     }
 
@@ -134,7 +139,14 @@ public class InvestigatePageTests : BunitContext
         var cut = Search("Talvisota");
 
         cut.WaitForAssertion(() =>
-            Assert.Contains("Corpus not available", cut.Find("[data-testid=investigate-unavailable]").TextContent));
+        {
+            var banner = cut.Find("[data-testid=investigate-unavailable]");
+            Assert.Contains("Wikipedia data is not available right now.", banner.TextContent);
+            var details = banner.QuerySelector("details");
+            Assert.NotNull(details);
+            Assert.False(details.HasAttribute("open"));
+            Assert.Contains("scripts/corpus-tunnel.sh", details.TextContent);
+        });
         Assert.Empty(cut.FindAll("[data-testid=revert-row]"));
     }
 
@@ -146,7 +158,13 @@ public class InvestigatePageTests : BunitContext
         var cut = Search("Talvisota");
 
         cut.WaitForAssertion(() =>
-            Assert.Contains("Topic search not available", cut.Find("[data-testid=investigate-unavailable]").TextContent));
+        {
+            var banner = cut.Find("[data-testid=investigate-unavailable]");
+            Assert.Contains("Topic search is not available right now.", banner.TextContent);
+            var details = banner.QuerySelector("details");
+            Assert.NotNull(details);
+            Assert.False(details.HasAttribute("open"));
+        });
     }
 
     [Fact]
