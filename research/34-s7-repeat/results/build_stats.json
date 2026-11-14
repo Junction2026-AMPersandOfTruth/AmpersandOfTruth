@@ -1,0 +1,211 @@
+{
+  "s3_diff_distinct_pages": 245,
+  "load": {
+    "pages_requested": 245,
+    "candidate_spans": 9281,
+    "missing_s3_diff": 0,
+    "error_s3_diff": 0,
+    "short_prose_skipped": 5269,
+    "no_reverted_edits_skipped": 0,
+    "kept_units": 4012,
+    "load_seconds": 133.236
+  },
+  "clustering": {
+    "n_units": 4012,
+    "unique_sentence_hashes": 12882,
+    "boilerplate_hashes_blocked": 0,
+    "boilerplate_max_pages": 8,
+    "exact_seconds": 0.2938,
+    "exact_pair_links": 5021,
+    "exact_unions": 694,
+    "exact_clusters_total": 3318,
+    "exact_clusters_multi": 299,
+    "fuzzy_shingled_units": 3635,
+    "fuzzy_unique_shingles": 160574,
+    "fuzzy_seconds": 2.1461,
+    "fuzzy_lsh_candidate_pairs": 1450,
+    "fuzzy_verified_pairs": 829,
+    "fuzzy_extra_unions": 16,
+    "fuzzy_clusters_total": 3302,
+    "fuzzy_clusters_multi": 302,
+    "top_sentence_hashes": [
+      {
+        "hash": "ddf9843fc3c0524a",
+        "n_pages": 4,
+        "n_units": 4,
+        "blocked": false,
+        "sample": "ｓｕｏｍｉ ｏｎ ｎｙｔ ａｉｄｓ ｌａｎｄｉａ ｓｕｏｍｉ ｏｎ ｎｙｔ ａｉｄｓ ｌａｎｄｉａ ｓｕｏｍｉ ｏｎ ｎｙｔ ａｉｄｓ ｌａｎｄｉａ"
+      },
+      {
+        "hash": "fa5ac4192d2d7d53",
+        "n_pages": 3,
+        "n_units": 4,
+        "blocked": false,
+        "sample": "ｓｕｏｍｉ ｏｎ ｎｙｔ ａｉｄｓ ｌａｎｄｉａ ｓｕｏｍｉ ｏｎ ｎｙｔ ａｉｄｓ ｌａｎｄｉａ ｓｕｏｍｉ ｏｎ ｎｙｔ ａｉｄｓ ｌａｎｄｉａ ｓｕｏｍｉ ｏｎ ｎｙｔ ａｉｄｓ ｌａｎｄｉａ ｓｕｏｍｉ ｏｎ ｎｙｔ ａｉｄｓ ｌａｎｄｉａ ｓｕｏｍｉ ｏｎ ｎｙｔ ａｉｄｓ ｌａｎｄｉａ ｓｕｏｍｉ ｏｎ ｎｙｔ ａｉｄｓ ｌａｎｄｉａ ｓｕｏｍｉ ｏｎ ｎｙｔ ａｉｄｓ ｌａｎｄｉａ "
+      },
+      {
+        "hash": "0101b76293080be3",
+        "n_pages": 3,
+        "n_units": 3,
+        "blocked": false,
+        "sample": "lehtiviite tekijä hämäläinen unto otsikko populisti ja pelimies soini kertooesikuvanaan hän pitää veikko vennamo a"
+      },
+      {
+        "hash": "134a15efe08242f4",
+        "n_pages": 3,
+        "n_units": 3,
+        "blocked": false,
+        "sample": "hän on osallistunut bilderbergin kokoukseen"
+      },
+      {
+        "hash": "2d69ab4e7257863f",
+        "n_pages": 3,
+        "n_units": 3,
+        "blocked": false,
+        "sample": "katso kehittyvien maakuntien suomi"
+      },
+      {
+        "hash": "50a1964ecee67ed0",
+        "n_pages": 3,
+        "n_units": 3,
+        "blocked": false,
+        "sample": "lisää muotoilematon teksti tähän"
+      },
+      {
+        "hash": "0f1d84f6839aa9c4",
+        "n_pages": 2,
+        "n_units": 6,
+        "blocked": false,
+        "sample": "poronhoidon sekä saamelaiset että suomenkieliset aloittivat 1600 luvulla"
+      },
+      {
+        "hash": "27a8b11ca5c809e3",
+        "n_pages": 2,
+        "n_units": 6,
+        "blocked": false,
+        "sample": "verkkoviite osoite https suomenkuvalehti fi jutut kotimaa sortoa sanovat saamelaiset jo usein siita tullut vahan pakkomielle nimeke me sortajat selite sivut 31 34 26 35 8 2017"
+      },
+      {
+        "hash": "58f93ccd4ca0a098",
+        "n_pages": 2,
+        "n_units": 6,
+        "blocked": false,
+        "sample": "artikkelin haastatellut tutkijat ovat itä suomen yliopiston arktisten alueiden ja suomen historian professori maria lähteenmäki helsingin yliopiston arkeologian professori mika lavento ja oulun yliopi"
+      },
+      {
+        "hash": "8b41f109639c91d3",
+        "n_pages": 2,
+        "n_units": 6,
+        "blocked": false,
+        "sample": "tuoreimmalla vuosituhannella saamelaiset ja saamen kieli eriytyivät vähitellen suomalaisista"
+      },
+      {
+        "hash": "a12d0fc6b822109b",
+        "n_pages": 2,
+        "n_units": 6,
+        "blocked": false,
+        "sample": "http www vapaamielistenklubi fi lapuanliike htm"
+      },
+      {
+        "hash": "ed8fc87bef2f4b0e",
+        "n_pages": 2,
+        "n_units": 6,
+        "blocked": false,
+        "sample": "neljäntuulenlakin saamelaiset omaksuivat venäläisiltä merimiehiltä 1800 luvulla"
+      },
+      {
+        "hash": "32e9fe6088b7b6bc",
+        "n_pages": 2,
+        "n_units": 5,
+        "blocked": false,
+        "sample": "suomalaisen kirjallisuuden seura helsinki 1978"
+      },
+      {
+        "hash": "7828c2c52f6983e7",
+        "n_pages": 2,
+        "n_units": 5,
+        "blocked": false,
+        "sample": "suomen historian aikakirja s 123"
+      },
+      {
+        "hash": "45a19994fb0f3ce1",
+        "n_pages": 2,
+        "n_units": 4,
+        "blocked": false,
+        "sample": "www presidentti fi public default aspx nodeid 44819 presidentin valinta asema ja tehtävät suomen tasavallan presidentti"
+      },
+      {
+        "hash": "51ee549d28cf0101",
+        "n_pages": 2,
+        "n_units": 4,
+        "blocked": false,
+        "sample": "yhteiskunta politiikka aiheet kysy fi kysy mitä vain helsingin kaupunginkirjasto"
+      },
+      {
+        "hash": "641dc7a30449b51a",
+        "n_pages": 2,
+        "n_units": 4,
+        "blocked": false,
+        "sample": "www kysy fi kysymys yhteiskunta politiikka tasavallan presidenttien toimikausien virallinen alku ja loppu tasavallan presidenttien toimikausien virallinen alku ja loppu"
+      },
+      {
+        "hash": "addb261a3fa08f36",
+        "n_pages": 2,
+        "n_units": 4,
+        "blocked": false,
+        "sample": "esihistoriallisia asukkaita ei voi jakaa saamelaisiin ja suomalaisiin"
+      },
+      {
+        "hash": "ce10887e14ed12da",
+        "n_pages": 2,
+        "n_units": 4,
+        "blocked": false,
+        "sample": "wikitravel org ru карелия карелия wikitravel ru"
+      },
+      {
+        "hash": "e216ad7a5217c8e2",
+        "n_pages": 2,
+        "n_units": 4,
+        "blocked": false,
+        "sample": "saamelaiset eivät ole alkuperäisempiä kuin suomalaiset vaikka heitä kutsutaan alkuperäiskansaksi"
+      },
+      {
+        "hash": "39f71069b85c6036",
+        "n_pages": 2,
+        "n_units": 3,
+        "blocked": false,
+        "sample": "saamenmaa keksittiin 1980 luvulla"
+      },
+      {
+        "hash": "8ac7b2e701fb3382",
+        "n_pages": 2,
+        "n_units": 3,
+        "blocked": false,
+        "sample": "väitöskirja matti pöllä hiidenkivi 1 1999 s"
+      },
+      {
+        "hash": "02c36ed8b4a41296",
+        "n_pages": 2,
+        "n_units": 2,
+        "blocked": false,
+        "sample": "lue yhteenveto keskiviikon hallitusuutisista julkaisu yle uutiset viitattu 2016 05 05"
+      },
+      {
+        "hash": "08cfe254c4aa5239",
+        "n_pages": 2,
+        "n_units": 2,
+        "blocked": false,
+        "sample": "mahdollisuuksien mukaan pitää tsetsenialle taata sen kansalliset rajat sen mukaan mitä ne olivat ennen stalinin hirmutöitä ja etnisiä karkoituksia 1940 luvulla sekä korvauksia ko"
+      },
+      {
+        "hash": "09758302f5853cfd",
+        "n_pages": 2,
+        "n_units": 2,
+        "blocked": false,
+        "sample": "koromyslovosta noin neljä km etelään simanovon kylässä suomalaisjoukot olivat kauimpana suomesta kuin koskaan toisessa maailmansodassa melkein 300 km rajasta ja entisestä talvisotaan saakka vallinnees"
+      }
+    ]
+  },
+  "write_seconds": 82.906,
+  "total_seconds": 224.705
+}
