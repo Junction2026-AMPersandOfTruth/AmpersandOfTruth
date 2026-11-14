@@ -84,3 +84,15 @@ draft: it found a false "ranking unchanged" claim, an unexplained E-vs-D latency
 FULLTEXT explanation, and the wrong scorecard for the build parity check. All four are fixed above; its request to
 keep the scope gate non-blocking is adopted. Remaining before final: a human spot check of 10 random R3-D results
 (#22 protocol) and ~20 borderline in/out-of-scope queries.
+
+## Production scorecard (2026-11-14): the app's `TopicSearch` = R3-D, within tolerance
+The app's stage 1 (`ExpandedTopicSearch`, the default `Investigations:Pipeline:TopicSearch = Expanded`) scored through
+the eval adapter: `research/eval/run retrieval --name app-topicsearch -- scripts/investigate.sh variant`. Files:
+`results/app-topicsearch.{dev,test}.*`.
+
+| | recall@10 | recall@20 | nDCG@10 | OOS detected | false alarms | s/query |
+|---|---:|---:|---:|---:|---:|---:|
+| dev: app vs R3-D | 0.37 (Δ 0.00) | 0.53 (Δ 0.00) | 0.70 (Δ +0.01) | 2/2 | 0 | 11.1 |
+| test (sealed, final check): app vs R3-D | 0.32 (Δ 0.00) | 0.45 (Δ 0.00) | 0.66 (Δ 0.00) | 1/1 | 0 | 5.0 |
+
+The adapter reports the scope verdict as `out_of_scope`; the UI shows it as a warning, never a block (decision above).
