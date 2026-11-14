@@ -11,6 +11,7 @@ public class AppSmokeTests(AppFactory factory) : IClassFixture<AppFactory>
     [InlineData("/analysis")]
     [InlineData("/investigate")]
     [InlineData("/methodology")]
+    [InlineData("/articles/1150")]
     [InlineData("/health")]
     public async Task Route_returns_success(string url)
     {

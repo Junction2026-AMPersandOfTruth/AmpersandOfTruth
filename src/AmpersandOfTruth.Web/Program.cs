@@ -1,6 +1,7 @@
 using AmpersandOfTruth.Web.Components;
 using AmpersandOfTruth.Web.Data;
 using AmpersandOfTruth.Web.Features.Analysis;
+using AmpersandOfTruth.Web.Features.Articles;
 using AmpersandOfTruth.Web.Features.Corpus;
 using AmpersandOfTruth.Web.Features.Embedding;
 using AmpersandOfTruth.Web.Features.Investigations;
@@ -21,6 +22,7 @@ builder.Services.AddEmbeddingFeature();
 builder.Services.AddAnalysisFeature();
 builder.Services.AddInvestigationsFeature();
 builder.Services.AddTranslationFeature();
+builder.Services.AddArticlesFeature();
 
 var app = builder.Build();
 
