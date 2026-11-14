@@ -197,3 +197,10 @@ stems `["talviso*", "syy*"]` for boolean prefix mode):
      that neither embeddings nor raw English FULLTEXT bridge alone.
 2. **Do not rely on FULLTEXT or RRF scores for `out_of_scope`:** both `oos.bitcoin` and `oos.kpop` still match generic
    tokens (`history`, `Korea`, `culture`). Scope detection belongs in R3 (LLM scope flag).
+
+## Update: mode D with R3's generated stems (not hand-written)
+
+The hand-made `keywords.probe.jsonl` was written by someone who saw the probes, so D's lead above was suspect. Re-run with
+the stems that R3's `expand-topic` generated (`research/24-r3-query/results/keywords.jsonl`, PR #95):
+`results/probe.D-r3keywords.md` gets **27/37 in the top 10 and 30/37 in the top 20**, which is better than the hand stems (25 / 28).
+So D's lead is not an artifact of hand stemming. Still only a probe check; score it on the golden set.
