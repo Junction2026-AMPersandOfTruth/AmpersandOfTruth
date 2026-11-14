@@ -16,6 +16,7 @@ import ipaddress
 import json
 import pathlib
 import re
+import os
 import subprocess
 import sys
 import unicodedata
@@ -270,11 +271,15 @@ def parse_events_jsonl(lines: Iterable[str], *, source: str = "<stream>") -> Par
 
 
 def run_live_events(topic: str, save_dir: pathlib.Path | None = None) -> list[str]:
+    # Always the real pipeline: the app's default `Investigations:Source` is `Fixtures` (HybridFixtureRunner replays the
+    # P2 sample incidents), which would lock sample incidents into the regression pack.
+    env = dict(os.environ, Investigations__Source="Pipeline")
     res = subprocess.run(
         [str(INVESTIGATE_SH), "run", topic, "--events"],
         cwd=REPO_ROOT,
         capture_output=True,
         text=True,
+        env=env,
     )
     if res.returncode != 0:
         detail = (res.stderr or res.stdout or "").strip()
@@ -739,6 +744,18 @@ def _fetch_rev_texts_cached(
             cache.setdefault(p, None)
 
 
+def _parent_text(page_id: int, rev_id: int, sql_fn: Callable[[str], list[dict[str, Any]]],
+                 cache: dict[tuple[int, int], str]) -> str:
+    """Wikitext of the revision just before `rev_id` on its page ('' if none)."""
+    if (page_id, rev_id) not in cache:
+        rows = sql_fn(
+            f"SELECT t.text FROM revision_text t JOIN (SELECT rev_id FROM revision WHERE page_id={int(page_id)} "
+            f"AND (ts, rev_id) < (SELECT ts, rev_id FROM revision WHERE page_id={int(page_id)} AND rev_id={int(rev_id)}) "
+            f"ORDER BY ts DESC, rev_id DESC LIMIT 1) p ON t.rev_id = p.rev_id WHERE t.page_id={int(page_id)}")
+        cache[(page_id, rev_id)] = str((rows[0].get("text") if rows else "") or "")
+    return cache[(page_id, rev_id)]
+
+
 def check_pack(
     demo_runs: list[tuple[str, ParsedRun]],
     *,
@@ -773,6 +790,9 @@ def check_pack(
 
     summaries: list[TopicCheckSummary] = []
     lines: list[str] = ["# Demo-Pack Evidence Check", ""]
+    summary_quotes: list[tuple[str, str, str]] = []  # quotes found verbatim in an edit summary, not in article text
+    context_quotes: list[tuple[str, str, str]] = []  # quotes found verbatim in the text before the edit (removed text / context)
+    parent_text_cache: dict[tuple[int, int], str] = {}
 
     for topic, run in demo_runs:
         failures: list[CheckFailure] = []
@@ -805,12 +825,26 @@ def check_pack(
                             matched = True
                             break
                     if not matched:
+                        # The classifier may also quote its other inputs: the editors' and reverters' edit summaries.
+                        # A verbatim summary quote is legitimate evidence (shown as a summary, never as article text).
+                        squash = lambda t: " ".join(t.split())
+                        edit_summaries = [str(e.get("summary") or "") for e in edits if isinstance(e, dict)]
+                        if any(squash(quote) and squash(quote) in squash(sm) for sm in edit_summaries):
+                            summary_quotes.append((topic, inc_id, field_name))
+                            matched = True
+                    if not matched and ins_revs:
+                        # ... or the text before the edit (what it removed, or the article context the model was shown).
+                        parent_text = _parent_text(default_pid, min(ins_revs), sql_fn, parent_text_cache)
+                        if squash(quote) and squash(quote) in squash(parent_text):
+                            context_quotes.append((topic, inc_id, field_name))
+                            matched = True
+                    if not matched:
                         failures.append(
                             CheckFailure(
                                 topic,
                                 inc_id,
                                 field_name,
-                                f"quote not found verbatim in any inserting_rev_ids {ins_revs}",
+                                f"quote not found verbatim in any inserting_rev_ids {ins_revs}, the incident's edit summaries or the text before the edit",
                             )
                         )
 
@@ -921,6 +955,9 @@ def check_pack(
     total_checked = sum(s.incidents_checked for s in summaries)
     total_failures = sum(len(s.failures) for s in summaries)
     overall = "PASSED" if total_failures == 0 else f"FAILED ({total_failures} failure(s))"
+    lines.append(f"- Quotes matched verbatim in an edit summary (not article text): {len(summary_quotes)}")
+    lines.append(f"- Quotes matched verbatim in the text before the edit (removed text or context): {len(context_quotes)}")
+    lines.append("")
     lines.append(f"**Summary:** {total_checked} incident(s) checked across {len(summaries)} demo topic(s) — {overall}")
     return CheckReport(topics=summaries, markdown="\n".join(lines) + "\n")
 

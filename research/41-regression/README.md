@@ -14,12 +14,15 @@ break the demo or violate `docs/evidence-standard.md`.
 
 ### 1. Record the baseline fixture (warm caches first)
 
+`pack.py` always runs `scripts/investigate.sh` with `Investigations__Source=Pipeline`: the app's default source is
+`Fixtures`, which replays the P2 sample incidents (6 per demo topic) instead of running stages 3–4.
+
 Always warm the demo caches first (requires the corpus tunnel and `Gemini:ApiKey` so no candidate is degraded), then
 record the pack:
 
 ```bash
 scripts/corpus-tunnel.sh
-scripts/warm.sh
+Investigations__Source=Pipeline scripts/warm.sh   # the real pipeline, not the P2 sample-incident fixtures (the default)
 python3 research/41-regression/pack.py record
 ```
 

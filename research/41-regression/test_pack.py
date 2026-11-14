@@ -770,6 +770,8 @@ class CheckPackTests(unittest.TestCase):
                     for pid, rid in pairs
                     if (pid, rid) in revisions
                 ]
+            if "JOIN (SELECT rev_id FROM revision" in query:  # text before the edit: none in these fixtures
+                return []
             raise AssertionError(f"Unexpected SQL query: {query}")
 
         return fake_sql, queries
