@@ -37,11 +37,11 @@
                 else if (_translations.TryGetValue(edit.Summary, out var translated) && !string.IsNullOrWhiteSpace(translated))
                 {
                     <div class="aot-seq__summary" data-testid="mt-label" title="@Attribution.MachineTranslationNotice">@FormatQuotedSummary(translated)</div>
-                    <div class="aot-original" lang="fi" data-testid="mt-original">@edit.Summary</div>
+                    <div class="aot-original" lang="fi" data-testid="mt-original">@DiffModel.CleanProse(edit.Summary)</div>
                 }
                 else
                 {
-                    <div class="aot-original" lang="fi" title="Original Finnish edit summary">@edit.Summary</div>
+                    <div class="aot-original" lang="fi" title="Original Finnish edit summary">@DiffModel.CleanProse(edit.Summary)</div>
                 }
             </div>
             <span class="aot-seq__live">
@@ -59,27 +59,41 @@
     private readonly Dictionary<string, string> _translations = new(StringComparer.Ordinal);
     private CancellationTokenSource? _cts;
     private string? _translatedSignature;
+    private bool _hasRendered;
 
     [Parameter, EditorRequired] public IReadOnlyList<EditView> Edits { get; set; } = [];
     [Parameter] public string? Scope { get; set; }
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
         var signature = BuildSignature();
         if (!string.Equals(_translatedSignature, signature, StringComparison.Ordinal))
         {
             _cts?.Cancel();
+            if (_hasRendered)
+            {
+                await LoadTranslationsAsync(signature);
+            }
         }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        _hasRendered = true;
         var signature = BuildSignature();
         if (string.Equals(_translatedSignature, signature, StringComparison.Ordinal))
         {
             return;
         }
 
+        if (await LoadTranslationsAsync(signature))
+        {
+            StateHasChanged();
+        }
+    }
+
+    private async Task<bool> LoadTranslationsAsync(string signature)
+    {
         _translatedSignature = signature;
 
         var pending = Edits
@@ -92,7 +106,7 @@
 
         if (pending.Count == 0)
         {
-            return;
+            return false;
         }
 
         _cts?.Cancel();
@@ -105,7 +119,7 @@
             var results = await Translator.TranslateManyAsync(pending, "fi", Scope, ct);
             if (ct.IsCancellationRequested || !ReferenceEquals(run, _cts))
             {
-                return;
+                return false;
             }
 
             var updated = false;
@@ -120,13 +134,11 @@
                 }
             }
 
-            if (updated)
-            {
-                StateHasChanged();
-            }
+            return updated;
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
         {
+            return false;
         }
     }
 

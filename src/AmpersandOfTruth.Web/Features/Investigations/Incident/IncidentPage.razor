@@ -93,25 +93,26 @@
         </div>
 
         <header data-testid="incident-header">
-            <div class="aot-row">
+            <div class="aot-incident-badges">
                 <TierBadge Tier="_incident.Tier" ShowWhy="true" WhyHref="#why" />
                 @if (_annotation?.Verdict is { } verdict)
                 {
                     <VerdictChip Verdict="verdict" DismissReason="_annotation.DismissReason" Note="@_annotation.Note" />
                 }
             </div>
+            @if (!string.IsNullOrWhiteSpace(_incident.ClaimEn))
+            {
+                <div class="aot-incident-claim-mt" data-testid="claim-mt">
+                    <span class="aot-mt">
+                        <span>English headline:</span>
+                        <span class="aot-mt__tag" title="@Attribution.MachineTranslationNotice">Machine translation</span>
+                    </span>
+                </div>
+            }
             <h1 class="aot-serif t-claim-lg" data-testid="incident-claim">@FormatHeadline(_incident)</h1>
             @if (!string.IsNullOrWhiteSpace(_incident.ClaimOriginal))
             {
-                <div class="aot-row">
-                    <div class="aot-original" lang="@EffectiveLang(_incident.Lang)" style="font-size:14px;margin-top:0" data-testid="claim-original">@_incident.ClaimOriginal</div>
-                    @if (!string.IsNullOrWhiteSpace(_incident.ClaimEn))
-                    {
-                        <span class="aot-mt">
-                            <span class="aot-mt__tag" title="@Attribution.MachineTranslationNotice">Machine translation</span>
-                        </span>
-                    }
-                </div>
+                <div class="aot-original aot-incident-claim-orig" lang="@EffectiveLang(_incident.Lang)" data-testid="claim-original">@DiffModel.CleanProse(_incident.ClaimOriginal)</div>
             }
             <dl class="aot-facts aot-incident-facts" data-testid="incident-facts">
                 <div>
@@ -628,7 +629,12 @@
     {
         if (!string.IsNullOrWhiteSpace(incident.ClaimEn))
         {
-            var claim = incident.ClaimEn.Trim();
+            var claim = DiffModel.CleanProse(incident.ClaimEn).Trim();
+            if (claim.Length == 0)
+            {
+                claim = incident.ClaimEn.Trim();
+            }
+
             if (incident.Kind == IncidentKind.Deletion)
             {
                 return claim.StartsWith("Removed:", StringComparison.OrdinalIgnoreCase)

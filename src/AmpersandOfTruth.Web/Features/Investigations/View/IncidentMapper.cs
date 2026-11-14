@@ -318,13 +318,18 @@ public sealed partial class IncidentMapper(IIncidentCorpus corpus, IRevisionStor
         return IncidentKind.Insertion;
     }
 
+    private const int ShortNumberSegmentMaxChars = 32;
+
     private static bool HasDigitOnlyChangedPair(IReadOnlyList<DiffSegment> segments)
     {
-        var active = segments.Where(s => !s.Moved).ToList();
+        var active = segments
+            .Where(s => !s.Moved && SegmentValue(s).Trim().Length > 0)
+            .ToList();
+
         for (var i = 0; i + 1 < active.Count; i++)
         {
             if (active[i].Op == DiffOp.Removed && active[i + 1].Op == DiffOp.Added
-                && OnlyDigitsDiffer(SegmentValue(active[i]), SegmentValue(active[i + 1])))
+                && IsNumberChangePair(SegmentValue(active[i]), SegmentValue(active[i + 1])))
             {
                 return true;
             }
@@ -337,7 +342,7 @@ public sealed partial class IncidentMapper(IIncidentCorpus corpus, IRevisionStor
             {
                 foreach (var add in group.Where(s => s.Op == DiffOp.Added))
                 {
-                    if (OnlyDigitsDiffer(SegmentValue(rem), SegmentValue(add)))
+                    if (IsNumberChangePair(SegmentValue(rem), SegmentValue(add)))
                     {
                         return true;
                     }
@@ -350,11 +355,26 @@ public sealed partial class IncidentMapper(IIncidentCorpus corpus, IRevisionStor
 
     private static string SegmentValue(DiffSegment s) => s.Prose.Length > 0 ? s.Prose : s.Text;
 
-    private static bool OnlyDigitsDiffer(string removed, string added)
+    private static bool IsNumberChangePair(string removed, string added)
     {
-        if (string.Equals(removed, added, StringComparison.Ordinal)) return false;
-        if (!removed.Any(char.IsDigit) || !added.Any(char.IsDigit)) return false;
-        return string.Equals(NumberRun().Replace(removed, "0"), NumberRun().Replace(added, "0"), StringComparison.Ordinal);
+        var rem = removed.Trim();
+        var add = added.Trim();
+        if (rem.Length == 0 || add.Length == 0 || string.Equals(rem, add, StringComparison.Ordinal))
+        {
+            return false;
+        }
+
+        if (!rem.Any(char.IsDigit) || !add.Any(char.IsDigit))
+        {
+            return false;
+        }
+
+        if (rem.Length <= ShortNumberSegmentMaxChars && add.Length <= ShortNumberSegmentMaxChars)
+        {
+            return true;
+        }
+
+        return string.Equals(NumberRun().Replace(rem, "0"), NumberRun().Replace(add, "0"), StringComparison.Ordinal);
     }
 
     private static IReadOnlyList<EditView> BuildEdits(
