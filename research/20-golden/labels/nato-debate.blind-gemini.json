@@ -1,0 +1,171 @@
+{
+ "topic_id": "nato-debate",
+ "labeller": "gemini:blind/gemini-4-carbon",
+ "labels": {
+  "x01": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: An anonymous editor added unsourced interpretive claims to the NATO debate article, including \"Lissabonin sopimus sisältää NATO:n 5. artiklaa velvoittavamman turvallisuustakuun\" (\"The Treaty of Lisbon contains a security guarantee more binding than NATO's Article 5\") and claims that technical interoperability entails scrapping Soviet equipment and avoiding Russian procurement, and another editor removed the additions with the summary \"omaa tutkimusta ja tulkintaa\" (\"original research and interpretation\")."
+  },
+  "x02": {
+   "label": "campaign",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 3: Claims framing Finland as a belligerent in the war in Afghanistan, including \"Suomi on osallistunut nk 'sodan kaltaisiin sotatoimiin' ... Afganistanin sisällissodassa vuodesta 2002\" (\"Finland has participated in so-called 'war-like hostilities' ... in the civil war in Afghanistan since 2002\"), were added and put back multiple times between 7 October and 29 October 2009 (22 days) by three distinct editor groups (one named account and two distinct anonymous IP ranges), alongside a 1995 parliamentary source removed by other editors as \"vääristelevä lähteen käyttö ja oma tutkimus\" (\"distorting use of source and original research\") and \"edelleen harhaanjohtavaa lähteen käyttöä\" (\"still misleading use of source\")."
+  },
+  "x03": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: After an editor removed unsourced and fringe counter-arguments citing reliability and fringe guidelines, an anonymous editor put back the passage claiming \"On myös sanottu, että NATOlla on salainen lisäpöytäkirja, jonka liittyvä maa joutuu allekirjoittamaan\" (\"It has also been said that NATO has a secret additional protocol that an acceding country has to sign\") to fight communism even against a majority vote, along with a blog link and a \"Korjattava\" (\"Needs fixing\") maintenance template, before it was removed again."
+  },
+  "x04": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: A named editor added an external link to Sauli Niinistö's author page on the publisher Teos's website (\"Sauli Niinistö Teoksen sivuilla\" — \"Sauli Niinistö on Teos's pages\"), and another editor removed it four days later with a standard undo summary and no dispute signal."
+  },
+  "x05": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: A named editor added a sourced sentence summarizing MP Erkki Tuomioja's view on NATO membership (\"Kansanedustaja ja entinen ulkoministeri Erkki Tuomioja on epäillyt, ettei Nato-jäsenyys vahvistaisi Suomen turvallisuutta, koska sodan syttyessä Suomi olisi etulinjassa\" — \"MP and former Foreign Minister Erkki Tuomioja has doubted that NATO membership would strengthen Finland's security, because in the event of war Finland would be on the front line\"), which was swept up in a 19-edit rollback whose summary addressed only grammar mistakes across the batch (\"Useita kieliopillisesti oikein kirjoitettuja asioita uudelleenkirjoitettu jostain syystä kieliopillisesti väärin\" — \"Several grammatically correctly written things rewritten for some reason grammatically incorrectly\"), with no dispute over accuracy, neutrality, or sourcing."
+  },
+  "x06": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: A named editor added unsourced pro-NATO arguments asserting \"Lähes kaikki turvallisuuspolitiikan asiantuntijat kannattavat Suomen jäsenyttä NATO:ssa\" (\"Almost all security policy experts support Finland's membership in NATO\") and \"NATO:n vastaisuus Suomessa kumpuaa ennenkaikkea tietämättömyydesta NATO:n perusperiaatteista\" (\"Opposition to NATO in Finland stems above all from ignorance of NATO's basic principles\"), which another editor removed as \"epäselviä, poleemisia väitteitä ilman lähdettä\" (\"unclear, polemical claims without a source\")."
+  },
+  "x07": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: This back-and-forth episode consists of anonymous edits repeatedly changing Sauli Niinistö's birth date from 24 August 1948 to \"6. kesäkuuta 666\" (\"6 June 666\") and other editors restoring the real birth date."
+  },
+  "x08": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Excluded as graffiti: An anonymous editor inserted the test text \"Sauli Niinistö on Suomen presidentti. Ja sitten vielä lisäinformaatiota alempana.\" (\"Sauli Niinistö is the President of Finland. And then some more additional information below.\") into the career section, which was removed after 26 seconds."
+  },
+  "x09": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: An anonymous editor added unsourced biographical details about Sauli Niinistö's parents (names, birth and death years, and occupation) to the personal life section, and another editor removed the addition five hours later with a standard undo summary and no dispute signal."
+  },
+  "x10": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: On the evening of the 2012 presidential election second round (5 February 2012 at 18:53 UTC), editors undid and put back the unsourced sentence \"Sauli Niinistö voitti presidentinvaalit.\" (\"Sauli Niinistö won the presidential election.\") with plain undo summaries while vote counting was concluding; this is premature unsourced updating of an unslanted fact rather than a disputed claim."
+  },
+  "x11": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: An anonymous editor added the neutral, plausible statement \"Kokoomus on vuoden 2006 puoluekokouksesta lähtien kannattanut Suomen Nato-jäsenyyttä\" (\"The National Coalition Party has supported Finland's NATO membership since its 2006 party congress\"), and another editor removed it solely for lacking a citation (\"En löytänyt mitään viittetä puolesta/vastaan.. Pitäisi olla lähde väittteelle.\" — \"I did not find any reference for/against.. There should be a source for the claim.\"). Because the text has no slant and its only recorded problem is a missing source, it is capped at Level 1."
+  },
+  "x12": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: An anonymous editor altered Sauli Niinistö's name to \"Saukki naanisto\" and inserted vulgar, incoherent abuse into the biography section, which was removed after 66 seconds."
+  },
+  "x13": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Two anonymous editor ranges expanded the 1918 Finnish Civil War entry into a multi-sentence historical summary, and another editor removed the expansion two months later with the scope summary \"rv, tämä on luettelo\" (\"rv, this is a list\"), without any dispute over accuracy, neutrality, or sourcing."
+  },
+  "x14": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Excluded as graffiti: An anonymous editor pasted a 46,116-byte duplicate copy of the entire Sauli Niinistö article onto itself, which was removed after 35 seconds."
+  },
+  "x15": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Excluded as not-substantive: The edit added only category links (\"Luokka:Kapitalistit\" — \"Category:Capitalists\" and \"Luokka:Populistit\" — \"Category:Populists\") and no prose, numbers, dates, names, or citations."
+  },
+  "x16": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: A sourced passage stating \"Eduskuntavaaleissa häntä tuki mm. Kehittyvien maakuntien Suomi ry 15 000 €:lla. Niinistö kielsi tienneensä kuka tai ketkä yhdistyksen takana olivat. Myöhemmin hän oli mukana anomassa yhdistyksen taustalla olleelle Kyösti Kakkoselle vuorineuvoksen arvonimeä\" (\"In the parliamentary election he was supported by, among others, Kehittyvien maakuntien Suomi ry with €15,000. Niinistö denied knowing who was behind the association. Later he participated in applying for the honorary title of vuorineuvos for Kyösti Kakkonen, who was behind the association\") was part of an active back-and-forth and was removed with a summary alleging leftist ideological bias and disparagement of Niinistö."
+  },
+  "x17": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: A named editor made 12 edits updating opinion poll tables, sample sizes, charts, citations, and a timeline row (\"Venäjän hyökkäys Ukrainaan\" — \"Russian invasion of Ukraine\"), all of which were undone in a 19-edit rollback whose summary cited only grammatical errors in the batch (\"Useita kieliopillisesti oikein kirjoitettuja asioita uudelleenkirjoitettu jostain syystä kieliopillisesti väärin\" — \"Several grammatically correctly written things rewritten for some reason grammatically incorrectly\"), with no community dispute signal regarding accuracy, neutrality, or sourcing."
+  },
+  "x18": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: A named editor added unsourced pop-culture trivia about a satirical caricature of Sauli Niinistö (\"Usein hahmo myös poltti tupakkaa, ja sen vakiorepliikki oli 'jep jep.'\" — \"Often the character also smoked cigarettes, and its catchphrase was 'jep jep.'\"), removed as irrelevant (\"rv, poistettu tupakkamaininta epäoleellisena\" — \"rv, removed cigarette mention as irrelevant\"), put back once, and removed again; because the addition is unsourced trivia rather than a factual or narrative claim, it is capped at Level 1."
+  },
+  "x19": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "test_or_nonsense",
+   "why": "Excluded as self-removal: The same anonymous account that added a \"Lapset\" (\"Children\") heading with unrelated names and test text removed its own edit 103 seconds later."
+  },
+  "x20": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: An anonymous editor appended \"valitettavasti\" (\"unfortunately\") to the sentence stating that Sauli Niinistö and his son narrowly survived the 2004 Indian Ocean tsunami, which was removed after 44 seconds."
+  },
+  "x21": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "vandalism",
+   "why": "Excluded as blanking: An anonymous editor blanked 17,619 bytes from the list of wars in Finnish history, and another editor restored the page five minutes later."
+  },
+  "x22": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "good_faith_error",
+   "why": "Excluded as self-removal: A named editor equated Vladimir Yaroslavich with Yaroslav the Wise (\"eli Jaroslav viisas\" — \"i.e. Yaroslav the Wise\") and undid their own edit four minutes later with the summary \"Ei välttämättä olekkaan.\" (\"Might not be after all.\")."
+  },
+  "x23": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: An anonymous editor replaced Sauli Niinistö's presidential title, name, birth year link, and profession with jokes and slang such as \"Sakke Väiski\", \"Counter-Strike: Source\", and \"Jurrissa\" (\"drunk\"), which was removed after 62 seconds."
+  }
+ },
+ "rev_id_concerns": {
+  "x07": "inserting_rev_ids (14445437, 14445443, 14461119, 14467635) are actually the patroller edits restoring the real birth date 24.8.1948, whereas removing_rev_ids (14445441, 14461118, 14467632, 14495724) and parent 14445436 are the edits inserting the 6.6.666 vandalism.",
+  "x10": "rev 11237381 is the undo that removed 'Sauli Niinistö voitti presidentinvaalit.' (which had been added in 11237375), while removing_rev_id 11237394 put that sentence back."
+ },
+ "usage": {
+  "total_tokens": 85370,
+  "total_input_tokens": 62098,
+  "input_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 62098
+   }
+  ],
+  "total_cached_tokens": 0,
+  "total_output_tokens": 3859,
+  "output_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 3859
+   }
+  ],
+  "total_tool_use_tokens": 0,
+  "total_thought_tokens": 19413,
+  "initial_input_tokens": 62098,
+  "cost_usd_est": 0.3569,
+  "seconds": 213.2
+ }
+}

@@ -1,0 +1,80 @@
+{
+ "topic_id": "border-crisis-2023",
+ "labeller": "gemini:blind/gemini-4-carbon",
+ "labels": {
+  "x01": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added historical framing claims including \"Neuvostoliitto yksipuolisesti kumosi rauhansopimuksen\" (\"The Soviet Union unilaterally abrogated the peace treaty\"), \"Suomi yksipuolisesti kumosi rauhansopimuksen osallistuessaan [[operaatio Barbarossa]]an\" (\"Finland unilaterally abrogated the peace treaty by participating in Operation Barbarossa\"), and changing \"luovutti\" (\"ceded\") to \"joutui luovuttamaan\" (\"was forced to cede\"). Although removed with the procedural summary \"eston kiertoa\" (\"block evasion\"), the passage was put back twice in a back-and-forth over two days across two distinct anonymous editor ranges; it stays at Level 2 because only one Level 3 signal (two distinct editors, under 7 days on a single article without source manipulation) is met."
+  },
+  "x02": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: added unslanted descriptive statements about the \"itäraja\" (\"eastern border\") name, applying for border-zone permits from the Border Guard (\"Lupaan tarvitaan perusteltu syy, ja sitä anotaan rajavartiolaitokselta\", \"A justified reason is required for a permit, and it is applied for from the Border Guard\"), and border-zone width. Removed by another account because sources were missing and the addition was considered self-evident (\"lähteet pitäisi ilmoittaa, pois muokkaus, joka ei parantanut artikkelia, on itsestään selvää, että lupa vaatii perusteen\"), with no slant or accuracy dispute."
+  },
+  "x03": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: truncated sourced border-length figures throughout the lead into incoherent numbers, such as changing \"1 343,6 kilometriä\" (\"1,343.6 kilometres\") to \"17 kilometriä\" (\"17 kilometres\") and \"1 289,6 km\" to \"1 km\" while leaving sub-components of 12 km, 3 km, and 54 km intact."
+  },
+  "x04": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 1: changed a border-arrangement year from 1866 to 1864, expanded territorial-cession descriptions, and replaced \"luovutti\" (\"ceded\") with \"joutui [[luovutetut alueet|luovuttamaan]]\" (\"was forced to cede\"). Removed 6 minutes later with a generic undo summary and never put back in that episode, so there is no community dispute signal for Level 2."
+  },
+  "x05": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 1: rewrote geographic descriptions of historical border treaties, changed \"luovutti\" (\"ceded\") to \"joutui luovuttamaan\" (\"was forced to cede\"), omitted the Gulf of Finland outer islands from the 1940 cession list, and added area details. Removed once with the procedural summary \"eston kiertoa\" (\"block evasion\") and no accuracy, neutrality, or sourcing dispute signal or re-insertion."
+  },
+  "x06": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Excluded as graffiti: inserted a single stray letter turning the valid word \"Suomella\" (\"Finland has\") into the non-word \"Suomenlla\" with no substantive content."
+  },
+  "x07": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: added background sentences on Russian state succession and the dissolution dates of the Soviet Union (\"[[Neuvostoliitto]] oli voimassa 30, joulukuuta 1922 joulupäivään, 25. joulukuuta 1991 saakka\", \"The Soviet Union was in force from 30 December 1922 until Christmas Day, 25 December 1991\"). Removed once as off-topic detail (\"turhaa detaljitasoa Venäjän sisäisistä tapahtumista, kun aiheena on kuitenkin valtionraja\", \"unnecessary level of detail about Russia's internal events, when the topic is after all the state border\"), with no accuracy, neutrality, or sourcing dispute."
+  },
+  "x08": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added a 2016 quote from a former prime minister to the criticism section of the border-fence article (\"Insinöörinä pidän enemmän siltojen rakentamisesta kuin muurien muuraamisesta\", \"As an engineer, I prefer building bridges to walling up walls\") alongside commentary contrasting international criticism of Hungary's fence with Finland's fence. Removed by another editor whose summary disputed both sourcing and the applicability of the 2016 speech to the border fence (\"Poistin lähteetöntä, poistin jonkun verran Unkari-asiaa, joka hyvin vähän liittyi Suomen raja-aitaan. Myöskään Sipilän vanha puhe ei oikeastaan konkreettisesti ottanut tähän kantaa vaan enemmän Brexitin aikaisiin teemoihin\", \"Removed unsourced material, removed some Hungary material that had very little to do with Finland's border fence. Also, the old speech did not really take a concrete stance on this, but rather on Brexit-era themes\")."
+  }
+ },
+ "rev_id_concerns": {
+  "x08": "rev 22065800 added the 2016 speech paragraph and reorganised the 2015 Hungary paragraph, while the unsourced swine-fever passage also removed in rev 24241333 came from a different revision"
+ },
+ "usage": {
+  "total_tokens": 39304,
+  "total_input_tokens": 23393,
+  "input_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 23393
+   }
+  ],
+  "total_cached_tokens": 0,
+  "total_output_tokens": 1387,
+  "output_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 1387
+   }
+  ],
+  "total_tool_use_tokens": 0,
+  "total_thought_tokens": 14524,
+  "initial_input_tokens": 23393,
+  "cost_usd_est": 0.2059,
+  "seconds": 155.7
+ }
+}

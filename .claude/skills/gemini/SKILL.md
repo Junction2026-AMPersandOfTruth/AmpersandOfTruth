@@ -27,8 +27,8 @@ file to imitate, and acceptance criteria that each map to a test. Keep it under 
 
 ## 3. Dispatch
 `scripts/gemini/run.sh <id>` — run it with the Bash tool's `run_in_background: true`; you're notified on
-exit. Several tasks may run in parallel (one background call each), but the weekend key is rate-limited:
-**max 3 concurrent** unless the user says otherwise. While they run, do your own work — don't poll.
+exit. Run as many tasks in parallel as the work splits into (one background call each) — there is **no
+concurrency, rate or cost limit** to respect (see *Gemini usage* in CLAUDE.md). While they run, do your own work — don't poll.
 `scripts/gemini/status.sh` shows all tasks. Optional env: `GEMINI_MODEL=<name>`, `WORKER_TIMEOUT=<sec>`.
 
 ## 4. Review — never land unread

@@ -5,8 +5,9 @@ runner can be built in parallel and still fit together. Owner: the cloud lane. F
 `schemas/*.schema.json`; `contract.py` holds the rules a schema cannot express. If this text and a schema disagree,
 the schema wins.
 
-**Status (2026-11-14):** §1–§5 and §7 are frozen as `contract: 1`. The runner (§6) is not merged yet; its scoring
-rules and metric keys are fixed here, so you can write against them now. §9 (diff CLI) is a draft until #29 merges.
+**Status (2026-11-14):** §1–§5 and §7 are frozen as `contract: 1`. The runner (§6) is `research/eval/run`
+(`runner.py`, tests in `tests/test_runner.py`). It waits only for `golden.json` (#20). §9's heading says whether
+the diff CLI (#29) is still a draft.
 **To change a frozen part:** edit the schema, an example and this file in one commit, and say so on #3. Adding an
 optional field is fine. Renaming or removing a field needs `contract: 2`.
 
@@ -195,13 +196,26 @@ scorecard lists them as challenges for a human to read.
 ## 6. Scoring (the runner; definitions follow `docs/evidence-standard.md` §4)
 
 ```bash
-research/eval/run retrieval --name r1-vector  -- python3 research/8-r1-vector/variant.py
-research/eval/run signals   --name s1-reverts -- python3 research/28-s1-revert/variant.py
-#   --split dev|test   --judgements f.jsonl   --reviews f.jsonl   --out research/<issue>-<slug>/results
+research/eval/run retrieval --name r1-vector  --out research/8-r1-vector/results  -- python3 research/8-r1-vector/variant.py
+research/eval/run signals   --name s1-reverts --out research/28-s1-revert/results -- python3 research/28-s1-revert/variant.py
+research/eval/run pipeline  --name p1-app     --out research/39-pipeline/results  -- <command>
+#   --split dev|test  --baseline <scorecard.json>  --judgements f.jsonl  --reviews f.jsonl  --topics a,b  --jobs N
+research/eval/run replay research/28-s1-revert/results/s1-reverts.dev.responses.jsonl --judgements j.jsonl --reviews r.jsonl
 ```
 
-It prints the Markdown scorecard for the issue comment and writes `<name>.<split>.scorecard.json`.
-`--split test` is refused unless `EVAL_ALLOW_TEST=1`. Only local Claude sets that, and only in R6 and S11.
+It prints the Markdown scorecard for the issue comment. In `--out` (default `research/eval/results/`, git-ignored)
+it writes `<name>.<split>.` + `scorecard.md`, `scorecard.json`, `unlabelled.jsonl` (signals and pipeline),
+`responses.jsonl` (every request and response) and `log` (the variant's stderr). Commit the first four to the
+experiment folder, not the log.
+
+- `--split test` is refused unless `EVAL_ALLOW_TEST=1`. Only local Claude sets that, and only in R6 and S11.
+- `replay` rescores saved responses without running the variant again. Use it after the E3 judge has written
+  judgements for the unlabelled file. A request that changed since the run (the golden set was edited) is a failure.
+- `--baseline` adds a Δ column, and only when `split`, `golden_version` and `limit` match and neither run is partial.
+  `--topics` makes a partial run, which is for development only.
+- Requests run one at a time by default (`--jobs 1`), so `seconds_per_topic` measures one request alone. On a
+  timeout the runner kills the variant's whole process group. Exit code: 0 = scored, 1 = every request failed,
+  2 = usage error (bad golden set, sealed split, …).
 
 **Retrieval.** Per query, over the first 20 results:
 
@@ -221,8 +235,9 @@ The headline is the mean over queries of `topic` and `control-quiet` topics. `by
    same split are candidates. Among the intersecting items that are still unmatched, it takes the one with the
    highest level, then the largest overlap, then the smallest id.
 2. *Outcome.* One per incident: `campaign`, `contested`, `reverted` or `not-incident` (the label of the item it
-   matched); `duplicate` (every item it intersects was already matched by a higher-ranked incident); or
-   `unlabelled` (it intersects no golden item).
+   matched); `duplicate` (a higher-ranked incident has the same incident key, or every item it intersects was
+   already matched by a higher-ranked incident); or `unlabelled` (it intersects no golden item). A duplicate is
+   labelled, so it never goes to the judge, and it is a false positive in every precision, judged ones included.
 3. *Expected.* The golden `contested` and `campaign` items whose `page_id` or `other_page_ids` are among the
    topic's golden articles.
 
@@ -239,14 +254,22 @@ The headline is the mean over queries of `topic` and `control-quiet` topics. `by
 | `quiet_shown`, `quiet_contested_or_above` | Incidents shown for `control-quiet` topics, and how many of them are level 2 or 3. |
 
 Precision is the mean over topics of kind `topic` that have at least one labelled outcome in the top k.
+`unlabelled@k` is the mean count per topic of kind `topic`. **Match state is per topic:** two topics that share an
+article do not turn each other's hits into duplicates. **Pipeline** runs score signals per query, as if each query
+were a topic. An `out_of_scope: true` answer hides its incidents as well, and `oos_incidents_shown` counts the
+incidents shown for out-of-corpus queries. `control-out-of-corpus` topics get no signals request: they have no
+articles.
 
-**Cost:** `seconds_per_topic` (wall-clock, measured by the runner), plus `llm_calls`, `input_tokens` and
-`output_tokens` summed from `cost`.
+**Cost:** `seconds_per_topic` (wall-clock, measured by the runner, per request: per query for retrieval and
+pipeline), plus `llm_calls`, `input_tokens` and `output_tokens` summed from `cost`. With `--judgements`, the
+metrics also carry `unjudged@10` and `unjudged@25`, totals over topics.
 
 **Scorecard JSON:** `contract`, `kind`, `variant`, `split`, `golden_version`, `dataset`, `git_commit`, `ran_at`,
 `command`, `metrics` (the keys above), `by_style` (retrieval), `per_topic[]`, `best[]` and `worst[]` (five each, for
 the issue comment), `unlabelled[]`, `failures[]` and `cost`. Diff two runs by comparing `metrics`. Runs are
-comparable only when `split` and `golden_version` are equal.
+comparable only when `split` and `golden_version` are equal. Pipeline cards add `per_query[]` and
+`worst_queries[]`, and `--reviews` adds `challenges[]`. Signals `best` lists the highest-ranked true positives.
+`worst` lists missed contested/campaign items first, then false positives, overclaims and duplicates by rank.
 
 ## 7. Working rules (from the execution plan on #3)
 
@@ -268,27 +291,62 @@ comparable only when `split` and `golden_version` are equal.
 | Judge and reviewer prompts and the calibration threshold. Only their output shapes are fixed, in §5. | #22 (local Claude) |
 | The C# `Incident` record and pipeline events. They follow `incident.schema.json` and land with #39, in the `Features/Investigations` slice that P0.8 put on `main`. | cloud |
 
-## 9. Draft: diff CLI `wikidiff` (#29)
+## 9. Diff CLI `wikidiff` (#29)
 
-Not built yet. This is the intended shape, so S3 and S8 code can be sketched against it. Names may change until #29
-merges; this section is then replaced by the real contract.
+The C# engine (`Features/WikiDiff`, `WikitextDiff.Compare`) behind a CLI, so every experiment uses the same diff.
+Fixtures, a parity checker and speed numbers: `research/29-wikidiff/`.
 
 ```bash
-wikidiff batch < pairs.jsonl > diffs.jsonl    # one request per line, one result per line, same order
+scripts/wikidiff.sh batch < pairs.jsonl > diffs.jsonl   # one request per line, one result per line, same order
+scripts/wikidiff.sh one --new b.txt [--old a.txt]        # one pair, pretty-printed
+scripts/wikidiff.sh prose < page.txt                     # prose view + citation texts of one revision
 ```
 ```json
 {"id": "1256:130", "old": "<parent wikitext, or null for a first revision>", "new": "<revision wikitext>"}
 ```
 ```json
 {"id": "1256:130", "contract": 1,
- "segments": [ { "op": "added", "kind": "prose", "text": "<raw wikitext>", "prose": "<normalised text>",
-                 "old_paragraph": null, "new_paragraph": 14, "moved": false } ],
- "added_prose": "…", "removed_prose": "…",
- "stats": { "added_prose_chars": 212, "removed_prose_chars": 0, "added_refs": 1, "removed_refs": 0,
+ "segments": [ { "op": "added", "kind": "prose", "text": "Sotaan osallistui myös ruotsalaisia vapaaehtoisia.",
+                 "prose": "Sotaan osallistui myös ruotsalaisia vapaaehtoisia.",
+                 "old_paragraph": 6, "new_paragraph": 6, "moved": false } ],
+ "added_prose": "Sotaan osallistui myös ruotsalaisia vapaaehtoisia.", "removed_prose": "",
+ "stats": { "added_prose_chars": 50, "removed_prose_chars": 0, "added_refs": 0, "removed_refs": 0,
             "is_blanking": false, "is_substantive": true } }
 ```
 
-- `op` is `added` or `removed`. Unchanged text is left out. A moved paragraph is reported once, with `moved: true`.
-- `kind` is `prose`, `reference`, `template`, `category`, `interwiki`, `file` or `markup`.
-- `is_substantive: false` is the `not-substantive` exclusion of the evidence standard: only markup, whitespace,
-  categories, interwiki links or templates changed. `is_blanking: true` is the `blanking` exclusion.
+- `id` is echoed as given. A line that cannot be diffed (not JSON, `new` missing or null for a suppressed revision)
+  answers `{"id", "contract", "error"}` and the batch goes on. Blank lines are skipped. Each result line is flushed as it is
+  written, so if the process dies, only the line being diffed is lost.
+- **Pathological input.** Templates and links nested more than 100 deep are tokenized flat, as markup. So is anything
+  after a block has spent its look-ahead budget (2 M characters plus 16 per character of the block), which only
+  thousands of unclosed `{{`, `<ref>` or `[http://…` reach. Such an edit still gets a result, quickly.
+- **Blocks.** Each revision is split into blocks: a paragraph, a heading, a list item, or a template, table, comment,
+  file, category or interwiki line. A multi-line infobox, table or `<ref>` stays in one block. `old_paragraph` and
+  `new_paragraph` are 0-based block indices. An edit inside a block that partly survives has both. Text in a block
+  that is new everywhere has `old_paragraph: null`; text in a block that is gone has `new_paragraph: null`.
+- `op` is `added` or `removed`. Unchanged text is left out. Inside a changed block only the changed words are
+  reported. When the old and new blocks share less than 30% of their words, whole blocks are reported instead.
+- A block moved unchanged is reported once, with `op: "added"`, `moved: true` and both indices. It adds and removes
+  nothing, and the stats ignore it.
+- `text` is the raw wikitext, an exact substring of that revision. `prose` is its visible text: words, link labels
+  (`[[a|b]]` → `b`), a reference's citation text (template values joined with `; `), and an infobox's values (an
+  infobox is a template that spans lines). `prose` is empty for markup, inline templates (`{{Lähde}}`), files,
+  categories and interwiki links.
+- `kind` is one of:
+  - `prose`: running text, headings, list items, table cells.
+  - `reference`: one per `<ref>…</ref>` or `<ref name=… />`.
+  - `template`: template tokens, including infobox values.
+  - `category`, `interwiki`, `file`.
+  - `markup`: formatting, link targets, punctuation only.
+- `added_prose` and `removed_prose` hold the `prose` of the `prose` and `template` segments that are not moves.
+  Fragments of one block are joined with ` … `, blocks with a newline. Citations are not included; `added_refs` and
+  `removed_refs` count them. `*_prose_chars` is the summed length of those `prose` values.
+- `is_substantive: false` is the `not-substantive` exclusion of the evidence standard. It means no reference was added
+  or removed, and no letter or digit of prose or of an infobox value changed. So only markup, whitespace, inline
+  templates, files, categories or interwiki links changed. An edit that changes only whitespace has no segments.
+- `is_blanking: true` is the `blanking` exclusion. Either the edit left the page empty, or it added back less than
+  10% of what it removed while removing at least 90% of the page's running text, or of one section's (heading to
+  heading, or the lead, with at least 100 letters and digits). Templates, infoboxes and references are not counted.
+- **Speed:** about 0.1 ms for a 4 KB revision, 3 ms for a small edit to a 200 KB article, and up to about 70 ms for
+  blanking or rewriting one. Send many pairs per call: the wrapper rebuilds first (2–3 s), and the bare DLL takes
+  0.16 s to start.

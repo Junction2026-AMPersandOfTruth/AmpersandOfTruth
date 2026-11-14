@@ -1,0 +1,226 @@
+{
+ "topic_id": "civil-war-1918",
+ "labeller": "gemini:blind/gemini-4-carbon",
+ "labels": {
+  "x01": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Changes Mannerheim's presidential term end date to \"11. maaliskuuta\" (\"11 March\") 1946 and regency end date to \"26. heinäkuuta\" (\"26 July\") 1919, and alters Civil War party wording to \"valkoisten suojeluskuntien ja punaisten sotilasosastojen välillä\" (\"between White Civil Guards and Red military detachments\"). Put back multiple times in an edit war within a single masked IP range, with a removal summary requesting a source for 11 March 1946."
+  },
+  "x02": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 2: Alters the age range for the cited 5,800–6,000 underage victims figure from 14–20 to \"9–20-vuotiaita\" (\"9–20-year-olds\") and adds \"Nuorin kuollut alaikäinen, oli yhdeksänvuotias punakaartilainen poika.\" (\"The youngest deceased minor was a nine-year-old Red Guard boy.\"). Put back once after removal and taken out twice with summaries stating \"Lkm todella koskee 14-20v\" (\"The count really applies to 14–20-year-olds\") and questioning whether the youngest victim was an infant."
+  },
+  "x03": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Adds a map image captioned \"Suojeluskuntiin verrattavissa olevia kansalliskaarteja eri Euroopan maissa tänä päivänä.\" (\"National guards comparable to the Civil Guards in different European countries today.\"). Removed by another editor solely for article scope, \"Artikkeli ei käsittele maanpuolustusjärjestöjä yleisellä tasolla.\" (\"The article does not cover national defence organisations on a general level.\"), with no accuracy, neutrality or sourcing dispute and no re-insertion."
+  },
+  "x04": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Adds a section \"Suomen suojeluskuntien ylipäälliköt\" (\"Commanders-in-Chief of the Finnish Civil Guards\") listing commanders and dates with incomplete citations and undefined reference names. Removed by another editor because \"Annetut lähteet ovat vajaita ja aiheuttavat viittausvirheen.\" (\"The given sources are incomplete and cause a citation error.\"), with no slant and no re-insertion."
+  },
+  "x05": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Excluded (self-removal): The same account added an external link to a thesis under \"Lähdekirjallisuus\" (\"Source literature\") and removed its own addition 82 seconds later."
+  },
+  "x06": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "vandalism",
+   "why": "Excluded (blanking): Revision 3536150 restored the full article text after an earlier page blanking, and removing revision 3664584 blanked the entire page again with the auto-summary \"Ak: Sivu tyhjennettiin\" (\"Auto-summary: The page was blanked\")."
+  },
+  "x07": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Rewrites the lead to state the war began as \"punaisten ylireagoinnin (jälkeenpäin voitaisiin kutsua jopa vahingoksi) ja Leninin yllyttämänä aloitettuun aseelliseen vallankaappaukseen\" (\"an armed coup d'état started due to the Reds' overreaction (in hindsight it could even be called an accident) and at Lenin's instigation\"), adds \"Saksan osallistuminen ei kuitenkaan ollut ratkaisevaa sodan lopputuloksen kannalta.\" (\"Germany's participation was however not decisive for the outcome of the war.\"), and inserts question marks after terror casualty counts. Removed with summary \"Lähdemerkinnät puuttuvat ja omia kommentteja\" (\"Source citations missing and own comments\")."
+  },
+  "x08": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Adds a passage arguing \"Valkoisen terrorin uhreiksi ei voi laskea pelkästään suoraan teloituksissa surmattujen määrää vaan mukaan täytyy laskea myös yli 11 000 vankileireillä nälkään tai sen seuraamuksiin kuolleet.\" (\"As victims of the White terror one cannot count merely the number killed directly in executions, but must also include the more than 11,000 who died of starvation or its consequences in prison camps.\") and estimating over 20,000–25,000 victims. Removed with summary \"Vankileiriprobleemi = valkoinen terrori on epätosi POV väite.\" (\"Prison camp problem = White terror is an untrue POV claim.\")."
+  },
+  "x09": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Excluded (self-removal): The same anonymous editor modified a sentence about Mannerheim's service as commander-in-chief and undid that edit 60 seconds later."
+  },
+  "x10": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded (graffiti): Replaces article text with vulgarities and joke substitutions such as \"Ruotsin sisällyssota\" (\"Swedish table-of-contents war\") and \"Arabian keisarikunta\" (\"Arabian Empire\"), removed within one minute."
+  },
+  "x11": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Adds \"Suojeluskuntiin kuului tuhansia \\\"luokkapettureita\\\", jotka tukivat oikestolaista Suomea.\" (\"Thousands of 'class traitors' who supported right-wing Finland belonged to the Civil Guards.\"). Removed by another editor with summary \"Luokkapettureista puhuminen on erittäin POV\" (\"Speaking of class traitors is very POV\")."
+  },
+  "x12": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Changes the parenthetical strength of the Swedish Brigade from \"(500 miestä)\" (\"(500 men)\") to \"(550 miestä)\" (\"(550 men)\") without a source or summary. Removed with a generic undo summary giving no accuracy, neutrality or sourcing objection, and that removal was itself later undone."
+  },
+  "x13": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Excluded (self-removal): The same named account added the paragraph on the Karelian \"maalaispataljoona\" (\"rural battalion\") in revision 24457 and removed that paragraph 13.6 days later in revision 28415 while revising the section."
+  },
+  "x14": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Adds \"Punakapina termin käyttö on toisaalta perusteltua siinä mielessä, että tietty osa ns. työväestöstä pyrki kaappaamaan vallan väkivaltaisesti toimivasta demokratiasta huolimatta.\" (\"The use of the term Red Rebellion is on the other hand justified in the sense that a certain part of the so-called working class aimed to seize power violently despite a functioning democracy.\"). Removed with summary \"Asenteellinen ja epämääräinen kommentti.\" (\"Biased and vague comment.\")."
+  },
+  "x15": {
+   "label": "not-incident",
+   "exclusion": "bot",
+   "category": "other",
+   "why": "Excluded (bot): A bot-flagged account added only the maintenance template \"{{Tekijänoikeus_201009|diff=900}}\" (\"Copyright_201009\"), which another editor later removed after checking copyright compliance."
+  },
+  "x16": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Adds slanted claims calling People's Delegation forces \"kapinallisten\" (\"rebel\"), stating the war \"loppujen lopuksi osoittautui vapaussodaksi Suomen kansallisen olemassaolon kannalta\" (\"ultimately proved to be a war of liberation from the standpoint of Finland's national existence\"), and claiming a plan that \"Suomi tulisi asuttaa venäläisellä väestöllä\" (\"Finland was to be populated with a Russian population\"). Tagged with \"{{Lähde}}\" (\"Citation needed\"), removed as \"kyseenalaisia lähteettömiä\" (\"dubious unsourced\"), put back once by the same account, and removed again as \"epäselviä, sävyltään värittyneitä ja lähteettömiä\" (\"unclear, biased in tone and unsourced\")."
+  },
+  "x17": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "vandalism",
+   "why": "Excluded (blanking): Removes over 19,000 bytes blanking the article content, undone 7 seconds later."
+  },
+  "x18": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Prefixes \"Keinotekoiset termit\" (\"Artificial terms\") and inserts \"anakronistisesti\" (\"anachronistically\") into the sentence describing \"Vuoden 1918 sota Suomessa\" (\"The 1918 war in Finland\") as the most objective and neutral names, while weakening \"eniten historian ammattitutkijat\" (\"mostly professional historians\") to \"osa historian tutkijoista\" (\"part of historians\"). Removed with summary \"Asenteellinen tämäkin; Mitä anakronismia noissa nimityksissä muka on?\" (\"Biased too; what anachronism is supposedly in those terms?\")."
+  },
+  "x19": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Inserts commentary at the top of the article stating \"Ei se mikään sisällissota ollut vaan Vapaussota. Bolsevikkimieliset punaiset valtasivat Helsingin ja halusivat liittää Suomen Neuvostoliittoon.\" (\"It was no civil war at all, rather a War of Liberation. Bolshevik-minded Reds captured Helsinki and wanted to annex Finland to the Soviet Union.\"). Removed with summary \"kumottu artikkelin alkuun tungettu muokkaajan oma mielipide\" (\"undone editor's own opinion stuffed into the beginning of the article\")."
+  },
+  "x20": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Changes Mannerheim's presidential end date to \"11. maaliskuuta\" (\"11 March\") 1946, Defence Council chairmanship end year from 1939 to 1940, and Commander-in-Chief dates, adding \"Lokakuussa 1939 Mannerheim nimitettiin puolustusvoimain komentajaksi, jolle talvisodan syttyessä 30. marraskuuta luovutettiin puolustusvoimien ylipäällikkyys\" (\"In October 1939 Mannerheim was appointed Commander of the Defence Forces, to whom supreme command of the defence forces was handed over when the Winter War broke out on 30 November\"). Removed for \"selittämättömät päivämäärämuutokset\" (\"unexplained date changes\") and put back twice within a single masked IP range over two days."
+  },
+  "x21": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Replaces an image and caption \"Mannerheim poistumassa presidentinlinnasta.\" (\"Mannerheim leaving the Presidential Palace.\") with a different file and caption \"Mannerheim jätettyään presidentin toimen 1946\" (\"Mannerheim after leaving the office of president in 1946\"). Removed 3 minutes later with a standard undo summary and no dispute signal."
+  },
+  "x22": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 1: Adds a section \"Vallankumoushallituksen perustuslakiesitys\" (\"Constitutional proposal of the revolutionary government\") arguing \"vertaamalla sitä nykyiseen perustuslakiimme löytyy yllättävän paljon yhtäläisyyksiä\" (\"comparing it to our current constitution, surprisingly many similarities are found\"). Removed 7 minutes later in an edit whose summary only discusses preexisting text about annexation to the Soviet Union rather than the added constitutional comparison, with no re-insertion or dispute signal over the removed section."
+  },
+  "x23": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded (graffiti): Adds joke text \"Emme muuten tidä tästä tyypistä YHTÄÄN MITÄÄN! hän oli jätkä!\" (\"By the way we don't know ANYTHING AT ALL about this guy! he was a dude!\"), removed 4 minutes later."
+  },
+  "x24": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded (graffiti): Inserts a vulgar insult into the biography, removed within one minute."
+  },
+  "x25": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Restores disputed infobox changes shortening the subject's name to \"Gustaf Mannerheim\", changing the presidential end date to \"11. maaliskuuta\" (\"11 March\") 1946 and regency end date to \"26. heinäkuuta\" (\"26 July\") 1919, and altering Commander-in-Chief dates. Part of an active edit war over the infobox (the inserting edit itself undid a prior removal, with 7 identity removals on the page within 3 days)."
+  },
+  "x26": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Excluded (not-substantive): Revision 94501 added no prose, number, date, name or citation, removing only a single bulleted internal link \"*[[Luettelo punakaartilaisista]]\" (\"List of Red Guards\")."
+  },
+  "x27": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Changes Mannerheim's presidential end date from 4 March to \"11. maaliskuuta\" (\"11 March\") 1946 and regency end date from 25 July to \"26.7.1919\", adding \"(valtionpäämiehenä tasavallan presidentti)\" (\"(as head of state, President of the Republic)\") as successor. Removed by another editor, put back once by a second distinct editor (an anonymous account), and removed again; reaches only one Level 3 signal (two editors on one article over 1 day)."
+  },
+  "x28": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Restores bibliographic entries for two self-published books subtitled \"marsalkka C.G.E. Mannerheimin kansionS-32 salaiset asiakirjat vuosilta 1932-1949\" (\"secret documents of Marshal C.G.E. Mannerheim's folder S-32 from the years 1932–1949\") to the source and literature lists without adding any prose claim. Removed nearly five years later as \"Omakustanteita, joihin ei lähdeviitteitä.\" (\"Self-published books to which there are no source citations.\")."
+  },
+  "x29": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Adds an external link to \"Helsingin kaupunginkirjaston aihepaketti C. G. E. Mannerheimista kirjasuosituksineen\" (\"Helsinki City Library topic package on C. G. E. Mannerheim with book recommendations\"). Removed nearly ten years later during routine cleanup of broken external links, \"Linkkien korjausta, toimimattomat pois\" (\"Fixing links, broken ones off\")."
+  },
+  "x30": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Alters infobox entries including changing the name to \"Gustaf Mannerheim\", presidential end date to \"11. maaliskuuta\" (\"11 March\") 1946, regency end date to \"26. heinäkuuta\" (\"26 July\") 1919, Commander-in-Chief dates, and marriage years to \"1892-1902, ero virall. 1919\" (\"1892–1902, divorce officially 1919\"). Part of an edit war (both preceded and followed by undo edits) and removed with summary \"Liikaa lähteetöntä ja kirjoitusvirheillä täydennettyä tekstiä.\" (\"Too much unsourced text supplemented with typos.\")."
+  },
+  "x31": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Adds a sourced paragraph about \"Mannerheim-suvun asiapapereita\" (\"Mannerheim family documents\") gifted in 2018 to the President of Finland and donated to the National Archives. Removed two days later solely to move the material to the family article, \"Siirrän tiedon asiakirjoista artikkeliin Mannerheim (suku).\" (\"Moving the information about the documents to the article Mannerheim (family).\"), with no dispute."
+  },
+  "x32": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Rewrites belligerents in the infobox and lead as \"Valkoinen Suomi eli Suomen senaatti\" (\"White Finland, i.e. the Finnish Senate\") and \"Punainen Suomi eli Suomen kansanvaltuuskunta\" (\"Red Finland, i.e. the Finnish People's Delegation\"), renames \"Senaatin joukkoja\" (\"the Senate's troops\") to \"Hallituksen joukkoja\" (\"the government's troops\"), and lowercases \"neuvosto-Venäjä\" (\"Soviet Russia\"). Removed first with an accuracy objection noting \"esimerkiksi saksalaiset tuskin olivat osa jotain 'valkoista Suomea'\" (\"for instance the Germans were hardly part of some 'White Finland'\"), put back when that remover undid their own edit, and removed again by another editor."
+  }
+ },
+ "rev_id_concerns": {
+  "x04": "rev 17766684 was already undone in rev 17768282 before rev 17768285, so its added text does not appear in the candidate diff",
+  "x06": "rev 3536150 is a full-page restoration after an earlier blanking rather than a new content insertion",
+  "x28": "rev 10867051 is a precautionary restoration after an anonymous removal rather than the original insertion of the book entries"
+ },
+ "usage": {
+  "total_tokens": 103410,
+  "total_input_tokens": 73066,
+  "input_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 73066
+   }
+  ],
+  "total_cached_tokens": 0,
+  "total_output_tokens": 4581,
+  "output_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 4581
+   }
+  ],
+  "total_tool_use_tokens": 0,
+  "total_thought_tokens": 25763,
+  "initial_input_tokens": 73066,
+  "cost_usd_est": 0.4496,
+  "seconds": 340.1
+ }
+}

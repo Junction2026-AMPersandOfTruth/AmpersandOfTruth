@@ -1,0 +1,137 @@
+{
+  "notes": "Seeds for the P1.E1 golden set (#20). Topics 1-10 = the P0.6 shortlist (research/profiling/prof_top/findings.md §3); 11-13 added from corpus stats. seed_pages are starting points, not the final article grades: the labeller grades articles from the pack's article_candidates. must_include_rev_ids = revisions P0.6 cited, forced into the pack. split is the proposal for human sign-off: test = 4 self-contained topics (no articles shared with dev topics), demo topics stay in dev.",
+  "topics": [
+    {
+      "id": "civil-war-1918", "title": "1918 Civil War: 'War of Liberation' vs 'Class War'", "kind": "topic", "split": "dev",
+      "probe_queries": ["Finnish Civil War 1918 Reds and Whites", "Suomen sisällissota 1918 punaiset ja valkoiset"],
+      "fulltext": ["+sisällissota +1918", "vapaussota", "punakapina"],
+      "seed_pages": [{"page_id": 1150, "title": "Suomen sisällissota"}, {"page_id": 250972, "title": "Suomen sisällissodan nimet"},
+                     {"page_id": 7675, "title": "Suojeluskunta"}, {"page_id": 9186, "title": "Punakaarti"},
+                     {"page_id": 6021, "title": "Carl Gustaf Emil Mannerheim"}, {"page_id": 285522, "title": "Tammisaaren vankileiri"}],
+      "must_include_rev_ids": [22843968, 21249230, 9997763, 1412385]
+    },
+    {
+      "id": "continuation-war", "title": "Continuation War 1941-44: 'separate war' vs alliance with Germany", "kind": "topic", "split": "dev",
+      "probe_queries": ["Continuation War Finland alliance with Nazi Germany", "jatkosota erillissota Saksan liittolainen"],
+      "fulltext": ["erillissota", "+jatkosota +Barbarossa", "juutalaisluovutukset"],
+      "seed_pages": [{"page_id": 440, "title": "Jatkosota"}, {"page_id": 11398, "title": "Risto Ryti"},
+                     {"page_id": 105157, "title": "Sotasyyllisyysoikeudenkäynti"}, {"page_id": 319344, "title": "Itä-Karjalan keskitysleirit"},
+                     {"page_id": 136099, "title": "Suomalainen Waffen-SS-vapaaehtoispataljoona"}, {"page_id": 622103, "title": "Naarajärven sotavankileiri"},
+                     {"page_id": 588384, "title": "Suomen juutalaisluovutukset"}, {"page_id": 6816, "title": "Lapin sota"}],
+      "must_include_rev_ids": [302458, 2355623, 18214740, 11703122]
+    },
+    {
+      "id": "winter-war", "title": "Winter War 1939-40: Mainila shots, Terijoki government, who won", "kind": "topic", "split": "dev",
+      "probe_queries": ["Winter War 1939 Mainila shelling Soviet invasion of Finland", "talvisota Mainilan laukaukset Terijoen hallitus"],
+      "fulltext": ["Mainilan laukaukset", "Terijoen hallitus", "torjuntavoitto"],
+      "seed_pages": [{"page_id": 1256, "title": "Talvisota"}, {"page_id": 8295, "title": "Mainilan laukaukset"},
+                     {"page_id": 52097, "title": "Moskovan rauhansopimus (1940)"}, {"page_id": 24889, "title": "Simo Häyhä"},
+                     {"page_id": 34207, "title": "Mannerheim-linja"}],
+      "must_include_rev_ids": [15356346, 5892101, 8963132]
+    },
+    {
+      "id": "ceded-karelia", "title": "Ceded Karelia and border irredentism ('ceded' vs 'occupied')", "kind": "topic", "split": "dev",
+      "probe_queries": ["ceded Karelia return of Karelia debate Greater Finland", "luovutettu Karjala Karjala-kysymys Suur-Suomi"],
+      "fulltext": ["Karjala-kysymys", "miehitetyt alueet", "Suur-Suomi"],
+      "seed_pages": [{"page_id": 19086, "title": "Karjala-kysymys"}, {"page_id": 9895, "title": "Luovutettu Karjala"},
+                     {"page_id": 24094, "title": "Suur-Suomi"}, {"page_id": 6626, "title": "Karjala"},
+                     {"page_id": 1333, "title": "Viipuri"}, {"page_id": 12374, "title": "Käkisalmi"}, {"page_id": 9606, "title": "Heimosodat"}],
+      "must_include_rev_ids": [445526, 21525215, 7493076]
+    },
+    {
+      "id": "nato-debate", "title": "Finland's NATO debate, military non-alignment and foreign deployments", "kind": "topic", "split": "dev",
+      "probe_queries": ["Finland NATO membership debate military non-alignment", "Suomen Nato-keskustelu sotilaallinen liittoutumattomuus"],
+      "fulltext": ["Nato-keskustelu", "liittoutumattomuus", "+ISAF +Suomi"],
+      "seed_pages": [{"page_id": 128998, "title": "Suomen Nato-keskustelu"}, {"page_id": 1745523, "title": "Suomen Nato-jäsenyys"},
+                     {"page_id": 2979, "title": "Luettelo Suomen historian sodista"}, {"page_id": 1137, "title": "Sauli Niinistö"}],
+      "must_include_rev_ids": [14209522, 4115945, 7522928]
+    },
+    {
+      "id": "finlandization", "title": "Finlandization and Finland's ties to the Soviet Union and Russia", "kind": "topic", "split": "dev",
+      "probe_queries": ["Finlandization Kekkonen Soviet influence self-censorship", "suomettuminen Kekkonen Neuvostoliitto itsesensuuri"],
+      "fulltext": ["suomettuminen", "Suomi–Neuvostoliitto-Seura", "Nord Stream"],
+      "seed_pages": [{"page_id": 5261, "title": "Suomettuminen"}, {"page_id": 1275, "title": "Urho Kekkonen"},
+                     {"page_id": 1187, "title": "Tarja Halonen"}, {"page_id": 942, "title": "Paavo Lipponen"},
+                     {"page_id": 69647, "title": "Suomi–Neuvostoliitto-Seura"}, {"page_id": 20742, "title": "Venäläisvastaisuus"}],
+      "must_include_rev_ids": [772360, 21539843, 10928767, 350580]
+    },
+    {
+      "id": "language-politics", "title": "Swedish and Finnish language politics, Fennomans and Svecomans, Åland", "kind": "topic", "split": "test",
+      "probe_queries": ["Swedish language politics in Finland Fennoman Svecoman compulsory Swedish", "kielipolitiikka fennomania svekomania pakkoruotsi"],
+      "fulltext": ["pakkoruotsi", "svekomania", "Ahvenanmaan kysymys"],
+      "seed_pages": [{"page_id": 200797, "title": "Axel Olof Freudenthal"}, {"page_id": 72145, "title": "Suomalaisuuden liitto"},
+                     {"page_id": 255, "title": "Fennomania"}, {"page_id": 202404, "title": "Ahvenanmaan kysymys"},
+                     {"page_id": 109236, "title": "Jomalan kirkko"}],
+      "must_include_rev_ids": [13188547, 1402950, 22343803, 8443386, 15198060]
+    },
+    {
+      "id": "sami-prehistory", "title": "Sámi indigeneity and claims about Finnish prehistory", "kind": "topic", "split": "test",
+      "probe_queries": ["Sámi indigenous people history of Finland prehistory", "saamelaiset alkuperäiskansa Suomen esihistoria"],
+      "fulltext": ["+saamelaiset +alkuperäiskansa", "metsäsaamelaiset", "Suomen muinaiset kuninkaat"],
+      "seed_pages": [{"page_id": 7283, "title": "Saamelaiset"}, {"page_id": 997401, "title": "Saamelaisten historia"},
+                     {"page_id": 1096144, "title": "Metsäsaamelaiset"}, {"page_id": 8905, "title": "Suomen esihistoria"},
+                     {"page_id": 1100, "title": "Suomen muinaiset kuninkaat"}],
+      "must_include_rev_ids": [16917076, 20051659, 824963, 13407096]
+    },
+    {
+      "id": "far-right", "title": "Interwar fascism and today's nationalist movements", "kind": "topic", "split": "test",
+      "probe_queries": ["Lapua movement Patriotic People's Movement fascism Finland nationalist parties", "Lapuan liike IKL fasismi kansallismielinen puolue"],
+      "fulltext": ["Isänmaallinen kansanliike", "Lapuanliike", "Suomen Kansa Ensin"],
+      "seed_pages": [{"page_id": 11477, "title": "Lapuanliike"}, {"page_id": 11537, "title": "Isänmaallinen kansanliike"},
+                     {"page_id": 41622, "title": "Timo Soini"}, {"page_id": 1445320, "title": "Suomen Kansa Ensin"},
+                     {"page_id": 1395607, "title": "Marco de Wit"}, {"page_id": 1105958, "title": "Ano Turtiainen"}],
+      "must_include_rev_ids": [1514101, 17769637, 21024113]
+    },
+    {
+      "id": "austerity-politics", "title": "2000s-2010s austerity, welfare cuts and the 2011 'jytky' election", "kind": "topic", "split": "dev",
+      "probe_queries": ["Finnish government austerity welfare cuts 2010s", "Suomen hallituksen leikkaukset sosiaaliturva jytky 2011"],
+      "fulltext": ["jytky", "+leikkaukset +hallitus", "SATA-komitea"],
+      "seed_pages": [{"page_id": 11396, "title": "Alexander Stubb"}, {"page_id": 795, "title": "Matti Vanhanen"},
+                     {"page_id": 1121620, "title": "Sanna Marin"}, {"page_id": 10858, "title": "Jyrki Katainen"},
+                     {"page_id": 926229, "title": "Juha Sipilä"}, {"page_id": 12639, "title": "Suvi Lindén"}, {"page_id": 9059, "title": "Osmo Soininvaara"}],
+      "must_include_rev_ids": [21467444, 10021446, 14377989]
+    },
+    {
+      "id": "covid-19-finland", "title": "The COVID-19 pandemic in Finland: restrictions, vaccines, Uusimaa lockdown", "kind": "topic", "split": "dev",
+      "probe_queries": ["COVID-19 pandemic in Finland restrictions and vaccines", "koronaviruspandemia Suomessa rajoitukset rokotteet"],
+      "fulltext": ["koronavirus", "Koronavilkku", "+korona +rokote"],
+      "seed_pages": [{"page_id": 1562418, "title": "Koronaviruspandemia Suomessa"}, {"page_id": 1593343, "title": "Koronavilkku"},
+                     {"page_id": 1675610, "title": "Koronaviruspandemia Ahvenanmaalla"}],
+      "must_include_rev_ids": []
+    },
+    {
+      "id": "russification-independence", "title": "Russification, the Jäger movement and the road to independence", "kind": "topic", "split": "dev",
+      "probe_queries": ["Russification of Finland Bobrikov Jäger movement independence 1917", "sortovuodet Bobrikov jääkäriliike itsenäistyminen"],
+      "fulltext": ["sortovuodet", "jääkäriliike", "helmikuun manifesti"],
+      "seed_pages": [{"page_id": 11113, "title": "Sortovuodet"}, {"page_id": 10758, "title": "Jääkäriliike"},
+                     {"page_id": 11601, "title": "Nikolai Bobrikov"}, {"page_id": 11517, "title": "Eugen Schauman"},
+                     {"page_id": 46938, "title": "Helmikuun manifesti"}, {"page_id": 32957, "title": "Suomen itsenäistyminen"},
+                     {"page_id": 96542, "title": "Jääkäripataljoona 27"}],
+      "must_include_rev_ids": []
+    },
+    {
+      "id": "national-myths", "title": "National myths: the Kalevala, Karelianism and Lalli", "kind": "topic", "split": "test",
+      "probe_queries": ["Kalevala Elias Lönnrot Karelianism Finnish national epic", "Kalevala Lönnrot karelianismi kansalliseepos"],
+      "fulltext": ["karelianismi", "+Kalevala +Lönnrot", "Lalli"],
+      "seed_pages": [{"page_id": 498, "title": "Kalevala"}, {"page_id": 13182, "title": "Elias Lönnrot"},
+                     {"page_id": 114665, "title": "Karelianismi"}, {"page_id": 14460, "title": "Lalli"}],
+      "must_include_rev_ids": []
+    },
+    {
+      "id": "border-crisis-2023", "title": "Control (quiet): the 2023 Finland-Russia border crisis and the border fence", "kind": "control-quiet", "split": "dev",
+      "probe_queries": ["Finland Russia border crisis 2023 border closure fence", "Suomen ja Venäjän rajakriisi 2023 itäraja aita"],
+      "fulltext": ["rajakriisi", "esteaita", "itäraja"],
+      "seed_pages": [{"page_id": 1778743, "title": "Suomen ja Venäjän rajakriisi 2023"}, {"page_id": 1781605, "title": "Suomen ja Venäjän rajan esteaita"},
+                     {"page_id": 1570458, "title": "Suomen ja Venäjän suhteet"}, {"page_id": 1060965, "title": "Suomen ja Venäjän raja"}],
+      "must_include_rev_ids": []
+    },
+    {
+      "id": "french-revolution", "title": "Control (out of corpus): the French Revolution's Reign of Terror", "kind": "control-out-of-corpus", "split": "dev",
+      "probe_queries": [], "fulltext": [], "seed_pages": [], "must_include_rev_ids": []
+    },
+    {
+      "id": "moon-landing-hoax", "title": "Control (out of corpus): claims that the Moon landings were faked", "kind": "control-out-of-corpus", "split": "test",
+      "probe_queries": [], "fulltext": [], "seed_pages": [], "must_include_rev_ids": []
+    }
+  ]
+}

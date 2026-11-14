@@ -1,0 +1,75 @@
+{"comment": "Totuus sisällissodasta", "reason_text": "Totuus sisällissodasta", "reasons": [], "raw_reasons": []}
+{"comment": "Mitä oikeasti tapahtui", "reason_text": "Mitä oikeasti tapahtui", "reasons": [], "raw_reasons": []}
+{"comment": "Todellisuudessa asia oli toisin", "reason_text": "Todellisuudessa asia oli toisin", "reasons": [], "raw_reasons": []}
+{"comment": "Korjattu propagandaa!", "reason_text": "Korjattu propagandaa!", "reasons": ["neutrality_pov"], "raw_reasons": ["neutrality_pov"]}
+{"comment": "lisätty <!-- huom --> teksti", "reason_text": "lisätty <!-- huom --> teksti", "reasons": [], "raw_reasons": []}
+{"comment": "Käyttäjän [[Special:Contributions/A|A]] muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän [[User:B|B]] tekemään versioon.", "reason_text": "", "reasons": [], "raw_reasons": []}
+{"comment": "lisätty lähde ja ref", "reason_text": "lisätty lähde ja ref", "reasons": [], "raw_reasons": []}
+{"comment": "https://yle.fi/a/123", "reason_text": "https://yle.fi/a/123", "reasons": [], "raw_reasons": []}
+{"comment": "poistettu lähteetön väite", "reason_text": "poistettu lähteetön väite", "reasons": ["sourcing"], "raw_reasons": ["sourcing"]}
+{"comment": "ei lähdettä", "reason_text": "ei lähdettä", "reasons": ["sourcing"], "raw_reasons": ["sourcing"]}
+{"comment": "lähde?", "reason_text": "lähde?", "reasons": ["sourcing"], "raw_reasons": ["sourcing"]}
+{"comment": "", "reason_text": "", "reasons": [], "raw_reasons": []}
+{"comment": "/* Historia */", "reason_text": "", "reasons": [], "raw_reasons": []}
+{"comment": "typo", "reason_text": "typo", "reasons": ["maintenance"], "raw_reasons": ["maintenance"]}
+{"comment": "/* Urheilu */ kh", "reason_text": "kh", "reasons": ["maintenance"], "raw_reasons": ["maintenance"]}
+{"comment": "kh", "reason_text": "kh", "reasons": ["maintenance"], "raw_reasons": ["maintenance"]}
+{"comment": "pieni korjaus", "reason_text": "pieni korjaus", "reasons": [], "raw_reasons": []}
+{"comment": "laajennettu tekstiä", "reason_text": "laajennettu tekstiä", "reasons": [], "raw_reasons": []}
+{"comment": "/* Jatkosota */ Käyttäjän [[Special:Contributions/Esimerkki|Esimerkki]] ([[User talk:Esimerkki|keskustelu]]) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän [[User:Toinen|Toinen]] tekemään versioon.", "reason_text": "", "reasons": [], "raw_reasons": []}
+{"comment": "Käyttäjän [[Toiminnot:Muokkaukset/Testaaja|Testaaja]] vandalismi kumottiin ja sivu palautettiin käyttäjän [[Special:Contributions/Toinen|Toinen]] tekemään versioon 5282992 (tainut mennä pressat sekaisin?)", "reason_text": "tainut mennä pressat sekaisin?", "reasons": [], "raw_reasons": ["vandalism_test"]}
+{"comment": "Käyttäjän [[Special:Contributions/PitkäNimi|PitkäNimi]] ([[User talk:PitkäNimi|keskustelu]]) muokkaukset kumottiin ja sivu pal...", "reason_text": "", "reasons": [], "raw_reasons": []}
+{"comment": "[[Toiminnot:Contributions/FAA|FAA]]:n ([[Keskustelu_käyttäjästä:FAA|keskustelu]]) muokkaukset kumottiin ja artikkeli palautettiin viimeisimpään ML:n tekemään versioon.", "reason_text": "", "reasons": [], "raw_reasons": []}
+{"comment": "/* Alku */ Kumottu muokkaus 15646527, jonka teki [[Special:Contributions/Muokkaaja A|Muokkaaja A]] ([[User talk:Muokkaaja A|keskustelu]]); tuohan se vasta propagandaa olikin", "reason_text": "tuohan se vasta propagandaa olikin", "reasons": ["neutrality_pov"], "raw_reasons": ["neutrality_pov"]}
+{"comment": "Kumottu muokkaus [[Special:Diff/22166886|22166886]], jonka teki [[Special:Contributions/192.0.2.1|192.0.2.1]] ([[User talk:192.0.2.1|keskustelu]]) (MobileUndo v2.0.0)", "reason_text": "", "reasons": [], "raw_reasons": []}
+{"comment": "Hylättiin viimeisin tekstimuutos (tehnyt [[Toiminnot:Muokkaukset/Muokkaaja1|Muokkaaja1]]) ja palautettiin versio 14936880, jonka on tehnyt Tarkastaja: rv, lähteetön lisäys", "reason_text": "rv, lähteetön lisäys", "reasons": ["sourcing"], "raw_reasons": ["sourcing"]}
+{"comment": "Hylättiin viimeisin tekstimuutos sotkemisena (tehnyt [[Toiminnot:Muokkaukset/X|X]]) ja palautettiin versio 22197627, jonka on tehnyt Ville Siliämaa", "reason_text": "", "reasons": [], "raw_reasons": ["vandalism_test"]}
+{"comment": "Hylättiin viimeisimmät 2 tekstimuutosta (tehnyt [[Toiminnot:Muokkaukset/Y|Y]]) ja palautettiin versio 22925301, jonka on tehnyt 2001:db8:85a3::8a2e:370:7334 Lähteetöntä", "reason_text": "Lähteetöntä", "reasons": ["sourcing"], "raw_reasons": ["sourcing"]}
+{"comment": "Hylättiin ensimmäinen tekstimuutos (tehnyt [[Toiminnot:Muokkaukset/Z|Z]]), joka tehtiin versioon 23324888, jonka on tehnyt Tarkastaja: virheellinen väite", "reason_text": "virheellinen väite", "reasons": ["factual_error"], "raw_reasons": ["factual_error"]}
+{"comment": "Käyttäjän [[Toiminnot:Contributions/ Esim |Esim]] ([[Keskustelu_käyttäjästä:Esim|keskustelu]]) muokkaus 4829719 kumottiin; lähteetön näkemys", "reason_text": "lähteetön näkemys", "reasons": ["sourcing"], "raw_reasons": ["sourcing"]}
+{"comment": "Käyttäjän 192.0.2.55 muokkaukset kumottiin: sotkua", "reason_text": "sotkua", "reasons": ["vandalism_test"], "raw_reasons": ["vandalism_test"]}
+{"comment": "Revert to revision 2442947 dated 2007-03-02 12:30:00 by Tarkastaja using [[:en:Wikipedia:Tools/Navigation_popups|popups]]", "reason_text": "", "reasons": [], "raw_reasons": []}
+{"comment": "Undid revision 20273889 by [[Special:Contributions/Testi|Testi]]; vandalism ([[:meta:User:Patrol|Patrol]])", "reason_text": "vandalism", "reasons": ["vandalism_test"], "raw_reasons": ["vandalism_test"]}
+{"comment": "Reverted 2 edits by [[Special:Contributions/Testi|Testi]] ([[User talk:Testi|talk]]): spam (TwinkleGlobal)", "reason_text": "spam", "reasons": ["vandalism_test"], "raw_reasons": ["vandalism_test"]}
+{"comment": "Palautettiin Esim:n muokkaukset viimeiseen Toinen:n tekemään muutokseen.", "reason_text": "", "reasons": [], "raw_reasons": []}
+{"comment": "Palautettu Tarkastajan viimeisimpään muutokseen: vuosiluvun ja viivan väliin ei tule välilyöntiä", "reason_text": "vuosiluvun ja viivan väliin ei tule välilyöntiä", "reasons": [], "raw_reasons": []}
+{"comment": "/* Lähteet */ lisätty viite", "reason_text": "lisätty viite", "reasons": [], "raw_reasons": []}
+{"comment": "rv, lähteetön väite", "reason_text": "rv, lähteetön väite", "reasons": ["sourcing"], "raw_reasons": ["sourcing"]}
+{"comment": "Kumottu muokkaus 15037779, jonka teki [[Special:Contributions/Propaganda|Propaganda]] ([[User talk:Propaganda|keskustelu]])", "reason_text": "", "reasons": [], "raw_reasons": ["neutrality_pov"]}
+{"comment": "sotkemista ja häiriköintiä", "reason_text": "sotkemista ja häiriköintiä", "reasons": ["vandalism_test"], "raw_reasons": ["vandalism_test"]}
+{"comment": "rvv", "reason_text": "rvv", "reasons": ["vandalism_test"], "raw_reasons": ["vandalism_test"]}
+{"comment": "vandalism", "reason_text": "vandalism", "reasons": ["vandalism_test"], "raw_reasons": ["vandalism_test"]}
+{"comment": "lähteettömiä väitteitä", "reason_text": "lähteettömiä väitteitä", "reasons": ["sourcing"], "raw_reasons": ["sourcing"]}
+{"comment": "ei tietolähdettä", "reason_text": "ei tietolähdettä", "reasons": ["sourcing"], "raw_reasons": ["sourcing"]}
+{"comment": "unsourced", "reason_text": "unsourced", "reasons": ["sourcing"], "raw_reasons": ["sourcing"]}
+{"comment": "POV-pushausta", "reason_text": "POV-pushausta", "reasons": ["neutrality_pov"], "raw_reasons": ["neutrality_pov"]}
+{"comment": "NPOV", "reason_text": "NPOV", "reasons": ["neutrality_pov"], "raw_reasons": ["neutrality_pov"]}
+{"comment": "poliittista propagandaa", "reason_text": "poliittista propagandaa", "reasons": ["neutrality_pov"], "raw_reasons": ["neutrality_pov"]}
+{"comment": "puolueellista ja epäneutraalia spekulaatiota", "reason_text": "puolueellista ja epäneutraalia spekulaatiota", "reasons": ["neutrality_pov"], "raw_reasons": ["neutrality_pov"]}
+{"comment": "kirjoittajan oma mielipidekirjoitus", "reason_text": "kirjoittajan oma mielipidekirjoitus", "reasons": ["neutrality_pov"], "raw_reasons": ["neutrality_pov"]}
+{"comment": "väärää tietoa ja asiavirheitä", "reason_text": "väärää tietoa ja asiavirheitä", "reasons": ["factual_error"], "raw_reasons": ["factual_error"]}
+{"comment": "valheellinen väite, ei pidä paikkaansa", "reason_text": "valheellinen väite, ei pidä paikkaansa", "reasons": ["factual_error"], "raw_reasons": ["factual_error"]}
+{"comment": "ei uutta tutkimusta eikä omaa tutkimusta", "reason_text": "ei uutta tutkimusta eikä omaa tutkimusta", "reasons": ["original_research"], "raw_reasons": ["original_research"]}
+{"comment": "WP:OR", "reason_text": "WP:OR", "reasons": ["original_research"], "raw_reasons": ["original_research"]}
+{"comment": "rv, eston kiertoa", "reason_text": "rv, eston kiertoa", "reasons": ["block_evasion"], "raw_reasons": ["block_evasion"]}
+{"comment": "estonkiertoa", "reason_text": "estonkiertoa", "reasons": ["block_evasion"], "raw_reasons": ["block_evasion"]}
+{"comment": "tekijänoikeusrikkomus, suoraa kopiota", "reason_text": "tekijänoikeusrikkomus, suoraa kopiota", "reasons": ["copyright"], "raw_reasons": ["copyright"]}
+{"comment": "copyvio, kopioitu suoraan", "reason_text": "copyvio, kopioitu suoraan", "reasons": ["copyright"], "raw_reasons": ["copyright"]}
+{"comment": "kh, typo ja kielilinkit", "reason_text": "kh, typo ja kielilinkit", "reasons": ["maintenance"], "raw_reasons": ["maintenance"]}
+{"comment": "kielenhuoltoa, luokat ja format", "reason_text": "kielenhuoltoa, luokat ja format", "reasons": ["maintenance"], "raw_reasons": ["maintenance"]}
+{"comment": "ei konsensusta, ks. keskustelusivulla", "reason_text": "ei konsensusta, ks. keskustelusivulla", "reasons": ["consensus"], "raw_reasons": ["consensus"]}
+{"comment": "per keskustelu", "reason_text": "per keskustelu", "reasons": ["consensus"], "raw_reasons": ["consensus"]}
+{"comment": "Aleksandr Popov ja Anatoli Karpov", "reason_text": "Aleksandr Popov ja Anatoli Karpov", "reasons": [], "raw_reasons": []}
+{"comment": "Sotkamon kunta ja Sotkamo-seura, sotka", "reason_text": "Sotkamon kunta ja Sotkamo-seura, sotka", "reasons": [], "raw_reasons": []}
+{"comment": "Kolin vaara ja suuri vaaratilanne", "reason_text": "Kolin vaara ja suuri vaaratilanne", "reasons": [], "raw_reasons": []}
+{"comment": "väärä vuosiluku", "reason_text": "väärä vuosiluku", "reasons": ["factual_error"], "raw_reasons": ["factual_error"]}
+{"comment": "rv", "reason_text": "rv", "reasons": [], "raw_reasons": []}
+{"comment": "rv, lähteetön", "reason_text": "rv, lähteetön", "reasons": ["sourcing"], "raw_reasons": ["sourcing"]}
+{"comment": "kirjoitusvirhe korjattu", "reason_text": "kirjoitusvirhe korjattu", "reasons": ["maintenance"], "raw_reasons": ["maintenance"]}
+{"comment": "/* Propaganda ja mielipiteet */", "reason_text": "", "reasons": [], "raw_reasons": []}
+{"comment": "/* Lähteetön spekulaatio */ kh", "reason_text": "kh", "reasons": ["maintenance"], "raw_reasons": ["maintenance"]}
+{"comment": "Hylättiin viimeisin tekstimuutos (tehnyt 192.0.2.1) ja palautettiin versio 123 käyttäjältä Matti: väärää tietoa", "reason_text": "väärää tietoa", "reasons": ["factual_error"], "raw_reasons": ["factual_error"]}
+{"comment": "Kumottu muokkaus 23181977, jonka teki [[Special:Contributions/85.76.1.2|85.76.1.2]] ([[User talk:85.76.1.2|keskustelu]]) propagandaa", "reason_text": "propagandaa", "reasons": ["neutrality_pov"], "raw_reasons": ["neutrality_pov"]}
+{"comment": "rv, ei pidä paikkaansa", "reason_text": "rv, ei pidä paikkaansa", "reasons": ["factual_error"], "raw_reasons": ["factual_error"]}
+{"comment": "lähteetön ja puolueellinen", "reason_text": "lähteetön ja puolueellinen", "reasons": ["neutrality_pov", "sourcing"], "raw_reasons": ["neutrality_pov", "sourcing"]}
+{"comment": "palautettu, ks. keskustelusivu", "reason_text": "palautettu, ks. keskustelusivu", "reasons": ["consensus"], "raw_reasons": ["consensus"]}

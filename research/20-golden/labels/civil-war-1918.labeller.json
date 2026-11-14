@@ -1,0 +1,867 @@
+{
+  "topic": {
+    "id": "civil-war-1918",
+    "title": "1918 Civil War: 'War of Liberation' vs 'Class War'",
+    "split": "dev",
+    "kind": "topic",
+    "queries": [
+      {
+        "id": "civil-war-1918.en",
+        "style": "en",
+        "lang": "en",
+        "text": "Finnish Civil War 1918: war of liberation or class war"
+      },
+      {
+        "id": "civil-war-1918.fi",
+        "style": "fi",
+        "lang": "fi",
+        "text": "Suomen sisällissota 1918 vapaussota vai luokkasota"
+      },
+      {
+        "id": "civil-war-1918.broad",
+        "style": "broad",
+        "lang": "en",
+        "text": "Reds and Whites in Finland 1918 and how the war is remembered"
+      },
+      {
+        "id": "civil-war-1918.sv",
+        "style": "sv",
+        "lang": "sv",
+        "text": "Finska inbördeskriget 1918 frihetskrig eller klasskrig"
+      }
+    ],
+    "articles": [
+      {
+        "page_id": 1150,
+        "grade": 2,
+        "title": "Suomen sisällissota"
+      },
+      {
+        "page_id": 250972,
+        "grade": 2,
+        "title": "Suomen sisällissodan nimet"
+      },
+      {
+        "page_id": 640247,
+        "grade": 2,
+        "title": "Suomen sisällissodan terrori"
+      },
+      {
+        "page_id": 59794,
+        "grade": 2,
+        "title": "Valkoiset"
+      },
+      {
+        "page_id": 9186,
+        "grade": 2,
+        "title": "Punakaarti"
+      },
+      {
+        "page_id": 7675,
+        "grade": 1,
+        "title": "Suojeluskunta"
+      },
+      {
+        "page_id": 6021,
+        "grade": 1,
+        "title": "Carl Gustaf Emil Mannerheim"
+      },
+      {
+        "page_id": 285522,
+        "grade": 1,
+        "title": "Tammisaaren vankileiri"
+      },
+      {
+        "page_id": 1151714,
+        "grade": 1,
+        "title": "Hennalan vankileiri"
+      },
+      {
+        "page_id": 59605,
+        "grade": 1,
+        "title": "Suomen kansanvaltuuskunta"
+      },
+      {
+        "page_id": 203494,
+        "grade": 1,
+        "title": "Suomen sosialistinen työväentasavalta"
+      },
+      {
+        "page_id": 1411194,
+        "grade": 1,
+        "title": "Suomen luokkasota"
+      },
+      {
+        "page_id": 1291614,
+        "grade": 1,
+        "title": "Suomen sisällissodan aikajana"
+      },
+      {
+        "page_id": 11834,
+        "grade": 1,
+        "title": "Tampereen taistelu"
+      },
+      {
+        "page_id": 185998,
+        "grade": 1,
+        "title": "Suomen sotasurmat"
+      },
+      {
+        "page_id": 1747289,
+        "grade": 1,
+        "title": "Punalesket"
+      },
+      {
+        "page_id": 1448244,
+        "grade": 1,
+        "title": "Haagan teloitukset 1918"
+      },
+      {
+        "page_id": 1506003,
+        "grade": 1,
+        "title": "Valkoisten voitonparaati"
+      },
+      {
+        "page_id": 32957,
+        "grade": 1,
+        "title": "Suomen itsenäistyminen"
+      }
+    ],
+    "items": [
+      {
+        "id": "civil-war-1918/i01",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 1150,
+        "inserting_rev_ids": [
+          21249230
+        ],
+        "removing_rev_ids": [
+          21253492
+        ],
+        "description": "Rewrites the lead so the war starts with an armed coup 'from the Reds' overreaction ... and at Lenin's instigation', adds that Soviet Russia fought in several places, and cuts the German force from 13,000 to about 9,000.",
+        "why": "Level 2. Claim: narrative framing of the war's outbreak, quotable from the added text: 'punaisten ylireagoinnin (jälkeenpäin voitaisiin kutsua jopa vahingoksi) ja Leninin yllyttämänä aloitettuun aseelliseen vallankaappaukseen' ('the armed coup started by the Reds' overreaction (which could afterwards even be called an accident) and at Lenin's instigation'), plus 'Neuvosto-Venäjä osallistui taisteluihin useilla paikkakunnilla' and the German troop figure changed to 'n. 9.000'. Community dispute: removal summary (E195) 'Lähdemerkinnät puuttuvat ja omia kommentteja' ('source markings are missing, and own comments'), a sourcing reason. Visible 41.5 h (c01). One editor (E387), one article, never put back, so not level 3.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/i02",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 1150,
+        "inserting_rev_ids": [
+          22843968
+        ],
+        "removing_rev_ids": [
+          22844036
+        ],
+        "description": "Adds to the top of the article that it was not a civil war but the War of Liberation, that the Bolshevik-minded Reds wanted to join Finland to the Soviet Union and that the Whites defended 'our freedom'.",
+        "why": "Level 2. Coherent text, not graffiti. Claim: a naming/narrative push, quotable: 'Ei se mikään sisällissota ollut vaan Vapaussota' ('it was no civil war but the War of Liberation') and 'Valkoiset lähtivät puolustamaan vapauttamme' ('the Whites went to defend our freedom'). Community dispute: removal summary (E193) 'kumottu artikkelin alkuun tungettu muokkaajan oma mielipide' ('undid the editor's own opinion pushed into the start of the article'), a neutrality reason. Visible 41 min (c02). One anonymous editor (E410), one article, not put back, so not level 3.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/i03",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 250972,
+        "inserting_rev_ids": [
+          9997763
+        ],
+        "removing_rev_ids": [
+          10159104
+        ],
+        "description": "Adds that the name 'punakapina' (Red Rebellion) is justified because part of the working class sought to seize power violently despite a functioning democracy.",
+        "why": "Level 2. Claim: argues for one of the loaded names of the war, quotable: 'Punakapina termin käyttö on toisaalta perusteltua ... tietty osa ns. työväestöstä pyrki kaappaamaan vallan väkivaltaisesti toimivasta demokratiasta huolimatta'. Community dispute: removal summary (E193) 'Asenteellinen ja epämääräinen kommentti' ('a biased and vague comment'), a neutrality reason. Visible 38 days (c03). The flag 'removal_was_itself_undone' points to 10159112, which is E193's own next revert to an even older version (c04), not a put-back. One anonymous editor (E422), one article: not level 3.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/i04",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 250972,
+        "inserting_rev_ids": [
+          9997747
+        ],
+        "removing_rev_ids": [
+          10159112
+        ],
+        "description": "Calls the neutral names of the war 'artificial' and 'anachronistically' neutral, and changes 'used most by professional historians' to 'used by some historians'.",
+        "why": "Level 2. Claim: slants the description of the neutral names, quotable: '{+Keinotekoiset termit +}', '{+anakronistisesti +}' and '[-eniten-]{+osa+} historian [-ammattitutkijat.-]{+tutkijoista.+}' (most professional historians -> some historians). Community dispute: removal summary (E193) 'Asenteellinen tämäkin; Mitä anakronismia noissa nimityksissä muka on?' ('biased too; what anachronism is there supposedly in these names?'), a neutrality and accuracy reason. Visible 38 days (c04). Same anonymous editor and session as i03 but different content and a separate removal; one editor, one article: not level 3. Only E422's edit counts as inserting; the run also swept E193's earlier revert.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/i05",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 7675,
+        "inserting_rev_ids": [
+          1412385
+        ],
+        "removing_rev_ids": [
+          1413773
+        ],
+        "description": "Adds that the Civil Guards included thousands of 'class traitors' who supported right-wing Finland.",
+        "why": "Level 2. Claim: loaded wording, quotable: 'Suojeluskuntiin kuului tuhansia \"luokkapettureita\", jotka tukivat oikestolaista Suomea'. Community dispute: removal summary (E55) 'Luokkapettureista puhuminen on erittäin POV' ('talking about class traitors is very POV'), a neutrality reason. Visible 8.1 h (c05). One anonymous editor (E446), one article, not put back: not level 3.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/i06",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 1150,
+        "inserting_rev_ids": [
+          7999804,
+          7999823,
+          7999840,
+          7999890,
+          7999891,
+          7999898,
+          7999913,
+          8014933
+        ],
+        "removing_rev_ids": [
+          8000236,
+          8015721
+        ],
+        "description": "Rewrites the lead and naming section: calls the Reds 'rebels', says the war 'turned out to be a war of liberation', and adds that Russian troops backed a communist coup and Finland's 'voluntary' joining of the Soviet Union, to be settled with Russians under Lenin's and Stalin's plans.",
+        "why": "Level 2. Claim: narrative push, quotable: 'loppujen lopuksi osoittautui vapaussodaksi Suomen kansallisen olemassaolon kannalta', 'kommunistinen ääriryhmä väkivaltaisesti kaappasi vallan' and 'Tämän suunnitelman mukaan Suomi tulisi asuttaa venäläisellä väestöllä'. Community dispute on three counts: removed by E171 as 'kyseenalaisia lähteettömiä lisäyksiä' ('questionable unsourced additions', c09); put back once by the same editor (8014933, c07) and removed again by E172 as 'epäselviä, sävyltään värittyneitä ja lähteettömiä lisäyksiä' ('unclear, slanted in tone and unsourced additions'); another editor (E164) added {{Lähde}} in the same episode. Visible 3.7 h, then 5.4 h. All inserting edits are E170's (E164's tag excluded). One editor, one article, one put-back within 3 days: not level 3.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/i07",
+        "label": "contested",
+        "category": "false_factual_claim",
+        "page_id": 1150,
+        "inserting_rev_ids": [
+          4741124,
+          4743018
+        ],
+        "removing_rev_ids": [
+          4742742,
+          4743112
+        ],
+        "description": "Changes the age range of the 5,800-6,000 minors killed from 14-20 to 9-20 and adds that the youngest was a nine-year-old Red Guard boy.",
+        "why": "Level 2. Claim: a changed number range attached to a casualty statistic, quotable: '16 % oli alaikäisiä, 9–20-vuotiaita' and 'Nuorin kuollut alaikäinen, oli yhdeksänvuotias punakaartilainen poika'. Community dispute: removal summary (E89) 'Lkm todella koskee 14-20v. Oikea lkm 9-20v:lle tarkastettava Sotasurmasivulta' ('the count really concerns 14-20-year-olds; the right count for 9-20 must be checked from the war-deaths database'), an accuracy reason; put back once by the same editor (c20) and removed again ('9-20v lkm on varmaankin eri kuin 14-20v, ole hyvä ja tarkasta' - 'the 9-20 count is surely different from 14-20, please check'). Visible 4.7 h, then 22 min. One editor (E131), one article: not level 3.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/i08",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 1150,
+        "inserting_rev_ids": [
+          4247136
+        ],
+        "removing_rev_ids": [
+          4248096
+        ],
+        "description": "Adds that White terror victims should include the 11,000+ prison-camp deaths, putting the total at 20,000-25,000, and compares it with the Winter War dead.",
+        "why": "Level 2. Claim: reframes a casualty category and gives a larger total, quotable: 'Valkoisen terrorin uhrien kokonaismäärä ylittää siis todennäköisesti ainakin 20 000:n ellei jopa 25 000:n kuolleen rajan'. Community dispute: removal summary (E89) 'Vankileiriprobleemi = valkoinen terrori on epätosi POV väite' ('prison-camp problem = White terror is an untrue POV claim'), an accuracy and neutrality reason. The pack's text search places the insertion at 4247136 (insertion_diff shows the same first paragraph; the last sentence was reworded before the removal). Visible 8.1 h (c39). One editor (E122), one article, not put back: not level 3.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/i09",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 6021,
+        "inserting_rev_ids": [
+          13635606,
+          13635652,
+          13639312,
+          13639924,
+          13640415
+        ],
+        "removing_rev_ids": [
+          13636805,
+          13640041,
+          13640416,
+          13640442
+        ],
+        "description": "Changes Mannerheim's presidency end date from 4.3.1946 to 11.3.1946 and his regency end date from 25.7.1919 to 26.7.1919, later with a mannerheim.fi source.",
+        "why": "Level 1, capped. The dates went back and forth: removed by E728 without reason (c22), put back with the explanation that the resignation notice was 4.3. but took effect 11.3. (13639312), changed back by E178 (c23: '4.3.1946 ... on ainakin varma päivämäärä eroilmoitukselle. 11.3.1946 -päivän saa lisätä lähteistettynä' - '4.3.1946 is at least a certain date for the resignation notice; 11.3.1946 may be added with a source'), put back again and removed (E223, then E135: 'rv, E203:n muokkauksia'). So there are community signals, but the content is a date-precision question with no slant on the article's subject or this topic, and no removal says the date is wrong or not neutral: only missing source and the block-evasion rollback. By the good-faith rule that caps it at level 1; when in doubt, the lower level. Inserting editors are all in one masked range (85.76.x.x); E178's opposing edit is listed as a removal.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "One of five recurring episodes (i09-i13) on this article, 2013-2020, that change the infobox end dates of the presidency (4.3.1946 -> 11.3.1946) and regency (25.7.1919 -> 26.7.1919)."
+      },
+      {
+        "id": "civil-war-1918/i10",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 6021,
+        "inserting_rev_ids": [
+          15215091,
+          15216032,
+          15216036,
+          15217932
+        ],
+        "removing_rev_ids": [
+          15216508,
+          15217943
+        ],
+        "description": "Changes the presidency end date to 11.3.1946 and regency end to 26.7.1919 with kysy.fi and presidentti.fi sources, and rewords the lead's office title.",
+        "why": "Level 1, capped. Same date-precision change as i09, now sourced. Removed twice without any stated reason (E239 after 18.7 h, c10; E295 4 min after another editor put it back, c19). Put back once, but the content has no slant and no removal says it is wrong or not neutral, so by the good-faith rule it stays at level 1.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "One of five recurring episodes (i09-i13) on this article, 2013-2020, that change the infobox end dates of the presidency (4.3.1946 -> 11.3.1946) and regency (25.7.1919 -> 26.7.1919)."
+      },
+      {
+        "id": "civil-war-1918/i11",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 6021,
+        "inserting_rev_ids": [
+          16556471
+        ],
+        "removing_rev_ids": [
+          16556486
+        ],
+        "description": "Rebuilds the infobox: name shown as 'Gustaf Mannerheim' with a Helsingin Sanomat source, presidency end 11.3.1946, regency end 26.7.1919, and expanded offices and spouse details.",
+        "why": "Level 1. Removed 7 min later by E388: 'Liikaa lähteetöntä ja kirjoitusvirheillä täydennettyä tekstiä' ('too much unsourced text, full of typos'), a quality and missing-source reason for plausible infobox content with no slant: good-faith rule, capped at level 1. The edit restored an older version (flag first_undone_edit_is_itself_a_revert) and the removal was undone once (16556549), but the text is not in the latest revision, so not 'kept'.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "One of five recurring episodes (i09-i13) on this article, 2013-2020, that change the infobox end dates of the presidency (4.3.1946 -> 11.3.1946) and regency (25.7.1919 -> 26.7.1919)."
+      },
+      {
+        "id": "civil-war-1918/i12",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 6021,
+        "inserting_rev_ids": [
+          18949336
+        ],
+        "removing_rev_ids": [
+          18949338
+        ],
+        "description": "Puts back a rebuilt infobox with presidency end 11.3.1946, regency end 26.7.1919 and a defence-forces-commander office.",
+        "why": "Level 1. The edit undid E472's earlier removal (summary says it undoes E472 to stop an edit war) and was removed 26 s later by E295 without a stated reason (c26). Same no-slant date and infobox content as i09-i13; no removal reason about accuracy or neutrality, so it stays at level 1.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "One of five recurring episodes (i09-i13) on this article, 2013-2020, that change the infobox end dates of the presidency (4.3.1946 -> 11.3.1946) and regency (25.7.1919 -> 26.7.1919)."
+      },
+      {
+        "id": "civil-war-1918/i13",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 6021,
+        "inserting_rev_ids": [
+          19293190,
+          19294680,
+          19301904
+        ],
+        "removing_rev_ids": [
+          19293193,
+          19298606,
+          19302182
+        ],
+        "description": "Rebuilds the infobox offices (adds defence forces commander 1939-1945, extends defence council chair to 1940), changes presidency end to 11.3.1946 and regency end to 26.7.1919, and adds a sentence on the October 1939 appointment.",
+        "why": "Level 1, capped. Removed by E178 as 'selittämättömät päivämäärämuutokset' ('unexplained date changes', c17), put back with an explanation, removed by E472 as 'eston kiertoa' ('block evasion', c08), put back by another account in the same masked range and removed by E295 (c18). Ordinary infobox content with no slant; the only stated problems are unexplained changes and block evasion, so the good-faith rule caps it at level 1. Inserting accounts are one masked range (85.76.x.x), one article.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ],
+        "notes": "One of five recurring episodes (i09-i13) on this article, 2013-2020, that change the infobox end dates of the presidency (4.3.1946 -> 11.3.1946) and regency (25.7.1919 -> 26.7.1919)."
+      },
+      {
+        "id": "civil-war-1918/i14",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1150,
+        "inserting_rev_ids": [
+          4358793,
+          4358804
+        ],
+        "removing_rev_ids": [
+          4358799,
+          4359866
+        ],
+        "description": "Reworks the infobox combatants ('Red Finland i.e. People's Delegation', 'White Finland i.e. the Senate') and calls the Senate's troops 'the Government's troops' in the lead.",
+        "why": "Level 1. Removed by E12 in 111 s ('boksiin tuli huononnuksia' - 'the box got worse'), put back by E12 himself ('ei alkuperäinen ollutkaan ainakaan sen parempi' - 'the original was not any better'), then removed by E89: 'Boxin ei tarvitse olla pelkkä kopio txt:stä' ('the box need not be a mere copy of the text'). The reasons are about layout and quality, not accuracy or neutrality; the content is mostly infobox restructuring of names already in the lead. The 'Senaatin' -> 'Hallituksen' wording is a mild framing at most; when in doubt, the lower level.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/i15",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 7675,
+        "inserting_rev_ids": [
+          17766675,
+          17766684
+        ],
+        "removing_rev_ids": [
+          17768282,
+          17768285
+        ],
+        "description": "Adds a section listing the supreme commanders of the Civil Guards from 1918 to 1944 with dates and web sources.",
+        "why": "Level 1. Plausible list with no slant. Removed by E359: 'Annetut lähteet ovat vajaita ja aiheuttavat viittausvirheen' ('the given sources are incomplete and cause a citation error'), a technical sourcing reason: good-faith rule. The same editor's follow-up edit 17766684 in the same section was removed first as 'Numerotiedon väärä muutos' ('wrong change of a number'), but its text is not shown in the pack, so no claim can be quoted from it. One anonymous editor, not put back.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/i16",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 7675,
+        "inserting_rev_ids": [
+          15432605,
+          15432629
+        ],
+        "removing_rev_ids": [
+          15445022
+        ],
+        "description": "Adds a map of present-day European national guards captioned as comparable to the Civil Guards.",
+        "why": "Level 1. The caption is prose, so substantive. Removed after 5 days by E458: 'Kuuluu kyllä jonnekin muualle kuin tänne. Artikkeli ei käsittele maanpuolustusjärjestöjä yleisellä tasolla' ('belongs somewhere else; the article does not cover defence organisations in general'), a misplacement reason with no dispute signal. E55's caption wording fix is not an inserting edit.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/i17",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 6021,
+        "inserting_rev_ids": [
+          17589055,
+          17589491
+        ],
+        "removing_rev_ids": [
+          17593183
+        ],
+        "description": "Adds that Putin gave Mannerheim family papers to President Niinistö in 2018, with Yle sources.",
+        "why": "Level 1. Sourced, no slant. Removed after 2 days by E833: 'Siirrän tiedon asiakirjoista artikkeliin Mannerheim (suku)' ('moving the documents info to the article Mannerheim (family)'). A move to another article is not one of the exclusions, so it stays at level 1 with no dispute signal.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/i18",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1150,
+        "inserting_rev_ids": [
+          2857431
+        ],
+        "removing_rev_ids": [
+          2857913
+        ],
+        "description": "Changes the size of the Swedish Brigade from 500 to 550 men.",
+        "why": "Level 1. An unexplained number change undone after 76 min (E66) with no reason. The removal was itself undone (2858469), but the text is not in the latest revision, so not 'kept'. A minor figure with no slant and no removal reason about accuracy: not a claim under the good-faith rule, capped at level 1.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/i19",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1150,
+        "inserting_rev_ids": [
+          377511
+        ],
+        "removing_rev_ids": [
+          377522
+        ],
+        "description": "Adds a section comparing the Red government's draft constitution with Finland's current constitution ('surprisingly many similarities'), with lists of differences.",
+        "why": "Level 1. Unsourced original comparison, removed 7 min later by E33 in a section edit. Its summary ('Spekulointi Suomen \"liittämisestä Neuvostoliittoon\" pois arvailuna' - 'speculation about Finland's \"annexation to the Soviet Union\" removed as guesswork') concerns a different sentence of the section, so there is no dispute signal for this text, and it was not put back. The pack's text search shows 377511 added the section (insertion_diff).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/i20",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 6021,
+        "inserting_rev_ids": [
+          10867051
+        ],
+        "removing_rev_ids": [
+          15892014
+        ],
+        "description": "Puts back two self-published Erkki Hautamäki books on Mannerheim's 'secret documents' in the literature list.",
+        "why": "Level 1. The edit restored the entries after an earlier removal ('palautetaan varmuuden vuoksi' - 'restoring to be safe'); they stayed 4.8 years and were removed by E600: 'Omakustanteita, joihin ei lähdeviitteitä' ('self-published, with no citations pointing to them'). A source-quality reason and one put-back exist, but a literature-list entry asserts no claim that can be quoted, and nothing shows the sourcing misrepresents content, so it is not source manipulation: level 1.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/n01",
+        "label": "not-incident",
+        "exclusion": "blanking",
+        "page_id": 6021,
+        "inserting_rev_ids": [
+          3536150
+        ],
+        "removing_rev_ids": [
+          3664584
+        ],
+        "description": "Whole-article restore after an earlier blanking; the later removal blanked the page again.",
+        "why": "Excluded: blanking. The removal 3664584 has the automatic summary 'Ak: Sivu tyhjennettiin' ('page blanked') and restored the blank version 3536148; it was undone 2 min later (3664586). The undone run is 22 unrelated edits by 11 editors starting from E295's restore of the page (c06).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/n02",
+        "label": "not-incident",
+        "exclusion": "blanking",
+        "category": "vandalism",
+        "page_id": 6021,
+        "inserting_rev_ids": [
+          1686574
+        ],
+        "removing_rev_ids": [
+          1686575
+        ],
+        "description": "Blanks the Mannerheim article (-19,138 bytes).",
+        "why": "Excluded: blanking. The undone edit removed the page text; reverted 7 s later by E39 (c31).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/n03",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 6021,
+        "inserting_rev_ids": [
+          15167812
+        ],
+        "removing_rev_ids": [
+          15167825
+        ],
+        "description": "Adds 'We don't know ANYTHING AT ALL about this guy! he was a dude!'.",
+        "why": "Excluded: graffiti. 'Emme muuten tidä tästä tyypistä YHTÄÄN MITÄÄN! hän oli jätkä!', summary 'mannerheim on jätkä <3'; removed after 4 min (c24).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/n04",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 6021,
+        "inserting_rev_ids": [
+          8601055
+        ],
+        "removing_rev_ids": [
+          8601058
+        ],
+        "description": "Adds an obscene one-line insult about Mannerheim.",
+        "why": "Excluded: graffiti. 'Carl Gustaf Emil Mannerheim oli ruskean reijän ritari' (an obscene joke); removed after 57 s (c25).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/n05",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 1150,
+        "inserting_rev_ids": [
+          14520345
+        ],
+        "removing_rev_ids": [
+          14520347
+        ],
+        "description": "Replaces words with nonsense and an obscenity ('Ruotsin sisällyssota', 'Arabian keisarikunta', 'Venäjän penis').",
+        "why": "Excluded: graffiti. Word swaps such as 'Venäjän [-keisari-]{+penis+}' and '14 [-tunnin-]{+sekunnin+} vallankumous'; removed after 56 s (c33).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/n06",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "other",
+        "page_id": 1150,
+        "inserting_rev_ids": [
+          2847400
+        ],
+        "removing_rev_ids": [
+          2847410
+        ],
+        "description": "Adds a link to a thesis in the literature section.",
+        "why": "Excluded: self-removal. The same account (E75) took it out 82 s later (c28).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/n07",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "other",
+        "page_id": 6021,
+        "inserting_rev_ids": [
+          11175698
+        ],
+        "removing_rev_ids": [
+          11175701
+        ],
+        "description": "Rewords the sentence on Mannerheim as commander-in-chief in Finland's wars.",
+        "why": "Excluded: self-removal. E724 undid its own edit 60 s later (c29).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/n08",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "other",
+        "page_id": 1150,
+        "inserting_rev_ids": [
+          24457
+        ],
+        "removing_rev_ids": [
+          28415
+        ],
+        "description": "Adds a paragraph on the Karelian 'rural battalion' stopping a Red arms train at Kämärä.",
+        "why": "Excluded: self-removal. E31 added it and E31 removed it 13.6 days later ('ei vieläkään npov, mutta jo parempi' - 'still not NPOV, but better') (c40).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/n09",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 1150,
+        "inserting_rev_ids": [
+          9114283
+        ],
+        "removing_rev_ids": [
+          9148559
+        ],
+        "description": "A bot adds a copyright-check template.",
+        "why": "Excluded: not-substantive (template only; also added by a bot-named account). Removed by E178: 'tekijänoikeustsekkausmalline pois, artikkeli on ok' ('copyright check template removed, the article is fine') (c30).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/n10",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 9186,
+        "inserting_rev_ids": [
+          94501
+        ],
+        "removing_rev_ids": [
+          158207
+        ],
+        "description": "Removes a see-also link to the list of Red Guard members.",
+        "why": "Excluded: not-substantive. The undone edit only deleted one internal link line; it added nothing (c35).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/n11",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 6021,
+        "inserting_rev_ids": [
+          1975335
+        ],
+        "removing_rev_ids": [
+          15882859
+        ],
+        "description": "Adds an external link to a Helsinki City Library reading list on Mannerheim.",
+        "why": "Excluded: not-substantive. An external link, no prose or citation; removed 9.7 years later in a link cleanup ('toimimattomat pois' - 'dead links removed') (c37). The pack's text search shows 1975335 added it.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "civil-war-1918/n12",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 6021,
+        "inserting_rev_ids": [
+          11330599,
+          11330601,
+          11330602,
+          11330604
+        ],
+        "removing_rev_ids": [
+          11330608
+        ],
+        "description": "Swaps the image in the presidency section for a smaller one with a new caption.",
+        "why": "Excluded: not-substantive. An image swap whose caption only describes the new picture ('Mannerheim jätettyään presidentin toimen 1946'); removed 3 min later without reason (c32). Borderline because the caption is text; nothing in it is a claim.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      }
+    ],
+    "notes": "Labelled from the pack only. Incidents on the war article, the names article and the Civil Guards article are naming/narrative pushes removed as biased, opinion or unsourced (all one editor, one article: level 2). Mannerheim items i09-i13 are one recurring infobox date dispute (presidency end 4.3. vs 11.3.1946, regency end 25.7. vs 26.7.1919) across 2013-2020, from three editor groups (85.76.x.x, E795/E796, E816); labelled level 1 as a no-slant date-precision question removed for missing source, unexplained change or block evasion. If a reviewer counts it as a claim, the five items should be re-judged together: several editor groups plus re-insertion over years would then reach the level 3 signals."
+  },
+  "item_sources": {
+    "civil-war-1918/i01": [
+      "c01"
+    ],
+    "civil-war-1918/i02": [
+      "c02"
+    ],
+    "civil-war-1918/i03": [
+      "c03"
+    ],
+    "civil-war-1918/i04": [
+      "c04"
+    ],
+    "civil-war-1918/i05": [
+      "c05"
+    ],
+    "civil-war-1918/i06": [
+      "c09",
+      "c07"
+    ],
+    "civil-war-1918/i07": [
+      "c11",
+      "c20"
+    ],
+    "civil-war-1918/i08": [
+      "c39"
+    ],
+    "civil-war-1918/i09": [
+      "c22",
+      "c13",
+      "c23"
+    ],
+    "civil-war-1918/i10": [
+      "c10",
+      "c19"
+    ],
+    "civil-war-1918/i11": [
+      "c27"
+    ],
+    "civil-war-1918/i12": [
+      "c26"
+    ],
+    "civil-war-1918/i13": [
+      "c17",
+      "c08",
+      "c18"
+    ],
+    "civil-war-1918/i14": [
+      "c21",
+      "c12"
+    ],
+    "civil-war-1918/i15": [
+      "c14"
+    ],
+    "civil-war-1918/i16": [
+      "c15"
+    ],
+    "civil-war-1918/i17": [
+      "c16"
+    ],
+    "civil-war-1918/i18": [
+      "c34"
+    ],
+    "civil-war-1918/i19": [
+      "c36"
+    ],
+    "civil-war-1918/i20": [
+      "c38"
+    ],
+    "civil-war-1918/n01": [
+      "c06"
+    ],
+    "civil-war-1918/n02": [
+      "c31"
+    ],
+    "civil-war-1918/n03": [
+      "c24"
+    ],
+    "civil-war-1918/n04": [
+      "c25"
+    ],
+    "civil-war-1918/n05": [
+      "c33"
+    ],
+    "civil-war-1918/n06": [
+      "c28"
+    ],
+    "civil-war-1918/n07": [
+      "c29"
+    ],
+    "civil-war-1918/n08": [
+      "c40"
+    ],
+    "civil-war-1918/n09": [
+      "c30"
+    ],
+    "civil-war-1918/n10": [
+      "c35"
+    ],
+    "civil-war-1918/n11": [
+      "c37"
+    ],
+    "civil-war-1918/n12": [
+      "c32"
+    ]
+  },
+  "skipped": []
+}

@@ -8,7 +8,7 @@
 You orchestrate, Gemini implements. Follow `.claude/skills/gemini/SKILL.md` exactly: it's plain markdown. Wherever it
 says "Claude", read it as "you". Differences for non-Claude agents:
 
-- **Dispatch:** you have no background-task notifications. Run parallel workers (max 3) in one shell call and wait:
+- **Dispatch:** you have no background-task notifications. Run parallel workers (as many as you like) in one shell call and wait:
   `scripts/gemini/run.sh a > .tasks/a/run.log 2>&1 & scripts/gemini/run.sh b > .tasks/b/run.log 2>&1 & wait`
   (or run a single task in the foreground; it can take up to `WORKER_TIMEOUT`=1800s).
 - **Linux:** the worker sandbox is macOS-only (`sandbox-exec`). On Linux, prefix with `WORKER_SANDBOX=0`.

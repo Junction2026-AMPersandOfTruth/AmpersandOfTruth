@@ -1,0 +1,898 @@
+{
+  "topic": {
+    "id": "austerity-politics",
+    "title": "2000s-2010s austerity, welfare cuts and the 2011 'jytky' election",
+    "split": "dev",
+    "kind": "topic",
+    "queries": [
+      {
+        "id": "austerity-politics.en",
+        "style": "en",
+        "lang": "en",
+        "text": "Finnish government austerity and welfare cuts under Katainen and Sipilä, and the Finns Party's 2011 'jytky' election win"
+      },
+      {
+        "id": "austerity-politics.fi",
+        "style": "fi",
+        "lang": "fi",
+        "text": "Kataisen ja Sipilän hallitusten leikkaukset sosiaaliturvaan ja perussuomalaisten jytky vuoden 2011 eduskuntavaaleissa"
+      },
+      {
+        "id": "austerity-politics.broad",
+        "style": "broad",
+        "lang": "en",
+        "text": "Finland economic crisis, spending cuts and the populist election backlash"
+      },
+      {
+        "id": "austerity-politics.sv",
+        "style": "sv",
+        "lang": "sv",
+        "text": "Åtstramningar och nedskärningar i välfärden i Finland på 2010-talet och Sannfinländarnas jytky-val 2011"
+      }
+    ],
+    "articles": [
+      {
+        "page_id": 940826,
+        "grade": 2,
+        "title": "Kataisen hallitus"
+      },
+      {
+        "page_id": 378293,
+        "grade": 2,
+        "title": "Eduskuntavaalit 2011"
+      },
+      {
+        "page_id": 1261018,
+        "grade": 2,
+        "title": "Sipilän hallitus"
+      },
+      {
+        "page_id": 1339931,
+        "grade": 2,
+        "title": "Suomi 2010-luvulla"
+      },
+      {
+        "page_id": 1405132,
+        "grade": 2,
+        "title": "Kilpailukykysopimus"
+      },
+      {
+        "page_id": 1427199,
+        "grade": 2,
+        "title": "Aktiivimalli"
+      },
+      {
+        "page_id": 10858,
+        "grade": 2,
+        "title": "Jyrki Katainen"
+      },
+      {
+        "page_id": 926229,
+        "grade": 2,
+        "title": "Juha Sipilä"
+      },
+      {
+        "page_id": 1174071,
+        "grade": 1,
+        "title": "Stubbin hallitus"
+      },
+      {
+        "page_id": 832314,
+        "grade": 1,
+        "title": "Kiviniemen hallitus"
+      },
+      {
+        "page_id": 334921,
+        "grade": 1,
+        "title": "Vanhasen II hallitus"
+      },
+      {
+        "page_id": 856829,
+        "grade": 1,
+        "title": "Eduskuntavaalit 2015"
+      },
+      {
+        "page_id": 1141935,
+        "grade": 1,
+        "title": "Maakunta- ja soteuudistus"
+      },
+      {
+        "page_id": 1496095,
+        "grade": 1,
+        "title": "Sosiaaliturvan uudistus"
+      },
+      {
+        "page_id": 1755834,
+        "grade": 1,
+        "title": "Orpon hallitus"
+      },
+      {
+        "page_id": 43887,
+        "grade": 1,
+        "title": "Mari Kiviniemi"
+      },
+      {
+        "page_id": 11396,
+        "grade": 1,
+        "title": "Alexander Stubb"
+      },
+      {
+        "page_id": 795,
+        "grade": 1,
+        "title": "Matti Vanhanen"
+      },
+      {
+        "page_id": 1121620,
+        "grade": 1,
+        "title": "Sanna Marin"
+      },
+      {
+        "page_id": 9059,
+        "grade": 1,
+        "title": "Osmo Soininvaara"
+      },
+      {
+        "page_id": 12639,
+        "grade": 1,
+        "title": "Suvi Lindén"
+      }
+    ],
+    "items": [
+      {
+        "id": "austerity-politics/i01",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 11396,
+        "inserting_rev_ids": [
+          14377989
+        ],
+        "removing_rev_ids": [
+          14377994
+        ],
+        "description": "Adds to Stubb's private-life section that his social-media use has annoyed citizens and that under his government the economy has only sunk deeper while resources go to 'patronising citizens and inventing bans' instead of employment.",
+        "why": "Level 2. Claim: unsourced, loaded framing of the Stubb government's record ('Stubbin hallituksen aikana talous onkin mennyt vain syvemmälle' = 'under Stubb's government the economy has only gone deeper'; 'kansalaisten holhoamiseen ja erilaisten kieltojen keksimiseen' = 'patronising citizens and inventing all kinds of bans'). Community: removed 2 min later by a different, named account with 'rv, aika vahvoja väitteitä ja mielipiteitä jotka vaatisivat lähteet tuekseen' ('rather strong claims and opinions that would need sources to back them'), a sourcing/neutrality reason. One anonymous editor (85.76.x.x), one article, never put back: no level-3 signal. c01 (must-include).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i02",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 10858,
+        "inserting_rev_ids": [
+          21467444
+        ],
+        "removing_rev_ids": [
+          21467496
+        ],
+        "description": "Adds that Katainen's record as finance minister 2007-2011 caused the Finns Party's 2011 'jytky', voters signalling that he is unwanted in politics, and that this mattered more than Kiviniemi's premiership.",
+        "why": "Level 2. Claim: an unsourced causal claim about the 2011 election ('Kataisen toiminta valtiovarainministerinä 2007–2011 johti Perussuomalaiset-puolueen vuoden 2011 \"jytkyyn\"' = 'Katainen's conduct as finance minister 2007-2011 led to the Finns Party's 2011 jytky'). Community: undone after 42 min by a named account with 'Lähteetöntä spekulointia' ('unsourced speculation'), a sourcing/accuracy reason. One anonymous editor (2001:14BA:…), one article, not put back: no level-3 signal. c02 (must-include).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i03",
+        "label": "reverted",
+        "category": "pov_push",
+        "page_id": 9059,
+        "inserting_rev_ids": [
+          10021446
+        ],
+        "removing_rev_ids": [
+          10021779
+        ],
+        "description": "Adds a quote from an opposing MP's blog saying the cut of up to 40% to young people's income support is called 'Lex Soininvaara' because it came from the SATA committee section he chaired.",
+        "why": "Level 1. Substantive, removed after 85 min by a different, named account, no exclusion. The text is a one-sided political quote ('Nuorten toimeentulotuen leikkaaminen jopa 40 prosentilla kulkee nimillä Lex Soininvaara' = 'cutting youth income support by up to 40 percent goes by the name Lex Soininvaara'), added 11 days before the 2011 election, but there is no community-dispute signal: the removal is a standard rollback with no reason, it was never put back and no dispute template appears. Level 2 needs both, so level 1. c03 (must-include).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i04",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 1121620,
+        "inserting_rev_ids": [
+          19809508,
+          19809967
+        ],
+        "removing_rev_ids": [
+          19809564,
+          19821820
+        ],
+        "description": "Adds to the 2021 Marin breakfast-allowance controversy that former PM Jyrki Katainen has said he used a similar service while living at Kesäranta (Ilta-Sanomat source).",
+        "why": "Level 2. Claim: frames the controversy with a precedent ('Ainakin entinen pääministeri Jyrki Katainen on kertonut käyttäneensä vastaavaa palvelua' = 'at least former PM Jyrki Katainen has said he used a similar service'), and a remover called it untrue. Community: removed 63 min after insertion by a named account, 'Poistin pari kohtaa jotka eivät pidä paikkaansa' ('removed a couple of points that are not true'); put back 5 h later by another named account ('Molemmat tiedot oli lähteistetty' = 'both pieces of information were sourced'); removed again 6.6 days later in a wider revert by a third account ('Kataisen aamiaiset Katainen artikkeliin' = 'Katainen's breakfasts belong in the Katainen article'). Two inserting accounts (anonymous 87.95.x.x and a named restorer), but one article, one put-back and no source manipulation: one level-3 signal only. Other edits in the c05 run are item i05 or dropped (a link, a deletion tag undone within the run).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i05",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1121620,
+        "inserting_rev_ids": [
+          19820900
+        ],
+        "removing_rev_ids": [
+          19821820
+        ],
+        "description": "Adds Marin's views from a June 2021 Helsingin Sanomat interview: lighter taxation of low and middle incomes, raising municipal revenue rather than cutting municipal spending, and no reduction of municipal duties.",
+        "why": "Level 1. Sourced and substantive; removed 10 h later by a different named account in a 7-edit revert: 'tapahtumakohtaisia yksittäisiä lausuntoja. Voi lisätä artikkeliin SDP:stä tai kuntavaaleista 2021' ('event-specific single statements; can be added to the SDP or 2021 municipal elections article'). The objection is placement, not accuracy or neutrality; no slant in the text; never put back. Misplaced good-faith content, capped at level 1. c05.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i06",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 926229,
+        "inserting_rev_ids": [
+          15498483,
+          15501200
+        ],
+        "removing_rev_ids": [
+          15498486,
+          15511304
+        ],
+        "description": "Adds the topic of Sipilä's master's thesis (a 900 MHz duplex converter).",
+        "why": "Level 1. Plausible, unsourced, unslanted biographical detail. Undone 3 min after the first insertion with no reason (c17), put back the next day by the same named account (first edit of c06), then removed 4.6 days later by another named account with 'rv. lähteettömiä lisäyksiä' ('unsourced additions'). The put-back is a history signal, but the only recorded problem is a missing source and nothing is framed or changed, so it is a good-faith addition capped at level 1.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i07",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 926229,
+        "inserting_rev_ids": [
+          15501242
+        ],
+        "removing_rev_ids": [
+          15511304
+        ],
+        "description": "Adds that Sipilä and his wife have a charity foundation in their names (and moves the sentence on his cousin into the same paragraph).",
+        "why": "Level 1. Unsourced, neutral biographical sentence (summary 'Säätiö lisätty' = 'foundation added'), removed after 4.6 days by a different named account with 'rv. lähteettömiä lisäyksiä' ('unsourced additions'); never put back. Missing source only, no slant: good-faith, level 1. A 119-byte anonymous edit inside the same run was already undone within 2 min and is not part of this item. c06.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i08",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 926229,
+        "inserting_rev_ids": [
+          18029411,
+          18036632
+        ],
+        "removing_rev_ids": [
+          18035946,
+          18036636
+        ],
+        "description": "Changes the end of Sipilä's term as PM in the infobox to 8 March 2019, citing a news story that he was asking for the government's resignation.",
+        "why": "Level 1. The new end date reads the cited news ('Juha Sipilä pyytää hallituksen eroa' = 'Sipilä asks for the government's resignation') as the end of the term; the pack's own article lead for Sipilän hallitus gives its term as 29.5.2015-6.6.2019, continuing after the break-up. A sincere misreading with no slant. Undone after 2.9 days with no reason (c07), put back the same day by the same anonymous editor (185.89.x.x) with 'erosi oikeasti!!! tää ei oo vitsi' ('really resigned!!! this is no joke'), removed again 4 min later (c18). One put-back, but a good-faith error is capped at level 1.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i09",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 1121620,
+        "inserting_rev_ids": [
+          21993433
+        ],
+        "removing_rev_ids": [
+          21997707
+        ],
+        "description": "Adds that Marin attended the Bilderberg meeting in 2022 and 2023, that the meeting is suspected of planning a 'new world order' (linked to the conspiracy-theory article), and that her 2023 visit cost the state over 24,000 euros.",
+        "why": "Level 2. Claim: frames the attendance with a conspiracy-theory suspicion ('sen epäillään suunnittelevan \"uutta maailmanjärjestystä\"' = 'it is suspected of planning a \"new world order\"') and attaches a cost figure to the trip. Community: removed after 2.5 days by a named account whose summary disputes the accuracy point by point ('salaliittoteoria on lähteessä kumottu …, Arhinmäen kysymys on jo vuodelta 2010, ja matkakustannuksiin sisältyi paljon muutakin kuin lisäyksessä mainittu matka' = 'the conspiracy theory is refuted in the source …, Arhinmäki's question dates from 2010, and the travel costs covered much more than the trip mentioned'). One named account, one article, not put back: level 2. c08.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i10",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 926229,
+        "inserting_rev_ids": [
+          23661848
+        ],
+        "removing_rev_ids": [
+          23674115
+        ],
+        "description": "Adds a 2011 row (Oulu constituency, 5,543 votes, elected, cited to vaalit.fi) to Sipilä's election-results table.",
+        "why": "Level 1. Sourced, substantive content by a temporary account, removed 6.7 days later by a named account in a revert ('Rv sotkua' = 'rv mess') aimed at a later edit by a different temporary account that defaced the lead name (item n02). No claim, no dispute signal: a collateral removal, level 1. c09.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i11",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 11396,
+        "inserting_rev_ids": [
+          15369910
+        ],
+        "removing_rev_ids": [
+          15375347
+        ],
+        "description": "Adds that in November 2015 Stubb told parliamentary question time that 90% of expert statements on the nominee register were positive although the real share was 10%, and pushed the register although party leaders had judged it unlikely to advance (Yle source).",
+        "why": "Level 2, borderline. Claim: a critical statement on a contested political episode ('vaikka todellinen luku on kymmenen prosenttia' = 'although the actual figure is ten percent'). Community: 20 min after insertion a named account trimmed its wording ('emme ole syyttäjiä emmekä tuomareita, faktat riittävät' = 'we are not prosecutors or judges, the facts are enough'); after 2.6 days another named account removed it ('resentismiä … ei wikipediaan tarvitse kirjoittaa ihmisistä tällaisia negatiivisia asioita' = 'recentism … Wikipedia need not write such negative things about people'), and that removal was undone (rev 15375382): put back once. The text is not in the latest revision, so not 'kept'. One anonymous inserter (37.136.x.x), one article: not level 3. Small edits by other anonymous ranges inside the run, each undone within it, are dropped. c10.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i12",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 9059,
+        "inserting_rev_ids": [
+          7275988,
+          7282997
+        ],
+        "removing_rev_ids": [
+          7278125,
+          7283603
+        ],
+        "description": "Adds a section 'Statement on nuclear power' saying that in Soininvaara's view nuclear power fights the greenhouse effect the way a drink fights a hangover (cited to a 2004 anthology).",
+        "why": "Level 2, borderline. Claim: an attributed stance on a contested policy, set apart in its own section, and the editors disagree over its weight ('Osmo Soininvaaran mielestä ydinvoima torjuu kasvihuoneilmiötä kuin viinaryyppy krapulaa' = 'in Soininvaara's view nuclear power fights the greenhouse effect like a shot of liquor fights a hangover'). Community: a back-and-forth over the passage: removed after 15.5 h ('rv, ei oleellista' = 'not relevant', c11), put back two days later by the same named account ('ks keskustelu' = 'see talk'), removed again 2.8 h later by the same remover ('rv, katso keskustelu', c19). The talk pointers alone would not count; the put-back does. One account, one article: level 2.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i13",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 9059,
+        "inserting_rev_ids": [
+          6315008
+        ],
+        "removing_rev_ids": [
+          6327501
+        ],
+        "description": "Adds to a citation in the gene-register section a long direct quote from Soininvaara's blog calling a proposed immigrants-only DNA register 'a mere bluff'.",
+        "why": "Level 1. The added text is a verbatim quote of the source already cited, placed in the footnote; it changes no fact. Removed after 2.4 days by a different named account: 'Turhaa pointtausta. Ei muistakaan kirjoituksista ole lainauksia.' ('Needless point-making. The other writings are not quoted either.'), a style/consistency objection; the inserter's summary is about style too ('viitteessä voi hyvin olla suora lainaus' = 'a reference may well contain a direct quote'). The removal was undone (rev 6328971) but the text is not in the latest revision, so not 'kept'. Read as a citation-style dispute rather than a claim: capped at level 1. c12.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i14",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 926229,
+        "inserting_rev_ids": [
+          15602069,
+          15602070
+        ],
+        "removing_rev_ids": [
+          15612785
+        ],
+        "description": "Restores, after another editor had removed it, a sourced sentence that Sipilä is Christian in his worldview (Kaleva article on his relation to Laestadianism).",
+        "why": "Level 1. The insertion is a named account's rollback restoring text an earlier edit had removed (plus the same account's trim of the section a minute later). A different named account removed the sentence 5.5 days later with 'Valtio ja kirkko erotettu' ('state and church separated'); that removal was itself undone (rev 15613699). Not in the latest revision, so not 'kept'. The sentence is neutral and sourced, and no accuracy, neutrality or sourcing reason was given: not a claim, level 1. c13.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i15",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 926229,
+        "inserting_rev_ids": [
+          15903090,
+          15933764
+        ],
+        "removing_rev_ids": [
+          15904616,
+          15933767
+        ],
+        "description": "Adds that Centre Party honorary chairman Paavo Väyrynen says the party is ruled by followers of the preacher Lars Levi Laestadius allied with the far right, plus a line quoting Sipilä that despair has turned into hope.",
+        "why": "Level 2. Claim: a loaded allegation about who controls the party ('puoluetta hallitsevat äärioikeiston kanssa liittoutuneet saarnamies Lars Levi Laestadiuksen kannattajat' = 'the party is ruled by followers of the preacher Laestadius allied with the far right'), cited only vaguely (a book with no year or page; 'puheenvuoroja eri tilaisuuksissa' = 'speeches at various events'); the edit summary is a personal remark addressed to Sipilä. Community: rolled back after 10.9 h by a named account (no reason), put back 14 days later by a different named account (c20's undone edit), rolled back again 55 s later. Level-3 signals: two inserting accounts (yes); one article; put back only once; the citations are vague but the pack does not show them to be made up. One signal only, so level 2.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i16",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 926229,
+        "inserting_rev_ids": [
+          15904344
+        ],
+        "removing_rev_ids": [
+          15904616,
+          15933767
+        ],
+        "description": "Adds that in August 2016 Sipilä demanded that the EU not be taken in new directions and that decisions already made be implemented (cited to a TV news broadcast).",
+        "why": "Level 1. A neutral, sourced statement by a second named account, swept out by the same rollback as i15 after 10.9 h (no reason) and again on 5 September 2016 after the put-back that restored both passages. No claim and no slant: level 1. The shared put-back (rev 15933764) is listed under i15, because an inserting revision belongs to one item only. c14, c20.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i17",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 926229,
+        "inserting_rev_ids": [
+          12672712,
+          12672715
+        ],
+        "removing_rev_ids": [
+          12725261
+        ],
+        "description": "Adds that Sipilä presented the Centre's ten-year 'survival plan' diagram in February 2013 and that, per Ilta-Sanomat, it and the 60:40 spending rule (40% of extra revenue saved to cut state debt) are Kokoomus-style; also that the Centre and the Finns Party co-signed only one interpellation.",
+        "why": "Level 1. Substantive (a spending rule, numbers, an attribution), unsourced, by one anonymous editor (143.51.x.x); rolled back after 12.3 days by a named account with no reason, never put back, no dispute template. Mild framing ('Ilta-Sanomien mukaan tämä ja 60:40 -menosääntö … on kokoomuslainen' = 'according to Ilta-Sanomat this and the 60:40 spending rule … is Kokoomus-like') but no community-dispute signal, so level 1. c15.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i18",
+        "label": "contested",
+        "category": "false_factual_claim",
+        "page_id": 11396,
+        "inserting_rev_ids": [
+          10033522
+        ],
+        "removing_rev_ids": [
+          10045409
+        ],
+        "description": "Adds a 'Language questions' section saying Stubb did not arrange German interpretation at the start of the EU presidency and that Germany therefore boycotted a ministerial meeting in Finland in June 2006, cited to Stubb's 2009 book.",
+        "why": "Level 2. Claim: attributes a diplomatic boycott to Stubb's own decision ('EU puheenjohtajuuden alussa Stubb ei järjestänyt tulkkausta saksaksi. Sen vuoksi Saksa boikotoi ministerikokousta' = 'at the start of the EU presidency Stubb did not arrange German interpretation; because of that Germany boycotted the ministerial meeting'). Community: undone after 47.8 h by a named account with 'teksti ei vastaa lähdettä' ('the text does not match the source'), an accuracy/sourcing reason. One named account, one article, not put back; a source that reportedly does not support the text is at most one level-3 signal: level 2. c16.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i19",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 926229,
+        "inserting_rev_ids": [
+          15572416
+        ],
+        "removing_rev_ids": [
+          15572417
+        ],
+        "description": "Adds that the Centre's betting odds to win the 2015 election were 1.37, citing the home page of a betting and casino site.",
+        "why": "Level 1. Adds a number and a citation, so substantive; removed 2 min later by a different named account as 'epäolennaista' ('irrelevant'). The citation points to a commercial betting site (link-spam-like); no claim about the topic and no dispute signal: level 1. c21.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i20",
+        "label": "reverted",
+        "category": "vandalism",
+        "page_id": 926229,
+        "inserting_rev_ids": [
+          14658996
+        ],
+        "removing_rev_ids": [
+          14659002
+        ],
+        "description": "Adds to the lead sentence that Sipilä is nicknamed 'Kusitolppa' (crude: 'piss post'), with an Iltalehti URL as the source.",
+        "why": "Level 1, borderline graffiti. A crude nickname in bold in the lead reads as mockery, but it carries a news citation that the pack cannot check, so it is not clearly graffiti and is judged as content. It is mockery rather than a claim on the topic, so it is capped at level 1 even though the insertion itself undid an earlier edit and the rollback 2 min later (named account, no reason) was undone (rev 14661204). Not in the latest revision. One anonymous range (88.112.x.x). c22.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i21",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 9059,
+        "inserting_rev_ids": [
+          20562155
+        ],
+        "removing_rev_ids": [
+          21350277
+        ],
+        "description": "Adds that during the 2007 Tehy nurses' strike Soininvaara wrote that if someone had to die because of the strike he hoped it would be a relative of the strike's defenders, and that Jussi Halla-aho had used a similar argument in 2006.",
+        "why": "Level 2. Claim: a paraphrase of a 2007 blog post plus a comparison to a 2006 Halla-aho text that frames the subject ('toivottavasti tämä on joku lakon puolustajien omaisista' = 'hopefully it is one of the relatives of the strike's defenders'; 'Vastaavaa argumenttia oli käyttänyt Jussi Halla-aho' = 'Jussi Halla-aho had used a similar argument'). Community: removed after 263.8 days by an anonymous editor (78.27.x.x) with 'Harhaanjohtava & Jussi Halla-aho ei liity aiheeseen' ('misleading & Jussi Halla-aho is unrelated to the subject'), an accuracy reason. One named inserting account, one article, not put back: level 2. Partial-removal candidate; the insertion diff confirms this edit added the removed paragraph. c33.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i22",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 10858,
+        "inserting_rev_ids": [
+          8928653
+        ],
+        "removing_rev_ids": [
+          8989383
+        ],
+        "description": "Expands the August 2010 'Russia is not a great power' controversy with an IMF comparison of the Russian and Dutch economies, an expert saying Katainen's figures were 10-15 years old, the PM distancing herself and a Duma committee chair's reply.",
+        "why": "Level 2, borderline. Claim: an editor-built numeric rebuttal of Katainen's statement ('IMF:n tilastojen mukaan Venäjän talous (1 500 miljardia US-dollaria) on kaksi kertaa Hollannin kokoinen' = 'according to IMF statistics Russia's economy (1,500 billion US dollars) is twice the size of the Netherlands'') plus a run of critical reactions. Community: after 13 days a different named account replaced the passage with a shorter version, summary 'omaa tutkimusta pois + olennainen' ('original research out + the essentials [kept]'), a sourcing reason. Otherwise sourced news; one account, one article, not put back: level 2. Partial-removal candidate; the insertion diff confirms the edit. c34.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/i23",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 10858,
+        "inserting_rev_ids": [
+          6885781
+        ],
+        "removing_rev_ids": [
+          6887385
+        ],
+        "description": "Rewrites several sections of Katainen's article: drops sourced critical passages (his tax-free expense allowance, nurses' account of a promised 500-euro raise, the 'forced labour law' label, an assessment that he moved the party to the centre), adds his own favourable quotes on structural reforms and municipal mergers, and moves an analysnorden.org citation to a different sentence.",
+        "why": "Level 2. Claim: a one-sided rewrite by selection: sourced critical text removed and the subject's own statements added ('Toimimalla oikein nyt, vältämme lähitulevaisuudessa vielä paljon raskaammat toimet' = 'by acting right now we will avoid much heavier measures in the near future'), with a citation moved from the sentence it supported to another one. Community: reverted 4.5 h later by a named account, 'perustelemattomia poistoja, joilla on sotkettu lähteet, esim. analysnorden.org:sta otettu tieto on poistettu ja lähde siirretty toiseen paikkaan' ('unexplained removals that muddled the sources, e.g. the information from analysnorden.org was removed and the source moved elsewhere'), a sourcing reason. The moved citation is the 'sources' signal, but one account and one article give no second signal: level 2. Partial-removal candidate; the insertion diff confirms the edit. c35.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/n01",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 11396,
+        "inserting_rev_ids": [
+          20498542
+        ],
+        "removing_rev_ids": [
+          20498551
+        ],
+        "description": "Inserts a homophobic slur into the lead sentence about Stubb.",
+        "why": "Excluded: graffiti. An 11-byte insult added to the lead by an anonymous editor (93.174.x.x) under an unrelated edit summary, removed 10 min later in a revert 'sotkemisena' ('as messing'). That revert also swept away earlier sourced additions by a named account (2024 presidential-candidacy speculation, languages) and a category; the revert was itself undone right afterwards (rev 20498553), so those additions are not itemised. c04.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/n02",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 926229,
+        "inserting_rev_ids": [
+          23674103
+        ],
+        "removing_rev_ids": [
+          23674115
+        ],
+        "description": "Changes the bolded name in the lead from 'Juha Petri Sipilä' to 'Nuha Petri pipilä'.",
+        "why": "Excluded: graffiti (name mockery, no content; 0-byte change by a temporary account), reverted 2 min later ('Rv sotkua' = 'rv mess'). The same revert also removed an earlier, sourced table row (item i10). c09.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/n03",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 12639,
+        "inserting_rev_ids": [
+          4343799
+        ],
+        "removing_rev_ids": [
+          4343804
+        ],
+        "description": "Adds 2.3 KB of the word 'DESU' repeated.",
+        "why": "Excluded: graffiti (repeated nonsense word), anonymous (213.139.x.x), rolled back after 42 s. c24.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/n04",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "page_id": 11396,
+        "inserting_rev_ids": [
+          23882653
+        ],
+        "removing_rev_ids": [
+          23882697
+        ],
+        "description": "Adds Stubb's attendance at the 2024 and 2025 Bilderberg meetings, with an image and official sources.",
+        "why": "Excluded: self-removal. The same temporary account undid its own addition 32 min later. c25.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/n05",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "page_id": 1121620,
+        "inserting_rev_ids": [
+          21942714,
+          21942719
+        ],
+        "removing_rev_ids": [
+          21942726
+        ],
+        "description": "Adds that Marin moved from Tampere to Helsinki in October 2023 and therefore lost her Tampere council seat (Helsingin Sanomat source).",
+        "why": "Excluded: self-removal. The same named account removed it 4 min later ('jaa, kärrmes ehti ensin' = roughly 'oh, someone got there first'). c26.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/n06",
+        "label": "not-incident",
+        "exclusion": "blanking",
+        "category": "vandalism",
+        "page_id": 795,
+        "inserting_rev_ids": [
+          703640
+        ],
+        "removing_rev_ids": [
+          2185086
+        ],
+        "description": "Whole-page blanking of the Vanhanen article in January 2007; the empty page matched an older blank revision, so a year of edits since a January 2006 restore looks undone.",
+        "why": "Excluded: blanking. The removal is an anonymous page blanking (auto-summary 'Ak: Sivu tyhjennettiin' = 'page was blanked'); because the empty page equals an older blank revision, the run spans 152 edits back to a January 2006 restore (rev 703640). The removal was itself undone (rev 2185101). The bot flag comes from bot accounts that only added interwiki links, not the content, so 'bot' does not apply. c27.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/n07",
+        "label": "not-incident",
+        "exclusion": "blanking",
+        "category": "vandalism",
+        "page_id": 795,
+        "inserting_rev_ids": [
+          3863598
+        ],
+        "removing_rev_ids": [
+          3863600
+        ],
+        "description": "Replaces the entire Vanhanen article with one sentence calling him an antichrist linked to Satanism.",
+        "why": "Excluded: blanking (the first applicable exclusion; it is also graffiti). An anonymous editor (194.197.x.x) removed 23 KB and left one insulting sentence, summary 'faktaa' ('facts'); rolled back 18 s later. c28.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/n08",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 926229,
+        "inserting_rev_ids": [
+          16932207
+        ],
+        "removing_rev_ids": [
+          16932210
+        ],
+        "description": "Changes the infobox image filename.",
+        "why": "Excluded: not substantive (only a file link in the infobox changed, -10 bytes, anonymous); undone 29 s later. c29.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/n09",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 795,
+        "inserting_rev_ids": [
+          3943127
+        ],
+        "removing_rev_ids": [
+          3943129
+        ],
+        "description": "Appends an obscene word to a section heading.",
+        "why": "Excluded: graffiti (one obscene word, anonymous 212.83.x.x), undone 31 s later. c30.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/n10",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 11396,
+        "inserting_rev_ids": [
+          4571580
+        ],
+        "removing_rev_ids": [
+          4571588
+        ],
+        "description": "The undone edit removes a stray redirect line ('#ohjaus [[Kansallissosialismi]]', a redirect to National Socialism) from the article.",
+        "why": "Excluded: not substantive. The 'insertion' only removed a redirect markup line (-32 bytes) and added nothing; another anonymous editor undid it 81 s later, putting the redirect line back, and that was undone in turn (rev 4571594). The redirect line itself is graffiti; this candidate is the clean-up side of that exchange. c31.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "austerity-politics/n11",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 1121620,
+        "inserting_rev_ids": [
+          20698244
+        ],
+        "removing_rev_ids": [
+          20698415
+        ],
+        "description": "The undone edit removes a joke sentence saying Marin has been 'the world's best-looking politician' for almost 500 days in a row.",
+        "why": "Excluded: not substantive. The undone run added no text (net -118): a named account removed the joke sentence, and a 98-byte addition by the sentence's author inside the run was removed 2 min later by another account. The author then undid the removal 51 min later, putting the sentence back, and that was undone in turn (rev 20698588). The sentence's own insertions are not in the pack; it would be graffiti. c32.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      }
+    ],
+    "notes": "Labeller notes (claude:labeller). The candidates all sit on politicians' biographies (seed pages); the clearly on-topic ones (austerity, cuts, jytky) are i02, i03, i05, i17 and i23, the rest are general biography disputes. No campaign: no claim spans two articles or reaches two level-3 signals. Pack oddities: c23's diff is broken (whole article shown as removed, truncated before the added text) and is skipped; c36's text-search insertion is a vandalism rollback, not the author of the removed text, and the removal is a copy-edit (skipped); c27 is a blank-page sha1 match that makes 152 edits look undone; c28's removal summary contains an unmasked account name; the c04 revert also removed a named account's sourced additions and was undone at once (not itemised); c31/c32 are the clean-up side of small vandalism exchanges whose insertions are not in the pack."
+  },
+  "item_sources": {
+    "austerity-politics/i01": [
+      "c01"
+    ],
+    "austerity-politics/i02": [
+      "c02"
+    ],
+    "austerity-politics/i03": [
+      "c03"
+    ],
+    "austerity-politics/i04": [
+      "c05"
+    ],
+    "austerity-politics/i05": [
+      "c05"
+    ],
+    "austerity-politics/i06": [
+      "c06",
+      "c17"
+    ],
+    "austerity-politics/i07": [
+      "c06"
+    ],
+    "austerity-politics/i08": [
+      "c07",
+      "c18"
+    ],
+    "austerity-politics/i09": [
+      "c08"
+    ],
+    "austerity-politics/i10": [
+      "c09"
+    ],
+    "austerity-politics/i11": [
+      "c10"
+    ],
+    "austerity-politics/i12": [
+      "c11",
+      "c19"
+    ],
+    "austerity-politics/i13": [
+      "c12"
+    ],
+    "austerity-politics/i14": [
+      "c13"
+    ],
+    "austerity-politics/i15": [
+      "c14",
+      "c20"
+    ],
+    "austerity-politics/i16": [
+      "c14",
+      "c20"
+    ],
+    "austerity-politics/i17": [
+      "c15"
+    ],
+    "austerity-politics/i18": [
+      "c16"
+    ],
+    "austerity-politics/i19": [
+      "c21"
+    ],
+    "austerity-politics/i20": [
+      "c22"
+    ],
+    "austerity-politics/i21": [
+      "c33"
+    ],
+    "austerity-politics/i22": [
+      "c34"
+    ],
+    "austerity-politics/i23": [
+      "c35"
+    ],
+    "austerity-politics/n01": [
+      "c04"
+    ],
+    "austerity-politics/n02": [
+      "c09"
+    ],
+    "austerity-politics/n03": [
+      "c24"
+    ],
+    "austerity-politics/n04": [
+      "c25"
+    ],
+    "austerity-politics/n05": [
+      "c26"
+    ],
+    "austerity-politics/n06": [
+      "c27"
+    ],
+    "austerity-politics/n07": [
+      "c28"
+    ],
+    "austerity-politics/n08": [
+      "c29"
+    ],
+    "austerity-politics/n09": [
+      "c30"
+    ],
+    "austerity-politics/n10": [
+      "c31"
+    ],
+    "austerity-politics/n11": [
+      "c32"
+    ]
+  },
+  "skipped": [
+    {
+      "cid": "c23",
+      "reason": "Diff is broken: it shows the whole article as removed and is truncated before the added text, so the 53-byte addition (summary 'Lisäsin yhden ansion lisää' = 'added one more merit'; reverted after 25 s as 'rvv') cannot be read or judged."
+    },
+    {
+      "cid": "c36",
+      "reason": "The inserting revision found by text search (10751590) is a rollback that restored the article after vandalism, not the edit that wrote the removed text; the removal 740 days later is a restructuring copy-edit ('toistoa ja turha/epätarkka väliotsake pois, jäsentelyä, aikamuotoja, lähdelinkkien tarkastus' = 'repetition and a useless/inaccurate subheading out, structuring, tenses, source-link checks') that rewrote rather than removed the text. No single added-and-removed piece of content to label."
+    }
+  ]
+}

@@ -22,8 +22,12 @@ Query embeddings: **Ollama `bge-m3`** (local, else the VPS through the tunnel) b
 | Embedding integration tests (opt-in; latency + dataset-vector check) | `scripts/corpus-tunnel.sh && EMBEDDING_TESTS=1 CORPUS_TESTS=1 dotnet test --filter Category=Embedding --logger "console;verbosity=detailed"` |
 | Deploy/update corpus DB on VPS (needs root key) | `scripts/corpus-deploy.sh` — details in `deploy/corpus/README.md` |
 | Run an LLM prompt / batch from the shell (same client, prompts, cache as the app) | `scripts/analyze.sh prompts` · `run <prompt> --vars x.json` · `batch <prompt> --in x.jsonl --out y.jsonl --model a,b` · `usage` |
-| Live Gemini tests (opt-in, costs cents) | `GEMINI_TESTS=1 dotnet test --filter Category=Gemini` |
+| Diff revision vs parent wikitext (the app's engine, for experiments; contract `research/eval/CONTRACT.md` §9) | `scripts/wikidiff.sh batch < pairs.jsonl > diffs.jsonl` · `one --new b.txt [--old a.txt]` · `prose < page.txt` · parity: `python3 research/29-wikidiff/check.py` |
+| Run the app's investigation pipeline from the shell (same services, config, caches as the app) | `scripts/investigate.sh run "Talvisota" [--refresh] [--events]` · `variant < request.json` (eval contract §2) · `clear-runs` |
+| Warm caches before a demo + measure the #40 latency budget (Markdown table) | `scripts/warm.sh [topics-file] [--cold]` (default `scripts/demo-topics.txt`) |
+| Live Gemini tests (opt-in, real API calls) | `GEMINI_TESTS=1 dotnet test --filter Category=Gemini` |
 | Check a golden set / variant / judgement file against the eval contract (stdlib Python, no corpus) | `python3 research/eval/validate.py golden` · `variant retrieval\|signals -- <cmd>` · tests: `python3 -m unittest discover -s research/eval/tests` |
+| Score a variant on the golden set (P1.E2 runner; Markdown scorecard on stdout) | `research/eval/run signals --name <name> --out research/<issue>-<slug>/results -- <cmd>` · `replay <…responses.jsonl> --judgements j.jsonl` · `--baseline <scorecard.json>` |
 
 ## Layout
 
@@ -50,8 +54,9 @@ tests/AmpersandOfTruth.Tests/
   Features/<Feature>/         # mirrors src: service unit tests + bUnit component tests
   Smoke/AppSmokeTests.cs      # boots the real app via WebApplicationFactory; add new routes to the InlineData list
 tools/AmpersandOfTruth.Analyze/ # console tool behind scripts/analyze.sh (LLM prompts from the shell / research)
+tools/AmpersandOfTruth.WikiDiff/ # console tool behind scripts/wikidiff.sh (Features/WikiDiff for experiments, #29)
 research/<issue>/             # experiment scripts, small samples, results and reports (no big data files)
-research/eval/                # ⭐ P1 eval contract: CONTRACT.md, schemas/, validate.py, examples/ (golden.json + runner land here)
+research/eval/                # ⭐ P1 eval contract: CONTRACT.md, schemas/, validate.py, run (runner.py), examples/ (golden.json lands here)
 docs/design/                  # ⭐ UI design system: brand book, plan, tokens, .aot-* CSS, component + page previews
 docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, editor display, golden-set TP definition
 ```
@@ -115,6 +120,27 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   the VPS pins 0.40.16 (verified cosine 1.00000 vs stored vectors). Use a recent Ollama on laptops too.
 - `embedding` health check reports `Degraded` when no endpoint has the model; startup never depends on it.
 
+## Investigation pipeline (`Features/Investigations/Pipeline`, issue #39)
+
+- `/investigate` consumes `IInvestigationRunner.RunAsync(topic, ct)` → `IAsyncEnumerable<InvestigationEvent>`:
+  `ArticlesFound → RevisionsScanned → CandidateScored × N → Completed`, or a `StageFailed` that ends the run (never an exception;
+  cancellation ends the stream with `OperationCanceledException`). The P2 fixture runner (#98) implements the same interface.
+- Output = `IncidentRecord`, the C# twin of `research/eval/schemas/incident.schema.json` (serialise with `IncidentJson.Options`;
+  `IncidentRecordTests` keeps record and schema in sync — change both together).
+- Stages are interfaces, one per P1 experiment, swapped in `InvestigationsFeature` without touching the orchestrator or the UI:
+  `ITopicSearch` (R6), `ICandidateSource` (S1/S4), `IEditReader` (S2/S3), `IEditClassifier` (S9), `IncidentAssembler` (S10, static).
+  Today's implementations are placeholders from P0.8 + `wikidiff` + `classify-edit` v1. Dispute signals wired: removal reason
+  (S5 lexicon ported as `RevertReasons`; `Fixtures/s5-parity.jsonl` + `s5_parity.py` keep it identical to the Python) and
+  re-insertion (S1 identity restores). Not yet: edit war (S4), dispute templates, source change (S8), kept-in-latest.
+- Edits the evidence standard excludes without an assessment are never sent to the LLM. Limits: `Investigations:Pipeline` options.
+- Stage 1 = R1 (#8): vector hits in every language, en/sv folded onto their fi sibling by `wikidata_id`; only fi articles come out.
+- Caches (#40, SQLite): `EditReadingCache` (span + diff per removed edit, keyed by revision ids + reader version) and
+  `InvestigationRuns` (a whole clean run per topic, keyed by `PipelineFingerprint` = versions + classify prompt + model + limits).
+  The app's runner is `CachingInvestigationRunner`; `refresh: true` (the page's Re-run) bypasses it. Runs with a degraded
+  candidate (LLM down/over budget) are never cached. Bump `InvestigationPipeline.Version` / `CorpusEditReader.Version` when
+  their output changes. Score the pipeline: `research/eval/run pipeline --name p1-app -- scripts/investigate.sh variant`.
+- Tests: `PipelineKit` = the real stages over fakes (`FakeInvestigationCorpus`, `FakeRevisionStore`, `FakeAnalysisModel`, `FakeQueryEmbedder`).
+
 ## LLM analysis (Gemini, `Features/Analysis`, issue #16)
 
 - **Every product LLM call** goes through `IAnalysisModel.RunAsync<T>(new AnalysisRequest("<prompt-id>", vars) { Scope = investigationId })`.
@@ -141,6 +167,9 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
 - Experiments: folder `research/<issue>-<slug>/`, scratch tables `research.<issue>_*`, corpus access from env
   (`CORPUS_HOST/PORT/USER/PW/DB`). The test split is sealed (`EVAL_ALLOW_TEST=1`, decision issues only).
 - Changing a frozen shape = schema + example + CONTRACT.md in one commit; `research/eval/tests` must pass (not part of `verify.sh`).
+- Score with `research/eval/run` (CONTRACT.md §6): paste its stdout on the experiment's issue, and commit
+  `<name>.dev.{scorecard.md,scorecard.json,unlabelled.jsonl,responses.jsonl}` to `research/<issue>-<slug>/results/`
+  (the `.log` is git-ignored). After the E3 judge has run, use `run replay … --judgements` instead of re-running the variant.
 
 ## Testing
 
@@ -160,7 +189,15 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
 5. If you add a dependency, a convention, or a gotcha, update this file in the same commit.
 6. Don't leave `dotnet watch` / `dotnet run` processes running when you finish.
 
-## Gemini workers (weekend API key)
+## Gemini usage: anything goes
+
+We have a **Tier 3 Gemini API key, paid for by Google** — its rate limits are far above anything we can hit and cost is
+not our concern. So: **no limits on Gemini usage in this project.** Run as many workers / sessions / batch jobs
+concurrently as is useful, use the strongest models, rerun and re-sample freely, and never trim scope, prompts or
+eval runs to save calls or tokens. Ignore any older note that says otherwise. The app's `Gemini:DailyCallCap /
+DailyCostCapUsd / PerScopeCallCap` are only runaway-loop tripwires — raise them in `appsettings.json` whenever they get in the way.
+
+## Gemini workers
 
 Claude orchestrates, Gemini implements. Full workflow: `.claude/skills/gemini/SKILL.md` (`/gemini`).
 `scripts/gemini/run.sh <id>` runs Gemini headless on `.tasks/<id>/spec.md` in an isolated worktree
@@ -180,3 +217,6 @@ a feedback round for compile errors. Workers also can't run `dotnet ef`/`dotnet 
 - Projects were renamed from the placeholder `Junction.Web`/`Junction.Tests` (`SomeMysteriousAppForJunction.sln`). Older branches:
   rebase onto `main` (git follows the folder rename) and fix `namespace Junction.Web…` → `AmpersandOfTruth.Web…` in new files.
   `UserSecretsId` is unchanged, so user-secrets still apply; a leftover `src/Junction.Web/app.db` can just be deleted.
+- Wikitext diffs: one engine, `WikitextDiff.Compare(parentText, revText)` (`Features/WikiDiff`, static, thread-safe, no DI);
+  experiments call `scripts/wikidiff.sh batch` with many pairs per call, never a Python re-implementation. Changing its
+  output → regenerate `research/29-wikidiff/expected.jsonl` (an xUnit test guards it) and update CONTRACT.md §9.

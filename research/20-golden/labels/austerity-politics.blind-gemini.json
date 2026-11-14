@@ -1,0 +1,247 @@
+{
+ "topic_id": "austerity-politics",
+ "labeller": "gemini:blind/gemini-4-carbon",
+ "labels": {
+  "x01": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Revision 23661848 added a sourced 2011 election result row ('5 543', 'valittiin' / elected) to Juha Sipilä's table. It was removed alongside subsequent name vandalism ('Nuha Petri pipilä') by another editor with summary 'Rv sotkua' ('Rv mess'). Plausible factual addition with no dispute signal against the election data itself."
+  },
+  "x02": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Added a sourced claim 'Sipilä on elämänkatsomukseltaan kristillinen' ('Sipilä has a Christian worldview'), put back in a back-and-forth revert chain (rev 15602069 undid a previous edit, and removal 15612785 with summary 'Valtio ja kirkko erotettu' / 'State and church separated' was itself undone)."
+  },
+  "x03": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Added unsourced narrative claim 'Kataisen toiminta valtiovarainministerinä 2007–2011 johti Perussuomalaiset-puolueen vuoden 2011 \"jytkyyn\"' ('Katainen's actions as finance minister 2007–2011 led to the Finns Party's 2011 \"jytky\" landslide') and that voters signaled he was 'epätoivottu henkilö politiikassa' ('an unwanted person in politics'). Removed with summary 'Lähteetöntä spekulointia' ('Unsourced speculation')."
+  },
+  "x04": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Revision 15904344 added ~200 bytes of recentist news statements ('Suurlähettiläspäivillä 22.8.2016 puhuneen Sipilän mukaan epätoivo on viimein kääntynyt toivoksi' / 'According to Sipilä speaking at the Ambassador Days on 22.8.2016, despair has finally turned into hope', plus EU remarks) on top of rev 15903090, removed together without a specific accuracy/neutrality summary and later restored once by another account. Routine news trivia rather than a slanted claim."
+  },
+  "x05": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 2: Added end date '8.3.2019' to Juha Sipilä's prime ministerial term ('virassa = Sipilän hallitus 29.5.2015–8.3.2019') citing his request for government resignation (though he continued in a caretaker capacity), and put it back once after removal ('erosi oikeasti!!!' / 'really resigned!!!')."
+  },
+  "x06": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Added sourced claim in the Kesäranta meal allowance controversy section: 'Ainakin entinen pääministeri Jyrki Katainen on kertonut käyttäneensä vastaavaa palvelua asuessaan Kesärannassa' ('At least former prime minister Jyrki Katainen has stated he used a similar service while living in Kesäranta'). Removed in rev 19809564 ('Poistin pari kohtaa jotka eivät pidä paikkaansa' / 'Removed a couple of points that are not true'), put back by another editor in rev 19809967, and removed again in rev 19821820. Stays at Level 2 because the two inserting editors on this specific claim are a single re-insertion within hours on one article? Wait: E814 (anonymous) and E815 (named) are 2 distinct editors! Let's check Level 3 signals: 2 distinct editors (E814, E815) = 1 signal; articles = 1; persistence = put back 1 time over <1 day (not >=2 times over >=7 days); source manipulation = none. Only 1 of the 4 Level 3 signals applies, so Level 2."
+  },
+  "x07": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Added unsourced critical commentary claiming 'Stubbin hallituksen aikana talous onkin mennyt vain syvemmälle ja hallitus käyttää resursseja enemmän kansalaisten holhoamiseen ja erilaisten kieltojen keksimiseen kuin työllisyyden parantamiseen' ('During Stubb's government the economy has only gone deeper down and the government spends more resources on patronizing citizens and inventing various bans than on improving employment'). Removed with summary 'aika vahvoja väitteitä ja mielipiteitä jotka vaatisivat lähteet tuekseen' ('quite strong claims and opinions that would require sources')."
+  },
+  "x08": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "source_manipulation",
+   "why": "Level 2: Revision 6885781 rewrote multiple policy sections in a more favorable tone (e.g. removing mention of the 500-euro nurses' pay promise and the 'pakkotyölaki' / 'forced labor law' patient safety act, adding quotes praising 'vastuullisuuteen' / 'responsibility', and removing sourced analysis that Katainen steered the party toward the political center while shifting its citation). Reverted with summary 'perustelemattomia poistoja, joilla on sotkettu lähteet, esim. analysnorden.org:sta otetti tieto on poistettu ja lähde siirretty toiseen paikkaan' ('unjustified removals that messed up sources, e.g. info taken from analysnorden.org was removed and the source moved elsewhere')."
+  },
+  "x09": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Added a detailed critical section on Katainen's statement that Russia's economy is the size of the Netherlands ('IMF:n tilastojen mukaan Venäjän talous (1 500 miljardia US-dollaria) on kaksi kertaa Hollannin kokoinen' / 'According to IMF statistics Russia's economy is twice the size of the Netherlands', plus Kangaspuro and Kiviniemi reactions). Partially removed/rewritten with summary 'omaa tutkimusta pois + olennainen' ('remove original research + keep essential')."
+  },
+  "x10": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Revision 19820900 added sourced summaries of Sanna Marin's municipal election interview positions ('Marin kannatti pieni- ja keskituloisten verotuksen keventämistä' / 'Marin supported lowering taxes for low- and middle-income earners'). Removed in a batch revert with summary 'tapahtumakohtaisia yksittäisiä lausuntoja. Voi lisätä artikkeliin SDP:stä tai kuntavaaleista 2021' ('event-specific individual statements. Can be added to the article on SDP or 2021 municipal elections'), which is a scope/relevance edit rather than an accuracy, neutrality, or sourcing dispute."
+  },
+  "x11": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "source_manipulation",
+   "why": "Level 2: Added claim 'EU puheenjohtajuuden alussa Stubb ei järjestänyt tulkkausta saksaksi. Sen vuoksi Saksa boikotoi ministerikokousta Suomessa kesäkuussa 2006' ('At the start of the EU presidency Stubb did not arrange German interpretation. Because of that Germany boycotted a ministerial meeting in Finland in June 2006') citing Stubb's book. Removed with summary 'teksti ei vastaa lähdettä' ('text does not match the source')."
+  },
+  "x12": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Excluded (self-removal): The same temporary account added the text about Bilderberg meetings and reverted its own edit 32 minutes later."
+  },
+  "x13": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "good_faith_error",
+   "why": "Excluded (not-substantive): Only changed an infobox image filename parameter ('Juha Sipilä 18-4-2015.JPG' to 'Juha Sipilä.JPG'), adding no prose, claim, or citation."
+  },
+  "x14": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded (graffiti): Appended 'penis' to a section heading."
+  },
+  "x15": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "other",
+   "why": "Excluded (blanking): Candidate c27 represents a page blanking ('Ak: Sivu tyhjennettiin' / 'Page was blanked') in rev 2185086 that temporarily wiped out a year of ordinary article edits starting from rev 703640 (which was itself a restoration after an earlier blanking) and was immediately undone."
+  },
+  "x16": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Excluded (self-removal): The same named editor added text about Sanna Marin moving to Helsinki and undid their own edit 4 minutes later ('jaa, [editor] ehti ensin' / 'oh, [editor] got there first')."
+  },
+  "x17": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 1: Added a raw quote and bare blog URL from a political opponent ('Nuorten toimeentulotuen leikkaaminen jopa 40 prosentilla kulkee nimillä Lex Soininvaara' / 'Cutting youth social assistance by up to 40 percent goes by the name Lex Soininvaara'). Reverted via standard rollback summary without a specific dispute reason, re-insertion, or edit war."
+  },
+  "x18": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Added unsourced/loosely attributed political trivia about Sipilä's 'kakkara' diagram, a 60:40 spending rule described by Ilta-Sanomat as 'kokoomuslainen' ('National Coalition-like'), interpellations, and municipal council membership. Reverted 12 days later with a standard rollback summary and no community dispute signal."
+  },
+  "x19": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded (graffiti): Inserted 2,303 bytes of repeated 'DESU ' spam."
+  },
+  "x20": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Revision 15501242 added unsourced plausible biographical statement 'Minna-Maarialla ja Juhalla on Minna-Maaria ja Juha Sipilä säätiö -niminen hyväntekeväisyyssäätiö' ('Minna-Maaria and Juha have a charity foundation named the Minna-Maaria and Juha Sipilä Foundation'). Removed as unsourced ('rv. lähteettömiä') with no slant or re-insertion of this sentence."
+  },
+  "x21": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Added an extended quote from Soininvaara's blog into a reference ('Tuo esitys vain maahanmuuttajille tarkoitetusta geneettisen sormenjäljen rekisteristä oli tietysti pelkkä bluffi...' / 'That proposal for a genetic fingerprint register meant only for immigrants was of course a mere bluff...'). Removed with 'Turhaa pointtausta. Ei muistakaan kirjoituksista ole lainauksia' ('Pointless emphasis/POINT. Other writings don't have quotes either'), and the removal was itself undone."
+  },
+  "x22": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "source_manipulation",
+   "why": "Level 2: Added text linking Marin's Bilderberg attendance to conspiracy allegations and travel costs ('sen epäillään suunnittelevan \"uutta maailmanjärjestystä\"... Valtiolle Marinin vuoden 2023 kokousvierailu maksoi yli 24 000 euroa' / 'it is suspected of planning a \"new world order\"... For the state Marin's 2023 meeting visit cost over 24,000 euros'). Removed with detailed accuracy/sourcing critique: 'salaliittoteoria on lähteessä kumottu... Arhinmäen kysymys on jo vuodelta 2010, ja matkakustannuksiin sisältyi paljon muutakin kuin lisäyksessä mainittu matka' ('conspiracy theory is debunked in the source... Arhinmäki's question is already from 2010, and travel costs included much more than the trip mentioned')."
+  },
+  "x23": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "vandalism",
+   "why": "Excluded (blanking): Replaced the entire 23 KB article on Matti Vanhanen with a single defamatory graffiti sentence ('antiristus, joka on yhdistetty useissa tilanteissa saatananpalvontaan' / 'antichrist linked to Satan worship'); flagged as blanking."
+  },
+  "x24": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Added sourced paragraph on Stubb's false statement to parliament regarding the nominee register ('Marraskuussa 2015 Stubb väitti eduskunnan kyselytunnilla 90 prosentin hallintarekisteriä koskevista asiantuntijalausunnoista olevan myönteisiä, vaikka todellinen luku on kymmenen prosenttia' / 'In November 2015 Stubb claimed during parliamentary question time that 90 percent of expert opinions on the nominee register were positive, although the true figure is ten percent'). Subject to multiple back-and-forth edits/reverts and removed in rev 15375347 ('resentismiä... ei wikipediaan tarvitse kirjoittaa ihmisistä tällaisia negatiivisia asioita' / 'recentism... no need to write such negative things about people on Wikipedia'), which was itself undone."
+  },
+  "x25": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded (graffiti): Inserted derogatory nickname 'lempinimeltään Kusitolppa' ('nicknamed Piss-post') into the lead sentence of Juha Sipilä's biography."
+  },
+  "x26": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: Added passage about Soininvaara's 2007 nurses' strike blog post alongside a synthesis comparison to Jussi Halla-aho ('Vastaavaa argumenttia oli käyttänyt Jussi Halla-aho vuonna 2006 saaden osakseen runsaasti kritiikkiä' / 'A similar argument had been used by Jussi Halla-aho in 2006, receiving plenty of criticism'). Removed with summary 'Harhaanjohtava & Jussi Halla-aho ei liity aiheeseen' ('Misleading & Jussi Halla-aho is unrelated to the topic')."
+  },
+  "x27": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded (graffiti): Revision 23674103 vandalized the subject's name in the lead sentence from 'Juha Petri Sipilä' to 'Nuha Petri pipilä', reverted two minutes later as 'Rv sotkua' ('Rv mess')."
+  },
+  "x28": {
+   "label": "campaign",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 3: Added claim citing Paavo Väyrynen ('puoluetta hallitsevat äärioikeiston kanssa liittoutuneet saarnamies Lars Levi Laestadiuksen kannattajat' / 'the party is controlled by supporters of preacher Lars Levi Laestadius allied with the far right', with hostile edit summary). Removed in rev 15904616, then restored 14 days later on 2016-09-05 in rev 15933764 by a second distinct named account (E1242, after E1238) and removed again. Wait: let's check Level 3 signals carefully! Signals: (1) >=2 distinct editors (E1238 and E1242, both named) -> YES. (2) >=2 articles -> NO (only page 926229). (3) Persistence: put back >=2 times over >=7 days -> NO, it was put back only 1 time (rev 15933764 is 1 re-insertion after initial insertion 15903090; 15904344 just appended other text before first removal). (4) Source manipulation alongside -> citations are incomplete/vague ('puheenvuoroja eri tilaisuuksissa vuosina 2015-2016' / 'speeches at various events'), not clear removal/replacement/fabrication of a source. Wait—only 1 Level 3 signal holds! Let me label this 'contested', not 'campaign'!"
+  },
+  "x29": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: Added section 'Kannanotto ydinvoimasta' ('Position on nuclear power') stating 'Osmo Soininvaaran mielestä ydinvoima torjuu kasvihuoneilmiötä kuin viinaryyppy krapulaa' ('According to Osmo Soininvaara, nuclear power combats the greenhouse effect like a shot of liquor combats a hangover'). Removed as 'ei oleellista' ('not essential'), re-inserted by the same editor after removal, and removed again."
+  },
+  "x30": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded (graffiti): Revision 20498542 inserted the slur 'hintti....' into the opening sentence ('on hintti.... suomalainen poliitikko'), reverted 10 minutes later as 'sotkemisena' ('as messing/vandalism')."
+  },
+  "x31": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded (graffiti): Candidate c32 is an edit-war undo by E881 restoring the joke/graffiti sentence 'Sanna Marin on tällä hetkellä ollut yhtäjaksoisesti lähes 500 vuorokautta maailman hyvännäköisin poliitikko' ('Sanna Marin has currently been continuously for nearly 500 days the best-looking politician in the world'), while rev 20698244 was an anti-vandalism revert removing that sentence."
+  },
+  "x32": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: Added election betting odds ('Keskustan vaalien voittokerroin vedonlyönnissä oli 1.37' / 'Centre Party's winning odds in election betting were 1.37') citing a gambling homepage. Removed 2 minutes later as 'epäolennaista' ('irrelevant'), with no accuracy/neutrality dispute or re-insertion."
+  },
+  "x33": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: Added unsourced plausible biographical detail 'Hänen diplomityönsä aihe oli 900 MHz duplex -muunnin' ('The topic of his master's thesis was a 900 MHz duplex converter'). Although put back once after an initial rollback and later removed as unsourced ('rv. lähteettömiä'), plausible neutral biographical facts whose only recorded problem is a missing source are good-faith errors capped at Level 1."
+  },
+  "x34": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded (graffiti): Episode consists of vandalism redirecting Alexander Stubb's biography to '#ohjaus [[Kansallissosialismi]]' ('#redirect [[National Socialism]]'); rev 4571580 removed that vandalism redirect and rev 4571588 briefly restored it before being undone."
+  }
+ },
+ "rev_id_concerns": {
+  "x01": "Candidate c09 bundles rev 23661848 (election table row) with rev 23674103 (name vandalism, see x27).",
+  "x04": "Candidate diff also includes the 669-byte Väyrynen claim from rev 15903090 (covered in x28), whereas inserting_rev_ids here lists only 15904344.",
+  "x06": "Candidate c05 bundles unrelated edits (19820900 municipal election interview, see x10; 19821474/19821477 speedy deletion tag and revert).",
+  "x10": "Candidate c05 bundles this edit with an earlier dispute over Kesäranta meal allowances (x06) and a speedy-deletion tag.",
+  "x15": "inserting_rev_ids [703640] is an anti-vandalism revert restoring the whole article, and c27 sweeps up 117 unrelated edits across 362 days because rev 2185086 blanked the page.",
+  "x20": "Candidate c06 also includes rev 15501200 (master's thesis topic, see x33) and unrelated reverted edit 15502072/15502075.",
+  "x24": "Candidate c10 edits list includes intermediate vandalism/tweaks and reverts (15371757–15374609) after the initial insertion 15369910.",
+  "x27": "Candidate c09 bundles this vandalism rev 23674103 with an earlier 2011 election table addition in rev 23661848 (see x01).",
+  "x30": "Candidate c04 rolls back 4 edits at once, including substantive edits 20430699 and 20430735 by another editor a month earlier (which were immediately restored in rev 20498553), while inserting_rev_ids properly isolates the graffiti edit 20498542.",
+  "x31": "inserting_rev_ids [20698244] is actually the counter-vandalism removal of the graffiti, and removing_rev_id [20698415] put the graffiti back.",
+  "x33": "Candidate c06 also includes rev 15501242 (charity foundation, see x20) and unrelated reverted edit 15502072/15502075.",
+  "x34": "inserting_rev_ids [4571580] is the removal of the vandalism redirect rather than its insertion, and [4571588] re-inserted the vandalism."
+ },
+ "usage": {
+  "total_tokens": 87938,
+  "total_input_tokens": 81566,
+  "input_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 81566
+   }
+  ],
+  "total_cached_tokens": 0,
+  "total_output_tokens": 6372,
+  "output_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 6372
+   }
+  ],
+  "total_tool_use_tokens": 0,
+  "total_thought_tokens": 0,
+  "initial_input_tokens": 81566,
+  "cost_usd_est": 0.2269,
+  "seconds": 68.9
+ }
+}
