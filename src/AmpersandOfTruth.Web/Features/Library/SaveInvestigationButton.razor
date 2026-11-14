@@ -62,7 +62,7 @@ else
 
     private Guid? EffectiveSavedId => SavedId ?? _localSavedId;
 
-    private bool CanSave => Incidents is not null && Services.GetService<LibraryStore>() is not null;
+    private bool CanSave => Incidents is not null;
 
     protected override void OnParametersSet()
     {

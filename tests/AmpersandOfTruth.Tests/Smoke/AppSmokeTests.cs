@@ -12,6 +12,7 @@ public class AppSmokeTests(AppFactory factory) : IClassFixture<AppFactory>
     [InlineData("/investigate")]
     [InlineData("/investigate/winter-war")]
     [InlineData("/methodology")]
+    [InlineData("/library")]
     [InlineData("/articles/1150")]
     [InlineData("/investigate/winter-war/incidents/ww-01")]
     [InlineData("/accounts/Example")]
