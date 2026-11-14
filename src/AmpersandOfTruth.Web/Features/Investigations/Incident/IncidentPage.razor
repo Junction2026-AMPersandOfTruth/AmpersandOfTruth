@@ -168,6 +168,7 @@
 
             <aside class="aot-incident-side aot-stack" style="gap:var(--space-4)">
                 <WhyFlagged Incident="_incident" />
+                <IncidentAccounts Incident="_incident" />
                 <AssessmentNote Assessment="_incident.Assessment" />
                 <RelatedIncidents Current="_incident" Incidents="_incidents" Topic="@Topic" Query="@OverviewQuery" />
                 <IncidentActions Topic="@Topic" IncidentId="@_incident.Id" />

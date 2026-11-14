@@ -1,14 +1,19 @@
 using System.Net;
+using AmpersandOfTruth.Tests.Features.Investigations.Incident;
 using AmpersandOfTruth.Tests.Infrastructure;
 using AmpersandOfTruth.Web.Features.Accounts;
 using AmpersandOfTruth.Web.Features.Corpus;
 using AmpersandOfTruth.Web.Features.Evidence;
+using AmpersandOfTruth.Web.Features.Investigations;
+using AmpersandOfTruth.Web.Features.Investigations.Fixtures;
+using AmpersandOfTruth.Web.Features.Investigations.View;
 using Bunit;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Time.Testing;
 
 namespace AmpersandOfTruth.Tests.Features.Accounts;
@@ -297,6 +302,109 @@ public sealed class AccountPageTests : BunitContext
             Assert.Contains("Something went wrong loading this account.", banner.TextContent);
             Assert.NotNull(cut.Find("[data-testid=status-retry]"));
         });
+    }
+
+    [Fact]
+    public void Lists_matching_sample_incidents_across_topics_with_banner_compact_cards_and_max_6_while_non_matching_account_hides_section()
+    {
+        var t0 = new DateTimeOffset(2014, 3, 3, 14, 2, 0, TimeSpan.Zero);
+        var incidentSource = new FakeIncidentSource()
+            .WithTopic(
+                "winter-war",
+                Enumerable.Range(1, 5).Select(i => FakeIncidentSource.BuildIncident(
+                    id: $"ww-0{i}",
+                    rank: i,
+                    edits: [new EditView(1000 + i, 900 + i, 1256, t0.AddDays(i), EditorDisplay.For("Pohjantähti77"), null, EditAction.Inserted, TimeSpan.FromDays(1))])).ToArray())
+            .WithTopic(
+                "continuation-war",
+                [
+                    FakeIncidentSource.BuildIncident(
+                        id: "cw-01",
+                        rank: 1,
+                        edits: [new EditView(2001, 2000, 3000, t0.AddDays(10), EditorDisplay.For("Pohjantähti77"), null, EditAction.Removed, null)]),
+                    FakeIncidentSource.BuildIncident(
+                        id: "cw-02",
+                        rank: 2,
+                        edits: [new EditView(2002, 2001, 3000, t0.AddDays(11), EditorDisplay.For("Pohjantähti77"), null, EditAction.Inserted, TimeSpan.FromDays(1))]),
+                ])
+            .WithTopic(
+                "civil-war-1918",
+                [
+                    FakeIncidentSource.BuildIncident(
+                        id: "civ-01",
+                        rank: 1,
+                        edits: [new EditView(3001, 3000, 4000, t0.AddDays(20), EditorDisplay.For("OtherAccount"), null, EditAction.Inserted, TimeSpan.FromDays(1))]),
+                ]);
+
+        Services.AddSingleton(new SampleIncidents(NullLogger<SampleIncidents>.Instance));
+        Services.AddSingleton<IIncidentSource>(incidentSource);
+        Services.AddSingleton<IOptions<InvestigationSourceOptions>>(
+            Options.Create(new InvestigationSourceOptions { Source = IncidentSourceKind.Fixtures }));
+
+        _fake.Accounts["Pohjantähti77"] = SampleFacts("Pohjantähti77");
+        _fake.Accounts["QuietEditor"] = SampleFacts("QuietEditor");
+
+        var cut = Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
+
+        var section = cut.Find("[data-testid=account-incidents]");
+        Assert.Equal("Incidents this account appears in", section.QuerySelector("h2")?.TextContent);
+        Assert.NotNull(section.QuerySelector("[data-testid=sample-data-banner]"));
+
+        // 7 matching incidents across continuation-war (2) + winter-war (5), capped at 6 compact IncidentCards
+        var cards = section.QuerySelectorAll("[data-testid=incident-card]");
+        Assert.Equal(6, cards.Length);
+        var hrefs = cards.Select(static c => c.GetAttribute("href") ?? "").ToArray();
+        Assert.Equal(
+            [
+                "/investigate/continuation-war/incidents/cw-01",
+                "/investigate/continuation-war/incidents/cw-02",
+                "/investigate/winter-war/incidents/ww-01",
+                "/investigate/winter-war/incidents/ww-02",
+                "/investigate/winter-war/incidents/ww-03",
+                "/investigate/winter-war/incidents/ww-04",
+            ],
+            hrefs);
+
+        // Compact cards omit the .aot-facts dl and signal chips
+        Assert.All(cards, c => Assert.Null(c.QuerySelector("dl.aot-facts")));
+        Assert.Empty(CopyRules.FindViolations(cut.Find("[data-testid=account-page]").TextContent, includeJargon: true));
+
+        // Non-matching account -> no account-incidents section and no sample banner
+        var quietCut = Render<AccountPage>(p => p.Add(x => x.Name, "QuietEditor"));
+        Assert.Empty(quietCut.FindAll("[data-testid=account-incidents]"));
+        Assert.Empty(quietCut.FindAll("[data-testid=sample-data-banner]"));
+    }
+
+    [Fact]
+    public void Pipeline_mode_collects_matching_incidents_from_RecentRuns_without_sample_banner()
+    {
+        var t0 = new DateTimeOffset(2020, 6, 1, 10, 0, 0, TimeSpan.Zero);
+        var recentRuns = new RecentRuns();
+        recentRuns.Record("lapland-war", [new IncidentRecord { PageId = 500, InsertingRevIds = [1], RemovingRevIds = [2], Tier = EvidenceTier.Contested, Score = 0.8 }]);
+
+        var incidentSource = new FakeIncidentSource()
+            .WithTopic(
+                "lapland-war",
+                [
+                    FakeIncidentSource.BuildIncident(
+                        id: "lw-01",
+                        rank: 1,
+                        edits: [new EditView(501, 500, 500, t0, EditorDisplay.For("Pohjantähti77"), null, EditAction.Inserted, TimeSpan.FromDays(2))]),
+                ]);
+
+        Services.AddSingleton(recentRuns);
+        Services.AddSingleton<IIncidentSource>(incidentSource);
+        Services.AddSingleton<IOptions<InvestigationSourceOptions>>(
+            Options.Create(new InvestigationSourceOptions { Source = IncidentSourceKind.Pipeline }));
+
+        _fake.Accounts["Pohjantähti77"] = SampleFacts("Pohjantähti77");
+
+        var cut = Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
+
+        var section = cut.Find("[data-testid=account-incidents]");
+        Assert.Empty(section.QuerySelectorAll("[data-testid=sample-data-banner]"));
+        var card = Assert.Single(section.QuerySelectorAll("[data-testid=incident-card]"));
+        Assert.Equal("/investigate/lapland-war/incidents/lw-01", card.GetAttribute("href"));
     }
 
     private sealed class PendingAccountCorpus : IAccountCorpus

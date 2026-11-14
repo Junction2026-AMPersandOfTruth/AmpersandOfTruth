@@ -3,6 +3,9 @@
 @using System.Globalization
 @using AmpersandOfTruth.Web.Features.Evidence
 @using AmpersandOfTruth.Web.Features.Investigations
+@using AmpersandOfTruth.Web.Features.Investigations.Fixtures
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using Microsoft.Extensions.Options
 @inject IAccountCorpus Corpus
 @inject IServiceProvider Services
 
@@ -133,11 +136,38 @@
                 </section>
             }
         }
+
+        @if (_incidents.Count > 0)
+        {
+            <section class="aot-stack" style="gap:var(--space-3)" data-testid="account-incidents">
+                <h2 class="aot-h2">Incidents this account appears in</h2>
+                @if (Services.GetService<IOptions<InvestigationSourceOptions>>() is not null)
+                {
+                    <SampleDataBanner />
+                }
+                else if (Services.GetService<RecentRuns>() is null)
+                {
+                    <StatusBanner Kind="StatusKind.Warn" Title="Sample incidents: not findings" TestId="sample-data-banner">
+                        These incidents are hand-written examples on real edits, used while the analysis is being built. Articles, edits and diffs are real.
+                    </StatusBanner>
+                }
+                <div class="aot-stack" style="gap:var(--space-3)">
+                    @foreach (var match in _incidents)
+                    {
+                        <IncidentCard Incident="match.Incident"
+                                      Topic="@match.Topic"
+                                      Compact="true"
+                                      @key="@($"{match.Topic}:{match.Incident.Id}")" />
+                    }
+                </div>
+            </section>
+        }
     }
 </div>
 
 @code {
     private static readonly TimeSpan SlowThreshold = TimeSpan.FromSeconds(20);
+    private const int MaxOtherIncidents = 6;
 
     [Parameter] public string Name { get; set; } = "";
 
@@ -147,6 +177,7 @@
     private EditorLabel _editor = EditorDisplay.For(null);
     private AccountFacts? _facts;
     private string _errorTitle = "We can’t reach the Wikipedia data right now.";
+    private IReadOnlyList<AccountIncidentMatch> _incidents = [];
     private string? _error;
     private bool _loading;
     private bool _isSlow;
@@ -160,6 +191,7 @@
     {
         _editor = EditorDisplay.For(Name);
         _facts = null;
+        _incidents = [];
         _error = null;
 
         if (_editor.IsAnonymous || _editor.Kind != EditorKind.Named)
@@ -170,7 +202,7 @@
             return;
         }
 
-        await LoadFactsAsync();
+        await Task.WhenAll(LoadFactsAsync(), LoadIncidentsAsync(_editor.GroupingKey));
     }
 
     private async Task LoadFactsAsync()
@@ -256,6 +288,93 @@
         CancelLoad();
     }
 
+    private async Task LoadIncidentsAsync(string groupingKey)
+    {
+        var incidentSource = Services.GetService<IIncidentSource>();
+        if (incidentSource is null || string.IsNullOrWhiteSpace(groupingKey))
+        {
+            _incidents = [];
+            return;
+        }
+
+        var sourceOptions = Services.GetService<IOptions<InvestigationSourceOptions>>()?.Value;
+        var samples = Services.GetService<SampleIncidents>();
+        var recentRuns = Services.GetService<RecentRuns>();
+
+        IReadOnlyList<string> topicSlugs;
+        if (sourceOptions?.Source == IncidentSourceKind.Pipeline
+            || (sourceOptions is null && samples is null && recentRuns is not null))
+        {
+            topicSlugs = recentRuns?.Topics ?? [];
+        }
+        else
+        {
+            var resolvedSamples = samples ?? new SampleIncidents(Microsoft.Extensions.Logging.Abstractions.NullLogger<SampleIncidents>.Instance);
+            topicSlugs = resolvedSamples.Topics.Select(static t => t.Slug).ToList();
+        }
+
+        if (topicSlugs.Count == 0)
+        {
+            _incidents = [];
+            return;
+        }
+
+        var tasks = new Task<(string Slug, IReadOnlyList<IncidentView>? Views)>[topicSlugs.Count];
+        for (var i = 0; i < topicSlugs.Count; i++)
+        {
+            tasks[i] = FetchTopicIncidentsAsync(incidentSource, topicSlugs[i]);
+        }
+
+        var topicResults = await Task.WhenAll(tasks);
+        var matches = new List<AccountIncidentMatch>(MaxOtherIncidents);
+        var seenIds = new HashSet<string>(StringComparer.Ordinal);
+
+        foreach (var (slug, views) in topicResults)
+        {
+            if (views is null || views.Count == 0)
+            {
+                continue;
+            }
+
+            foreach (var incident in views)
+            {
+                if (!incident.Edits.Any(e => string.Equals(e.Editor.GroupingKey, groupingKey, StringComparison.Ordinal)))
+                {
+                    continue;
+                }
+
+                if (!seenIds.Add(incident.Id))
+                {
+                    continue;
+                }
+
+                matches.Add(new AccountIncidentMatch(slug, incident));
+                if (matches.Count == MaxOtherIncidents)
+                {
+                    _incidents = matches;
+                    return;
+                }
+            }
+        }
+
+        _incidents = matches;
+    }
+
+    private static async Task<(string Slug, IReadOnlyList<IncidentView>? Views)> FetchTopicIncidentsAsync(
+        IIncidentSource source,
+        string slug)
+    {
+        try
+        {
+            var views = await source.ForTopicAsync(slug);
+            return (slug, views);
+        }
+        catch
+        {
+            return (slug, null);
+        }
+    }
+
     private static string FormatFactsRow(AccountFacts facts)
     {
         var parts = new List<string>(5)
@@ -279,4 +398,6 @@
     private static string FormatDate(DateTime utc) => utc.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
 
     private static string Fmt(double value) => value.ToString("0.#", CultureInfo.InvariantCulture);
+
+    private sealed record AccountIncidentMatch(string Topic, IncidentView Incident);
 }

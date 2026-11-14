@@ -71,6 +71,24 @@ public sealed class RecentRuns
     private readonly Dictionary<string, IReadOnlyList<IncidentRecord>> _bySlug = new(StringComparer.Ordinal);
     private readonly LinkedList<string> _order = new();
 
+    public IReadOnlyList<string> Topics
+    {
+        get
+        {
+            lock (_gate)
+            {
+                var slugs = new string[_order.Count];
+                var i = 0;
+                for (var node = _order.Last; node is not null; node = node.Previous)
+                {
+                    slugs[i++] = node.Value;
+                }
+
+                return slugs;
+            }
+        }
+    }
+
     public void Record(string slug, IReadOnlyList<IncidentRecord> incidents)
     {
         ArgumentNullException.ThrowIfNull(slug);
