@@ -1,0 +1,10014 @@
+{
+ "contract": 1,
+ "kind": "signals",
+ "variant": "s1-reverts-judged",
+ "split": "dev",
+ "golden_version": "2026-11-14.1",
+ "dataset": "m-2026-10",
+ "git_commit": "ebfdadc8bb6f",
+ "ran_at": "2026-11-14T14:37:00Z",
+ "command": "research/eval/run signals --name s1-reverts -- python3 research/28-s1-revert/variant.py",
+ "limit": 50,
+ "k": 20,
+ "partial": false,
+ "topics": 10,
+ "requests": 10,
+ "judgements_file": "research/22-judge/results/union-s1-s3a-s7.judgements.jsonl",
+ "reviews_file": "research/22-judge/results/union-judged-contested.reviews.jsonl",
+ "replayed_from": "research/28-s1-revert/results/s1-reverts.dev.responses.jsonl",
+ "replayed_at": "2026-11-14T16:52:26Z",
+ "metrics": {
+  "strict_p@10": 0.4396825396825396,
+  "strict_p@25": 0.42083333333333334,
+  "lenient_p@10": 0.8456349206349206,
+  "lenient_p@25": 0.7041666666666666,
+  "unlabelled@10": 6.888888888888889,
+  "unlabelled@25": 17.333333333333332,
+  "strict_p@10_judged": 0.2777777777777778,
+  "strict_p@25_judged": 0.2711111111111111,
+  "unjudged@10": 0,
+  "unjudged@25": 0,
+  "recall": 0.5753424657534246,
+  "level_accuracy": 0.3764705882352941,
+  "overclaim_rate": 0.12941176470588237,
+  "duplicates": 35,
+  "quiet_shown": 26,
+  "quiet_contested_or_above": 0,
+  "seconds_per_topic": 6.17,
+  "llm_calls": 0,
+  "input_tokens": 0,
+  "output_tokens": 0
+ },
+ "per_topic": [
+  {
+   "id": "civil-war-1918",
+   "topic_id": "civil-war-1918",
+   "kind": "topic",
+   "shown": 50,
+   "seconds": 4.28,
+   "failed": false,
+   "outcomes": {
+    "unlabelled": 35,
+    "contested": 4,
+    "reverted": 6,
+    "duplicate": 5
+   },
+   "strict_p@10": 0.4,
+   "lenient_p@10": 0.8,
+   "unlabelled@10": 5,
+   "strict_p@10_judged": 0.5,
+   "unjudged@10": 0,
+   "strict_p@25": 0.3,
+   "lenient_p@25": 0.7,
+   "unlabelled@25": 15,
+   "strict_p@25_judged": 0.44,
+   "unjudged@25": 0,
+   "expected": 10,
+   "found": [
+    "civil-war-1918/i01",
+    "civil-war-1918/i06",
+    "civil-war-1918/i07",
+    "civil-war-1918/i10"
+   ],
+   "missed": [
+    "civil-war-1918/i02",
+    "civil-war-1918/i03",
+    "civil-war-1918/i04",
+    "civil-war-1918/i05",
+    "civil-war-1918/i08",
+    "civil-war-1918/i09"
+   ],
+   "matched": 10,
+   "level_correct": 6,
+   "overclaims": 0,
+   "duplicates": 5,
+   "shown_contested_or_above": 0,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "3872767",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 2,
+     "key": "7999804+7999823+7999840+7999890+7999891+7999898+7999913+8000163",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "civil-war-1918/i06"
+    },
+    {
+     "rank": 3,
+     "key": "16553969",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 4,
+     "key": "16556471",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "civil-war-1918/i11"
+    },
+    {
+     "rank": 5,
+     "key": "16554706",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 6,
+     "key": "15215091+15216032+15216036",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "civil-war-1918/i10"
+    },
+    {
+     "rank": 7,
+     "key": "19294680",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "civil-war-1918/i13"
+    },
+    {
+     "rank": 8,
+     "key": "3287873+3287876",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 9,
+     "key": "19293190",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "civil-war-1918/i13",
+     "duplicate_of": 7
+    },
+    {
+     "rank": 10,
+     "key": "3290009+3290043",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "3293053+3293061+3293066+3293087+3293100+3293120+3293340+3293415+3293722+3294026",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 12,
+     "key": "18948387",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 13,
+     "key": "18945271",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "18947066",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 15,
+     "key": "8014933",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "civil-war-1918/i06",
+     "duplicate_of": 2
+    },
+    {
+     "rank": 16,
+     "key": "985607",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "17918199",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "1622163",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "16556549",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "4741124",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "civil-war-1918/i07"
+    },
+    {
+     "rank": 21,
+     "key": "17589055+17589491",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "civil-war-1918/i17"
+    },
+    {
+     "rank": 22,
+     "key": "17912640",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "14947566",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 24,
+     "key": "15217932",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "civil-war-1918/i10",
+     "duplicate_of": 6
+    },
+    {
+     "rank": 25,
+     "key": "17766675+17768282",
+     "page_id": 7675,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "civil-war-1918/i15"
+    },
+    {
+     "rank": 26,
+     "key": "12007996",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "3289105+3289145",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 28,
+     "key": "19301904",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "civil-war-1918/i13",
+     "duplicate_of": 7
+    },
+    {
+     "rank": 29,
+     "key": "3290904",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 30,
+     "key": "3290065",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 31,
+     "key": "21249230",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "civil-war-1918/i01"
+    },
+    {
+     "rank": 32,
+     "key": "3282484+3282501+3282703",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "18949336",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "civil-war-1918/i12"
+    },
+    {
+     "rank": 34,
+     "key": "17766447+17766451+17766452+17766459+17766460+17766462+17766464+17766465+17766468+17766476+17766479+17766486+17766495+17766497",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 35,
+     "key": "13797982",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "17913036+17913049+17913849",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 37,
+     "key": "985615",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 38,
+     "key": "4358793",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "civil-war-1918/i14"
+    },
+    {
+     "rank": 39,
+     "key": "14950388",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 40,
+     "key": "17920790",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 41,
+     "key": "10063265",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 42,
+     "key": "17909769+17909806",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 43,
+     "key": "4214176",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 44,
+     "key": "21208416",
+     "page_id": 9186,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 45,
+     "key": "4211950",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 46,
+     "key": "3295101+3295122",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 47,
+     "key": "4430592",
+     "page_id": 6021,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 48,
+     "key": "20782515",
+     "page_id": 7675,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 49,
+     "key": "4743018",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "civil-war-1918/i07",
+     "duplicate_of": 20
+    },
+    {
+     "rank": 50,
+     "key": "4743206",
+     "page_id": 1150,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  },
+  {
+   "id": "continuation-war",
+   "topic_id": "continuation-war",
+   "kind": "topic",
+   "shown": 50,
+   "seconds": 4.34,
+   "failed": false,
+   "outcomes": {
+    "unlabelled": 30,
+    "reverted": 6,
+    "not-incident": 2,
+    "duplicate": 7,
+    "contested": 5
+   },
+   "strict_p@10": 0.16666666666666666,
+   "lenient_p@10": 0.6666666666666666,
+   "unlabelled@10": 4,
+   "strict_p@10_judged": 0.2,
+   "unjudged@10": 0,
+   "strict_p@25": 0.26666666666666666,
+   "lenient_p@25": 0.6,
+   "unlabelled@25": 10,
+   "strict_p@25_judged": 0.2,
+   "unjudged@25": 0,
+   "expected": 7,
+   "found": [
+    "continuation-war/i01",
+    "continuation-war/i02",
+    "continuation-war/i03",
+    "continuation-war/i05",
+    "continuation-war/i06"
+   ],
+   "missed": [
+    "continuation-war/i04",
+    "continuation-war/i07"
+   ],
+   "matched": 13,
+   "level_correct": 6,
+   "overclaims": 2,
+   "duplicates": 7,
+   "shown_contested_or_above": 0,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "2539229",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 2,
+     "key": "15412522+15412524",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 3,
+     "key": "18213645+18213649+18213667+18213669",
+     "page_id": 622103,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "continuation-war/i10"
+    },
+    {
+     "rank": 4,
+     "key": "15952023",
+     "page_id": 278427,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 5,
+     "key": "15073561+15073573+15073598+15073599+15073636+15073640+15073641+15073659+15073784",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "continuation-war/i08"
+    },
+    {
+     "rank": 6,
+     "key": "22078178+22078207",
+     "page_id": 105157,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "continuation-war/n02"
+    },
+    {
+     "rank": 7,
+     "key": "22077673+22077709+22077715+22077717+22077722+22077724+22077726+22077731+22077732+22077737",
+     "page_id": 105157,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "continuation-war/n02",
+     "duplicate_of": 6
+    },
+    {
+     "rank": 8,
+     "key": "15519346",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "continuation-war/i12"
+    },
+    {
+     "rank": 9,
+     "key": "23878935",
+     "page_id": 27916,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 10,
+     "key": "302423+302427",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "continuation-war/i01"
+    },
+    {
+     "rank": 11,
+     "key": "380655+380661+380669+380677",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "continuation-war/i02"
+    },
+    {
+     "rank": 12,
+     "key": "381749",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "continuation-war/i02",
+     "duplicate_of": 11
+    },
+    {
+     "rank": 13,
+     "key": "18214485+18214497+18214499+18214501+18214503+18214590",
+     "page_id": 622103,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "continuation-war/i10",
+     "duplicate_of": 3
+    },
+    {
+     "rank": 14,
+     "key": "15215087+15216030",
+     "page_id": 11398,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "continuation-war/i06"
+    },
+    {
+     "rank": 15,
+     "key": "392003",
+     "page_id": 11398,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "11703122",
+     "page_id": 136099,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "continuation-war/i05"
+    },
+    {
+     "rank": 17,
+     "key": "15951964+15952027+15955896+15955900+15955905",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "continuation-war/i09"
+    },
+    {
+     "rank": 18,
+     "key": "15412330+15412518",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "3120452",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "13792606",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 21,
+     "key": "15975415+15975512",
+     "page_id": 27916,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 22,
+     "key": "24099675",
+     "page_id": 27916,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "18214720+18214722+18214726+18214728+18214730+18214732+18214734+18214740",
+     "page_id": 622103,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "continuation-war/i10",
+     "duplicate_of": 3
+    },
+    {
+     "rank": 24,
+     "key": "302458",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "continuation-war/i01",
+     "duplicate_of": 10
+    },
+    {
+     "rank": 25,
+     "key": "4215598",
+     "page_id": 6816,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "continuation-war/i15"
+    },
+    {
+     "rank": 26,
+     "key": "22478272",
+     "page_id": 27916,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "4513431",
+     "page_id": 6816,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 28,
+     "key": "382397",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "continuation-war/i02",
+     "duplicate_of": 11
+    },
+    {
+     "rank": 29,
+     "key": "15217931",
+     "page_id": 11398,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "continuation-war/i06",
+     "duplicate_of": 14
+    },
+    {
+     "rank": 30,
+     "key": "24152725",
+     "page_id": 105157,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 31,
+     "key": "392800",
+     "page_id": 11398,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 32,
+     "key": "13791972",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "15519253",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "13635593",
+     "page_id": 11398,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 35,
+     "key": "10661688+10661852+10661859",
+     "page_id": 626022,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "13598020+13598021+13598027",
+     "page_id": 278427,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 37,
+     "key": "16947825",
+     "page_id": 105157,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 38,
+     "key": "13351007+13351757",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 39,
+     "key": "12394551",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 40,
+     "key": "14297418",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 41,
+     "key": "12965291+12965303",
+     "page_id": 105157,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 42,
+     "key": "12373873+12373879+12373884",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 43,
+     "key": "2355623",
+     "page_id": 105157,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "continuation-war/i03"
+    },
+    {
+     "rank": 44,
+     "key": "13357295+13357301+13358788",
+     "page_id": 6816,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 45,
+     "key": "4111531+4111535",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "continuation-war/n01"
+    },
+    {
+     "rank": 46,
+     "key": "3888482+4251595+4391213+4391365",
+     "page_id": 319344,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "continuation-war/i16"
+    },
+    {
+     "rank": 47,
+     "key": "15273416+15273420+15273428",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 48,
+     "key": "8962967+8963007",
+     "page_id": 6816,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 49,
+     "key": "8963100",
+     "page_id": 6816,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 50,
+     "key": "4257612+4257619+4257638+4257792",
+     "page_id": 440,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  },
+  {
+   "id": "winter-war",
+   "topic_id": "winter-war",
+   "kind": "topic",
+   "shown": 50,
+   "seconds": 5.11,
+   "failed": false,
+   "outcomes": {
+    "unlabelled": 33,
+    "contested": 4,
+    "reverted": 6,
+    "duplicate": 7
+   },
+   "strict_p@10": 0.5,
+   "lenient_p@10": 1.0,
+   "unlabelled@10": 6,
+   "strict_p@10_judged": 0.2,
+   "unjudged@10": 0,
+   "strict_p@25": 0.2,
+   "lenient_p@25": 0.6,
+   "unlabelled@25": 15,
+   "strict_p@25_judged": 0.16,
+   "unjudged@25": 0,
+   "expected": 5,
+   "found": [
+    "winter-war/i01",
+    "winter-war/i02",
+    "winter-war/i03",
+    "winter-war/i04"
+   ],
+   "missed": [
+    "winter-war/i05"
+   ],
+   "matched": 10,
+   "level_correct": 6,
+   "overclaims": 0,
+   "duplicates": 7,
+   "shown_contested_or_above": 0,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "11071600",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 2,
+     "key": "1045745+1045758",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 3,
+     "key": "7714924",
+     "page_id": 24889,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "winter-war/i04"
+    },
+    {
+     "rank": 4,
+     "key": "5847575",
+     "page_id": 24889,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 5,
+     "key": "13357212+13357246+13357274+13357298",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "winter-war/i10"
+    },
+    {
+     "rank": 6,
+     "key": "2940776",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "winter-war/i03"
+    },
+    {
+     "rank": 7,
+     "key": "7689920+7689927+7689961+7689973+7689988+7690007+7690044+7690071",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 8,
+     "key": "20372789",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 9,
+     "key": "14736665+14947746",
+     "page_id": 52097,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "winter-war/i07"
+    },
+    {
+     "rank": 10,
+     "key": "13357325",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "19639487+19639606+19642254",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "winter-war/i09"
+    },
+    {
+     "rank": 12,
+     "key": "7716568",
+     "page_id": 24889,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "winter-war/i04",
+     "duplicate_of": 3
+    },
+    {
+     "rank": 13,
+     "key": "6833929",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "5666984",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 15,
+     "key": "18790337",
+     "page_id": 52097,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "6832190",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "5763275",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "2942369",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "winter-war/i03",
+     "duplicate_of": 6
+    },
+    {
+     "rank": 19,
+     "key": "2360342",
+     "page_id": 24889,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "2811373",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 21,
+     "key": "20372773",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 22,
+     "key": "13353490",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "winter-war/i10",
+     "duplicate_of": 5
+    },
+    {
+     "rank": 23,
+     "key": "18325402+18325428",
+     "page_id": 24889,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "winter-war/i14"
+    },
+    {
+     "rank": 24,
+     "key": "19164494+19164498+19164511",
+     "page_id": 16331,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 25,
+     "key": "14949245",
+     "page_id": 52097,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "winter-war/i07",
+     "duplicate_of": 9
+    },
+    {
+     "rank": 26,
+     "key": "13348024",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "17567751+17567753",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 28,
+     "key": "17666163",
+     "page_id": 24889,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 29,
+     "key": "16572783",
+     "page_id": 24889,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 30,
+     "key": "381757",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 31,
+     "key": "22295376+22295380+22329036+22333755",
+     "page_id": 24889,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "winter-war/i08"
+    },
+    {
+     "rank": 32,
+     "key": "422163",
+     "page_id": 24889,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "16996153+16996250",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "15356346",
+     "page_id": 8295,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "winter-war/i02"
+    },
+    {
+     "rank": 35,
+     "key": "15356377",
+     "page_id": 8295,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "winter-war/i02",
+     "duplicate_of": 34
+    },
+    {
+     "rank": 36,
+     "key": "16784168+16785599+16785605+16785615",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 37,
+     "key": "8962713",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "winter-war/i01"
+    },
+    {
+     "rank": 38,
+     "key": "8960194",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "winter-war/i01",
+     "duplicate_of": 37
+    },
+    {
+     "rank": 39,
+     "key": "8960158",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "winter-war/i01",
+     "duplicate_of": 37
+    },
+    {
+     "rank": 40,
+     "key": "6350811",
+     "page_id": 12467,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 41,
+     "key": "10376807",
+     "page_id": 24889,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 42,
+     "key": "1983800+1983836+1983959+1983965+1983975+1983978+1983997+1985144",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 43,
+     "key": "17390460",
+     "page_id": 24889,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 44,
+     "key": "421008+421126",
+     "page_id": 24889,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 45,
+     "key": "2811391",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 46,
+     "key": "23525415+23539384",
+     "page_id": 24889,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "winter-war/i12"
+    },
+    {
+     "rank": 47,
+     "key": "1465449",
+     "page_id": 24889,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 48,
+     "key": "4186740+4186790+4186817",
+     "page_id": 92454,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 49,
+     "key": "4185426+4185428+4185716",
+     "page_id": 92454,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 50,
+     "key": "16341004",
+     "page_id": 1256,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  },
+  {
+   "id": "ceded-karelia",
+   "topic_id": "ceded-karelia",
+   "kind": "topic",
+   "shown": 50,
+   "seconds": 3.27,
+   "failed": false,
+   "outcomes": {
+    "unlabelled": 35,
+    "contested": 7,
+    "duplicate": 6,
+    "reverted": 2
+   },
+   "strict_p@10": null,
+   "lenient_p@10": null,
+   "unlabelled@10": 10,
+   "strict_p@10_judged": 0.2,
+   "unjudged@10": 0,
+   "strict_p@25": 0.5,
+   "lenient_p@25": 0.75,
+   "unlabelled@25": 21,
+   "strict_p@25_judged": 0.28,
+   "unjudged@25": 0,
+   "expected": 10,
+   "found": [
+    "ceded-karelia/i02",
+    "ceded-karelia/i07",
+    "ceded-karelia/i08",
+    "ceded-karelia/i09",
+    "ceded-karelia/i10",
+    "ceded-karelia/i11",
+    "ceded-karelia/i12"
+   ],
+   "missed": [
+    "ceded-karelia/i01",
+    "ceded-karelia/i04",
+    "ceded-karelia/i13"
+   ],
+   "matched": 9,
+   "level_correct": 2,
+   "overclaims": 0,
+   "duplicates": 6,
+   "shown_contested_or_above": 0,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "9610261",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 2,
+     "key": "9615882",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 3,
+     "key": "3396271",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 4,
+     "key": "11803595",
+     "page_id": 76047,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 5,
+     "key": "115519",
+     "page_id": 19154,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 6,
+     "key": "392160",
+     "page_id": 24094,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 7,
+     "key": "392303",
+     "page_id": 24094,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 8,
+     "key": "335089+335119+335128+335129",
+     "page_id": 24094,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 9,
+     "key": "5687231",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 10,
+     "key": "156801+156814",
+     "page_id": 19086,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "5672664",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "ceded-karelia/i08"
+    },
+    {
+     "rank": 12,
+     "key": "5677215",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "ceded-karelia/i08",
+     "duplicate_of": 11
+    },
+    {
+     "rank": 13,
+     "key": "9616740",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "1620929",
+     "page_id": 12374,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "ceded-karelia/i16"
+    },
+    {
+     "rank": 15,
+     "key": "3396282",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "4753981+4753986+4753988+4754029+4754032",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "4757075",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "3609775+3609790",
+     "page_id": 76047,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "14948319",
+     "page_id": 66885,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "4638384+4638416",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 21,
+     "key": "393518+393567+393568+393570+393853+393860",
+     "page_id": 24094,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "ceded-karelia/i12"
+    },
+    {
+     "rank": 22,
+     "key": "4750690",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "392468",
+     "page_id": 24094,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 24,
+     "key": "429514+429518+429522+429526+429527",
+     "page_id": 19086,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 25,
+     "key": "12492532",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 26,
+     "key": "392091",
+     "page_id": 24094,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "325415+325421+325473+325493",
+     "page_id": 19086,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 28,
+     "key": "5790725",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 29,
+     "key": "7493076",
+     "page_id": 9895,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "ceded-karelia/i05"
+    },
+    {
+     "rank": 30,
+     "key": "5677668",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "ceded-karelia/i08",
+     "duplicate_of": 11
+    },
+    {
+     "rank": 31,
+     "key": "5652352",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "ceded-karelia/i08",
+     "duplicate_of": 11
+    },
+    {
+     "rank": 32,
+     "key": "1017438",
+     "page_id": 19086,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "ceded-karelia/i02"
+    },
+    {
+     "rank": 33,
+     "key": "398654+398659+398666",
+     "page_id": 24094,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "4784621+4787255+4787298",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "ceded-karelia/i07"
+    },
+    {
+     "rank": 35,
+     "key": "3609766",
+     "page_id": 66885,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "325293+325296",
+     "page_id": 19086,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 37,
+     "key": "11807500",
+     "page_id": 76047,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 38,
+     "key": "1578757",
+     "page_id": 12374,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 39,
+     "key": "11801593",
+     "page_id": 76047,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 40,
+     "key": "12383712+12383713+12383718",
+     "page_id": 218476,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 41,
+     "key": "14949261",
+     "page_id": 66885,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 42,
+     "key": "1507690",
+     "page_id": 14405,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 43,
+     "key": "1506729",
+     "page_id": 14405,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 44,
+     "key": "392859",
+     "page_id": 24094,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "ceded-karelia/i10"
+    },
+    {
+     "rank": 45,
+     "key": "14947850+14947926",
+     "page_id": 51219,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 46,
+     "key": "349583+350859+350872+351774",
+     "page_id": 24094,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "ceded-karelia/i11"
+    },
+    {
+     "rank": 47,
+     "key": "11759814",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "ceded-karelia/i09"
+    },
+    {
+     "rank": 48,
+     "key": "11749366",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "ceded-karelia/i09",
+     "duplicate_of": 47
+    },
+    {
+     "rank": 49,
+     "key": "11756598",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "ceded-karelia/i09",
+     "duplicate_of": 47
+    },
+    {
+     "rank": 50,
+     "key": "11753859",
+     "page_id": 6626,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "ceded-karelia/i09",
+     "duplicate_of": 47
+    }
+   ]
+  },
+  {
+   "id": "nato-debate",
+   "topic_id": "nato-debate",
+   "kind": "topic",
+   "shown": 50,
+   "seconds": 5.37,
+   "failed": false,
+   "outcomes": {
+    "unlabelled": 37,
+    "reverted": 1,
+    "campaign": 1,
+    "not-incident": 2,
+    "contested": 7,
+    "duplicate": 2
+   },
+   "strict_p@10": 0.5,
+   "lenient_p@10": 0.75,
+   "unlabelled@10": 6,
+   "strict_p@10_judged": 0.5,
+   "unjudged@10": 0,
+   "strict_p@25": 0.5,
+   "lenient_p@25": 0.6,
+   "unlabelled@25": 15,
+   "strict_p@25_judged": 0.44,
+   "unjudged@25": 0,
+   "expected": 12,
+   "found": [
+    "austerity-politics/i04",
+    "austerity-politics/i09",
+    "austerity-politics/i11",
+    "nato-debate/i01",
+    "nato-debate/i02",
+    "nato-debate/i03",
+    "nato-debate/i04",
+    "nato-debate/i05"
+   ],
+   "missed": [
+    "austerity-politics/i01",
+    "austerity-politics/i18",
+    "finlandization/i01",
+    "finlandization/i02"
+   ],
+   "matched": 11,
+   "level_correct": 1,
+   "overclaims": 2,
+   "duplicates": 2,
+   "shown_contested_or_above": 0,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "20245251",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 2,
+     "key": "10377529",
+     "page_id": 1137,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "nato-debate/i12"
+    },
+    {
+     "rank": 3,
+     "key": "7522928",
+     "page_id": 2979,
+     "tier": "reverted",
+     "outcome": "campaign",
+     "item_id": "nato-debate/i01"
+    },
+    {
+     "rank": 4,
+     "key": "15366459",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 5,
+     "key": "20430699+20430735+20432168+20498542",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "austerity-politics/n01"
+    },
+    {
+     "rank": 6,
+     "key": "18776753",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 7,
+     "key": "4383338",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 8,
+     "key": "20223683",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 9,
+     "key": "15369910+15369954+15371764+15371768+15373219+15374609",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "austerity-politics/i11"
+    },
+    {
+     "rank": 10,
+     "key": "7551664",
+     "page_id": 742812,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "15366537",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 12,
+     "key": "19809260+19809508+19809967+19820900+19821477",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "austerity-politics/i04"
+    },
+    {
+     "rank": 13,
+     "key": "16790107",
+     "page_id": 1137,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "5194059",
+     "page_id": 1137,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "nato-debate/i05"
+    },
+    {
+     "rank": 15,
+     "key": "14128922",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "7523673",
+     "page_id": 2979,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "nato-debate/i01",
+     "duplicate_of": 3
+    },
+    {
+     "rank": 17,
+     "key": "20071156",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "4691310+4691311+4691312",
+     "page_id": 9608,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "20773640",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "21993433",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "austerity-politics/i09"
+    },
+    {
+     "rank": 21,
+     "key": "16754183",
+     "page_id": 1137,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 22,
+     "key": "7457275+7458938",
+     "page_id": 2979,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "nato-debate/i01",
+     "duplicate_of": 3
+    },
+    {
+     "rank": 23,
+     "key": "15967981",
+     "page_id": 9608,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 24,
+     "key": "14467635+14483800+14487815+14492294+14492299+14492314+14492511",
+     "page_id": 1137,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "nato-debate/n01"
+    },
+    {
+     "rank": 25,
+     "key": "19112955",
+     "page_id": 1137,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 26,
+     "key": "23781880",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "15217950",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 28,
+     "key": "7354179",
+     "page_id": 2979,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 29,
+     "key": "7354134",
+     "page_id": 2979,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 30,
+     "key": "14209522",
+     "page_id": 128998,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "nato-debate/i04"
+    },
+    {
+     "rank": 31,
+     "key": "2823556+2823600+2845380",
+     "page_id": 128998,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "nato-debate/i02"
+    },
+    {
+     "rank": 32,
+     "key": "15703117",
+     "page_id": 5261,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "17690369",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "2704480",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 35,
+     "key": "21567539+21567581",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "23882706",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 37,
+     "key": "7915074",
+     "page_id": 2979,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 38,
+     "key": "14973149+14973150+14973157+14973493+14973497+14973611+14973637+14974068",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 39,
+     "key": "14129071",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 40,
+     "key": "23567601",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 41,
+     "key": "14129143+14129152",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 42,
+     "key": "15201831",
+     "page_id": 1137,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 43,
+     "key": "15201817",
+     "page_id": 1137,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 44,
+     "key": "20405323+20405325",
+     "page_id": 2979,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 45,
+     "key": "4115886+4115894+4115904+4115908+4115910+4115911+4115915+4115917+4115923+4115925+4115926+4115932+4115945",
+     "page_id": 128998,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "nato-debate/i03"
+    },
+    {
+     "rank": 46,
+     "key": "20154527+20154609",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 47,
+     "key": "11108310",
+     "page_id": 1137,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 48,
+     "key": "4713899",
+     "page_id": 9608,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 49,
+     "key": "22184898+22184904+22184927",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 50,
+     "key": "10059147",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  },
+  {
+   "id": "finlandization",
+   "topic_id": "finlandization",
+   "kind": "topic",
+   "shown": 50,
+   "seconds": 6.86,
+   "failed": false,
+   "outcomes": {
+    "unlabelled": 49,
+    "contested": 1
+   },
+   "strict_p@10": null,
+   "lenient_p@10": null,
+   "unlabelled@10": 10,
+   "strict_p@10_judged": 0.0,
+   "unjudged@10": 0,
+   "strict_p@25": null,
+   "lenient_p@25": null,
+   "unlabelled@25": 25,
+   "strict_p@25_judged": 0.0,
+   "unjudged@25": 0,
+   "expected": 7,
+   "found": [
+    "finlandization/i04"
+   ],
+   "missed": [
+    "finlandization/i01",
+    "finlandization/i02",
+    "finlandization/i03",
+    "finlandization/i05",
+    "finlandization/i06",
+    "finlandization/i07"
+   ],
+   "matched": 1,
+   "level_correct": 0,
+   "overclaims": 0,
+   "duplicates": 0,
+   "shown_contested_or_above": 0,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "5982303",
+     "page_id": 1275,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 2,
+     "key": "5982296",
+     "page_id": 1275,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 3,
+     "key": "6412422",
+     "page_id": 1275,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 4,
+     "key": "189026",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 5,
+     "key": "9053403",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 6,
+     "key": "1561381",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 7,
+     "key": "9053436",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 8,
+     "key": "9053418",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 9,
+     "key": "8020179",
+     "page_id": 1275,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 10,
+     "key": "1835973+1835977+1835979",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "2147661",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 12,
+     "key": "3990573",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 13,
+     "key": "9053469+9053471",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "16906674+16906680+16906681",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 15,
+     "key": "5651588+5651616+5651652",
+     "page_id": 102270,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "5779929",
+     "page_id": 102270,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "2147662",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "3431495+3431503+3431508+3431509",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "16186922",
+     "page_id": 9564,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "16183920+16183946+16183953+16183958+16184000+16185165",
+     "page_id": 9564,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 21,
+     "key": "9060934+9060936+9061026",
+     "page_id": 102270,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 22,
+     "key": "5789526",
+     "page_id": 102270,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "5790601",
+     "page_id": 102270,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 24,
+     "key": "9092451",
+     "page_id": 102270,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 25,
+     "key": "3568014",
+     "page_id": 942,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 26,
+     "key": "2502004+2502015",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "2502024",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 28,
+     "key": "189017+189019+189020",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 29,
+     "key": "21539843",
+     "page_id": 942,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "finlandization/i04"
+    },
+    {
+     "rank": 30,
+     "key": "16187550",
+     "page_id": 9564,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 31,
+     "key": "7168436",
+     "page_id": 942,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 32,
+     "key": "20421061",
+     "page_id": 942,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "23359071",
+     "page_id": 1275,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "23359964",
+     "page_id": 1275,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 35,
+     "key": "23358901",
+     "page_id": 1275,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "21988568",
+     "page_id": 1275,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 37,
+     "key": "21988966",
+     "page_id": 1275,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 38,
+     "key": "15216142",
+     "page_id": 1275,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 39,
+     "key": "10323762",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 40,
+     "key": "21613258+21613267+21613269+21613273+21613290",
+     "page_id": 942,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 41,
+     "key": "4600757",
+     "page_id": 9564,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 42,
+     "key": "4601926",
+     "page_id": 9564,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 43,
+     "key": "196315+196317+196320",
+     "page_id": 1187,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 44,
+     "key": "16186385",
+     "page_id": 9564,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 45,
+     "key": "11297682+11297690",
+     "page_id": 102270,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 46,
+     "key": "11298751",
+     "page_id": 102270,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 47,
+     "key": "11298727",
+     "page_id": 102270,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 48,
+     "key": "11297664+11297670+11297688",
+     "page_id": 69647,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 49,
+     "key": "11300013",
+     "page_id": 69647,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 50,
+     "key": "11299879",
+     "page_id": 69647,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  },
+  {
+   "id": "austerity-politics",
+   "topic_id": "austerity-politics",
+   "kind": "topic",
+   "shown": 50,
+   "seconds": 10.1,
+   "failed": false,
+   "outcomes": {
+    "unlabelled": 42,
+    "not-incident": 2,
+    "contested": 4,
+    "reverted": 1,
+    "duplicate": 1
+   },
+   "strict_p@10": null,
+   "lenient_p@10": null,
+   "unlabelled@10": 10,
+   "strict_p@10_judged": 0.1,
+   "unjudged@10": 0,
+   "strict_p@25": 0.6,
+   "lenient_p@25": 0.8,
+   "unlabelled@25": 20,
+   "strict_p@25_judged": 0.32,
+   "unjudged@25": 0,
+   "expected": 11,
+   "found": [
+    "austerity-politics/i04",
+    "austerity-politics/i09",
+    "austerity-politics/i11",
+    "austerity-politics/i15"
+   ],
+   "missed": [
+    "austerity-politics/i01",
+    "austerity-politics/i02",
+    "austerity-politics/i12",
+    "austerity-politics/i18",
+    "austerity-politics/i21",
+    "austerity-politics/i22",
+    "austerity-politics/i23"
+   ],
+   "matched": 7,
+   "level_correct": 1,
+   "overclaims": 2,
+   "duplicates": 1,
+   "shown_contested_or_above": 0,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "4138272+4138275+4138285+4138295+4138296",
+     "page_id": 795,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 2,
+     "key": "2697734",
+     "page_id": 334921,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 3,
+     "key": "20245251",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 4,
+     "key": "20245244",
+     "page_id": 43887,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 5,
+     "key": "4421463+4421468",
+     "page_id": 12639,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 6,
+     "key": "15366459",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 7,
+     "key": "6246810",
+     "page_id": 9059,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 8,
+     "key": "6246671+6246724+6246727+6246732",
+     "page_id": 9059,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 9,
+     "key": "14015083",
+     "page_id": 1141935,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 10,
+     "key": "13984088+14015046",
+     "page_id": 1141935,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "14775257+14775269+14775285+14775369+14775372+14775373+14775375+14775383",
+     "page_id": 10858,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 12,
+     "key": "677399",
+     "page_id": 795,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 13,
+     "key": "17568765",
+     "page_id": 1141935,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "20430699+20430735+20432168+20498542",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "austerity-politics/n01"
+    },
+    {
+     "rank": 15,
+     "key": "18776753",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "4383338",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "6255415",
+     "page_id": 9059,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "20223683",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "17027354+17027360+17027366+17027373",
+     "page_id": 1261018,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "15369910+15369954+15371764+15371768+15373219+15374609",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "austerity-politics/i11"
+    },
+    {
+     "rank": 21,
+     "key": "15903090+15904344",
+     "page_id": 926229,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "austerity-politics/i15"
+    },
+    {
+     "rank": 22,
+     "key": "6270112",
+     "page_id": 12639,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "15366537",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 24,
+     "key": "19809260+19809508+19809967+19820900+19821477",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "austerity-politics/i04"
+    },
+    {
+     "rank": 25,
+     "key": "6315008",
+     "page_id": 9059,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "austerity-politics/i13"
+    },
+    {
+     "rank": 26,
+     "key": "14015096",
+     "page_id": 1141935,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "13642811",
+     "page_id": 940826,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 28,
+     "key": "7947941+7947945+7947974",
+     "page_id": 795,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 29,
+     "key": "14128922",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 30,
+     "key": "10054736",
+     "page_id": 334921,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 31,
+     "key": "16795078+16795115",
+     "page_id": 1261018,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 32,
+     "key": "6694713",
+     "page_id": 795,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "20071156",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "20040932",
+     "page_id": 1261018,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 35,
+     "key": "20773640",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "21993433",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "austerity-politics/i09"
+    },
+    {
+     "rank": 37,
+     "key": "15576259",
+     "page_id": 1261018,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 38,
+     "key": "16795196+16795246+16795266+16795280",
+     "page_id": 926229,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 39,
+     "key": "14737580",
+     "page_id": 856829,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 40,
+     "key": "15583789+15583795",
+     "page_id": 1261018,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 41,
+     "key": "23781880",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 42,
+     "key": "15217950",
+     "page_id": 11396,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 43,
+     "key": "15710156+15710181",
+     "page_id": 926229,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 44,
+     "key": "14562722",
+     "page_id": 856829,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 45,
+     "key": "14562696",
+     "page_id": 856829,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 46,
+     "key": "16752981",
+     "page_id": 1261018,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 47,
+     "key": "15933764",
+     "page_id": 926229,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "austerity-politics/i15",
+     "duplicate_of": 21
+    },
+    {
+     "rank": 48,
+     "key": "15696553",
+     "page_id": 1261018,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 49,
+     "key": "15695989+15695996",
+     "page_id": 926229,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 50,
+     "key": "4343799",
+     "page_id": 12639,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "austerity-politics/n03"
+    }
+   ]
+  },
+  {
+   "id": "covid-19-finland",
+   "topic_id": "covid-19-finland",
+   "kind": "topic",
+   "shown": 50,
+   "seconds": 10.9,
+   "failed": false,
+   "outcomes": {
+    "unlabelled": 43,
+    "contested": 4,
+    "reverted": 2,
+    "not-incident": 1
+   },
+   "strict_p@10": 0.5,
+   "lenient_p@10": 1.0,
+   "unlabelled@10": 8,
+   "strict_p@10_judged": 0.2,
+   "unjudged@10": 0,
+   "strict_p@25": 0.6666666666666666,
+   "lenient_p@25": 1.0,
+   "unlabelled@25": 22,
+   "strict_p@25_judged": 0.28,
+   "unjudged@25": 0,
+   "expected": 5,
+   "found": [
+    "austerity-politics/i04",
+    "austerity-politics/i09",
+    "covid-19-finland/i02",
+    "covid-19-finland/i03"
+   ],
+   "missed": [
+    "covid-19-finland/i01"
+   ],
+   "matched": 7,
+   "level_correct": 2,
+   "overclaims": 1,
+   "duplicates": 0,
+   "shown_contested_or_above": 0,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "19123303+19123324",
+     "page_id": 1577934,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 2,
+     "key": "23130582+23130600+23130871+23130918+23130968+23132737+23132922+23142438",
+     "page_id": 1650988,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 3,
+     "key": "18776753",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 4,
+     "key": "20223683",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 5,
+     "key": "18960370+18960397",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 6,
+     "key": "19809260+19809508+19809967+19820900+19821477",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "austerity-politics/i04"
+    },
+    {
+     "rank": 7,
+     "key": "18923570+18923995+18923997",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 8,
+     "key": "18924189",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 9,
+     "key": "20071156",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 10,
+     "key": "18936386+18936394+18936409+18936429+18936544+18936547+18936557+18936560+18936562",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "covid-19-finland/i05"
+    },
+    {
+     "rank": 11,
+     "key": "20773640",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 12,
+     "key": "21993433",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "austerity-politics/i09"
+    },
+    {
+     "rank": 13,
+     "key": "19055443",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "20053992",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 15,
+     "key": "19182101+19182634+19182641+19182699",
+     "page_id": 1577934,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "20054098",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "19635477+19635480",
+     "page_id": 1549479,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "19634982",
+     "page_id": 1549479,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "18960309+18962379+18962408+18962424",
+     "page_id": 1577930,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "18947276+18947283+18947562+18947600+18948843",
+     "page_id": 1577657,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 21,
+     "key": "21567539+21567581",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 22,
+     "key": "23567601",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "18782599+18782604+18782606+18782618+18782643+18782656",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 24,
+     "key": "20259914",
+     "page_id": 1549479,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 25,
+     "key": "20154527+20154609",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 26,
+     "key": "18844642",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "covid-19-finland/i02"
+    },
+    {
+     "rank": 27,
+     "key": "18951354",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "covid-19-finland/i03"
+    },
+    {
+     "rank": 28,
+     "key": "18922764",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 29,
+     "key": "18923569",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "covid-19-finland/n01"
+    },
+    {
+     "rank": 30,
+     "key": "18586661",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 31,
+     "key": "18825755",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 32,
+     "key": "18946534",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "20745400",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "19441963",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "covid-19-finland/i08"
+    },
+    {
+     "rank": 35,
+     "key": "20698217",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "18831926",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 37,
+     "key": "19283569",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 38,
+     "key": "19344687",
+     "page_id": 1577934,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 39,
+     "key": "22022750",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 40,
+     "key": "19064838",
+     "page_id": 1577934,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 41,
+     "key": "18902450",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 42,
+     "key": "19020694",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 43,
+     "key": "19356461",
+     "page_id": 1577934,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 44,
+     "key": "20744662",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 45,
+     "key": "22243000",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 46,
+     "key": "18821578",
+     "page_id": 1562418,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 47,
+     "key": "18978035",
+     "page_id": 1577934,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 48,
+     "key": "19362346",
+     "page_id": 1121620,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 49,
+     "key": "19739374",
+     "page_id": 1549479,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 50,
+     "key": "19829150",
+     "page_id": 1427910,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  },
+  {
+   "id": "russification-independence",
+   "topic_id": "russification-independence",
+   "kind": "topic",
+   "shown": 50,
+   "seconds": 7.76,
+   "failed": false,
+   "outcomes": {
+    "reverted": 4,
+    "contested": 4,
+    "duplicate": 5,
+    "unlabelled": 35,
+    "not-incident": 2
+   },
+   "strict_p@10": 0.5714285714285714,
+   "lenient_p@10": 0.8571428571428571,
+   "unlabelled@10": 3,
+   "strict_p@10_judged": 0.6,
+   "unjudged@10": 0,
+   "strict_p@25": 0.3333333333333333,
+   "lenient_p@25": 0.5833333333333334,
+   "unlabelled@25": 13,
+   "strict_p@25_judged": 0.32,
+   "unjudged@25": 0,
+   "expected": 5,
+   "found": [
+    "russification-independence/i01",
+    "russification-independence/i02",
+    "russification-independence/i04",
+    "russification-independence/i05"
+   ],
+   "missed": [
+    "russification-independence/i03"
+   ],
+   "matched": 10,
+   "level_correct": 4,
+   "overclaims": 2,
+   "duplicates": 5,
+   "shown_contested_or_above": 0,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "3668136+3668141+3668143+3670213",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "russification-independence/i07"
+    },
+    {
+     "rank": 2,
+     "key": "8704345",
+     "page_id": 10758,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "russification-independence/i01"
+    },
+    {
+     "rank": 3,
+     "key": "10542561+10542701+10542710+10547513",
+     "page_id": 10758,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "russification-independence/i08"
+    },
+    {
+     "rank": 4,
+     "key": "8774679",
+     "page_id": 10758,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "russification-independence/i01",
+     "duplicate_of": 2
+    },
+    {
+     "rank": 5,
+     "key": "22573798+22573831+22574354",
+     "page_id": 11517,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "russification-independence/i05"
+    },
+    {
+     "rank": 6,
+     "key": "12331497+12337379",
+     "page_id": 10758,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "russification-independence/i02"
+    },
+    {
+     "rank": 7,
+     "key": "11003387+11003390",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "russification-independence/i04"
+    },
+    {
+     "rank": 8,
+     "key": "11003362+11003368+11003371",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 9,
+     "key": "6179634",
+     "page_id": 6944,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 10,
+     "key": "14502315+14502466",
+     "page_id": 6944,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "16109026",
+     "page_id": 162670,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 12,
+     "key": "9169023+9169028",
+     "page_id": 6944,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 13,
+     "key": "15330325+15330343+15330344",
+     "page_id": 162670,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "8319751",
+     "page_id": 137931,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 15,
+     "key": "4452814",
+     "page_id": 11113,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 16,
+     "key": "15377454",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "russification-independence/n01"
+    },
+    {
+     "rank": 17,
+     "key": "15380636",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "russification-independence/n01",
+     "duplicate_of": 16
+    },
+    {
+     "rank": 18,
+     "key": "18355203",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 19,
+     "key": "18340671",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "russification-independence/i06"
+    },
+    {
+     "rank": 20,
+     "key": "18342099",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "russification-independence/i06",
+     "duplicate_of": 19
+    },
+    {
+     "rank": 21,
+     "key": "18340421",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "russification-independence/i06",
+     "duplicate_of": 19
+    },
+    {
+     "rank": 22,
+     "key": "18343307",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "18355095",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 24,
+     "key": "18341274",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 25,
+     "key": "16092460",
+     "page_id": 6944,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 26,
+     "key": "16118776",
+     "page_id": 162670,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 27,
+     "key": "22145783+22145803+22145809+22145816",
+     "page_id": 6944,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 28,
+     "key": "4526510",
+     "page_id": 10758,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 29,
+     "key": "16776650+16776665",
+     "page_id": 10758,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "russification-independence/n02"
+    },
+    {
+     "rank": 30,
+     "key": "12323478+12323497+12323501+12323506",
+     "page_id": 32957,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 31,
+     "key": "17910689",
+     "page_id": 112881,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 32,
+     "key": "17912445",
+     "page_id": 112881,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 33,
+     "key": "17912808",
+     "page_id": 112881,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 34,
+     "key": "9736377",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 35,
+     "key": "16108023",
+     "page_id": 162670,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 36,
+     "key": "16495356",
+     "page_id": 6944,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 37,
+     "key": "21707282",
+     "page_id": 6944,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 38,
+     "key": "12323525",
+     "page_id": 32957,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 39,
+     "key": "18357147",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "russification-independence/i06",
+     "duplicate_of": 19
+    },
+    {
+     "rank": 40,
+     "key": "14251038",
+     "page_id": 10758,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 41,
+     "key": "2256234",
+     "page_id": 6944,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 42,
+     "key": "18020091",
+     "page_id": 11517,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 43,
+     "key": "19544834",
+     "page_id": 32957,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "russification-independence/i09"
+    },
+    {
+     "rank": 44,
+     "key": "21550002+21550007+21550033+21550048",
+     "page_id": 137931,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 45,
+     "key": "19768262",
+     "page_id": 32957,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 46,
+     "key": "22112958",
+     "page_id": 6944,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 47,
+     "key": "20531909",
+     "page_id": 11601,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 48,
+     "key": "9885530",
+     "page_id": 137930,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 49,
+     "key": "12576877+12576921+12576923+12576924",
+     "page_id": 96542,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 50,
+     "key": "22456202",
+     "page_id": 11517,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  },
+  {
+   "id": "border-crisis-2023",
+   "topic_id": "border-crisis-2023",
+   "kind": "control-quiet",
+   "shown": 26,
+   "seconds": 3.67,
+   "failed": false,
+   "outcomes": {
+    "contested": 1,
+    "duplicate": 2,
+    "unlabelled": 17,
+    "reverted": 4,
+    "not-incident": 2
+   },
+   "strict_p@10": 0.14285714285714285,
+   "lenient_p@10": 0.7142857142857143,
+   "unlabelled@10": 3,
+   "strict_p@10_judged": 0.2,
+   "unjudged@10": 0,
+   "strict_p@25": 0.1111111111111111,
+   "lenient_p@25": 0.5555555555555556,
+   "unlabelled@25": 16,
+   "strict_p@25_judged": 0.08,
+   "unjudged@25": 0,
+   "expected": 1,
+   "found": [
+    "border-crisis-2023/i01"
+   ],
+   "missed": [],
+   "matched": 7,
+   "level_correct": 4,
+   "overclaims": 2,
+   "duplicates": 2,
+   "shown_contested_or_above": 0,
+   "ranked": [
+    {
+     "rank": 1,
+     "key": "15906345",
+     "page_id": 1060965,
+     "tier": "reverted",
+     "outcome": "contested",
+     "item_id": "border-crisis-2023/i01"
+    },
+    {
+     "rank": 2,
+     "key": "15906719",
+     "page_id": 1060965,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "border-crisis-2023/i01",
+     "duplicate_of": 1
+    },
+    {
+     "rank": 3,
+     "key": "3845769",
+     "page_id": 29994,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 4,
+     "key": "20122615",
+     "page_id": 1060965,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "border-crisis-2023/i04"
+    },
+    {
+     "rank": 5,
+     "key": "15909244",
+     "page_id": 1060965,
+     "tier": "reverted",
+     "outcome": "duplicate",
+     "item_id": "border-crisis-2023/i01",
+     "duplicate_of": 1
+    },
+    {
+     "rank": 6,
+     "key": "19395342",
+     "page_id": 1060965,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "border-crisis-2023/i03"
+    },
+    {
+     "rank": 7,
+     "key": "15025622",
+     "page_id": 1060965,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "border-crisis-2023/i02"
+    },
+    {
+     "rank": 8,
+     "key": "22868160+22872882+22872886+22922836",
+     "page_id": 1060965,
+     "tier": "reverted",
+     "outcome": "reverted",
+     "item_id": "border-crisis-2023/i06"
+    },
+    {
+     "rank": 9,
+     "key": "12488748",
+     "page_id": 29994,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 10,
+     "key": "5151582",
+     "page_id": 244069,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 11,
+     "key": "13591551",
+     "page_id": 29994,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 12,
+     "key": "1764894+1764900",
+     "page_id": 29994,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 13,
+     "key": "15906359",
+     "page_id": 1060965,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 14,
+     "key": "4861867",
+     "page_id": 244069,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 15,
+     "key": "18854842",
+     "page_id": 1570458,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "border-crisis-2023/n02"
+    },
+    {
+     "rank": 16,
+     "key": "15650823",
+     "page_id": 152850,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 17,
+     "key": "4930891",
+     "page_id": 29994,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 18,
+     "key": "21304856",
+     "page_id": 1060965,
+     "tier": "reverted",
+     "outcome": "not-incident",
+     "item_id": "border-crisis-2023/n01"
+    },
+    {
+     "rank": 19,
+     "key": "21735270",
+     "page_id": 1095432,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 20,
+     "key": "11430371+11430374",
+     "page_id": 29994,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 21,
+     "key": "21735275",
+     "page_id": 152850,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 22,
+     "key": "9403552",
+     "page_id": 152850,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 23,
+     "key": "21735290",
+     "page_id": 276192,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 24,
+     "key": "12642372",
+     "page_id": 29994,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 25,
+     "key": "23492713",
+     "page_id": 29994,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    },
+    {
+     "rank": 26,
+     "key": "3766365",
+     "page_id": 29994,
+     "tier": "reverted",
+     "outcome": "unlabelled",
+     "item_id": null
+    }
+   ]
+  }
+ ],
+ "best": [
+  {
+   "kind": "true_positive",
+   "unit": "border-crisis-2023",
+   "rank": 1,
+   "tier": "reverted",
+   "item_id": "border-crisis-2023/i01",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 1060965,
+   "description": "Rewrites the border-history paragraphs: adds that the Soviet Union unilaterally annulled the peace treaty by attacking in 1939 and that Finland unilaterally annulled the Moscow peace by joining Operation Barbarossa in 1941, and changes 'Finland ceded' to 'Finland was forced to cede'."
+  },
+  {
+   "kind": "true_positive",
+   "unit": "civil-war-1918",
+   "rank": 2,
+   "tier": "reverted",
+   "item_id": "civil-war-1918/i06",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 1150,
+   "description": "Rewrites the lead and naming section: calls the Reds 'rebels', says the war 'turned out to be a war of liberation', and adds that Russian troops backed a communist coup and Finland's 'voluntary' joining of the Soviet Union, to be settled with Russians under Lenin's and Stalin's plans."
+  },
+  {
+   "kind": "true_positive",
+   "unit": "russification-independence",
+   "rank": 2,
+   "tier": "reverted",
+   "item_id": "russification-independence/i01",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 10758,
+   "description": "Adds passages saying the Jägers knowingly committed treason and 'took the path of a coup' against the lawful government, calls the 1917 government a coup government and says the declaration of independence did not meet legal requirements."
+  },
+  {
+   "kind": "true_positive",
+   "unit": "nato-debate",
+   "rank": 3,
+   "tier": "reverted",
+   "item_id": "nato-debate/i01",
+   "label": "campaign",
+   "exclusion": null,
+   "page_id": 2979,
+   "description": "Adds or puts back an Afghanistan passage in the list of Finland's wars saying Finland takes part in war operations in the Afghan civil war under NATO's ISAF and that opinion is split on whether Finland is a country at war; the later version adds that ISAF caused about 8,000 civilian deaths."
+  },
+  {
+   "kind": "true_positive",
+   "unit": "winter-war",
+   "rank": 3,
+   "tier": "reverted",
+   "item_id": "winter-war/i04",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 24889,
+   "description": "Adds two paragraphs on Häyhä's kill count: a 1941 Hurtti Ukko interview (headline '600 kills for sure', 259 with his rifle, a record of 40 in one day) and a 1940 book saying he shot more enemies than could be counted."
+  }
+ ],
+ "worst": [
+  {
+   "kind": "missed",
+   "unit": "austerity-politics",
+   "rank": null,
+   "tier": null,
+   "item_id": "austerity-politics/i01",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 11396,
+   "description": "Adds to Stubb's private-life section that his social-media use has annoyed citizens and that under his government the economy has only sunk deeper while resources go to 'patronising citizens and inventing bans' instead of employment."
+  },
+  {
+   "kind": "missed",
+   "unit": "austerity-politics",
+   "rank": null,
+   "tier": null,
+   "item_id": "austerity-politics/i02",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 10858,
+   "description": "Adds that Katainen's record as finance minister 2007-2011 caused the Finns Party's 2011 'jytky', voters signalling that he is unwanted in politics, and that this mattered more than Kiviniemi's premiership."
+  },
+  {
+   "kind": "missed",
+   "unit": "austerity-politics",
+   "rank": null,
+   "tier": null,
+   "item_id": "austerity-politics/i12",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 9059,
+   "description": "Adds a section 'Statement on nuclear power' saying that in Soininvaara's view nuclear power fights the greenhouse effect the way a drink fights a hangover (cited to a 2004 anthology)."
+  },
+  {
+   "kind": "missed",
+   "unit": "austerity-politics",
+   "rank": null,
+   "tier": null,
+   "item_id": "austerity-politics/i18",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 11396,
+   "description": "Adds a 'Language questions' section saying Stubb did not arrange German interpretation at the start of the EU presidency and that Germany therefore boycotted a ministerial meeting in Finland in June 2006, cited to Stubb's 2009 book."
+  },
+  {
+   "kind": "missed",
+   "unit": "austerity-politics",
+   "rank": null,
+   "tier": null,
+   "item_id": "austerity-politics/i21",
+   "label": "contested",
+   "exclusion": null,
+   "page_id": 9059,
+   "description": "Adds that during the 2007 Tehy nurses' strike Soininvaara wrote that if someone had to die because of the strike he hoped it would be a relative of the strike's defenders, and that Jussi Halla-aho had used a similar argument in 2006."
+  }
+ ],
+ "unlabelled": [
+  {
+   "key": "3872767",
+   "topic_id": "civil-war-1918",
+   "rank": 1,
+   "page_id": 6021,
+   "inserting_rev_ids": [
+    3872767
+   ],
+   "removing_rev_ids": [
+    3872769
+   ],
+   "tier": "reverted",
+   "score": 10.452042,
+   "claim_en": null
+  },
+  {
+   "key": "16553969",
+   "topic_id": "civil-war-1918",
+   "rank": 3,
+   "page_id": 6021,
+   "inserting_rev_ids": [
+    16553969
+   ],
+   "removing_rev_ids": [
+    16554081
+   ],
+   "tier": "reverted",
+   "score": 9.038784,
+   "claim_en": null
+  },
+  {
+   "key": "16554706",
+   "topic_id": "civil-war-1918",
+   "rank": 5,
+   "page_id": 6021,
+   "inserting_rev_ids": [
+    16554706
+   ],
+   "removing_rev_ids": [
+    16554709
+   ],
+   "tier": "reverted",
+   "score": 9.038784,
+   "claim_en": null
+  },
+  {
+   "key": "3287873+3287876",
+   "topic_id": "civil-war-1918",
+   "rank": 8,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    3287873,
+    3287876
+   ],
+   "removing_rev_ids": [
+    3288052
+   ],
+   "tier": "reverted",
+   "score": 8.646391,
+   "claim_en": null
+  },
+  {
+   "key": "3290009+3290043",
+   "topic_id": "civil-war-1918",
+   "rank": 10,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    3290009,
+    3290043
+   ],
+   "removing_rev_ids": [
+    3290052
+   ],
+   "tier": "reverted",
+   "score": 8.507278,
+   "claim_en": null
+  },
+  {
+   "key": "3293053+3293061+3293066+3293087+3293100+3293120+3293340+3293415+3293722+3294026",
+   "topic_id": "civil-war-1918",
+   "rank": 11,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    3293053,
+    3293061,
+    3293066,
+    3293087,
+    3293100,
+    3293120,
+    3293340,
+    3293415,
+    3293722,
+    3294026
+   ],
+   "removing_rev_ids": [
+    3294633
+   ],
+   "tier": "reverted",
+   "score": 8.493754,
+   "claim_en": null
+  },
+  {
+   "key": "18948387",
+   "topic_id": "civil-war-1918",
+   "rank": 12,
+   "page_id": 6021,
+   "inserting_rev_ids": [
+    18948387
+   ],
+   "removing_rev_ids": [
+    18948464
+   ],
+   "tier": "reverted",
+   "score": 8.467699,
+   "claim_en": null
+  },
+  {
+   "key": "18945271",
+   "topic_id": "civil-war-1918",
+   "rank": 13,
+   "page_id": 6021,
+   "inserting_rev_ids": [
+    18945271
+   ],
+   "removing_rev_ids": [
+    18945619
+   ],
+   "tier": "reverted",
+   "score": 8.467699,
+   "claim_en": null
+  },
+  {
+   "key": "18947066",
+   "topic_id": "civil-war-1918",
+   "rank": 14,
+   "page_id": 6021,
+   "inserting_rev_ids": [
+    18947066
+   ],
+   "removing_rev_ids": [
+    18947268
+   ],
+   "tier": "reverted",
+   "score": 8.467699,
+   "claim_en": null
+  },
+  {
+   "key": "985607",
+   "topic_id": "civil-war-1918",
+   "rank": 16,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    985607
+   ],
+   "removing_rev_ids": [
+    985611
+   ],
+   "tier": "reverted",
+   "score": 8.284134,
+   "claim_en": null
+  },
+  {
+   "key": "17918199",
+   "topic_id": "civil-war-1918",
+   "rank": 17,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    17918199
+   ],
+   "removing_rev_ids": [
+    17918392
+   ],
+   "tier": "reverted",
+   "score": 8.259581,
+   "claim_en": null
+  },
+  {
+   "key": "1622163",
+   "topic_id": "civil-war-1918",
+   "rank": 18,
+   "page_id": 6021,
+   "inserting_rev_ids": [
+    1622163
+   ],
+   "removing_rev_ids": [
+    1622234
+   ],
+   "tier": "reverted",
+   "score": 8.118016,
+   "claim_en": null
+  },
+  {
+   "key": "16556549",
+   "topic_id": "civil-war-1918",
+   "rank": 19,
+   "page_id": 6021,
+   "inserting_rev_ids": [
+    16556549
+   ],
+   "removing_rev_ids": [
+    16556566
+   ],
+   "tier": "reverted",
+   "score": 8.038784,
+   "claim_en": null
+  },
+  {
+   "key": "17912640",
+   "topic_id": "civil-war-1918",
+   "rank": 22,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    17912640
+   ],
+   "removing_rev_ids": [
+    17912647
+   ],
+   "tier": "reverted",
+   "score": 7.910797,
+   "claim_en": null
+  },
+  {
+   "key": "14947566",
+   "topic_id": "civil-war-1918",
+   "rank": 23,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    14947566
+   ],
+   "removing_rev_ids": [
+    14947605
+   ],
+   "tier": "reverted",
+   "score": 7.808142,
+   "claim_en": null
+  },
+  {
+   "key": "12007996",
+   "topic_id": "civil-war-1918",
+   "rank": 26,
+   "page_id": 6021,
+   "inserting_rev_ids": [
+    12007996
+   ],
+   "removing_rev_ids": [
+    12010377
+   ],
+   "tier": "reverted",
+   "score": 7.713733,
+   "claim_en": null
+  },
+  {
+   "key": "3289105+3289145",
+   "topic_id": "civil-war-1918",
+   "rank": 27,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    3289105,
+    3289145
+   ],
+   "removing_rev_ids": [
+    3289412
+   ],
+   "tier": "reverted",
+   "score": 7.665684,
+   "claim_en": null
+  },
+  {
+   "key": "3290904",
+   "topic_id": "civil-war-1918",
+   "rank": 29,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    3290904
+   ],
+   "removing_rev_ids": [
+    3290934
+   ],
+   "tier": "reverted",
+   "score": 7.616065,
+   "claim_en": null
+  },
+  {
+   "key": "3290065",
+   "topic_id": "civil-war-1918",
+   "rank": 30,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    3290065
+   ],
+   "removing_rev_ids": [
+    3290088
+   ],
+   "tier": "reverted",
+   "score": 7.507278,
+   "claim_en": null
+  },
+  {
+   "key": "3282484+3282501+3282703",
+   "topic_id": "civil-war-1918",
+   "rank": 32,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    3282484,
+    3282501,
+    3282703
+   ],
+   "removing_rev_ids": [
+    3283002
+   ],
+   "tier": "reverted",
+   "score": 7.475433,
+   "claim_en": null
+  },
+  {
+   "key": "17766447+17766451+17766452+17766459+17766460+17766462+17766464+17766465+17766468+17766476+17766479+17766486+17766495+17766497",
+   "topic_id": "civil-war-1918",
+   "rank": 34,
+   "page_id": 6021,
+   "inserting_rev_ids": [
+    17766447,
+    17766451,
+    17766452,
+    17766459,
+    17766460,
+    17766462,
+    17766464,
+    17766465,
+    17766468,
+    17766476,
+    17766479,
+    17766486,
+    17766495,
+    17766497
+   ],
+   "removing_rev_ids": [
+    17766548
+   ],
+   "tier": "reverted",
+   "score": 7.36518,
+   "claim_en": null
+  },
+  {
+   "key": "13797982",
+   "topic_id": "civil-war-1918",
+   "rank": 35,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    13797982
+   ],
+   "removing_rev_ids": [
+    13798008
+   ],
+   "tier": "reverted",
+   "score": 7.306275,
+   "claim_en": null
+  },
+  {
+   "key": "17913036+17913049+17913849",
+   "topic_id": "civil-war-1918",
+   "rank": 36,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    17913036,
+    17913049,
+    17913849
+   ],
+   "removing_rev_ids": [
+    17913910
+   ],
+   "tier": "reverted",
+   "score": 7.303305,
+   "claim_en": null
+  },
+  {
+   "key": "985615",
+   "topic_id": "civil-war-1918",
+   "rank": 37,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    985615
+   ],
+   "removing_rev_ids": [
+    985618
+   ],
+   "tier": "reverted",
+   "score": 7.284134,
+   "claim_en": null
+  },
+  {
+   "key": "14950388",
+   "topic_id": "civil-war-1918",
+   "rank": 39,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    14950388
+   ],
+   "removing_rev_ids": [
+    14950514
+   ],
+   "tier": "reverted",
+   "score": 7.276643,
+   "claim_en": null
+  },
+  {
+   "key": "17920790",
+   "topic_id": "civil-war-1918",
+   "rank": 40,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    17920790
+   ],
+   "removing_rev_ids": [
+    17920856
+   ],
+   "tier": "reverted",
+   "score": 7.259581,
+   "claim_en": null
+  },
+  {
+   "key": "10063265",
+   "topic_id": "civil-war-1918",
+   "rank": 41,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    10063265
+   ],
+   "removing_rev_ids": [
+    10063274
+   ],
+   "tier": "reverted",
+   "score": 7.173958,
+   "claim_en": null
+  },
+  {
+   "key": "17909769+17909806",
+   "topic_id": "civil-war-1918",
+   "rank": 42,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    17909769,
+    17909806
+   ],
+   "removing_rev_ids": [
+    17909910
+   ],
+   "tier": "reverted",
+   "score": 7.164786,
+   "claim_en": null
+  },
+  {
+   "key": "4214176",
+   "topic_id": "civil-war-1918",
+   "rank": 43,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    4214176
+   ],
+   "removing_rev_ids": [
+    4214324
+   ],
+   "tier": "reverted",
+   "score": 7.139885,
+   "claim_en": null
+  },
+  {
+   "key": "21208416",
+   "topic_id": "civil-war-1918",
+   "rank": 44,
+   "page_id": 9186,
+   "inserting_rev_ids": [
+    21208416
+   ],
+   "removing_rev_ids": [
+    21208769
+   ],
+   "tier": "reverted",
+   "score": 7.070738,
+   "claim_en": null
+  },
+  {
+   "key": "4211950",
+   "topic_id": "civil-war-1918",
+   "rank": 45,
+   "page_id": 6021,
+   "inserting_rev_ids": [
+    4211950
+   ],
+   "removing_rev_ids": [
+    4212166
+   ],
+   "tier": "reverted",
+   "score": 7.049733,
+   "claim_en": null
+  },
+  {
+   "key": "3295101+3295122",
+   "topic_id": "civil-war-1918",
+   "rank": 46,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    3295101,
+    3295122
+   ],
+   "removing_rev_ids": [
+    3295133
+   ],
+   "tier": "reverted",
+   "score": 7.049733,
+   "claim_en": null
+  },
+  {
+   "key": "4430592",
+   "topic_id": "civil-war-1918",
+   "rank": 47,
+   "page_id": 6021,
+   "inserting_rev_ids": [
+    4430592
+   ],
+   "removing_rev_ids": [
+    4430614
+   ],
+   "tier": "reverted",
+   "score": 7.045005,
+   "claim_en": null
+  },
+  {
+   "key": "20782515",
+   "topic_id": "civil-war-1918",
+   "rank": 48,
+   "page_id": 7675,
+   "inserting_rev_ids": [
+    20782515
+   ],
+   "removing_rev_ids": [
+    20782566
+   ],
+   "tier": "reverted",
+   "score": 7.021084,
+   "claim_en": null
+  },
+  {
+   "key": "4743206",
+   "topic_id": "civil-war-1918",
+   "rank": 50,
+   "page_id": 1150,
+   "inserting_rev_ids": [
+    4743206
+   ],
+   "removing_rev_ids": [
+    4743227
+   ],
+   "tier": "reverted",
+   "score": 6.993961,
+   "claim_en": null
+  },
+  {
+   "key": "2539229",
+   "topic_id": "continuation-war",
+   "rank": 1,
+   "page_id": 440,
+   "inserting_rev_ids": [
+    2539229
+   ],
+   "removing_rev_ids": [
+    2539237
+   ],
+   "tier": "reverted",
+   "score": 10.051606,
+   "claim_en": null
+  },
+  {
+   "key": "15412522+15412524",
+   "topic_id": "continuation-war",
+   "rank": 2,
+   "page_id": 440,
+   "inserting_rev_ids": [
+    15412522,
+    15412524
+   ],
+   "removing_rev_ids": [
+    15412530
+   ],
+   "tier": "reverted",
+   "score": 9.877018,
+   "claim_en": null
+  },
+  {
+   "key": "15952023",
+   "topic_id": "continuation-war",
+   "rank": 4,
+   "page_id": 278427,
+   "inserting_rev_ids": [
+    15952023
+   ],
+   "removing_rev_ids": [
+    16007682
+   ],
+   "tier": "reverted",
+   "score": 9.153052,
+   "claim_en": null
+  },
+  {
+   "key": "23878935",
+   "topic_id": "continuation-war",
+   "rank": 9,
+   "page_id": 27916,
+   "inserting_rev_ids": [
+    23878935
+   ],
+   "removing_rev_ids": [
+    23879010
+   ],
+   "tier": "reverted",
+   "score": 8.55108,
+   "claim_en": null
+  },
+  {
+   "key": "392003",
+   "topic_id": "continuation-war",
+   "rank": 15,
+   "page_id": 11398,
+   "inserting_rev_ids": [
+    392003
+   ],
+   "removing_rev_ids": [
+    392010
+   ],
+   "tier": "reverted",
+   "score": 8.095825,
+   "claim_en": null
+  },
+  {
+   "key": "15412330+15412518",
+   "topic_id": "continuation-war",
+   "rank": 18,
+   "page_id": 440,
+   "inserting_rev_ids": [
+    15412330,
+    15412518
+   ],
+   "removing_rev_ids": [
+    15412520
+   ],
+   "tier": "reverted",
+   "score": 7.926926,
+   "claim_en": null
+  },
+  {
+   "key": "3120452",
+   "topic_id": "continuation-war",
+   "rank": 19,
+   "page_id": 440,
+   "inserting_rev_ids": [
+    3120452
+   ],
+   "removing_rev_ids": [
+    3123809
+   ],
+   "tier": "reverted",
+   "score": 7.909753,
+   "claim_en": null
+  },
+  {
+   "key": "13792606",
+   "topic_id": "continuation-war",
+   "rank": 20,
+   "page_id": 440,
+   "inserting_rev_ids": [
+    13792606
+   ],
+   "removing_rev_ids": [
+    13792608
+   ],
+   "tier": "reverted",
+   "score": 7.903747,
+   "claim_en": null
+  },
+  {
+   "key": "15975415+15975512",
+   "topic_id": "continuation-war",
+   "rank": 21,
+   "page_id": 27916,
+   "inserting_rev_ids": [
+    15975415,
+    15975512
+   ],
+   "removing_rev_ids": [
+    16007686
+   ],
+   "tier": "reverted",
+   "score": 7.688355,
+   "claim_en": null
+  },
+  {
+   "key": "24099675",
+   "topic_id": "continuation-war",
+   "rank": 22,
+   "page_id": 27916,
+   "inserting_rev_ids": [
+    24099675
+   ],
+   "removing_rev_ids": [
+    24099698
+   ],
+   "tier": "reverted",
+   "score": 7.55108,
+   "claim_en": null
+  },
+  {
+   "key": "22478272",
+   "topic_id": "continuation-war",
+   "rank": 26,
+   "page_id": 27916,
+   "inserting_rev_ids": [
+    22478272
+   ],
+   "removing_rev_ids": [
+    22478792
+   ],
+   "tier": "reverted",
+   "score": 7.379632,
+   "claim_en": null
+  },
+  {
+   "key": "4513431",
+   "topic_id": "continuation-war",
+   "rank": 27,
+   "page_id": 6816,
+   "inserting_rev_ids": [
+    4513431
+   ],
+   "removing_rev_ids": [
+    4513457
+   ],
+   "tier": "reverted",
+   "score": 7.359574,
+   "claim_en": null
+  },
+  {
+   "key": "24152725",
+   "topic_id": "continuation-war",
+   "rank": 30,
+   "page_id": 105157,
+   "inserting_rev_ids": [
+    24152725
+   ],
+   "removing_rev_ids": [
+    24152826
+   ],
+   "tier": "reverted",
+   "score": 7.162397,
+   "claim_en": null
+  },
+  {
+   "key": "392800",
+   "topic_id": "continuation-war",
+   "rank": 31,
+   "page_id": 11398,
+   "inserting_rev_ids": [
+    392800
+   ],
+   "removing_rev_ids": [
+    392804
+   ],
+   "tier": "reverted",
+   "score": 7.095825,
+   "claim_en": null
+  },
+  {
+   "key": "13791972",
+   "topic_id": "continuation-war",
+   "rank": 32,
+   "page_id": 440,
+   "inserting_rev_ids": [
+    13791972
+   ],
+   "removing_rev_ids": [
+    13792417
+   ],
+   "tier": "reverted",
+   "score": 6.903747,
+   "claim_en": null
+  },
+  {
+   "key": "15519253",
+   "topic_id": "continuation-war",
+   "rank": 33,
+   "page_id": 440,
+   "inserting_rev_ids": [
+    15519253
+   ],
+   "removing_rev_ids": [
+    15519279
+   ],
+   "tier": "reverted",
+   "score": 6.799093,
+   "claim_en": null
+  },
+  {
+   "key": "13635593",
+   "topic_id": "continuation-war",
+   "rank": 34,
+   "page_id": 11398,
+   "inserting_rev_ids": [
+    13635593
+   ],
+   "removing_rev_ids": [
+    13636810
+   ],
+   "tier": "reverted",
+   "score": 6.682131,
+   "claim_en": null
+  },
+  {
+   "key": "10661688+10661852+10661859",
+   "topic_id": "continuation-war",
+   "rank": 35,
+   "page_id": 626022,
+   "inserting_rev_ids": [
+    10661688,
+    10661852,
+    10661859
+   ],
+   "removing_rev_ids": [
+    10662087
+   ],
+   "tier": "reverted",
+   "score": 6.616771,
+   "claim_en": null
+  },
+  {
+   "key": "13598020+13598021+13598027",
+   "topic_id": "continuation-war",
+   "rank": 36,
+   "page_id": 278427,
+   "inserting_rev_ids": [
+    13598020,
+    13598021,
+    13598027
+   ],
+   "removing_rev_ids": [
+    13598434
+   ],
+   "tier": "reverted",
+   "score": 6.49224,
+   "claim_en": null
+  },
+  {
+   "key": "16947825",
+   "topic_id": "continuation-war",
+   "rank": 37,
+   "page_id": 105157,
+   "inserting_rev_ids": [
+    16947825
+   ],
+   "removing_rev_ids": [
+    16947827
+   ],
+   "tier": "reverted",
+   "score": 6.475433,
+   "claim_en": null
+  },
+  {
+   "key": "13351007+13351757",
+   "topic_id": "continuation-war",
+   "rank": 38,
+   "page_id": 440,
+   "inserting_rev_ids": [
+    13351007,
+    13351757
+   ],
+   "removing_rev_ids": [
+    13351761
+   ],
+   "tier": "reverted",
+   "score": 6.454347,
+   "claim_en": null
+  },
+  {
+   "key": "12394551",
+   "topic_id": "continuation-war",
+   "rank": 39,
+   "page_id": 440,
+   "inserting_rev_ids": [
+    12394551
+   ],
+   "removing_rev_ids": [
+    12394607
+   ],
+   "tier": "reverted",
+   "score": 6.442651,
+   "claim_en": null
+  },
+  {
+   "key": "14297418",
+   "topic_id": "continuation-war",
+   "rank": 40,
+   "page_id": 440,
+   "inserting_rev_ids": [
+    14297418
+   ],
+   "removing_rev_ids": [
+    14298094
+   ],
+   "tier": "reverted",
+   "score": 6.407172,
+   "claim_en": null
+  },
+  {
+   "key": "12965291+12965303",
+   "topic_id": "continuation-war",
+   "rank": 41,
+   "page_id": 105157,
+   "inserting_rev_ids": [
+    12965291,
+    12965303
+   ],
+   "removing_rev_ids": [
+    12965780
+   ],
+   "tier": "reverted",
+   "score": 6.384495,
+   "claim_en": null
+  },
+  {
+   "key": "12373873+12373879+12373884",
+   "topic_id": "continuation-war",
+   "rank": 42,
+   "page_id": 440,
+   "inserting_rev_ids": [
+    12373873,
+    12373879,
+    12373884
+   ],
+   "removing_rev_ids": [
+    12373888
+   ],
+   "tier": "reverted",
+   "score": 6.379897,
+   "claim_en": null
+  },
+  {
+   "key": "13357295+13357301+13358788",
+   "topic_id": "continuation-war",
+   "rank": 44,
+   "page_id": 6816,
+   "inserting_rev_ids": [
+    13357295,
+    13357301,
+    13358788
+   ],
+   "removing_rev_ids": [
+    13358790
+   ],
+   "tier": "reverted",
+   "score": 6.356586,
+   "claim_en": null
+  },
+  {
+   "key": "15273416+15273420+15273428",
+   "topic_id": "continuation-war",
+   "rank": 47,
+   "page_id": 440,
+   "inserting_rev_ids": [
+    15273416,
+    15273420,
+    15273428
+   ],
+   "removing_rev_ids": [
+    15273764
+   ],
+   "tier": "reverted",
+   "score": 6.257495,
+   "claim_en": null
+  },
+  {
+   "key": "8962967+8963007",
+   "topic_id": "continuation-war",
+   "rank": 48,
+   "page_id": 6816,
+   "inserting_rev_ids": [
+    8962967,
+    8963007
+   ],
+   "removing_rev_ids": [
+    8963074
+   ],
+   "tier": "reverted",
+   "score": 6.219508,
+   "claim_en": null
+  },
+  {
+   "key": "8963100",
+   "topic_id": "continuation-war",
+   "rank": 49,
+   "page_id": 6816,
+   "inserting_rev_ids": [
+    8963100
+   ],
+   "removing_rev_ids": [
+    8963127
+   ],
+   "tier": "reverted",
+   "score": 6.219508,
+   "claim_en": null
+  },
+  {
+   "key": "4257612+4257619+4257638+4257792",
+   "topic_id": "continuation-war",
+   "rank": 50,
+   "page_id": 440,
+   "inserting_rev_ids": [
+    4257612,
+    4257619,
+    4257638,
+    4257792
+   ],
+   "removing_rev_ids": [
+    4257796
+   ],
+   "tier": "reverted",
+   "score": 6.198497,
+   "claim_en": null
+  },
+  {
+   "key": "11071600",
+   "topic_id": "winter-war",
+   "rank": 1,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    11071600
+   ],
+   "removing_rev_ids": [
+    11071792
+   ],
+   "tier": "reverted",
+   "score": 12.433491,
+   "claim_en": null
+  },
+  {
+   "key": "1045745+1045758",
+   "topic_id": "winter-war",
+   "rank": 2,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    1045745,
+    1045758
+   ],
+   "removing_rev_ids": [
+    1045773
+   ],
+   "tier": "reverted",
+   "score": 9.123854,
+   "claim_en": null
+  },
+  {
+   "key": "5847575",
+   "topic_id": "winter-war",
+   "rank": 4,
+   "page_id": 24889,
+   "inserting_rev_ids": [
+    5847575
+   ],
+   "removing_rev_ids": [
+    5847582
+   ],
+   "tier": "reverted",
+   "score": 8.367765,
+   "claim_en": null
+  },
+  {
+   "key": "7689920+7689927+7689961+7689973+7689988+7690007+7690044+7690071",
+   "topic_id": "winter-war",
+   "rank": 7,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    7689920,
+    7689927,
+    7689961,
+    7689973,
+    7689988,
+    7690007,
+    7690044,
+    7690071
+   ],
+   "removing_rev_ids": [
+    7690090
+   ],
+   "tier": "reverted",
+   "score": 8.28223,
+   "claim_en": null
+  },
+  {
+   "key": "20372789",
+   "topic_id": "winter-war",
+   "rank": 8,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    20372789
+   ],
+   "removing_rev_ids": [
+    20372791
+   ],
+   "tier": "reverted",
+   "score": 8.096513,
+   "claim_en": null
+  },
+  {
+   "key": "13357325",
+   "topic_id": "winter-war",
+   "rank": 10,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    13357325
+   ],
+   "removing_rev_ids": [
+    13357484
+   ],
+   "tier": "reverted",
+   "score": 8.02617,
+   "claim_en": null
+  },
+  {
+   "key": "6833929",
+   "topic_id": "winter-war",
+   "rank": 13,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    6833929
+   ],
+   "removing_rev_ids": [
+    6833945
+   ],
+   "tier": "reverted",
+   "score": 7.386879,
+   "claim_en": null
+  },
+  {
+   "key": "5666984",
+   "topic_id": "winter-war",
+   "rank": 14,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    5666984
+   ],
+   "removing_rev_ids": [
+    5667722
+   ],
+   "tier": "reverted",
+   "score": 7.380123,
+   "claim_en": null
+  },
+  {
+   "key": "18790337",
+   "topic_id": "winter-war",
+   "rank": 15,
+   "page_id": 52097,
+   "inserting_rev_ids": [
+    18790337
+   ],
+   "removing_rev_ids": [
+    18792202
+   ],
+   "tier": "reverted",
+   "score": 7.361292,
+   "claim_en": null
+  },
+  {
+   "key": "6832190",
+   "topic_id": "winter-war",
+   "rank": 16,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    6832190
+   ],
+   "removing_rev_ids": [
+    6832209
+   ],
+   "tier": "reverted",
+   "score": 7.306275,
+   "claim_en": null
+  },
+  {
+   "key": "5763275",
+   "topic_id": "winter-war",
+   "rank": 17,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    5763275
+   ],
+   "removing_rev_ids": [
+    5763276
+   ],
+   "tier": "reverted",
+   "score": 7.285507,
+   "claim_en": null
+  },
+  {
+   "key": "2360342",
+   "topic_id": "winter-war",
+   "rank": 19,
+   "page_id": 24889,
+   "inserting_rev_ids": [
+    2360342
+   ],
+   "removing_rev_ids": [
+    2360418
+   ],
+   "tier": "reverted",
+   "score": 7.277248,
+   "claim_en": null
+  },
+  {
+   "key": "2811373",
+   "topic_id": "winter-war",
+   "rank": 20,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    2811373
+   ],
+   "removing_rev_ids": [
+    2811378
+   ],
+   "tier": "reverted",
+   "score": 7.241747,
+   "claim_en": null
+  },
+  {
+   "key": "20372773",
+   "topic_id": "winter-war",
+   "rank": 21,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    20372773
+   ],
+   "removing_rev_ids": [
+    20372775
+   ],
+   "tier": "reverted",
+   "score": 7.213768,
+   "claim_en": null
+  },
+  {
+   "key": "19164494+19164498+19164511",
+   "topic_id": "winter-war",
+   "rank": 24,
+   "page_id": 16331,
+   "inserting_rev_ids": [
+    19164494,
+    19164498,
+    19164511
+   ],
+   "removing_rev_ids": [
+    19178903
+   ],
+   "tier": "reverted",
+   "score": 7.144186,
+   "claim_en": null
+  },
+  {
+   "key": "13348024",
+   "topic_id": "winter-war",
+   "rank": 26,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    13348024
+   ],
+   "removing_rev_ids": [
+    13350159
+   ],
+   "tier": "reverted",
+   "score": 7.023881,
+   "claim_en": null
+  },
+  {
+   "key": "17567751+17567753",
+   "topic_id": "winter-war",
+   "rank": 27,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    17567751,
+    17567753
+   ],
+   "removing_rev_ids": [
+    17567755
+   ],
+   "tier": "reverted",
+   "score": 6.996681,
+   "claim_en": null
+  },
+  {
+   "key": "17666163",
+   "topic_id": "winter-war",
+   "rank": 28,
+   "page_id": 24889,
+   "inserting_rev_ids": [
+    17666163
+   ],
+   "removing_rev_ids": [
+    17666187
+   ],
+   "tier": "reverted",
+   "score": 6.88551,
+   "claim_en": null
+  },
+  {
+   "key": "16572783",
+   "topic_id": "winter-war",
+   "rank": 29,
+   "page_id": 24889,
+   "inserting_rev_ids": [
+    16572783
+   ],
+   "removing_rev_ids": [
+    16578821
+   ],
+   "tier": "reverted",
+   "score": 6.866468,
+   "claim_en": null
+  },
+  {
+   "key": "381757",
+   "topic_id": "winter-war",
+   "rank": 30,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    381757
+   ],
+   "removing_rev_ids": [
+    381934
+   ],
+   "tier": "reverted",
+   "score": 6.812184,
+   "claim_en": null
+  },
+  {
+   "key": "422163",
+   "topic_id": "winter-war",
+   "rank": 32,
+   "page_id": 24889,
+   "inserting_rev_ids": [
+    422163
+   ],
+   "removing_rev_ids": [
+    422272
+   ],
+   "tier": "reverted",
+   "score": 6.598422,
+   "claim_en": null
+  },
+  {
+   "key": "16996153+16996250",
+   "topic_id": "winter-war",
+   "rank": 33,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    16996153,
+    16996250
+   ],
+   "removing_rev_ids": [
+    16996253
+   ],
+   "tier": "reverted",
+   "score": 6.564348,
+   "claim_en": null
+  },
+  {
+   "key": "16784168+16785599+16785605+16785615",
+   "topic_id": "winter-war",
+   "rank": 36,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    16784168,
+    16785599,
+    16785605,
+    16785615
+   ],
+   "removing_rev_ids": [
+    16785636
+   ],
+   "tier": "reverted",
+   "score": 6.480639,
+   "claim_en": null
+  },
+  {
+   "key": "6350811",
+   "topic_id": "winter-war",
+   "rank": 40,
+   "page_id": 12467,
+   "inserting_rev_ids": [
+    6350811
+   ],
+   "removing_rev_ids": [
+    6350813
+   ],
+   "tier": "reverted",
+   "score": 6.376727,
+   "claim_en": null
+  },
+  {
+   "key": "10376807",
+   "topic_id": "winter-war",
+   "rank": 41,
+   "page_id": 24889,
+   "inserting_rev_ids": [
+    10376807
+   ],
+   "removing_rev_ids": [
+    10376812
+   ],
+   "tier": "reverted",
+   "score": 6.37332,
+   "claim_en": null
+  },
+  {
+   "key": "1983800+1983836+1983959+1983965+1983975+1983978+1983997+1985144",
+   "topic_id": "winter-war",
+   "rank": 42,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    1983800,
+    1983836,
+    1983959,
+    1983965,
+    1983975,
+    1983978,
+    1983997,
+    1985144
+   ],
+   "removing_rev_ids": [
+    1985231
+   ],
+   "tier": "reverted",
+   "score": 6.361302,
+   "claim_en": null
+  },
+  {
+   "key": "17390460",
+   "topic_id": "winter-war",
+   "rank": 43,
+   "page_id": 24889,
+   "inserting_rev_ids": [
+    17390460
+   ],
+   "removing_rev_ids": [
+    17390465
+   ],
+   "tier": "reverted",
+   "score": 6.327876,
+   "claim_en": null
+  },
+  {
+   "key": "421008+421126",
+   "topic_id": "winter-war",
+   "rank": 44,
+   "page_id": 24889,
+   "inserting_rev_ids": [
+    421008,
+    421126
+   ],
+   "removing_rev_ids": [
+    421131
+   ],
+   "tier": "reverted",
+   "score": 6.308268,
+   "claim_en": null
+  },
+  {
+   "key": "2811391",
+   "topic_id": "winter-war",
+   "rank": 45,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    2811391
+   ],
+   "removing_rev_ids": [
+    2811393
+   ],
+   "tier": "reverted",
+   "score": 6.241747,
+   "claim_en": null
+  },
+  {
+   "key": "1465449",
+   "topic_id": "winter-war",
+   "rank": 47,
+   "page_id": 24889,
+   "inserting_rev_ids": [
+    1465449
+   ],
+   "removing_rev_ids": [
+    1465459
+   ],
+   "tier": "reverted",
+   "score": 6.214936,
+   "claim_en": null
+  },
+  {
+   "key": "4186740+4186790+4186817",
+   "topic_id": "winter-war",
+   "rank": 48,
+   "page_id": 92454,
+   "inserting_rev_ids": [
+    4186740,
+    4186790,
+    4186817
+   ],
+   "removing_rev_ids": [
+    4187041
+   ],
+   "tier": "reverted",
+   "score": 6.198497,
+   "claim_en": null
+  },
+  {
+   "key": "4185426+4185428+4185716",
+   "topic_id": "winter-war",
+   "rank": 49,
+   "page_id": 92454,
+   "inserting_rev_ids": [
+    4185426,
+    4185428,
+    4185716
+   ],
+   "removing_rev_ids": [
+    4185783
+   ],
+   "tier": "reverted",
+   "score": 6.192957,
+   "claim_en": null
+  },
+  {
+   "key": "16341004",
+   "topic_id": "winter-war",
+   "rank": 50,
+   "page_id": 1256,
+   "inserting_rev_ids": [
+    16341004
+   ],
+   "removing_rev_ids": [
+    16341763
+   ],
+   "tier": "reverted",
+   "score": 6.098074,
+   "claim_en": null
+  },
+  {
+   "key": "9610261",
+   "topic_id": "ceded-karelia",
+   "rank": 1,
+   "page_id": 6626,
+   "inserting_rev_ids": [
+    9610261
+   ],
+   "removing_rev_ids": [
+    9610636
+   ],
+   "tier": "reverted",
+   "score": 9.459915,
+   "claim_en": null
+  },
+  {
+   "key": "9615882",
+   "topic_id": "ceded-karelia",
+   "rank": 2,
+   "page_id": 6626,
+   "inserting_rev_ids": [
+    9615882
+   ],
+   "removing_rev_ids": [
+    9615936
+   ],
+   "tier": "reverted",
+   "score": 9.459915,
+   "claim_en": null
+  },
+  {
+   "key": "3396271",
+   "topic_id": "ceded-karelia",
+   "rank": 3,
+   "page_id": 6626,
+   "inserting_rev_ids": [
+    3396271
+   ],
+   "removing_rev_ids": [
+    3396278
+   ],
+   "tier": "reverted",
+   "score": 9.183871,
+   "claim_en": null
+  },
+  {
+   "key": "11803595",
+   "topic_id": "ceded-karelia",
+   "rank": 4,
+   "page_id": 76047,
+   "inserting_rev_ids": [
+    11803595
+   ],
+   "removing_rev_ids": [
+    11803721
+   ],
+   "tier": "reverted",
+   "score": 9.095064,
+   "claim_en": null
+  },
+  {
+   "key": "115519",
+   "topic_id": "ceded-karelia",
+   "rank": 5,
+   "page_id": 19154,
+   "inserting_rev_ids": [
+    115519
+   ],
+   "removing_rev_ids": [
+    115531
+   ],
+   "tier": "reverted",
+   "score": 8.776535,
+   "claim_en": null
+  },
+  {
+   "key": "392160",
+   "topic_id": "ceded-karelia",
+   "rank": 6,
+   "page_id": 24094,
+   "inserting_rev_ids": [
+    392160
+   ],
+   "removing_rev_ids": [
+    392175
+   ],
+   "tier": "reverted",
+   "score": 8.723832,
+   "claim_en": null
+  },
+  {
+   "key": "392303",
+   "topic_id": "ceded-karelia",
+   "rank": 7,
+   "page_id": 24094,
+   "inserting_rev_ids": [
+    392303
+   ],
+   "removing_rev_ids": [
+    392308
+   ],
+   "tier": "reverted",
+   "score": 8.723832,
+   "claim_en": null
+  },
+  {
+   "key": "335089+335119+335128+335129",
+   "topic_id": "ceded-karelia",
+   "rank": 8,
+   "page_id": 24094,
+   "inserting_rev_ids": [
+    335089,
+    335119,
+    335128,
+    335129
+   ],
+   "removing_rev_ids": [
+    335132
+   ],
+   "tier": "reverted",
+   "score": 8.660575,
+   "claim_en": null
+  },
+  {
+   "key": "5687231",
+   "topic_id": "ceded-karelia",
+   "rank": 9,
+   "page_id": 6626,
+   "inserting_rev_ids": [
+    5687231
+   ],
+   "removing_rev_ids": [
+    5687304
+   ],
+   "tier": "reverted",
+   "score": 8.586172,
+   "claim_en": null
+  },
+  {
+   "key": "156801+156814",
+   "topic_id": "ceded-karelia",
+   "rank": 10,
+   "page_id": 19086,
+   "inserting_rev_ids": [
+    156801,
+    156814
+   ],
+   "removing_rev_ids": [
+    159326
+   ],
+   "tier": "reverted",
+   "score": 8.579792,
+   "claim_en": null
+  },
+  {
+   "key": "9616740",
+   "topic_id": "ceded-karelia",
+   "rank": 13,
+   "page_id": 6626,
+   "inserting_rev_ids": [
+    9616740
+   ],
+   "removing_rev_ids": [
+    9616770
+   ],
+   "tier": "reverted",
+   "score": 8.459915,
+   "claim_en": null
+  },
+  {
+   "key": "3396282",
+   "topic_id": "ceded-karelia",
+   "rank": 15,
+   "page_id": 6626,
+   "inserting_rev_ids": [
+    3396282
+   ],
+   "removing_rev_ids": [
+    3396295
+   ],
+   "tier": "reverted",
+   "score": 8.183871,
+   "claim_en": null
+  },
+  {
+   "key": "4753981+4753986+4753988+4754029+4754032",
+   "topic_id": "ceded-karelia",
+   "rank": 16,
+   "page_id": 6626,
+   "inserting_rev_ids": [
+    4753981,
+    4753986,
+    4753988,
+    4754029,
+    4754032
+   ],
+   "removing_rev_ids": [
+    4757069
+   ],
+   "tier": "reverted",
+   "score": 8.082219,
+   "claim_en": null
+  },
+  {
+   "key": "4757075",
+   "topic_id": "ceded-karelia",
+   "rank": 17,
+   "page_id": 6626,
+   "inserting_rev_ids": [
+    4757075
+   ],
+   "removing_rev_ids": [
+    4757086
+   ],
+   "tier": "reverted",
+   "score": 8.082219,
+   "claim_en": null
+  },
+  {
+   "key": "3609775+3609790",
+   "topic_id": "ceded-karelia",
+   "rank": 18,
+   "page_id": 76047,
+   "inserting_rev_ids": [
+    3609775,
+    3609790
+   ],
+   "removing_rev_ids": [
+    3613005
+   ],
+   "tier": "reverted",
+   "score": 8.068426,
+   "claim_en": null
+  },
+  {
+   "key": "14948319",
+   "topic_id": "ceded-karelia",
+   "rank": 19,
+   "page_id": 66885,
+   "inserting_rev_ids": [
+    14948319
+   ],
+   "removing_rev_ids": [
+    14948657
+   ],
+   "tier": "reverted",
+   "score": 8.045005,
+   "claim_en": null
+  },
+  {
+   "key": "4638384+4638416",
+   "topic_id": "ceded-karelia",
+   "rank": 20,
+   "page_id": 6626,
+   "inserting_rev_ids": [
+    4638384,
+    4638416
+   ],
+   "removing_rev_ids": [
+    4638622
+   ],
+   "tier": "reverted",
+   "score": 8.037871,
+   "claim_en": null
+  },
+  {
+   "key": "4750690",
+   "topic_id": "ceded-karelia",
+   "rank": 22,
+   "page_id": 6626,
+   "inserting_rev_ids": [
+    4750690
+   ],
+   "removing_rev_ids": [
+    4752344
+   ],
+   "tier": "reverted",
+   "score": 7.874931,
+   "claim_en": null
+  },
+  {
+   "key": "392468",
+   "topic_id": "ceded-karelia",
+   "rank": 23,
+   "page_id": 24094,
+   "inserting_rev_ids": [
+    392468
+   ],
+   "removing_rev_ids": [
+    392479
+   ],
+   "tier": "reverted",
+   "score": 7.814543,
+   "claim_en": null
+  },
+  {
+   "key": "429514+429518+429522+429526+429527",
+   "topic_id": "ceded-karelia",
+   "rank": 24,
+   "page_id": 19086,
+   "inserting_rev_ids": [
+    429514,
+    429518,
+    429522,
+    429526,
+    429527
+   ],
+   "removing_rev_ids": [
+    429665
+   ],
+   "tier": "reverted",
+   "score": 7.733684,
+   "claim_en": null
+  },
+  {
+   "key": "12492532",
+   "topic_id": "ceded-karelia",
+   "rank": 25,
+   "page_id": 6626,
+   "inserting_rev_ids": [
+    12492532
+   ],
+   "removing_rev_ids": [
+    12492999
+   ],
+   "tier": "reverted",
+   "score": 7.670429,
+   "claim_en": null
+  },
+  {
+   "key": "392091",
+   "topic_id": "ceded-karelia",
+   "rank": 26,
+   "page_id": 24094,
+   "inserting_rev_ids": [
+    392091
+   ],
+   "removing_rev_ids": [
+    392094
+   ],
+   "tier": "reverted",
+   "score": 7.658011,
+   "claim_en": null
+  },
+  {
+   "key": "325415+325421+325473+325493",
+   "topic_id": "ceded-karelia",
+   "rank": 27,
+   "page_id": 19086,
+   "inserting_rev_ids": [
+    325415,
+    325421,
+    325473,
+    325493
+   ],
+   "removing_rev_ids": [
+    325507
+   ],
+   "tier": "reverted",
+   "score": 7.572283,
+   "claim_en": null
+  },
+  {
+   "key": "5790725",
+   "topic_id": "ceded-karelia",
+   "rank": 28,
+   "page_id": 6626,
+   "inserting_rev_ids": [
+    5790725
+   ],
+   "removing_rev_ids": [
+    5790790
+   ],
+   "tier": "reverted",
+   "score": 7.566672,
+   "claim_en": null
+  },
+  {
+   "key": "398654+398659+398666",
+   "topic_id": "ceded-karelia",
+   "rank": 33,
+   "page_id": 24094,
+   "inserting_rev_ids": [
+    398654,
+    398659,
+    398666
+   ],
+   "removing_rev_ids": [
+    398671
+   ],
+   "tier": "reverted",
+   "score": 7.451038,
+   "claim_en": null
+  },
+  {
+   "key": "3609766",
+   "topic_id": "ceded-karelia",
+   "rank": 35,
+   "page_id": 66885,
+   "inserting_rev_ids": [
+    3609766
+   ],
+   "removing_rev_ids": [
+    3613013
+   ],
+   "tier": "reverted",
+   "score": 7.342334,
+   "claim_en": null
+  },
+  {
+   "key": "325293+325296",
+   "topic_id": "ceded-karelia",
+   "rank": 36,
+   "page_id": 19086,
+   "inserting_rev_ids": [
+    325293,
+    325296
+   ],
+   "removing_rev_ids": [
+    325342
+   ],
+   "tier": "reverted",
+   "score": 7.309918,
+   "claim_en": null
+  },
+  {
+   "key": "11807500",
+   "topic_id": "ceded-karelia",
+   "rank": 37,
+   "page_id": 76047,
+   "inserting_rev_ids": [
+    11807500
+   ],
+   "removing_rev_ids": [
+    11807516
+   ],
+   "tier": "reverted",
+   "score": 7.272877,
+   "claim_en": null
+  },
+  {
+   "key": "1578757",
+   "topic_id": "ceded-karelia",
+   "rank": 38,
+   "page_id": 12374,
+   "inserting_rev_ids": [
+    1578757
+   ],
+   "removing_rev_ids": [
+    1578790
+   ],
+   "tier": "reverted",
+   "score": 7.181784,
+   "claim_en": null
+  },
+  {
+   "key": "11801593",
+   "topic_id": "ceded-karelia",
+   "rank": 39,
+   "page_id": 76047,
+   "inserting_rev_ids": [
+    11801593
+   ],
+   "removing_rev_ids": [
+    11801617
+   ],
+   "tier": "reverted",
+   "score": 7.138867,
+   "claim_en": null
+  },
+  {
+   "key": "12383712+12383713+12383718",
+   "topic_id": "ceded-karelia",
+   "rank": 40,
+   "page_id": 218476,
+   "inserting_rev_ids": [
+    12383712,
+    12383713,
+    12383718
+   ],
+   "removing_rev_ids": [
+    12387251
+   ],
+   "tier": "reverted",
+   "score": 7.131226,
+   "claim_en": null
+  },
+  {
+   "key": "14949261",
+   "topic_id": "ceded-karelia",
+   "rank": 41,
+   "page_id": 66885,
+   "inserting_rev_ids": [
+    14949261
+   ],
+   "removing_rev_ids": [
+    14949275
+   ],
+   "tier": "reverted",
+   "score": 7.045005,
+   "claim_en": null
+  },
+  {
+   "key": "1507690",
+   "topic_id": "ceded-karelia",
+   "rank": 42,
+   "page_id": 14405,
+   "inserting_rev_ids": [
+    1507690
+   ],
+   "removing_rev_ids": [
+    1507709
+   ],
+   "tier": "reverted",
+   "score": 7.037871,
+   "claim_en": null
+  },
+  {
+   "key": "1506729",
+   "topic_id": "ceded-karelia",
+   "rank": 43,
+   "page_id": 14405,
+   "inserting_rev_ids": [
+    1506729
+   ],
+   "removing_rev_ids": [
+    1506743
+   ],
+   "tier": "reverted",
+   "score": 7.035481,
+   "claim_en": null
+  },
+  {
+   "key": "14947850+14947926",
+   "topic_id": "ceded-karelia",
+   "rank": 45,
+   "page_id": 51219,
+   "inserting_rev_ids": [
+    14947850,
+    14947926
+   ],
+   "removing_rev_ids": [
+    14948658
+   ],
+   "tier": "reverted",
+   "score": 7.010635,
+   "claim_en": null
+  },
+  {
+   "key": "20245251",
+   "topic_id": "nato-debate",
+   "rank": 1,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    20245251
+   ],
+   "removing_rev_ids": [
+    20245252
+   ],
+   "tier": "reverted",
+   "score": 12.310775,
+   "claim_en": null
+  },
+  {
+   "key": "15366459",
+   "topic_id": "nato-debate",
+   "rank": 4,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    15366459
+   ],
+   "removing_rev_ids": [
+    15366479
+   ],
+   "tier": "reverted",
+   "score": 9.524561,
+   "claim_en": null
+  },
+  {
+   "key": "18776753",
+   "topic_id": "nato-debate",
+   "rank": 6,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    18776753
+   ],
+   "removing_rev_ids": [
+    18776756
+   ],
+   "tier": "reverted",
+   "score": 9.054388,
+   "claim_en": null
+  },
+  {
+   "key": "4383338",
+   "topic_id": "nato-debate",
+   "rank": 7,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    4383338
+   ],
+   "removing_rev_ids": [
+    4383343
+   ],
+   "tier": "reverted",
+   "score": 8.969791,
+   "claim_en": null
+  },
+  {
+   "key": "20223683",
+   "topic_id": "nato-debate",
+   "rank": 8,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    20223683
+   ],
+   "removing_rev_ids": [
+    20223718
+   ],
+   "tier": "reverted",
+   "score": 8.873978,
+   "claim_en": null
+  },
+  {
+   "key": "7551664",
+   "topic_id": "nato-debate",
+   "rank": 10,
+   "page_id": 742812,
+   "inserting_rev_ids": [
+    7551664
+   ],
+   "removing_rev_ids": [
+    7551670
+   ],
+   "tier": "reverted",
+   "score": 8.577861,
+   "claim_en": null
+  },
+  {
+   "key": "15366537",
+   "topic_id": "nato-debate",
+   "rank": 11,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    15366537
+   ],
+   "removing_rev_ids": [
+    15366577
+   ],
+   "tier": "reverted",
+   "score": 8.524561,
+   "claim_en": null
+  },
+  {
+   "key": "16790107",
+   "topic_id": "nato-debate",
+   "rank": 13,
+   "page_id": 1137,
+   "inserting_rev_ids": [
+    16790107
+   ],
+   "removing_rev_ids": [
+    16790108
+   ],
+   "tier": "reverted",
+   "score": 8.482395,
+   "claim_en": null
+  },
+  {
+   "key": "14128922",
+   "topic_id": "nato-debate",
+   "rank": 15,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    14128922
+   ],
+   "removing_rev_ids": [
+    14129041
+   ],
+   "tier": "reverted",
+   "score": 8.359574,
+   "claim_en": null
+  },
+  {
+   "key": "20071156",
+   "topic_id": "nato-debate",
+   "rank": 17,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    20071156
+   ],
+   "removing_rev_ids": [
+    20071168
+   ],
+   "tier": "reverted",
+   "score": 8.252762,
+   "claim_en": null
+  },
+  {
+   "key": "4691310+4691311+4691312",
+   "topic_id": "nato-debate",
+   "rank": 18,
+   "page_id": 9608,
+   "inserting_rev_ids": [
+    4691310,
+    4691311,
+    4691312
+   ],
+   "removing_rev_ids": [
+    4692018
+   ],
+   "tier": "reverted",
+   "score": 8.206576,
+   "claim_en": null
+  },
+  {
+   "key": "20773640",
+   "topic_id": "nato-debate",
+   "rank": 19,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    20773640
+   ],
+   "removing_rev_ids": [
+    20773657
+   ],
+   "tier": "reverted",
+   "score": 8.078342,
+   "claim_en": null
+  },
+  {
+   "key": "16754183",
+   "topic_id": "nato-debate",
+   "rank": 21,
+   "page_id": 1137,
+   "inserting_rev_ids": [
+    16754183
+   ],
+   "removing_rev_ids": [
+    16754189
+   ],
+   "tier": "reverted",
+   "score": 8.037871,
+   "claim_en": null
+  },
+  {
+   "key": "15967981",
+   "topic_id": "nato-debate",
+   "rank": 23,
+   "page_id": 9608,
+   "inserting_rev_ids": [
+    15967981
+   ],
+   "removing_rev_ids": [
+    15967987
+   ],
+   "tier": "reverted",
+   "score": 8.011267,
+   "claim_en": null
+  },
+  {
+   "key": "19112955",
+   "topic_id": "nato-debate",
+   "rank": 25,
+   "page_id": 1137,
+   "inserting_rev_ids": [
+    19112955
+   ],
+   "removing_rev_ids": [
+    19112964
+   ],
+   "tier": "reverted",
+   "score": 7.942157,
+   "claim_en": null
+  },
+  {
+   "key": "23781880",
+   "topic_id": "nato-debate",
+   "rank": 26,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    23781880
+   ],
+   "removing_rev_ids": [
+    23781887
+   ],
+   "tier": "reverted",
+   "score": 7.853216,
+   "claim_en": null
+  },
+  {
+   "key": "15217950",
+   "topic_id": "nato-debate",
+   "rank": 27,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    15217950
+   ],
+   "removing_rev_ids": [
+    15217951
+   ],
+   "tier": "reverted",
+   "score": 7.843456,
+   "claim_en": null
+  },
+  {
+   "key": "7354179",
+   "topic_id": "nato-debate",
+   "rank": 28,
+   "page_id": 2979,
+   "inserting_rev_ids": [
+    7354179
+   ],
+   "removing_rev_ids": [
+    7354199
+   ],
+   "tier": "reverted",
+   "score": 7.834811,
+   "claim_en": null
+  },
+  {
+   "key": "7354134",
+   "topic_id": "nato-debate",
+   "rank": 29,
+   "page_id": 2979,
+   "inserting_rev_ids": [
+    7354134
+   ],
+   "removing_rev_ids": [
+    7354139
+   ],
+   "tier": "reverted",
+   "score": 7.834811,
+   "claim_en": null
+  },
+  {
+   "key": "15703117",
+   "topic_id": "nato-debate",
+   "rank": 32,
+   "page_id": 5261,
+   "inserting_rev_ids": [
+    15703117
+   ],
+   "removing_rev_ids": [
+    15703452
+   ],
+   "tier": "reverted",
+   "score": 7.624018,
+   "claim_en": null
+  },
+  {
+   "key": "17690369",
+   "topic_id": "nato-debate",
+   "rank": 33,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    17690369
+   ],
+   "removing_rev_ids": [
+    17690668
+   ],
+   "tier": "reverted",
+   "score": 7.526495,
+   "claim_en": null
+  },
+  {
+   "key": "2704480",
+   "topic_id": "nato-debate",
+   "rank": 34,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    2704480
+   ],
+   "removing_rev_ids": [
+    2704487
+   ],
+   "tier": "reverted",
+   "score": 7.501258,
+   "claim_en": null
+  },
+  {
+   "key": "21567539+21567581",
+   "topic_id": "nato-debate",
+   "rank": 35,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    21567539,
+    21567581
+   ],
+   "removing_rev_ids": [
+    21567657
+   ],
+   "tier": "reverted",
+   "score": 7.455199,
+   "claim_en": null
+  },
+  {
+   "key": "23882706",
+   "topic_id": "nato-debate",
+   "rank": 36,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    23882706
+   ],
+   "removing_rev_ids": [
+    23883149
+   ],
+   "tier": "reverted",
+   "score": 7.413367,
+   "claim_en": null
+  },
+  {
+   "key": "7915074",
+   "topic_id": "nato-debate",
+   "rank": 37,
+   "page_id": 2979,
+   "inserting_rev_ids": [
+    7915074
+   ],
+   "removing_rev_ids": [
+    7915075
+   ],
+   "tier": "reverted",
+   "score": 7.410175,
+   "claim_en": null
+  },
+  {
+   "key": "14973149+14973150+14973157+14973493+14973497+14973611+14973637+14974068",
+   "topic_id": "nato-debate",
+   "rank": 38,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    14973149,
+    14973150,
+    14973157,
+    14973493,
+    14973497,
+    14973611,
+    14973637,
+    14974068
+   ],
+   "removing_rev_ids": [
+    14974208
+   ],
+   "tier": "reverted",
+   "score": 7.380123,
+   "claim_en": null
+  },
+  {
+   "key": "14129071",
+   "topic_id": "nato-debate",
+   "rank": 39,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    14129071
+   ],
+   "removing_rev_ids": [
+    14129084
+   ],
+   "tier": "reverted",
+   "score": 7.359574,
+   "claim_en": null
+  },
+  {
+   "key": "23567601",
+   "topic_id": "nato-debate",
+   "rank": 40,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    23567601
+   ],
+   "removing_rev_ids": [
+    23567608
+   ],
+   "tier": "reverted",
+   "score": 7.349231,
+   "claim_en": null
+  },
+  {
+   "key": "14129143+14129152",
+   "topic_id": "nato-debate",
+   "rank": 41,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    14129143,
+    14129152
+   ],
+   "removing_rev_ids": [
+    14130520
+   ],
+   "tier": "reverted",
+   "score": 7.331502,
+   "claim_en": null
+  },
+  {
+   "key": "15201831",
+   "topic_id": "nato-debate",
+   "rank": 42,
+   "page_id": 1137,
+   "inserting_rev_ids": [
+    15201831
+   ],
+   "removing_rev_ids": [
+    15201846
+   ],
+   "tier": "reverted",
+   "score": 7.327876,
+   "claim_en": null
+  },
+  {
+   "key": "15201817",
+   "topic_id": "nato-debate",
+   "rank": 43,
+   "page_id": 1137,
+   "inserting_rev_ids": [
+    15201817
+   ],
+   "removing_rev_ids": [
+    15201824
+   ],
+   "tier": "reverted",
+   "score": 7.327876,
+   "claim_en": null
+  },
+  {
+   "key": "20405323+20405325",
+   "topic_id": "nato-debate",
+   "rank": 44,
+   "page_id": 2979,
+   "inserting_rev_ids": [
+    20405323,
+    20405325
+   ],
+   "removing_rev_ids": [
+    20406397
+   ],
+   "tier": "reverted",
+   "score": 7.279319,
+   "claim_en": null
+  },
+  {
+   "key": "20154527+20154609",
+   "topic_id": "nato-debate",
+   "rank": 46,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    20154527,
+    20154609
+   ],
+   "removing_rev_ids": [
+    20154774
+   ],
+   "tier": "reverted",
+   "score": 7.269096,
+   "claim_en": null
+  },
+  {
+   "key": "11108310",
+   "topic_id": "nato-debate",
+   "rank": 47,
+   "page_id": 1137,
+   "inserting_rev_ids": [
+    11108310
+   ],
+   "removing_rev_ids": [
+    11108549
+   ],
+   "tier": "reverted",
+   "score": 7.216606,
+   "claim_en": null
+  },
+  {
+   "key": "4713899",
+   "topic_id": "nato-debate",
+   "rank": 48,
+   "page_id": 9608,
+   "inserting_rev_ids": [
+    4713899
+   ],
+   "removing_rev_ids": [
+    4714065
+   ],
+   "tier": "reverted",
+   "score": 7.2106,
+   "claim_en": null
+  },
+  {
+   "key": "22184898+22184904+22184927",
+   "topic_id": "nato-debate",
+   "rank": 49,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    22184898,
+    22184904,
+    22184927
+   ],
+   "removing_rev_ids": [
+    22184933
+   ],
+   "tier": "reverted",
+   "score": 7.188264,
+   "claim_en": null
+  },
+  {
+   "key": "10059147",
+   "topic_id": "nato-debate",
+   "rank": 50,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    10059147
+   ],
+   "removing_rev_ids": [
+    10059159
+   ],
+   "tier": "reverted",
+   "score": 7.184149,
+   "claim_en": null
+  },
+  {
+   "key": "5982303",
+   "topic_id": "finlandization",
+   "rank": 1,
+   "page_id": 1275,
+   "inserting_rev_ids": [
+    5982303
+   ],
+   "removing_rev_ids": [
+    5982305
+   ],
+   "tier": "reverted",
+   "score": 13.743965,
+   "claim_en": null
+  },
+  {
+   "key": "5982296",
+   "topic_id": "finlandization",
+   "rank": 2,
+   "page_id": 1275,
+   "inserting_rev_ids": [
+    5982296
+   ],
+   "removing_rev_ids": [
+    5982299
+   ],
+   "tier": "reverted",
+   "score": 13.73849,
+   "claim_en": null
+  },
+  {
+   "key": "6412422",
+   "topic_id": "finlandization",
+   "rank": 3,
+   "page_id": 1275,
+   "inserting_rev_ids": [
+    6412422
+   ],
+   "removing_rev_ids": [
+    6412424
+   ],
+   "tier": "reverted",
+   "score": 13.269153,
+   "claim_en": null
+  },
+  {
+   "key": "189026",
+   "topic_id": "finlandization",
+   "rank": 4,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    189026
+   ],
+   "removing_rev_ids": [
+    189099
+   ],
+   "tier": "reverted",
+   "score": 12.334461,
+   "claim_en": null
+  },
+  {
+   "key": "9053403",
+   "topic_id": "finlandization",
+   "rank": 5,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    9053403
+   ],
+   "removing_rev_ids": [
+    9053410
+   ],
+   "tier": "reverted",
+   "score": 12.24952,
+   "claim_en": null
+  },
+  {
+   "key": "1561381",
+   "topic_id": "finlandization",
+   "rank": 6,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    1561381
+   ],
+   "removing_rev_ids": [
+    1561386
+   ],
+   "tier": "reverted",
+   "score": 11.494316,
+   "claim_en": null
+  },
+  {
+   "key": "9053436",
+   "topic_id": "finlandization",
+   "rank": 7,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    9053436
+   ],
+   "removing_rev_ids": [
+    9053439
+   ],
+   "tier": "reverted",
+   "score": 11.445171,
+   "claim_en": null
+  },
+  {
+   "key": "9053418",
+   "topic_id": "finlandization",
+   "rank": 8,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    9053418
+   ],
+   "removing_rev_ids": [
+    9053420
+   ],
+   "tier": "reverted",
+   "score": 11.231557,
+   "claim_en": null
+  },
+  {
+   "key": "8020179",
+   "topic_id": "finlandization",
+   "rank": 9,
+   "page_id": 1275,
+   "inserting_rev_ids": [
+    8020179
+   ],
+   "removing_rev_ids": [
+    8020198
+   ],
+   "tier": "reverted",
+   "score": 10.761175,
+   "claim_en": null
+  },
+  {
+   "key": "1835973+1835977+1835979",
+   "topic_id": "finlandization",
+   "rank": 10,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    1835973,
+    1835977,
+    1835979
+   ],
+   "removing_rev_ids": [
+    1836261
+   ],
+   "tier": "reverted",
+   "score": 10.540219,
+   "claim_en": null
+  },
+  {
+   "key": "2147661",
+   "topic_id": "finlandization",
+   "rank": 11,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    2147661
+   ],
+   "removing_rev_ids": [
+    2147662
+   ],
+   "tier": "reverted",
+   "score": 10.503094,
+   "claim_en": null
+  },
+  {
+   "key": "3990573",
+   "topic_id": "finlandization",
+   "rank": 12,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    3990573
+   ],
+   "removing_rev_ids": [
+    3990576
+   ],
+   "tier": "reverted",
+   "score": 10.437934,
+   "claim_en": null
+  },
+  {
+   "key": "9053469+9053471",
+   "topic_id": "finlandization",
+   "rank": 13,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    9053469,
+    9053471
+   ],
+   "removing_rev_ids": [
+    9053473
+   ],
+   "tier": "reverted",
+   "score": 10.133924,
+   "claim_en": null
+  },
+  {
+   "key": "16906674+16906680+16906681",
+   "topic_id": "finlandization",
+   "rank": 14,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    16906674,
+    16906680,
+    16906681
+   ],
+   "removing_rev_ids": [
+    16906702
+   ],
+   "tier": "reverted",
+   "score": 9.950792,
+   "claim_en": null
+  },
+  {
+   "key": "5651588+5651616+5651652",
+   "topic_id": "finlandization",
+   "rank": 15,
+   "page_id": 102270,
+   "inserting_rev_ids": [
+    5651588,
+    5651616,
+    5651652
+   ],
+   "removing_rev_ids": [
+    5674539
+   ],
+   "tier": "reverted",
+   "score": 9.894691,
+   "claim_en": null
+  },
+  {
+   "key": "5779929",
+   "topic_id": "finlandization",
+   "rank": 16,
+   "page_id": 102270,
+   "inserting_rev_ids": [
+    5779929
+   ],
+   "removing_rev_ids": [
+    5785632
+   ],
+   "tier": "reverted",
+   "score": 9.833204,
+   "claim_en": null
+  },
+  {
+   "key": "2147662",
+   "topic_id": "finlandization",
+   "rank": 17,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    2147662
+   ],
+   "removing_rev_ids": [
+    2147664
+   ],
+   "tier": "reverted",
+   "score": 9.819234,
+   "claim_en": null
+  },
+  {
+   "key": "3431495+3431503+3431508+3431509",
+   "topic_id": "finlandization",
+   "rank": 18,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    3431495,
+    3431503,
+    3431508,
+    3431509
+   ],
+   "removing_rev_ids": [
+    3431510
+   ],
+   "tier": "reverted",
+   "score": 9.390242,
+   "claim_en": null
+  },
+  {
+   "key": "16186922",
+   "topic_id": "finlandization",
+   "rank": 19,
+   "page_id": 9564,
+   "inserting_rev_ids": [
+    16186922
+   ],
+   "removing_rev_ids": [
+    16187082
+   ],
+   "tier": "reverted",
+   "score": 9.382746,
+   "claim_en": null
+  },
+  {
+   "key": "16183920+16183946+16183953+16183958+16184000+16185165",
+   "topic_id": "finlandization",
+   "rank": 20,
+   "page_id": 9564,
+   "inserting_rev_ids": [
+    16183920,
+    16183946,
+    16183953,
+    16183958,
+    16184000,
+    16185165
+   ],
+   "removing_rev_ids": [
+    16185568
+   ],
+   "tier": "reverted",
+   "score": 8.918695,
+   "claim_en": null
+  },
+  {
+   "key": "9060934+9060936+9061026",
+   "topic_id": "finlandization",
+   "rank": 21,
+   "page_id": 102270,
+   "inserting_rev_ids": [
+    9060934,
+    9060936,
+    9061026
+   ],
+   "removing_rev_ids": [
+    9061258
+   ],
+   "tier": "reverted",
+   "score": 8.85632,
+   "claim_en": null
+  },
+  {
+   "key": "5789526",
+   "topic_id": "finlandization",
+   "rank": 22,
+   "page_id": 102270,
+   "inserting_rev_ids": [
+    5789526
+   ],
+   "removing_rev_ids": [
+    5789939
+   ],
+   "tier": "reverted",
+   "score": 8.833204,
+   "claim_en": null
+  },
+  {
+   "key": "5790601",
+   "topic_id": "finlandization",
+   "rank": 23,
+   "page_id": 102270,
+   "inserting_rev_ids": [
+    5790601
+   ],
+   "removing_rev_ids": [
+    5790722
+   ],
+   "tier": "reverted",
+   "score": 8.813996,
+   "claim_en": null
+  },
+  {
+   "key": "9092451",
+   "topic_id": "finlandization",
+   "rank": 24,
+   "page_id": 102270,
+   "inserting_rev_ids": [
+    9092451
+   ],
+   "removing_rev_ids": [
+    9092478
+   ],
+   "tier": "reverted",
+   "score": 8.747165,
+   "claim_en": null
+  },
+  {
+   "key": "3568014",
+   "topic_id": "finlandization",
+   "rank": 25,
+   "page_id": 942,
+   "inserting_rev_ids": [
+    3568014
+   ],
+   "removing_rev_ids": [
+    3568015
+   ],
+   "tier": "reverted",
+   "score": 8.607034,
+   "claim_en": null
+  },
+  {
+   "key": "2502004+2502015",
+   "topic_id": "finlandization",
+   "rank": 26,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    2502004,
+    2502015
+   ],
+   "removing_rev_ids": [
+    2502019
+   ],
+   "tier": "reverted",
+   "score": 8.537584,
+   "claim_en": null
+  },
+  {
+   "key": "2502024",
+   "topic_id": "finlandization",
+   "rank": 27,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    2502024
+   ],
+   "removing_rev_ids": [
+    2502032
+   ],
+   "tier": "reverted",
+   "score": 8.535622,
+   "claim_en": null
+  },
+  {
+   "key": "189017+189019+189020",
+   "topic_id": "finlandization",
+   "rank": 28,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    189017,
+    189019,
+    189020
+   ],
+   "removing_rev_ids": [
+    189024
+   ],
+   "tier": "reverted",
+   "score": 8.491875,
+   "claim_en": null
+  },
+  {
+   "key": "16187550",
+   "topic_id": "finlandization",
+   "rank": 30,
+   "page_id": 9564,
+   "inserting_rev_ids": [
+    16187550
+   ],
+   "removing_rev_ids": [
+    16187566
+   ],
+   "tier": "reverted",
+   "score": 8.382746,
+   "claim_en": null
+  },
+  {
+   "key": "7168436",
+   "topic_id": "finlandization",
+   "rank": 31,
+   "page_id": 942,
+   "inserting_rev_ids": [
+    7168436
+   ],
+   "removing_rev_ids": [
+    7169922
+   ],
+   "tier": "reverted",
+   "score": 8.362011,
+   "claim_en": null
+  },
+  {
+   "key": "20421061",
+   "topic_id": "finlandization",
+   "rank": 32,
+   "page_id": 942,
+   "inserting_rev_ids": [
+    20421061
+   ],
+   "removing_rev_ids": [
+    20421062
+   ],
+   "tier": "reverted",
+   "score": 8.223296,
+   "claim_en": null
+  },
+  {
+   "key": "23359071",
+   "topic_id": "finlandization",
+   "rank": 33,
+   "page_id": 1275,
+   "inserting_rev_ids": [
+    23359071
+   ],
+   "removing_rev_ids": [
+    23359110
+   ],
+   "tier": "reverted",
+   "score": 8.175867,
+   "claim_en": null
+  },
+  {
+   "key": "23359964",
+   "topic_id": "finlandization",
+   "rank": 34,
+   "page_id": 1275,
+   "inserting_rev_ids": [
+    23359964
+   ],
+   "removing_rev_ids": [
+    23359979
+   ],
+   "tier": "reverted",
+   "score": 8.175867,
+   "claim_en": null
+  },
+  {
+   "key": "23358901",
+   "topic_id": "finlandization",
+   "rank": 35,
+   "page_id": 1275,
+   "inserting_rev_ids": [
+    23358901
+   ],
+   "removing_rev_ids": [
+    23358930
+   ],
+   "tier": "reverted",
+   "score": 8.175867,
+   "claim_en": null
+  },
+  {
+   "key": "21988568",
+   "topic_id": "finlandization",
+   "rank": 36,
+   "page_id": 1275,
+   "inserting_rev_ids": [
+    21988568
+   ],
+   "removing_rev_ids": [
+    21988912
+   ],
+   "tier": "reverted",
+   "score": 8.173786,
+   "claim_en": null
+  },
+  {
+   "key": "21988966",
+   "topic_id": "finlandization",
+   "rank": 37,
+   "page_id": 1275,
+   "inserting_rev_ids": [
+    21988966
+   ],
+   "removing_rev_ids": [
+    21989174
+   ],
+   "tier": "reverted",
+   "score": 8.173786,
+   "claim_en": null
+  },
+  {
+   "key": "15216142",
+   "topic_id": "finlandization",
+   "rank": 38,
+   "page_id": 1275,
+   "inserting_rev_ids": [
+    15216142
+   ],
+   "removing_rev_ids": [
+    15217934
+   ],
+   "tier": "reverted",
+   "score": 8.118097,
+   "claim_en": null
+  },
+  {
+   "key": "10323762",
+   "topic_id": "finlandization",
+   "rank": 39,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    10323762
+   ],
+   "removing_rev_ids": [
+    10323764
+   ],
+   "tier": "reverted",
+   "score": 8.091015,
+   "claim_en": null
+  },
+  {
+   "key": "21613258+21613267+21613269+21613273+21613290",
+   "topic_id": "finlandization",
+   "rank": 40,
+   "page_id": 942,
+   "inserting_rev_ids": [
+    21613258,
+    21613267,
+    21613269,
+    21613273,
+    21613290
+   ],
+   "removing_rev_ids": [
+    21613317
+   ],
+   "tier": "reverted",
+   "score": 8.079184,
+   "claim_en": null
+  },
+  {
+   "key": "4600757",
+   "topic_id": "finlandization",
+   "rank": 41,
+   "page_id": 9564,
+   "inserting_rev_ids": [
+    4600757
+   ],
+   "removing_rev_ids": [
+    4601731
+   ],
+   "tier": "reverted",
+   "score": 8.008813,
+   "claim_en": null
+  },
+  {
+   "key": "4601926",
+   "topic_id": "finlandization",
+   "rank": 42,
+   "page_id": 9564,
+   "inserting_rev_ids": [
+    4601926
+   ],
+   "removing_rev_ids": [
+    4601954
+   ],
+   "tier": "reverted",
+   "score": 8.008813,
+   "claim_en": null
+  },
+  {
+   "key": "196315+196317+196320",
+   "topic_id": "finlandization",
+   "rank": 43,
+   "page_id": 1187,
+   "inserting_rev_ids": [
+    196315,
+    196317,
+    196320
+   ],
+   "removing_rev_ids": [
+    208905
+   ],
+   "tier": "reverted",
+   "score": 7.981392,
+   "claim_en": null
+  },
+  {
+   "key": "16186385",
+   "topic_id": "finlandization",
+   "rank": 44,
+   "page_id": 9564,
+   "inserting_rev_ids": [
+    16186385
+   ],
+   "removing_rev_ids": [
+    16186585
+   ],
+   "tier": "reverted",
+   "score": 7.918695,
+   "claim_en": null
+  },
+  {
+   "key": "11297682+11297690",
+   "topic_id": "finlandization",
+   "rank": 45,
+   "page_id": 102270,
+   "inserting_rev_ids": [
+    11297682,
+    11297690
+   ],
+   "removing_rev_ids": [
+    11297708
+   ],
+   "tier": "reverted",
+   "score": 7.834811,
+   "claim_en": null
+  },
+  {
+   "key": "11298751",
+   "topic_id": "finlandization",
+   "rank": 46,
+   "page_id": 102270,
+   "inserting_rev_ids": [
+    11298751
+   ],
+   "removing_rev_ids": [
+    11298771
+   ],
+   "tier": "reverted",
+   "score": 7.834811,
+   "claim_en": null
+  },
+  {
+   "key": "11298727",
+   "topic_id": "finlandization",
+   "rank": 47,
+   "page_id": 102270,
+   "inserting_rev_ids": [
+    11298727
+   ],
+   "removing_rev_ids": [
+    11298731
+   ],
+   "tier": "reverted",
+   "score": 7.834811,
+   "claim_en": null
+  },
+  {
+   "key": "11297664+11297670+11297688",
+   "topic_id": "finlandization",
+   "rank": 48,
+   "page_id": 69647,
+   "inserting_rev_ids": [
+    11297664,
+    11297670,
+    11297688
+   ],
+   "removing_rev_ids": [
+    11297709
+   ],
+   "tier": "reverted",
+   "score": 7.826,
+   "claim_en": null
+  },
+  {
+   "key": "11300013",
+   "topic_id": "finlandization",
+   "rank": 49,
+   "page_id": 69647,
+   "inserting_rev_ids": [
+    11300013
+   ],
+   "removing_rev_ids": [
+    11300053
+   ],
+   "tier": "reverted",
+   "score": 7.826,
+   "claim_en": null
+  },
+  {
+   "key": "11299879",
+   "topic_id": "finlandization",
+   "rank": 50,
+   "page_id": 69647,
+   "inserting_rev_ids": [
+    11299879
+   ],
+   "removing_rev_ids": [
+    11299902
+   ],
+   "tier": "reverted",
+   "score": 7.826,
+   "claim_en": null
+  },
+  {
+   "key": "4138272+4138275+4138285+4138295+4138296",
+   "topic_id": "austerity-politics",
+   "rank": 1,
+   "page_id": 795,
+   "inserting_rev_ids": [
+    4138272,
+    4138275,
+    4138285,
+    4138295,
+    4138296
+   ],
+   "removing_rev_ids": [
+    4138297
+   ],
+   "tier": "reverted",
+   "score": 13.485169,
+   "claim_en": null
+  },
+  {
+   "key": "2697734",
+   "topic_id": "austerity-politics",
+   "rank": 2,
+   "page_id": 334921,
+   "inserting_rev_ids": [
+    2697734
+   ],
+   "removing_rev_ids": [
+    2697735
+   ],
+   "tier": "reverted",
+   "score": 13.376199,
+   "claim_en": null
+  },
+  {
+   "key": "20245251",
+   "topic_id": "austerity-politics",
+   "rank": 3,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    20245251
+   ],
+   "removing_rev_ids": [
+    20245252
+   ],
+   "tier": "reverted",
+   "score": 12.310775,
+   "claim_en": null
+  },
+  {
+   "key": "20245244",
+   "topic_id": "austerity-politics",
+   "rank": 4,
+   "page_id": 43887,
+   "inserting_rev_ids": [
+    20245244
+   ],
+   "removing_rev_ids": [
+    20245245
+   ],
+   "tier": "reverted",
+   "score": 10.444968,
+   "claim_en": null
+  },
+  {
+   "key": "4421463+4421468",
+   "topic_id": "austerity-politics",
+   "rank": 5,
+   "page_id": 12639,
+   "inserting_rev_ids": [
+    4421463,
+    4421468
+   ],
+   "removing_rev_ids": [
+    4421473
+   ],
+   "tier": "reverted",
+   "score": 9.59287,
+   "claim_en": null
+  },
+  {
+   "key": "15366459",
+   "topic_id": "austerity-politics",
+   "rank": 6,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    15366459
+   ],
+   "removing_rev_ids": [
+    15366479
+   ],
+   "tier": "reverted",
+   "score": 9.524561,
+   "claim_en": null
+  },
+  {
+   "key": "6246810",
+   "topic_id": "austerity-politics",
+   "rank": 7,
+   "page_id": 9059,
+   "inserting_rev_ids": [
+    6246810
+   ],
+   "removing_rev_ids": [
+    6247001
+   ],
+   "tier": "reverted",
+   "score": 9.502738,
+   "claim_en": null
+  },
+  {
+   "key": "6246671+6246724+6246727+6246732",
+   "topic_id": "austerity-politics",
+   "rank": 8,
+   "page_id": 9059,
+   "inserting_rev_ids": [
+    6246671,
+    6246724,
+    6246727,
+    6246732
+   ],
+   "removing_rev_ids": [
+    6246765
+   ],
+   "tier": "reverted",
+   "score": 9.502738,
+   "claim_en": null
+  },
+  {
+   "key": "14015083",
+   "topic_id": "austerity-politics",
+   "rank": 9,
+   "page_id": 1141935,
+   "inserting_rev_ids": [
+    14015083
+   ],
+   "removing_rev_ids": [
+    14015088
+   ],
+   "tier": "reverted",
+   "score": 9.483807,
+   "claim_en": null
+  },
+  {
+   "key": "13984088+14015046",
+   "topic_id": "austerity-politics",
+   "rank": 10,
+   "page_id": 1141935,
+   "inserting_rev_ids": [
+    13984088,
+    14015046
+   ],
+   "removing_rev_ids": [
+    14015053
+   ],
+   "tier": "reverted",
+   "score": 9.410952,
+   "claim_en": null
+  },
+  {
+   "key": "14775257+14775269+14775285+14775369+14775372+14775373+14775375+14775383",
+   "topic_id": "austerity-politics",
+   "rank": 11,
+   "page_id": 10858,
+   "inserting_rev_ids": [
+    14775257,
+    14775269,
+    14775285,
+    14775369,
+    14775372,
+    14775373,
+    14775375,
+    14775383
+   ],
+   "removing_rev_ids": [
+    14775517
+   ],
+   "tier": "reverted",
+   "score": 9.322637,
+   "claim_en": null
+  },
+  {
+   "key": "677399",
+   "topic_id": "austerity-politics",
+   "rank": 12,
+   "page_id": 795,
+   "inserting_rev_ids": [
+    677399
+   ],
+   "removing_rev_ids": [
+    677745
+   ],
+   "tier": "reverted",
+   "score": 9.149917,
+   "claim_en": null
+  },
+  {
+   "key": "17568765",
+   "topic_id": "austerity-politics",
+   "rank": 13,
+   "page_id": 1141935,
+   "inserting_rev_ids": [
+    17568765
+   ],
+   "removing_rev_ids": [
+    17568770
+   ],
+   "tier": "reverted",
+   "score": 9.131405,
+   "claim_en": null
+  },
+  {
+   "key": "18776753",
+   "topic_id": "austerity-politics",
+   "rank": 15,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    18776753
+   ],
+   "removing_rev_ids": [
+    18776756
+   ],
+   "tier": "reverted",
+   "score": 9.054388,
+   "claim_en": null
+  },
+  {
+   "key": "4383338",
+   "topic_id": "austerity-politics",
+   "rank": 16,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    4383338
+   ],
+   "removing_rev_ids": [
+    4383343
+   ],
+   "tier": "reverted",
+   "score": 8.969791,
+   "claim_en": null
+  },
+  {
+   "key": "6255415",
+   "topic_id": "austerity-politics",
+   "rank": 17,
+   "page_id": 9059,
+   "inserting_rev_ids": [
+    6255415
+   ],
+   "removing_rev_ids": [
+    6255424
+   ],
+   "tier": "reverted",
+   "score": 8.902857,
+   "claim_en": null
+  },
+  {
+   "key": "20223683",
+   "topic_id": "austerity-politics",
+   "rank": 18,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    20223683
+   ],
+   "removing_rev_ids": [
+    20223718
+   ],
+   "tier": "reverted",
+   "score": 8.873978,
+   "claim_en": null
+  },
+  {
+   "key": "17027354+17027360+17027366+17027373",
+   "topic_id": "austerity-politics",
+   "rank": 19,
+   "page_id": 1261018,
+   "inserting_rev_ids": [
+    17027354,
+    17027360,
+    17027366,
+    17027373
+   ],
+   "removing_rev_ids": [
+    17028584
+   ],
+   "tier": "reverted",
+   "score": 8.798113,
+   "claim_en": null
+  },
+  {
+   "key": "6270112",
+   "topic_id": "austerity-politics",
+   "rank": 22,
+   "page_id": 12639,
+   "inserting_rev_ids": [
+    6270112
+   ],
+   "removing_rev_ids": [
+    6270730
+   ],
+   "tier": "reverted",
+   "score": 8.570883,
+   "claim_en": null
+  },
+  {
+   "key": "15366537",
+   "topic_id": "austerity-politics",
+   "rank": 23,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    15366537
+   ],
+   "removing_rev_ids": [
+    15366577
+   ],
+   "tier": "reverted",
+   "score": 8.524561,
+   "claim_en": null
+  },
+  {
+   "key": "14015096",
+   "topic_id": "austerity-politics",
+   "rank": 26,
+   "page_id": 1141935,
+   "inserting_rev_ids": [
+    14015096
+   ],
+   "removing_rev_ids": [
+    14015126
+   ],
+   "tier": "reverted",
+   "score": 8.483807,
+   "claim_en": null
+  },
+  {
+   "key": "13642811",
+   "topic_id": "austerity-politics",
+   "rank": 27,
+   "page_id": 940826,
+   "inserting_rev_ids": [
+    13642811
+   ],
+   "removing_rev_ids": [
+    13643135
+   ],
+   "tier": "reverted",
+   "score": 8.383507,
+   "claim_en": null
+  },
+  {
+   "key": "7947941+7947945+7947974",
+   "topic_id": "austerity-politics",
+   "rank": 28,
+   "page_id": 795,
+   "inserting_rev_ids": [
+    7947941,
+    7947945,
+    7947974
+   ],
+   "removing_rev_ids": [
+    7948103
+   ],
+   "tier": "reverted",
+   "score": 8.368187,
+   "claim_en": null
+  },
+  {
+   "key": "14128922",
+   "topic_id": "austerity-politics",
+   "rank": 29,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    14128922
+   ],
+   "removing_rev_ids": [
+    14129041
+   ],
+   "tier": "reverted",
+   "score": 8.359574,
+   "claim_en": null
+  },
+  {
+   "key": "10054736",
+   "topic_id": "austerity-politics",
+   "rank": 30,
+   "page_id": 334921,
+   "inserting_rev_ids": [
+    10054736
+   ],
+   "removing_rev_ids": [
+    10054750
+   ],
+   "tier": "reverted",
+   "score": 8.353722,
+   "claim_en": null
+  },
+  {
+   "key": "16795078+16795115",
+   "topic_id": "austerity-politics",
+   "rank": 31,
+   "page_id": 1261018,
+   "inserting_rev_ids": [
+    16795078,
+    16795115
+   ],
+   "removing_rev_ids": [
+    16795126
+   ],
+   "tier": "reverted",
+   "score": 8.286876,
+   "claim_en": null
+  },
+  {
+   "key": "6694713",
+   "topic_id": "austerity-politics",
+   "rank": 32,
+   "page_id": 795,
+   "inserting_rev_ids": [
+    6694713
+   ],
+   "removing_rev_ids": [
+    6694719
+   ],
+   "tier": "reverted",
+   "score": 8.278521,
+   "claim_en": null
+  },
+  {
+   "key": "20071156",
+   "topic_id": "austerity-politics",
+   "rank": 33,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    20071156
+   ],
+   "removing_rev_ids": [
+    20071168
+   ],
+   "tier": "reverted",
+   "score": 8.252762,
+   "claim_en": null
+  },
+  {
+   "key": "20040932",
+   "topic_id": "austerity-politics",
+   "rank": 34,
+   "page_id": 1261018,
+   "inserting_rev_ids": [
+    20040932
+   ],
+   "removing_rev_ids": [
+    20040954
+   ],
+   "tier": "reverted",
+   "score": 8.128496,
+   "claim_en": null
+  },
+  {
+   "key": "20773640",
+   "topic_id": "austerity-politics",
+   "rank": 35,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    20773640
+   ],
+   "removing_rev_ids": [
+    20773657
+   ],
+   "tier": "reverted",
+   "score": 8.078342,
+   "claim_en": null
+  },
+  {
+   "key": "15576259",
+   "topic_id": "austerity-politics",
+   "rank": 37,
+   "page_id": 1261018,
+   "inserting_rev_ids": [
+    15576259
+   ],
+   "removing_rev_ids": [
+    15576531
+   ],
+   "tier": "reverted",
+   "score": 8.021023,
+   "claim_en": null
+  },
+  {
+   "key": "16795196+16795246+16795266+16795280",
+   "topic_id": "austerity-politics",
+   "rank": 38,
+   "page_id": 926229,
+   "inserting_rev_ids": [
+    16795196,
+    16795246,
+    16795266,
+    16795280
+   ],
+   "removing_rev_ids": [
+    16795301
+   ],
+   "tier": "reverted",
+   "score": 8.003065,
+   "claim_en": null
+  },
+  {
+   "key": "14737580",
+   "topic_id": "austerity-politics",
+   "rank": 39,
+   "page_id": 856829,
+   "inserting_rev_ids": [
+    14737580
+   ],
+   "removing_rev_ids": [
+    14737629
+   ],
+   "tier": "reverted",
+   "score": 7.976351,
+   "claim_en": null
+  },
+  {
+   "key": "15583789+15583795",
+   "topic_id": "austerity-politics",
+   "rank": 40,
+   "page_id": 1261018,
+   "inserting_rev_ids": [
+    15583789,
+    15583795
+   ],
+   "removing_rev_ids": [
+    15584640
+   ],
+   "tier": "reverted",
+   "score": 7.859615,
+   "claim_en": null
+  },
+  {
+   "key": "23781880",
+   "topic_id": "austerity-politics",
+   "rank": 41,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    23781880
+   ],
+   "removing_rev_ids": [
+    23781887
+   ],
+   "tier": "reverted",
+   "score": 7.853216,
+   "claim_en": null
+  },
+  {
+   "key": "15217950",
+   "topic_id": "austerity-politics",
+   "rank": 42,
+   "page_id": 11396,
+   "inserting_rev_ids": [
+    15217950
+   ],
+   "removing_rev_ids": [
+    15217951
+   ],
+   "tier": "reverted",
+   "score": 7.843456,
+   "claim_en": null
+  },
+  {
+   "key": "15710156+15710181",
+   "topic_id": "austerity-politics",
+   "rank": 43,
+   "page_id": 926229,
+   "inserting_rev_ids": [
+    15710156,
+    15710181
+   ],
+   "removing_rev_ids": [
+    15710186
+   ],
+   "tier": "reverted",
+   "score": 7.829794,
+   "claim_en": null
+  },
+  {
+   "key": "14562722",
+   "topic_id": "austerity-politics",
+   "rank": 44,
+   "page_id": 856829,
+   "inserting_rev_ids": [
+    14562722
+   ],
+   "removing_rev_ids": [
+    14562742
+   ],
+   "tier": "reverted",
+   "score": 7.786897,
+   "claim_en": null
+  },
+  {
+   "key": "14562696",
+   "topic_id": "austerity-politics",
+   "rank": 45,
+   "page_id": 856829,
+   "inserting_rev_ids": [
+    14562696
+   ],
+   "removing_rev_ids": [
+    14562701
+   ],
+   "tier": "reverted",
+   "score": 7.786897,
+   "claim_en": null
+  },
+  {
+   "key": "16752981",
+   "topic_id": "austerity-politics",
+   "rank": 46,
+   "page_id": 1261018,
+   "inserting_rev_ids": [
+    16752981
+   ],
+   "removing_rev_ids": [
+    16753019
+   ],
+   "tier": "reverted",
+   "score": 7.784457,
+   "claim_en": null
+  },
+  {
+   "key": "15696553",
+   "topic_id": "austerity-politics",
+   "rank": 48,
+   "page_id": 1261018,
+   "inserting_rev_ids": [
+    15696553
+   ],
+   "removing_rev_ids": [
+    15701232
+   ],
+   "tier": "reverted",
+   "score": 7.759614,
+   "claim_en": null
+  },
+  {
+   "key": "15695989+15695996",
+   "topic_id": "austerity-politics",
+   "rank": 49,
+   "page_id": 926229,
+   "inserting_rev_ids": [
+    15695989,
+    15695996
+   ],
+   "removing_rev_ids": [
+    15696036
+   ],
+   "tier": "reverted",
+   "score": 7.747597,
+   "claim_en": null
+  },
+  {
+   "key": "19123303+19123324",
+   "topic_id": "covid-19-finland",
+   "rank": 1,
+   "page_id": 1577934,
+   "inserting_rev_ids": [
+    19123303,
+    19123324
+   ],
+   "removing_rev_ids": [
+    19123537
+   ],
+   "tier": "reverted",
+   "score": 9.506042,
+   "claim_en": null
+  },
+  {
+   "key": "23130582+23130600+23130871+23130918+23130968+23132737+23132922+23142438",
+   "topic_id": "covid-19-finland",
+   "rank": 2,
+   "page_id": 1650988,
+   "inserting_rev_ids": [
+    23130582,
+    23130600,
+    23130871,
+    23130918,
+    23130968,
+    23132737,
+    23132922,
+    23142438
+   ],
+   "removing_rev_ids": [
+    23143812
+   ],
+   "tier": "reverted",
+   "score": 9.303843,
+   "claim_en": null
+  },
+  {
+   "key": "18776753",
+   "topic_id": "covid-19-finland",
+   "rank": 3,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    18776753
+   ],
+   "removing_rev_ids": [
+    18776756
+   ],
+   "tier": "reverted",
+   "score": 9.054388,
+   "claim_en": null
+  },
+  {
+   "key": "20223683",
+   "topic_id": "covid-19-finland",
+   "rank": 4,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    20223683
+   ],
+   "removing_rev_ids": [
+    20223718
+   ],
+   "tier": "reverted",
+   "score": 8.873978,
+   "claim_en": null
+  },
+  {
+   "key": "18960370+18960397",
+   "topic_id": "covid-19-finland",
+   "rank": 5,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    18960370,
+    18960397
+   ],
+   "removing_rev_ids": [
+    18960401
+   ],
+   "tier": "reverted",
+   "score": 8.534444,
+   "claim_en": null
+  },
+  {
+   "key": "18923570+18923995+18923997",
+   "topic_id": "covid-19-finland",
+   "rank": 7,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    18923570,
+    18923995,
+    18923997
+   ],
+   "removing_rev_ids": [
+    18924069
+   ],
+   "tier": "reverted",
+   "score": 8.493754,
+   "claim_en": null
+  },
+  {
+   "key": "18924189",
+   "topic_id": "covid-19-finland",
+   "rank": 8,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    18924189
+   ],
+   "removing_rev_ids": [
+    18924193
+   ],
+   "tier": "reverted",
+   "score": 8.490724,
+   "claim_en": null
+  },
+  {
+   "key": "20071156",
+   "topic_id": "covid-19-finland",
+   "rank": 9,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    20071156
+   ],
+   "removing_rev_ids": [
+    20071168
+   ],
+   "tier": "reverted",
+   "score": 8.252762,
+   "claim_en": null
+  },
+  {
+   "key": "20773640",
+   "topic_id": "covid-19-finland",
+   "rank": 11,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    20773640
+   ],
+   "removing_rev_ids": [
+    20773657
+   ],
+   "tier": "reverted",
+   "score": 8.078342,
+   "claim_en": null
+  },
+  {
+   "key": "19055443",
+   "topic_id": "covid-19-finland",
+   "rank": 13,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    19055443
+   ],
+   "removing_rev_ids": [
+    19055448
+   ],
+   "tier": "reverted",
+   "score": 7.934513,
+   "claim_en": null
+  },
+  {
+   "key": "20053992",
+   "topic_id": "covid-19-finland",
+   "rank": 14,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    20053992
+   ],
+   "removing_rev_ids": [
+    20054015
+   ],
+   "tier": "reverted",
+   "score": 7.802395,
+   "claim_en": null
+  },
+  {
+   "key": "19182101+19182634+19182641+19182699",
+   "topic_id": "covid-19-finland",
+   "rank": 15,
+   "page_id": 1577934,
+   "inserting_rev_ids": [
+    19182101,
+    19182634,
+    19182641,
+    19182699
+   ],
+   "removing_rev_ids": [
+    19183042
+   ],
+   "tier": "reverted",
+   "score": 7.78904,
+   "claim_en": null
+  },
+  {
+   "key": "20054098",
+   "topic_id": "covid-19-finland",
+   "rank": 16,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    20054098
+   ],
+   "removing_rev_ids": [
+    20054100
+   ],
+   "tier": "reverted",
+   "score": 7.763885,
+   "claim_en": null
+  },
+  {
+   "key": "19635477+19635480",
+   "topic_id": "covid-19-finland",
+   "rank": 17,
+   "page_id": 1549479,
+   "inserting_rev_ids": [
+    19635477,
+    19635480
+   ],
+   "removing_rev_ids": [
+    19635487
+   ],
+   "tier": "reverted",
+   "score": 7.725034,
+   "claim_en": null
+  },
+  {
+   "key": "19634982",
+   "topic_id": "covid-19-finland",
+   "rank": 18,
+   "page_id": 1549479,
+   "inserting_rev_ids": [
+    19634982
+   ],
+   "removing_rev_ids": [
+    19634984
+   ],
+   "tier": "reverted",
+   "score": 7.719013,
+   "claim_en": null
+  },
+  {
+   "key": "18960309+18962379+18962408+18962424",
+   "topic_id": "covid-19-finland",
+   "rank": 19,
+   "page_id": 1577930,
+   "inserting_rev_ids": [
+    18960309,
+    18962379,
+    18962408,
+    18962424
+   ],
+   "removing_rev_ids": [
+    18962572
+   ],
+   "tier": "reverted",
+   "score": 7.578657,
+   "claim_en": null
+  },
+  {
+   "key": "18947276+18947283+18947562+18947600+18948843",
+   "topic_id": "covid-19-finland",
+   "rank": 20,
+   "page_id": 1577657,
+   "inserting_rev_ids": [
+    18947276,
+    18947283,
+    18947562,
+    18947600,
+    18948843
+   ],
+   "removing_rev_ids": [
+    18949021
+   ],
+   "tier": "reverted",
+   "score": 7.4708,
+   "claim_en": null
+  },
+  {
+   "key": "21567539+21567581",
+   "topic_id": "covid-19-finland",
+   "rank": 21,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    21567539,
+    21567581
+   ],
+   "removing_rev_ids": [
+    21567657
+   ],
+   "tier": "reverted",
+   "score": 7.455199,
+   "claim_en": null
+  },
+  {
+   "key": "23567601",
+   "topic_id": "covid-19-finland",
+   "rank": 22,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    23567601
+   ],
+   "removing_rev_ids": [
+    23567608
+   ],
+   "tier": "reverted",
+   "score": 7.349231,
+   "claim_en": null
+  },
+  {
+   "key": "18782599+18782604+18782606+18782618+18782643+18782656",
+   "topic_id": "covid-19-finland",
+   "rank": 23,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    18782599,
+    18782604,
+    18782606,
+    18782618,
+    18782643,
+    18782656
+   ],
+   "removing_rev_ids": [
+    18782777
+   ],
+   "tier": "reverted",
+   "score": 7.303843,
+   "claim_en": null
+  },
+  {
+   "key": "20259914",
+   "topic_id": "covid-19-finland",
+   "rank": 24,
+   "page_id": 1549479,
+   "inserting_rev_ids": [
+    20259914
+   ],
+   "removing_rev_ids": [
+    20260187
+   ],
+   "tier": "reverted",
+   "score": 7.297109,
+   "claim_en": null
+  },
+  {
+   "key": "20154527+20154609",
+   "topic_id": "covid-19-finland",
+   "rank": 25,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    20154527,
+    20154609
+   ],
+   "removing_rev_ids": [
+    20154774
+   ],
+   "tier": "reverted",
+   "score": 7.269096,
+   "claim_en": null
+  },
+  {
+   "key": "18922764",
+   "topic_id": "covid-19-finland",
+   "rank": 28,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    18922764
+   ],
+   "removing_rev_ids": [
+    18922784
+   ],
+   "tier": "reverted",
+   "score": 7.023881,
+   "claim_en": null
+  },
+  {
+   "key": "18586661",
+   "topic_id": "covid-19-finland",
+   "rank": 30,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    18586661
+   ],
+   "removing_rev_ids": [
+    18586731
+   ],
+   "tier": "reverted",
+   "score": 6.998937,
+   "claim_en": null
+  },
+  {
+   "key": "18825755",
+   "topic_id": "covid-19-finland",
+   "rank": 31,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    18825755
+   ],
+   "removing_rev_ids": [
+    18825816
+   ],
+   "tier": "reverted",
+   "score": 6.934397,
+   "claim_en": null
+  },
+  {
+   "key": "18946534",
+   "topic_id": "covid-19-finland",
+   "rank": 32,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    18946534
+   ],
+   "removing_rev_ids": [
+    18946604
+   ],
+   "tier": "reverted",
+   "score": 6.892642,
+   "claim_en": null
+  },
+  {
+   "key": "20745400",
+   "topic_id": "covid-19-finland",
+   "rank": 33,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    20745400
+   ],
+   "removing_rev_ids": [
+    20745406
+   ],
+   "tier": "reverted",
+   "score": 6.882437,
+   "claim_en": null
+  },
+  {
+   "key": "20698217",
+   "topic_id": "covid-19-finland",
+   "rank": 35,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    20698217
+   ],
+   "removing_rev_ids": [
+    20698244
+   ],
+   "tier": "reverted",
+   "score": 6.779123,
+   "claim_en": null
+  },
+  {
+   "key": "18831926",
+   "topic_id": "covid-19-finland",
+   "rank": 36,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    18831926
+   ],
+   "removing_rev_ids": [
+    18832052
+   ],
+   "tier": "reverted",
+   "score": 6.749931,
+   "claim_en": null
+  },
+  {
+   "key": "19283569",
+   "topic_id": "covid-19-finland",
+   "rank": 37,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    19283569
+   ],
+   "removing_rev_ids": [
+    19283577
+   ],
+   "tier": "reverted",
+   "score": 6.70953,
+   "claim_en": null
+  },
+  {
+   "key": "19344687",
+   "topic_id": "covid-19-finland",
+   "rank": 38,
+   "page_id": 1577934,
+   "inserting_rev_ids": [
+    19344687
+   ],
+   "removing_rev_ids": [
+    19345268
+   ],
+   "tier": "reverted",
+   "score": 6.675823,
+   "claim_en": null
+  },
+  {
+   "key": "22022750",
+   "topic_id": "covid-19-finland",
+   "rank": 39,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    22022750
+   ],
+   "removing_rev_ids": [
+    22022853
+   ],
+   "tier": "reverted",
+   "score": 6.66296,
+   "claim_en": null
+  },
+  {
+   "key": "19064838",
+   "topic_id": "covid-19-finland",
+   "rank": 40,
+   "page_id": 1577934,
+   "inserting_rev_ids": [
+    19064838
+   ],
+   "removing_rev_ids": [
+    19064848
+   ],
+   "tier": "reverted",
+   "score": 6.617403,
+   "claim_en": null
+  },
+  {
+   "key": "18902450",
+   "topic_id": "covid-19-finland",
+   "rank": 41,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    18902450
+   ],
+   "removing_rev_ids": [
+    18902500
+   ],
+   "tier": "reverted",
+   "score": 6.46925,
+   "claim_en": null
+  },
+  {
+   "key": "19020694",
+   "topic_id": "covid-19-finland",
+   "rank": 42,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    19020694
+   ],
+   "removing_rev_ids": [
+    19020811
+   ],
+   "tier": "reverted",
+   "score": 6.447306,
+   "claim_en": null
+  },
+  {
+   "key": "19356461",
+   "topic_id": "covid-19-finland",
+   "rank": 43,
+   "page_id": 1577934,
+   "inserting_rev_ids": [
+    19356461
+   ],
+   "removing_rev_ids": [
+    19356504
+   ],
+   "tier": "reverted",
+   "score": 6.424869,
+   "claim_en": null
+  },
+  {
+   "key": "20744662",
+   "topic_id": "covid-19-finland",
+   "rank": 44,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    20744662
+   ],
+   "removing_rev_ids": [
+    20744667
+   ],
+   "tier": "reverted",
+   "score": 6.423247,
+   "claim_en": null
+  },
+  {
+   "key": "22243000",
+   "topic_id": "covid-19-finland",
+   "rank": 45,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    22243000
+   ],
+   "removing_rev_ids": [
+    22243010
+   ],
+   "tier": "reverted",
+   "score": 6.342121,
+   "claim_en": null
+  },
+  {
+   "key": "18821578",
+   "topic_id": "covid-19-finland",
+   "rank": 46,
+   "page_id": 1562418,
+   "inserting_rev_ids": [
+    18821578
+   ],
+   "removing_rev_ids": [
+    18821686
+   ],
+   "tier": "reverted",
+   "score": 6.340359,
+   "claim_en": null
+  },
+  {
+   "key": "18978035",
+   "topic_id": "covid-19-finland",
+   "rank": 47,
+   "page_id": 1577934,
+   "inserting_rev_ids": [
+    18978035
+   ],
+   "removing_rev_ids": [
+    18978073
+   ],
+   "tier": "reverted",
+   "score": 6.287859,
+   "claim_en": null
+  },
+  {
+   "key": "19362346",
+   "topic_id": "covid-19-finland",
+   "rank": 48,
+   "page_id": 1121620,
+   "inserting_rev_ids": [
+    19362346
+   ],
+   "removing_rev_ids": [
+    19362348
+   ],
+   "tier": "reverted",
+   "score": 6.242223,
+   "claim_en": null
+  },
+  {
+   "key": "19739374",
+   "topic_id": "covid-19-finland",
+   "rank": 49,
+   "page_id": 1549479,
+   "inserting_rev_ids": [
+    19739374
+   ],
+   "removing_rev_ids": [
+    19739378
+   ],
+   "tier": "reverted",
+   "score": 6.22059,
+   "claim_en": null
+  },
+  {
+   "key": "19829150",
+   "topic_id": "covid-19-finland",
+   "rank": 50,
+   "page_id": 1427910,
+   "inserting_rev_ids": [
+    19829150
+   ],
+   "removing_rev_ids": [
+    19829156
+   ],
+   "tier": "reverted",
+   "score": 6.158883,
+   "claim_en": null
+  },
+  {
+   "key": "11003362+11003368+11003371",
+   "topic_id": "russification-independence",
+   "rank": 8,
+   "page_id": 96542,
+   "inserting_rev_ids": [
+    11003362,
+    11003368,
+    11003371
+   ],
+   "removing_rev_ids": [
+    11003380
+   ],
+   "tier": "reverted",
+   "score": 7.697093,
+   "claim_en": null
+  },
+  {
+   "key": "6179634",
+   "topic_id": "russification-independence",
+   "rank": 9,
+   "page_id": 6944,
+   "inserting_rev_ids": [
+    6179634
+   ],
+   "removing_rev_ids": [
+    6179647
+   ],
+   "tier": "reverted",
+   "score": 7.665684,
+   "claim_en": null
+  },
+  {
+   "key": "14502315+14502466",
+   "topic_id": "russification-independence",
+   "rank": 10,
+   "page_id": 6944,
+   "inserting_rev_ids": [
+    14502315,
+    14502466
+   ],
+   "removing_rev_ids": [
+    14502470
+   ],
+   "tier": "reverted",
+   "score": 7.338594,
+   "claim_en": null
+  },
+  {
+   "key": "16109026",
+   "topic_id": "russification-independence",
+   "rank": 11,
+   "page_id": 162670,
+   "inserting_rev_ids": [
+    16109026
+   ],
+   "removing_rev_ids": [
+    16109138
+   ],
+   "tier": "reverted",
+   "score": 7.220356,
+   "claim_en": null
+  },
+  {
+   "key": "9169023+9169028",
+   "topic_id": "russification-independence",
+   "rank": 12,
+   "page_id": 6944,
+   "inserting_rev_ids": [
+    9169023,
+    9169028
+   ],
+   "removing_rev_ids": [
+    9169512
+   ],
+   "tier": "reverted",
+   "score": 6.770685,
+   "claim_en": null
+  },
+  {
+   "key": "15330325+15330343+15330344",
+   "topic_id": "russification-independence",
+   "rank": 13,
+   "page_id": 162670,
+   "inserting_rev_ids": [
+    15330325,
+    15330343,
+    15330344
+   ],
+   "removing_rev_ids": [
+    15335080
+   ],
+   "tier": "reverted",
+   "score": 6.720312,
+   "claim_en": null
+  },
+  {
+   "key": "8319751",
+   "topic_id": "russification-independence",
+   "rank": 14,
+   "page_id": 137931,
+   "inserting_rev_ids": [
+    8319751
+   ],
+   "removing_rev_ids": [
+    8319886
+   ],
+   "tier": "reverted",
+   "score": 6.645091,
+   "claim_en": null
+  },
+  {
+   "key": "4452814",
+   "topic_id": "russification-independence",
+   "rank": 15,
+   "page_id": 11113,
+   "inserting_rev_ids": [
+    4452814
+   ],
+   "removing_rev_ids": [
+    4452925
+   ],
+   "tier": "reverted",
+   "score": 6.60517,
+   "claim_en": null
+  },
+  {
+   "key": "18355203",
+   "topic_id": "russification-independence",
+   "rank": 18,
+   "page_id": 96542,
+   "inserting_rev_ids": [
+    18355203
+   ],
+   "removing_rev_ids": [
+    18355481
+   ],
+   "tier": "reverted",
+   "score": 6.543295,
+   "claim_en": null
+  },
+  {
+   "key": "18343307",
+   "topic_id": "russification-independence",
+   "rank": 22,
+   "page_id": 96542,
+   "inserting_rev_ids": [
+    18343307
+   ],
+   "removing_rev_ids": [
+    18343483
+   ],
+   "tier": "reverted",
+   "score": 6.543295,
+   "claim_en": null
+  },
+  {
+   "key": "18355095",
+   "topic_id": "russification-independence",
+   "rank": 23,
+   "page_id": 96542,
+   "inserting_rev_ids": [
+    18355095
+   ],
+   "removing_rev_ids": [
+    18355132
+   ],
+   "tier": "reverted",
+   "score": 6.543295,
+   "claim_en": null
+  },
+  {
+   "key": "18341274",
+   "topic_id": "russification-independence",
+   "rank": 24,
+   "page_id": 96542,
+   "inserting_rev_ids": [
+    18341274
+   ],
+   "removing_rev_ids": [
+    18341328
+   ],
+   "tier": "reverted",
+   "score": 6.543295,
+   "claim_en": null
+  },
+  {
+   "key": "16092460",
+   "topic_id": "russification-independence",
+   "rank": 25,
+   "page_id": 6944,
+   "inserting_rev_ids": [
+    16092460
+   ],
+   "removing_rev_ids": [
+    16092461
+   ],
+   "tier": "reverted",
+   "score": 6.437752,
+   "claim_en": null
+  },
+  {
+   "key": "16118776",
+   "topic_id": "russification-independence",
+   "rank": 26,
+   "page_id": 162670,
+   "inserting_rev_ids": [
+    16118776
+   ],
+   "removing_rev_ids": [
+    16118778
+   ],
+   "tier": "reverted",
+   "score": 6.220356,
+   "claim_en": null
+  },
+  {
+   "key": "22145783+22145803+22145809+22145816",
+   "topic_id": "russification-independence",
+   "rank": 27,
+   "page_id": 6944,
+   "inserting_rev_ids": [
+    22145783,
+    22145803,
+    22145809,
+    22145816
+   ],
+   "removing_rev_ids": [
+    22153211
+   ],
+   "tier": "reverted",
+   "score": 6.187386,
+   "claim_en": null
+  },
+  {
+   "key": "4526510",
+   "topic_id": "russification-independence",
+   "rank": 28,
+   "page_id": 10758,
+   "inserting_rev_ids": [
+    4526510
+   ],
+   "removing_rev_ids": [
+    4526673
+   ],
+   "tier": "reverted",
+   "score": 6.068904,
+   "claim_en": null
+  },
+  {
+   "key": "12323478+12323497+12323501+12323506",
+   "topic_id": "russification-independence",
+   "rank": 30,
+   "page_id": 32957,
+   "inserting_rev_ids": [
+    12323478,
+    12323497,
+    12323501,
+    12323506
+   ],
+   "removing_rev_ids": [
+    12323507
+   ],
+   "tier": "reverted",
+   "score": 5.963579,
+   "claim_en": null
+  },
+  {
+   "key": "17910689",
+   "topic_id": "russification-independence",
+   "rank": 31,
+   "page_id": 112881,
+   "inserting_rev_ids": [
+    17910689
+   ],
+   "removing_rev_ids": [
+    17912320
+   ],
+   "tier": "reverted",
+   "score": 5.931826,
+   "claim_en": null
+  },
+  {
+   "key": "17912445",
+   "topic_id": "russification-independence",
+   "rank": 32,
+   "page_id": 112881,
+   "inserting_rev_ids": [
+    17912445
+   ],
+   "removing_rev_ids": [
+    17912678
+   ],
+   "tier": "reverted",
+   "score": 5.931826,
+   "claim_en": null
+  },
+  {
+   "key": "17912808",
+   "topic_id": "russification-independence",
+   "rank": 33,
+   "page_id": 112881,
+   "inserting_rev_ids": [
+    17912808
+   ],
+   "removing_rev_ids": [
+    17912832
+   ],
+   "tier": "reverted",
+   "score": 5.931826,
+   "claim_en": null
+  },
+  {
+   "key": "9736377",
+   "topic_id": "russification-independence",
+   "rank": 34,
+   "page_id": 96542,
+   "inserting_rev_ids": [
+    9736377
+   ],
+   "removing_rev_ids": [
+    9737180
+   ],
+   "tier": "reverted",
+   "score": 5.771441,
+   "claim_en": null
+  },
+  {
+   "key": "16108023",
+   "topic_id": "russification-independence",
+   "rank": 35,
+   "page_id": 162670,
+   "inserting_rev_ids": [
+    16108023
+   ],
+   "removing_rev_ids": [
+    16108413
+   ],
+   "tier": "reverted",
+   "score": 5.755742,
+   "claim_en": null
+  },
+  {
+   "key": "16495356",
+   "topic_id": "russification-independence",
+   "rank": 36,
+   "page_id": 6944,
+   "inserting_rev_ids": [
+    16495356
+   ],
+   "removing_rev_ids": [
+    16528369
+   ],
+   "tier": "reverted",
+   "score": 5.574711,
+   "claim_en": null
+  },
+  {
+   "key": "21707282",
+   "topic_id": "russification-independence",
+   "rank": 37,
+   "page_id": 6944,
+   "inserting_rev_ids": [
+    21707282
+   ],
+   "removing_rev_ids": [
+    21733490
+   ],
+   "tier": "reverted",
+   "score": 5.564348,
+   "claim_en": null
+  },
+  {
+   "key": "12323525",
+   "topic_id": "russification-independence",
+   "rank": 38,
+   "page_id": 32957,
+   "inserting_rev_ids": [
+    12323525
+   ],
+   "removing_rev_ids": [
+    12323547
+   ],
+   "tier": "reverted",
+   "score": 5.545177,
+   "claim_en": null
+  },
+  {
+   "key": "14251038",
+   "topic_id": "russification-independence",
+   "rank": 40,
+   "page_id": 10758,
+   "inserting_rev_ids": [
+    14251038
+   ],
+   "removing_rev_ids": [
+    14251039
+   ],
+   "tier": "reverted",
+   "score": 5.49981,
+   "claim_en": null
+  },
+  {
+   "key": "2256234",
+   "topic_id": "russification-independence",
+   "rank": 41,
+   "page_id": 6944,
+   "inserting_rev_ids": [
+    2256234
+   ],
+   "removing_rev_ids": [
+    2258396
+   ],
+   "tier": "reverted",
+   "score": 5.496508,
+   "claim_en": null
+  },
+  {
+   "key": "18020091",
+   "topic_id": "russification-independence",
+   "rank": 42,
+   "page_id": 11517,
+   "inserting_rev_ids": [
+    18020091
+   ],
+   "removing_rev_ids": [
+    18020129
+   ],
+   "tier": "reverted",
+   "score": 5.420535,
+   "claim_en": null
+  },
+  {
+   "key": "21550002+21550007+21550033+21550048",
+   "topic_id": "russification-independence",
+   "rank": 44,
+   "page_id": 137931,
+   "inserting_rev_ids": [
+    21550002,
+    21550007,
+    21550033,
+    21550048
+   ],
+   "removing_rev_ids": [
+    21550084
+   ],
+   "tier": "reverted",
+   "score": 5.370638,
+   "claim_en": null
+  },
+  {
+   "key": "19768262",
+   "topic_id": "russification-independence",
+   "rank": 45,
+   "page_id": 32957,
+   "inserting_rev_ids": [
+    19768262
+   ],
+   "removing_rev_ids": [
+    19768278
+   ],
+   "tier": "reverted",
+   "score": 5.332205,
+   "claim_en": null
+  },
+  {
+   "key": "22112958",
+   "topic_id": "russification-independence",
+   "rank": 46,
+   "page_id": 6944,
+   "inserting_rev_ids": [
+    22112958
+   ],
+   "removing_rev_ids": [
+    22135094
+   ],
+   "tier": "reverted",
+   "score": 5.330733,
+   "claim_en": null
+  },
+  {
+   "key": "20531909",
+   "topic_id": "russification-independence",
+   "rank": 47,
+   "page_id": 11601,
+   "inserting_rev_ids": [
+    20531909
+   ],
+   "removing_rev_ids": [
+    20531926
+   ],
+   "tier": "reverted",
+   "score": 5.304065,
+   "claim_en": null
+  },
+  {
+   "key": "9885530",
+   "topic_id": "russification-independence",
+   "rank": 48,
+   "page_id": 137930,
+   "inserting_rev_ids": [
+    9885530
+   ],
+   "removing_rev_ids": [
+    9890036
+   ],
+   "tier": "reverted",
+   "score": 5.209486,
+   "claim_en": null
+  },
+  {
+   "key": "12576877+12576921+12576923+12576924",
+   "topic_id": "russification-independence",
+   "rank": 49,
+   "page_id": 96542,
+   "inserting_rev_ids": [
+    12576877,
+    12576921,
+    12576923,
+    12576924
+   ],
+   "removing_rev_ids": [
+    12578266
+   ],
+   "tier": "reverted",
+   "score": 5.198497,
+   "claim_en": null
+  },
+  {
+   "key": "22456202",
+   "topic_id": "russification-independence",
+   "rank": 50,
+   "page_id": 11517,
+   "inserting_rev_ids": [
+    22456202
+   ],
+   "removing_rev_ids": [
+    22462669
+   ],
+   "tier": "reverted",
+   "score": 5.091042,
+   "claim_en": null
+  },
+  {
+   "key": "3845769",
+   "topic_id": "border-crisis-2023",
+   "rank": 3,
+   "page_id": 29994,
+   "inserting_rev_ids": [
+    3845769
+   ],
+   "removing_rev_ids": [
+    3846262
+   ],
+   "tier": "reverted",
+   "score": 7.001415,
+   "claim_en": null
+  },
+  {
+   "key": "12488748",
+   "topic_id": "border-crisis-2023",
+   "rank": 9,
+   "page_id": 29994,
+   "inserting_rev_ids": [
+    12488748
+   ],
+   "removing_rev_ids": [
+    12491043
+   ],
+   "tier": "reverted",
+   "score": 4.394449,
+   "claim_en": null
+  },
+  {
+   "key": "5151582",
+   "topic_id": "border-crisis-2023",
+   "rank": 10,
+   "page_id": 244069,
+   "inserting_rev_ids": [
+    5151582
+   ],
+   "removing_rev_ids": [
+    5151631
+   ],
+   "tier": "reverted",
+   "score": 3.951244,
+   "claim_en": null
+  },
+  {
+   "key": "13591551",
+   "topic_id": "border-crisis-2023",
+   "rank": 11,
+   "page_id": 29994,
+   "inserting_rev_ids": [
+    13591551
+   ],
+   "removing_rev_ids": [
+    13591604
+   ],
+   "tier": "reverted",
+   "score": 3.688879,
+   "claim_en": null
+  },
+  {
+   "key": "1764894+1764900",
+   "topic_id": "border-crisis-2023",
+   "rank": 12,
+   "page_id": 29994,
+   "inserting_rev_ids": [
+    1764894,
+    1764900
+   ],
+   "removing_rev_ids": [
+    1764901
+   ],
+   "tier": "reverted",
+   "score": 3.433987,
+   "claim_en": null
+  },
+  {
+   "key": "15906359",
+   "topic_id": "border-crisis-2023",
+   "rank": 13,
+   "page_id": 1060965,
+   "inserting_rev_ids": [
+    15906359
+   ],
+   "removing_rev_ids": [
+    15906719
+   ],
+   "tier": "reverted",
+   "score": 2.0,
+   "claim_en": null
+  },
+  {
+   "key": "4861867",
+   "topic_id": "border-crisis-2023",
+   "rank": 14,
+   "page_id": 244069,
+   "inserting_rev_ids": [
+    4861867
+   ],
+   "removing_rev_ids": [
+    4861870
+   ],
+   "tier": "reverted",
+   "score": 1.098612,
+   "claim_en": null
+  },
+  {
+   "key": "15650823",
+   "topic_id": "border-crisis-2023",
+   "rank": 16,
+   "page_id": 152850,
+   "inserting_rev_ids": [
+    15650823
+   ],
+   "removing_rev_ids": [
+    15666079
+   ],
+   "tier": "reverted",
+   "score": 0.0,
+   "claim_en": null
+  },
+  {
+   "key": "4930891",
+   "topic_id": "border-crisis-2023",
+   "rank": 17,
+   "page_id": 29994,
+   "inserting_rev_ids": [
+    4930891
+   ],
+   "removing_rev_ids": [
+    4931538
+   ],
+   "tier": "reverted",
+   "score": 0.0,
+   "claim_en": null
+  },
+  {
+   "key": "21735270",
+   "topic_id": "border-crisis-2023",
+   "rank": 19,
+   "page_id": 1095432,
+   "inserting_rev_ids": [
+    21735270
+   ],
+   "removing_rev_ids": [
+    21735296
+   ],
+   "tier": "reverted",
+   "score": 0.0,
+   "claim_en": null
+  },
+  {
+   "key": "11430371+11430374",
+   "topic_id": "border-crisis-2023",
+   "rank": 20,
+   "page_id": 29994,
+   "inserting_rev_ids": [
+    11430371,
+    11430374
+   ],
+   "removing_rev_ids": [
+    11430402
+   ],
+   "tier": "reverted",
+   "score": 0.0,
+   "claim_en": null
+  },
+  {
+   "key": "21735275",
+   "topic_id": "border-crisis-2023",
+   "rank": 21,
+   "page_id": 152850,
+   "inserting_rev_ids": [
+    21735275
+   ],
+   "removing_rev_ids": [
+    21735297
+   ],
+   "tier": "reverted",
+   "score": 0.0,
+   "claim_en": null
+  },
+  {
+   "key": "9403552",
+   "topic_id": "border-crisis-2023",
+   "rank": 22,
+   "page_id": 152850,
+   "inserting_rev_ids": [
+    9403552
+   ],
+   "removing_rev_ids": [
+    9403571
+   ],
+   "tier": "reverted",
+   "score": 0.0,
+   "claim_en": null
+  },
+  {
+   "key": "21735290",
+   "topic_id": "border-crisis-2023",
+   "rank": 23,
+   "page_id": 276192,
+   "inserting_rev_ids": [
+    21735290
+   ],
+   "removing_rev_ids": [
+    21735299
+   ],
+   "tier": "reverted",
+   "score": 0.0,
+   "claim_en": null
+  },
+  {
+   "key": "12642372",
+   "topic_id": "border-crisis-2023",
+   "rank": 24,
+   "page_id": 29994,
+   "inserting_rev_ids": [
+    12642372
+   ],
+   "removing_rev_ids": [
+    12642374
+   ],
+   "tier": "reverted",
+   "score": 0.0,
+   "claim_en": null
+  },
+  {
+   "key": "23492713",
+   "topic_id": "border-crisis-2023",
+   "rank": 25,
+   "page_id": 29994,
+   "inserting_rev_ids": [
+    23492713
+   ],
+   "removing_rev_ids": [
+    23492716
+   ],
+   "tier": "reverted",
+   "score": 0.0,
+   "claim_en": null
+  },
+  {
+   "key": "3766365",
+   "topic_id": "border-crisis-2023",
+   "rank": 26,
+   "page_id": 29994,
+   "inserting_rev_ids": [
+    3766365
+   ],
+   "removing_rev_ids": [
+    3766368
+   ],
+   "tier": "reverted",
+   "score": 0.0,
+   "claim_en": null
+  }
+ ],
+ "challenges": [],
+ "failures": [],
+ "cost": {
+  "requests": 10,
+  "jobs": 1,
+  "seconds_total": 61.7,
+  "seconds_per_request": 6.17,
+  "seconds_max": 10.9,
+  "llm_calls": 0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "sql_queries": 20,
+  "cost_usd": 0.0
+ }
+}

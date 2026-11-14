@@ -1,0 +1,6573 @@
+{
+ "contract": 1,
+ "kind": "retrieval",
+ "variant": "r4-d",
+ "split": "dev",
+ "golden_version": "2026-11-14.1",
+ "dataset": "m-2026-10",
+ "git_commit": "f4bb08596ee6",
+ "ran_at": "2026-11-14T15:50:32Z",
+ "command": "research/eval/run retrieval --name r4-d -- python3 research/25-r4-expand/variant.py --mode D --w 0.05",
+ "limit": null,
+ "k": 20,
+ "partial": false,
+ "topics": 11,
+ "requests": 43,
+ "baseline_file": "research/8-r1-vector/results/r1-vector.dev.scorecard.json",
+ "metrics": {
+  "recall@5": 0.12748322401282927,
+  "recall@10": 0.21459015764936815,
+  "recall@20": 0.36236850868429815,
+  "ndcg@10": 0.4147203169291623,
+  "oos_detection_rate": 0.0,
+  "oos_false_alarm_rate": 0.0,
+  "seconds_per_topic": 1.09,
+  "llm_calls": 0,
+  "input_tokens": 0,
+  "output_tokens": 0
+ },
+ "by_style": {
+  "en": {
+   "queries": 10,
+   "recall@5": 0.1338822142769511,
+   "recall@10": 0.22711159454580504,
+   "recall@20": 0.380550348774033,
+   "ndcg@10": 0.4479277507151811
+  },
+  "fi": {
+   "queries": 10,
+   "recall@5": 0.18036332088963666,
+   "recall@10": 0.2789650700177016,
+   "recall@20": 0.4673910081146923,
+   "ndcg@10": 0.5605393137381831
+  },
+  "broad": {
+   "queries": 10,
+   "recall@5": 0.0894965341675868,
+   "recall@10": 0.15529483674220518,
+   "recall@20": 0.26407607743134054,
+   "ndcg@10": 0.2615306021935644
+  },
+  "sv": {
+   "queries": 10,
+   "recall@5": 0.1061908267171425,
+   "recall@10": 0.19698912929176088,
+   "recall@20": 0.3374566004171267,
+   "ndcg@10": 0.3888836010697205
+  }
+ },
+ "per_topic": [
+  {
+   "query_id": "civil-war-1918.en",
+   "topic_id": "civil-war-1918",
+   "kind": "topic",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 3.66,
+   "failed": false,
+   "recall@5": 0.10526315789473684,
+   "recall@10": 0.21052631578947367,
+   "recall@20": 0.42105263157894735,
+   "ndcg@10": 0.44690245297956854,
+   "articles": [
+    {
+     "page_id": 1150,
+     "grade": 2,
+     "title": "Suomen sisällissota",
+     "rank": 1
+    },
+    {
+     "page_id": 9186,
+     "grade": 2,
+     "title": "Punakaarti",
+     "rank": 13
+    },
+    {
+     "page_id": 59794,
+     "grade": 2,
+     "title": "Valkoiset",
+     "rank": 9
+    },
+    {
+     "page_id": 250972,
+     "grade": 2,
+     "title": "Suomen sisällissodan nimet",
+     "rank": 11
+    },
+    {
+     "page_id": 640247,
+     "grade": 2,
+     "title": "Suomen sisällissodan terrori",
+     "rank": null
+    },
+    {
+     "page_id": 6021,
+     "grade": 1,
+     "title": "Carl Gustaf Emil Mannerheim",
+     "rank": null
+    },
+    {
+     "page_id": 7675,
+     "grade": 1,
+     "title": "Suojeluskunta",
+     "rank": 8
+    },
+    {
+     "page_id": 11834,
+     "grade": 1,
+     "title": "Tampereen taistelu",
+     "rank": 17
+    },
+    {
+     "page_id": 32957,
+     "grade": 1,
+     "title": "Suomen itsenäistyminen",
+     "rank": 4
+    },
+    {
+     "page_id": 59605,
+     "grade": 1,
+     "title": "Suomen kansanvaltuuskunta",
+     "rank": null
+    },
+    {
+     "page_id": 185998,
+     "grade": 1,
+     "title": "Suomen sotasurmat",
+     "rank": null
+    },
+    {
+     "page_id": 203494,
+     "grade": 1,
+     "title": "Suomen sosialistinen työväentasavalta",
+     "rank": 20
+    },
+    {
+     "page_id": 285522,
+     "grade": 1,
+     "title": "Tammisaaren vankileiri",
+     "rank": null
+    },
+    {
+     "page_id": 1151714,
+     "grade": 1,
+     "title": "Hennalan vankileiri",
+     "rank": null
+    },
+    {
+     "page_id": 1291614,
+     "grade": 1,
+     "title": "Suomen sisällissodan aikajana",
+     "rank": null
+    },
+    {
+     "page_id": 1411194,
+     "grade": 1,
+     "title": "Suomen luokkasota",
+     "rank": null
+    },
+    {
+     "page_id": 1448244,
+     "grade": 1,
+     "title": "Haagan teloitukset 1918",
+     "rank": null
+    },
+    {
+     "page_id": 1506003,
+     "grade": 1,
+     "title": "Valkoisten voitonparaati",
+     "rank": null
+    },
+    {
+     "page_id": 1747289,
+     "grade": 1,
+     "title": "Punalesket",
+     "rank": null
+    }
+   ],
+   "missed": [
+    640247,
+    6021,
+    285522,
+    1151714,
+    59605,
+    1411194,
+    1291614,
+    185998,
+    1747289,
+    1448244,
+    1506003
+   ]
+  },
+  {
+   "query_id": "civil-war-1918.fi",
+   "topic_id": "civil-war-1918",
+   "kind": "topic",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.06,
+   "failed": false,
+   "recall@5": 0.15789473684210525,
+   "recall@10": 0.2631578947368421,
+   "recall@20": 0.3157894736842105,
+   "ndcg@10": 0.6338740988292316,
+   "articles": [
+    {
+     "page_id": 1150,
+     "grade": 2,
+     "title": "Suomen sisällissota",
+     "rank": 1
+    },
+    {
+     "page_id": 9186,
+     "grade": 2,
+     "title": "Punakaarti",
+     "rank": 8
+    },
+    {
+     "page_id": 59794,
+     "grade": 2,
+     "title": "Valkoiset",
+     "rank": null
+    },
+    {
+     "page_id": 250972,
+     "grade": 2,
+     "title": "Suomen sisällissodan nimet",
+     "rank": 2
+    },
+    {
+     "page_id": 640247,
+     "grade": 2,
+     "title": "Suomen sisällissodan terrori",
+     "rank": null
+    },
+    {
+     "page_id": 6021,
+     "grade": 1,
+     "title": "Carl Gustaf Emil Mannerheim",
+     "rank": null
+    },
+    {
+     "page_id": 7675,
+     "grade": 1,
+     "title": "Suojeluskunta",
+     "rank": 6
+    },
+    {
+     "page_id": 11834,
+     "grade": 1,
+     "title": "Tampereen taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 32957,
+     "grade": 1,
+     "title": "Suomen itsenäistyminen",
+     "rank": 3
+    },
+    {
+     "page_id": 59605,
+     "grade": 1,
+     "title": "Suomen kansanvaltuuskunta",
+     "rank": null
+    },
+    {
+     "page_id": 185998,
+     "grade": 1,
+     "title": "Suomen sotasurmat",
+     "rank": null
+    },
+    {
+     "page_id": 203494,
+     "grade": 1,
+     "title": "Suomen sosialistinen työväentasavalta",
+     "rank": null
+    },
+    {
+     "page_id": 285522,
+     "grade": 1,
+     "title": "Tammisaaren vankileiri",
+     "rank": null
+    },
+    {
+     "page_id": 1151714,
+     "grade": 1,
+     "title": "Hennalan vankileiri",
+     "rank": null
+    },
+    {
+     "page_id": 1291614,
+     "grade": 1,
+     "title": "Suomen sisällissodan aikajana",
+     "rank": 15
+    },
+    {
+     "page_id": 1411194,
+     "grade": 1,
+     "title": "Suomen luokkasota",
+     "rank": null
+    },
+    {
+     "page_id": 1448244,
+     "grade": 1,
+     "title": "Haagan teloitukset 1918",
+     "rank": null
+    },
+    {
+     "page_id": 1506003,
+     "grade": 1,
+     "title": "Valkoisten voitonparaati",
+     "rank": null
+    },
+    {
+     "page_id": 1747289,
+     "grade": 1,
+     "title": "Punalesket",
+     "rank": null
+    }
+   ],
+   "missed": [
+    640247,
+    59794,
+    6021,
+    285522,
+    1151714,
+    59605,
+    203494,
+    1411194,
+    11834,
+    185998,
+    1747289,
+    1448244,
+    1506003
+   ]
+  },
+  {
+   "query_id": "civil-war-1918.broad",
+   "topic_id": "civil-war-1918",
+   "kind": "topic",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.73,
+   "failed": false,
+   "recall@5": 0.21052631578947367,
+   "recall@10": 0.2631578947368421,
+   "recall@20": 0.42105263157894735,
+   "ndcg@10": 0.4404120240721042,
+   "articles": [
+    {
+     "page_id": 1150,
+     "grade": 2,
+     "title": "Suomen sisällissota",
+     "rank": null
+    },
+    {
+     "page_id": 9186,
+     "grade": 2,
+     "title": "Punakaarti",
+     "rank": 5
+    },
+    {
+     "page_id": 59794,
+     "grade": 2,
+     "title": "Valkoiset",
+     "rank": 2
+    },
+    {
+     "page_id": 250972,
+     "grade": 2,
+     "title": "Suomen sisällissodan nimet",
+     "rank": null
+    },
+    {
+     "page_id": 640247,
+     "grade": 2,
+     "title": "Suomen sisällissodan terrori",
+     "rank": null
+    },
+    {
+     "page_id": 6021,
+     "grade": 1,
+     "title": "Carl Gustaf Emil Mannerheim",
+     "rank": null
+    },
+    {
+     "page_id": 7675,
+     "grade": 1,
+     "title": "Suojeluskunta",
+     "rank": 4
+    },
+    {
+     "page_id": 11834,
+     "grade": 1,
+     "title": "Tampereen taistelu",
+     "rank": 3
+    },
+    {
+     "page_id": 32957,
+     "grade": 1,
+     "title": "Suomen itsenäistyminen",
+     "rank": null
+    },
+    {
+     "page_id": 59605,
+     "grade": 1,
+     "title": "Suomen kansanvaltuuskunta",
+     "rank": null
+    },
+    {
+     "page_id": 185998,
+     "grade": 1,
+     "title": "Suomen sotasurmat",
+     "rank": 15
+    },
+    {
+     "page_id": 203494,
+     "grade": 1,
+     "title": "Suomen sosialistinen työväentasavalta",
+     "rank": 16
+    },
+    {
+     "page_id": 285522,
+     "grade": 1,
+     "title": "Tammisaaren vankileiri",
+     "rank": 7
+    },
+    {
+     "page_id": 1151714,
+     "grade": 1,
+     "title": "Hennalan vankileiri",
+     "rank": null
+    },
+    {
+     "page_id": 1291614,
+     "grade": 1,
+     "title": "Suomen sisällissodan aikajana",
+     "rank": null
+    },
+    {
+     "page_id": 1411194,
+     "grade": 1,
+     "title": "Suomen luokkasota",
+     "rank": 11
+    },
+    {
+     "page_id": 1448244,
+     "grade": 1,
+     "title": "Haagan teloitukset 1918",
+     "rank": null
+    },
+    {
+     "page_id": 1506003,
+     "grade": 1,
+     "title": "Valkoisten voitonparaati",
+     "rank": null
+    },
+    {
+     "page_id": 1747289,
+     "grade": 1,
+     "title": "Punalesket",
+     "rank": null
+    }
+   ],
+   "missed": [
+    1150,
+    250972,
+    640247,
+    6021,
+    1151714,
+    59605,
+    1291614,
+    1747289,
+    1448244,
+    1506003,
+    32957
+   ]
+  },
+  {
+   "query_id": "civil-war-1918.sv",
+   "topic_id": "civil-war-1918",
+   "kind": "topic",
+   "style": "sv",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.05,
+   "failed": false,
+   "recall@5": 0.15789473684210525,
+   "recall@10": 0.2631578947368421,
+   "recall@20": 0.3684210526315789,
+   "ndcg@10": 0.5594260754503134,
+   "articles": [
+    {
+     "page_id": 1150,
+     "grade": 2,
+     "title": "Suomen sisällissota",
+     "rank": 1
+    },
+    {
+     "page_id": 9186,
+     "grade": 2,
+     "title": "Punakaarti",
+     "rank": 12
+    },
+    {
+     "page_id": 59794,
+     "grade": 2,
+     "title": "Valkoiset",
+     "rank": 9
+    },
+    {
+     "page_id": 250972,
+     "grade": 2,
+     "title": "Suomen sisällissodan nimet",
+     "rank": 5
+    },
+    {
+     "page_id": 640247,
+     "grade": 2,
+     "title": "Suomen sisällissodan terrori",
+     "rank": null
+    },
+    {
+     "page_id": 6021,
+     "grade": 1,
+     "title": "Carl Gustaf Emil Mannerheim",
+     "rank": null
+    },
+    {
+     "page_id": 7675,
+     "grade": 1,
+     "title": "Suojeluskunta",
+     "rank": 8
+    },
+    {
+     "page_id": 11834,
+     "grade": 1,
+     "title": "Tampereen taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 32957,
+     "grade": 1,
+     "title": "Suomen itsenäistyminen",
+     "rank": 3
+    },
+    {
+     "page_id": 59605,
+     "grade": 1,
+     "title": "Suomen kansanvaltuuskunta",
+     "rank": null
+    },
+    {
+     "page_id": 185998,
+     "grade": 1,
+     "title": "Suomen sotasurmat",
+     "rank": 16
+    },
+    {
+     "page_id": 203494,
+     "grade": 1,
+     "title": "Suomen sosialistinen työväentasavalta",
+     "rank": null
+    },
+    {
+     "page_id": 285522,
+     "grade": 1,
+     "title": "Tammisaaren vankileiri",
+     "rank": null
+    },
+    {
+     "page_id": 1151714,
+     "grade": 1,
+     "title": "Hennalan vankileiri",
+     "rank": null
+    },
+    {
+     "page_id": 1291614,
+     "grade": 1,
+     "title": "Suomen sisällissodan aikajana",
+     "rank": null
+    },
+    {
+     "page_id": 1411194,
+     "grade": 1,
+     "title": "Suomen luokkasota",
+     "rank": null
+    },
+    {
+     "page_id": 1448244,
+     "grade": 1,
+     "title": "Haagan teloitukset 1918",
+     "rank": null
+    },
+    {
+     "page_id": 1506003,
+     "grade": 1,
+     "title": "Valkoisten voitonparaati",
+     "rank": null
+    },
+    {
+     "page_id": 1747289,
+     "grade": 1,
+     "title": "Punalesket",
+     "rank": null
+    }
+   ],
+   "missed": [
+    640247,
+    6021,
+    285522,
+    1151714,
+    59605,
+    203494,
+    1411194,
+    1291614,
+    11834,
+    1747289,
+    1448244,
+    1506003
+   ]
+  },
+  {
+   "query_id": "continuation-war.en",
+   "topic_id": "continuation-war",
+   "kind": "topic",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.65,
+   "failed": false,
+   "recall@5": 0.05263157894736842,
+   "recall@10": 0.2631578947368421,
+   "recall@20": 0.3684210526315789,
+   "ndcg@10": 0.48192140942222333,
+   "articles": [
+    {
+     "page_id": 440,
+     "grade": 2,
+     "title": "Jatkosota",
+     "rank": 1
+    },
+    {
+     "page_id": 11398,
+     "grade": 2,
+     "title": "Risto Ryti",
+     "rank": 7
+    },
+    {
+     "page_id": 105157,
+     "grade": 2,
+     "title": "Sotasyyllisyysoikeudenkäynti",
+     "rank": null
+    },
+    {
+     "page_id": 626022,
+     "grade": 2,
+     "title": "Erillissotateesi",
+     "rank": 20
+    },
+    {
+     "page_id": 631505,
+     "grade": 2,
+     "title": "Suomen ja Saksan lähentyminen 1940–1941",
+     "rank": null
+    },
+    {
+     "page_id": 636526,
+     "grade": 2,
+     "title": "Suomen ja Saksan sotilasyhteistyö 1940–1941",
+     "rank": null
+    },
+    {
+     "page_id": 664648,
+     "grade": 2,
+     "title": "Suomi toisessa maailmansodassa",
+     "rank": 8
+    },
+    {
+     "page_id": 6816,
+     "grade": 1,
+     "title": "Lapin sota",
+     "rank": 6
+    },
+    {
+     "page_id": 24197,
+     "grade": 1,
+     "title": "Välirauha",
+     "rank": 10
+    },
+    {
+     "page_id": 27916,
+     "grade": 1,
+     "title": "Pariisin rauhansopimus (1947)",
+     "rank": null
+    },
+    {
+     "page_id": 136099,
+     "grade": 1,
+     "title": "Suomalainen Waffen-SS-vapaaehtoispataljoona",
+     "rank": 18
+    },
+    {
+     "page_id": 182451,
+     "grade": 1,
+     "title": "Operaatio Hopeakettu",
+     "rank": null
+    },
+    {
+     "page_id": 278427,
+     "grade": 1,
+     "title": "Jatkosodan hyökkäysvaihe",
+     "rank": null
+    },
+    {
+     "page_id": 319344,
+     "grade": 1,
+     "title": "Itä-Karjalan keskitysleirit",
+     "rank": null
+    },
+    {
+     "page_id": 581593,
+     "grade": 1,
+     "title": "Einsatzkommando Finnland",
+     "rank": null
+    },
+    {
+     "page_id": 588384,
+     "grade": 1,
+     "title": "Suomen juutalaisluovutukset",
+     "rank": null
+    },
+    {
+     "page_id": 622103,
+     "grade": 1,
+     "title": "Naarajärven sotavankileiri",
+     "rank": null
+    },
+    {
+     "page_id": 969110,
+     "grade": 1,
+     "title": "Sotavangit Suomessa toisen maailmansodan aikana",
+     "rank": null
+    },
+    {
+     "page_id": 1496203,
+     "grade": 1,
+     "title": "Saksan ja Suomen suhteet",
+     "rank": null
+    }
+   ],
+   "missed": [
+    636526,
+    631505,
+    105157,
+    278427,
+    1496203,
+    182451,
+    588384,
+    581593,
+    319344,
+    622103,
+    969110,
+    27916
+   ]
+  },
+  {
+   "query_id": "continuation-war.fi",
+   "topic_id": "continuation-war",
+   "kind": "topic",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.06,
+   "failed": false,
+   "recall@5": 0.05263157894736842,
+   "recall@10": 0.15789473684210525,
+   "recall@20": 0.47368421052631576,
+   "ndcg@10": 0.40305233138860724,
+   "articles": [
+    {
+     "page_id": 440,
+     "grade": 2,
+     "title": "Jatkosota",
+     "rank": 1
+    },
+    {
+     "page_id": 11398,
+     "grade": 2,
+     "title": "Risto Ryti",
+     "rank": 7
+    },
+    {
+     "page_id": 105157,
+     "grade": 2,
+     "title": "Sotasyyllisyysoikeudenkäynti",
+     "rank": 15
+    },
+    {
+     "page_id": 626022,
+     "grade": 2,
+     "title": "Erillissotateesi",
+     "rank": 14
+    },
+    {
+     "page_id": 631505,
+     "grade": 2,
+     "title": "Suomen ja Saksan lähentyminen 1940–1941",
+     "rank": 16
+    },
+    {
+     "page_id": 636526,
+     "grade": 2,
+     "title": "Suomen ja Saksan sotilasyhteistyö 1940–1941",
+     "rank": null
+    },
+    {
+     "page_id": 664648,
+     "grade": 2,
+     "title": "Suomi toisessa maailmansodassa",
+     "rank": 8
+    },
+    {
+     "page_id": 6816,
+     "grade": 1,
+     "title": "Lapin sota",
+     "rank": null
+    },
+    {
+     "page_id": 24197,
+     "grade": 1,
+     "title": "Välirauha",
+     "rank": 13
+    },
+    {
+     "page_id": 27916,
+     "grade": 1,
+     "title": "Pariisin rauhansopimus (1947)",
+     "rank": null
+    },
+    {
+     "page_id": 136099,
+     "grade": 1,
+     "title": "Suomalainen Waffen-SS-vapaaehtoispataljoona",
+     "rank": 19
+    },
+    {
+     "page_id": 182451,
+     "grade": 1,
+     "title": "Operaatio Hopeakettu",
+     "rank": null
+    },
+    {
+     "page_id": 278427,
+     "grade": 1,
+     "title": "Jatkosodan hyökkäysvaihe",
+     "rank": 11
+    },
+    {
+     "page_id": 319344,
+     "grade": 1,
+     "title": "Itä-Karjalan keskitysleirit",
+     "rank": null
+    },
+    {
+     "page_id": 581593,
+     "grade": 1,
+     "title": "Einsatzkommando Finnland",
+     "rank": null
+    },
+    {
+     "page_id": 588384,
+     "grade": 1,
+     "title": "Suomen juutalaisluovutukset",
+     "rank": null
+    },
+    {
+     "page_id": 622103,
+     "grade": 1,
+     "title": "Naarajärven sotavankileiri",
+     "rank": null
+    },
+    {
+     "page_id": 969110,
+     "grade": 1,
+     "title": "Sotavangit Suomessa toisen maailmansodan aikana",
+     "rank": null
+    },
+    {
+     "page_id": 1496203,
+     "grade": 1,
+     "title": "Saksan ja Suomen suhteet",
+     "rank": null
+    }
+   ],
+   "missed": [
+    636526,
+    6816,
+    1496203,
+    182451,
+    588384,
+    581593,
+    319344,
+    622103,
+    969110,
+    27916
+   ]
+  },
+  {
+   "query_id": "continuation-war.broad",
+   "topic_id": "continuation-war",
+   "kind": "topic",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.81,
+   "failed": false,
+   "recall@5": 0.15789473684210525,
+   "recall@10": 0.3157894736842105,
+   "recall@20": 0.42105263157894735,
+   "ndcg@10": 0.56194784839939,
+   "articles": [
+    {
+     "page_id": 440,
+     "grade": 2,
+     "title": "Jatkosota",
+     "rank": 1
+    },
+    {
+     "page_id": 11398,
+     "grade": 2,
+     "title": "Risto Ryti",
+     "rank": null
+    },
+    {
+     "page_id": 105157,
+     "grade": 2,
+     "title": "Sotasyyllisyysoikeudenkäynti",
+     "rank": 7
+    },
+    {
+     "page_id": 626022,
+     "grade": 2,
+     "title": "Erillissotateesi",
+     "rank": null
+    },
+    {
+     "page_id": 631505,
+     "grade": 2,
+     "title": "Suomen ja Saksan lähentyminen 1940–1941",
+     "rank": null
+    },
+    {
+     "page_id": 636526,
+     "grade": 2,
+     "title": "Suomen ja Saksan sotilasyhteistyö 1940–1941",
+     "rank": null
+    },
+    {
+     "page_id": 664648,
+     "grade": 2,
+     "title": "Suomi toisessa maailmansodassa",
+     "rank": 5
+    },
+    {
+     "page_id": 6816,
+     "grade": 1,
+     "title": "Lapin sota",
+     "rank": 3
+    },
+    {
+     "page_id": 24197,
+     "grade": 1,
+     "title": "Välirauha",
+     "rank": 6
+    },
+    {
+     "page_id": 27916,
+     "grade": 1,
+     "title": "Pariisin rauhansopimus (1947)",
+     "rank": null
+    },
+    {
+     "page_id": 136099,
+     "grade": 1,
+     "title": "Suomalainen Waffen-SS-vapaaehtoispataljoona",
+     "rank": null
+    },
+    {
+     "page_id": 182451,
+     "grade": 1,
+     "title": "Operaatio Hopeakettu",
+     "rank": 15
+    },
+    {
+     "page_id": 278427,
+     "grade": 1,
+     "title": "Jatkosodan hyökkäysvaihe",
+     "rank": null
+    },
+    {
+     "page_id": 319344,
+     "grade": 1,
+     "title": "Itä-Karjalan keskitysleirit",
+     "rank": null
+    },
+    {
+     "page_id": 581593,
+     "grade": 1,
+     "title": "Einsatzkommando Finnland",
+     "rank": 9
+    },
+    {
+     "page_id": 588384,
+     "grade": 1,
+     "title": "Suomen juutalaisluovutukset",
+     "rank": null
+    },
+    {
+     "page_id": 622103,
+     "grade": 1,
+     "title": "Naarajärven sotavankileiri",
+     "rank": null
+    },
+    {
+     "page_id": 969110,
+     "grade": 1,
+     "title": "Sotavangit Suomessa toisen maailmansodan aikana",
+     "rank": null
+    },
+    {
+     "page_id": 1496203,
+     "grade": 1,
+     "title": "Saksan ja Suomen suhteet",
+     "rank": 13
+    }
+   ],
+   "missed": [
+    626022,
+    636526,
+    631505,
+    11398,
+    278427,
+    136099,
+    588384,
+    319344,
+    622103,
+    969110,
+    27916
+   ]
+  },
+  {
+   "query_id": "continuation-war.sv",
+   "topic_id": "continuation-war",
+   "kind": "topic",
+   "style": "sv",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.0,
+   "failed": false,
+   "recall@5": 0.05263157894736842,
+   "recall@10": 0.15789473684210525,
+   "recall@20": 0.3157894736842105,
+   "ndcg@10": 0.35689953320046086,
+   "articles": [
+    {
+     "page_id": 440,
+     "grade": 2,
+     "title": "Jatkosota",
+     "rank": 1
+    },
+    {
+     "page_id": 11398,
+     "grade": 2,
+     "title": "Risto Ryti",
+     "rank": 8
+    },
+    {
+     "page_id": 105157,
+     "grade": 2,
+     "title": "Sotasyyllisyysoikeudenkäynti",
+     "rank": null
+    },
+    {
+     "page_id": 626022,
+     "grade": 2,
+     "title": "Erillissotateesi",
+     "rank": 18
+    },
+    {
+     "page_id": 631505,
+     "grade": 2,
+     "title": "Suomen ja Saksan lähentyminen 1940–1941",
+     "rank": null
+    },
+    {
+     "page_id": 636526,
+     "grade": 2,
+     "title": "Suomen ja Saksan sotilasyhteistyö 1940–1941",
+     "rank": null
+    },
+    {
+     "page_id": 664648,
+     "grade": 2,
+     "title": "Suomi toisessa maailmansodassa",
+     "rank": 11
+    },
+    {
+     "page_id": 6816,
+     "grade": 1,
+     "title": "Lapin sota",
+     "rank": 10
+    },
+    {
+     "page_id": 24197,
+     "grade": 1,
+     "title": "Välirauha",
+     "rank": 16
+    },
+    {
+     "page_id": 27916,
+     "grade": 1,
+     "title": "Pariisin rauhansopimus (1947)",
+     "rank": null
+    },
+    {
+     "page_id": 136099,
+     "grade": 1,
+     "title": "Suomalainen Waffen-SS-vapaaehtoispataljoona",
+     "rank": null
+    },
+    {
+     "page_id": 182451,
+     "grade": 1,
+     "title": "Operaatio Hopeakettu",
+     "rank": null
+    },
+    {
+     "page_id": 278427,
+     "grade": 1,
+     "title": "Jatkosodan hyökkäysvaihe",
+     "rank": null
+    },
+    {
+     "page_id": 319344,
+     "grade": 1,
+     "title": "Itä-Karjalan keskitysleirit",
+     "rank": null
+    },
+    {
+     "page_id": 581593,
+     "grade": 1,
+     "title": "Einsatzkommando Finnland",
+     "rank": null
+    },
+    {
+     "page_id": 588384,
+     "grade": 1,
+     "title": "Suomen juutalaisluovutukset",
+     "rank": null
+    },
+    {
+     "page_id": 622103,
+     "grade": 1,
+     "title": "Naarajärven sotavankileiri",
+     "rank": null
+    },
+    {
+     "page_id": 969110,
+     "grade": 1,
+     "title": "Sotavangit Suomessa toisen maailmansodan aikana",
+     "rank": null
+    },
+    {
+     "page_id": 1496203,
+     "grade": 1,
+     "title": "Saksan ja Suomen suhteet",
+     "rank": null
+    }
+   ],
+   "missed": [
+    636526,
+    631505,
+    105157,
+    278427,
+    1496203,
+    182451,
+    136099,
+    588384,
+    581593,
+    319344,
+    622103,
+    969110,
+    27916
+   ]
+  },
+  {
+   "query_id": "winter-war.en",
+   "topic_id": "winter-war",
+   "kind": "topic",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.95,
+   "failed": false,
+   "recall@5": 0.21428571428571427,
+   "recall@10": 0.35714285714285715,
+   "recall@20": 0.5714285714285714,
+   "ndcg@10": 0.6301302158467509,
+   "articles": [
+    {
+     "page_id": 1256,
+     "grade": 2,
+     "title": "Talvisota",
+     "rank": 1
+    },
+    {
+     "page_id": 8295,
+     "grade": 2,
+     "title": "Mainilan laukaukset",
+     "rank": 3
+    },
+    {
+     "page_id": 12465,
+     "grade": 2,
+     "title": "Suomen kansantasavalta",
+     "rank": 6
+    },
+    {
+     "page_id": 12467,
+     "grade": 2,
+     "title": "Terijoen hallitus",
+     "rank": 9
+    },
+    {
+     "page_id": 52097,
+     "grade": 2,
+     "title": "Moskovan rauhansopimus (1940)",
+     "rank": null
+    },
+    {
+     "page_id": 727489,
+     "grade": 2,
+     "title": "Talvisodan tausta",
+     "rank": null
+    },
+    {
+     "page_id": 16331,
+     "grade": 1,
+     "title": "Raatteen tien taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 24889,
+     "grade": 1,
+     "title": "Simo Häyhä",
+     "rank": 2
+    },
+    {
+     "page_id": 34207,
+     "grade": 1,
+     "title": "Mannerheim-linja",
+     "rank": null
+    },
+    {
+     "page_id": 92454,
+     "grade": 1,
+     "title": "Kollaan taistelu",
+     "rank": 11
+    },
+    {
+     "page_id": 105467,
+     "grade": 1,
+     "title": "Suomussalmen taistelu",
+     "rank": 12
+    },
+    {
+     "page_id": 241905,
+     "grade": 1,
+     "title": "Suomen ja Neuvostoliiton hyökkäämättömyyssopimus",
+     "rank": null
+    },
+    {
+     "page_id": 672513,
+     "grade": 1,
+     "title": "Taipaleen taistelu",
+     "rank": 20
+    },
+    {
+     "page_id": 756035,
+     "grade": 1,
+     "title": "Talvisodan ulkomainen apu",
+     "rank": null
+    }
+   ],
+   "missed": [
+    727489,
+    52097,
+    241905,
+    34207,
+    756035,
+    16331
+   ]
+  },
+  {
+   "query_id": "winter-war.fi",
+   "topic_id": "winter-war",
+   "kind": "topic",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.03,
+   "failed": false,
+   "recall@5": 0.21428571428571427,
+   "recall@10": 0.21428571428571427,
+   "recall@20": 0.42857142857142855,
+   "ndcg@10": 0.5430347826912932,
+   "articles": [
+    {
+     "page_id": 1256,
+     "grade": 2,
+     "title": "Talvisota",
+     "rank": 1
+    },
+    {
+     "page_id": 8295,
+     "grade": 2,
+     "title": "Mainilan laukaukset",
+     "rank": 2
+    },
+    {
+     "page_id": 12465,
+     "grade": 2,
+     "title": "Suomen kansantasavalta",
+     "rank": 11
+    },
+    {
+     "page_id": 12467,
+     "grade": 2,
+     "title": "Terijoen hallitus",
+     "rank": 3
+    },
+    {
+     "page_id": 52097,
+     "grade": 2,
+     "title": "Moskovan rauhansopimus (1940)",
+     "rank": null
+    },
+    {
+     "page_id": 727489,
+     "grade": 2,
+     "title": "Talvisodan tausta",
+     "rank": 16
+    },
+    {
+     "page_id": 16331,
+     "grade": 1,
+     "title": "Raatteen tien taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 24889,
+     "grade": 1,
+     "title": "Simo Häyhä",
+     "rank": null
+    },
+    {
+     "page_id": 34207,
+     "grade": 1,
+     "title": "Mannerheim-linja",
+     "rank": null
+    },
+    {
+     "page_id": 92454,
+     "grade": 1,
+     "title": "Kollaan taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 105467,
+     "grade": 1,
+     "title": "Suomussalmen taistelu",
+     "rank": 12
+    },
+    {
+     "page_id": 241905,
+     "grade": 1,
+     "title": "Suomen ja Neuvostoliiton hyökkäämättömyyssopimus",
+     "rank": null
+    },
+    {
+     "page_id": 672513,
+     "grade": 1,
+     "title": "Taipaleen taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 756035,
+     "grade": 1,
+     "title": "Talvisodan ulkomainen apu",
+     "rank": null
+    }
+   ],
+   "missed": [
+    52097,
+    241905,
+    34207,
+    24889,
+    756035,
+    16331,
+    92454,
+    672513
+   ]
+  },
+  {
+   "query_id": "winter-war.broad",
+   "topic_id": "winter-war",
+   "kind": "topic",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.84,
+   "failed": false,
+   "recall@5": 0.07142857142857142,
+   "recall@10": 0.14285714285714285,
+   "recall@20": 0.5,
+   "ndcg@10": 0.32849841092194887,
+   "articles": [
+    {
+     "page_id": 1256,
+     "grade": 2,
+     "title": "Talvisota",
+     "rank": 1
+    },
+    {
+     "page_id": 8295,
+     "grade": 2,
+     "title": "Mainilan laukaukset",
+     "rank": 10
+    },
+    {
+     "page_id": 12465,
+     "grade": 2,
+     "title": "Suomen kansantasavalta",
+     "rank": null
+    },
+    {
+     "page_id": 12467,
+     "grade": 2,
+     "title": "Terijoen hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 52097,
+     "grade": 2,
+     "title": "Moskovan rauhansopimus (1940)",
+     "rank": 12
+    },
+    {
+     "page_id": 727489,
+     "grade": 2,
+     "title": "Talvisodan tausta",
+     "rank": 18
+    },
+    {
+     "page_id": 16331,
+     "grade": 1,
+     "title": "Raatteen tien taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 24889,
+     "grade": 1,
+     "title": "Simo Häyhä",
+     "rank": null
+    },
+    {
+     "page_id": 34207,
+     "grade": 1,
+     "title": "Mannerheim-linja",
+     "rank": null
+    },
+    {
+     "page_id": 92454,
+     "grade": 1,
+     "title": "Kollaan taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 105467,
+     "grade": 1,
+     "title": "Suomussalmen taistelu",
+     "rank": 17
+    },
+    {
+     "page_id": 241905,
+     "grade": 1,
+     "title": "Suomen ja Neuvostoliiton hyökkäämättömyyssopimus",
+     "rank": 15
+    },
+    {
+     "page_id": 672513,
+     "grade": 1,
+     "title": "Taipaleen taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 756035,
+     "grade": 1,
+     "title": "Talvisodan ulkomainen apu",
+     "rank": 20
+    }
+   ],
+   "missed": [
+    12467,
+    12465,
+    34207,
+    24889,
+    16331,
+    92454,
+    672513
+   ]
+  },
+  {
+   "query_id": "winter-war.sv",
+   "topic_id": "winter-war",
+   "kind": "topic",
+   "style": "sv",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.14,
+   "failed": false,
+   "recall@5": 0.14285714285714285,
+   "recall@10": 0.2857142857142857,
+   "recall@20": 0.2857142857142857,
+   "ndcg@10": 0.5439097767553206,
+   "articles": [
+    {
+     "page_id": 1256,
+     "grade": 2,
+     "title": "Talvisota",
+     "rank": 1
+    },
+    {
+     "page_id": 8295,
+     "grade": 2,
+     "title": "Mainilan laukaukset",
+     "rank": 3
+    },
+    {
+     "page_id": 12465,
+     "grade": 2,
+     "title": "Suomen kansantasavalta",
+     "rank": 7
+    },
+    {
+     "page_id": 12467,
+     "grade": 2,
+     "title": "Terijoen hallitus",
+     "rank": 9
+    },
+    {
+     "page_id": 52097,
+     "grade": 2,
+     "title": "Moskovan rauhansopimus (1940)",
+     "rank": null
+    },
+    {
+     "page_id": 727489,
+     "grade": 2,
+     "title": "Talvisodan tausta",
+     "rank": null
+    },
+    {
+     "page_id": 16331,
+     "grade": 1,
+     "title": "Raatteen tien taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 24889,
+     "grade": 1,
+     "title": "Simo Häyhä",
+     "rank": null
+    },
+    {
+     "page_id": 34207,
+     "grade": 1,
+     "title": "Mannerheim-linja",
+     "rank": null
+    },
+    {
+     "page_id": 92454,
+     "grade": 1,
+     "title": "Kollaan taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 105467,
+     "grade": 1,
+     "title": "Suomussalmen taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 241905,
+     "grade": 1,
+     "title": "Suomen ja Neuvostoliiton hyökkäämättömyyssopimus",
+     "rank": null
+    },
+    {
+     "page_id": 672513,
+     "grade": 1,
+     "title": "Taipaleen taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 756035,
+     "grade": 1,
+     "title": "Talvisodan ulkomainen apu",
+     "rank": null
+    }
+   ],
+   "missed": [
+    727489,
+    52097,
+    241905,
+    34207,
+    24889,
+    756035,
+    105467,
+    16331,
+    92454,
+    672513
+   ]
+  },
+  {
+   "query_id": "ceded-karelia.en",
+   "topic_id": "ceded-karelia",
+   "kind": "topic",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.96,
+   "failed": false,
+   "recall@5": 0.15,
+   "recall@10": 0.25,
+   "recall@20": 0.4,
+   "ndcg@10": 0.5176836674245113,
+   "articles": [
+    {
+     "page_id": 9606,
+     "grade": 2,
+     "title": "Heimosodat",
+     "rank": null
+    },
+    {
+     "page_id": 9895,
+     "grade": 2,
+     "title": "Luovutettu Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 19086,
+     "grade": 2,
+     "title": "Karjala-kysymys",
+     "rank": 1
+    },
+    {
+     "page_id": 19154,
+     "grade": 2,
+     "title": "ProKarelia",
+     "rank": null
+    },
+    {
+     "page_id": 24094,
+     "grade": 2,
+     "title": "Suur-Suomi",
+     "rank": 3
+    },
+    {
+     "page_id": 51219,
+     "grade": 2,
+     "title": "Luovutetut alueet",
+     "rank": null
+    },
+    {
+     "page_id": 64623,
+     "grade": 2,
+     "title": "Itä-Karjalan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 1333,
+     "grade": 1,
+     "title": "Viipuri",
+     "rank": null
+    },
+    {
+     "page_id": 6626,
+     "grade": 1,
+     "title": "Karjala",
+     "rank": 2
+    },
+    {
+     "page_id": 12374,
+     "grade": 1,
+     "title": "Käkisalmi",
+     "rank": null
+    },
+    {
+     "page_id": 14405,
+     "grade": 1,
+     "title": "Karjalankannas",
+     "rank": 8
+    },
+    {
+     "page_id": 17231,
+     "grade": 1,
+     "title": "Akateeminen Karjala-Seura",
+     "rank": null
+    },
+    {
+     "page_id": 45409,
+     "grade": 1,
+     "title": "Karjalan Liitto",
+     "rank": null
+    },
+    {
+     "page_id": 66885,
+     "grade": 1,
+     "title": "Raja-Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 76047,
+     "grade": 1,
+     "title": "Laatokan Karjala",
+     "rank": 11
+    },
+    {
+     "page_id": 138007,
+     "grade": 1,
+     "title": "Karjalan historia",
+     "rank": 19
+    },
+    {
+     "page_id": 177397,
+     "grade": 1,
+     "title": "Itä-Karjala",
+     "rank": 14
+    },
+    {
+     "page_id": 218476,
+     "grade": 1,
+     "title": "Siirtoväki",
+     "rank": 10
+    },
+    {
+     "page_id": 319328,
+     "grade": 1,
+     "title": "Itä-Karjalan sotilashallinto",
+     "rank": null
+    },
+    {
+     "page_id": 1496015,
+     "grade": 1,
+     "title": "Luovutettujen alueiden maantiede",
+     "rank": null
+    }
+   ],
+   "missed": [
+    9895,
+    51219,
+    19154,
+    64623,
+    9606,
+    1333,
+    12374,
+    1496015,
+    17231,
+    45409,
+    66885,
+    319328
+   ]
+  },
+  {
+   "query_id": "ceded-karelia.fi",
+   "topic_id": "ceded-karelia",
+   "kind": "topic",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.74,
+   "failed": false,
+   "recall@5": 0.2,
+   "recall@10": 0.3,
+   "recall@20": 0.55,
+   "ndcg@10": 0.6139052564627542,
+   "articles": [
+    {
+     "page_id": 9606,
+     "grade": 2,
+     "title": "Heimosodat",
+     "rank": null
+    },
+    {
+     "page_id": 9895,
+     "grade": 2,
+     "title": "Luovutettu Karjala",
+     "rank": 2
+    },
+    {
+     "page_id": 19086,
+     "grade": 2,
+     "title": "Karjala-kysymys",
+     "rank": 3
+    },
+    {
+     "page_id": 19154,
+     "grade": 2,
+     "title": "ProKarelia",
+     "rank": null
+    },
+    {
+     "page_id": 24094,
+     "grade": 2,
+     "title": "Suur-Suomi",
+     "rank": 5
+    },
+    {
+     "page_id": 51219,
+     "grade": 2,
+     "title": "Luovutetut alueet",
+     "rank": 8
+    },
+    {
+     "page_id": 64623,
+     "grade": 2,
+     "title": "Itä-Karjalan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 1333,
+     "grade": 1,
+     "title": "Viipuri",
+     "rank": null
+    },
+    {
+     "page_id": 6626,
+     "grade": 1,
+     "title": "Karjala",
+     "rank": 1
+    },
+    {
+     "page_id": 12374,
+     "grade": 1,
+     "title": "Käkisalmi",
+     "rank": null
+    },
+    {
+     "page_id": 14405,
+     "grade": 1,
+     "title": "Karjalankannas",
+     "rank": 6
+    },
+    {
+     "page_id": 17231,
+     "grade": 1,
+     "title": "Akateeminen Karjala-Seura",
+     "rank": null
+    },
+    {
+     "page_id": 45409,
+     "grade": 1,
+     "title": "Karjalan Liitto",
+     "rank": null
+    },
+    {
+     "page_id": 66885,
+     "grade": 1,
+     "title": "Raja-Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 76047,
+     "grade": 1,
+     "title": "Laatokan Karjala",
+     "rank": 11
+    },
+    {
+     "page_id": 138007,
+     "grade": 1,
+     "title": "Karjalan historia",
+     "rank": 12
+    },
+    {
+     "page_id": 177397,
+     "grade": 1,
+     "title": "Itä-Karjala",
+     "rank": 14
+    },
+    {
+     "page_id": 218476,
+     "grade": 1,
+     "title": "Siirtoväki",
+     "rank": 13
+    },
+    {
+     "page_id": 319328,
+     "grade": 1,
+     "title": "Itä-Karjalan sotilashallinto",
+     "rank": null
+    },
+    {
+     "page_id": 1496015,
+     "grade": 1,
+     "title": "Luovutettujen alueiden maantiede",
+     "rank": 16
+    }
+   ],
+   "missed": [
+    19154,
+    64623,
+    9606,
+    1333,
+    12374,
+    17231,
+    45409,
+    66885,
+    319328
+   ]
+  },
+  {
+   "query_id": "ceded-karelia.broad",
+   "topic_id": "ceded-karelia",
+   "kind": "topic",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.23,
+   "failed": false,
+   "recall@5": 0.05,
+   "recall@10": 0.1,
+   "recall@20": 0.1,
+   "ndcg@10": 0.23571622219367053,
+   "articles": [
+    {
+     "page_id": 9606,
+     "grade": 2,
+     "title": "Heimosodat",
+     "rank": null
+    },
+    {
+     "page_id": 9895,
+     "grade": 2,
+     "title": "Luovutettu Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 19086,
+     "grade": 2,
+     "title": "Karjala-kysymys",
+     "rank": 7
+    },
+    {
+     "page_id": 19154,
+     "grade": 2,
+     "title": "ProKarelia",
+     "rank": null
+    },
+    {
+     "page_id": 24094,
+     "grade": 2,
+     "title": "Suur-Suomi",
+     "rank": 2
+    },
+    {
+     "page_id": 51219,
+     "grade": 2,
+     "title": "Luovutetut alueet",
+     "rank": null
+    },
+    {
+     "page_id": 64623,
+     "grade": 2,
+     "title": "Itä-Karjalan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 1333,
+     "grade": 1,
+     "title": "Viipuri",
+     "rank": null
+    },
+    {
+     "page_id": 6626,
+     "grade": 1,
+     "title": "Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 12374,
+     "grade": 1,
+     "title": "Käkisalmi",
+     "rank": null
+    },
+    {
+     "page_id": 14405,
+     "grade": 1,
+     "title": "Karjalankannas",
+     "rank": null
+    },
+    {
+     "page_id": 17231,
+     "grade": 1,
+     "title": "Akateeminen Karjala-Seura",
+     "rank": null
+    },
+    {
+     "page_id": 45409,
+     "grade": 1,
+     "title": "Karjalan Liitto",
+     "rank": null
+    },
+    {
+     "page_id": 66885,
+     "grade": 1,
+     "title": "Raja-Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 76047,
+     "grade": 1,
+     "title": "Laatokan Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 138007,
+     "grade": 1,
+     "title": "Karjalan historia",
+     "rank": null
+    },
+    {
+     "page_id": 177397,
+     "grade": 1,
+     "title": "Itä-Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 218476,
+     "grade": 1,
+     "title": "Siirtoväki",
+     "rank": null
+    },
+    {
+     "page_id": 319328,
+     "grade": 1,
+     "title": "Itä-Karjalan sotilashallinto",
+     "rank": null
+    },
+    {
+     "page_id": 1496015,
+     "grade": 1,
+     "title": "Luovutettujen alueiden maantiede",
+     "rank": null
+    }
+   ],
+   "missed": [
+    9895,
+    51219,
+    19154,
+    64623,
+    9606,
+    6626,
+    1333,
+    12374,
+    218476,
+    1496015,
+    177397,
+    17231,
+    45409,
+    76047,
+    66885,
+    138007,
+    319328,
+    14405
+   ]
+  },
+  {
+   "query_id": "ceded-karelia.sv",
+   "topic_id": "ceded-karelia",
+   "kind": "topic",
+   "style": "sv",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.74,
+   "failed": false,
+   "recall@5": 0.15,
+   "recall@10": 0.2,
+   "recall@20": 0.4,
+   "ndcg@10": 0.4369259721776276,
+   "articles": [
+    {
+     "page_id": 9606,
+     "grade": 2,
+     "title": "Heimosodat",
+     "rank": null
+    },
+    {
+     "page_id": 9895,
+     "grade": 2,
+     "title": "Luovutettu Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 19086,
+     "grade": 2,
+     "title": "Karjala-kysymys",
+     "rank": 1
+    },
+    {
+     "page_id": 19154,
+     "grade": 2,
+     "title": "ProKarelia",
+     "rank": null
+    },
+    {
+     "page_id": 24094,
+     "grade": 2,
+     "title": "Suur-Suomi",
+     "rank": 5
+    },
+    {
+     "page_id": 51219,
+     "grade": 2,
+     "title": "Luovutetut alueet",
+     "rank": null
+    },
+    {
+     "page_id": 64623,
+     "grade": 2,
+     "title": "Itä-Karjalan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 1333,
+     "grade": 1,
+     "title": "Viipuri",
+     "rank": null
+    },
+    {
+     "page_id": 6626,
+     "grade": 1,
+     "title": "Karjala",
+     "rank": 3
+    },
+    {
+     "page_id": 12374,
+     "grade": 1,
+     "title": "Käkisalmi",
+     "rank": null
+    },
+    {
+     "page_id": 14405,
+     "grade": 1,
+     "title": "Karjalankannas",
+     "rank": 9
+    },
+    {
+     "page_id": 17231,
+     "grade": 1,
+     "title": "Akateeminen Karjala-Seura",
+     "rank": null
+    },
+    {
+     "page_id": 45409,
+     "grade": 1,
+     "title": "Karjalan Liitto",
+     "rank": null
+    },
+    {
+     "page_id": 66885,
+     "grade": 1,
+     "title": "Raja-Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 76047,
+     "grade": 1,
+     "title": "Laatokan Karjala",
+     "rank": 12
+    },
+    {
+     "page_id": 138007,
+     "grade": 1,
+     "title": "Karjalan historia",
+     "rank": 18
+    },
+    {
+     "page_id": 177397,
+     "grade": 1,
+     "title": "Itä-Karjala",
+     "rank": 16
+    },
+    {
+     "page_id": 218476,
+     "grade": 1,
+     "title": "Siirtoväki",
+     "rank": 13
+    },
+    {
+     "page_id": 319328,
+     "grade": 1,
+     "title": "Itä-Karjalan sotilashallinto",
+     "rank": null
+    },
+    {
+     "page_id": 1496015,
+     "grade": 1,
+     "title": "Luovutettujen alueiden maantiede",
+     "rank": null
+    }
+   ],
+   "missed": [
+    9895,
+    51219,
+    19154,
+    64623,
+    9606,
+    1333,
+    12374,
+    1496015,
+    17231,
+    45409,
+    66885,
+    319328
+   ]
+  },
+  {
+   "query_id": "nato-debate.en",
+   "topic_id": "nato-debate",
+   "kind": "topic",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.99,
+   "failed": false,
+   "recall@5": 0.125,
+   "recall@10": 0.1875,
+   "recall@20": 0.3125,
+   "ndcg@10": 0.18187839700815883,
+   "articles": [
+    {
+     "page_id": 128998,
+     "grade": 2,
+     "title": "Suomen Nato-keskustelu",
+     "rank": 11
+    },
+    {
+     "page_id": 742812,
+     "grade": 2,
+     "title": "Suomi ISAF-kriisinhallintaoperaatiossa Afganistanissa",
+     "rank": null
+    },
+    {
+     "page_id": 1694593,
+     "grade": 2,
+     "title": "Suomen Nato-jäsenhakemus",
+     "rank": 13
+    },
+    {
+     "page_id": 1702617,
+     "grade": 2,
+     "title": "Natottuminen",
+     "rank": null
+    },
+    {
+     "page_id": 1745523,
+     "grade": 2,
+     "title": "Suomen Nato-jäsenyys",
+     "rank": null
+    },
+    {
+     "page_id": 1137,
+     "grade": 1,
+     "title": "Sauli Niinistö",
+     "rank": null
+    },
+    {
+     "page_id": 2979,
+     "grade": 1,
+     "title": "Luettelo Suomen historian sodista",
+     "rank": null
+    },
+    {
+     "page_id": 5261,
+     "grade": 1,
+     "title": "Suomettuminen",
+     "rank": 9
+    },
+    {
+     "page_id": 9608,
+     "grade": 1,
+     "title": "Erkki Tuomioja",
+     "rank": null
+    },
+    {
+     "page_id": 11396,
+     "grade": 1,
+     "title": "Alexander Stubb",
+     "rank": 2
+    },
+    {
+     "page_id": 601751,
+     "grade": 1,
+     "title": "Suomen ulkopolitiikka",
+     "rank": null
+    },
+    {
+     "page_id": 1065040,
+     "grade": 1,
+     "title": "Suomen erityisedustusto Natossa",
+     "rank": null
+    },
+    {
+     "page_id": 1121620,
+     "grade": 1,
+     "title": "Sanna Marin",
+     "rank": 4
+    },
+    {
+     "page_id": 1310552,
+     "grade": 1,
+     "title": "Suomen ja Naton yhteisymmärryspöytäkirja",
+     "rank": null
+    },
+    {
+     "page_id": 1569867,
+     "grade": 1,
+     "title": "Suomen ja Turkin suhteet",
+     "rank": null
+    },
+    {
+     "page_id": 1570458,
+     "grade": 1,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": null
+    }
+   ],
+   "missed": [
+    1745523,
+    1702617,
+    742812,
+    2979,
+    1137,
+    601751,
+    1310552,
+    1065040,
+    1570458,
+    1569867,
+    9608
+   ]
+  },
+  {
+   "query_id": "nato-debate.fi",
+   "topic_id": "nato-debate",
+   "kind": "topic",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.03,
+   "failed": false,
+   "recall@5": 0.25,
+   "recall@10": 0.25,
+   "recall@20": 0.4375,
+   "ndcg@10": 0.43592904942057203,
+   "articles": [
+    {
+     "page_id": 128998,
+     "grade": 2,
+     "title": "Suomen Nato-keskustelu",
+     "rank": 4
+    },
+    {
+     "page_id": 742812,
+     "grade": 2,
+     "title": "Suomi ISAF-kriisinhallintaoperaatiossa Afganistanissa",
+     "rank": null
+    },
+    {
+     "page_id": 1694593,
+     "grade": 2,
+     "title": "Suomen Nato-jäsenhakemus",
+     "rank": 5
+    },
+    {
+     "page_id": 1702617,
+     "grade": 2,
+     "title": "Natottuminen",
+     "rank": 19
+    },
+    {
+     "page_id": 1745523,
+     "grade": 2,
+     "title": "Suomen Nato-jäsenyys",
+     "rank": 11
+    },
+    {
+     "page_id": 1137,
+     "grade": 1,
+     "title": "Sauli Niinistö",
+     "rank": 1
+    },
+    {
+     "page_id": 2979,
+     "grade": 1,
+     "title": "Luettelo Suomen historian sodista",
+     "rank": null
+    },
+    {
+     "page_id": 5261,
+     "grade": 1,
+     "title": "Suomettuminen",
+     "rank": null
+    },
+    {
+     "page_id": 9608,
+     "grade": 1,
+     "title": "Erkki Tuomioja",
+     "rank": null
+    },
+    {
+     "page_id": 11396,
+     "grade": 1,
+     "title": "Alexander Stubb",
+     "rank": 2
+    },
+    {
+     "page_id": 601751,
+     "grade": 1,
+     "title": "Suomen ulkopolitiikka",
+     "rank": null
+    },
+    {
+     "page_id": 1065040,
+     "grade": 1,
+     "title": "Suomen erityisedustusto Natossa",
+     "rank": null
+    },
+    {
+     "page_id": 1121620,
+     "grade": 1,
+     "title": "Sanna Marin",
+     "rank": null
+    },
+    {
+     "page_id": 1310552,
+     "grade": 1,
+     "title": "Suomen ja Naton yhteisymmärryspöytäkirja",
+     "rank": 12
+    },
+    {
+     "page_id": 1569867,
+     "grade": 1,
+     "title": "Suomen ja Turkin suhteet",
+     "rank": null
+    },
+    {
+     "page_id": 1570458,
+     "grade": 1,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": null
+    }
+   ],
+   "missed": [
+    742812,
+    2979,
+    601751,
+    1065040,
+    1570458,
+    5261,
+    1569867,
+    9608,
+    1121620
+   ]
+  },
+  {
+   "query_id": "nato-debate.broad",
+   "topic_id": "nato-debate",
+   "kind": "topic",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.85,
+   "failed": false,
+   "recall@5": 0.0625,
+   "recall@10": 0.125,
+   "recall@20": 0.1875,
+   "ndcg@10": 0.1069177819388587,
+   "articles": [
+    {
+     "page_id": 128998,
+     "grade": 2,
+     "title": "Suomen Nato-keskustelu",
+     "rank": null
+    },
+    {
+     "page_id": 742812,
+     "grade": 2,
+     "title": "Suomi ISAF-kriisinhallintaoperaatiossa Afganistanissa",
+     "rank": null
+    },
+    {
+     "page_id": 1694593,
+     "grade": 2,
+     "title": "Suomen Nato-jäsenhakemus",
+     "rank": null
+    },
+    {
+     "page_id": 1702617,
+     "grade": 2,
+     "title": "Natottuminen",
+     "rank": null
+    },
+    {
+     "page_id": 1745523,
+     "grade": 2,
+     "title": "Suomen Nato-jäsenyys",
+     "rank": null
+    },
+    {
+     "page_id": 1137,
+     "grade": 1,
+     "title": "Sauli Niinistö",
+     "rank": null
+    },
+    {
+     "page_id": 2979,
+     "grade": 1,
+     "title": "Luettelo Suomen historian sodista",
+     "rank": 3
+    },
+    {
+     "page_id": 5261,
+     "grade": 1,
+     "title": "Suomettuminen",
+     "rank": 9
+    },
+    {
+     "page_id": 9608,
+     "grade": 1,
+     "title": "Erkki Tuomioja",
+     "rank": null
+    },
+    {
+     "page_id": 11396,
+     "grade": 1,
+     "title": "Alexander Stubb",
+     "rank": null
+    },
+    {
+     "page_id": 601751,
+     "grade": 1,
+     "title": "Suomen ulkopolitiikka",
+     "rank": null
+    },
+    {
+     "page_id": 1065040,
+     "grade": 1,
+     "title": "Suomen erityisedustusto Natossa",
+     "rank": null
+    },
+    {
+     "page_id": 1121620,
+     "grade": 1,
+     "title": "Sanna Marin",
+     "rank": null
+    },
+    {
+     "page_id": 1310552,
+     "grade": 1,
+     "title": "Suomen ja Naton yhteisymmärryspöytäkirja",
+     "rank": null
+    },
+    {
+     "page_id": 1569867,
+     "grade": 1,
+     "title": "Suomen ja Turkin suhteet",
+     "rank": null
+    },
+    {
+     "page_id": 1570458,
+     "grade": 1,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": 20
+    }
+   ],
+   "missed": [
+    128998,
+    1745523,
+    1694593,
+    1702617,
+    742812,
+    1137,
+    601751,
+    1310552,
+    1065040,
+    1569867,
+    9608,
+    11396,
+    1121620
+   ]
+  },
+  {
+   "query_id": "nato-debate.sv",
+   "topic_id": "nato-debate",
+   "kind": "topic",
+   "style": "sv",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.82,
+   "failed": false,
+   "recall@5": 0.0,
+   "recall@10": 0.1875,
+   "recall@20": 0.3125,
+   "ndcg@10": 0.16888547323211975,
+   "articles": [
+    {
+     "page_id": 128998,
+     "grade": 2,
+     "title": "Suomen Nato-keskustelu",
+     "rank": 8
+    },
+    {
+     "page_id": 742812,
+     "grade": 2,
+     "title": "Suomi ISAF-kriisinhallintaoperaatiossa Afganistanissa",
+     "rank": null
+    },
+    {
+     "page_id": 1694593,
+     "grade": 2,
+     "title": "Suomen Nato-jäsenhakemus",
+     "rank": 11
+    },
+    {
+     "page_id": 1702617,
+     "grade": 2,
+     "title": "Natottuminen",
+     "rank": null
+    },
+    {
+     "page_id": 1745523,
+     "grade": 2,
+     "title": "Suomen Nato-jäsenyys",
+     "rank": null
+    },
+    {
+     "page_id": 1137,
+     "grade": 1,
+     "title": "Sauli Niinistö",
+     "rank": null
+    },
+    {
+     "page_id": 2979,
+     "grade": 1,
+     "title": "Luettelo Suomen historian sodista",
+     "rank": 7
+    },
+    {
+     "page_id": 5261,
+     "grade": 1,
+     "title": "Suomettuminen",
+     "rank": 9
+    },
+    {
+     "page_id": 9608,
+     "grade": 1,
+     "title": "Erkki Tuomioja",
+     "rank": null
+    },
+    {
+     "page_id": 11396,
+     "grade": 1,
+     "title": "Alexander Stubb",
+     "rank": null
+    },
+    {
+     "page_id": 601751,
+     "grade": 1,
+     "title": "Suomen ulkopolitiikka",
+     "rank": null
+    },
+    {
+     "page_id": 1065040,
+     "grade": 1,
+     "title": "Suomen erityisedustusto Natossa",
+     "rank": null
+    },
+    {
+     "page_id": 1121620,
+     "grade": 1,
+     "title": "Sanna Marin",
+     "rank": null
+    },
+    {
+     "page_id": 1310552,
+     "grade": 1,
+     "title": "Suomen ja Naton yhteisymmärryspöytäkirja",
+     "rank": null
+    },
+    {
+     "page_id": 1569867,
+     "grade": 1,
+     "title": "Suomen ja Turkin suhteet",
+     "rank": null
+    },
+    {
+     "page_id": 1570458,
+     "grade": 1,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": 18
+    }
+   ],
+   "missed": [
+    1745523,
+    1702617,
+    742812,
+    1137,
+    601751,
+    1310552,
+    1065040,
+    1569867,
+    9608,
+    11396,
+    1121620
+   ]
+  },
+  {
+   "query_id": "finlandization.en",
+   "topic_id": "finlandization",
+   "kind": "topic",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.86,
+   "failed": false,
+   "recall@5": 0.09090909090909091,
+   "recall@10": 0.18181818181818182,
+   "recall@20": 0.3181818181818182,
+   "ndcg@10": 0.5077630049742689,
+   "articles": [
+    {
+     "page_id": 1275,
+     "grade": 2,
+     "title": "Urho Kekkonen",
+     "rank": 1
+    },
+    {
+     "page_id": 5261,
+     "grade": 2,
+     "title": "Suomettuminen",
+     "rank": 3
+    },
+    {
+     "page_id": 9564,
+     "grade": 2,
+     "title": "YYA-sopimus",
+     "rank": 6
+    },
+    {
+     "page_id": 20984,
+     "grade": 2,
+     "title": "Paasikiven–Kekkosen linja",
+     "rank": 18
+    },
+    {
+     "page_id": 22604,
+     "grade": 2,
+     "title": "Noottikriisi",
+     "rank": 9
+    },
+    {
+     "page_id": 23945,
+     "grade": 2,
+     "title": "Yöpakkaset",
+     "rank": 12
+    },
+    {
+     "page_id": 1570458,
+     "grade": 2,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": null
+    },
+    {
+     "page_id": 1690220,
+     "grade": 2,
+     "title": "Kansakunta rähmällään",
+     "rank": null
+    },
+    {
+     "page_id": 942,
+     "grade": 1,
+     "title": "Paavo Lipponen",
+     "rank": null
+    },
+    {
+     "page_id": 1187,
+     "grade": 1,
+     "title": "Tarja Halonen",
+     "rank": null
+    },
+    {
+     "page_id": 7904,
+     "grade": 1,
+     "title": "Taistolaisuus",
+     "rank": null
+    },
+    {
+     "page_id": 20742,
+     "grade": 1,
+     "title": "Venäläisvastaisuus",
+     "rank": null
+    },
+    {
+     "page_id": 57804,
+     "grade": 1,
+     "title": "Neuvostovastaisuus",
+     "rank": null
+    },
+    {
+     "page_id": 69647,
+     "grade": 1,
+     "title": "Suomi–Neuvostoliitto-Seura",
+     "rank": null
+    },
+    {
+     "page_id": 71558,
+     "grade": 1,
+     "title": "Zavidovo-vuoto",
+     "rank": null
+    },
+    {
+     "page_id": 102270,
+     "grade": 1,
+     "title": "Suomi–Venäjä-Seura",
+     "rank": null
+    },
+    {
+     "page_id": 565073,
+     "grade": 1,
+     "title": "Moskovan kortti",
+     "rank": null
+    },
+    {
+     "page_id": 601751,
+     "grade": 1,
+     "title": "Suomen ulkopolitiikka",
+     "rank": null
+    },
+    {
+     "page_id": 828065,
+     "grade": 1,
+     "title": "Sensuuri Suomessa",
+     "rank": 14
+    },
+    {
+     "page_id": 966372,
+     "grade": 1,
+     "title": "Suomi 1970-luvulla",
+     "rank": null
+    },
+    {
+     "page_id": 1678952,
+     "grade": 1,
+     "title": "Suomen ja Neuvostoliiton kommunikeakiista",
+     "rank": null
+    },
+    {
+     "page_id": 1702617,
+     "grade": 1,
+     "title": "Natottuminen",
+     "rank": null
+    }
+   ],
+   "missed": [
+    1690220,
+    1570458,
+    69647,
+    57804,
+    71558,
+    1678952,
+    565073,
+    1702617,
+    966372,
+    7904,
+    102270,
+    601751,
+    20742,
+    942,
+    1187
+   ]
+  },
+  {
+   "query_id": "finlandization.fi",
+   "topic_id": "finlandization",
+   "kind": "topic",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.81,
+   "failed": false,
+   "recall@5": 0.09090909090909091,
+   "recall@10": 0.13636363636363635,
+   "recall@20": 0.3181818181818182,
+   "ndcg@10": 0.4623414316849471,
+   "articles": [
+    {
+     "page_id": 1275,
+     "grade": 2,
+     "title": "Urho Kekkonen",
+     "rank": 1
+    },
+    {
+     "page_id": 5261,
+     "grade": 2,
+     "title": "Suomettuminen",
+     "rank": 2
+    },
+    {
+     "page_id": 9564,
+     "grade": 2,
+     "title": "YYA-sopimus",
+     "rank": null
+    },
+    {
+     "page_id": 20984,
+     "grade": 2,
+     "title": "Paasikiven–Kekkosen linja",
+     "rank": null
+    },
+    {
+     "page_id": 22604,
+     "grade": 2,
+     "title": "Noottikriisi",
+     "rank": 7
+    },
+    {
+     "page_id": 23945,
+     "grade": 2,
+     "title": "Yöpakkaset",
+     "rank": 15
+    },
+    {
+     "page_id": 1570458,
+     "grade": 2,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": null
+    },
+    {
+     "page_id": 1690220,
+     "grade": 2,
+     "title": "Kansakunta rähmällään",
+     "rank": null
+    },
+    {
+     "page_id": 942,
+     "grade": 1,
+     "title": "Paavo Lipponen",
+     "rank": null
+    },
+    {
+     "page_id": 1187,
+     "grade": 1,
+     "title": "Tarja Halonen",
+     "rank": null
+    },
+    {
+     "page_id": 7904,
+     "grade": 1,
+     "title": "Taistolaisuus",
+     "rank": null
+    },
+    {
+     "page_id": 20742,
+     "grade": 1,
+     "title": "Venäläisvastaisuus",
+     "rank": null
+    },
+    {
+     "page_id": 57804,
+     "grade": 1,
+     "title": "Neuvostovastaisuus",
+     "rank": 14
+    },
+    {
+     "page_id": 69647,
+     "grade": 1,
+     "title": "Suomi–Neuvostoliitto-Seura",
+     "rank": null
+    },
+    {
+     "page_id": 71558,
+     "grade": 1,
+     "title": "Zavidovo-vuoto",
+     "rank": 20
+    },
+    {
+     "page_id": 102270,
+     "grade": 1,
+     "title": "Suomi–Venäjä-Seura",
+     "rank": null
+    },
+    {
+     "page_id": 565073,
+     "grade": 1,
+     "title": "Moskovan kortti",
+     "rank": null
+    },
+    {
+     "page_id": 601751,
+     "grade": 1,
+     "title": "Suomen ulkopolitiikka",
+     "rank": null
+    },
+    {
+     "page_id": 828065,
+     "grade": 1,
+     "title": "Sensuuri Suomessa",
+     "rank": 18
+    },
+    {
+     "page_id": 966372,
+     "grade": 1,
+     "title": "Suomi 1970-luvulla",
+     "rank": null
+    },
+    {
+     "page_id": 1678952,
+     "grade": 1,
+     "title": "Suomen ja Neuvostoliiton kommunikeakiista",
+     "rank": null
+    },
+    {
+     "page_id": 1702617,
+     "grade": 1,
+     "title": "Natottuminen",
+     "rank": null
+    }
+   ],
+   "missed": [
+    20984,
+    9564,
+    1690220,
+    1570458,
+    69647,
+    1678952,
+    565073,
+    1702617,
+    966372,
+    7904,
+    102270,
+    601751,
+    20742,
+    942,
+    1187
+   ]
+  },
+  {
+   "query_id": "finlandization.broad",
+   "topic_id": "finlandization",
+   "kind": "topic",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.85,
+   "failed": false,
+   "recall@5": 0.045454545454545456,
+   "recall@10": 0.13636363636363635,
+   "recall@20": 0.22727272727272727,
+   "ndcg@10": 0.1974099240945713,
+   "articles": [
+    {
+     "page_id": 1275,
+     "grade": 2,
+     "title": "Urho Kekkonen",
+     "rank": null
+    },
+    {
+     "page_id": 5261,
+     "grade": 2,
+     "title": "Suomettuminen",
+     "rank": 10
+    },
+    {
+     "page_id": 9564,
+     "grade": 2,
+     "title": "YYA-sopimus",
+     "rank": 6
+    },
+    {
+     "page_id": 20984,
+     "grade": 2,
+     "title": "Paasikiven–Kekkosen linja",
+     "rank": null
+    },
+    {
+     "page_id": 22604,
+     "grade": 2,
+     "title": "Noottikriisi",
+     "rank": null
+    },
+    {
+     "page_id": 23945,
+     "grade": 2,
+     "title": "Yöpakkaset",
+     "rank": 13
+    },
+    {
+     "page_id": 1570458,
+     "grade": 2,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": 15
+    },
+    {
+     "page_id": 1690220,
+     "grade": 2,
+     "title": "Kansakunta rähmällään",
+     "rank": null
+    },
+    {
+     "page_id": 942,
+     "grade": 1,
+     "title": "Paavo Lipponen",
+     "rank": null
+    },
+    {
+     "page_id": 1187,
+     "grade": 1,
+     "title": "Tarja Halonen",
+     "rank": null
+    },
+    {
+     "page_id": 7904,
+     "grade": 1,
+     "title": "Taistolaisuus",
+     "rank": null
+    },
+    {
+     "page_id": 20742,
+     "grade": 1,
+     "title": "Venäläisvastaisuus",
+     "rank": null
+    },
+    {
+     "page_id": 57804,
+     "grade": 1,
+     "title": "Neuvostovastaisuus",
+     "rank": null
+    },
+    {
+     "page_id": 69647,
+     "grade": 1,
+     "title": "Suomi–Neuvostoliitto-Seura",
+     "rank": null
+    },
+    {
+     "page_id": 71558,
+     "grade": 1,
+     "title": "Zavidovo-vuoto",
+     "rank": null
+    },
+    {
+     "page_id": 102270,
+     "grade": 1,
+     "title": "Suomi–Venäjä-Seura",
+     "rank": 5
+    },
+    {
+     "page_id": 565073,
+     "grade": 1,
+     "title": "Moskovan kortti",
+     "rank": null
+    },
+    {
+     "page_id": 601751,
+     "grade": 1,
+     "title": "Suomen ulkopolitiikka",
+     "rank": null
+    },
+    {
+     "page_id": 828065,
+     "grade": 1,
+     "title": "Sensuuri Suomessa",
+     "rank": null
+    },
+    {
+     "page_id": 966372,
+     "grade": 1,
+     "title": "Suomi 1970-luvulla",
+     "rank": null
+    },
+    {
+     "page_id": 1678952,
+     "grade": 1,
+     "title": "Suomen ja Neuvostoliiton kommunikeakiista",
+     "rank": null
+    },
+    {
+     "page_id": 1702617,
+     "grade": 1,
+     "title": "Natottuminen",
+     "rank": null
+    }
+   ],
+   "missed": [
+    20984,
+    1690220,
+    1275,
+    22604,
+    69647,
+    57804,
+    71558,
+    1678952,
+    565073,
+    1702617,
+    828065,
+    966372,
+    7904,
+    601751,
+    20742,
+    942,
+    1187
+   ]
+  },
+  {
+   "query_id": "finlandization.sv",
+   "topic_id": "finlandization",
+   "kind": "topic",
+   "style": "sv",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.08,
+   "failed": false,
+   "recall@5": 0.13636363636363635,
+   "recall@10": 0.22727272727272727,
+   "recall@20": 0.2727272727272727,
+   "ndcg@10": 0.5933304232895156,
+   "articles": [
+    {
+     "page_id": 1275,
+     "grade": 2,
+     "title": "Urho Kekkonen",
+     "rank": 1
+    },
+    {
+     "page_id": 5261,
+     "grade": 2,
+     "title": "Suomettuminen",
+     "rank": 3
+    },
+    {
+     "page_id": 9564,
+     "grade": 2,
+     "title": "YYA-sopimus",
+     "rank": 4
+    },
+    {
+     "page_id": 20984,
+     "grade": 2,
+     "title": "Paasikiven–Kekkosen linja",
+     "rank": 15
+    },
+    {
+     "page_id": 22604,
+     "grade": 2,
+     "title": "Noottikriisi",
+     "rank": 10
+    },
+    {
+     "page_id": 23945,
+     "grade": 2,
+     "title": "Yöpakkaset",
+     "rank": 9
+    },
+    {
+     "page_id": 1570458,
+     "grade": 2,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": null
+    },
+    {
+     "page_id": 1690220,
+     "grade": 2,
+     "title": "Kansakunta rähmällään",
+     "rank": null
+    },
+    {
+     "page_id": 942,
+     "grade": 1,
+     "title": "Paavo Lipponen",
+     "rank": null
+    },
+    {
+     "page_id": 1187,
+     "grade": 1,
+     "title": "Tarja Halonen",
+     "rank": null
+    },
+    {
+     "page_id": 7904,
+     "grade": 1,
+     "title": "Taistolaisuus",
+     "rank": null
+    },
+    {
+     "page_id": 20742,
+     "grade": 1,
+     "title": "Venäläisvastaisuus",
+     "rank": null
+    },
+    {
+     "page_id": 57804,
+     "grade": 1,
+     "title": "Neuvostovastaisuus",
+     "rank": null
+    },
+    {
+     "page_id": 69647,
+     "grade": 1,
+     "title": "Suomi–Neuvostoliitto-Seura",
+     "rank": null
+    },
+    {
+     "page_id": 71558,
+     "grade": 1,
+     "title": "Zavidovo-vuoto",
+     "rank": null
+    },
+    {
+     "page_id": 102270,
+     "grade": 1,
+     "title": "Suomi–Venäjä-Seura",
+     "rank": null
+    },
+    {
+     "page_id": 565073,
+     "grade": 1,
+     "title": "Moskovan kortti",
+     "rank": null
+    },
+    {
+     "page_id": 601751,
+     "grade": 1,
+     "title": "Suomen ulkopolitiikka",
+     "rank": null
+    },
+    {
+     "page_id": 828065,
+     "grade": 1,
+     "title": "Sensuuri Suomessa",
+     "rank": null
+    },
+    {
+     "page_id": 966372,
+     "grade": 1,
+     "title": "Suomi 1970-luvulla",
+     "rank": null
+    },
+    {
+     "page_id": 1678952,
+     "grade": 1,
+     "title": "Suomen ja Neuvostoliiton kommunikeakiista",
+     "rank": null
+    },
+    {
+     "page_id": 1702617,
+     "grade": 1,
+     "title": "Natottuminen",
+     "rank": null
+    }
+   ],
+   "missed": [
+    1690220,
+    1570458,
+    69647,
+    57804,
+    71558,
+    1678952,
+    565073,
+    1702617,
+    828065,
+    966372,
+    7904,
+    102270,
+    601751,
+    20742,
+    942,
+    1187
+   ]
+  },
+  {
+   "query_id": "austerity-politics.en",
+   "topic_id": "austerity-politics",
+   "kind": "topic",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.62,
+   "failed": false,
+   "recall@5": 0.19047619047619047,
+   "recall@10": 0.2857142857142857,
+   "recall@20": 0.2857142857142857,
+   "ndcg@10": 0.708212283303591,
+   "articles": [
+    {
+     "page_id": 10858,
+     "grade": 2,
+     "title": "Jyrki Katainen",
+     "rank": 1
+    },
+    {
+     "page_id": 378293,
+     "grade": 2,
+     "title": "Eduskuntavaalit 2011",
+     "rank": 5
+    },
+    {
+     "page_id": 926229,
+     "grade": 2,
+     "title": "Juha Sipilä",
+     "rank": 3
+    },
+    {
+     "page_id": 940826,
+     "grade": 2,
+     "title": "Kataisen hallitus",
+     "rank": 2
+    },
+    {
+     "page_id": 1261018,
+     "grade": 2,
+     "title": "Sipilän hallitus",
+     "rank": 7
+    },
+    {
+     "page_id": 1339931,
+     "grade": 2,
+     "title": "Suomi 2010-luvulla",
+     "rank": null
+    },
+    {
+     "page_id": 1405132,
+     "grade": 2,
+     "title": "Kilpailukykysopimus",
+     "rank": null
+    },
+    {
+     "page_id": 1427199,
+     "grade": 2,
+     "title": "Aktiivimalli",
+     "rank": null
+    },
+    {
+     "page_id": 795,
+     "grade": 1,
+     "title": "Matti Vanhanen",
+     "rank": null
+    },
+    {
+     "page_id": 9059,
+     "grade": 1,
+     "title": "Osmo Soininvaara",
+     "rank": null
+    },
+    {
+     "page_id": 11396,
+     "grade": 1,
+     "title": "Alexander Stubb",
+     "rank": null
+    },
+    {
+     "page_id": 12639,
+     "grade": 1,
+     "title": "Suvi Lindén",
+     "rank": null
+    },
+    {
+     "page_id": 43887,
+     "grade": 1,
+     "title": "Mari Kiviniemi",
+     "rank": null
+    },
+    {
+     "page_id": 334921,
+     "grade": 1,
+     "title": "Vanhasen II hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 832314,
+     "grade": 1,
+     "title": "Kiviniemen hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 856829,
+     "grade": 1,
+     "title": "Eduskuntavaalit 2015",
+     "rank": 8
+    },
+    {
+     "page_id": 1121620,
+     "grade": 1,
+     "title": "Sanna Marin",
+     "rank": null
+    },
+    {
+     "page_id": 1141935,
+     "grade": 1,
+     "title": "Maakunta- ja soteuudistus",
+     "rank": null
+    },
+    {
+     "page_id": 1174071,
+     "grade": 1,
+     "title": "Stubbin hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 1496095,
+     "grade": 1,
+     "title": "Sosiaaliturvan uudistus",
+     "rank": null
+    },
+    {
+     "page_id": 1755834,
+     "grade": 1,
+     "title": "Orpon hallitus",
+     "rank": null
+    }
+   ],
+   "missed": [
+    1339931,
+    1405132,
+    1427199,
+    1174071,
+    832314,
+    334921,
+    1141935,
+    1496095,
+    1755834,
+    43887,
+    11396,
+    795,
+    1121620,
+    9059,
+    12639
+   ]
+  },
+  {
+   "query_id": "austerity-politics.fi",
+   "topic_id": "austerity-politics",
+   "kind": "topic",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.8,
+   "failed": false,
+   "recall@5": 0.19047619047619047,
+   "recall@10": 0.3333333333333333,
+   "recall@20": 0.38095238095238093,
+   "ndcg@10": 0.7579308721641375,
+   "articles": [
+    {
+     "page_id": 10858,
+     "grade": 2,
+     "title": "Jyrki Katainen",
+     "rank": 1
+    },
+    {
+     "page_id": 378293,
+     "grade": 2,
+     "title": "Eduskuntavaalit 2011",
+     "rank": 6
+    },
+    {
+     "page_id": 926229,
+     "grade": 2,
+     "title": "Juha Sipilä",
+     "rank": 2
+    },
+    {
+     "page_id": 940826,
+     "grade": 2,
+     "title": "Kataisen hallitus",
+     "rank": 4
+    },
+    {
+     "page_id": 1261018,
+     "grade": 2,
+     "title": "Sipilän hallitus",
+     "rank": 3
+    },
+    {
+     "page_id": 1339931,
+     "grade": 2,
+     "title": "Suomi 2010-luvulla",
+     "rank": null
+    },
+    {
+     "page_id": 1405132,
+     "grade": 2,
+     "title": "Kilpailukykysopimus",
+     "rank": null
+    },
+    {
+     "page_id": 1427199,
+     "grade": 2,
+     "title": "Aktiivimalli",
+     "rank": null
+    },
+    {
+     "page_id": 795,
+     "grade": 1,
+     "title": "Matti Vanhanen",
+     "rank": null
+    },
+    {
+     "page_id": 9059,
+     "grade": 1,
+     "title": "Osmo Soininvaara",
+     "rank": null
+    },
+    {
+     "page_id": 11396,
+     "grade": 1,
+     "title": "Alexander Stubb",
+     "rank": null
+    },
+    {
+     "page_id": 12639,
+     "grade": 1,
+     "title": "Suvi Lindén",
+     "rank": null
+    },
+    {
+     "page_id": 43887,
+     "grade": 1,
+     "title": "Mari Kiviniemi",
+     "rank": null
+    },
+    {
+     "page_id": 334921,
+     "grade": 1,
+     "title": "Vanhasen II hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 832314,
+     "grade": 1,
+     "title": "Kiviniemen hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 856829,
+     "grade": 1,
+     "title": "Eduskuntavaalit 2015",
+     "rank": 11
+    },
+    {
+     "page_id": 1121620,
+     "grade": 1,
+     "title": "Sanna Marin",
+     "rank": null
+    },
+    {
+     "page_id": 1141935,
+     "grade": 1,
+     "title": "Maakunta- ja soteuudistus",
+     "rank": 10
+    },
+    {
+     "page_id": 1174071,
+     "grade": 1,
+     "title": "Stubbin hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 1496095,
+     "grade": 1,
+     "title": "Sosiaaliturvan uudistus",
+     "rank": null
+    },
+    {
+     "page_id": 1755834,
+     "grade": 1,
+     "title": "Orpon hallitus",
+     "rank": 8
+    }
+   ],
+   "missed": [
+    1339931,
+    1405132,
+    1427199,
+    1174071,
+    832314,
+    334921,
+    1496095,
+    43887,
+    11396,
+    795,
+    1121620,
+    9059,
+    12639
+   ]
+  },
+  {
+   "query_id": "austerity-politics.broad",
+   "topic_id": "austerity-politics",
+   "kind": "topic",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 3.26,
+   "failed": false,
+   "recall@5": 0.09523809523809523,
+   "recall@10": 0.14285714285714285,
+   "recall@20": 0.14285714285714285,
+   "ndcg@10": 0.2838967491443128,
+   "articles": [
+    {
+     "page_id": 10858,
+     "grade": 2,
+     "title": "Jyrki Katainen",
+     "rank": 2
+    },
+    {
+     "page_id": 378293,
+     "grade": 2,
+     "title": "Eduskuntavaalit 2011",
+     "rank": 4
+    },
+    {
+     "page_id": 926229,
+     "grade": 2,
+     "title": "Juha Sipilä",
+     "rank": null
+    },
+    {
+     "page_id": 940826,
+     "grade": 2,
+     "title": "Kataisen hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 1261018,
+     "grade": 2,
+     "title": "Sipilän hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 1339931,
+     "grade": 2,
+     "title": "Suomi 2010-luvulla",
+     "rank": null
+    },
+    {
+     "page_id": 1405132,
+     "grade": 2,
+     "title": "Kilpailukykysopimus",
+     "rank": null
+    },
+    {
+     "page_id": 1427199,
+     "grade": 2,
+     "title": "Aktiivimalli",
+     "rank": null
+    },
+    {
+     "page_id": 795,
+     "grade": 1,
+     "title": "Matti Vanhanen",
+     "rank": null
+    },
+    {
+     "page_id": 9059,
+     "grade": 1,
+     "title": "Osmo Soininvaara",
+     "rank": null
+    },
+    {
+     "page_id": 11396,
+     "grade": 1,
+     "title": "Alexander Stubb",
+     "rank": null
+    },
+    {
+     "page_id": 12639,
+     "grade": 1,
+     "title": "Suvi Lindén",
+     "rank": null
+    },
+    {
+     "page_id": 43887,
+     "grade": 1,
+     "title": "Mari Kiviniemi",
+     "rank": null
+    },
+    {
+     "page_id": 334921,
+     "grade": 1,
+     "title": "Vanhasen II hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 832314,
+     "grade": 1,
+     "title": "Kiviniemen hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 856829,
+     "grade": 1,
+     "title": "Eduskuntavaalit 2015",
+     "rank": null
+    },
+    {
+     "page_id": 1121620,
+     "grade": 1,
+     "title": "Sanna Marin",
+     "rank": null
+    },
+    {
+     "page_id": 1141935,
+     "grade": 1,
+     "title": "Maakunta- ja soteuudistus",
+     "rank": null
+    },
+    {
+     "page_id": 1174071,
+     "grade": 1,
+     "title": "Stubbin hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 1496095,
+     "grade": 1,
+     "title": "Sosiaaliturvan uudistus",
+     "rank": null
+    },
+    {
+     "page_id": 1755834,
+     "grade": 1,
+     "title": "Orpon hallitus",
+     "rank": 10
+    }
+   ],
+   "missed": [
+    940826,
+    1261018,
+    1339931,
+    1405132,
+    1427199,
+    926229,
+    1174071,
+    832314,
+    334921,
+    856829,
+    1141935,
+    1496095,
+    43887,
+    11396,
+    795,
+    1121620,
+    9059,
+    12639
+   ]
+  },
+  {
+   "query_id": "austerity-politics.sv",
+   "topic_id": "austerity-politics",
+   "kind": "topic",
+   "style": "sv",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.96,
+   "failed": false,
+   "recall@5": 0.09523809523809523,
+   "recall@10": 0.23809523809523808,
+   "recall@20": 0.38095238095238093,
+   "ndcg@10": 0.39548975979230794,
+   "articles": [
+    {
+     "page_id": 10858,
+     "grade": 2,
+     "title": "Jyrki Katainen",
+     "rank": 2
+    },
+    {
+     "page_id": 378293,
+     "grade": 2,
+     "title": "Eduskuntavaalit 2011",
+     "rank": 7
+    },
+    {
+     "page_id": 926229,
+     "grade": 2,
+     "title": "Juha Sipilä",
+     "rank": null
+    },
+    {
+     "page_id": 940826,
+     "grade": 2,
+     "title": "Kataisen hallitus",
+     "rank": 8
+    },
+    {
+     "page_id": 1261018,
+     "grade": 2,
+     "title": "Sipilän hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 1339931,
+     "grade": 2,
+     "title": "Suomi 2010-luvulla",
+     "rank": 17
+    },
+    {
+     "page_id": 1405132,
+     "grade": 2,
+     "title": "Kilpailukykysopimus",
+     "rank": null
+    },
+    {
+     "page_id": 1427199,
+     "grade": 2,
+     "title": "Aktiivimalli",
+     "rank": null
+    },
+    {
+     "page_id": 795,
+     "grade": 1,
+     "title": "Matti Vanhanen",
+     "rank": null
+    },
+    {
+     "page_id": 9059,
+     "grade": 1,
+     "title": "Osmo Soininvaara",
+     "rank": null
+    },
+    {
+     "page_id": 11396,
+     "grade": 1,
+     "title": "Alexander Stubb",
+     "rank": 3
+    },
+    {
+     "page_id": 12639,
+     "grade": 1,
+     "title": "Suvi Lindén",
+     "rank": null
+    },
+    {
+     "page_id": 43887,
+     "grade": 1,
+     "title": "Mari Kiviniemi",
+     "rank": 9
+    },
+    {
+     "page_id": 334921,
+     "grade": 1,
+     "title": "Vanhasen II hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 832314,
+     "grade": 1,
+     "title": "Kiviniemen hallitus",
+     "rank": 20
+    },
+    {
+     "page_id": 856829,
+     "grade": 1,
+     "title": "Eduskuntavaalit 2015",
+     "rank": null
+    },
+    {
+     "page_id": 1121620,
+     "grade": 1,
+     "title": "Sanna Marin",
+     "rank": null
+    },
+    {
+     "page_id": 1141935,
+     "grade": 1,
+     "title": "Maakunta- ja soteuudistus",
+     "rank": 12
+    },
+    {
+     "page_id": 1174071,
+     "grade": 1,
+     "title": "Stubbin hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 1496095,
+     "grade": 1,
+     "title": "Sosiaaliturvan uudistus",
+     "rank": null
+    },
+    {
+     "page_id": 1755834,
+     "grade": 1,
+     "title": "Orpon hallitus",
+     "rank": null
+    }
+   ],
+   "missed": [
+    1261018,
+    1405132,
+    1427199,
+    926229,
+    1174071,
+    334921,
+    856829,
+    1496095,
+    1755834,
+    795,
+    1121620,
+    9059,
+    12639
+   ]
+  },
+  {
+   "query_id": "covid-19-finland.en",
+   "topic_id": "covid-19-finland",
+   "kind": "topic",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.86,
+   "failed": false,
+   "recall@5": 0.16666666666666666,
+   "recall@10": 0.25,
+   "recall@20": 0.4166666666666667,
+   "ndcg@10": 0.34505725764062495,
+   "articles": [
+    {
+     "page_id": 1562418,
+     "grade": 2,
+     "title": "Koronaviruspandemia Suomessa",
+     "rank": 1
+    },
+    {
+     "page_id": 1574358,
+     "grade": 2,
+     "title": "Etäopetus koronaviruspandemian aikana Suomessa",
+     "rank": null
+    },
+    {
+     "page_id": 1577657,
+     "grade": 2,
+     "title": "Suomen koronaviruspandemian aikajana",
+     "rank": 18
+    },
+    {
+     "page_id": 1577930,
+     "grade": 2,
+     "title": "Suomen koronavirusepidemiaa ennustavat mallit",
+     "rank": null
+    },
+    {
+     "page_id": 1577934,
+     "grade": 2,
+     "title": "Suomen toimenpiteet koronaviruspandemiaa vastaan",
+     "rank": 12
+    },
+    {
+     "page_id": 1582912,
+     "grade": 2,
+     "title": "Suomen koronavirusstrategia",
+     "rank": null
+    },
+    {
+     "page_id": 1593343,
+     "grade": 2,
+     "title": "Koronavilkku",
+     "rank": null
+    },
+    {
+     "page_id": 1675610,
+     "grade": 2,
+     "title": "Koronaviruspandemia Ahvenanmaalla",
+     "rank": null
+    },
+    {
+     "page_id": 1121620,
+     "grade": 1,
+     "title": "Sanna Marin",
+     "rank": 2
+    },
+    {
+     "page_id": 1427910,
+     "grade": 1,
+     "title": "Kuntavaalit 2021",
+     "rank": 9
+    },
+    {
+     "page_id": 1549479,
+     "grade": 1,
+     "title": "Marinin hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 1650988,
+     "grade": 1,
+     "title": "Suomi 2020-luvulla",
+     "rank": null
+    }
+   ],
+   "missed": [
+    1582912,
+    1593343,
+    1675610,
+    1574358,
+    1577930,
+    1549479,
+    1650988
+   ]
+  },
+  {
+   "query_id": "covid-19-finland.fi",
+   "topic_id": "covid-19-finland",
+   "kind": "topic",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.76,
+   "failed": false,
+   "recall@5": 0.25,
+   "recall@10": 0.5,
+   "recall@20": 0.6666666666666666,
+   "ndcg@10": 0.5599108621942127,
+   "articles": [
+    {
+     "page_id": 1562418,
+     "grade": 2,
+     "title": "Koronaviruspandemia Suomessa",
+     "rank": 1
+    },
+    {
+     "page_id": 1574358,
+     "grade": 2,
+     "title": "Etäopetus koronaviruspandemian aikana Suomessa",
+     "rank": null
+    },
+    {
+     "page_id": 1577657,
+     "grade": 2,
+     "title": "Suomen koronaviruspandemian aikajana",
+     "rank": 8
+    },
+    {
+     "page_id": 1577930,
+     "grade": 2,
+     "title": "Suomen koronavirusepidemiaa ennustavat mallit",
+     "rank": 19
+    },
+    {
+     "page_id": 1577934,
+     "grade": 2,
+     "title": "Suomen toimenpiteet koronaviruspandemiaa vastaan",
+     "rank": 4
+    },
+    {
+     "page_id": 1582912,
+     "grade": 2,
+     "title": "Suomen koronavirusstrategia",
+     "rank": 20
+    },
+    {
+     "page_id": 1593343,
+     "grade": 2,
+     "title": "Koronavilkku",
+     "rank": null
+    },
+    {
+     "page_id": 1675610,
+     "grade": 2,
+     "title": "Koronaviruspandemia Ahvenanmaalla",
+     "rank": null
+    },
+    {
+     "page_id": 1121620,
+     "grade": 1,
+     "title": "Sanna Marin",
+     "rank": 2
+    },
+    {
+     "page_id": 1427910,
+     "grade": 1,
+     "title": "Kuntavaalit 2021",
+     "rank": null
+    },
+    {
+     "page_id": 1549479,
+     "grade": 1,
+     "title": "Marinin hallitus",
+     "rank": 7
+    },
+    {
+     "page_id": 1650988,
+     "grade": 1,
+     "title": "Suomi 2020-luvulla",
+     "rank": 9
+    }
+   ],
+   "missed": [
+    1593343,
+    1675610,
+    1574358,
+    1427910
+   ]
+  },
+  {
+   "query_id": "covid-19-finland.broad",
+   "topic_id": "covid-19-finland",
+   "kind": "topic",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.78,
+   "failed": false,
+   "recall@5": 0.08333333333333333,
+   "recall@10": 0.16666666666666666,
+   "recall@20": 0.16666666666666666,
+   "ndcg@10": 0.12937084799495982,
+   "articles": [
+    {
+     "page_id": 1562418,
+     "grade": 2,
+     "title": "Koronaviruspandemia Suomessa",
+     "rank": 6
+    },
+    {
+     "page_id": 1574358,
+     "grade": 2,
+     "title": "Etäopetus koronaviruspandemian aikana Suomessa",
+     "rank": null
+    },
+    {
+     "page_id": 1577657,
+     "grade": 2,
+     "title": "Suomen koronaviruspandemian aikajana",
+     "rank": null
+    },
+    {
+     "page_id": 1577930,
+     "grade": 2,
+     "title": "Suomen koronavirusepidemiaa ennustavat mallit",
+     "rank": null
+    },
+    {
+     "page_id": 1577934,
+     "grade": 2,
+     "title": "Suomen toimenpiteet koronaviruspandemiaa vastaan",
+     "rank": null
+    },
+    {
+     "page_id": 1582912,
+     "grade": 2,
+     "title": "Suomen koronavirusstrategia",
+     "rank": null
+    },
+    {
+     "page_id": 1593343,
+     "grade": 2,
+     "title": "Koronavilkku",
+     "rank": null
+    },
+    {
+     "page_id": 1675610,
+     "grade": 2,
+     "title": "Koronaviruspandemia Ahvenanmaalla",
+     "rank": null
+    },
+    {
+     "page_id": 1121620,
+     "grade": 1,
+     "title": "Sanna Marin",
+     "rank": 5
+    },
+    {
+     "page_id": 1427910,
+     "grade": 1,
+     "title": "Kuntavaalit 2021",
+     "rank": null
+    },
+    {
+     "page_id": 1549479,
+     "grade": 1,
+     "title": "Marinin hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 1650988,
+     "grade": 1,
+     "title": "Suomi 2020-luvulla",
+     "rank": null
+    }
+   ],
+   "missed": [
+    1577934,
+    1582912,
+    1577657,
+    1593343,
+    1675610,
+    1574358,
+    1577930,
+    1549479,
+    1650988,
+    1427910
+   ]
+  },
+  {
+   "query_id": "covid-19-finland.sv",
+   "topic_id": "covid-19-finland",
+   "kind": "topic",
+   "style": "sv",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.99,
+   "failed": false,
+   "recall@5": 0.16666666666666666,
+   "recall@10": 0.25,
+   "recall@20": 0.3333333333333333,
+   "ndcg@10": 0.3296483620298612,
+   "articles": [
+    {
+     "page_id": 1562418,
+     "grade": 2,
+     "title": "Koronaviruspandemia Suomessa",
+     "rank": 1
+    },
+    {
+     "page_id": 1574358,
+     "grade": 2,
+     "title": "Etäopetus koronaviruspandemian aikana Suomessa",
+     "rank": null
+    },
+    {
+     "page_id": 1577657,
+     "grade": 2,
+     "title": "Suomen koronaviruspandemian aikajana",
+     "rank": null
+    },
+    {
+     "page_id": 1577930,
+     "grade": 2,
+     "title": "Suomen koronavirusepidemiaa ennustavat mallit",
+     "rank": null
+    },
+    {
+     "page_id": 1577934,
+     "grade": 2,
+     "title": "Suomen toimenpiteet koronaviruspandemiaa vastaan",
+     "rank": 12
+    },
+    {
+     "page_id": 1582912,
+     "grade": 2,
+     "title": "Suomen koronavirusstrategia",
+     "rank": null
+    },
+    {
+     "page_id": 1593343,
+     "grade": 2,
+     "title": "Koronavilkku",
+     "rank": null
+    },
+    {
+     "page_id": 1675610,
+     "grade": 2,
+     "title": "Koronaviruspandemia Ahvenanmaalla",
+     "rank": null
+    },
+    {
+     "page_id": 1121620,
+     "grade": 1,
+     "title": "Sanna Marin",
+     "rank": 3
+    },
+    {
+     "page_id": 1427910,
+     "grade": 1,
+     "title": "Kuntavaalit 2021",
+     "rank": 9
+    },
+    {
+     "page_id": 1549479,
+     "grade": 1,
+     "title": "Marinin hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 1650988,
+     "grade": 1,
+     "title": "Suomi 2020-luvulla",
+     "rank": null
+    }
+   ],
+   "missed": [
+    1582912,
+    1577657,
+    1593343,
+    1675610,
+    1574358,
+    1577930,
+    1549479,
+    1650988
+   ]
+  },
+  {
+   "query_id": "russification-independence.en",
+   "topic_id": "russification-independence",
+   "kind": "topic",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.7,
+   "failed": false,
+   "recall@5": 0.16666666666666666,
+   "recall@10": 0.20833333333333334,
+   "recall@20": 0.25,
+   "ndcg@10": 0.4706717252204768,
+   "articles": [
+    {
+     "page_id": 10758,
+     "grade": 2,
+     "title": "Jääkäriliike",
+     "rank": 2
+    },
+    {
+     "page_id": 11113,
+     "grade": 2,
+     "title": "Sortovuodet",
+     "rank": 4
+    },
+    {
+     "page_id": 11601,
+     "grade": 2,
+     "title": "Nikolai Bobrikov",
+     "rank": 8
+    },
+    {
+     "page_id": 32957,
+     "grade": 2,
+     "title": "Suomen itsenäistyminen",
+     "rank": 3
+    },
+    {
+     "page_id": 46938,
+     "grade": 2,
+     "title": "Helmikuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 77298,
+     "grade": 2,
+     "title": "Sortokausien aktivismi",
+     "rank": 19
+    },
+    {
+     "page_id": 96542,
+     "grade": 2,
+     "title": "Jääkäripataljoona 27",
+     "rank": null
+    },
+    {
+     "page_id": 137930,
+     "grade": 2,
+     "title": "Ensimmäinen sortokausi",
+     "rank": null
+    },
+    {
+     "page_id": 137931,
+     "grade": 2,
+     "title": "Toinen sortokausi",
+     "rank": null
+    },
+    {
+     "page_id": 6944,
+     "grade": 1,
+     "title": "Suomen suuriruhtinaskunta",
+     "rank": 5
+    },
+    {
+     "page_id": 11517,
+     "grade": 1,
+     "title": "Eugen Schauman",
+     "rank": null
+    },
+    {
+     "page_id": 46724,
+     "grade": 1,
+     "title": "Suuri adressi",
+     "rank": null
+    },
+    {
+     "page_id": 108539,
+     "grade": 1,
+     "title": "Franz Albert Seyn",
+     "rank": null
+    },
+    {
+     "page_id": 112881,
+     "grade": 1,
+     "title": "Leo Mechelin",
+     "rank": null
+    },
+    {
+     "page_id": 129666,
+     "grade": 1,
+     "title": "Marraskuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 146724,
+     "grade": 1,
+     "title": "Vuoden 1905 suurlakko",
+     "rank": null
+    },
+    {
+     "page_id": 155986,
+     "grade": 1,
+     "title": "Perustuslailliset",
+     "rank": null
+    },
+    {
+     "page_id": 162670,
+     "grade": 1,
+     "title": "Suomen itsenäisyysjulistus",
+     "rank": null
+    },
+    {
+     "page_id": 202089,
+     "grade": 1,
+     "title": "Tornio ja ensimmäinen maailmansota",
+     "rank": null
+    },
+    {
+     "page_id": 508861,
+     "grade": 1,
+     "title": "Vuoden 1910 laki yleisvaltakunnallisesta lainsäädännöstä",
+     "rank": null
+    },
+    {
+     "page_id": 508885,
+     "grade": 1,
+     "title": "Maaliskuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 902733,
+     "grade": 1,
+     "title": "Postimanifesti",
+     "rank": null
+    },
+    {
+     "page_id": 1213440,
+     "grade": 1,
+     "title": "Keskuskomitea (jääkäriliike)",
+     "rank": null
+    },
+    {
+     "page_id": 1629793,
+     "grade": 1,
+     "title": "Suuri venäläistämisohjelma",
+     "rank": null
+    }
+   ],
+   "missed": [
+    137930,
+    137931,
+    96542,
+    46938,
+    162670,
+    11517,
+    1629793,
+    46724,
+    1213440,
+    155986,
+    146724,
+    129666,
+    508861,
+    108539,
+    902733,
+    508885,
+    112881,
+    202089
+   ]
+  },
+  {
+   "query_id": "russification-independence.fi",
+   "topic_id": "russification-independence",
+   "kind": "topic",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.1,
+   "failed": false,
+   "recall@5": 0.16666666666666666,
+   "recall@10": 0.25,
+   "recall@20": 0.3333333333333333,
+   "ndcg@10": 0.5956160822578263,
+   "articles": [
+    {
+     "page_id": 10758,
+     "grade": 2,
+     "title": "Jääkäriliike",
+     "rank": 5
+    },
+    {
+     "page_id": 11113,
+     "grade": 2,
+     "title": "Sortovuodet",
+     "rank": 2
+    },
+    {
+     "page_id": 11601,
+     "grade": 2,
+     "title": "Nikolai Bobrikov",
+     "rank": 6
+    },
+    {
+     "page_id": 32957,
+     "grade": 2,
+     "title": "Suomen itsenäistyminen",
+     "rank": 4
+    },
+    {
+     "page_id": 46938,
+     "grade": 2,
+     "title": "Helmikuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 77298,
+     "grade": 2,
+     "title": "Sortokausien aktivismi",
+     "rank": 15
+    },
+    {
+     "page_id": 96542,
+     "grade": 2,
+     "title": "Jääkäripataljoona 27",
+     "rank": 3
+    },
+    {
+     "page_id": 137930,
+     "grade": 2,
+     "title": "Ensimmäinen sortokausi",
+     "rank": 8
+    },
+    {
+     "page_id": 137931,
+     "grade": 2,
+     "title": "Toinen sortokausi",
+     "rank": 13
+    },
+    {
+     "page_id": 6944,
+     "grade": 1,
+     "title": "Suomen suuriruhtinaskunta",
+     "rank": null
+    },
+    {
+     "page_id": 11517,
+     "grade": 1,
+     "title": "Eugen Schauman",
+     "rank": null
+    },
+    {
+     "page_id": 46724,
+     "grade": 1,
+     "title": "Suuri adressi",
+     "rank": null
+    },
+    {
+     "page_id": 108539,
+     "grade": 1,
+     "title": "Franz Albert Seyn",
+     "rank": null
+    },
+    {
+     "page_id": 112881,
+     "grade": 1,
+     "title": "Leo Mechelin",
+     "rank": null
+    },
+    {
+     "page_id": 129666,
+     "grade": 1,
+     "title": "Marraskuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 146724,
+     "grade": 1,
+     "title": "Vuoden 1905 suurlakko",
+     "rank": null
+    },
+    {
+     "page_id": 155986,
+     "grade": 1,
+     "title": "Perustuslailliset",
+     "rank": null
+    },
+    {
+     "page_id": 162670,
+     "grade": 1,
+     "title": "Suomen itsenäisyysjulistus",
+     "rank": null
+    },
+    {
+     "page_id": 202089,
+     "grade": 1,
+     "title": "Tornio ja ensimmäinen maailmansota",
+     "rank": null
+    },
+    {
+     "page_id": 508861,
+     "grade": 1,
+     "title": "Vuoden 1910 laki yleisvaltakunnallisesta lainsäädännöstä",
+     "rank": null
+    },
+    {
+     "page_id": 508885,
+     "grade": 1,
+     "title": "Maaliskuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 902733,
+     "grade": 1,
+     "title": "Postimanifesti",
+     "rank": null
+    },
+    {
+     "page_id": 1213440,
+     "grade": 1,
+     "title": "Keskuskomitea (jääkäriliike)",
+     "rank": null
+    },
+    {
+     "page_id": 1629793,
+     "grade": 1,
+     "title": "Suuri venäläistämisohjelma",
+     "rank": null
+    }
+   ],
+   "missed": [
+    46938,
+    162670,
+    11517,
+    1629793,
+    46724,
+    1213440,
+    155986,
+    146724,
+    129666,
+    508861,
+    108539,
+    902733,
+    508885,
+    6944,
+    112881,
+    202089
+   ]
+  },
+  {
+   "query_id": "russification-independence.broad",
+   "topic_id": "russification-independence",
+   "kind": "topic",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.1,
+   "failed": false,
+   "recall@5": 0.041666666666666664,
+   "recall@10": 0.08333333333333333,
+   "recall@20": 0.16666666666666666,
+   "ndcg@10": 0.18131201146283607,
+   "articles": [
+    {
+     "page_id": 10758,
+     "grade": 2,
+     "title": "Jääkäriliike",
+     "rank": null
+    },
+    {
+     "page_id": 11113,
+     "grade": 2,
+     "title": "Sortovuodet",
+     "rank": 13
+    },
+    {
+     "page_id": 11601,
+     "grade": 2,
+     "title": "Nikolai Bobrikov",
+     "rank": null
+    },
+    {
+     "page_id": 32957,
+     "grade": 2,
+     "title": "Suomen itsenäistyminen",
+     "rank": 2
+    },
+    {
+     "page_id": 46938,
+     "grade": 2,
+     "title": "Helmikuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 77298,
+     "grade": 2,
+     "title": "Sortokausien aktivismi",
+     "rank": null
+    },
+    {
+     "page_id": 96542,
+     "grade": 2,
+     "title": "Jääkäripataljoona 27",
+     "rank": null
+    },
+    {
+     "page_id": 137930,
+     "grade": 2,
+     "title": "Ensimmäinen sortokausi",
+     "rank": null
+    },
+    {
+     "page_id": 137931,
+     "grade": 2,
+     "title": "Toinen sortokausi",
+     "rank": null
+    },
+    {
+     "page_id": 6944,
+     "grade": 1,
+     "title": "Suomen suuriruhtinaskunta",
+     "rank": 7
+    },
+    {
+     "page_id": 11517,
+     "grade": 1,
+     "title": "Eugen Schauman",
+     "rank": null
+    },
+    {
+     "page_id": 46724,
+     "grade": 1,
+     "title": "Suuri adressi",
+     "rank": null
+    },
+    {
+     "page_id": 108539,
+     "grade": 1,
+     "title": "Franz Albert Seyn",
+     "rank": null
+    },
+    {
+     "page_id": 112881,
+     "grade": 1,
+     "title": "Leo Mechelin",
+     "rank": null
+    },
+    {
+     "page_id": 129666,
+     "grade": 1,
+     "title": "Marraskuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 146724,
+     "grade": 1,
+     "title": "Vuoden 1905 suurlakko",
+     "rank": null
+    },
+    {
+     "page_id": 155986,
+     "grade": 1,
+     "title": "Perustuslailliset",
+     "rank": null
+    },
+    {
+     "page_id": 162670,
+     "grade": 1,
+     "title": "Suomen itsenäisyysjulistus",
+     "rank": 11
+    },
+    {
+     "page_id": 202089,
+     "grade": 1,
+     "title": "Tornio ja ensimmäinen maailmansota",
+     "rank": null
+    },
+    {
+     "page_id": 508861,
+     "grade": 1,
+     "title": "Vuoden 1910 laki yleisvaltakunnallisesta lainsäädännöstä",
+     "rank": null
+    },
+    {
+     "page_id": 508885,
+     "grade": 1,
+     "title": "Maaliskuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 902733,
+     "grade": 1,
+     "title": "Postimanifesti",
+     "rank": null
+    },
+    {
+     "page_id": 1213440,
+     "grade": 1,
+     "title": "Keskuskomitea (jääkäriliike)",
+     "rank": null
+    },
+    {
+     "page_id": 1629793,
+     "grade": 1,
+     "title": "Suuri venäläistämisohjelma",
+     "rank": null
+    }
+   ],
+   "missed": [
+    137930,
+    137931,
+    10758,
+    96542,
+    46938,
+    11601,
+    77298,
+    11517,
+    1629793,
+    46724,
+    1213440,
+    155986,
+    146724,
+    129666,
+    508861,
+    108539,
+    902733,
+    508885,
+    112881,
+    202089
+   ]
+  },
+  {
+   "query_id": "russification-independence.sv",
+   "topic_id": "russification-independence",
+   "kind": "topic",
+   "style": "sv",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.79,
+   "failed": false,
+   "recall@5": 0.08333333333333333,
+   "recall@10": 0.08333333333333333,
+   "recall@20": 0.16666666666666666,
+   "ndcg@10": 0.3152635414380417,
+   "articles": [
+    {
+     "page_id": 10758,
+     "grade": 2,
+     "title": "Jääkäriliike",
+     "rank": 1
+    },
+    {
+     "page_id": 11113,
+     "grade": 2,
+     "title": "Sortovuodet",
+     "rank": 14
+    },
+    {
+     "page_id": 11601,
+     "grade": 2,
+     "title": "Nikolai Bobrikov",
+     "rank": null
+    },
+    {
+     "page_id": 32957,
+     "grade": 2,
+     "title": "Suomen itsenäistyminen",
+     "rank": 5
+    },
+    {
+     "page_id": 46938,
+     "grade": 2,
+     "title": "Helmikuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 77298,
+     "grade": 2,
+     "title": "Sortokausien aktivismi",
+     "rank": 20
+    },
+    {
+     "page_id": 96542,
+     "grade": 2,
+     "title": "Jääkäripataljoona 27",
+     "rank": null
+    },
+    {
+     "page_id": 137930,
+     "grade": 2,
+     "title": "Ensimmäinen sortokausi",
+     "rank": null
+    },
+    {
+     "page_id": 137931,
+     "grade": 2,
+     "title": "Toinen sortokausi",
+     "rank": null
+    },
+    {
+     "page_id": 6944,
+     "grade": 1,
+     "title": "Suomen suuriruhtinaskunta",
+     "rank": null
+    },
+    {
+     "page_id": 11517,
+     "grade": 1,
+     "title": "Eugen Schauman",
+     "rank": null
+    },
+    {
+     "page_id": 46724,
+     "grade": 1,
+     "title": "Suuri adressi",
+     "rank": null
+    },
+    {
+     "page_id": 108539,
+     "grade": 1,
+     "title": "Franz Albert Seyn",
+     "rank": null
+    },
+    {
+     "page_id": 112881,
+     "grade": 1,
+     "title": "Leo Mechelin",
+     "rank": null
+    },
+    {
+     "page_id": 129666,
+     "grade": 1,
+     "title": "Marraskuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 146724,
+     "grade": 1,
+     "title": "Vuoden 1905 suurlakko",
+     "rank": null
+    },
+    {
+     "page_id": 155986,
+     "grade": 1,
+     "title": "Perustuslailliset",
+     "rank": null
+    },
+    {
+     "page_id": 162670,
+     "grade": 1,
+     "title": "Suomen itsenäisyysjulistus",
+     "rank": null
+    },
+    {
+     "page_id": 202089,
+     "grade": 1,
+     "title": "Tornio ja ensimmäinen maailmansota",
+     "rank": null
+    },
+    {
+     "page_id": 508861,
+     "grade": 1,
+     "title": "Vuoden 1910 laki yleisvaltakunnallisesta lainsäädännöstä",
+     "rank": null
+    },
+    {
+     "page_id": 508885,
+     "grade": 1,
+     "title": "Maaliskuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 902733,
+     "grade": 1,
+     "title": "Postimanifesti",
+     "rank": null
+    },
+    {
+     "page_id": 1213440,
+     "grade": 1,
+     "title": "Keskuskomitea (jääkäriliike)",
+     "rank": null
+    },
+    {
+     "page_id": 1629793,
+     "grade": 1,
+     "title": "Suuri venäläistämisohjelma",
+     "rank": null
+    }
+   ],
+   "missed": [
+    137930,
+    137931,
+    96542,
+    46938,
+    11601,
+    162670,
+    11517,
+    1629793,
+    46724,
+    1213440,
+    155986,
+    146724,
+    129666,
+    508861,
+    108539,
+    902733,
+    508885,
+    6944,
+    112881,
+    202089
+   ]
+  },
+  {
+   "query_id": "border-crisis-2023.en",
+   "topic_id": "border-crisis-2023",
+   "kind": "control-quiet",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.81,
+   "failed": false,
+   "recall@5": 0.07692307692307693,
+   "recall@10": 0.07692307692307693,
+   "recall@20": 0.46153846153846156,
+   "ndcg@10": 0.1890570933316362,
+   "articles": [
+    {
+     "page_id": 1060965,
+     "grade": 2,
+     "title": "Suomen ja Venäjän raja",
+     "rank": 2
+    },
+    {
+     "page_id": 1778743,
+     "grade": 2,
+     "title": "Suomen ja Venäjän rajakriisi 2023",
+     "rank": 16
+    },
+    {
+     "page_id": 1781605,
+     "grade": 2,
+     "title": "Suomen ja Venäjän rajan esteaita",
+     "rank": 12
+    },
+    {
+     "page_id": 29994,
+     "grade": 1,
+     "title": "Rajavartiolaitos",
+     "rank": 13
+    },
+    {
+     "page_id": 60828,
+     "grade": 1,
+     "title": "Vartius",
+     "rank": null
+    },
+    {
+     "page_id": 152850,
+     "grade": 1,
+     "title": "Nuijamaan raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 244069,
+     "grade": 1,
+     "title": "Raja-Jooseppi (ylikulkupaikka)",
+     "rank": null
+    },
+    {
+     "page_id": 276192,
+     "grade": 1,
+     "title": "Vaalimaan raja-asema",
+     "rank": 19
+    },
+    {
+     "page_id": 607072,
+     "grade": 1,
+     "title": "Suomen rajat",
+     "rank": null
+    },
+    {
+     "page_id": 1095432,
+     "grade": 1,
+     "title": "Imatran raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1096118,
+     "grade": 1,
+     "title": "Sallan raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1096192,
+     "grade": 1,
+     "title": "Kuusamon raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1570458,
+     "grade": 1,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": 15
+    }
+   ],
+   "missed": [
+    607072,
+    152850,
+    1095432,
+    60828,
+    1096192,
+    1096118,
+    244069
+   ]
+  },
+  {
+   "query_id": "border-crisis-2023.fi",
+   "topic_id": "border-crisis-2023",
+   "kind": "control-quiet",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.79,
+   "failed": false,
+   "recall@5": 0.23076923076923078,
+   "recall@10": 0.38461538461538464,
+   "recall@20": 0.7692307692307693,
+   "ndcg@10": 0.59979837028825,
+   "articles": [
+    {
+     "page_id": 1060965,
+     "grade": 2,
+     "title": "Suomen ja Venäjän raja",
+     "rank": 1
+    },
+    {
+     "page_id": 1778743,
+     "grade": 2,
+     "title": "Suomen ja Venäjän rajakriisi 2023",
+     "rank": 3
+    },
+    {
+     "page_id": 1781605,
+     "grade": 2,
+     "title": "Suomen ja Venäjän rajan esteaita",
+     "rank": 12
+    },
+    {
+     "page_id": 29994,
+     "grade": 1,
+     "title": "Rajavartiolaitos",
+     "rank": null
+    },
+    {
+     "page_id": 60828,
+     "grade": 1,
+     "title": "Vartius",
+     "rank": null
+    },
+    {
+     "page_id": 152850,
+     "grade": 1,
+     "title": "Nuijamaan raja-asema",
+     "rank": 9
+    },
+    {
+     "page_id": 244069,
+     "grade": 1,
+     "title": "Raja-Jooseppi (ylikulkupaikka)",
+     "rank": 14
+    },
+    {
+     "page_id": 276192,
+     "grade": 1,
+     "title": "Vaalimaan raja-asema",
+     "rank": 8
+    },
+    {
+     "page_id": 607072,
+     "grade": 1,
+     "title": "Suomen rajat",
+     "rank": null
+    },
+    {
+     "page_id": 1095432,
+     "grade": 1,
+     "title": "Imatran raja-asema",
+     "rank": 16
+    },
+    {
+     "page_id": 1096118,
+     "grade": 1,
+     "title": "Sallan raja-asema",
+     "rank": 18
+    },
+    {
+     "page_id": 1096192,
+     "grade": 1,
+     "title": "Kuusamon raja-asema",
+     "rank": 20
+    },
+    {
+     "page_id": 1570458,
+     "grade": 1,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": 5
+    }
+   ],
+   "missed": [
+    29994,
+    607072,
+    60828
+   ]
+  },
+  {
+   "query_id": "border-crisis-2023.broad",
+   "topic_id": "border-crisis-2023",
+   "kind": "control-quiet",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.81,
+   "failed": false,
+   "recall@5": 0.07692307692307693,
+   "recall@10": 0.07692307692307693,
+   "recall@20": 0.3076923076923077,
+   "ndcg@10": 0.14982420171299154,
+   "articles": [
+    {
+     "page_id": 1060965,
+     "grade": 2,
+     "title": "Suomen ja Venäjän raja",
+     "rank": 3
+    },
+    {
+     "page_id": 1778743,
+     "grade": 2,
+     "title": "Suomen ja Venäjän rajakriisi 2023",
+     "rank": null
+    },
+    {
+     "page_id": 1781605,
+     "grade": 2,
+     "title": "Suomen ja Venäjän rajan esteaita",
+     "rank": 15
+    },
+    {
+     "page_id": 29994,
+     "grade": 1,
+     "title": "Rajavartiolaitos",
+     "rank": 16
+    },
+    {
+     "page_id": 60828,
+     "grade": 1,
+     "title": "Vartius",
+     "rank": null
+    },
+    {
+     "page_id": 152850,
+     "grade": 1,
+     "title": "Nuijamaan raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 244069,
+     "grade": 1,
+     "title": "Raja-Jooseppi (ylikulkupaikka)",
+     "rank": null
+    },
+    {
+     "page_id": 276192,
+     "grade": 1,
+     "title": "Vaalimaan raja-asema",
+     "rank": 18
+    },
+    {
+     "page_id": 607072,
+     "grade": 1,
+     "title": "Suomen rajat",
+     "rank": null
+    },
+    {
+     "page_id": 1095432,
+     "grade": 1,
+     "title": "Imatran raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1096118,
+     "grade": 1,
+     "title": "Sallan raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1096192,
+     "grade": 1,
+     "title": "Kuusamon raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1570458,
+     "grade": 1,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": null
+    }
+   ],
+   "missed": [
+    1778743,
+    1570458,
+    607072,
+    152850,
+    1095432,
+    60828,
+    1096192,
+    1096118,
+    244069
+   ]
+  },
+  {
+   "query_id": "border-crisis-2023.sv",
+   "topic_id": "border-crisis-2023",
+   "kind": "control-quiet",
+   "style": "sv",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.76,
+   "failed": false,
+   "recall@5": 0.07692307692307693,
+   "recall@10": 0.07692307692307693,
+   "recall@20": 0.5384615384615384,
+   "ndcg@10": 0.1890570933316362,
+   "articles": [
+    {
+     "page_id": 1060965,
+     "grade": 2,
+     "title": "Suomen ja Venäjän raja",
+     "rank": 2
+    },
+    {
+     "page_id": 1778743,
+     "grade": 2,
+     "title": "Suomen ja Venäjän rajakriisi 2023",
+     "rank": 14
+    },
+    {
+     "page_id": 1781605,
+     "grade": 2,
+     "title": "Suomen ja Venäjän rajan esteaita",
+     "rank": 12
+    },
+    {
+     "page_id": 29994,
+     "grade": 1,
+     "title": "Rajavartiolaitos",
+     "rank": 11
+    },
+    {
+     "page_id": 60828,
+     "grade": 1,
+     "title": "Vartius",
+     "rank": null
+    },
+    {
+     "page_id": 152850,
+     "grade": 1,
+     "title": "Nuijamaan raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 244069,
+     "grade": 1,
+     "title": "Raja-Jooseppi (ylikulkupaikka)",
+     "rank": 17
+    },
+    {
+     "page_id": 276192,
+     "grade": 1,
+     "title": "Vaalimaan raja-asema",
+     "rank": 16
+    },
+    {
+     "page_id": 607072,
+     "grade": 1,
+     "title": "Suomen rajat",
+     "rank": null
+    },
+    {
+     "page_id": 1095432,
+     "grade": 1,
+     "title": "Imatran raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1096118,
+     "grade": 1,
+     "title": "Sallan raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1096192,
+     "grade": 1,
+     "title": "Kuusamon raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1570458,
+     "grade": 1,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": 13
+    }
+   ],
+   "missed": [
+    607072,
+    152850,
+    1095432,
+    60828,
+    1096192,
+    1096118
+   ]
+  },
+  {
+   "query_id": "french-revolution.en",
+   "topic_id": "french-revolution",
+   "kind": "control-out-of-corpus",
+   "style": "en",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 1.02,
+   "failed": false
+  },
+  {
+   "query_id": "french-revolution.fi",
+   "topic_id": "french-revolution",
+   "kind": "control-out-of-corpus",
+   "style": "fi",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.92,
+   "failed": false
+  },
+  {
+   "query_id": "french-revolution.broad",
+   "topic_id": "french-revolution",
+   "kind": "control-out-of-corpus",
+   "style": "broad",
+   "out_of_scope": false,
+   "returned": 20,
+   "seconds": 0.9,
+   "failed": false
+  }
+ ],
+ "best": [
+  {
+   "query_id": "austerity-politics.fi",
+   "style": "fi",
+   "recall@10": 0.3333333333333333,
+   "ndcg@10": 0.7579308721641375,
+   "missed": [
+    {
+     "page_id": 1339931,
+     "grade": 2,
+     "title": "Suomi 2010-luvulla",
+     "rank": null
+    },
+    {
+     "page_id": 1405132,
+     "grade": 2,
+     "title": "Kilpailukykysopimus",
+     "rank": null
+    },
+    {
+     "page_id": 1427199,
+     "grade": 2,
+     "title": "Aktiivimalli",
+     "rank": null
+    },
+    {
+     "page_id": 795,
+     "grade": 1,
+     "title": "Matti Vanhanen",
+     "rank": null
+    },
+    {
+     "page_id": 9059,
+     "grade": 1,
+     "title": "Osmo Soininvaara",
+     "rank": null
+    },
+    {
+     "page_id": 11396,
+     "grade": 1,
+     "title": "Alexander Stubb",
+     "rank": null
+    },
+    {
+     "page_id": 12639,
+     "grade": 1,
+     "title": "Suvi Lindén",
+     "rank": null
+    },
+    {
+     "page_id": 43887,
+     "grade": 1,
+     "title": "Mari Kiviniemi",
+     "rank": null
+    },
+    {
+     "page_id": 334921,
+     "grade": 1,
+     "title": "Vanhasen II hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 832314,
+     "grade": 1,
+     "title": "Kiviniemen hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 856829,
+     "grade": 1,
+     "title": "Eduskuntavaalit 2015",
+     "rank": 11
+    },
+    {
+     "page_id": 1121620,
+     "grade": 1,
+     "title": "Sanna Marin",
+     "rank": null
+    },
+    {
+     "page_id": 1174071,
+     "grade": 1,
+     "title": "Stubbin hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 1496095,
+     "grade": 1,
+     "title": "Sosiaaliturvan uudistus",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "query_id": "austerity-politics.en",
+   "style": "en",
+   "recall@10": 0.2857142857142857,
+   "ndcg@10": 0.708212283303591,
+   "missed": [
+    {
+     "page_id": 1339931,
+     "grade": 2,
+     "title": "Suomi 2010-luvulla",
+     "rank": null
+    },
+    {
+     "page_id": 1405132,
+     "grade": 2,
+     "title": "Kilpailukykysopimus",
+     "rank": null
+    },
+    {
+     "page_id": 1427199,
+     "grade": 2,
+     "title": "Aktiivimalli",
+     "rank": null
+    },
+    {
+     "page_id": 795,
+     "grade": 1,
+     "title": "Matti Vanhanen",
+     "rank": null
+    },
+    {
+     "page_id": 9059,
+     "grade": 1,
+     "title": "Osmo Soininvaara",
+     "rank": null
+    },
+    {
+     "page_id": 11396,
+     "grade": 1,
+     "title": "Alexander Stubb",
+     "rank": null
+    },
+    {
+     "page_id": 12639,
+     "grade": 1,
+     "title": "Suvi Lindén",
+     "rank": null
+    },
+    {
+     "page_id": 43887,
+     "grade": 1,
+     "title": "Mari Kiviniemi",
+     "rank": null
+    },
+    {
+     "page_id": 334921,
+     "grade": 1,
+     "title": "Vanhasen II hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 832314,
+     "grade": 1,
+     "title": "Kiviniemen hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 1121620,
+     "grade": 1,
+     "title": "Sanna Marin",
+     "rank": null
+    },
+    {
+     "page_id": 1141935,
+     "grade": 1,
+     "title": "Maakunta- ja soteuudistus",
+     "rank": null
+    },
+    {
+     "page_id": 1174071,
+     "grade": 1,
+     "title": "Stubbin hallitus",
+     "rank": null
+    },
+    {
+     "page_id": 1496095,
+     "grade": 1,
+     "title": "Sosiaaliturvan uudistus",
+     "rank": null
+    },
+    {
+     "page_id": 1755834,
+     "grade": 1,
+     "title": "Orpon hallitus",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "query_id": "civil-war-1918.fi",
+   "style": "fi",
+   "recall@10": 0.2631578947368421,
+   "ndcg@10": 0.6338740988292316,
+   "missed": [
+    {
+     "page_id": 59794,
+     "grade": 2,
+     "title": "Valkoiset",
+     "rank": null
+    },
+    {
+     "page_id": 640247,
+     "grade": 2,
+     "title": "Suomen sisällissodan terrori",
+     "rank": null
+    },
+    {
+     "page_id": 6021,
+     "grade": 1,
+     "title": "Carl Gustaf Emil Mannerheim",
+     "rank": null
+    },
+    {
+     "page_id": 11834,
+     "grade": 1,
+     "title": "Tampereen taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 59605,
+     "grade": 1,
+     "title": "Suomen kansanvaltuuskunta",
+     "rank": null
+    },
+    {
+     "page_id": 185998,
+     "grade": 1,
+     "title": "Suomen sotasurmat",
+     "rank": null
+    },
+    {
+     "page_id": 203494,
+     "grade": 1,
+     "title": "Suomen sosialistinen työväentasavalta",
+     "rank": null
+    },
+    {
+     "page_id": 285522,
+     "grade": 1,
+     "title": "Tammisaaren vankileiri",
+     "rank": null
+    },
+    {
+     "page_id": 1151714,
+     "grade": 1,
+     "title": "Hennalan vankileiri",
+     "rank": null
+    },
+    {
+     "page_id": 1291614,
+     "grade": 1,
+     "title": "Suomen sisällissodan aikajana",
+     "rank": 15
+    },
+    {
+     "page_id": 1411194,
+     "grade": 1,
+     "title": "Suomen luokkasota",
+     "rank": null
+    },
+    {
+     "page_id": 1448244,
+     "grade": 1,
+     "title": "Haagan teloitukset 1918",
+     "rank": null
+    },
+    {
+     "page_id": 1506003,
+     "grade": 1,
+     "title": "Valkoisten voitonparaati",
+     "rank": null
+    },
+    {
+     "page_id": 1747289,
+     "grade": 1,
+     "title": "Punalesket",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "query_id": "winter-war.en",
+   "style": "en",
+   "recall@10": 0.35714285714285715,
+   "ndcg@10": 0.6301302158467509,
+   "missed": [
+    {
+     "page_id": 52097,
+     "grade": 2,
+     "title": "Moskovan rauhansopimus (1940)",
+     "rank": null
+    },
+    {
+     "page_id": 727489,
+     "grade": 2,
+     "title": "Talvisodan tausta",
+     "rank": null
+    },
+    {
+     "page_id": 16331,
+     "grade": 1,
+     "title": "Raatteen tien taistelu",
+     "rank": null
+    },
+    {
+     "page_id": 34207,
+     "grade": 1,
+     "title": "Mannerheim-linja",
+     "rank": null
+    },
+    {
+     "page_id": 92454,
+     "grade": 1,
+     "title": "Kollaan taistelu",
+     "rank": 11
+    },
+    {
+     "page_id": 105467,
+     "grade": 1,
+     "title": "Suomussalmen taistelu",
+     "rank": 12
+    },
+    {
+     "page_id": 241905,
+     "grade": 1,
+     "title": "Suomen ja Neuvostoliiton hyökkäämättömyyssopimus",
+     "rank": null
+    },
+    {
+     "page_id": 672513,
+     "grade": 1,
+     "title": "Taipaleen taistelu",
+     "rank": 20
+    },
+    {
+     "page_id": 756035,
+     "grade": 1,
+     "title": "Talvisodan ulkomainen apu",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "query_id": "ceded-karelia.fi",
+   "style": "fi",
+   "recall@10": 0.3,
+   "ndcg@10": 0.6139052564627542,
+   "missed": [
+    {
+     "page_id": 9606,
+     "grade": 2,
+     "title": "Heimosodat",
+     "rank": null
+    },
+    {
+     "page_id": 19154,
+     "grade": 2,
+     "title": "ProKarelia",
+     "rank": null
+    },
+    {
+     "page_id": 64623,
+     "grade": 2,
+     "title": "Itä-Karjalan kysymys",
+     "rank": null
+    },
+    {
+     "page_id": 1333,
+     "grade": 1,
+     "title": "Viipuri",
+     "rank": null
+    },
+    {
+     "page_id": 12374,
+     "grade": 1,
+     "title": "Käkisalmi",
+     "rank": null
+    },
+    {
+     "page_id": 17231,
+     "grade": 1,
+     "title": "Akateeminen Karjala-Seura",
+     "rank": null
+    },
+    {
+     "page_id": 45409,
+     "grade": 1,
+     "title": "Karjalan Liitto",
+     "rank": null
+    },
+    {
+     "page_id": 66885,
+     "grade": 1,
+     "title": "Raja-Karjala",
+     "rank": null
+    },
+    {
+     "page_id": 76047,
+     "grade": 1,
+     "title": "Laatokan Karjala",
+     "rank": 11
+    },
+    {
+     "page_id": 138007,
+     "grade": 1,
+     "title": "Karjalan historia",
+     "rank": 12
+    },
+    {
+     "page_id": 177397,
+     "grade": 1,
+     "title": "Itä-Karjala",
+     "rank": 14
+    },
+    {
+     "page_id": 218476,
+     "grade": 1,
+     "title": "Siirtoväki",
+     "rank": 13
+    },
+    {
+     "page_id": 319328,
+     "grade": 1,
+     "title": "Itä-Karjalan sotilashallinto",
+     "rank": null
+    },
+    {
+     "page_id": 1496015,
+     "grade": 1,
+     "title": "Luovutettujen alueiden maantiede",
+     "rank": 16
+    }
+   ]
+  }
+ ],
+ "worst": [
+  {
+   "query_id": "border-crisis-2023.broad",
+   "style": "broad",
+   "recall@10": 0.07692307692307693,
+   "ndcg@10": 0.14982420171299154,
+   "missed": [
+    {
+     "page_id": 1778743,
+     "grade": 2,
+     "title": "Suomen ja Venäjän rajakriisi 2023",
+     "rank": null
+    },
+    {
+     "page_id": 1781605,
+     "grade": 2,
+     "title": "Suomen ja Venäjän rajan esteaita",
+     "rank": 15
+    },
+    {
+     "page_id": 29994,
+     "grade": 1,
+     "title": "Rajavartiolaitos",
+     "rank": 16
+    },
+    {
+     "page_id": 60828,
+     "grade": 1,
+     "title": "Vartius",
+     "rank": null
+    },
+    {
+     "page_id": 152850,
+     "grade": 1,
+     "title": "Nuijamaan raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 244069,
+     "grade": 1,
+     "title": "Raja-Jooseppi (ylikulkupaikka)",
+     "rank": null
+    },
+    {
+     "page_id": 276192,
+     "grade": 1,
+     "title": "Vaalimaan raja-asema",
+     "rank": 18
+    },
+    {
+     "page_id": 607072,
+     "grade": 1,
+     "title": "Suomen rajat",
+     "rank": null
+    },
+    {
+     "page_id": 1095432,
+     "grade": 1,
+     "title": "Imatran raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1096118,
+     "grade": 1,
+     "title": "Sallan raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1096192,
+     "grade": 1,
+     "title": "Kuusamon raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1570458,
+     "grade": 1,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "query_id": "border-crisis-2023.en",
+   "style": "en",
+   "recall@10": 0.07692307692307693,
+   "ndcg@10": 0.1890570933316362,
+   "missed": [
+    {
+     "page_id": 1778743,
+     "grade": 2,
+     "title": "Suomen ja Venäjän rajakriisi 2023",
+     "rank": 16
+    },
+    {
+     "page_id": 1781605,
+     "grade": 2,
+     "title": "Suomen ja Venäjän rajan esteaita",
+     "rank": 12
+    },
+    {
+     "page_id": 29994,
+     "grade": 1,
+     "title": "Rajavartiolaitos",
+     "rank": 13
+    },
+    {
+     "page_id": 60828,
+     "grade": 1,
+     "title": "Vartius",
+     "rank": null
+    },
+    {
+     "page_id": 152850,
+     "grade": 1,
+     "title": "Nuijamaan raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 244069,
+     "grade": 1,
+     "title": "Raja-Jooseppi (ylikulkupaikka)",
+     "rank": null
+    },
+    {
+     "page_id": 276192,
+     "grade": 1,
+     "title": "Vaalimaan raja-asema",
+     "rank": 19
+    },
+    {
+     "page_id": 607072,
+     "grade": 1,
+     "title": "Suomen rajat",
+     "rank": null
+    },
+    {
+     "page_id": 1095432,
+     "grade": 1,
+     "title": "Imatran raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1096118,
+     "grade": 1,
+     "title": "Sallan raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1096192,
+     "grade": 1,
+     "title": "Kuusamon raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1570458,
+     "grade": 1,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": 15
+    }
+   ]
+  },
+  {
+   "query_id": "border-crisis-2023.sv",
+   "style": "sv",
+   "recall@10": 0.07692307692307693,
+   "ndcg@10": 0.1890570933316362,
+   "missed": [
+    {
+     "page_id": 1778743,
+     "grade": 2,
+     "title": "Suomen ja Venäjän rajakriisi 2023",
+     "rank": 14
+    },
+    {
+     "page_id": 1781605,
+     "grade": 2,
+     "title": "Suomen ja Venäjän rajan esteaita",
+     "rank": 12
+    },
+    {
+     "page_id": 29994,
+     "grade": 1,
+     "title": "Rajavartiolaitos",
+     "rank": 11
+    },
+    {
+     "page_id": 60828,
+     "grade": 1,
+     "title": "Vartius",
+     "rank": null
+    },
+    {
+     "page_id": 152850,
+     "grade": 1,
+     "title": "Nuijamaan raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 244069,
+     "grade": 1,
+     "title": "Raja-Jooseppi (ylikulkupaikka)",
+     "rank": 17
+    },
+    {
+     "page_id": 276192,
+     "grade": 1,
+     "title": "Vaalimaan raja-asema",
+     "rank": 16
+    },
+    {
+     "page_id": 607072,
+     "grade": 1,
+     "title": "Suomen rajat",
+     "rank": null
+    },
+    {
+     "page_id": 1095432,
+     "grade": 1,
+     "title": "Imatran raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1096118,
+     "grade": 1,
+     "title": "Sallan raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1096192,
+     "grade": 1,
+     "title": "Kuusamon raja-asema",
+     "rank": null
+    },
+    {
+     "page_id": 1570458,
+     "grade": 1,
+     "title": "Suomen ja Venäjän suhteet",
+     "rank": 13
+    }
+   ]
+  },
+  {
+   "query_id": "russification-independence.broad",
+   "style": "broad",
+   "recall@10": 0.08333333333333333,
+   "ndcg@10": 0.18131201146283607,
+   "missed": [
+    {
+     "page_id": 10758,
+     "grade": 2,
+     "title": "Jääkäriliike",
+     "rank": null
+    },
+    {
+     "page_id": 11113,
+     "grade": 2,
+     "title": "Sortovuodet",
+     "rank": 13
+    },
+    {
+     "page_id": 11601,
+     "grade": 2,
+     "title": "Nikolai Bobrikov",
+     "rank": null
+    },
+    {
+     "page_id": 46938,
+     "grade": 2,
+     "title": "Helmikuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 77298,
+     "grade": 2,
+     "title": "Sortokausien aktivismi",
+     "rank": null
+    },
+    {
+     "page_id": 96542,
+     "grade": 2,
+     "title": "Jääkäripataljoona 27",
+     "rank": null
+    },
+    {
+     "page_id": 137930,
+     "grade": 2,
+     "title": "Ensimmäinen sortokausi",
+     "rank": null
+    },
+    {
+     "page_id": 137931,
+     "grade": 2,
+     "title": "Toinen sortokausi",
+     "rank": null
+    },
+    {
+     "page_id": 11517,
+     "grade": 1,
+     "title": "Eugen Schauman",
+     "rank": null
+    },
+    {
+     "page_id": 46724,
+     "grade": 1,
+     "title": "Suuri adressi",
+     "rank": null
+    },
+    {
+     "page_id": 108539,
+     "grade": 1,
+     "title": "Franz Albert Seyn",
+     "rank": null
+    },
+    {
+     "page_id": 112881,
+     "grade": 1,
+     "title": "Leo Mechelin",
+     "rank": null
+    },
+    {
+     "page_id": 129666,
+     "grade": 1,
+     "title": "Marraskuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 146724,
+     "grade": 1,
+     "title": "Vuoden 1905 suurlakko",
+     "rank": null
+    },
+    {
+     "page_id": 155986,
+     "grade": 1,
+     "title": "Perustuslailliset",
+     "rank": null
+    },
+    {
+     "page_id": 162670,
+     "grade": 1,
+     "title": "Suomen itsenäisyysjulistus",
+     "rank": 11
+    },
+    {
+     "page_id": 202089,
+     "grade": 1,
+     "title": "Tornio ja ensimmäinen maailmansota",
+     "rank": null
+    },
+    {
+     "page_id": 508861,
+     "grade": 1,
+     "title": "Vuoden 1910 laki yleisvaltakunnallisesta lainsäädännöstä",
+     "rank": null
+    },
+    {
+     "page_id": 508885,
+     "grade": 1,
+     "title": "Maaliskuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 902733,
+     "grade": 1,
+     "title": "Postimanifesti",
+     "rank": null
+    },
+    {
+     "page_id": 1213440,
+     "grade": 1,
+     "title": "Keskuskomitea (jääkäriliike)",
+     "rank": null
+    },
+    {
+     "page_id": 1629793,
+     "grade": 1,
+     "title": "Suuri venäläistämisohjelma",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "query_id": "russification-independence.sv",
+   "style": "sv",
+   "recall@10": 0.08333333333333333,
+   "ndcg@10": 0.3152635414380417,
+   "missed": [
+    {
+     "page_id": 11113,
+     "grade": 2,
+     "title": "Sortovuodet",
+     "rank": 14
+    },
+    {
+     "page_id": 11601,
+     "grade": 2,
+     "title": "Nikolai Bobrikov",
+     "rank": null
+    },
+    {
+     "page_id": 46938,
+     "grade": 2,
+     "title": "Helmikuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 77298,
+     "grade": 2,
+     "title": "Sortokausien aktivismi",
+     "rank": 20
+    },
+    {
+     "page_id": 96542,
+     "grade": 2,
+     "title": "Jääkäripataljoona 27",
+     "rank": null
+    },
+    {
+     "page_id": 137930,
+     "grade": 2,
+     "title": "Ensimmäinen sortokausi",
+     "rank": null
+    },
+    {
+     "page_id": 137931,
+     "grade": 2,
+     "title": "Toinen sortokausi",
+     "rank": null
+    },
+    {
+     "page_id": 6944,
+     "grade": 1,
+     "title": "Suomen suuriruhtinaskunta",
+     "rank": null
+    },
+    {
+     "page_id": 11517,
+     "grade": 1,
+     "title": "Eugen Schauman",
+     "rank": null
+    },
+    {
+     "page_id": 46724,
+     "grade": 1,
+     "title": "Suuri adressi",
+     "rank": null
+    },
+    {
+     "page_id": 108539,
+     "grade": 1,
+     "title": "Franz Albert Seyn",
+     "rank": null
+    },
+    {
+     "page_id": 112881,
+     "grade": 1,
+     "title": "Leo Mechelin",
+     "rank": null
+    },
+    {
+     "page_id": 129666,
+     "grade": 1,
+     "title": "Marraskuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 146724,
+     "grade": 1,
+     "title": "Vuoden 1905 suurlakko",
+     "rank": null
+    },
+    {
+     "page_id": 155986,
+     "grade": 1,
+     "title": "Perustuslailliset",
+     "rank": null
+    },
+    {
+     "page_id": 162670,
+     "grade": 1,
+     "title": "Suomen itsenäisyysjulistus",
+     "rank": null
+    },
+    {
+     "page_id": 202089,
+     "grade": 1,
+     "title": "Tornio ja ensimmäinen maailmansota",
+     "rank": null
+    },
+    {
+     "page_id": 508861,
+     "grade": 1,
+     "title": "Vuoden 1910 laki yleisvaltakunnallisesta lainsäädännöstä",
+     "rank": null
+    },
+    {
+     "page_id": 508885,
+     "grade": 1,
+     "title": "Maaliskuun manifesti",
+     "rank": null
+    },
+    {
+     "page_id": 902733,
+     "grade": 1,
+     "title": "Postimanifesti",
+     "rank": null
+    },
+    {
+     "page_id": 1213440,
+     "grade": 1,
+     "title": "Keskuskomitea (jääkäriliike)",
+     "rank": null
+    },
+    {
+     "page_id": 1629793,
+     "grade": 1,
+     "title": "Suuri venäläistämisohjelma",
+     "rank": null
+    }
+   ]
+  }
+ ],
+ "failures": [],
+ "cost": {
+  "requests": 43,
+  "jobs": 1,
+  "seconds_total": 46.7,
+  "seconds_per_request": 1.09,
+  "seconds_max": 3.66,
+  "llm_calls": 0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "sql_queries": 86,
+  "cost_usd": 0.0
+ }
+}

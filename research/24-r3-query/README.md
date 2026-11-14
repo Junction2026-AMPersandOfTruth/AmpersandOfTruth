@@ -148,3 +148,25 @@ Downstream signal ranking (P1.S*) can read `angle` to boost reverted edits touch
   1. **One cached `expand-topic` call** supplies scope gating (`in_scope` + `scope_reason` for the UI empty/out-of-scope banner), exact Finnish title resolution (`title_guesses`), multi-query RRF (`topic_fi` + `reformulations`), boolean fulltext stems (`keywords_fi` if R2's FTS arm is merged), and `angle` for signal ranking.
   2. **If VPS Ollama latency/load becomes a bottleneck** (~6 query embeddings on uncached topics), **`title_guesses` + `C+` (`hyde_fi` + raw `text` RRF)** is the best low-query alternative (only **2 embeddings** instead of ~6, while `C+` alone already reaches `32/37` top-20 recall).
   3. **Benchmark `gemini-3.8-flash` vs `gemini-4-hydrogen`** on `QueryExpand` once the golden runner (#21) lands to cut cold ad-hoc search latency from ~9.6 s toward ~2–3 s.
+
+## Golden set, dev split (`2026-11-14.1`, 43 queries): `results/r3-*.dev.scorecard.md`
+
+| Variant | recall@10 | recall@20 | nDCG@10 | OOS caught | false alarms | s / topic (cold LLM) |
+|---|---:|---:|---:|---:|---:|---:|
+| R1 baseline | 0.28 | 0.39 | 0.54 | 0 / 2 | 0 | 3.2 |
+| A: `topic_fi` | 0.33 | 0.46 | 0.63 | 0 | 0 | 11.8 |
+| B: multi-query RRF | 0.37 | 0.53 | 0.66 | 0 | 0 | 11.2 |
+| C+: HyDE + R1 | 0.33 | 0.49 | 0.63 | 0 | 0 | 5.9 |
+| D: title guesses + B | **0.37** | **0.53** | **0.69** | 0 | 0 | 10.3 |
+| **E: D + scope check** | **0.37** | **0.53** | **0.69** | **2 / 2** | **0** | 17.5 (cold) |
+
+**R3 is the only retrieval idea that beats the baseline on the golden set, and by a lot:** nDCG@10 +0.15, recall@20 +0.14.
+E also solves out-of-scope detection (2/2, no false alarms). R2 (keyword), R4 (expansion/re-rank) and R5 (claim arm) all score
+*below* R1. The seconds above include the one-time Gemini call per topic. Repeats are cached (about 0.2 s), and the time
+is dominated by about 6 query embeddings through the mariadb CLI and the tunnel.
+
+**Recommendation for R6 (#27): R3-E** (`expand-topic` → title guesses + multi-query RRF + scope gate).
+
+⚠️ Earlier in the same session, a first scoring run without `GEMINI_API_KEY` made every mode silently fall back to R1. The
+log line is `expand: non-ok outcome='failed' error='no_api_key'`. Run it with the key (`research/22-judge/analyze.sh` shows
+how), and check `llm_calls` in the scorecard: it must equal the number of distinct queries.
