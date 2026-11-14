@@ -7,7 +7,8 @@ namespace AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 /// the P2 fixture runner (#98) replays sample incidents through the same events.</summary>
 public interface IInvestigationRunner
 {
-    IAsyncEnumerable<InvestigationEvent> RunAsync(string topic, CancellationToken ct = default);
+    /// <param name="refresh">Ignore a cached analysis of this topic and run it again (the "Re-run" action).</param>
+    IAsyncEnumerable<InvestigationEvent> RunAsync(string topic, bool refresh = false, CancellationToken ct = default);
 }
 
 // ── Stage contracts. Each real stage is a placeholder built from what main had at W2; W4 swaps in the winners of the

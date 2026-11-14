@@ -1,0 +1,70 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using AmpersandOfTruth.Web.Data;
+using AmpersandOfTruth.Web.Features.Investigations.Pipeline;
+using AmpersandOfTruth.Web.Features.WikiDiff;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
+namespace AmpersandOfTruth.Web.Features.Investigations.Cache;
+
+/// <summary>
+/// Stage 3a with a SQLite cache in front (<c>EditReadingCache</c>, #40): a removed edit is fetched and diffed once, ever.
+/// Key = page + restored + last undone revision + reader version. Failures are not cached; a broken cache row is
+/// re-read. Singleton, thread-safe. <paramref name="inner"/> = the uncached reader (<see cref="CorpusEditReader"/>).
+/// </summary>
+public sealed class CachedEditReader(
+    IEditReader inner, IOptions<InvestigationPipelineOptions> options, IDbContextFactory<AppDbContext> dbFactory,
+    TimeProvider clock, ILogger<CachedEditReader> log) : IEditReader
+{
+    private static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.Web)
+    {
+        Converters = { new JsonStringEnumConverter() },
+    };
+
+    private sealed record Payload(
+        IReadOnlyList<RevisionRow> Span, WikitextDiffResult Diff, string InsertedText, string RemovedText, string Context);
+
+    public string KeyFor(RemovedEdit edit) =>
+        $"{edit.Article.PageId}:{edit.Revert.RestoredRevId}:{edit.Revert.RevertedRevId}" +
+        $":r{CorpusEditReader.Version}.d{WikitextDiff.Contract}.c{options.Value.MaxPromptChars}";
+
+    public async Task<EditReading> ReadAsync(RemovedEdit edit, CancellationToken ct = default)
+    {
+        var key = KeyFor(edit);
+        try
+        {
+            await using var db = await dbFactory.CreateDbContextAsync(ct);
+            var json = await db.Set<EditReadingCacheRow>().AsNoTracking()
+                .Where(r => r.Key == key).Select(r => r.Json).FirstOrDefaultAsync(ct);
+            if (json is not null && JsonSerializer.Deserialize<Payload>(json, Json) is { Span.Count: > 0 } p)
+                return new EditReading(edit, p.Span, p.Diff, p.InsertedText, p.RemovedText, p.Context);
+        }
+        catch (Exception ex) when (ex is JsonException or DbUpdateException or InvalidOperationException)
+        {
+            log.LogWarning(ex, "Edit reading cache row {Key} unusable; reading again", key);
+        }
+
+        var reading = await inner.ReadAsync(edit, ct);
+        try
+        {
+            await using var db = await dbFactory.CreateDbContextAsync(ct);
+            await db.Set<EditReadingCacheRow>().Where(r => r.Key == key).ExecuteDeleteAsync(ct);
+            db.Add(new EditReadingCacheRow
+            {
+                Key = key,
+                PageId = edit.Article.PageId,
+                RevertRevId = edit.Revert.RevId,
+                Json = JsonSerializer.Serialize(
+                    new Payload(reading.Span, reading.Diff, reading.InsertedText, reading.RemovedText, reading.Context), Json),
+                CreatedAt = clock.GetUtcNow(),
+            });
+            await db.SaveChangesAsync(ct);
+        }
+        catch (DbUpdateException ex)
+        {
+            log.LogDebug(ex, "Edit reading {Key} already cached by a concurrent run", key); // identical content
+        }
+        return reading;
+    }
+}

@@ -37,7 +37,7 @@ public class InvestigatePageTests : BunitContext
 
         cut.WaitForAssertion(() =>
         {
-            Assert.Equal(3, cut.FindAll("[data-testid=investigate-article]").Count);
+            Assert.Equal(3, cut.FindAll("[data-testid=investigate-article]").Count); // Talvisota, Jatkosota, Lapin sota
             var rows = cut.FindAll("[data-testid=revert-row]");
             Assert.Equal(2, rows.Count);
             Assert.Contains("Rollbacker", rows[0].TextContent);
@@ -45,7 +45,6 @@ public class InvestigatePageTests : BunitContext
             Assert.NotNull(rows[0].QuerySelector("[data-testid=revert-when] a[href='https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2000']"));
             Assert.NotNull(rows[0].QuerySelector("[data-testid=revert-undid] a[href='https://fi.wikipedia.org/w/index.php?diff=prev&oldid=1999']"));
         });
-        Assert.Contains("only loaded for Finnish", cut.Markup);
         Assert.Contains("No removed edits found", cut.Markup);
     }
 

@@ -47,4 +47,16 @@ public class PipelineCorpusIntegrationTests(AppFactory app) : IClassFixture<AppF
         Assert.NotEmpty(incidents);
         Assert.All(incidents, i => Assert.DoesNotMatch(@"\d+\.\d+\.\d+\.\d+", string.Join(" ", i.Edits.Select(e => e.UserDisplay + e.Summary))));
     }
+
+    [CorpusFact]
+    public async Task Fi_lookups_find_talvisota_by_page_id_and_by_wikidata_id()
+    {
+        var byId = Assert.Single(await Corpus.FiArticlesAsync([Talvisota, 999_999_999]));
+        Assert.Equal("Talvisota", byId.Title);
+        Assert.NotNull(byId.WikidataId);
+
+        var siblings = await Corpus.FiSiblingsAsync([byId.WikidataId!, "Q0"]);
+
+        Assert.Equal(Talvisota, Assert.Single(siblings).Value.PageId);
+    }
 }

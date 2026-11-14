@@ -7,7 +7,8 @@ namespace AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 
 /// <summary>
 /// P1.P1 (#39): topic → articles → removed edits → (read → classify → assemble) per edit with bounded parallelism,
-/// streamed as <see cref="InvestigationEvent"/>s. Stateless singleton; every run is independent.
+/// streamed as <see cref="InvestigationEvent"/>s. Stateless singleton; every run is independent and uncached at the run
+/// level (<see cref="Cache.CachingInvestigationRunner"/> wraps it for the app).
 /// <list type="bullet">
 /// <item>A missing embedder or corpus in stage 1–2 ends the run with <see cref="StageFailed"/>, never an exception.</item>
 /// <item>One unreadable edit is skipped (<c>CandidateScored</c> with no incident); only if every edit fails does stage 3 fail.</item>
@@ -27,13 +28,28 @@ public sealed class InvestigationPipeline(
     TimeProvider time,
     ILogger<InvestigationPipeline> log) : IInvestigationRunner
 {
-    public async IAsyncEnumerable<InvestigationEvent> RunAsync(string topic, [EnumeratorCancellation] CancellationToken ct = default)
+    /// <summary>Bump when the pipeline's logic changes what a run produces; part of the run-cache fingerprint.</summary>
+    public const int Version = 1;
+
+    /// <inheritdoc />
+    /// <remarks><paramref name="refresh"/> is a no-op here: this class caches nothing at the run level.</remarks>
+    public IAsyncEnumerable<InvestigationEvent> RunAsync(string topic, bool refresh = false, CancellationToken ct = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(topic);
+        topic = topic.Trim();
+        return StreamAsync(topic, token => search.FindArticlesAsync(topic, token), ct);
+    }
 
+    /// <summary>Stages 2–4 on given articles (the eval's oracle retrieval, contract §2.2). Stage 1 just echoes them.</summary>
+    public IAsyncEnumerable<InvestigationEvent> RunOnArticlesAsync(string topic, IReadOnlyList<TopicArticle> articles, CancellationToken ct = default) =>
+        StreamAsync(topic, _ => Task.FromResult(articles), ct);
+
+    private async IAsyncEnumerable<InvestigationEvent> StreamAsync(
+        string topic, Func<CancellationToken, Task<IReadOnlyList<TopicArticle>>> findArticles, [EnumeratorCancellation] CancellationToken ct)
+    {
         var channel = Channel.CreateUnbounded<InvestigationEvent>(new UnboundedChannelOptions { SingleReader = true });
         using var run = CancellationTokenSource.CreateLinkedTokenSource(ct);
-        var producer = Task.Run(() => ProduceAsync(topic.Trim(), channel.Writer, run.Token), CancellationToken.None);
+        var producer = Task.Run(() => ProduceAsync(topic, findArticles, channel.Writer, run.Token), CancellationToken.None);
         try
         {
             await foreach (var e in channel.Reader.ReadAllAsync(ct))
@@ -46,26 +62,55 @@ public sealed class InvestigationPipeline(
         }
     }
 
-    private async Task ProduceAsync(string topic, ChannelWriter<InvestigationEvent> writer, CancellationToken ct)
+    private async Task ProduceAsync(
+        string topic, Func<CancellationToken, Task<IReadOnlyList<TopicArticle>>> findArticles,
+        ChannelWriter<InvestigationEvent> writer, CancellationToken ct)
     {
+        var now = time.GetUtcNow();
+        var startedAt = now.AddTicks(-(now.Ticks % TimeSpan.TicksPerSecond)); // whole seconds, as stored (IncidentJson)
         var started = time.GetTimestamp();
+        var timings = new Dictionary<InvestigationStage, TimeSpan>();
         var stage = InvestigationStage.FindArticles;
+        var stageStarted = started;
+
+        void Done(InvestigationStage next)
+        {
+            var now = time.GetTimestamp();
+            timings[stage] = time.GetElapsedTime(stageStarted, now);
+            stage = next;
+            stageStarted = now;
+        }
+
         try
         {
-            var articles = await search.FindArticlesAsync(topic, ct);
+            var articles = await findArticles(ct);
             writer.TryWrite(new ArticlesFound(articles.Count, articles));
+            Done(InvestigationStage.ScanHistory);
 
-            stage = InvestigationStage.ScanHistory;
             var scan = await candidates.ScanAsync(articles, ct);
             writer.TryWrite(new RevisionsScanned(scan.RevisionsScanned, scan.Candidates));
+            Done(InvestigationStage.ReadEdits);
 
-            stage = InvestigationStage.ReadEdits;
-            var incidents = await ScoreAllAsync(scan.Candidates, $"investigation:{Guid.NewGuid():N}", writer, ct);
-            if (incidents is null) return; // StageFailed already written
+            var scored = await ScoreAllAsync(scan.Candidates, $"investigation:{Guid.NewGuid():N}", started, writer, ct);
+            if (scored is null) return; // StageFailed already written
+            Done(InvestigationStage.AssembleIncidents);
 
-            stage = InvestigationStage.AssembleIncidents;
-            var ranked = incidents.OrderByDescending(i => i.Score).ThenBy(i => i.Id, StringComparer.Ordinal).ToList();
-            writer.TryWrite(new Completed(FromCache: false, ranked, time.GetElapsedTime(started)));
+            var ranked = scored.Incidents.OrderByDescending(i => i.Score).ThenBy(i => i.Id, StringComparer.Ordinal).ToList();
+            Done(InvestigationStage.AssembleIncidents);
+            var completed = new Completed(FromCache: false, ranked, time.GetElapsedTime(started))
+            {
+                AnalysedAt = startedAt,
+                Degraded = scored.Degraded,
+                StageTimings = timings,
+                FirstIncidentAfter = scored.FirstIncidentAfter,
+            };
+            log.LogInformation(
+                "Investigation {Topic}: {Articles} articles, {Candidates} removed edits, {Incidents} incidents, {Degraded} degraded; " +
+                "find {Find:0} ms, scan {Scan:0} ms, read {Read:0} ms, first incident {First:0} ms, total {Total:0} ms",
+                topic, articles.Count, scan.Candidates.Count, ranked.Count, scored.Degraded,
+                Ms(InvestigationStage.FindArticles), Ms(InvestigationStage.ScanHistory), Ms(InvestigationStage.ReadEdits),
+                scored.FirstIncidentAfter?.TotalMilliseconds, completed.Elapsed.TotalMilliseconds);
+            writer.TryWrite(completed);
         }
         catch (OperationCanceledException ex) when (ct.IsCancellationRequested)
         {
@@ -81,38 +126,50 @@ public sealed class InvestigationPipeline(
         {
             writer.TryComplete();
         }
+
+        double Ms(InvestigationStage s) => timings.TryGetValue(s, out var t) ? t.TotalMilliseconds : 0;
     }
 
+    private sealed record Scored(List<IncidentRecord> Incidents, int Degraded, TimeSpan? FirstIncidentAfter);
+
     /// <returns>The incidents, or null when every candidate failed (a <see cref="StageFailed"/> has been written).</returns>
-    private async Task<List<IncidentRecord>?> ScoreAllAsync(
-        IReadOnlyList<RemovedEdit> edits, string scope, ChannelWriter<InvestigationEvent> writer, CancellationToken ct)
+    private async Task<Scored?> ScoreAllAsync(
+        IReadOnlyList<RemovedEdit> edits, string scope, long runStarted, ChannelWriter<InvestigationEvent> writer, CancellationToken ct)
     {
         var incidents = new List<IncidentRecord>();
         var gate = new Lock();
-        int done = 0, failed = 0;
+        int done = 0, failed = 0, unassessed = 0;
+        TimeSpan? firstIncident = null;
         Exception? lastFailure = null;
 
         await Parallel.ForEachAsync(edits,
             new ParallelOptions { MaxDegreeOfParallelism = Math.Max(1, options.Value.Parallelism), CancellationToken = ct },
             async (edit, token) =>
             {
-                IncidentRecord? incident = null;
-                string? exclusion;
+                Outcome outcome;
                 try
                 {
-                    (incident, exclusion) = await ScoreAsync(edit, scope, token);
+                    outcome = await ScoreAsync(edit, scope, token);
                 }
                 catch (Exception ex) when (ex is not OperationCanceledException || !token.IsCancellationRequested)
                 {
                     log.LogWarning(ex, "Could not read removed edit {Edit}", edit.Key);
-                    exclusion = "unreadable";
+                    outcome = new Outcome(null, "unreadable", AssessmentUnavailable: false);
                     lock (gate) { failed++; lastFailure = ex; }
                 }
 
                 lock (gate) // index and write together so CandidateScored arrives in index order
                 {
-                    if (incident is not null) incidents.Add(incident);
-                    writer.TryWrite(new CandidateScored(++done, edits.Count, edit, incident, exclusion));
+                    if (outcome.Incident is not null)
+                    {
+                        incidents.Add(outcome.Incident);
+                        firstIncident ??= time.GetElapsedTime(runStarted);
+                    }
+                    if (outcome.AssessmentUnavailable) unassessed++;
+                    writer.TryWrite(new CandidateScored(++done, edits.Count, edit, outcome.Incident, outcome.Exclusion)
+                    {
+                        AssessmentUnavailable = outcome.AssessmentUnavailable,
+                    });
                 }
             });
 
@@ -121,24 +178,26 @@ public sealed class InvestigationPipeline(
             writer.TryWrite(new StageFailed(InvestigationStage.ReadEdits, Classify(lastFailure!), lastFailure!.Message));
             return null;
         }
-        return incidents;
+        return new Scored(incidents, failed + unassessed, firstIncident);
     }
 
-    private async Task<(IncidentRecord? Incident, string? Exclusion)> ScoreAsync(RemovedEdit edit, string scope, CancellationToken ct)
+    private sealed record Outcome(IncidentRecord? Incident, string? Exclusion, bool AssessmentUnavailable);
+
+    private async Task<Outcome> ScoreAsync(RemovedEdit edit, string scope, CancellationToken ct)
     {
         var reading = await reader.ReadAsync(edit, ct);
 
         // Exclusions that need no assessment can't be lifted by one, so don't spend an LLM call on them.
         var unassessed = IncidentAssembler.Assemble(reading, null);
         if (unassessed.Incident is null)
-            return (null, ExclusionId(unassessed.Assessment));
+            return new Outcome(null, ExclusionId(unassessed.Assessment), false);
 
         var classification = await classifier.ClassifyAsync(reading, scope, ct);
         if (classification is null)
-            return (unassessed.Incident, null);
+            return new Outcome(unassessed.Incident, null, AssessmentUnavailable: true);
 
         var assessed = IncidentAssembler.Assemble(reading, classification);
-        return (assessed.Incident, ExclusionId(assessed.Assessment));
+        return new Outcome(assessed.Incident, ExclusionId(assessed.Assessment), false);
     }
 
     private static string? ExclusionId(Evidence.TierAssessment a) => a.Exclusion is { } x ? IncidentJson.Id(x) : null;

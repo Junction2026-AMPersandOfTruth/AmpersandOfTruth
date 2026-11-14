@@ -3,6 +3,8 @@ using AmpersandOfTruth.Tests.Infrastructure;
 using AmpersandOfTruth.Web.Features.Analysis;
 using AmpersandOfTruth.Web.Features.Embedding;
 using AmpersandOfTruth.Web.Features.Investigations;
+using AmpersandOfTruth.Web.Features.Analysis.Prompts;
+using AmpersandOfTruth.Web.Features.Investigations.Cache;
 using AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -17,6 +19,8 @@ public sealed class FakeRevisionStore : IRevisionStore
     public Dictionary<(long Page, long Rev), string> Texts { get; } = [];
     public bool Unavailable { get; set; }
     public HashSet<long> BrokenRevisions { get; } = [];
+    private int _textReads;
+    public int TextReads => _textReads;
 
     public Task<int> RevisionCountAsync(IReadOnlyCollection<long> pageIds, CancellationToken ct = default)
     {
@@ -35,6 +39,7 @@ public sealed class FakeRevisionStore : IRevisionStore
     public Task<string?> TextAsync(long pageId, long revId, CancellationToken ct = default)
     {
         ThrowIfDown();
+        Interlocked.Increment(ref _textReads);
         if (BrokenRevisions.Contains(revId)) throw new CorpusUnavailableException($"fake: revision {revId} is unreadable");
         return Task.FromResult(Texts.GetValueOrDefault((pageId, revId)));
     }
@@ -81,23 +86,40 @@ public sealed class PipelineKit
          "category": "{{category}}", "confidence": {{confidence}}, "historical_note_en": null, "uncertainty_note": null}
         """;
 
-    public InvestigationPipeline Build()
+    public GeminiOptions Gemini { get; } = new();
+
+    public InvestigationPipeline Build(IEditReader? reader = null)
     {
         var o = Microsoft.Extensions.Options.Options.Create(Options);
         return new InvestigationPipeline(
             new VectorTopicSearch(Embedder, Corpus, o),
             new RevertCandidateSource(Corpus, Revisions, o),
-            new CorpusEditReader(Revisions, o),
+            reader ?? new CorpusEditReader(Revisions, o),
             new GeminiEditClassifier(Model, o, NullLogger<GeminiEditClassifier>.Instance),
             o, TimeProvider.System, NullLogger<InvestigationPipeline>.Instance);
     }
 
+    /// <summary>The app's composition: run cache + reading cache on <paramref name="db"/> around the real pipeline.</summary>
+    public CachingInvestigationRunner BuildCaching(TestDb db)
+    {
+        var o = Microsoft.Extensions.Options.Options.Create(Options);
+        var reader = new CachedEditReader(new CorpusEditReader(Revisions, o), o, db.Factory, TimeProvider.System,
+            NullLogger<CachedEditReader>.Instance);
+        var gemini = Microsoft.Extensions.Options.Options.Create(Gemini);
+        var fingerprint = new PipelineFingerprint(o, gemini, new PromptLibrary(gemini, NullLogger<PromptLibrary>.Instance));
+        var cache = new InvestigationRunCache(db.Factory, fingerprint, TimeProvider.System, NullLogger<InvestigationRunCache>.Instance);
+        return new CachingInvestigationRunner(Build(reader), cache, TimeProvider.System);
+    }
+
     public void AddTo(IServiceCollection services) => services.AddSingleton<IInvestigationRunner>(Build());
 
-    public async Task<List<InvestigationEvent>> RunAsync(string topic = "Talvisota", CancellationToken ct = default)
+    public Task<List<InvestigationEvent>> RunAsync(string topic = "Talvisota", CancellationToken ct = default) =>
+        Collect(Build().RunAsync(topic, ct: ct));
+
+    public static async Task<List<InvestigationEvent>> Collect(IAsyncEnumerable<InvestigationEvent> run)
     {
         var events = new List<InvestigationEvent>();
-        await foreach (var e in Build().RunAsync(topic, ct)) events.Add(e);
+        await foreach (var e in run) events.Add(e);
         return events;
     }
 }
