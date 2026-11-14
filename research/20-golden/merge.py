@@ -143,17 +143,37 @@ def block(e: dict) -> str:
     return "\n".join(lines)
 
 
+ORDER = ["winter-war", "civil-war-1918", "continuation-war"]  # demo topics first
+
+
 def write_review(a: list, b: list, counts: dict, stats: dict, missing: list) -> None:
+    seeds = {t["id"]: t for t in json.loads((HERE / "topics.json").read_text())["topics"]}
+    topics = ORDER + [t for t in seeds if t not in ORDER]
     out = ["# Golden set: human review (P1.E1, #20)", "",
-           "Read each item's diffs on fi.wikipedia (links), then record a decision in `research/20-golden/human.json`:",
-           '`{"<item id>": {"label": "contested", "verified": true, "by": "human:<initials>", "note": "optional"}}`',
-           '(`"exclusion"` for not-incident, `"drop": true` to remove an item). Then re-run `merge.py`.', "",
-           f"Counts: {json.dumps(counts)}", f"Labeller vs blind: {json.dumps(stats)}",
-           f"Topics not labelled yet: {', '.join(missing) or 'none'}", "",
-           f"## A. Labellers disagree ({len(a)}): the draft keeps the lower level", ""]
-    out += [block(e) + "\n" for e in a]
-    out += [f"## B. Agreed `contested` / `campaign` ({len(b)}): must be human-verified before sign-off", ""]
-    out += [block(e) + "\n" for e in b]
+           "**How:** for each item, open the *added* and *removed* links (fi.wikipedia diffs), read them against",
+           "`docs/evidence-standard.md` §1, then decide. Labellers' doubts per topic: `LABELLER-NOTES.md` (same folder).",
+           "**Record decisions** either in chat (e.g. \"winter-war: all B agree; i06 → contested\") and Claude writes",
+           "`human.json`, or directly in `human.json`: `{\"<item id>\": {\"label\": \"contested\", \"verified\": true, \"by\": \"human:<initials>\"}}`",
+           "(`\"exclusion\"` for not-incident, `\"drop\": true` to remove an item). Then `python3 research/20-golden/merge.py`.", "",
+           "- **A** = labellers disagree; the draft keeps the lowest level. Pick one.",
+           "- **B** = labellers agree on contested/campaign; confirm (or demote) before sign-off.", "",
+           f"Counts: {json.dumps(counts)}", f"Agreement: {json.dumps(stats)}",
+           f"Topics not labelled yet: {', '.join(missing) or 'none'}", "", "## Contents", ""]
+    by_topic = {t: ([e for e in a if e["topic"] == t], [e for e in b if e["topic"] == t]) for t in topics}
+    for t in topics:
+        ea, eb = by_topic[t]
+        if ea or eb:
+            tag = " (demo)" if t in ORDER else (" (test split)" if seeds[t]["split"] == "test" else "")
+            out.append(f"- [{t}](#{t}){tag}: {len(ea)} A, {len(eb)} B")
+    for t in topics:
+        ea, eb = by_topic[t]
+        if not (ea or eb):
+            continue
+        out += ["", f"## {t}", f"_{seeds[t]['title']}_ · split **{seeds[t]['split']}**", ""]
+        if ea:
+            out += [f"### A. Disagreements ({len(ea)})", ""] + [block(e) + "\n" for e in ea]
+        if eb:
+            out += [f"### B. Agreed contested / campaign ({len(eb)})", ""] + [block(e) + "\n" for e in eb]
     (HERE / "REVIEW.md").write_text("\n".join(out))
 
 
