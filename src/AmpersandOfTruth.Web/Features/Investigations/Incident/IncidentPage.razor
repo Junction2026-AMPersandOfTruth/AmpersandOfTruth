@@ -8,6 +8,7 @@
 @using AmpersandOfTruth.Web.Features.Investigations.View
 @using AmpersandOfTruth.Web.Features.Library
 @using AmpersandOfTruth.Web.Features.Translation
+@using AmpersandOfTruth.Web.Features.WebSpread
 @using Microsoft.Extensions.DependencyInjection
 @inject IIncidentSource Source
 @inject NavigationManager Navigation
@@ -193,6 +194,8 @@
                                  OnAnnotationSaved="ReloadAnnotationAsync" />
             </aside>
         </div>
+
+        <WebSpreadPanel Incident="_incident" />
     }
 </div>
 

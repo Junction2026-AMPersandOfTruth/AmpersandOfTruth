@@ -1,0 +1,8 @@
+{
+  "incident_id": "example-mainila",
+  "article_title": "Mainilan laukaukset",
+  "claim_fi": "Suomi ampui Mainilan laukaukset.",
+  "claim_en": "Finland fired the Mainila shots that started the Winter War.",
+  "inserted_text": "Suomi aloitti talvisodan ampumalla Mainilan kylään, minkä vuoksi Neuvostoliiton oli pakko puolustautua.",
+  "windows": [ { "from": "2014-03-01T12:00:00Z", "until": "2014-03-20T09:00:00Z" } ]
+}

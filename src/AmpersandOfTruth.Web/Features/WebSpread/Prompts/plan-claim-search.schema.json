@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "properties": {
+    "contested_detail": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short English phrase naming the claim's distinctive or disputed detail."
+    },
+    "queries": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "properties": {
+          "lang": { "type": "string", "enum": ["fi", "en", "sv", "ru"] },
+          "kind": { "type": "string", "enum": ["keywords", "translation"] },
+          "text": { "type": "string", "minLength": 3 }
+        },
+        "required": ["lang", "kind", "text"],
+        "additionalProperties": false
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Why this claim may be hard to find, or empty."
+    }
+  },
+  "required": ["contested_detail", "queries", "notes"],
+  "additionalProperties": false
+}

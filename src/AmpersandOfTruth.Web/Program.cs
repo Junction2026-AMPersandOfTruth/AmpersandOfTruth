@@ -16,6 +16,7 @@ using AmpersandOfTruth.Web.Features.Search;
 using AmpersandOfTruth.Web.Features.Sharing;
 using AmpersandOfTruth.Web.Features.TimeMachine;
 using AmpersandOfTruth.Web.Features.Translation;
+using AmpersandOfTruth.Web.Features.WebSpread;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,7 @@ builder.Services.AddReportsFeature();
 builder.Services.AddNetworkFeature();
 builder.Services.AddSharingFeature();
 builder.Services.AddDemoFeature();
+builder.Services.AddWebSpreadFeature();
 
 var app = builder.Build();
 
