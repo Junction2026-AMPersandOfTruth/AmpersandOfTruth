@@ -17,7 +17,6 @@
             <InputText Value="@_model.Topic"
                        ValueChanged="OnTopicChanged"
                        ValueExpression="() => _model.Topic"
-                       @oninput="OnTopicInput"
                        disabled="@Disabled"
                        placeholder="What topic do you want to investigate?"
                        aria-label="Topic"
@@ -38,7 +37,6 @@ else
                 <InputText Value="@_model.Topic"
                            ValueChanged="OnTopicChanged"
                            ValueExpression="() => _model.Topic"
-                           @oninput="OnTopicInput"
                            disabled="@Disabled"
                            placeholder="What topic do you want to investigate?"
                            aria-label="Topic"
@@ -146,12 +144,6 @@ else
         _editContext.NotifyValidationStateChanged();
     }
 
-    private void OnTopicInput(ChangeEventArgs e)
-    {
-        _model.Topic = e.Value?.ToString();
-        _validationMessages.Clear();
-        _editContext.NotifyValidationStateChanged();
-    }
 
     private void OnFieldChanged(object? sender, FieldChangedEventArgs e)
     {

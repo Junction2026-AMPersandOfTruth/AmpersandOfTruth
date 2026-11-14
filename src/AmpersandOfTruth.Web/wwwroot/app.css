@@ -350,7 +350,10 @@ del.aot-del, .aot-del { background: var(--diff-del-bg); color: var(--diff-del-in
 
 /* Search */
 .aot-search { display: flex; gap: var(--space-2); background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius-sm); padding: 4px 4px 4px var(--space-3); }
-.aot-search:focus-within { border-color: var(--accent); box-shadow: var(--shadow-focus); }
+.aot-search:focus-within { border-color: var(--ink-muted); box-shadow: none; }
+.aot-search input:focus, .aot-search input:focus-visible { outline: none; box-shadow: none; }
+/* No ring on what Blazor focuses itself (page title on navigation, key-handler wrappers) */
+h1:focus, h1:focus-visible, [tabindex="-1"]:focus, [tabindex="-1"]:focus-visible { outline: none; box-shadow: none; }
 .aot-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font: 400 18px/28px var(--font-sans); }
 .aot-search input::placeholder { color: var(--ink-muted); }
 .aot-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); counter-reset: s; }

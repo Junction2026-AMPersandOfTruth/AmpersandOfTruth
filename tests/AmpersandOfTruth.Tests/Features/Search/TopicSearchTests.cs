@@ -144,8 +144,8 @@ public sealed class TopicSearchTests : BunitContext
         var nav = Services.GetRequiredService<NavigationManager>();
         var cut = Render<TopicSearch>();
 
-        // Simulate typing into input (@oninput) and pressing Enter (form submit) before onchange/blur
-        cut.Find("[data-testid=topic-input]").Input("Mannerheim");
+        // Browsers fire change before an Enter submit; the value syncs on change, never per keystroke (per-keystroke round-trips raced typing)
+        cut.Find("[data-testid=topic-input]").Change("Mannerheim");
         cut.Find("form").Submit();
 
         Assert.Equal("http://localhost/investigate/mannerheim", nav.Uri);
@@ -156,7 +156,7 @@ public sealed class TopicSearchTests : BunitContext
         Assert.True(disabledCut.Find("[data-testid=topic-input]").HasAttribute("disabled"));
         Assert.True(disabledCut.Find("[data-testid=topic-submit]").HasAttribute("disabled"));
 
-        disabledCut.Find("[data-testid=topic-input]").Input("Winter War");
+        disabledCut.Find("[data-testid=topic-input]").Change("Winter War");
         disabledCut.Find("form").Submit();
         Assert.Equal("http://localhost/", nav.Uri);
     }

@@ -132,7 +132,7 @@ public sealed class LandingPageTests : BunitContext
         var cut = Render<LandingPage>();
         Assert.Empty(cut.FindAll("[data-testid=recent-topics]"));
 
-        cut.Find("[data-testid=topic-input]").Input("climate change");
+        cut.Find("[data-testid=topic-input]").Change("climate change");
         cut.Find("form").Submit();
 
         cut.WaitForAssertion(() =>
@@ -225,7 +225,7 @@ public sealed class LandingPageTests : BunitContext
         var nav = Services.GetRequiredService<NavigationManager>();
         var cut = Render<LandingPage>();
 
-        cut.Find("[data-testid=topic-input]").Input("Winter War");
+        cut.Find("[data-testid=topic-input]").Change("Winter War");
         cut.Find("form").Submit();
 
         cut.WaitForAssertion(() =>
