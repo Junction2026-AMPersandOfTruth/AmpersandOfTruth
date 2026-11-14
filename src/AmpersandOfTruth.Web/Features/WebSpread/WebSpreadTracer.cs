@@ -99,7 +99,7 @@ public sealed class WebSpreadTracer(
                 _ => plan.Queries.Count == 0 ? "There was nothing to search for: the incident has no claim text." : "Every web search failed.",
             });
             yield return new WebSpreadCompleted(new WebSpreadResult(claim, status, plan, [], null,
-                SpreadClassifier.Headline([], 0, opt.Languages), 0, 0, notes));
+                SpreadClassifier.Headline([], 0, opt.EffectiveLanguages), 0, 0, notes));
             yield break;
         }
         if (failed > 0) notes.Add($"{failed} of {ok + failed + budget} searches failed.");
@@ -159,7 +159,7 @@ public sealed class WebSpreadTracer(
         var list = sources.OrderBy(s => s.Bucket).ThenBy(s => s.Dating.EffectiveDate ?? DateOnly.MaxValue).ToList();
         var resultStatus = failed > 0 || budget > 0 || fetchFailures > 0 ? WebSpreadStatus.Partial : WebSpreadStatus.Completed;
         yield return new WebSpreadCompleted(new WebSpreadResult(claim, resultStatus, plan, list, SpreadClassifier.Earliest(list),
-            SpreadClassifier.Headline(list, ok, opt.Languages), ok, pagesRead, notes));
+            SpreadClassifier.Headline(list, ok, opt.EffectiveLanguages), ok, pagesRead, notes));
     }
 
     /// <param name="Read">False = the page couldn't be fetched.</param>

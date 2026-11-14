@@ -26,6 +26,9 @@ Query embeddings: **Ollama `bge-m3`** (local, else the VPS through the tunnel) b
 | Run the app's investigation pipeline from the shell (same services, config, caches as the app) | `scripts/investigate.sh run "Talvisota" [--refresh] [--events]` · `variant < request.json` (eval contract §2) · `clear-runs` |
 | Warm caches before a demo + measure the #40 latency budget (Markdown table) | `scripts/warm.sh [topics-file] [--cold]` (default `scripts/demo-topics.txt`) |
 | Live Gemini tests (opt-in, real API calls) | `GEMINI_TESTS=1 dotnet test --filter Category=Gemini` |
+| P3 Oxylabs spike (#54): probe search/date range/news/fetch, write a capability report | `scripts/oxylabs-spike.sh [--query '"…"'] [--from 2014-01-01 --to 2014-12-31]` (branch `oxylabs`) |
+| P3 web-spread trace from the shell (same tracer, caches, caps as the app) | `scripts/webspread.sh claim < research/54-oxylabs-spike/example-claim.json` · `topic "Talvisota" [--rank N] [--events]` (branch `oxylabs`) |
+| Live Oxylabs tests (opt-in, uses quota) | `OXYLABS_TESTS=1 dotnet test --filter Category=Oxylabs --logger "console;verbosity=detailed"` |
 | Deploy the web app to the VPS (needs root ssh) → https://asot.tech | `scripts/app-deploy.sh` (publishes the current checkout) · `--logs` · compose in `deploy/app/`, secrets only in `/opt/junction/app/.env` on the VPS |
 | Review walk: demo flow in system Chrome at 1280×720 + 390 px, screenshots + report.md | `scripts/walk.sh [--url http://localhost:PORT] [--out DIR]` (boots the app if no `--url`) |
 | Check a golden set / variant / judgement file against the eval contract (stdlib Python, no corpus) | `python3 research/eval/validate.py golden` · `variant retrieval\|signals -- <cmd>` · tests: `python3 -m unittest discover -s research/eval/tests` |
@@ -181,6 +184,31 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   `IEvidenceTranslator` (cached via the analysis cache) + `<MtLabel>`; per-browser EN/FI in `LanguagePreference` (`aot.lang`).
 - Routes: `/` (Search), `/investigate/{topic}` (overview), `/investigate/{topic}/incidents/{id}`, `/articles/{pageId}`, `/accounts/{name}`
   (named accounts only), `/methodology`. `/investigate` (no topic) is the pipeline debug page, linked from the footer. Topic ↔ slug: `TopicSlug`.
+
+## P3 web spread (`Features/WebSpread`, epic #5) — **branch `oxylabs` only**
+
+- **All P3 work lives on the `oxylabs` branch** (branched from `main`); feature branches for P3 start from and merge into
+  `oxylabs`, never `main`, until the team decides it is demo-ready. Merge `main` into `oxylabs` to stay current.
+- Credentials (user-secrets only): **Web API** key → `Oxylabs:ApiKey` (Bearer, `webapi.oxylabs.io`, no date-restricted search),
+  or **Web Scraper API** → `Oxylabs:Username` + `Oxylabs:Password` (Basic, `realtime.oxylabs.io`, `google_search` with a
+  `tbs` date range + `universal` fetch). `OxylabsOptions.EffectiveMode` picks from what is set (username/password wins;
+  `Oxylabs:Mode` forces). None set → every call is `NotConfigured` and the app runs as before.
+- **Unverified wire details** (developers.oxylabs.io was unreachable when written; built from the GitHub READMEs) are listed
+  in `Oxylabs/OxylabsWire.cs`: the `tbs`/`results_language` context keys, the parsed `organic[]` path and fields, per-result
+  dates, the Web API's `html` output. The P3.1 spike (`scripts/oxylabs-spike.sh`) checks them; fix `OxylabsWire` + its tests.
+- Layering: `OxylabsClient` (raw HTTP, retries, concurrency) ← `WebSpreadGateway` (= the registered `IWebSearchClient` /
+  `IPageFetcher`: skip list → SQLite `WebSpreadCache` → caps `Oxylabs:PerScopeRequestCap` / `DailyRequestCap`, fail closed →
+  provider; ledger `WebSpreadCalls`). Only `Ok` responses are cached, so a demo trace replays with zero live calls.
+- `WebSpreadTracer.TraceAsync(WebSpreadClaim)` streams `Planned → Searched × N → Reading → SourceFound × N → Completed`
+  (never throws for provider/LLM problems; `WebSpreadResult.Status` + `Notes` say what degraded). Stages: `ClaimSearchPlanner`
+  (P3.2: `DistinctiveFragment` exact phrase + `plan-claim-search` prompt × before/during/after windows), `ClaimMatcher`
+  (P3.4: `LexicalMatcher` shingles + `match-claim` prompt; LLM quotes verified against the page), `PageDateExtractor` +
+  `WaybackArchive` (P3.5: every candidate kept, conflicts reported), `SpreadClassifier` (P3.6: day-granular buckets,
+  "likely from Wikipedia" only with wording overlap / a Wikipedia credit / a mirror — never from timing alone).
+- `WebSpreadClaim.From(IncidentView)` is the entry point for the P3.7 UI (not built yet): the inserted wording comes from
+  the view's diff passage. Fetched page text is untrusted: render as text, pass to the LLM only via `{{data:…}}`.
+- Not built yet: P3.7 UI, P3.4 approach B (bge-m3 chunks), archive snapshot check for the claim itself, byline dates,
+  circular-sourcing check, a per-incident result cache. Tests: `tests/…/Features/WebSpread` (fakes in `WebSpreadTestKit.cs`).
 
 ## LLM analysis (Gemini, `Features/Analysis`, issue #16)
 

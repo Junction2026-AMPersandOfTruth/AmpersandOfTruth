@@ -33,12 +33,12 @@ public sealed class ClaimSearchPlanner(
         if (opt.UseLlmPlan)
         {
             var result = await llm.RunAsync<ClaimQueryExpansion>(
-                new AnalysisRequest(PlanClaimSearchPrompt.Id, PlanClaimSearchPrompt.Variables(claim, opt.Languages)) { Scope = claim.Scope }, ct);
+                new AnalysisRequest(PlanClaimSearchPrompt.Id, PlanClaimSearchPrompt.Variables(claim, opt.EffectiveLanguages)) { Scope = claim.Scope }, ct);
             if (result.IsOk)
             {
                 detail = result.Value.ContestedDetail;
                 notes = string.IsNullOrWhiteSpace(result.Value.Notes) ? null : result.Value.Notes;
-                foreach (var q in result.Value.Queries.Where(q => opt.Languages.Contains(q.Lang, StringComparer.OrdinalIgnoreCase)))
+                foreach (var q in result.Value.Queries.Where(q => opt.EffectiveLanguages.Contains(q.Lang, StringComparer.OrdinalIgnoreCase)))
                 {
                     var kind = string.Equals(q.Kind, "translation", StringComparison.OrdinalIgnoreCase) ? QueryKind.Translation : QueryKind.Keywords;
                     basics.Add((q.Text.Replace("\"", "").Trim(), q.Lang.ToLowerInvariant(), kind));
@@ -54,7 +54,7 @@ public sealed class ClaimSearchPlanner(
         {
             var words = DistinctiveFragment.Keywords(claim.InsertedText ?? claim.ClaimFi);
             if (words.Count > 0) basics.Add((string.Join(' ', words), "fi", QueryKind.Keywords));
-            if (!string.IsNullOrWhiteSpace(claim.ClaimEn) && opt.Languages.Contains("en")) basics.Add((claim.ClaimEn!, "en", QueryKind.Keywords));
+            if (!string.IsNullOrWhiteSpace(claim.ClaimEn) && opt.EffectiveLanguages.Contains("en")) basics.Add((claim.ClaimEn!, "en", QueryKind.Keywords));
         }
 
         // 3. × time windows.

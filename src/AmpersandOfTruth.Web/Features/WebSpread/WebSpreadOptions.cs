@@ -5,8 +5,15 @@ public sealed class WebSpreadOptions
 {
     public const string Section = "WebSpread";
 
-    /// <summary>Languages for keyword/translation queries. P3.2's default plan: 2 languages.</summary>
-    public List<string> Languages { get; set; } = ["fi", "en"];
+    /// <summary>Languages for keyword/translation queries; null/empty = <see cref="DefaultLanguages"/>. No initial value on
+    /// purpose: the config binder appends to a pre-filled list or array ("fi, en" + config → "fi, en, fi, en").</summary>
+    public string[]? Languages { get; set; }
+
+    /// <summary>P3.2's default plan: 2 languages.</summary>
+    public static readonly string[] DefaultLanguages = ["fi", "en"];
+
+    public IReadOnlyList<string> EffectiveLanguages =>
+        Languages is { Length: > 0 } l ? l.Select(x => x.Trim().ToLowerInvariant()).Distinct().ToArray() : DefaultLanguages;
 
     /// <summary>Hard cap on searches per trace, after the plan multiplies queries × windows (default 2 × 2 × 3 = 12).</summary>
     public int MaxSearches { get; set; } = 12;
