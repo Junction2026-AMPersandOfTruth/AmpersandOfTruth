@@ -4,6 +4,8 @@ using Microsoft.Extensions.Options;
 
 namespace AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 
+public enum TopicSearchMethod { Expanded, Vector }
+
 /// <summary>Limits of one run. Bound from <c>Investigations:Pipeline</c>; the defaults keep a topic inside the #40 budget.</summary>
 public sealed class InvestigationPipelineOptions
 {
@@ -11,6 +13,10 @@ public sealed class InvestigationPipelineOptions
 
     /// <summary>fi articles retrieved per topic (after folding en/sv hits onto their fi sibling).</summary>
     public int ArticleLimit { get; set; } = 10;
+
+    /// <summary>Stage 1 method. <c>Expanded</c> = R3-D, the R6 decision (#27); <c>Vector</c> = plain R1 (no LLM call: an ablation,
+    /// or a fast fallback if the expansion's cold latency hurts a demo).</summary>
+    public TopicSearchMethod TopicSearch { get; set; } = TopicSearchMethod.Expanded;
 
     /// <summary>Newest identity reverts considered per fi article.</summary>
     public int RevertsPerArticle { get; set; } = 50;
@@ -39,30 +45,43 @@ public sealed class InvestigationPipelineOptions
 /// <summary>
 /// Stage 1 = the R1 baseline (#8, <c>research/lib/aot.py</c> <c>nearest</c> + <c>fold_to_fi</c>): bge-m3 vector of the topic →
 /// nearest article vectors in every language (3 × the limit) → en/sv hits folded onto their fi sibling by wikidata id,
-/// best rank per fi article, hits without a fi article dropped. Only fi articles have edit history. P1.R6 (#27) replaces it.
+/// best rank per fi article, hits without a fi article dropped. Only fi articles have edit history. P1.R6 (#27) chose
+/// <see cref="ExpandedTopicSearch"/> (R3-D), which falls back to this when the LLM is unavailable.
 /// </summary>
 public sealed class VectorTopicSearch(IQueryEmbedder embedder, IInvestigationCorpus corpus, IOptions<InvestigationPipelineOptions> options)
     : ITopicSearch
 {
+    public string Fingerprint => "r1";
+
+    public async Task<TopicSearchResult> SearchAsync(string topic, CancellationToken ct = default) =>
+        new(await FindArticlesAsync(topic, ct));
+
     public async Task<IReadOnlyList<TopicArticle>> FindArticlesAsync(string topic, CancellationToken ct = default)
     {
         var k = options.Value.ArticleLimit;
         var vector = await embedder.EmbedAsync(topic, ct);
         var hits = await corpus.NearestArticlesAsync(vector, k * 3, ct);
-        var siblings = await corpus.FiSiblingsAsync(
-            hits.Where(h => !h.HasHistory && h.WikidataId is not null).Select(h => h.WikidataId!).ToList(), ct);
+        var siblings = await SiblingsAsync(corpus, hits, ct);
+        return [.. Fold(hits, siblings).Take(k)];
+    }
 
-        var folded = new List<TopicArticle>();
+    /// <summary>The fi siblings (by wikidata id) of the en/sv hits, for <see cref="Fold"/>.</summary>
+    internal static Task<IReadOnlyDictionary<string, TopicArticle>> SiblingsAsync(
+        IInvestigationCorpus corpus, IEnumerable<TopicArticle> hits, CancellationToken ct) =>
+        corpus.FiSiblingsAsync(hits.Where(h => !h.HasHistory && h.WikidataId is not null).Select(h => h.WikidataId!).Distinct().ToList(), ct);
+
+    /// <summary>R1's fold (<c>aot.py fold_to_fi</c>): en/sv hits onto their fi sibling, best rank per fi article, hits without
+    /// a fi article dropped. Keeps the hits' order.</summary>
+    internal static IEnumerable<TopicArticle> Fold(IEnumerable<TopicArticle> hits, IReadOnlyDictionary<string, TopicArticle> siblings)
+    {
         var seen = new HashSet<long>();
         foreach (var h in hits)
         {
             var fi = h.HasHistory ? h
                 : h.WikidataId is { } w && siblings.TryGetValue(w, out var s) ? s with { Distance = h.Distance, ViaLang = h.Lang }
                 : null;
-            if (fi is not null && seen.Add(fi.PageId)) folded.Add(fi);
-            if (folded.Count == k) break;
+            if (fi is not null && seen.Add(fi.PageId)) yield return fi;
         }
-        return folded;
     }
 }
 

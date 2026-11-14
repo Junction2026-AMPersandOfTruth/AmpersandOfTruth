@@ -19,8 +19,23 @@ public interface IInvestigationRunner
 /// <summary>Stage 1 (P1.R6): topic → articles, closest first.</summary>
 public interface ITopicSearch
 {
-    Task<IReadOnlyList<TopicArticle>> FindArticlesAsync(string topic, CancellationToken ct = default);
+    Task<TopicSearchResult> SearchAsync(string topic, CancellationToken ct = default);
+
+    /// <summary>Everything that shapes this search's output (method, version, prompt, model); part of the run-cache fingerprint.</summary>
+    string Fingerprint { get; }
 }
+
+/// <summary>What stage 1 found. <see cref="Scope"/> = the LLM's scope verdict (null when no LLM was asked or it failed).
+/// <see cref="Fallback"/> = the configured method could not run (LLM down) and a simpler one answered instead, so the
+/// run must not be cached.</summary>
+public sealed record TopicSearchResult(IReadOnlyList<TopicArticle> Articles)
+{
+    public TopicScope? Scope { get; init; }
+    public bool Fallback { get; init; }
+}
+
+/// <summary>R3-E's scope verdict, shown as a warning, never as a block (R6 #27).</summary>
+public sealed record TopicScope(bool InScope, string Reason);
 
 /// <summary>Stage 2 (P1.S1/S4): the found fi articles → removed edits worth reading, most promising first.</summary>
 public interface ICandidateSource

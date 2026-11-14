@@ -151,11 +151,33 @@ public sealed class PipelineKit
 
     public GeminiOptions Gemini { get; } = new();
 
-    public InvestigationPipeline Build(IEditReader? reader = null)
+    /// <summary>Stage 1 = R3-D (<see cref="ExpandedTopicSearch"/>, the app's default) instead of plain R1. Script its
+    /// <c>expand-topic</c> reply on <see cref="Model"/> (<see cref="ExpansionJson"/>); unscripted, it falls back to R1.</summary>
+    public bool ExpandedSearch { get; set; }
+
+    public static string ExpansionJson(bool inScope = true, string titles = "\"Talvisota\"", string reason = "Finnish history.") => $$"""
+        {"in_scope": {{(inScope ? "true" : "false")}}, "scope_reason": "{{reason}}", "topic_fi": "Talvisota",
+         "reformulations": ["Talvisodan syyt", "Winter War causes", "Mainilan laukaukset"], "hyde_fi": "Talvisota oli sota.",
+         "title_guesses": [{{titles}}], "keywords_fi": ["talviso*"], "angle": "general"}
+        """;
+
+    public ITopicSearch Search()
+    {
+        var o = Microsoft.Extensions.Options.Options.Create(Options);
+        var r1 = new VectorTopicSearch(Embedder, Corpus, o);
+        if (!ExpandedSearch) return r1;
+        var gemini = Microsoft.Extensions.Options.Options.Create(Gemini);
+        return new ExpandedTopicSearch(Model, r1, Embedder, Corpus, new PromptLibrary(gemini, NullLogger<PromptLibrary>.Instance),
+            gemini, o, NullLogger<ExpandedTopicSearch>.Instance);
+    }
+
+    public InvestigationPipeline Build(IEditReader? reader = null) => Build(Search(), reader);
+
+    private InvestigationPipeline Build(ITopicSearch search, IEditReader? reader)
     {
         var o = Microsoft.Extensions.Options.Options.Create(Options);
         return new InvestigationPipeline(
-            new VectorTopicSearch(Embedder, Corpus, o),
+            search,
             new RevertCandidateSource(Corpus, Revisions, o),
             reader ?? new CorpusEditReader(Revisions, o, Conflicts),
             new GeminiEditClassifier(Model, o, NullLogger<GeminiEditClassifier>.Instance),
@@ -169,9 +191,10 @@ public sealed class PipelineKit
         var reader = new CachedEditReader(new CorpusEditReader(Revisions, o, Conflicts), o, db.Factory, TimeProvider.System,
             NullLogger<CachedEditReader>.Instance);
         var gemini = Microsoft.Extensions.Options.Options.Create(Gemini);
-        var fingerprint = new PipelineFingerprint(o, gemini, new PromptLibrary(gemini, NullLogger<PromptLibrary>.Instance));
+        var search = Search();
+        var fingerprint = new PipelineFingerprint(o, gemini, new PromptLibrary(gemini, NullLogger<PromptLibrary>.Instance), search);
         var cache = new InvestigationRunCache(db.Factory, fingerprint, TimeProvider.System, NullLogger<InvestigationRunCache>.Instance);
-        return new CachingInvestigationRunner(Build(reader), cache, TimeProvider.System);
+        return new CachingInvestigationRunner(Build(search, reader), cache, TimeProvider.System);
     }
 
     public void AddTo(IServiceCollection services) => services.AddSingleton<IInvestigationRunner>(Build());

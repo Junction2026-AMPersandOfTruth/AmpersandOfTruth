@@ -77,6 +77,11 @@ else
         <EmptyState Message="No incidents found for this topic." />
     }
 
+    @if (_scope is { InScope: false })
+    {
+        <StatusBanner Kind="StatusKind.Warn" TestId="scope-warning" Title="This topic may be outside the corpus.">@_scope.Reason</StatusBanner>
+    }
+
     @if (_articles is { Count: 0 })
     {
         <EmptyState Message="No articles found." />
@@ -91,7 +96,7 @@ else
                 <h3 class="h5">
                     <span class="badge text-bg-secondary text-uppercase">@a.Lang</span>
                     <a href="@a.Url" target="_blank" rel="noopener">@a.Title</a>
-                    <small class="text-muted">distance @a.Distance.ToString("0.000")</small>
+                    <small class="text-muted">distance @a.Distance.ToString("0.000")@(a.TitleMatch ? " · title match" : "")</small>
                 </h3>
 
                 @if (!a.HasHistory)
@@ -152,6 +157,7 @@ else
 
     private string? _topic;
     private IReadOnlyList<TopicArticle>? _articles;
+    private TopicScope? _scope;
     private int? _revisions;
     private IReadOnlyList<RemovedEdit>? _candidates;
     private int _scored;
@@ -173,6 +179,7 @@ else
 
         _topic = refresh && _topic is not null ? _topic : _input.Topic!.Trim();
         _articles = null;
+        _scope = null;
         _revisions = null;
         _candidates = null;
         _scored = 0;
@@ -206,6 +213,7 @@ else
         {
             case ArticlesFound a:
                 _articles = a.Items;
+                _scope = a.Scope;
                 break;
             case RevisionsScanned s:
                 _revisions = s.Count;

@@ -150,7 +150,12 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   revision; `Conflicts == null` = tables unreadable, and such a reading is not cached) and `SourceChanges` = P1.S8 citation
   removed/swapped (`SourceChangeDetector`; `Fixtures/s8-parity.jsonl` + `s8_parity.py` keep it identical to the Python).
   Ablation switches: `Investigations:Pipeline:EditWarSignal` / `SourceChangeSignal` (part of both cache keys).
-- Stage 1 = R1 (#8): vector hits in every language, en/sv folded onto their fi sibling by `wikidata_id`; only fi articles come out.
+- Stage 1 = R3-D, the R6 decision (#27): `ExpandedTopicSearch` = one cached `expand-topic` call (job `QueryExpand`; prompt in
+  `Investigations/Prompts/`, a copy of `research/24-r3-query/prompts/`) → fi title guesses looked up first, then the topic +
+  `topic_fi` + reformulations each searched like R1 and fused by RRF (k=60). R1 (`VectorTopicSearch`: vector hits in every
+  language, en/sv folded onto their fi sibling by `wikidata_id`; only fi articles come out) answers when the LLM call fails —
+  `ArticlesFound.SearchFallback`, never cached — or always with `Investigations:Pipeline:TopicSearch=Vector`. The scope verdict
+  (`ArticlesFound.Scope`) is a warning on the page, never a block. Score it: `research/eval/run retrieval --name r6-app -- scripts/investigate.sh variant`.
 - Caches (#40, SQLite): `EditReadingCache` (span + diff per removed edit, keyed by revision ids + reader version) and
   `InvestigationRuns` (a whole clean run per topic, keyed by `PipelineFingerprint` = versions + classify prompt + model + limits).
   The app's runner is `CachingInvestigationRunner`; `refresh: true` (the page's Re-run) bypasses it. Runs with a degraded

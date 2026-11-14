@@ -65,4 +65,32 @@ public class InvestigationCorpusIntegrationTests(AppFactory app) : IClassFixture
 
         Assert.DoesNotContain(reverts, r => r.RevertedUser == "VakauttajaBot");
     }
+
+    // R3-D title lookup (#27): the SQL's collation does the matching, so only the real corpus proves it.
+    [CorpusFact]
+    public async Task Title_lookup_ignores_case_and_dash_kind_but_not_accents()
+    {
+        // "Suomi–Finnland" has an en dash in the corpus; "Suomen sisällissota" (1150) must not match without its ä.
+        var articles = await Corpus.FiArticlesByTitleAsync(["talvisota", "Suomi-Finnland", "Suomen sisallissota"]);
+
+        Assert.Equal([1256L, 1391324], articles.Select(a => a.PageId).Order());
+        Assert.All(articles, a => Assert.Equal(("fi", 0.0), (a.Lang, a.Distance)));
+    }
+
+    [CorpusFact]
+    public async Task Title_prefix_lookup_returns_the_shortest_titles_first()
+    {
+        var articles = await Corpus.FiArticlesByTitlePrefixAsync(["talvisodan"], limit: 40);
+
+        Assert.Equal([18349L, 727489], articles.Take(2).Select(a => a.PageId));   // Talvisodan henki, Talvisodan tausta
+        Assert.All(articles, a => Assert.StartsWith("Talvisodan", a.Title));
+        Assert.Equal(articles.OrderBy(a => a.Title.Length).Select(a => a.PageId), articles.Select(a => a.PageId));
+    }
+
+    [CorpusFact]
+    public async Task Title_prefix_lookup_treats_like_wildcards_literally()
+    {
+        // Unescaped, "_" would match the "n" of "Talvisodan …".
+        Assert.Empty(await Corpus.FiArticlesByTitlePrefixAsync(["Talvisoda_"], limit: 40));
+    }
 }
