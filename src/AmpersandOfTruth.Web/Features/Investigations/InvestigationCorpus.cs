@@ -67,35 +67,51 @@ public sealed class MariaDbInvestigationCorpus(CorpusConnectionFactory corpus, I
     // sha1 of an earlier revision R_j with j < k-1. R_j = most recent earlier occurrence; R_{k-1} = last reverted edit.
     // Drops null edits (sha1 == prev_sha1, e.g. FlaggedRevs/VakauttajaBot dummy revisions, #78) before numbering positions.
     // {pages} is replaced by generated parameter names (@p0, @p1, …) — never by values.
+    // P1.S3 formula 3 inputs that need no diff (#120 review): undone_bytes = bytes added by the undone span (last undone
+    // revision vs the restored = revert content), first_undone_ts = when the span started (LEAD(ts) of the restored row),
+    // reappeared = later occurrences of the last undone revision's exact content (restores of the full span).
     internal const string RevertsSql = """
         WITH v AS (
-            SELECT page_id, rev_id, ts, `user`, comment, sha1,
+            SELECT page_id, rev_id, ts, `user`, comment, sha1, bytes,
                    LAG(sha1) OVER (PARTITION BY page_id ORDER BY ts, rev_id) AS prev_sha1
             FROM revision
             WHERE page_id IN ({pages})
         ), m AS (
-            SELECT page_id, rev_id, ts, `user`, comment, sha1,
+            SELECT page_id, rev_id, ts, `user`, comment, sha1, bytes,
                    ROW_NUMBER() OVER (PARTITION BY page_id ORDER BY ts, rev_id) AS pos,
-                   LAG(rev_id)  OVER (PARTITION BY page_id ORDER BY ts, rev_id) AS prev_rev_id,
-                   LAG(`user`)  OVER (PARTITION BY page_id ORDER BY ts, rev_id) AS prev_user
+                   COUNT(*) OVER (PARTITION BY page_id, sha1) AS sha1_n
             FROM v
             WHERE sha1 IS NULL OR prev_sha1 IS NULL OR sha1 <> prev_sha1
+        ), m2 AS (
+            SELECT page_id, rev_id, ts, `user`, comment, sha1, bytes, pos,
+                   LAG(rev_id) OVER (PARTITION BY page_id ORDER BY pos) AS prev_rev_id,
+                   LAG(`user`) OVER (PARTITION BY page_id ORDER BY pos) AS prev_user,
+                   LAG(bytes)  OVER (PARTITION BY page_id ORDER BY pos) AS prev_bytes,
+                   LAG(sha1)   OVER (PARTITION BY page_id ORDER BY pos) AS last_sha1,
+                   LAG(sha1_n) OVER (PARTITION BY page_id ORDER BY pos) AS last_sha1_n,
+                   LEAD(ts)    OVER (PARTITION BY page_id ORDER BY pos) AS next_ts
+            FROM m
         ), s AS (
             SELECT page_id, rev_id, pos,
-                   LAG(pos)    OVER (PARTITION BY page_id, sha1 ORDER BY pos) AS prev_pos,
-                   LAG(rev_id) OVER (PARTITION BY page_id, sha1 ORDER BY pos) AS restored_rev_id
-            FROM m
+                   LAG(pos)     OVER (PARTITION BY page_id, sha1 ORDER BY pos) AS prev_pos,
+                   LAG(rev_id)  OVER (PARTITION BY page_id, sha1 ORDER BY pos) AS restored_rev_id,
+                   LAG(next_ts) OVER (PARTITION BY page_id, sha1 ORDER BY pos) AS first_undone_ts
+            FROM m2
             WHERE sha1 IS NOT NULL
         ), r AS (
-            SELECT m.page_id, m.rev_id, m.ts, m.`user`, m.comment, s.restored_rev_id,
+            SELECT m2.page_id, m2.rev_id, m2.ts, m2.`user`, m2.comment, s.restored_rev_id,
                    CAST(s.pos AS SIGNED) - CAST(s.prev_pos AS SIGNED) - 1 AS reverted_count,
-                   m.prev_rev_id, m.prev_user,
-                   ROW_NUMBER() OVER (PARTITION BY m.page_id ORDER BY m.ts DESC, m.rev_id DESC) AS recent
+                   m2.prev_rev_id, m2.prev_user,
+                   CAST(m2.prev_bytes AS SIGNED) - CAST(m2.bytes AS SIGNED) AS undone_bytes,
+                   s.first_undone_ts,
+                   CASE WHEN m2.last_sha1 IS NULL THEN 0 ELSE m2.last_sha1_n - 1 END AS reappeared,
+                   ROW_NUMBER() OVER (PARTITION BY m2.page_id ORDER BY m2.ts DESC, m2.rev_id DESC) AS recent
             FROM s
-            JOIN m ON m.page_id = s.page_id AND m.rev_id = s.rev_id
+            JOIN m2 ON m2.page_id = s.page_id AND m2.rev_id = s.rev_id
             WHERE s.prev_pos < s.pos - 1
         )
-        SELECT page_id, rev_id, ts, `user`, comment, restored_rev_id, reverted_count, prev_rev_id, prev_user
+        SELECT page_id, rev_id, ts, `user`, comment, restored_rev_id, reverted_count, prev_rev_id, prev_user,
+               undone_bytes, first_undone_ts, reappeared
         FROM r
         WHERE recent <= @perPage
         ORDER BY page_id, ts DESC, rev_id DESC
@@ -214,7 +230,12 @@ public sealed class MariaDbInvestigationCorpus(CorpusConnectionFactory corpus, I
                     RestoredRevId: Convert.ToInt64(r.GetValue(5)),
                     RevertedCount: Convert.ToInt32(r.GetValue(6)),
                     RevertedRevId: Convert.ToInt64(r.GetValue(7)),
-                    RevertedUser: r.IsDBNull(8) ? null : r.GetString(8)));
+                    RevertedUser: r.IsDBNull(8) ? null : r.GetString(8))
+                {
+                    UndoneBytes = r.IsDBNull(9) ? 0 : Convert.ToInt32(r.GetValue(9)),
+                    FirstUndoneAt = r.IsDBNull(10) ? null : DateTime.SpecifyKind(r.GetDateTime(10), DateTimeKind.Utc),
+                    Reappearances = r.IsDBNull(11) ? 0 : Convert.ToInt32(r.GetValue(11)),
+                });
             }
         }, ct);
         return rows;

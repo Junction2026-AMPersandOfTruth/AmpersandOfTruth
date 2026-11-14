@@ -229,19 +229,51 @@ public class InvestigationPipelineTests
     }
 
     [Fact]
-    public async Task Candidate_cap_round_robins_over_articles()
+    public async Task Candidates_are_the_best_scoring_reverts_across_the_topic_not_the_newest()
     {
+        var t0 = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
         _kit.Corpus.Reverts.Clear();
         _kit.Corpus.Reverts.AddRange([
-            FakeInvestigationCorpus.Revert(1256, 100), FakeInvestigationCorpus.Revert(1256, 200), FakeInvestigationCorpus.Revert(1256, 300),
-            FakeInvestigationCorpus.Revert(5263, 400),
-            FakeInvestigationCorpus.Revert(5263, 500) with { RevertedCount = 16 }, // wide span → skipped
+            // new graffiti cleanups: anonymous, nothing added that stays, undone within minutes
+            FakeInvestigationCorpus.Revert(1256, 900) with { UndoneBytes = -20, FirstUndoneAt = t0.AddMinutes(899) },
+            FakeInvestigationCorpus.Revert(1256, 901) with { UndoneBytes = 15, FirstUndoneAt = t0.AddMinutes(900) },
+            // an older disputed claim on the other article: named account, 400 bytes, live for a week, put back once
+            FakeInvestigationCorpus.Revert(5263, 100, comment: "väärää tietoa", revertedUser: "Historioitsija")
+                with { UndoneBytes = 400, FirstUndoneAt = t0.AddDays(-7), Reappearances = 1 },
+            FakeInvestigationCorpus.Revert(5263, 500) with { RevertedCount = 16 },                      // wide span → skipped
+            FakeInvestigationCorpus.Revert(5263, 600, user: "VakauttajaBot") with { UndoneBytes = 900 },  // bot revert → skipped
+            FakeInvestigationCorpus.Revert(1256, 700, user: "Sama", revertedUser: "Sama") with { UndoneBytes = 900 }, // self-revert
         ]);
-        _kit.Options.MaxCandidates = 3;
+        _kit.Options.MaxCandidates = 2;
 
         var scan = (await _kit.RunAsync()).OfType<RevisionsScanned>().Single();
 
-        Assert.Equal([300L, 400L, 200L], scan.Candidates.Select(c => c.Revert.RevId));
+        Assert.Equal([100L, 901L], scan.Candidates.Select(c => c.Revert.RevId));
+        Assert.Equal("Jatkosota", scan.Candidates[0].Article.Title);
+    }
+
+    [Fact]
+    public void Candidate_score_is_s3_formula_3_on_the_revert_row()
+    {
+        var t0 = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
+        var disputed = FakeInvestigationCorpus.Revert(1256, 2000, comment: "väärää tietoa", revertedUser: "Historioitsija")
+            with { UndoneBytes = 300, FirstUndoneAt = FakeInvestigationCorpus.Revert(1256, 2000).Timestamp.AddHours(-48), Reappearances = 1 };
+        // 0.55·ln 301 + 0.5 (substantive) + 0.22·ln 49 + 2.3 (accuracy) + 2.1·ln 2 + 0.9 (dispute class) + 2.5 (claim + dispute) + 0.9 (named)
+        Assert.Equal(12.550720190372106, CandidateRanking.Score(disputed), 9);
+
+        var graffiti = FakeInvestigationCorpus.Revert(1256, 2000, comment: "vandalismia")
+            with { UndoneBytes = 0, FirstUndoneAt = FakeInvestigationCorpus.Revert(1256, 2000).Timestamp.AddMinutes(-30) };
+        Assert.Contains(RevertReasons.VandalismTest, RevertReasons.Categories(RevertReasons.ReasonText(graffiti.Comment)));
+        // 0 − 1.8 (nothing added) + 0.22·ln 1.5 − 1.1 (graffiti cleanup) − 2.2 (noise reason only)
+        Assert.Equal(-5.010797676216204, CandidateRanking.Score(graffiti), 9);
+    }
+
+    [Fact]
+    public void Unknown_start_or_missing_counts_never_throw_and_score_low()
+    {
+        var bare = FakeInvestigationCorpus.Revert(1256, 2000);   // UndoneBytes 0, FirstUndoneAt null, Reappearances 0
+        Assert.True(CandidateRanking.Score(bare) < 0);
+        Assert.False(CandidateRanking.Excluded(bare));
     }
 
     private async Task<IncidentRecord> TheIncident() =>

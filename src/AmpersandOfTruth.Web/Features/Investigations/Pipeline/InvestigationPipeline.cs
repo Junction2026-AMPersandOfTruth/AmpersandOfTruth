@@ -30,7 +30,7 @@ public sealed class InvestigationPipeline(
     TopicRelevance? relevance = null) : IInvestigationRunner
 {
     /// <summary>Bump when the pipeline's logic changes what a run produces; part of the run-cache fingerprint.</summary>
-    public const int Version = 3;   // 2: S10 — passage-level edit war, source change, MinCoordinationSignals 3; 3: S10 B+rel ranking
+    public const int Version = 4;   // 2: S10 evidence; 3: S10 B+rel ranking; 4: stage 2 ranks reverts by S3 formula 3
 
     /// <inheritdoc />
     /// <remarks><paramref name="refresh"/> is a no-op here: this class caches nothing at the run level.</remarks>
