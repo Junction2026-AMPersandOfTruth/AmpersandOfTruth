@@ -12,9 +12,21 @@
       "claim_fi": "Sodassa kaatui 250 000 ihmistä.",
       "reinsertion_count": 1,
       "signals": [
-        { "kind": "removal_reason", "label": "removed as unsourced", "evidence": "lähteetön väite" },
-        { "kind": "reinserted", "label": "put back 1 time after removal" }
-      ]
+        { "kind": "removal_reason", "label": "removed for lack of a reliable source", "evidence": "lähteetön väite" },
+        { "kind": "reinserted", "label": "put back once after removal" },
+        { "kind": "claim_content", "label": "automated assessment: a factual or narrative claim", "evidence": "Sodassa kaatui 250 000 ihmistä" }
+      ],
+      "tier_reason": "Disputed and removed — because: removed for lack of a reliable source, put back once after removal, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "false_factual_claim",
+        "confidence": 4,
+        "what_changed_en": "Raised the casualty figure from 25,000 to 250,000 without a source.",
+        "quotes": ["Sodassa kaatui 250 000 ihmistä"],
+        "has_verified_quote": true,
+        "uncertainty_note": null,
+        "historical_note_en": null
+      },
+      "cluster_id": null
     },
     { "page_id": 900001, "inserting_rev_ids": [5000501], "removing_rev_ids": [5000502], "tier": "reverted", "score": 0.4 },
     { "page_id": 900002, "inserting_rev_ids": [5000777], "removing_rev_ids": [5000778], "tier": "reverted", "score": 0.3 }

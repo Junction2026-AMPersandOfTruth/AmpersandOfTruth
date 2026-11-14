@@ -111,7 +111,25 @@ names: `id`, `claim_en`, `claim_fi`, `summary_en`, `narrative`, `category`, `art
 `first_inserted_at`, `last_removed_at`, `total_exposure_seconds`, `reinsertion_count`,
 `edits[{rev_id, parent_rev_id, page_id, user_display, is_anonymous, timestamp, role, summary, diff_ref, flags}]` with
 `role` one of `inserted`, `removed`, `reinserted`, then `signals[{kind, label, evidence}]` and `confidence_note`.
-#37 freezes them. Until then they are typed but optional, and they may still change.
+Three more were proposed on #37 by the pipeline (#39) and the UI (#98 §5), and both already use them:
+
+- `tier_reason`: the "because …" sentence of the tier, `TierRules.Assess(...).BecauseSentence`.
+- `assessment`: `{category, confidence (1–5), what_changed_en, quotes[], has_verified_quote, uncertainty_note,
+  historical_note_en}`. `null` means the assessment was not run, failed or went over budget, and the tier is then
+  at most `reverted`. `quotes` are what the model returned, so not every quote is verbatim in the inserted text;
+  `has_verified_quote` says whether at least one is.
+- `cluster_id`: the claim cluster from S7 (#34). `null` until S7 exists.
+
+**Signal ids.** `signals[].kind` is an open set. The known ids are in the schema, as `examples` of `kind`:
+
+- the ten tier reasons, which are the `TierReasonKind` names in snake_case and what the app's pipeline emits:
+  `removed_by_others`, `removal_reason`, `reinserted`, `edit_war`, `dispute_template`, `claim_content`,
+  `multiple_editors`, `multiple_articles`, `persistence`, `source_change`;
+- four signals that do not move the tier: `citation_removed`, `number_changed`, `new_accounts`, `anonymous`.
+
+A variant may add an id of its own. A consumer that does not know an id shows `label`.
+
+#37 freezes the optional fields. Until then they are typed but optional, and they may still change.
 
 `user_display` is always `EditorDisplay.For(user).PlainText`, and `summary` is always
 `EditorDisplay.MaskComment(comment)`: fi.wikipedia's revert summaries name the editor they undo, so a summary can

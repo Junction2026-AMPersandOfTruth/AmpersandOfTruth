@@ -164,6 +164,7 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   stdout, logs on stderr), the golden-set file, judge/review files, metric definitions. Field names live in `research/eval/schemas/`.
 - An incident is matched on its **inserting rev ids** only; `tier` ids are the `EvidenceTiers` ids. Required incident fields
   (`page_id, inserting_rev_ids, removing_rev_ids, tier, score`) are frozen; the rest of `incident.schema.json` is the #37 draft.
+  Known `signals[].kind` ids = the `examples` of `kind` in that schema (an open set; the first ten are `TierReasonKind`). New id → add it there.
 - Experiments: folder `research/<issue>-<slug>/`, scratch tables `research.<issue>_*`, corpus access from env
   (`CORPUS_HOST/PORT/USER/PW/DB`). The test split is sealed (`EVAL_ALLOW_TEST=1`, decision issues only).
 - Changing a frozen shape = schema + example + CONTRACT.md in one commit; `research/eval/tests` must pass (not part of `verify.sh`).
