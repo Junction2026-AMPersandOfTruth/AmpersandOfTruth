@@ -8,6 +8,7 @@ using AmpersandOfTruth.Web.Features.Embedding;
 using AmpersandOfTruth.Web.Features.Hotspots;
 using AmpersandOfTruth.Web.Features.Investigations;
 using AmpersandOfTruth.Web.Features.Library;
+using AmpersandOfTruth.Web.Features.Network;
 using AmpersandOfTruth.Web.Features.Search;
 using AmpersandOfTruth.Web.Features.TimeMachine;
 using AmpersandOfTruth.Web.Features.Translation;
@@ -33,6 +34,7 @@ builder.Services.AddTimeMachineFeature();
 builder.Services.AddAccountsFeature();
 builder.Services.AddLibraryFeature();
 builder.Services.AddHotspotsFeature();
+builder.Services.AddNetworkFeature();
 
 var app = builder.Build();
 

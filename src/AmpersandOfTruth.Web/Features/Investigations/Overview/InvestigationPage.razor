@@ -42,6 +42,7 @@
         <div class="aot-row" style="justify-content:space-between">
             <h1 class="aot-h1" data-testid="topic-title">@TopicText</h1>
             <div class="aot-row" style="gap:6px">
+                <a class="aot-btn aot-btn--sm" href="@NetworkHref" data-testid="network-link">Accounts × articles</a>
                 <SaveInvestigationButton Topic="@TopicText"
                                          Articles="@_progress.Articles"
                                          Incidents="@_completedIncidents"
@@ -366,6 +367,10 @@
             return slug.Length > 0 ? slug : (Topic ?? "").Trim();
         }
     }
+
+    private string NetworkHref => EffectiveSavedId is { } savedId
+        ? $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}/network?saved={savedId}"
+        : $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}/network";
 
     private IEnumerable<TopicArticle> OrderedArticles =>
         _progress.Articles.OrderByDescending(static a => a.HasHistory);
