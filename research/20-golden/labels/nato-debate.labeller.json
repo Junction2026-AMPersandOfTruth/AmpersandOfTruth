@@ -1,0 +1,678 @@
+{
+  "topic": {
+    "id": "nato-debate",
+    "title": "Finland's NATO debate, military non-alignment and foreign deployments",
+    "split": "dev",
+    "kind": "topic",
+    "queries": [
+      {
+        "id": "nato-debate.en",
+        "style": "en",
+        "lang": "en",
+        "text": "Finland's debate over joining NATO and military non-alignment"
+      },
+      {
+        "id": "nato-debate.fi",
+        "style": "fi",
+        "lang": "fi",
+        "text": "Suomen Nato-jäsenyyskeskustelu ja sotilaallinen liittoutumattomuus"
+      },
+      {
+        "id": "nato-debate.broad",
+        "style": "broad",
+        "lang": "en",
+        "text": "Finnish neutrality, military alliances and troops serving abroad"
+      },
+      {
+        "id": "nato-debate.sv",
+        "style": "sv",
+        "lang": "sv",
+        "text": "Finlands Natodebatt och militär alliansfrihet"
+      }
+    ],
+    "articles": [
+      {
+        "page_id": 128998,
+        "grade": 2,
+        "title": "Suomen Nato-keskustelu"
+      },
+      {
+        "page_id": 1745523,
+        "grade": 2,
+        "title": "Suomen Nato-jäsenyys"
+      },
+      {
+        "page_id": 1694593,
+        "grade": 2,
+        "title": "Suomen Nato-jäsenhakemus"
+      },
+      {
+        "page_id": 1702617,
+        "grade": 2,
+        "title": "Natottuminen"
+      },
+      {
+        "page_id": 742812,
+        "grade": 2,
+        "title": "Suomi ISAF-kriisinhallintaoperaatiossa Afganistanissa"
+      },
+      {
+        "page_id": 2979,
+        "grade": 1,
+        "title": "Luettelo Suomen historian sodista"
+      },
+      {
+        "page_id": 1137,
+        "grade": 1,
+        "title": "Sauli Niinistö"
+      },
+      {
+        "page_id": 601751,
+        "grade": 1,
+        "title": "Suomen ulkopolitiikka"
+      },
+      {
+        "page_id": 1310552,
+        "grade": 1,
+        "title": "Suomen ja Naton yhteisymmärryspöytäkirja"
+      },
+      {
+        "page_id": 1065040,
+        "grade": 1,
+        "title": "Suomen erityisedustusto Natossa"
+      },
+      {
+        "page_id": 1570458,
+        "grade": 1,
+        "title": "Suomen ja Venäjän suhteet"
+      },
+      {
+        "page_id": 5261,
+        "grade": 1,
+        "title": "Suomettuminen"
+      },
+      {
+        "page_id": 1569867,
+        "grade": 1,
+        "title": "Suomen ja Turkin suhteet"
+      },
+      {
+        "page_id": 9608,
+        "grade": 1,
+        "title": "Erkki Tuomioja"
+      },
+      {
+        "page_id": 11396,
+        "grade": 1,
+        "title": "Alexander Stubb"
+      },
+      {
+        "page_id": 1121620,
+        "grade": 1,
+        "title": "Sanna Marin"
+      }
+    ],
+    "items": [
+      {
+        "id": "nato-debate/i01",
+        "label": "campaign",
+        "category": "pov_push",
+        "page_id": 2979,
+        "inserting_rev_ids": [
+          7425332,
+          7457275,
+          7461676,
+          7461686,
+          7461695,
+          7522928,
+          7523673
+        ],
+        "removing_rev_ids": [
+          7446079,
+          7458950,
+          7464225,
+          7521036,
+          7523075,
+          7523675
+        ],
+        "description": "Adds or puts back an Afghanistan passage in the list of Finland's wars saying Finland takes part in war operations in the Afghan civil war under NATO's ISAF and that opinion is split on whether Finland is a country at war; the later version adds that ISAF caused about 8,000 civilian deaths.",
+        "why": "Level 3. Level 2 first: a claim on a contested question (whether the ISAF deployment makes Finland a party to a war), quoted from the added text: 'Suomi on osallistunut sotatoimiin Naton alaisissa ISAF-joukoissa Afganistanin sisällissodassa' (Finland has taken part in military operations under NATO's ISAF in the Afghan civil war, c09) and 'Isaf-joukkojen toiminta Afganistanissa on aiheuttanut arvion mukaan noin 8000 siviilin kuoleman' (ISAF's actions in Afghanistan have caused an estimated 8,000 civilian deaths, c04/c05). Community dispute: removal summaries about sourcing and accuracy, 'kumottu vääristelevä lähteen käyttö ja oma tutkimus sodan kaltaisista sotatoimista (lähde vuodelta 1995 ei puhu vuonna 2002 alkaneesta operaatiosta)' (undid distorting use of a source and original research on 'war-like operations'; the 1995 source does not cover the operation begun in 2002, c11) and 'edelleen harhaanjohtavaa lähteen käyttöä' (still misleading use of a source, c10); other removals called it out of scope ('ei tuo edelleenkään kuulune joukkoon', it still does not belong in the list, c09; 'valtava palopuhe', a huge harangue, c04); edit war (6 identity reverts within 3 days in c04-c18). Level-3 signals: (1) accounts: added or put back by three editors outside one masked range (E82 anonymous, E80 named, E86 anonymous); (2) persistence: put back at least 5 times between 2009-10-07 (7425332) and 2009-10-29 (7523673), 22 days apart; (3) supporting: sources, c10/c11 cite a 1995 Defence Committee statement for the operation that began in 2002. One article only. Each insertion lived 4.7 days (c09), 12.4 h (c11), 15.8 h (c10), 42 min (c05), 43 s (c18). c09-c11 (7-16 Oct) and c04/c05/c17/c18 (28-29 Oct) are one item: the later paragraph repeats the earlier sentences, e.g. 'Kesän 2009 aikana, sotatoimien kiihtyessä, Suomessa on muodostunut ristiriitaisia näkemyksiä siitä, onko Suomi sotaa käyvä maa'. Other side: c04's undone edit (E76's removal) and c17 (E81's one-sentence summary, removed by E80 and restored by E84); unrelated swept-away edits (E62/E81 on the Kinship Wars in c11, E85 in c10) are dropped. Another re-insertion between 16 and 28 Oct is not in the pack. Several editors on each side; the level describes the edit pattern only.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/i02",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 128998,
+        "inserting_rev_ids": [
+          2823556,
+          2823600,
+          2845380
+        ],
+        "removing_rev_ids": [
+          2845398
+        ],
+        "description": "Adds that almost all security-policy experts back NATO membership, that opposition to NATO in Finland stems mainly from ignorance of NATO, and that the term 'NATO option' is misleading.",
+        "why": "Level 2. A claim with loaded, one-sided wording: 'Lähes kaikki turvallisuuspolitiikan asiantuntijat kannattavat Suomen jäsenyttä NATO:ssa' (almost all security-policy experts support Finland's membership in NATO) and 'NATO:n vastaisuus Suomessa kumpuaa ennenkaikkea tietämättömyydesta NATO:n perusperiaatteista' (opposition to NATO in Finland stems above all from ignorance of NATO's basic principles). Removed after 4.0 days by a different account (E2) with 'epäselviä, poleemisia väitteitä ilman lähdettä' (unclear, polemical claims without a source): a neutrality and sourcing reason. One account (E1), one article, not put back: not level 3. c12.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/i03",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 128998,
+        "inserting_rev_ids": [
+          4115886,
+          4115894,
+          4115904,
+          4115908,
+          4115910,
+          4115911,
+          4115915,
+          4115917,
+          4115923,
+          4115925,
+          4115926,
+          4115932,
+          4115945
+        ],
+        "removing_rev_ids": [
+          4116024
+        ],
+        "description": "Replaces 'the EU does not yet include an Article 5-type security guarantee' with a claim that the Lisbon Treaty's guarantee is more binding than NATO's Article 5, and adds lines on NATO critics and supporters (the papers Ilkka and Keskisuomalainen, official Pauli Järvenpää) and a See also list.",
+        "why": "Level 2. A claim that changes a contested point of the NATO debate: '[[Lissabonin sopimus]] sisältää [[NATO:n 5. artikla]]a velvoittavamman turvallisuustakuun' (the Lisbon Treaty contains a security guarantee more binding than NATO's Article 5), replacing 'ei se vielä sisällä [[NATO:n 5. artikla]]n mukaista turvallisuustakuuta' (it does not yet include a security guarantee under NATO's Article 5); it also attributes NATO positions to named newspapers and an official. Removed after 36 min by a different account (E4) with 'omaa tutkimusta ja tulkintaa' (original research and interpretation), a sourcing/accuracy reason. One anonymous editor (E3, 13 edits in 15 min), one article, not put back: not level 3. c01; includes must-include 4115945.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/i04",
+        "label": "contested",
+        "category": "false_factual_claim",
+        "page_id": 128998,
+        "inserting_rev_ids": [
+          14209522
+        ],
+        "removing_rev_ids": [
+          14209423,
+          14210530
+        ],
+        "description": "Puts back a bullet saying 'it has been said' that NATO has a secret additional protocol obliging a joining country to form a secret anti-communist citizens' cadre, plus links on Operation Gladio, hours after they were removed as fringe.",
+        "why": "Level 2, built from the side of the disputed text. E18 removed it (14209423, c02's undone edit) with 'WP:IRI, WP:FRINGE, WP:RELIABLE, WP:404 - Poistin epäluotettavia sekä epäolennaisia lähteitä' (removed unreliable and irrelevant sources): a sourcing reason. E19 put it back 6.2 h later by undoing that edit (14209522), and E18 removed it again 10.5 h later (14210530): put back once, a two-step edit war. Claim quoted from the restored text: 'NATOlla on salainen lisäpöytäkirja, jonka liittyvä maa joutuu allekirjoittamaan' (NATO has a secret additional protocol that a joining country must sign) and the duty 'taistelemaan kommunismia vastaan kaikin mahdollisin keinoin' (to fight communism by all possible means). The undo also took out the two citations E18 had added. One re-inserting account, one article, one put-back: not level 3. The bullet's first insertion is older than the pack. c02 (other side: E18's cleanup, listed here as the first removal) and c03; must-include 14209522 is the inserting rev.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/i05",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 1137,
+        "inserting_rev_ids": [
+          5194059
+        ],
+        "removing_rev_ids": [
+          5194107
+        ],
+        "description": "Puts back a sourced passage saying an association (Kehittyvien maakuntien Suomi) gave Niinistö's 2007 campaign 15,000 euros, that he denied knowing who was behind it, and that he later backed an honorary title for the man behind it.",
+        "why": "Level 2. A claim on a disputed political matter, quoted: 'häntä tuki mm. [[Kehittyvien maakuntien Suomi]] ry 15 000 €:lla. Niinistö kielsi tienneensä kuka tai ketkä yhdistyksen takana olivat' (he was supported by Kehittyvien maakuntien Suomi ry with 15,000 euros; Niinistö denied knowing who was behind the association). Community dispute: put back after removal twice (E64's rollback 5194059 restored it after an earlier removal by E163; E163 removed it again 12 min later, 5194107; 5194132 restored it again), 4 identity reverts on the page within 3 days, and the removal summary calls the passage 'Niinistö-dissaukset' (Niinistö disses) linked to the original author's politics, a neutrality objection. Not kept: the text is not in the latest revision. One re-inserting account in the pack, one article, put-backs far less than 7 days apart (rev ids 5194059 and 5194132): not level 3. c32; its summary names an editor, so it is not quoted in full.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/i06",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 128998,
+        "inserting_rev_ids": [
+          20086351,
+          20086353
+        ],
+        "removing_rev_ids": [
+          20144577
+        ],
+        "description": "Adds that Kokoomus (National Coalition Party) has supported Finland's NATO membership since its 2006 party congress.",
+        "why": "Level 1. Substantive (a party position and a year), removed after 31.2 days by a different account (E32). The only recorded problem is a missing source: 'En löytänyt mitään viittetä puolesta/vastaan.. Pitäisi olla lähde väittteelle' (I found no reference for or against; there should be a source for the claim). Plausible, no loaded wording, the remover does not call it wrong; not put back, no edit war: good-faith error, capped at level 1. c13.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/i07",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 128998,
+        "inserting_rev_ids": [
+          20421357,
+          20421508,
+          20421511,
+          20421526,
+          20421777,
+          20421802,
+          20421817,
+          20421831,
+          20422081,
+          20425864,
+          20425927,
+          20426946
+        ],
+        "removing_rev_ids": [
+          20434133
+        ],
+        "description": "Rebuilds the opinion-poll section: sortable table with poll dates, sample sizes and colours, two poll charts, corrected figures for three Yle polls.",
+        "why": "Level 1. Substantive (poll dates, sample sizes, percentages, citations), removed after 6.8 days by a different account (E43) in a mass revert of 19 edits by six editors, summary 'Useita kieliopillisesti oikein kirjoitettuja asioita uudelleenkirjoitettu jostain syystä kieliopillisesti väärin' (several grammatically correct passages were rewritten incorrectly): a language reason, not accuracy, neutrality or sourcing. Not put back, no edit war, no claim: level 1. Only E38's own edits; the swept-away edits of E37 (templates), E39, E41, E42 (small fixes, a table note) are dropped and E40's sentence is item i08. c07.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/i08",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 128998,
+        "inserting_rev_ids": [
+          20427576
+        ],
+        "removing_rev_ids": [
+          20434133
+        ],
+        "description": "Adds that former foreign minister Erkki Tuomioja has doubted that NATO membership would strengthen Finland's security, because Finland would be on the front line in a war.",
+        "why": "Level 1. A sourced, substantive sentence (Yle reference), removed after 3.1 days in E43's mass revert of 19 edits whose summary is about grammar only. No accuracy/neutrality/sourcing reason, not put back, no edit war: level 1. c07 (E40's edit 20427576 only).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/i09",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 2979,
+        "inserting_rev_ids": [
+          2961394,
+          2961605,
+          2970513,
+          2991586,
+          3005066,
+          3159612
+        ],
+        "removing_rev_ids": [
+          3269857
+        ],
+        "description": "Rewrites the 1918 civil war entry of the list of wars into a long narrative (collapse of state power as the cause, reasons for the White victory, 75,000 Red prisoners, over 10,000 camp deaths, about 37,000 dead).",
+        "why": "Level 1. Substantive (numbers, causes), added by two anonymous editors in different masked ranges (E72, E73) over six weeks and removed after 61.1 days by a different account (E71) with 'rv, tämä on luettelo' (rv, this is a list): a format reason. Not put back, no edit war, no dispute template, so no community-dispute signal; the framing change (it drops 'Yhteiskunnallisten erimielisyyksien ja luokkaristiriitojen aiheuttamassa sisällissodassa', in the civil war caused by social disagreement and class conflict) cannot promote it alone. c08; not about NATO, on a seed page.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/i10",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1137,
+        "inserting_rev_ids": [
+          15064817,
+          15065295
+        ],
+        "removing_rev_ids": [
+          15064918,
+          15065303
+        ],
+        "description": "Adds that the Niinistö 'hahmo' (character) of the preceding sentence often smoked and had the catchphrase 'jep jep'.",
+        "why": "Level 1. Trivia removed by a different account (E24) after 4.5 h as irrelevant ('poistettu tupakkamaininta epäoleellisena', removed the tobacco mention as irrelevant), put back once by the same account (E369, 15065295) and removed again 7 min later by E96. The put-back is a dispute signal, but the text has no slant on a contested fact and the only recorded objection is relevance: not a claim, capped at level 1. c14 + c22 (same text).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/i11",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1137,
+        "inserting_rev_ids": [
+          11050028
+        ],
+        "removing_rev_ids": [
+          11051210
+        ],
+        "description": "Adds the names and years of Niinistö's parents (father 1911-1991, mother a nurse born 1916).",
+        "why": "Level 1. Substantive (names, years), plausible, removed after 5.2 h by a different account (E198) with a rollback that gives no reason. No slant, no dispute signal: level 1. c16.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/i12",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1137,
+        "inserting_rev_ids": [
+          10377529
+        ],
+        "removing_rev_ids": [
+          10377531
+        ],
+        "description": "Pastes a second full copy of the article (infobox, lead and body, +46 KB) into the page.",
+        "why": "Level 1. The 46,116 added bytes repeat the article's own infobox and text: the diff shows only added paragraphs and none removed, and the article carried on from the restored version, which already had this text. Rolled back after 35 s by a different account (E6). A duplicate, not a test or nonsense: good-faith error, level 1. c23.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/n01",
+        "label": "not-incident",
+        "exclusion": "kept",
+        "category": "other",
+        "page_id": 1137,
+        "inserting_rev_ids": [
+          14445437,
+          14445443,
+          14461119,
+          14467635
+        ],
+        "removing_rev_ids": [
+          14445441,
+          14461118,
+          14467632,
+          14495724
+        ],
+        "description": "Rollbacks that restore Niinistö's birth date (24 August 1948) after anonymous edits changed it to 6 June 666.",
+        "why": "Not an incident (kept). The undone edits are rollbacks (flag first_undone_edit_is_itself_a_revert); each 'removal' put back the birth date 6 June 666 ('{{Syntymäaika ja ikä|6|6|666}}') between 2014-11-13 and 2014-12-06 (anonymous E401, E403, E405, E410), and each was undone again (14445443, 14461119, 14467635, 14495726). The restored date is in the current lead ('s. 24. elokuuta 1948 Salo'); the added_text_in_latest_revision flag is not set only because the rest of that paragraph changed later. The 666 edits themselves are graffiti but are not candidate edits. Other editors' edits swept away inside c06 and c20 (E184's citation, typo fixes) are dropped. c19, c20, c21, c06 (one sha1 chain).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/n02",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 1137,
+        "inserting_rev_ids": [
+          4423990
+        ],
+        "removing_rev_ids": [
+          4447830
+        ],
+        "description": "Adds an external link to Niinistö's author page at the publisher Teos.",
+        "why": "Not an incident (not substantive): one line in the external-links section, no prose, number, date or citation. Undone after 4.3 days by a different account (E154) without a reason. c15.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/n03",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "test_or_nonsense",
+        "page_id": 1137,
+        "inserting_rev_ids": [
+          12737891
+        ],
+        "removing_rev_ids": [
+          12737895
+        ],
+        "description": "Adds 'Sauli Niinistö on Suomen presidentti. Ja sitten vielä lisäinformaatiota alempana.' (Sauli Niinistö is the president of Finland. And then some more information below.)",
+        "why": "Not an incident (graffiti): test-like filler that adds no information, rolled back after 26 s by E181. c24.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/n04",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "vandalism",
+        "page_id": 1137,
+        "inserting_rev_ids": [
+          650504
+        ],
+        "removing_rev_ids": [
+          650518
+        ],
+        "description": "Adds the categories 'Kapitalistit' (Capitalists) and 'Populistit' (Populists) to the article.",
+        "why": "Not an incident (not substantive): only two category links (summary 'Luokkapäivitys', category update); undone after 2 min by E118 ('rv'). Also mocking, but not-substantive comes first in the exclusion order. c25.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/n05",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 1137,
+        "inserting_rev_ids": [
+          14731530
+        ],
+        "removing_rev_ids": [
+          14731532
+        ],
+        "description": "Changes the infobox name to a mocking spelling and inserts an obscene sentence about children being killed into the education paragraph.",
+        "why": "Not an incident (graffiti): 'Saukki naanisto' and 'Alkoholstina jonka kanssa hän tapatti useat lapse...' (as an alcoholic with whom he got several children killed...), under the summary 'Pientä parantelua' (small improvements); rolled back after 66 s by E304. c26.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/n06",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "test_or_nonsense",
+        "page_id": 1137,
+        "inserting_rev_ids": [
+          23141720
+        ],
+        "removing_rev_ids": [
+          23141721
+        ],
+        "description": "Adds a 'Lapset' (Children) heading followed by three names.",
+        "why": "Not an incident (self-removal): the same account (E726) took it out after 103 s. c27.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/n07",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "good_faith_error",
+        "page_id": 2979,
+        "inserting_rev_ids": [
+          16183124
+        ],
+        "removing_rev_ids": [
+          16183134
+        ],
+        "description": "Relinks the Novgorod prince of the 1042 entry to Yaroslav the Wise and adds 'eli Jaroslav viisas' (i.e. Yaroslav the Wise).",
+        "why": "Not an incident (self-removal): E97 undid its own edit after 4 min ('Ei välttämättä olekkaan', not necessarily so after all). c28.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/n08",
+        "label": "not-incident",
+        "exclusion": "blanking",
+        "category": "vandalism",
+        "page_id": 2979,
+        "inserting_rev_ids": [
+          89482
+        ],
+        "removing_rev_ids": [
+          94881
+        ],
+        "description": "Blanks the list of wars (-17,619 bytes).",
+        "why": "Not an incident (blanking): the edit removed the page text; undone after 5 min by E56. c29.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/n09",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 1137,
+        "inserting_rev_ids": [
+          14255341
+        ],
+        "removing_rev_ids": [
+          14255343
+        ],
+        "description": "Appends 'valitettavasti' (unfortunately) to the sentence saying Niinistö and his son narrowly survived the 2004 tsunami.",
+        "why": "Not an incident (graffiti): a one-word mocking addition, rolled back after 44 s by E6. The flags say a later revision (14264899) undid that removal, but the text is not in the latest revision, so 'kept' does not apply. c30.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/n10",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 1137,
+        "inserting_rev_ids": [
+          14126224
+        ],
+        "removing_rev_ids": [
+          14126227
+        ],
+        "description": "Replaces the infobox title, the name, the birth year (linked to Counter-Strike: Source) and a photo caption with jokes, and calls Niinistö the 'last' president.",
+        "why": "Not an incident (graffiti): e.g. 'nii sitte :-D', 'Sakke Väiski', '[[Counter-Strike: Source|1969]]', 'viimeinen presidentti' (last president), under the summary 'Korjattu tietoja' (corrected information); rolled back after 62 s by E6. c31.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "nato-debate/n11",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 1137,
+        "inserting_rev_ids": [
+          11237381
+        ],
+        "removing_rev_ids": [
+          11237394
+        ],
+        "description": "Rollback that takes out the sentence 'Sauli Niinistö voitti presidentinvaalit.' (Sauli Niinistö won the presidential election) on election night, 2012-02-05.",
+        "why": "Not an incident (not substantive): the undone edit (E103's rollback, -42 bytes) added no prose, number, date, name or citation; it only took out another account's one-line sentence. E228 undid it after 3 min and was undone in turn (11237395). The sentence's own insertions are not candidate edits. c33.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      }
+    ],
+    "notes": "Labelled from the pack only. The NATO-related disputes sit on 128998 (Suomen Nato-keskustelu) and 2979 (the Afghanistan entry of the list of wars); most Sauli Niinistö (1137) candidates are unrelated to NATO (graffiti, trivia, a birth-date rollback chain). Merged: c09-c11 with c04/c05/c17/c18 (one Afghanistan item, i01); c02/c03 (built from the disputed text's side, i04); c14/c22; c06/c19/c20/c21 (built from the rollback side because the 6 June 666 insertions are not candidate edits). c07's mass revert gives two items (i07 E38, i08 E40); other swept-away edits dropped. No candidate skipped."
+  },
+  "item_sources": {
+    "nato-debate/i01": [
+      "c09",
+      "c10",
+      "c11",
+      "c04",
+      "c05",
+      "c17",
+      "c18"
+    ],
+    "nato-debate/i02": [
+      "c12"
+    ],
+    "nato-debate/i03": [
+      "c01"
+    ],
+    "nato-debate/i04": [
+      "c03",
+      "c02"
+    ],
+    "nato-debate/i05": [
+      "c32"
+    ],
+    "nato-debate/i06": [
+      "c13"
+    ],
+    "nato-debate/i07": [
+      "c07"
+    ],
+    "nato-debate/i08": [
+      "c07"
+    ],
+    "nato-debate/i09": [
+      "c08"
+    ],
+    "nato-debate/i10": [
+      "c14",
+      "c22"
+    ],
+    "nato-debate/i11": [
+      "c16"
+    ],
+    "nato-debate/i12": [
+      "c23"
+    ],
+    "nato-debate/n01": [
+      "c19",
+      "c20",
+      "c21",
+      "c06"
+    ],
+    "nato-debate/n02": [
+      "c15"
+    ],
+    "nato-debate/n03": [
+      "c24"
+    ],
+    "nato-debate/n04": [
+      "c25"
+    ],
+    "nato-debate/n05": [
+      "c26"
+    ],
+    "nato-debate/n06": [
+      "c27"
+    ],
+    "nato-debate/n07": [
+      "c28"
+    ],
+    "nato-debate/n08": [
+      "c29"
+    ],
+    "nato-debate/n09": [
+      "c30"
+    ],
+    "nato-debate/n10": [
+      "c31"
+    ],
+    "nato-debate/n11": [
+      "c33"
+    ]
+  },
+  "skipped": []
+}

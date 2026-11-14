@@ -1,0 +1,66 @@
+{
+  "total_seconds": 234.43,
+  "steps": [
+    {
+      "step": "1. Drop previous s4 staging & target tables",
+      "seconds": 15.17
+    },
+    {
+      "step": "2. Materialize non-null revision sequence (s4__seq) with S1 bot flags",
+      "seconds": 20.07
+    },
+    {
+      "step": "3. Detect edit_war episodes (24h, 7d, 30d) from s1_revert",
+      "seconds": 28.01
+    },
+    {
+      "step": "4. Detect ping_pong episodes from interleaved SHA-1 states",
+      "seconds": 50.02
+    },
+    {
+      "step": "5. Detect burst episodes (trailing 90d median & 3-sigma)",
+      "seconds": 15.92
+    },
+    {
+      "step": "6. Stage episode spans & index protection log revisions",
+      "seconds": 48.55
+    },
+    {
+      "step": "7. Build research.s4_episode_rev (all non-null revisions inside episodes)",
+      "seconds": 10.93
+    },
+    {
+      "step": "8. Build research.s4_episode (participants, reverts, protection_hint, score)",
+      "seconds": 16.61
+    },
+    {
+      "step": "9. Build research.s4_page_contest (contested_score & peak_month for 19,742 pages)",
+      "seconds": 8.31
+    },
+    {
+      "step": "10. Clean up s4__* staging tables",
+      "seconds": 8.74
+    },
+    {
+      "step": "11. Verify invariants (corpus rev existence, zero null revs, counts)",
+      "seconds": 12.09
+    }
+  ],
+  "invariants": {
+    "episode_rows": 5788,
+    "default_episode_rows": 5178,
+    "episode_rev_rows": 82909,
+    "page_contest_rows": 19742,
+    "missing_in_corpus_revision": 0,
+    "null_revs_in_episode_rev": 0,
+    "edit_count_mismatch": 0
+  },
+  "burst_threshold_comparison": {
+    "days_5x_median_ge10": 3434,
+    "days_3sigma_ge10": 3164,
+    "days_both_ge10": 3164,
+    "days_5x_median_having_positive_median": 66,
+    "episodes_5x_median_ge10": 2979,
+    "episodes_3sigma_ge10": 2843
+  }
+}

@@ -1,0 +1,286 @@
+{
+  "topic": {
+    "id": "border-crisis-2023",
+    "title": "Control (quiet): the 2023 Finland-Russia border crisis and the border fence",
+    "split": "dev",
+    "kind": "control-quiet",
+    "queries": [
+      {
+        "id": "border-crisis-2023.en",
+        "style": "en",
+        "lang": "en",
+        "text": "Finland-Russia border crisis 2023: asylum seekers, closure of the eastern border crossings and the border fence"
+      },
+      {
+        "id": "border-crisis-2023.fi",
+        "style": "fi",
+        "lang": "fi",
+        "text": "Suomen ja Venäjän rajakriisi 2023, itärajan rajanylityspaikkojen sulkeminen ja raja-aita"
+      },
+      {
+        "id": "border-crisis-2023.broad",
+        "style": "broad",
+        "lang": "en",
+        "text": "migration pressure on Finland's eastern border with Russia"
+      },
+      {
+        "id": "border-crisis-2023.sv",
+        "style": "sv",
+        "lang": "sv",
+        "text": "gränskrisen mellan Finland och Ryssland 2023 och gränsstängslet vid östgränsen"
+      }
+    ],
+    "articles": [
+      {
+        "page_id": 1778743,
+        "grade": 2,
+        "title": "Suomen ja Venäjän rajakriisi 2023"
+      },
+      {
+        "page_id": 1781605,
+        "grade": 2,
+        "title": "Suomen ja Venäjän rajan esteaita"
+      },
+      {
+        "page_id": 1060965,
+        "grade": 2,
+        "title": "Suomen ja Venäjän raja"
+      },
+      {
+        "page_id": 1570458,
+        "grade": 1,
+        "title": "Suomen ja Venäjän suhteet"
+      },
+      {
+        "page_id": 29994,
+        "grade": 1,
+        "title": "Rajavartiolaitos"
+      },
+      {
+        "page_id": 607072,
+        "grade": 1,
+        "title": "Suomen rajat"
+      },
+      {
+        "page_id": 276192,
+        "grade": 1,
+        "title": "Vaalimaan raja-asema"
+      },
+      {
+        "page_id": 152850,
+        "grade": 1,
+        "title": "Nuijamaan raja-asema"
+      },
+      {
+        "page_id": 1095432,
+        "grade": 1,
+        "title": "Imatran raja-asema"
+      },
+      {
+        "page_id": 60828,
+        "grade": 1,
+        "title": "Vartius"
+      },
+      {
+        "page_id": 1096192,
+        "grade": 1,
+        "title": "Kuusamon raja-asema"
+      },
+      {
+        "page_id": 1096118,
+        "grade": 1,
+        "title": "Sallan raja-asema"
+      },
+      {
+        "page_id": 244069,
+        "grade": 1,
+        "title": "Raja-Jooseppi (ylikulkupaikka)"
+      }
+    ],
+    "items": [
+      {
+        "id": "border-crisis-2023/i01",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 1060965,
+        "inserting_rev_ids": [
+          15906345,
+          15906719,
+          15909244
+        ],
+        "removing_rev_ids": [
+          15906359,
+          15906792,
+          15909353
+        ],
+        "description": "Rewrites the border-history paragraphs: adds that the Soviet Union unilaterally annulled the peace treaty by attacking in 1939 and that Finland unilaterally annulled the Moscow peace by joining Operation Barbarossa in 1941, and changes 'Finland ceded' to 'Finland was forced to cede'.",
+        "why": "Level 2. Claim: the added text frames who broke the peace treaties, quotable from the diff: 'Neuvostoliitto yksipuolisesti kumosi rauhansopimuksen aloittaessaan talvisodan hyökkäyksellä Suomeen 1939' ('the Soviet Union unilaterally annulled the peace treaty when it started the Winter War by attacking Finland in 1939') and 'Jatkosodan alkaessa 1941 Suomi yksipuolisesti kumosi rauhansopimuksen osallistuessaan operaatio Barbarossaan hyökkäyksellä Neuvostoliittoon' ('when the Continuation War began in 1941, Finland unilaterally annulled the peace treaty by taking part in Operation Barbarossa with an attack on the Soviet Union'), plus 'luovutti' -> 'joutui luovuttamaan' ('ceded' -> 'was forced to cede'). Community dispute: put back 2 times after a removal, in a back-and-forth over the passage. E6 added it 2016-08-23 16:10 (c06); E7 removed it after 6 min; E6 undid that removal at 19:15 (c10 is that other side); E7 removed it again after 23 min (c02); E8 added the same sentences again 2016-08-24 21:21 with extra wikilinks (c03); E9 removed it after 4.2 h. All three removals say 'rv, eston kiertoa' ('revert, block evasion'), not a content reason, so the dispute signal is the reinsertions and the edit war alone. Not level 3: 2 inserting editor groups (E6 2001:999:..., E8 85.76.x.x) is one signal, but it is one article, about 29 h between first and last insertion (< 7 days), and the citations were left unchanged (no source signal).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "border-crisis-2023/i02",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1060965,
+        "inserting_rev_ids": [
+          15025622
+        ],
+        "removing_rev_ids": [
+          15025632
+        ],
+        "description": "Rewrites the border-history paragraphs: changes the year of an autonomy-era border adjustment from 1866 to 1864 and lists the 1940 and 1944 cessions in more detail ('was forced to cede', 'sold from Inari').",
+        "why": "Level 1: substantive prose and a changed year (1866 -> 1864), removed by a different account (E5) 6 min later with a plain undo summary that gives no reason. Not put back, no edit war, no accuracy/neutrality/sourcing reason, so no community dispute signal. The rewrite is plausible, unsourced and without a clear slant -> good_faith_error, level 1. It shares wording with i01 and i04 (the detailed 1940 cession list, 'joutui luovuttamaan', 'Inarista') but has none of the i01 treaty-annulment sentences and the pack does not link it to them, so it is a separate item. Note: E4 is in the same masked range (85.76.x.x) as E8 in i01. Candidate c07.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "border-crisis-2023/i03",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 1060965,
+        "inserting_rev_ids": [
+          19395342
+        ],
+        "removing_rev_ids": [
+          19395557
+        ],
+        "description": "Expands the 1991 sentence with the succession of Russian states and the dates the Soviet Union existed (30 December 1922 to 25 December 1991, 'when the first president of the Soviet Union resigned').",
+        "why": "Level 1: substantive prose removed by a different account (E9) 57 min later with 'rv, turhaa detaljitasoa Venäjän sisäisistä tapahtumista, kun aiheena on kuitenkin valtionraja' ('revert, needless detail about Russia's internal events when the topic is the state border'). That reason is relevance, not accuracy, neutrality or sourcing; not put back; no edit war. No slant in the added text -> category other, level 1. Candidate c05.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "border-crisis-2023/i04",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1060965,
+        "inserting_rev_ids": [
+          20122615
+        ],
+        "removing_rev_ids": [
+          20122798
+        ],
+        "description": "Rewrites the border-history paragraphs: adds Kuusamo to the oldest border sections, relists the 1940 cessions (dropping the Gulf of Finland outer islands), says Finland 'sold' a five-sided 176 km2 Jäniskoski-Niskakoski area in 1947, and calls Russia the successor state in 1991.",
+        "why": "Level 1: substantive prose removed by a different account (E12) 2.8 h later with 'rv, eston kiertoa ([blocked account])' ('revert, block evasion ([blocked account])'): a removal of ordinary prose that gives no content reason. Not put back, no edit war, no accuracy/neutrality/sourcing reason. The rewrite drops the Gulf of Finland outer islands from the 1940 cession list, which reads as an unsourced slip rather than a slant -> good_faith_error, capped at level 1. Similar wording to i01/i02 ('joutui luovuttamaan', 'myi Inarista') but no shared claim sentence and no pack link. Candidate c04.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "border-crisis-2023/i05",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 1781605,
+        "inserting_rev_ids": [
+          22065800
+        ],
+        "removing_rev_ids": [
+          24241333
+        ],
+        "description": "Adds former prime minister Juha Sipilä's 2016 quote ('as an engineer I prefer building bridges to building walls'), sourced to Suomenmaa, to the criticism section of the border-fence article.",
+        "why": "Level 1: E19's edit (insertion_diff checked: it adds the Sipilä sentences with the Suomenmaa citation, and otherwise moves paragraphs under new headings) stayed about 996 days and was removed by a different account (E17) in a larger cleanup: '... Myöskään Sipilän vanha puhe ei oikeastaan konkreettisesti ottanut tähän kantaa vaan enemmän Brexitin aikaisiin teemoihin' ('nor did Sipilä's old speech really take a concrete position on this, rather on Brexit-era themes'). That is a relevance reason, not accuracy, neutrality or sourcing; the quote is attributed and cited; not put back; no edit war -> category other, level 1. The same removal also took out an unsourced African swine fever paragraph and the Hungary-fence paragraph; those were already in the article before E19's edit (the Hungary paragraph shows as an existing paragraph E19 retouched), their inserting edits are not in the pack, so they are not part of this item. Candidate c11.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "border-crisis-2023/i06",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 1060965,
+        "inserting_rev_ids": [
+          22868160,
+          22872882,
+          22872886
+        ],
+        "removing_rev_ids": [
+          22924908
+        ],
+        "description": "Rewords the lead's note on the name 'itäraja' (part of the Finland-Norway border can also count as the eastern border) and adds that a border-zone permit needs a justified reason and is applied for from the Border Guard, and that the zone is wider on the Russian side.",
+        "why": "Level 1: substantive, unsourced prose by E14 and E15 (same masked range 86.115.x.x), removed by a different account (E17) 27-29 days later with 'lähteet pitäisi ilmoittaa, pois muokkaus, joka ei parantanut artikkelia, on itsestään selvää, että lupa vaatii perusteen' ('sources should be given; removed an edit that did not improve the article; it is self-evident that a permit requires a reason'). The text is plausible and has no slant; its recorded problems are a missing source and low value -> good_faith_error, capped at level 1. Not put back, no edit war. E16's +2-byte edit (another masked range; byte counts put it in the lead E14 rewrote) is a tweak by another editor and is left out of inserting_rev_ids. Candidate c01.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "border-crisis-2023/n01",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 1060965,
+        "inserting_rev_ids": [
+          21304856
+        ],
+        "removing_rev_ids": [
+          21305020
+        ],
+        "description": "Changes the official border length from 1,343.6 km to 17 km and the land, lake and river lengths to 1, 12 and 3 km.",
+        "why": "Excluded: graffiti. The new figures are absurd and contradict the unchanged sentence next to them (54 km in the Gulf of Finland alone, longer than the new 17 km total; 1 + 12 + 3 km is not the new 1 km land border). There is no plausible good-faith reading, so it is number vandalism, not a claim. Removed by E12 62 min later as 'lähteettömiä numerotietojen muutoksia' ('unsourced changes to figures'). Candidate c08.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "border-crisis-2023/n02",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "test_or_nonsense",
+        "page_id": 1570458,
+        "inserting_rev_ids": [
+          18854842
+        ],
+        "removing_rev_ids": [
+          18854864
+        ],
+        "description": "Changes 'Suomella' to the misspelling 'Suomenlla' (one character) in the lead.",
+        "why": "Excluded: not substantive. A one-character change that introduces a misspelling; it adds no prose, number, date, name or citation. Rolled back by E2 22 min later. Candidate c09.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      }
+    ],
+    "notes": "Quiet control, as expected: the crisis article (1778743) and the fence article (1781605) have no identity reverts in the pack's page_stats; all revert runs are on the general border article (1060965) and concern older history (1940/1944 cessions, 1991) or the border zone, not the 2023 crisis. The only crisis-era removal is a 2026 cleanup on the fence article (i05, level 1). One level-2 item (i01, 2016 back-and-forth over treaty-annulment sentences, removed as block evasion). Judgement call for review: i02 (2015, 85.76.x.x) and i04 (2021, removed as block evasion '[blocked account]') rewrite the same cession sentence with wording that overlaps i01 ('joutui luovuttamaan', 'myi Inarista'); they lack the i01 claim sentences and the pack does not link them, so they are separate level-1 items. Merging them into i01 would add persistence (2015-2021) and editor groups and could lift it to level 3; I judged the shared part to be ordinary prose, not the claim. Grade 2 for the general border article 1060965 is a judgement call (border closures are part of it; content beyond the lead not in the pack)."
+  },
+  "item_sources": {
+    "border-crisis-2023/i01": [
+      "c06",
+      "c10",
+      "c02",
+      "c03"
+    ],
+    "border-crisis-2023/i02": [
+      "c07"
+    ],
+    "border-crisis-2023/i03": [
+      "c05"
+    ],
+    "border-crisis-2023/i04": [
+      "c04"
+    ],
+    "border-crisis-2023/i05": [
+      "c11"
+    ],
+    "border-crisis-2023/i06": [
+      "c01"
+    ],
+    "border-crisis-2023/n01": [
+      "c08"
+    ],
+    "border-crisis-2023/n02": [
+      "c09"
+    ]
+  },
+  "skipped": []
+}

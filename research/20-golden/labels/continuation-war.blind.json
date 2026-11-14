@@ -1,0 +1,141 @@
+{
+ "topic_id": "continuation-war",
+ "labels": {
+  "x01": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 2: added 'Petsamon (Palautettiin 1958)' ('Petsamo (Returned in 1958)') to the infobox; removal summary says 'Petsamoa ei palautettu' ('Petsamo was not returned'), an accuracy objection to a changed fact. Removed after 4 min; one inserting account."
+  },
+  "x02": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Same account added the sentence about the chancellor's view and removed it 3 min later (self_removal flag)."
+  },
+  "x03": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Only an image link with a caption ('Keskitysleiri Petroskoissa', Concentration camp in Petrozavodsk) was added and removed by several accounts; no prose, number or citation."
+  },
+  "x04": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: one account added a long expansion (Barbarossa section, prisoners of war, infobox outcome 'Neuvostoliiton Pyrrhoksen voitto', a Soviet Pyrrhic victory, with a cited book). Removal summary 'Rv. Katso keskustelu' ('See talk') is only a talk pointer; the {{Korjattava}} template appears in the inserter's own diff, so no community dispute signal is clear. Doubt resolved to the lower level."
+  },
+  "x05": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added 'taistelut ... osoittivat, että ... Itä-Karjalaan hyökkäys olivat oikea päätös' ('battles showed that attacking East Karelia was the right decision'), an evaluative claim carrying a {{lähde}} tag. Removal summary: 'poistetaan lähteetön spekulaatio' ('removing unsourced speculation'), a sourcing objection."
+  },
+  "x06": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: sourced sentences (two YLE links) about 1941 casualties exceeding the Winter War, removed after 3 min with a generic rollback summary. The removal was undone once, but no accuracy or neutrality objection is recorded and the text has no slant."
+  },
+  "x07": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: edit changed resignation wording and numbers, e.g. 'kolmeksi päiväksi' ('for three days', was 'neljäksi') and 'käytännössä jätti' ('in practice left') the presidential duties. Removed, put back by another account, removed again: a back-and-forth over the passage. Only one signal for campaign (the two inserters are different account kinds but no second signal)."
+  },
+  "x08": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: local detail about opening the Rovaniemi post office after evacuation; removal: 'Lähteetön ... sopii paremmin ... Rovaniemi-artikkeliin' ('unsourced ... fits better in the Rovaniemi article'). Plausible text, no slant; a placement/sourcing issue."
+  },
+  "x09": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added 'Suomen hallitus pitää edelleen kiinni näkemystä erillissodasta, vaikka todellisuudessa ...' ('The Finnish government still holds the separate-war view although in reality ...'). Edit war: removed ('asiasta keskustellaan keskustelusivulla'), put back with an 'NPOV' summary, removed again. Both inserting addresses are in one masked range, so one editor; one signal only."
+  },
+  "x10": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added 'Monien tulkintojen mukaan ... sotakapinetti rikkoi ...' ('According to many interpretations ... broke ...') and a claim of Geneva Convention breaches. Removal summary: 'Kerro kenen mielestä, älä käytä sanaa monien. Geneven sopimus pätee vain ratifioijien välillä' ('say whose view, do not use \"many\"; the convention applies only between ratifiers'), an accuracy and sourcing objection."
+  },
+  "x11": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added 'Käytännöllisesti katsottuna Suomi kävi siis eri sotaa kuin Saksa' ('Practically speaking Finland fought a different war than Germany') and loaded 'törkeät' ('outrageous') threats. Removed, put back, removed again within a day: edit war. Same masked range, under 7 days, so not campaign."
+  },
+  "x12": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "other",
+   "why": "Edit blanked the whole article (summary 'Sivu tyhjennettiin', page was emptied), undone after 19 s."
+  },
+  "x13": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 1: added 'Suomi kuitenkin jatkoi sotaa ja sai paljon alueita' ('Finland nevertheless continued the war and gained much territory'), which conflicts with the surrounding article text. Removed after 66 s with a generic rollback; no dispute signal recorded, so capped at removed."
+  },
+  "x14": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: re-added a sourced claim that a TV journalist considers it demonstrated that Finnish volunteers took part in killing civilians. Repeated removal and re-adding by different accounts within hours (summary mentions 'poliittista agendaa', political agenda): an edit war over the passage."
+  },
+  "x15": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "The change converts a bulleted list of court members into a wikitable and soft hyphens; same names and references. Removal summary concerns mobile readability. Formatting only."
+  },
+  "x16": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: added passages about a camp commander and shootings of prisoners; removal says 'tekijänoikeusrikkomus, kopiointia ainakin seura.fi-sivulta' ('copyright violation, copied from a news site'). Put back, removed again, but the dispute is about copying, not accuracy or neutrality of a claim. A {{Kopio}} template was added, but no claim dispute is quoted."
+  },
+  "x17": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Replaced 'Neuvostoliiton' with 'keijostoliiton' and added repeated Soviet flag images to the infobox: clearly nonsense, removed in 3 min."
+  },
+  "x18": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Only a template ({{Tekijänoikeus_201009}}) was added, by a bot-like account."
+  },
+  "x19": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: added 'Suomea ei miehitetty.' ('Finland was not occupied.'), a short plausible statement. Removal summary only names the section; no dispute reason."
+  },
+  "x20": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: added Italy as a participant with two source links to the infobox. Removal: 'ks. keskustelu' ('see talk'), a talk pointer alone, 5 min later."
+  },
+  "x21": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: mixed infobox and text changes by two accounts, removed after 31 days with 'eston kiertoa' ('block evasion'), a reason about the account, not the content. One in-chain edit mentions a number as 'väärä' (wrong) but that is not the removal reason; no quotable claim tied to the removal."
+  },
+  "x22": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Same account added an external link and removed it 3 min later."
+  }
+ },
+ "rev_id_concerns": {
+  "x21": "The candidate edit list mixes in later edits that remove an unsourced number; the 31-day gap and the block-evasion summary suggest the inserting revs 15951964/15952027 are not clearly the removed content.",
+  "x03": "Chain covers an image added, removed, restored and removed over months; the first edit is the only one that adds the image."
+ }
+}

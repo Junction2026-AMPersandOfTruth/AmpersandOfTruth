@@ -1,0 +1,190 @@
+{
+ "topic_id": "russification-independence",
+ "labeller": "gemini:blind/gemini-4-carbon",
+ "labels": {
+  "x01": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "vandalism",
+   "why": "Not an incident (blanking) — the edit deleted the entire lead section of the article, leaving only '''Sortovuodet''' eli '''sorto''' ('Years of Oppression, or oppression')."
+  },
+  "x02": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Not an incident (graffiti) — replaced the opening word with keyboard-mash gibberish."
+  },
+  "x03": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 2 — because: added the factual claim \"Vastaavasti Suomi tunnusti Neuvosto-Venäjän uuden hallinnon\" ('Correspondingly, Finland recognized the new administration of Soviet Russia'), and removed with a sourcing reason (\"Lähde pitäisi vain lisätä myös\", 'A source should just be added too')."
+  },
+  "x04": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2 — because: added the interpretive legal claim \"SDP:n (Suomen Sosialidemokraatisen Puolueen) ns. järjestyskaarteista Punakaarteiksi johtanut kehitys vallankumoukseen täyttää täysin vuoden 1743 lain \"Petoxesta waldacunda wastan\" tunnusmerkistön\" ('The development of the SDP's so-called order guards into Red Guards leading to revolution completely fulfills the criteria of the 1743 [sic] law \"On treason against the realm\"'), tagged with an unsourced dispute template and removed with a sourcing and original-research reason (\"Pois uusi hömppä: \"vahvoja tulkintoja ilman lähteitä tai omaa tutkimusta\"\", 'Out with new nonsense: \"strong interpretations without sources or original research\"')."
+  },
+  "x05": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Not an incident (self-removal) — the same named account added text to the article and refactored/trimmed the article the next day; moreover, the text added in rev 12046260 was in a different section than the passages removed in rev 12050219."
+  },
+  "x06": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2 — because: added the claim \"Jääkäreista useat ottivat osaa sisällissodan jälkeisiin \"puhdistuksiin\" joissa surmattiin satoja punakaartilaisia\" ('Several of the Jägers took part in the post-civil war \"purges\" in which hundreds of Red Guards were killed'), and was part of an edit war / put back after removal (first undone edit was itself a revert restoring the passage, and its removal was undone again)."
+  },
+  "x07": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "good_faith_error",
+   "why": "Not an incident (not-substantive) — only inserted a timestamped signature inside an existing {{Lähteetön}} ('Unsourced') maintenance template."
+  },
+  "x08": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Not an incident (graffiti) — added joke vandalism claiming Governor-General Bobrikov lived in the modern suburb of Pähkinärinne and naming a contemporary resident."
+  },
+  "x09": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Not an incident (graffiti) — deleted two words (\"Venäjällä valtaan\", 'to power in Russia') with the nonsense edit summary \"Kkk\" and was removed within 33 seconds."
+  },
+  "x10": {
+   "label": "not-incident",
+   "exclusion": "kept",
+   "category": "pov_push",
+   "why": "Not an incident (kept) — both candidate removals were undone and `added_text_in_latest_revision` is true, meaning the community kept this version."
+  },
+  "x11": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1 — updated flag templates and historical state links in a recognition table (e.g. changing {{Ranska}} to link to 'French Third Republic'), removed solely for block evasion (\"eston kiertoa\") without a content dispute signal."
+  },
+  "x12": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2 — because: added an interpretive claim \"Näyttää merkittävältä suhteessa valtalakiin ja itsenäisyysjulistukseen, että näiden välissä valta oli vaihtunut Suomessa vasemmalta oikealle, Venäjällä oikealta vasemmalle\" ('It appears significant in relation to the Power Act and the Declaration of Independence that between them power had shifted in Finland from left to right, in Russia from right to left'), and removed as unsourced (\"lähteetön pätkä pois, ei muutenkaan kuulu tähän\", 'unsourced snippet out, does not belong here anyway')."
+  },
+  "x13": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Not an incident (not-substantive) — the removing edit 3159633 only converted legacy {{ref}} citation templates into <ref> tags across the article without removing substantive content."
+  },
+  "x14": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Not an incident (graffiti) — overt vandalism inserting slurs, obscenities, and absurdities (such as claiming 1915–1918 Jägers sought annexation to Nazi Germany)."
+  },
+  "x15": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Not an incident (graffiti) — prepended a long string of random keystrokes to a paragraph, removed in 12 seconds."
+  },
+  "x16": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2 — because: added an unsourced claim attributing personal motive to Svinhufvud (\"Siperiaan karkoituksen takia hänellä oli Venäjän vastaisuuteen henkilökohtainen motiivi\", 'Because of his exile to Siberia he had a personal motive for opposition to Russia'), and removed with a sourcing reason (\"Lähteetön lisäys ja pääosin toistaa edellisen tekstikappaleen asioita\", 'Unsourced addition and mainly repeats things from the previous paragraph')."
+  },
+  "x17": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1 — added a large, poorly formatted alphabetical roster of Jägers without slant or narrative framing, removed as an incomplete, partially erroneous, un-linkable list with possible copyright issues; capped at Level 1 as a good-faith error."
+  },
+  "x18": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2 — because: part of a back-and-forth revert sequence over the Finnish translation of the battalion's official name (\"Preussin kuninkaallinen jääkäripataljoona nro 27\" vs. \"Kuninkaallinen Preussin Jääkäripataljoona 27\", 'Royal Prussian Jäger Battalion No. 27') and place name Liepāja vs. Libau."
+  },
+  "x19": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1 — added over 7 KB of historical prose on tsarist counter-espionage, gendarmerie, executions, and Finnish informants (partly citing Matti Lackman), removed with a standard rollback summary and no recorded dispute signal or re-insertion."
+  },
+  "x20": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2 — because: added the nationality claim \"kansallisuus = Venäjän keisarikunta ja Suomen suuriruhtinaskunta\" ('nationality = Russian Empire and Grand Duchy of Finland') and \"tuolloin Venäjän keisarikunnan vallan alainen\" ('at that time subject to the rule of the Russian Empire') in an active back-and-forth revert sequence (`first_undone_edit_is_itself_a_revert` and `removal_was_itself_undone`). The bot edit only archived an unrelated link after the human insertion."
+  },
+  "x21": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "vandalism",
+   "why": "Not an incident (self-removal) — the same anonymous editor inserted vandalism and reverted their own edits two minutes later."
+  },
+  "x22": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2 — because: added a strong narrative and legalistic claim framing the Jägers and the 1917 independence process as treason and a coup (e.g. \"Kyseiset miehet olivat täysin tietoisia siitä, että sotilaskoulutus Saksan - maan jonka kanssa Suomi oli sodassa - armeijassa olisi lainvastaista Suomen lakien mukaan ja täten miehet syyllistyivät maanpetokseen\", 'The men in question were fully aware that military training in the army of Germany - a country with which Finland was at war - would be illegal under Finnish laws and thus the men were guilty of treason'), put back once after removal over 17 days by the same single account, and removed for neutrality/politics and original research (\"rv, uutta tutkimusta\", 'rv, original research'). Stays at Level 2 because only one account edited one article."
+  },
+  "x23": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Not an incident (graffiti) — deleted the first letter 'S' of the article's title word \"Suomen\" ('Finland's')."
+  },
+  "x24": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "good_faith_error",
+   "why": "Not an incident (self-removal) — an editor restored paragraphs thinking they had been deleted, then undid their own edit 3 minutes later upon realizing the text had been moved lower down (\"rv, ne olikin siirretty möyhemmäksi...\", 'rv, they had actually been moved later...')."
+  },
+  "x25": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2 — because: repeatedly changed the official Finnish name of the unit to \"Preussin kuninkaallinen jääkäripataljoona 27\" ('Royal Prussian Jäger Battalion 27') and German exonyms like \"Libau\" to Latvian names like \"Liepāja (ent. saks. Libau)\" ('Liepāja (former German Libau)'). Put back 3 times over 10 days (persistence signal met), but all inserting edits came from a single masked IPv6 range (2001:999:…) on a single article with no source manipulation, so it lacks the account or article signal required for Level 3."
+  },
+  "x26": {
+   "label": "campaign",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 3 — because: added an interpretive legal section \"Jääkäriliikkeen laillisuus Suomen perustuslakien mukaan\" ('Legality of the Jäger movement under the constitutional laws of Finland') arguing from the 1734 law code that Jägers and anyone aiding them were traitors punishable by death (\"Tätä lainkohtaa voidaan tulkita siten, että suomalaiset, jotka auttoivat jääkäreitä siirtymään Saksaan, olivat myös syyllisiä samaan perustuslain vastaiseen toimintaan\", 'This legal provision can be interpreted such that Finns who helped Jägers move to Germany were also guilty of the same unconstitutional activity'); disputed via edit war, re-insertion, and removal reason citing improper synthesis from a primary source (\"Poisto: lähde vertautuu primäärilähteeseen. Tulkintoja voidaan esittää vain sekundäärilähteiden perusteella\", 'Removal: the source is comparable to a primary source. Interpretations can only be presented based on secondary sources'); and added/restored by 2 distinct named accounts (plus improper use of a primary legal source to advance an original-research claim)."
+  }
+ },
+ "rev_id_concerns": {
+  "x04": "rev 11472549 only added one paragraph about Red Guards; the removal rev 12322429 also removed several other paragraphs added by other revisions.",
+  "x05": "rev 12046260 added text about Paasikivi and Schauman's cult, whereas rev 12050219 trimmed earlier biographical sections.",
+  "x13": "rev 628693 added prose in 2005; rev 3159633 in 2007 only reformatted citation syntax."
+ },
+ "usage": {
+  "total_tokens": 70246,
+  "total_input_tokens": 66485,
+  "input_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 66485
+   }
+  ],
+  "total_cached_tokens": 0,
+  "total_output_tokens": 3761,
+  "output_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 3761
+   }
+  ],
+  "total_tool_use_tokens": 0,
+  "total_thought_tokens": 0,
+  "initial_input_tokens": 66485,
+  "cost_usd_est": 0.1706,
+  "seconds": 43.8
+ }
+}

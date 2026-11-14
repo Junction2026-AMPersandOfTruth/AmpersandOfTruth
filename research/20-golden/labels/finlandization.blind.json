@@ -1,0 +1,168 @@
+{
+ "topic_id": "finlandization",
+ "labels": {
+  "x01": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 1: an external link 'Toisenlainen näkökulma ryssävihaan' (Another perspective on Russophobia) was added twice by two ranges and taken out twice, once with 'näkökulma ei ole tieteellinen' (the viewpoint is not scholarly). It is a link, not a quotable factual claim, so it stays at Level 1."
+  },
+  "x02": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "The inserting edit renumbers infobox parameters and relabels a link text ('Suomen sisäasiainministeri'); no prose, number or date is added. Treated as markup only. Revert was itself undone."
+  },
+  "x03": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Inserting revision 21539701 only adds a category link ([[Luokka:Pakkoruotsin kannattajat]]), removed with HotCat. Category only."
+  },
+  "x04": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Only adds a copyright template ({{Tekijänoikeus_201009}}) in front of the title, by a bot-like account. Template only."
+  },
+  "x05": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Only adds the clarification template {{Selvennä|tarkemmin ja lähde}} (clarify, more detail and source). Template only."
+  },
+  "x06": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: a long rewritten biography lead and sections (education, sports, pseudonyms) was taken out by anonymous editors with no summary, and each time put back within minutes. No quotable disputed claim and no dispute reason."
+  },
+  "x07": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "test_or_nonsense",
+   "why": "Added 'Ennen kuin Tarja valittiin presidentiksi, hän nuoruudessaan esiintyi aikuisviihde videoilla. PORNOOOO…' (before she was elected she appeared in adult videos, PORNOOO…): nonsense text, removed after 3 minutes."
+  },
+  "x08": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "content_dispute",
+   "why": "The full article was replaced by a redirect ('#OHJAUS [[Suomi–Venäjä-Seura]]') several times in a merge dispute; the removal is a page-level redirect (page emptied), not a dispute about a claim. Removals were undone each time."
+  },
+  "x09": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 1: section 'Suomettaminen 2000-luvulla' says the Kremlin aims to strengthen influence by promoting pro-Russian representatives. Removed 'rv, lähteetöntä' (unsourced) once, not put back. Interpretive but sourcing is the only recorded problem, so capped at Level 1."
+  },
+  "x10": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added 'Vuonna 2018 Lipponen nöyryytti … professori Veli-Pekka Tynkkystä' (In 2018 Lipponen humiliated professor Tynkkynen), a loaded characterisation of a living person. Removed as 'Epämääräinen nöyryyttämisväite ei ole tietosanakirjamerkittävä' (vague humiliation claim is not encyclopedic), put back and removed again (edit war over the passage). One editor, one article."
+  },
+  "x11": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added 'Tarja Halosen nimitykset ovat suosineet erityisesti naishakijoita' (her appointments have favoured women applicants) and a note that her SETA chairmanship 'on näkynyt monella tavalla' in personnel choices. Removed as 'lähteetöntä ja epäneutraalilta haiskahtavaa' (unsourced and seems not neutral). One editor, not put back."
+  },
+  "x12": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Bare URLs wrapped in <ref> tags and a sources list: reference markup only; removal summary 'lähde merkintöjen yhtenäistämistä' (unifying source markup)."
+  },
+  "x13": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: added an internal link '[[Tarja Halosen vuodet|Wikipedia: Vuosi vuodelta - Tarja Halonen]]' under further reading; removed within 5 minutes by a different account, no dispute reason."
+  },
+  "x14": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "test_or_nonsense",
+   "why": "The same anonymous range added a nonsense line ('kekkonen oli hyvä … <3') and took it out again within minutes."
+  },
+  "x15": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 1: added that 'Maltillisen sananvapauden tulkitsemisen periaatteella on Suomessa edelleen varsin vahvaa kannatusta' and that PM Vanhanen recommended a moderate reading of free speech in the cartoon dispute. Earlier removal said the link is 'liian epämääräinen' and the section needs sources; the text was put back once, then removed with 'ks. keskustelu'. Claim and slant are arguable; kept at the lower level."
+  },
+  "x16": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "vandalism",
+   "why": "Whole page replaced with 'PERKELE' (a Finnish curse); summary 'Sivun sisältö korvattiin'. Page blanked in 13 seconds."
+  },
+  "x17": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Remover is the same account that made the addition (rev 772355) and took it out in rev 772360."
+  },
+  "x18": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Changed the name to 'harja talonen', 'miespresidentti' (male president) and 'Natzien neuvosto': clearly nonsense name vandalism, removed after 53 seconds."
+  },
+  "x19": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: added, with a source (Kanava 4/2017), a passage that Kekkonen wrote of aversion towards Jews while lodging with a Jewish family in Germany. Removed as 'Siirto elämäkertaan' (moved to the biography article), not as a dispute."
+  },
+  "x20": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added to a criticism list that Lipposen menettely 'on jälkikäteen arvioinut erittäin kriittisesti' (his handling was assessed very critically afterwards) by a named official, and swapped {{neutraalius}} for {{lähteetön}} template. Removed as 'Poistettu lähteettömiä väitteitä' (unsourced claims removed). Slanted about a living politician; sourcing reason and dispute templates in the episode. Not put back."
+  },
+  "x21": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: paragraph says the concept of Russophobia 'ei ole tieteellisessä keskustelussa problematisoitu' and little research exists. Removed 'lähteetöntä' (unsourced) since the definition treats the terms as synonyms. Plausible text, sourcing the only recorded problem, no slant."
+  },
+  "x22": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "The same account that removed the paragraphs on her primary campaign had made the edit (summary reverts vandalism); removal rev was by the same account."
+  },
+  "x23": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: added a section noting Kekkonen appeared as a space character in the musical 'Itse valtiaat'. Removed after 3 minutes as 'ei merkittävä tieto' (not significant). Trivia, no claim dispute."
+  },
+  "x24": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Heading changed to 'Pornotähtenä' (As a porn star) and the spouse's name replaced with vulgar words: clear vandalism, removed after 20 seconds."
+  },
+  "x25": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Inserting rev 7728715 is itself a revert that removes the band-trivia sentence (-169 bytes); it adds no prose. The other side put the sentence back."
+  },
+  "x26": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "other",
+   "why": "Removal is the page being emptied ('Ak: Sivu tyhjennettiin'), undone later; the removing edit blanked the article."
+  }
+ },
+ "rev_id_concerns": {
+  "x03": "Inserting rev 21539701 is only the category addition; the Nord Stream text is in x10, not here.",
+  "x06": "Listed inserting editors include many unrelated typo/format editors (rev 9815 onward); the content is the restored article text only.",
+  "x25": "Inserting rev 7728715 deletes text (-169); it is the removal side of a dispute, not an insertion.",
+  "x17": "Insertion 772355 and removal 772360 are both by the same account; x15 covers 772360 as insertion.",
+  "x22": "Inserting rev is a -4618 deletion that itself reverted vandalism; no added content."
+ }
+}
