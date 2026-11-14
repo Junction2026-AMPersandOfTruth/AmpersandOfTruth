@@ -2,7 +2,8 @@
 
 48-hour Junction hackathon project. **Speed > polish, but `main` must always demo.**
 Blazor Web App on .NET 10, **Interactive Server** render mode everywhere (no WASM, no separate API).
-Persistence: **EF Core 10 + SQLite** (`src/Junction.Web/app.db`, git-ignored, migrated automatically on startup).
+Persistence: **EF Core 10 + SQLite** (`src/Junction.Web/app.db`, git-ignored, migrated automatically on startup) for app state.
+Wikipedia corpus: **MariaDB 12.3 on the team VPS**, raw SQL via `MySqlConnector` (see *Corpus* below).
 
 ## Commands
 
@@ -15,6 +16,9 @@ Persistence: **EF Core 10 + SQLite** (`src/Junction.Web/app.db`, git-ignored, mi
 | Add NuGet package | `dotnet add src/Junction.Web package <Name> --version 10.*` (latest is 11.x = .NET 11, won't install) |
 | Add EF migration | `dotnet ef migrations add <Name> --project src/Junction.Web --output-dir Data/Migrations` |
 | Reset local DB | `rm src/Junction.Web/app.db` (recreated on next start) |
+| Corpus tunnel (localhost:3307 → VPS MariaDB) | `scripts/corpus-tunnel.sh` (background, idempotent) · `--status` · `--stop` |
+| Corpus integration tests (opt-in) | `scripts/corpus-tunnel.sh && CORPUS_TESTS=1 dotnet test --filter Category=Corpus` |
+| Deploy/update corpus DB on VPS (needs root key) | `scripts/corpus-deploy.sh` — details in `deploy/corpus/README.md` |
 
 ## Layout
 
@@ -65,6 +69,20 @@ tests/Junction.Tests/
 - SQLite limits: `DateTimeOffset` is auto-stored as UTC ticks (a convention in `AppDbContext`) so it sorts — always use UTC. `decimal` can't be ORDER BY'd or SUM'd in SQL → use `double` or long cents for money/scores.
 - **Parallel branches + migrations:** both branches edit `AppDbContextModelSnapshot.cs` → merge conflict. Fix: take `main`'s snapshot, delete *your* migration files, re-run `dotnet ef migrations add`. Never hand-merge the snapshot.
 - Seed demo data inside a feature service, idempotently (check `AnyAsync()` first), not in migrations.
+
+## Corpus (MariaDB on the VPS)
+
+- Read-mostly shared DB `corpus` (articles, revisions, vectors) + scratch schema `research`. No EF, no migrations: raw SQL.
+- Inject `CorpusConnectionFactory` (singleton, pooled) → `await using var c = await corpus.OpenAsync(ct);` per operation.
+- Config: `ConnectionStrings:Corpus` (appsettings, defaults to the tunnel `127.0.0.1:3307`, user `corpus_ro`) +
+  password in user-secrets: `dotnet user-secrets set "Corpus:Password" "<pw>" --project src/Junction.Web` (ask a teammate; it's in `/opt/junction/corpus/.env` on the VPS).
+- Users: `corpus_ro` = SELECT on `corpus`, full rights on `research` (app + experiments). `corpus_rw` = loaders/precompute only.
+  **Experiments create tables in `research.*`, never in `corpus.*`.**
+- Vector params: `cmd.Parameters.AddWithValue("@q", CorpusVectors.ToBytes(embedding))` (raw little-endian float32); `VEC_FromText(@json)` also works.
+  `mhnsw_ef_search=80` is the server default — no per-session SET needed.
+- **`verify.sh` must pass with the corpus absent.** Corpus tests use `[CorpusFact]` (skipped unless `CORPUS_TESTS=1`).
+  The `corpus` health check reports `Degraded` (still HTTP 200) when the tunnel is down; startup never depends on it.
+- Bulk jobs (loads, precompute) on 2 vCPUs starve interactive queries — run them early, never during a demo.
 
 ## Testing
 
