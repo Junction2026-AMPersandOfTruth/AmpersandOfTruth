@@ -40,6 +40,10 @@ public sealed class InvestigationPipelineOptions
 
     /// <summary>Run P1.S8's citation detectors on each removed edit (tier input "source change"). As above.</summary>
     public bool SourceChangeSignal { get; set; } = true;
+
+    /// <summary>P1.S10 (#37) B+rel: within a tier, rank by the additive score × topic relevance (bge-m3 cosine of topic and
+    /// claim). Off = additive score only (ablation, or if the extra embeddings hurt latency).</summary>
+    public bool TopicRelevance { get; set; } = true;
 }
 
 /// <summary>

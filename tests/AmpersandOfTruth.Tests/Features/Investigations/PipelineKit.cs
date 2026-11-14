@@ -143,6 +143,9 @@ public sealed class PipelineKit
     public FakeAnalysisModel Model { get; } = new FakeAnalysisModel().Returns("classify-edit", ClassificationJson());
     public InvestigationPipelineOptions Options { get; } = new();
 
+    /// <summary>P1.S10 topic relevance for the within-tier ranking; null (default) = relevance 1, as with no embedder.</summary>
+    public TopicRelevance? Relevance { get; set; }
+
     public static string ClassificationJson(string category = "false_factual_claim", int confidence = 4, string quote = "kun Suomi hyökkäsi ensin") => $$"""
         {"what_changed_en": "Rewrote who started the war.", "evidence": ["{{quote}}"],
          "claim_en": "{{ClaimEn}}", "claim_fi": "Suomi hyökkäsi ensin.", "narrative_en": "Soviet justification of the Winter War",
@@ -181,7 +184,7 @@ public sealed class PipelineKit
             new RevertCandidateSource(Corpus, Revisions, o),
             reader ?? new CorpusEditReader(Revisions, o, Conflicts),
             new GeminiEditClassifier(Model, o, NullLogger<GeminiEditClassifier>.Instance),
-            o, TimeProvider.System, NullLogger<InvestigationPipeline>.Instance);
+            o, TimeProvider.System, NullLogger<InvestigationPipeline>.Instance, Relevance);
     }
 
     /// <summary>The app's composition: run cache + reading cache on <paramref name="db"/> around the real pipeline.</summary>

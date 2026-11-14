@@ -141,8 +141,11 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   revert + `EditReading.ReRemovals`, later returns to the pre-edit sha1 that follow a re-insertion — and put back ≥ 1×, by
   different camps; the page-level S4 episode is **not** a tier input any more) and source change (S8 citations, or an S9
   `source_manipulation` assessment). `TierThresholds.MinCoordinationSignals` = 3 (S10; recorded in `docs/evidence-standard.md`).
-  One removed edit = one incident: re-insertions are exact restores, so counting is claim-side without S7 clusters. Not yet:
-  dispute templates, kept-in-latest, multiple articles (needs S7 clusters), S10's topic-relevance ranking.
+  One removed edit = one incident: re-insertions are exact restores, so counting is claim-side without S7 clusters.
+  Ranking = S10 mode B+rel: `score` = 100 × tier + `IncidentAssembler.ScoreA` (exact port of `score_variant_a`, parity values in
+  `S10RankingTests`) × `TopicRelevance` (max(0, cos) of bge-m3(topic) and bge-m3(claim_en, else added prose)[:500]); the
+  embedder down → relevance 1 and `Completed.Unranked` > 0, never cached. `Investigations:Pipeline:TopicRelevance=false` =
+  ScoreA only. Not yet: dispute templates, kept-in-latest, multiple articles (needs S7 clusters), S10's per-article cap of 5.
 - Edits the evidence standard excludes without an assessment are never sent to the LLM. Limits: `Investigations:Pipeline` options.
 - Per-edit signals ported ahead of the S11 decision (#38) sit on `EditReading`, computed in stage 3a (`CorpusEditReader`), so they
   hold whatever the incident unit becomes (S10): `Conflicts` / `EditWar` = P1.S4 (`IConflictEpisodes` reads the precomputed
