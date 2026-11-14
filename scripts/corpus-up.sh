@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Runs ON THE VPS. Starts/updates the corpus MariaDB and (re)provisions schemas + users idempotently.
+# Runs ON THE VPS. Starts/updates the corpus MariaDB (+ Ollama/bge-m3) and (re)provisions schemas + users idempotently.
 # Usually invoked by scripts/corpus-deploy.sh from a laptop; safe to re-run any time.
 #   - First run generates ./.env (root + corpus_ro + corpus_rw passwords, chmod 600). Never commit it.
 #   - Prints nothing secret. Read passwords on the VPS:  grep CORPUS_ /opt/junction/corpus/.env
@@ -68,3 +68,22 @@ docker exec -e MYSQL_PWD="$MARIADB_ROOT_PASSWORD" corpus-mariadb mariadb -uroot 
     ' | ef_search=', @@mhnsw_ef_search,
     ' | max_packet=', @@max_allowed_packet DIV 1048576, 'M');"
 docker stats --no-stream --format '   mem: {{.MemUsage}}' corpus-mariadb
+
+# ── Ollama / bge-m3 (issue #15) ── pull once, warm it, and measure what a query costs on this box.
+echo -n "⏳ waiting for Ollama"
+for _ in $(seq 1 30); do docker exec corpus-ollama ollama list >/dev/null 2>&1 && break; echo -n .; sleep 1; done
+echo
+docker exec corpus-ollama ollama pull bge-m3 2>&1 | tail -1
+embed() {  # prints "<seconds> <dims>" for one /api/embed call (same options the app sends)
+  curl -sf -w '\n%{time_total}' http://127.0.0.1:11434/api/embed \
+    -d "{\"model\":\"bge-m3\",\"input\":\"$1\",\"options\":{\"num_ctx\":8192,\"num_batch\":8192}}" |
+    python3 -c 'import json,sys; b,t=sys.stdin.read().rsplit("\n",1); print(t, len(json.loads(b)["embeddings"][0]))'
+}
+read -r first dims < <(embed "warm-up")
+warm=()
+for topic in "Talvisodan syyt" "Suomen sisällissota 1918" "Karjalan kysymys ja Neuvostoliitto" \
+             "Finland Russia relations" "kielipolitiikka Suomessa"; do
+  read -r t _ < <(embed "$topic"); warm+=("$(awk "BEGIN{printf \"%.0f\", $t*1000}")")
+done
+echo "✅ ollama bge-m3 | ${dims} dims | first call ${first}s (incl. model load if cold) | warm short queries ms: ${warm[*]}"
+docker stats --no-stream --format '   mem: {{.MemUsage}}' corpus-ollama
