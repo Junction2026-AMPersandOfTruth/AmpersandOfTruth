@@ -88,9 +88,11 @@ public sealed class LibraryPageTests : BunitContext
 
         // Inline rename
         cut.Find("[data-testid=library-rename]").Click();
-        var titleInput = cut.Find("[data-testid=saved-title-input]");
-        Assert.Equal("Winter War dossier", titleInput.GetAttribute("value"));
-        titleInput.Input("Renamed Winter War");
+        cut.WaitForAssertion(() =>
+            Assert.Equal("Winter War dossier", cut.Find("[data-testid=saved-title-input]").GetAttribute("value")));
+        cut.Find("[data-testid=saved-title-input]").Input("Renamed Winter War");
+        cut.WaitForAssertion(() =>
+            Assert.Equal("Renamed Winter War", cut.Find("[data-testid=saved-title-input]").GetAttribute("value")));
         cut.Find("form").Submit();
 
         cut.WaitForAssertion(() =>
@@ -104,7 +106,7 @@ public sealed class LibraryPageTests : BunitContext
         Assert.Single(cut.FindAll("[data-testid=library-item]"));
         Assert.NotNull(await _store.GetAsync(id));
 
-        var confirmBtn = cut.Find("[data-testid=library-delete-confirm]");
+        var confirmBtn = cut.WaitForElement("[data-testid=library-delete-confirm]");
         confirmBtn.Click();
 
         cut.WaitForAssertion(() =>
