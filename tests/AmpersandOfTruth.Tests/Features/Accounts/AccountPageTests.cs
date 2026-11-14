@@ -412,6 +412,104 @@ public sealed class AccountPageTests : BunitContext
     }
 
     [Fact]
+    public async Task Pipeline_mode_lists_incident_from_cached_run_and_unions_with_RecentRuns()
+    {
+        using var db = new TestDb();
+        var pipelineOpts = Options.Create(new AmpersandOfTruth.Web.Features.Investigations.Pipeline.InvestigationPipelineOptions());
+        var geminiOpts = Options.Create(new AmpersandOfTruth.Web.Features.Analysis.GeminiOptions());
+        var fingerprint = new AmpersandOfTruth.Web.Features.Investigations.Cache.PipelineFingerprint(
+            pipelineOpts,
+            geminiOpts,
+            new AmpersandOfTruth.Web.Features.Analysis.Prompts.PromptLibrary(
+                geminiOpts,
+                NullLogger<AmpersandOfTruth.Web.Features.Analysis.Prompts.PromptLibrary>.Instance));
+        var runCache = new AmpersandOfTruth.Web.Features.Investigations.Cache.InvestigationRunCache(
+            db.Factory,
+            fingerprint,
+            _clock,
+            NullLogger<AmpersandOfTruth.Web.Features.Investigations.Cache.InvestigationRunCache>.Instance);
+
+        var t0 = new DateTimeOffset(2020, 6, 1, 10, 0, 0, TimeSpan.Zero);
+        var cachedRecord = new IncidentRecord
+        {
+            Id = "ww-cached-01",
+            PageId = 1256,
+            InsertingRevIds = [501],
+            RemovingRevIds = [502],
+            Tier = EvidenceTier.Contested,
+            Score = 0.85,
+            ClaimEn = "Cached pipeline incident claim.",
+            Edits =
+            [
+                new IncidentEdit(501, 500, 1256, "Pohjantähti77", false, t0, IncidentEditRole.Inserted, null, null, []),
+                new IncidentEdit(502, 501, 1256, "OtherEditor", false, t0.AddDays(2), IncidentEditRole.Removed, null, null, []),
+            ],
+        };
+
+        await runCache.StoreAsync(
+            TopicSlug.ToQuery("winter-war"),
+            new AmpersandOfTruth.Web.Features.Investigations.Cache.RunSnapshot(
+                Articles: [],
+                RevisionsScanned: 10,
+                Candidates: [],
+                Scored: [],
+                Incidents: [cachedRecord],
+                AnalysedAt: _clock.GetUtcNow(),
+                ElapsedMs: 120,
+                StageMs: new Dictionary<AmpersandOfTruth.Web.Features.Investigations.Pipeline.InvestigationStage, double>(),
+                FirstIncidentMs: 60));
+
+        var recentRuns = new RecentRuns();
+        var mapper = new IncidentMapper(
+            new AmpersandOfTruth.Tests.Features.Investigations.View.FakeIncidentCorpus { Unavailable = true },
+            new AmpersandOfTruth.Tests.Features.Investigations.FakeRevisionStore { Unavailable = true });
+        var incidentSource = new RecentRunIncidentSource(recentRuns, mapper, runCache);
+
+        Services.AddSingleton(recentRuns);
+        Services.AddSingleton(runCache);
+        Services.AddSingleton<IIncidentSource>(incidentSource);
+        Services.AddSingleton<IOptions<InvestigationSourceOptions>>(
+            Options.Create(new InvestigationSourceOptions { Source = IncidentSourceKind.Pipeline }));
+
+        _fake.Accounts["Pohjantähti77"] = SampleFacts("Pohjantähti77");
+
+        // 1. Empty RecentRuns + cached run -> Account page lists the cached incident.
+        var cut = Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
+
+        cut.WaitForAssertion(() =>
+        {
+            var section = cut.Find("[data-testid=account-incidents]");
+            Assert.Empty(section.QuerySelectorAll("[data-testid=sample-data-banner]"));
+            var card = Assert.Single(section.QuerySelectorAll("[data-testid=incident-card]"));
+            Assert.Equal("/investigate/winter-war/incidents/ww-cached-01", card.GetAttribute("href"));
+        });
+
+        // 2. Also add an in-memory-only topic to RecentRuns -> union shows both without duplicating winter-war.
+        var inMemoryRecord = cachedRecord with
+        {
+            Id = "lw-mem-01",
+            PageId = 500,
+            InsertingRevIds = [601],
+            RemovingRevIds = [602],
+        };
+        recentRuns.Record("lapland-war", [inMemoryRecord]);
+
+        var unionCut = Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
+        unionCut.WaitForAssertion(() =>
+        {
+            var hrefs = unionCut.FindAll("[data-testid=account-incidents] [data-testid=incident-card]")
+                .Select(static c => c.GetAttribute("href") ?? "")
+                .ToArray();
+            Assert.Equal(
+                [
+                    "/investigate/lapland-war/incidents/lw-mem-01",
+                    "/investigate/winter-war/incidents/ww-cached-01",
+                ],
+                hrefs);
+        });
+    }
+
+    [Fact]
     public async Task MariaDbEditorProfileSource_never_opens_connection_for_anonymous_input()
     {
         var config = new ConfigurationBuilder()

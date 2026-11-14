@@ -60,6 +60,34 @@ public sealed record ScoredSnapshot(string CandidateKey, string? IncidentId, str
 public sealed class InvestigationRunCache(
     IDbContextFactory<AppDbContext> dbFactory, PipelineFingerprint fingerprint, TimeProvider clock, ILogger<InvestigationRunCache> log)
 {
+    public const int MaxTopics = 50;
+
+    public async Task<IReadOnlyList<string>> TopicsAsync(int limit = MaxTopics, CancellationToken ct = default)
+    {
+        if (limit <= 0)
+        {
+            return [];
+        }
+
+        var cap = Math.Min(limit, MaxTopics);
+        try
+        {
+            await using var db = await dbFactory.CreateDbContextAsync(ct);
+            return await db.Set<InvestigationRunRow>().AsNoTracking()
+                .Where(r => r.Fingerprint == fingerprint.Value)
+                .OrderByDescending(r => r.CreatedAt)
+                .ThenBy(r => r.Topic)
+                .Take(cap)
+                .Select(r => r.Topic)
+                .ToListAsync(ct);
+        }
+        catch (Exception ex) when (ex is DbUpdateException or InvalidOperationException or Microsoft.Data.Sqlite.SqliteException)
+        {
+            log.LogWarning(ex, "Could not list cached investigation topics");
+            return [];
+        }
+    }
+
     public async Task<RunSnapshot?> TryGetAsync(string topic, CancellationToken ct = default)
     {
         var key = CachedQueryEmbedder.Normalize(topic);

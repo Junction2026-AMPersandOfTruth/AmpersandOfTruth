@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using AmpersandOfTruth.Web.Features.Investigations.Cache;
 using AmpersandOfTruth.Web.Features.Investigations.Fixtures;
 
 namespace AmpersandOfTruth.Web.Features.Investigations.View;
@@ -140,12 +141,48 @@ public sealed class RecentRuns
     }
 }
 
-/// <summary>Pipeline-mode <see cref="IIncidentSource"/> backed by <see cref="RecentRuns"/>.</summary>
-public sealed class RecentRunIncidentSource(RecentRuns runs, IncidentMapper mapper) : IIncidentSource
+/// <summary>Pipeline-mode <see cref="IIncidentSource"/> backed by <see cref="RecentRuns"/> and <see cref="InvestigationRunCache"/>.</summary>
+public sealed class RecentRunIncidentSource(
+    RecentRuns runs,
+    IncidentMapper mapper,
+    InvestigationRunCache? cache = null) : IIncidentSource
 {
     public async Task<IReadOnlyList<IncidentView>?> ForTopicAsync(string topicSlug, CancellationToken ct = default)
     {
+        if (string.IsNullOrWhiteSpace(topicSlug))
+        {
+            return null;
+        }
+
         var incidents = runs.TryGet(topicSlug);
+        if (incidents is null && cache is not null)
+        {
+            var query = TopicSlug.ToQuery(topicSlug);
+            if (query.Length > 0)
+            {
+                RunSnapshot? snapshot;
+                try
+                {
+                    snapshot = await cache.TryGetAsync(query, ct);
+                }
+                catch (OperationCanceledException) when (ct.IsCancellationRequested)
+                {
+                    throw;
+                }
+                catch
+                {
+                    snapshot = null;
+                }
+
+                if (snapshot is not null)
+                {
+                    runs.Record(topicSlug, snapshot.Incidents);
+                    incidents = runs.TryGet(topicSlug)
+                        ?? snapshot.Incidents.OrderByDescending(i => i.Score).ToArray();
+                }
+            }
+        }
+
         if (incidents is null)
         {
             return null;

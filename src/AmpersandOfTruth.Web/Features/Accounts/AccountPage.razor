@@ -3,6 +3,7 @@
 @using System.Globalization
 @using AmpersandOfTruth.Web.Features.Evidence
 @using AmpersandOfTruth.Web.Features.Investigations
+@using AmpersandOfTruth.Web.Features.Investigations.Cache
 @using AmpersandOfTruth.Web.Features.Investigations.Fixtures
 @using AmpersandOfTruth.Web.Features.Investigations.View
 @using Microsoft.Extensions.Options
@@ -344,29 +345,31 @@
         var sourceOptions = Services.GetService<IOptions<InvestigationSourceOptions>>()?.Value;
         var samples = Services.GetService<SampleIncidents>();
         var recentRuns = Services.GetService<RecentRuns>();
+        var runCache = Services.GetService<InvestigationRunCache>();
 
-        IReadOnlyList<string> topicSlugs;
+        IReadOnlyList<(string Lookup, string Slug)> topics;
         if (sourceOptions?.Source == IncidentSourceKind.Pipeline
-            || (sourceOptions is null && samples is null && recentRuns is not null))
+            || (sourceOptions is null && samples is null && (recentRuns is not null || runCache is not null)))
         {
-            topicSlugs = recentRuns?.Topics ?? [];
+            topics = await PipelineTopicsAsync(recentRuns, runCache);
         }
         else
         {
             var resolvedSamples = samples ?? new SampleIncidents(Microsoft.Extensions.Logging.Abstractions.NullLogger<SampleIncidents>.Instance);
-            topicSlugs = resolvedSamples.Topics.Select(static t => t.Slug).ToList();
+            topics = resolvedSamples.Topics.Select(static t => (t.Slug, t.Slug)).ToList();
         }
 
-        if (topicSlugs.Count == 0)
+        if (topics.Count == 0)
         {
             _incidents = [];
             return;
         }
 
-        var tasks = new Task<(string Slug, IReadOnlyList<IncidentView>? Views)>[topicSlugs.Count];
-        for (var i = 0; i < topicSlugs.Count; i++)
+        using var gate = new SemaphoreSlim(8, 8);
+        var tasks = new Task<(string Slug, IReadOnlyList<IncidentView>? Views)>[topics.Count];
+        for (var i = 0; i < topics.Count; i++)
         {
-            tasks[i] = FetchTopicIncidentsAsync(incidentSource, topicSlugs[i]);
+            tasks[i] = FetchTopicIncidentsAsync(incidentSource, topics[i].Lookup, topics[i].Slug, gate);
         }
 
         var topicResults = await Task.WhenAll(tasks);
@@ -404,18 +407,74 @@
         _incidents = matches;
     }
 
+    private static async Task<IReadOnlyList<(string Lookup, string Slug)>> PipelineTopicsAsync(
+        RecentRuns? recentRuns,
+        InvestigationRunCache? runCache)
+    {
+        var seenSlugs = new HashSet<string>(StringComparer.Ordinal);
+        var topics = new List<(string Lookup, string Slug)>();
+
+        if (recentRuns is not null)
+        {
+            foreach (var slug in recentRuns.Topics)
+            {
+                var normalized = TopicSlug.From(slug);
+                if (normalized.Length > 0 && seenSlugs.Add(normalized))
+                {
+                    topics.Add((normalized, normalized));
+                }
+            }
+        }
+
+        if (runCache is not null)
+        {
+            IReadOnlyList<string> cached;
+            try
+            {
+                cached = await runCache.TopicsAsync();
+            }
+            catch
+            {
+                cached = [];
+            }
+
+            foreach (var topic in cached)
+            {
+                var slug = TopicSlug.From(topic);
+                if (slug.Length > 0 && seenSlugs.Add(slug))
+                {
+                    topics.Add((topic, slug));
+                }
+            }
+        }
+
+        return topics;
+    }
+
     private static async Task<(string Slug, IReadOnlyList<IncidentView>? Views)> FetchTopicIncidentsAsync(
         IIncidentSource source,
-        string slug)
+        string lookup,
+        string slug,
+        SemaphoreSlim gate)
     {
+        await gate.WaitAsync();
         try
         {
             var views = await source.ForTopicAsync(slug);
+            if (views is null && !string.Equals(lookup, slug, StringComparison.Ordinal))
+            {
+                views = await source.ForTopicAsync(lookup);
+            }
+
             return (slug, views);
         }
         catch
         {
             return (slug, null);
+        }
+        finally
+        {
+            gate.Release();
         }
     }
 
