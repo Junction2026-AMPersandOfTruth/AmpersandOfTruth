@@ -1,0 +1,13 @@
+using Junction.Web.Features.Analysis;
+using Microsoft.Extensions.Options;
+
+namespace Junction.Tests.Features.Analysis.Store;
+
+internal sealed class TestOptionsMonitor<T>(T currentValue) : IOptionsMonitor<T>
+{
+    public T CurrentValue { get; set; } = currentValue;
+
+    public T Get(string? name) => CurrentValue;
+
+    public IDisposable? OnChange(Action<T, string?> listener) => null;
+}
