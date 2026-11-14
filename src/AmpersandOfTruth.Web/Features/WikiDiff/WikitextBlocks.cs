@@ -6,7 +6,8 @@ internal sealed record WikiBlock(int Index, int Start, int End, bool IsHeading, 
 /// <summary>
 /// Splits wikitext into blocks: a paragraph (consecutive text lines), a heading, a list item, or a structural block
 /// (a template, table, comment, file, category or interwiki line). A construct that spans lines (an infobox, a table,
-/// a multi-line <c>&lt;ref&gt;</c>) stays inside one block, even across blank lines.
+/// a multi-line <c>&lt;ref&gt;</c>) stays inside one block, even across blank lines. A <c>&lt;ref&gt;</c> that is never
+/// closed (<see cref="RefTags"/>) is not such a construct: the blocks after it are split as usual.
 /// </summary>
 internal static class WikitextBlocks
 {
@@ -47,7 +48,7 @@ internal static class WikitextBlocks
                 }
                 else
                 {
-                    depth.Feed(line);
+                    depth.Feed(s, pos, le);
                     end = le;
                     lines++;
                     if (single && !depth.Open) Close();
@@ -68,7 +69,7 @@ internal static class WikitextBlocks
                     single = kind != LineKind.Text;
                     heading = kind == LineKind.Heading;
                 }
-                depth.Feed(line);
+                depth.Feed(s, pos, le);
                 end = le;
                 lines++;
                 if (single && !depth.Open) Close();
@@ -101,12 +102,20 @@ internal static class WikitextBlocks
     private struct Depth
     {
         private int _templates, _tables;
-        private bool _comment, _ref;
+        private bool _comment;
 
-        public readonly bool Open => _templates > 0 || _tables > 0 || _comment || _ref;
+        // A reference is open up to the end of its closing tag (an absolute offset), and only if it has one: an
+        // unclosed <ref> (RefTags) opens nothing, so the paragraphs and headings after it stay blocks of their own.
+        private int _refEnd, _lineEnd;
+        private bool _noTagEnd;
 
-        public void Feed(ReadOnlySpan<char> line)
+        public readonly bool Open => _templates > 0 || _tables > 0 || _comment || _refEnd > _lineEnd;
+
+        /// <param name="s">The whole revision; the line is [<paramref name="start"/>, <paramref name="end"/>).</param>
+        public void Feed(string s, int start, int end)
         {
+            _lineEnd = end;
+            var line = s.AsSpan(start, end - start);
             var t = line.TrimStart();
             if (!_comment && t.StartsWith("{|")) _tables++;
             else if (!_comment && t.StartsWith("|}") && _tables > 0) _tables--;
@@ -141,27 +150,34 @@ internal static class WikitextBlocks
                     if (_templates > 0) _templates--;
                     k += 2;
                 }
-                else if (rest.StartsWith("<ref", StringComparison.OrdinalIgnoreCase) && rest.Length > 4 && (rest[4] is '>' or '/' || char.IsWhiteSpace(rest[4])))
+                else if (RefTags.OpensAt(s, start + k, s.Length))
                 {
-                    int gt = rest.IndexOf('>');
-                    if (gt < 0)
-                    {
-                        _ref = true;   // the opening tag itself continues on the next line
-                        return;
-                    }
-                    if (rest[gt - 1] != '/') _ref = true;
-                    k += gt + 1;
-                }
-                else if (rest.StartsWith("</ref", StringComparison.OrdinalIgnoreCase))
-                {
-                    _ref = false;
-                    k += 5;
+                    OpenRef(s, start + k);
+                    k += 4;
                 }
                 else
                 {
                     k++;
                 }
             }
+        }
+
+        private void OpenRef(string s, int at)
+        {
+            if (at < _refEnd || _noTagEnd) return;   // a <ref name=… /> reuse inside a reference that is already open
+            int gt = s.IndexOf('>', at + 4);
+            if (gt < 0)
+            {
+                _noTagEnd = true;   // no '>' left in the text: no later tag can end either, so stop looking
+                return;
+            }
+            if (s[gt - 1] == '/')
+            {
+                _refEnd = gt + 1;   // self-closing; open only if the tag itself runs over a line break
+                return;
+            }
+            int close = RefTags.CloseOf(s, gt + 1, s.Length, out _);
+            if (close > 0) _refEnd = close;
         }
     }
 }

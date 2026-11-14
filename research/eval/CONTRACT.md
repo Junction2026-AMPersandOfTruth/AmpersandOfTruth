@@ -339,7 +339,7 @@ scripts/wikidiff.sh prose < page.txt                     # prose view + citation
   after a block has spent its look-ahead budget (2 M characters plus 16 per character of the block), which only
   thousands of unclosed `{{`, `<ref>` or `[http://…` reach. Such an edit still gets a result, quickly.
 - **Blocks.** Each revision is split into blocks: a paragraph, a heading, a list item, or a template, table, comment,
-  file, category or interwiki line. A multi-line infobox, table or `<ref>` stays in one block. `old_paragraph` and
+  file, category or interwiki line. A multi-line infobox, table or (closed) `<ref>` stays in one block. `old_paragraph` and
   `new_paragraph` are 0-based block indices. An edit inside a block that partly survives has both. Text in a block
   that is new everywhere has `old_paragraph: null`; text in a block that is gone has `new_paragraph: null`.
 - `op` is `added` or `removed`. Unchanged text is left out. Inside a changed block only the changed words are
@@ -352,7 +352,11 @@ scripts/wikidiff.sh prose < page.txt                     # prose view + citation
   categories and interwiki links.
 - `kind` is one of:
   - `prose`: running text, headings, list items, table cells.
-  - `reference`: one per `<ref>…</ref>` or `<ref name=… />`.
+  - `reference`: one per `<ref>…</ref>` or `<ref name=… />`. A `<ref>` is closed by the first `</ref>` after it, unless
+    another `<ref …>` opens or a section heading starts before that. Such an unclosed `<ref>` is not a reference: its
+    opening tag is `markup` and the text after it stays what it was (prose, headings, templates, later references).
+    So an edit that breaks a `</ref>` reports one removed reference plus its own words, never the paragraphs up to the
+    next reference's closing tag. (Until 2026-11-14 it reported those as one added reference and as removed prose.)
   - `template`: template tokens, including infobox values.
   - `category`, `interwiki`, `file`.
   - `markup`: formatting, link targets, punctuation only.

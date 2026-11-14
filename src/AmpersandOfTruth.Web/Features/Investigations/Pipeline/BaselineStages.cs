@@ -102,7 +102,7 @@ public sealed class RevertCandidateSource(IInvestigationCorpus corpus, IRevision
 public sealed class CorpusEditReader(IRevisionStore revisions, IOptions<InvestigationPipelineOptions> options) : IEditReader
 {
     /// <summary>Bump when what a reading contains changes (span rule, passages, context); invalidates the reading cache.</summary>
-    public const int Version = 2;
+    public const int Version = 3;   // 3: wikidiff no longer lets an unclosed <ref> swallow the text after it
 
     /// <summary>Re-insertions read per removed edit.</summary>
     internal const int MaxReinsertions = 50;
