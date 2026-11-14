@@ -268,27 +268,58 @@ comparable only when `split` and `golden_version` are equal.
 | Judge and reviewer prompts and the calibration threshold. Only their output shapes are fixed, in §5. | #22 (local Claude) |
 | The C# `Incident` record and pipeline events. They follow `incident.schema.json` and land with #39, in the `Features/Investigations` slice that P0.8 put on `main`. | cloud |
 
-## 9. Draft: diff CLI `wikidiff` (#29)
+## 9. Diff CLI `wikidiff` (#29)
 
-Not built yet. This is the intended shape, so S3 and S8 code can be sketched against it. Names may change until #29
-merges; this section is then replaced by the real contract.
+The C# engine (`Features/WikiDiff`, `WikitextDiff.Compare`) behind a CLI, so every experiment uses the same diff.
+Fixtures, a parity checker and speed numbers: `research/29-wikidiff/`.
 
 ```bash
-wikidiff batch < pairs.jsonl > diffs.jsonl    # one request per line, one result per line, same order
+scripts/wikidiff.sh batch < pairs.jsonl > diffs.jsonl   # one request per line, one result per line, same order
+scripts/wikidiff.sh one --new b.txt [--old a.txt]        # one pair, pretty-printed
+scripts/wikidiff.sh prose < page.txt                     # prose view + citation texts of one revision
 ```
 ```json
 {"id": "1256:130", "old": "<parent wikitext, or null for a first revision>", "new": "<revision wikitext>"}
 ```
 ```json
 {"id": "1256:130", "contract": 1,
- "segments": [ { "op": "added", "kind": "prose", "text": "<raw wikitext>", "prose": "<normalised text>",
-                 "old_paragraph": null, "new_paragraph": 14, "moved": false } ],
- "added_prose": "…", "removed_prose": "…",
- "stats": { "added_prose_chars": 212, "removed_prose_chars": 0, "added_refs": 1, "removed_refs": 0,
+ "segments": [ { "op": "added", "kind": "prose", "text": "Sotaan osallistui myös ruotsalaisia vapaaehtoisia.",
+                 "prose": "Sotaan osallistui myös ruotsalaisia vapaaehtoisia.",
+                 "old_paragraph": 6, "new_paragraph": 6, "moved": false } ],
+ "added_prose": "Sotaan osallistui myös ruotsalaisia vapaaehtoisia.", "removed_prose": "",
+ "stats": { "added_prose_chars": 50, "removed_prose_chars": 0, "added_refs": 0, "removed_refs": 0,
             "is_blanking": false, "is_substantive": true } }
 ```
 
-- `op` is `added` or `removed`. Unchanged text is left out. A moved paragraph is reported once, with `moved: true`.
-- `kind` is `prose`, `reference`, `template`, `category`, `interwiki`, `file` or `markup`.
-- `is_substantive: false` is the `not-substantive` exclusion of the evidence standard: only markup, whitespace,
-  categories, interwiki links or templates changed. `is_blanking: true` is the `blanking` exclusion.
+- `id` is echoed as given. A line that cannot be diffed (not JSON, `new` missing or null for a suppressed revision)
+  answers `{"id", "contract", "error"}` and the batch goes on. Blank lines are skipped.
+- **Blocks.** Each revision is split into blocks: a paragraph, a heading, a list item, or a template, table, comment,
+  file, category or interwiki line. A multi-line infobox, table or `<ref>` stays in one block. `old_paragraph` and
+  `new_paragraph` are 0-based block indices. An edit inside a block that partly survives has both. Text in a block
+  that is new everywhere has `old_paragraph: null`; text in a block that is gone has `new_paragraph: null`.
+- `op` is `added` or `removed`. Unchanged text is left out. Inside a changed block only the changed words are
+  reported. When the old and new blocks share less than 30% of their words, whole blocks are reported instead.
+- A block moved unchanged is reported once, with `op: "added"`, `moved: true` and both indices. It adds and removes
+  nothing, and the stats ignore it.
+- `text` is the raw wikitext, an exact substring of that revision. `prose` is its visible text: words, link labels
+  (`[[a|b]]` → `b`), a reference's citation text (template values joined with `; `), and an infobox's values (an
+  infobox is a template that spans lines). `prose` is empty for markup, inline templates (`{{Lähde}}`), files,
+  categories and interwiki links.
+- `kind` is one of:
+  - `prose`: running text, headings, list items, table cells.
+  - `reference`: one per `<ref>…</ref>` or `<ref name=… />`.
+  - `template`: template tokens, including infobox values.
+  - `category`, `interwiki`, `file`.
+  - `markup`: formatting, link targets, punctuation only.
+- `added_prose` and `removed_prose` hold the `prose` of the `prose` and `template` segments that are not moves.
+  Fragments of one block are joined with ` … `, blocks with a newline. Citations are not included; `added_refs` and
+  `removed_refs` count them. `*_prose_chars` is the summed length of those `prose` values.
+- `is_substantive: false` is the `not-substantive` exclusion of the evidence standard. It means no reference was added
+  or removed, and no letter or digit of prose or of an infobox value changed. So only markup, whitespace, inline
+  templates, files, categories or interwiki links changed. An edit that changes only whitespace has no segments.
+- `is_blanking: true` is the `blanking` exclusion. Either the edit left the page empty, or it added back less than
+  10% of what it removed while removing at least 90% of the page's running text, or of one section's (heading to
+  heading, or the lead, with at least 100 letters and digits). Templates, infoboxes and references are not counted.
+- **Speed:** about 0.1 ms for a 4 KB revision, 3 ms for a small edit to a 200 KB article, and up to about 70 ms for
+  blanking or rewriting one. Send many pairs per call: the wrapper rebuilds first (2–3 s), and the bare DLL takes
+  0.16 s to start.
