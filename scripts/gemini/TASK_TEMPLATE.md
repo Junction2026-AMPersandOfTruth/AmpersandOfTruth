@@ -5,8 +5,8 @@
 
 ## Scope
 Create / modify only:
-- `src/Junction.Web/Features/<Name>/...`
-- `tests/Junction.Tests/Features/<Name>/...`
+- `src/AmpersandOfTruth.Web/Features/<Name>/...`
+- `tests/AmpersandOfTruth.Tests/Features/<Name>/...`
 - <one-line registrations: Program.cs `AddXFeature()`, NavMenu link, AppSmokeTests route — list explicitly if allowed>
 
 Do NOT touch: <other features, shared components, etc.>

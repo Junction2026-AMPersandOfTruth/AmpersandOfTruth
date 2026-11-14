@@ -11,7 +11,7 @@ These rules override anything in CLAUDE.md below that conflicts with them:
 - Stay inside the spec's scope. Don't refactor, rename, reformat or "improve" code the task doesn't need.
 - Don't edit `CLAUDE.md`, `GEMINI.md`, `.claude/`, `.gemini/`, `scripts/`, or existing files under `Data/Migrations/`.
   Adding a *new* migration via `dotnet ef migrations add` is fine when the spec changes entities.
-- Copy existing patterns (`src/Junction.Web/Features/Notes/` is the reference slice) instead of inventing new ones.
+- Copy existing patterns (`src/AmpersandOfTruth.Web/Features/Notes/` is the reference slice) instead of inventing new ones.
   No new NuGet packages unless the spec explicitly allows it.
 - Done means `scripts/verify.sh` passes **and** the spec's acceptance criteria are met with tests.
   If you get stuck, stop and explain precisely — a clear "blocked because X" beats a hacked-green build.

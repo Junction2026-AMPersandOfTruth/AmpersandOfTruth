@@ -30,5 +30,5 @@ python3 research/p0.5-gemini/compare.py --sample research/p0.5-gemini/sample20.j
   --out research/p0.5-gemini/REPORT.md --review-csv research/p0.5-gemini/human-review.csv
 ```
 
-Prompt variants without a rebuild: copy `src/Junction.Web/Features/Analysis/Prompts/classify-edit.*` to a folder, edit, and run with
+Prompt variants without a rebuild: copy `src/AmpersandOfTruth.Web/Features/Analysis/Prompts/classify-edit.*` to a folder, edit, and run with
 `Gemini__PromptDirectory=<folder>` (the content hash changes, so the cache won't serve old answers).

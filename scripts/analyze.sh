@@ -8,10 +8,10 @@
 #   scripts/analyze.sh usage [--since 2026-11-14] [--scope my-experiment]
 #   scripts/analyze.sh cache-clear [--prompt classify-edit]
 #
-# JSON → stdout, logs → stderr. Cache/ledger = src/Junction.Web/app.db (shared with the app; --db <path> to isolate).
+# JSON → stdout, logs → stderr. Cache/ledger = src/AmpersandOfTruth.Web/app.db (shared with the app; --db <path> to isolate).
 # Batch output is appended and resumable: re-running skips (id, model) pairs already done. Pass --model explicitly when resuming.
 # Key: user-secrets Gemini:ApiKey, or env Gemini__ApiKey. Prompt variants without a rebuild: env Gemini__PromptDirectory=<dir>.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-dotnet build "$ROOT/tools/Junction.Analyze" -c Release -v quiet --nologo -clp:ErrorsOnly >&2
-exec dotnet "$ROOT/tools/Junction.Analyze/bin/Release/net10.0/Junction.Analyze.dll" "$@"
+dotnet build "$ROOT/tools/AmpersandOfTruth.Analyze" -c Release -v quiet --nologo -clp:ErrorsOnly >&2
+exec dotnet "$ROOT/tools/AmpersandOfTruth.Analyze/bin/Release/net10.0/AmpersandOfTruth.Analyze.dll" "$@"

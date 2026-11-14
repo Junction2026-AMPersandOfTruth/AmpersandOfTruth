@@ -1,8 +1,8 @@
-# SomeMysteriousAppForJunction
+# AmpersandOfTruth
 
 48-hour Junction hackathon project. **Speed > polish, but `main` must always demo.**
 Blazor Web App on .NET 10, **Interactive Server** render mode everywhere (no WASM, no separate API).
-Persistence: **EF Core 10 + SQLite** (`src/Junction.Web/app.db`, git-ignored, migrated automatically on startup) for app state.
+Persistence: **EF Core 10 + SQLite** (`src/AmpersandOfTruth.Web/app.db`, git-ignored, migrated automatically on startup) for app state.
 Wikipedia corpus: **MariaDB 12.3 on the team VPS**, raw SQL via `MySqlConnector` (see *Corpus* below).
 
 ## Commands
@@ -13,9 +13,9 @@ Wikipedia corpus: **MariaDB 12.3 on the team VPS**, raw SQL via `MySqlConnector`
 | Boot real app + curl routes | `scripts/smoke.sh [/route ...]` |
 | Hot-reload dev server → http://localhost:5172 | `scripts/dev.sh` (run in background; it never exits) |
 | Single test class | `dotnet test --filter "FullyQualifiedName~NotesPageTests"` |
-| Add NuGet package | `dotnet add src/Junction.Web package <Name> --version 10.*` (latest is 11.x = .NET 11, won't install) |
-| Add EF migration | `dotnet ef migrations add <Name> --project src/Junction.Web --output-dir Data/Migrations` |
-| Reset local DB | `rm src/Junction.Web/app.db` (recreated on next start) |
+| Add NuGet package | `dotnet add src/AmpersandOfTruth.Web package <Name> --version 10.*` (latest is 11.x = .NET 11, won't install) |
+| Add EF migration | `dotnet ef migrations add <Name> --project src/AmpersandOfTruth.Web --output-dir Data/Migrations` |
+| Reset local DB | `rm src/AmpersandOfTruth.Web/app.db` (recreated on next start) |
 | Corpus tunnel (localhost:3307 → VPS MariaDB) | `scripts/corpus-tunnel.sh` (background, idempotent) · `--status` · `--stop` |
 | Corpus integration tests (opt-in) | `scripts/corpus-tunnel.sh && CORPUS_TESTS=1 dotnet test --filter Category=Corpus` |
 | Deploy/update corpus DB on VPS (needs root key) | `scripts/corpus-deploy.sh` — details in `deploy/corpus/README.md` |
@@ -25,7 +25,7 @@ Wikipedia corpus: **MariaDB 12.3 on the team VPS**, raw SQL via `MySqlConnector`
 ## Layout
 
 ```
-src/Junction.Web/
+src/AmpersandOfTruth.Web/
   Program.cs                  # one `builder.Services.AddXFeature()` line per feature — nothing else feature-specific
   _Imports.razor              # global usings for ALL .razor files (lives at root on purpose)
   Data/
@@ -42,11 +42,11 @@ src/Junction.Web/
     <Feature>Feature.cs       # AddXFeature(IServiceCollection) extension — DI registrations
     <Entity>Configuration.cs  # IEntityTypeConfiguration<T> — table, keys, indexes
     *.cs                      # models (records), services/stores
-tests/Junction.Tests/
+tests/AmpersandOfTruth.Tests/
   Infrastructure/             # TestDb (in-memory SQLite + real migrations), AppFactory (app on temp DB)
   Features/<Feature>/         # mirrors src: service unit tests + bUnit component tests
   Smoke/AppSmokeTests.cs      # boots the real app via WebApplicationFactory; add new routes to the InlineData list
-tools/Junction.Analyze/       # console tool behind scripts/analyze.sh (LLM prompts from the shell / research)
+tools/AmpersandOfTruth.Analyze/ # console tool behind scripts/analyze.sh (LLM prompts from the shell / research)
 research/<issue>/             # experiment scripts, small samples, results and reports (no big data files)
 ```
 
@@ -55,14 +55,14 @@ research/<issue>/             # experiment scripts, small samples, results and r
 ## Conventions
 
 - **One feature = one folder.** Parallel agents should only collide on `Program.cs` (one line) and `NavMenu.razor` (one block). Keep it that way.
-- Namespaces follow folders (`Junction.Web.Features.Notes`). File-scoped namespaces, primary constructors, records for data.
+- Namespaces follow folders (`AmpersandOfTruth.Web.Features.Notes`). File-scoped namespaces, primary constructors, records for data.
 - Services: interface only if there are 2+ implementations or you need to fake an external API. Otherwise inject the concrete class.
 - Singleton state is shared by **every user/circuit** → must be thread-safe. Per-user state → `AddScoped` (scope = one browser tab's circuit).
 - When a service raises events consumed by components, update UI via `InvokeAsync(StateHasChanged)` and unsubscribe in `Dispose`.
 - Inject `TimeProvider` instead of `DateTime.Now` (testable).
 - UI: Bootstrap 5 classes are already loaded (`wwwroot/lib/bootstrap`). Don't add a component library unless the team decides to.
 - Put `data-testid="..."` on elements tests interact with; tests select by it, not by CSS classes.
-- Secrets (API keys): `dotnet user-secrets set "Key" "value" --project src/Junction.Web`, read via `IConfiguration`. Never commit keys; never put them in `appsettings*.json`.
+- Secrets (API keys): `dotnet user-secrets set "Key" "value" --project src/AmpersandOfTruth.Web`, read via `IConfiguration`. Never commit keys; never put them in `appsettings*.json`.
 
 ## Persistence (EF Core + SQLite)
 
@@ -79,7 +79,7 @@ research/<issue>/             # experiment scripts, small samples, results and r
 - Read-mostly shared DB `corpus` (articles, revisions, vectors) + scratch schema `research`. No EF, no migrations: raw SQL.
 - Inject `CorpusConnectionFactory` (singleton, pooled) → `await using var c = await corpus.OpenAsync(ct);` per operation.
 - Config: `ConnectionStrings:Corpus` (appsettings, defaults to the tunnel `127.0.0.1:3307`, user `corpus_ro`) +
-  password in user-secrets: `dotnet user-secrets set "Corpus:Password" "<pw>" --project src/Junction.Web` (ask a teammate; it's in `/opt/junction/corpus/.env` on the VPS).
+  password in user-secrets: `dotnet user-secrets set "Corpus:Password" "<pw>" --project src/AmpersandOfTruth.Web` (ask a teammate; it's in `/opt/junction/corpus/.env` on the VPS).
 - Users: `corpus_ro` = SELECT on `corpus`, full rights on `research` (app + experiments). `corpus_rw` = loaders/precompute only.
   **Experiments create tables in `research.*`, never in `corpus.*`.**
 - Vector params: `cmd.Parameters.AddWithValue("@q", CorpusVectors.ToBytes(embedding))` (raw little-endian float32); `VEC_FromText(@json)` also works.
@@ -98,10 +98,10 @@ research/<issue>/             # experiment scripts, small samples, results and r
   Embedded automatically. `{{name}}` = verbatim, `{{data:name}}` = untrusted text in an escaped `<data>` block — use it for anything
   from Wikipedia. Output records are PascalCase C# ↔ snake_case JSON via `AnalysisJson.Options`; keep a schema↔record sync test.
 - Model per job (`Triage, Classify, Translate, QueryExpand, Summarize, Judge`) in `appsettings.json` `Gemini:Models` — swapping tiers is config.
-  Key: `dotnet user-secrets set "Gemini:ApiKey" "<key>" --project src/Junction.Web` (or env `Gemini__ApiKey`). The app never reads `~/.gemini/.env`.
+  Key: `dotnet user-secrets set "Gemini:ApiKey" "<key>" --project src/AmpersandOfTruth.Web` (or env `Gemini__ApiKey`). The app never reads `~/.gemini/.env`.
 - Response cache (SQLite `AnalysisCache`, key = prompt id + version + content hash + model + schema + rendered input) makes reruns free;
   ledger `AnalysisCalls` + spend caps `Gemini:DailyCallCap / DailyCostCapUsd / PerScopeCallCap`. `/analysis` shows usage (playground in Development only).
-- Tests of LLM consumers: `tests/Junction.Tests/Infrastructure/FakeAnalysisModel.cs` (`.Returns("prompt-id", json)`), no HTTP.
+- Tests of LLM consumers: `tests/AmpersandOfTruth.Tests/Infrastructure/FakeAnalysisModel.cs` (`.Returns("prompt-id", json)`), no HTTP.
 - Gotchas: Gemini 4 models reject `thinking_level: minimal` (400); Gemini 4 bills ~300–600 more input tokens per call than 3.x for the same prompt;
   Argon can take 30+ s; a truncated reply is `status: incomplete` with **no** `steps`; safety blocks are HTTP 400 `error.code = safety`.
 
@@ -127,7 +127,7 @@ research/<issue>/             # experiment scripts, small samples, results and r
 
 Claude orchestrates, Gemini implements. Full workflow: `.claude/skills/gemini/SKILL.md` (`/gemini`).
 `scripts/gemini/run.sh <id>` runs Gemini headless on `.tasks/<id>/spec.md` in an isolated worktree
-(`../SomeMysteriousAppForJunction.worktrees/<id>`, branch `gemini/<id>`, macOS sandbox: writes confined to the worktree),
+(`../AmpersandOfTruth.worktrees/<id>`, branch `gemini/<id>`, macOS sandbox: writes confined to the worktree),
 then independently runs `verify.sh`. `land.sh <id> "<msg>"` rebases + re-verifies + squash-merges; `discard.sh`, `status.sh`.
 Worker-only rules are in `GEMINI.md`. API key: `~/.gemini/.env` (outside the repo) — never in the repo.
 **Known limitation:** inside the macOS seatbelt sandbox `dotnet` can't start (CoreCLR needs `sysctl` reads the profile denies), so
@@ -140,3 +140,6 @@ a feedback round for compile errors. Workers also can't run `dotnet ef`/`dotnet 
 - Pages are prerendered once on the server, then rendered again when the circuit connects → `OnInitialized` runs twice. Don't do side effects there.
 - `EditForm` needs a `FormName` (static SSR requirement even in interactive apps).
 - Disconnected circuit = lost in-memory scoped state. Fine for a demo; persist anything that matters.
+- Projects were renamed from the placeholder `Junction.Web`/`Junction.Tests` (`SomeMysteriousAppForJunction.sln`). Older branches:
+  rebase onto `main` (git follows the folder rename) and fix `namespace Junction.Web…` → `AmpersandOfTruth.Web…` in new files.
+  `UserSecretsId` is unchanged, so user-secrets still apply; a leftover `src/Junction.Web/app.db` can just be deleted.

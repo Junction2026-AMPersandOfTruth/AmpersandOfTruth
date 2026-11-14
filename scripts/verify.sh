@@ -3,9 +3,9 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 dotnet build --nologo -v quiet -clp:ErrorsOnly
-if ! dotnet ef migrations has-pending-model-changes --project src/Junction.Web --no-build >/dev/null 2>&1; then
+if ! dotnet ef migrations has-pending-model-changes --project src/AmpersandOfTruth.Web --no-build >/dev/null 2>&1; then
   echo "❌ EF model changed without a migration. Run:"
-  echo "   dotnet ef migrations add <Name> --project src/Junction.Web --output-dir Data/Migrations"
+  echo "   dotnet ef migrations add <Name> --project src/AmpersandOfTruth.Web --output-dir Data/Migrations"
   exit 1
 fi
 dotnet test --nologo --no-build -v quiet "$@"

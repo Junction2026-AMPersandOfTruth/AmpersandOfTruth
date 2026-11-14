@@ -1,4 +1,4 @@
-# SomeMysteriousAppForJunction
+# AmpersandOfTruth
 
 Junction hackathon project — Blazor (.NET 10, Interactive Server) + EF Core / SQLite.
 
