@@ -204,3 +204,16 @@ The hand-made `keywords.probe.jsonl` was written by someone who saw the probes, 
 the stems that R3's `expand-topic` generated (`research/24-r3-query/results/keywords.jsonl`, PR #95):
 `results/probe.D-r3keywords.md` gets **27/37 in the top 10 and 30/37 in the top 20**, which is better than the hand stems (25 / 28).
 So D's lead is not an artifact of hand stemming. Still only a probe check; score it on the golden set.
+
+## Golden set, dev split (`2026-11-14.1`, 43 queries): `results/r2-*.dev.scorecard.md`
+
+| Variant | recall@10 | recall@20 | nDCG@10 | Δ nDCG vs R1 |
+|---|---:|---:|---:|---:|
+| R1 baseline | 0.28 | 0.39 | 0.54 | — |
+| A: FULLTEXT only | 0.14 | 0.20 | 0.29 | −0.25 |
+| C: hybrid RRF (vector + A) | 0.23 | 0.33 | 0.46 | −0.08 |
+
+**Keyword search does not help on the golden set.** A alone is much worse. Mixing it in (C) costs about 0.05 recall@10: without
+Finnish stemming, FULLTEXT hits are mostly articles that merely mention the query words. The probe check's gain (C 23/37
+vs R1 20/37) did not carry over. D was not scored, because its stems exist only for the probes. If keyword search comes back,
+use it only behind R3's `keywords_fi` for named entities. Not recommended for R6.

@@ -119,7 +119,7 @@ check page_id=1095 (3923 chars): cosine=0.999998 [OK, 4841 ms]
 (`research.s1_revert.class`, joined on `removing_rev_id`). The filter runs after the HNSW scan (a `WHERE` inside the subquery
 would bypass the index), with a 3× over-fetch.
 
-## Probe check on the CORE table (697 passages, 17 pages): eyeball only, not a score
+## Probe check on the CORE table (697 passages, 17 pages): eyeball only, not a score (superseded below)
 
 `results/probe.core697.*.md`. **Biased upward:** the claim index only covers the 17 demo-topic core articles, so
 every hit the claim arm adds is on a probe's own topic. Treat the claim arm's value as unmeasured until the full table
@@ -138,8 +138,33 @@ is loaded and scored on the golden set (incident recall with vs without the clai
 - Leaving out graffiti barely changes article retrieval on CORE (−2 in the top 20), so the decision rests on what the passages look like
   in the incident list. Score both on the golden set.
 
-## Still to do (needs the full load from #94)
+## Full table (24,136 passages, 2,038 pages; loaded by the teammate on #94)
 
-1. After the "loaded" comment on #94: rerun the probes on the full table (expect the CORE bias to disappear).
-2. On the golden set (#20/#21): incident recall with and without the claim arm, `hybrid` vs R1 and vs R3-E/R4-D, with and without
-   `graffiti_cleanup`; list the incidents only the claim arm finds.
+Embedding: 23,439 new passages in 1,526 s, about **65 s per 1,000** on an M1 Pro with Ollama 0.40.16 (the 697 CORE vectors were reused).
+The load ran on the VPS itself in 58.5 s, against an estimated ~45 min through the tunnel.
+
+### Golden set, dev split (`2026-11-14.1`, 43 queries): `results/r5-*.dev.scorecard.md`
+
+| Variant | recall@10 | recall@20 | nDCG@10 | s / topic |
+|---|---:|---:|---:|---:|
+| R1 baseline | 0.28 | 0.39 | 0.54 | 3.2 |
+| `--mode hybrid` (R1 + claim arm, RRF) | 0.21 | 0.34 | 0.44 | 1.6 |
+| `--mode hybrid --exclude-classes graffiti_cleanup` | 0.20 | 0.33 | 0.41 | 4.4 |
+
+**As an article-retrieval arm, the claim index makes R1 worse.** Removed passages pull in articles that once
+attracted a reverted edit but are not the topic's golden articles, and RRF lets them push golden articles out of the top 10.
+Leaving out graffiti does not help. The probes (`results/probe.full.*.md`: hybrid 25/37 vs R1 20/37 in the top 10) said the
+opposite. They were built from the contested demo topics, which is exactly where a revert-derived index looks good.
+
+### What it is good for
+
+Not ranking articles. It is good for **landing on the rejected text itself**. "Who started the Winter War" returns removed
+passages on *Luovutettu Karjala* and *Talvisota* (`removing_rev_id` 1045773, which S1 also flags) at distance ≈ 0.46–0.51.
+So use it as a **signal-stage arm**, not a retrieval arm: within the retrieved articles, rank candidate incidents by how close
+their removed passage is to the topic (`removing_rev_id` → `s1_revert`). Measuring that needs the signals
+runner (incident recall and `strict_p@10` with and without a claim-distance boost). That belongs to S10/S11 (#37/#38), not here.
+
+### Decision input for R6 (#27)
+
+Do not add the claim arm to `TopicSearch`. Keep `research.r5_claim_vector` (reproducible via `extract.py` → `embed.py` →
+`load.py`) for the signal stage and for the "find the claim" UI.

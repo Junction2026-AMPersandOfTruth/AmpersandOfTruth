@@ -42,3 +42,16 @@ were loading the shared VPS**, so the absolute seconds are inflated; compare the
 Score **D (w = 0.05)** on the golden set, and **combine it with R3-E**: R3 decides *which* articles are about the topic,
 D decides *where there is something to find*. Drop A and B unless the golden set shows recall gains on topics whose sub-articles
 R1 misses entirely. Treat C as a no-op.
+
+## Golden set, dev split (`2026-11-14.1`, 43 queries): `results/r4-*.dev.scorecard.md`
+
+| Variant | recall@10 | recall@20 | nDCG@10 | s / topic |
+|---|---:|---:|---:|---:|
+| R1 baseline | 0.28 | 0.39 | 0.54 | 3.2 |
+| C: RRF fold | 0.23 | 0.36 | 0.45 | 0.6 |
+| D: contested first (w = 0.05) | 0.21 | 0.36 | 0.41 | 1.1 |
+
+**The probe result does not hold.** The circularity warned about above was real: re-ranking by revert activity
+favoured the contested demo articles in the probes, but it pushes the golden set's less-reverted central articles down.
+**Do not re-rank retrieval by contestedness.** Use `s4_page_contest` / `s1_page_stats` in the signal stage and the UI
+(hot spots) instead. C's RRF fold also loses to R1's plain best-distance fold.
