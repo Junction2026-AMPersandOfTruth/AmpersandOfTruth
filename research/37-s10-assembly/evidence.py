@@ -45,10 +45,30 @@ def _load_s7_variant():
     return mod
 
 
+def _load_s7_cluster():
+    spec = importlib.util.spec_from_file_location("s7_cluster", RESEARCH_DIR / "34-s7-repeat" / "cluster.py")
+    if spec is None or spec.loader is None:
+        raise RuntimeError("Cannot load research/34-s7-repeat/cluster.py")
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules["s7_cluster"] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
 _s7_variant = _load_s7_variant()
+_s7_cluster = _load_s7_cluster()
 parse_rev_list = _s7_variant.parse_rev_list
+s7_normalise_text = _s7_cluster.normalise_text
+s7_word_shingles = _s7_cluster.word_shingles
+s7_jaccard = _s7_cluster.jaccard
+s7_extract_sentences = _s7_cluster.extract_sentences
+s7_sentence_hash = _s7_cluster.sentence_hash
+S7_JACCARD_THRESHOLD: float = float(_s7_cluster.JACCARD_THRESHOLD)
+S7_SHINGLE_WORDS: int = int(_s7_cluster.SHINGLE_WORDS)
 
 NL = chr(10)
+
+EDIT_WAR_SOURCES: frozenset[str] = frozenset({"s4", "passage"})
 
 VALID_DISABLES: frozenset[str] = frozenset(
     {
@@ -452,6 +472,115 @@ def _compute_exposure_seconds(ordered_members: list[dict[str, Any]]) -> int:
     return max(0, int(round(total)))
 
 
+def _extract_span_side_parts(diff_row: dict[str, Any] | None, op: str) -> list[str]:
+    """Extract added (`op='added'`) or removed (`op='removed'`) text parts from an S3 span diff row."""
+    if not diff_row or diff_row.get("error"):
+        return []
+    col = "added_prose" if op == "added" else "removed_prose"
+    prose_col = (diff_row.get(col) or "").strip()
+    seg_prose_parts: list[str] = []
+    seg_ref_parts: list[str] = []
+    for seg in _iter_segments(diff_row):
+        if seg.get("moved") or seg.get("op") != op:
+            continue
+        kind = seg.get("kind")
+        if kind in ("prose", "template"):
+            val = (seg.get("prose") or "").strip()
+            if val:
+                seg_prose_parts.append(val)
+        elif kind == "reference":
+            val = (seg.get("text") or "").strip()
+            if val:
+                seg_ref_parts.append(val)
+    if prose_col:
+        return [prose_col, *seg_ref_parts]
+    return [*seg_prose_parts, *seg_ref_parts]
+
+
+def _unit_side_features(
+    diff_row: dict[str, Any] | None,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Build normalised S7 shingle + distinctive sentence-hash features for `(added, removed)` of a span."""
+    add_parts = _extract_span_side_parts(diff_row, "added")
+    rem_parts = _extract_span_side_parts(diff_row, "removed")
+    a_norm = s7_normalise_text(NL.join(add_parts))
+    r_norm = s7_normalise_text(NL.join(rem_parts))
+    a_shingles = s7_word_shingles(a_norm, S7_SHINGLE_WORDS)
+    r_shingles = s7_word_shingles(r_norm, S7_SHINGLE_WORDS)
+    a_sents = {s7_sentence_hash(s) for s in s7_extract_sentences(add_parts)}
+    r_sents = {s7_sentence_hash(s) for s in s7_extract_sentences(rem_parts)}
+    return (
+        {"norm": a_norm, "shingles": a_shingles, "sents": a_sents - r_sents},
+        {"norm": r_norm, "shingles": r_shingles, "sents": r_sents - a_sents},
+    )
+
+
+def _pair_side_alignment(
+    u_a: dict[str, Any],
+    u_r: dict[str, Any],
+    ref_x: dict[str, Any],
+    ref_y: dict[str, Any],
+) -> tuple[bool, float]:
+    """Check whether `(u_a, u_r)` aligns with `(ref_x, ref_y)` via S7 Jaccard >= 0.6 or sentence-hash overlap."""
+    j_ax = (
+        1.0
+        if (u_a["norm"] and u_a["norm"] == ref_x["norm"] and u_a["norm"] != ref_y["norm"])
+        else s7_jaccard(u_a["shingles"], ref_x["shingles"])
+    )
+    j_ry = (
+        1.0
+        if (u_r["norm"] and u_r["norm"] == ref_y["norm"] and u_r["norm"] != ref_x["norm"])
+        else s7_jaccard(u_r["shingles"], ref_y["shingles"])
+    )
+    best_j = max(j_ax, j_ry)
+    sent_hit = bool((u_a["sents"] & ref_x["sents"]) or (u_r["sents"] & ref_y["sents"]))
+    matched = (best_j >= S7_JACCARD_THRESHOLD) or sent_hit
+    strength = best_j + (0.5 if sent_hit else 0.0)
+    return matched, strength
+
+
+def orient_cluster_units(
+    ordered_members: list[dict[str, Any]],
+    span_diffs_by_rev: dict[int, dict[str, Any]],
+) -> tuple[int, ...]:
+    """Orient each chronologically ordered unit in a cluster as side `1` (earliest claim) or `2` (opposite side).
+
+    A unit whose added text matches what an earlier side-1 unit removed (or what an earlier side-2 unit added),
+    or whose removed text matches what an earlier side-1 unit added (or what an earlier side-2 unit removed) —
+    under S7 text normalisation (word 5-shingle Jaccard >= 0.6 or distinctive sentence-hash overlap) — is placed
+    on side `2` whenever its opposite-side match is stronger than any same-side match.
+    """
+    if not ordered_members:
+        return ()
+    if len(ordered_members) == 1:
+        return (1,)
+
+    feats = [
+        _unit_side_features(span_diffs_by_rev.get(int(m["reverting_rev_id"])))
+        for m in ordered_members
+    ]
+    sides: list[int] = [1]
+    for i in range(1, len(ordered_members)):
+        a_i, r_i = feats[i]
+        opp_hit, same_hit = False, False
+        opp_best, same_best = 0.0, 0.0
+        for j in range(i):
+            a_j, r_j = feats[j]
+            x_j, y_j = (a_j, r_j) if sides[j] == 1 else (r_j, a_j)
+            m_opp, s_opp = _pair_side_alignment(a_i, r_i, y_j, x_j)
+            m_same, s_same = _pair_side_alignment(a_i, r_i, x_j, y_j)
+            if m_opp:
+                opp_hit = True
+                if s_opp > opp_best:
+                    opp_best = s_opp
+            if m_same:
+                same_hit = True
+                if s_same > same_best:
+                    same_best = s_same
+        sides.append(2 if (opp_hit and (not same_hit or opp_best > same_best)) else 1)
+    return tuple(sides)
+
+
 def build_cluster_candidate(
     cluster_row: dict[str, Any],
     member_rows: list[dict[str, Any]],
@@ -465,8 +594,13 @@ def build_cluster_candidate(
     assessment_row: dict[str, Any] | None = None,
     titles_by_page: dict[int, str] | None = None,
     edit_diffs_by_rev: dict[int, dict[str, Any]] | None = None,
+    sides: bool = True,
+    edit_war_source: str = "passage",
 ) -> CandidateCluster:
     """Assemble one `CandidateCluster` and its `IncidentEvidence` from structured table rows."""
+    if edit_war_source not in EDIT_WAR_SOURCES:
+        raise ValueError(f"Unknown edit_war_source {edit_war_source!r}; valid: {sorted(EDIT_WAR_SOURCES)}")
+
     cid = int(cluster_row["cluster_id"])
     ordered = sorted(
         member_rows,
@@ -475,30 +609,42 @@ def build_cluster_candidate(
     if not ordered:
         raise ValueError(f"Cluster {cid} has no member rows.")
 
-    page_id = int(ordered[0]["page_id"])
+    unit_sides = orient_cluster_units(ordered, span_diffs_by_rev) if sides else (1,) * len(ordered)
+    side1_units = [m for m, s in zip(ordered, unit_sides) if s == 1]
+    side2_units = [m for m, s in zip(ordered, unit_sides) if s == 2]
+
+    page_id = int(side1_units[0]["page_id"])
     other_page_ids_list: list[int] = []
     seen_pages: set[int] = {page_id}
-    for m in ordered[1:]:
+    for m in side1_units[1:]:
         pid = int(m["page_id"])
         if pid not in seen_pages:
             seen_pages.add(pid)
             other_page_ids_list.append(pid)
 
     ins_set: set[int] = set()
-    for m in ordered:
+    for m in side1_units:
         ins_set.update(parse_rev_list(m["inserting_rev_ids"]))
     inserting_rev_ids = tuple(sorted(ins_set))
 
-    raw_removing = sorted({int(m["reverting_rev_id"]) for m in ordered})
-    rem_filtered = [r for r in raw_removing if r not in ins_set]
-    removing_rev_ids = tuple(rem_filtered if rem_filtered else [raw_removing[-1]])
+    # Side-1 units are removed by their reverting_rev_id; side-2 units added the counter-text (removing side 1),
+    # while side-2 reverting_rev_ids restored the side-1 claim and are NOT removals of the claim.
+    side1_rem_revs = {int(m["reverting_rev_id"]) for m in side1_units}
+    side2_rem_revs = {r for m in side2_units for r in parse_rev_list(m["inserting_rev_ids"])}
+    claim_removing = sorted(side1_rem_revs | side2_rem_revs)
+    rem_filtered = [r for r in claim_removing if r not in ins_set]
+    if rem_filtered:
+        removing_rev_ids = tuple(rem_filtered)
+    else:
+        all_non_ins = sorted(({int(m["reverting_rev_id"]) for m in ordered} | side2_rem_revs) - ins_set)
+        removing_rev_ids = tuple([all_non_ins[-1]] if all_non_ins else [int(ordered[-1]["reverting_rev_id"])])
 
     inc_key = contract.incident_key(list(inserting_rev_ids))
 
-    # Member span diffs (+ optional inserting edit diffs for exact quote matching)
+    # Side-1 member span diffs (+ optional inserting edit diffs for exact quote matching)
     span_diffs: list[dict[str, Any]] = []
     missing_s3 = 0
-    for m in ordered:
+    for m in side1_units:
         rr = int(m["reverting_rev_id"])
         sd = span_diffs_by_rev.get(rr)
         if sd is None or sd.get("error"):
@@ -506,11 +652,11 @@ def build_cluster_candidate(
         else:
             span_diffs.append(sd)
 
-    # 1. IsSubstantive & IsBlanking (any member span is_substantive=1 / all blanking)
+    # 1. IsSubstantive & IsBlanking (any side-1 member span is_substantive=1 / all blanking)
     is_substantive = any(int(d.get("is_substantive") or 0) == 1 for d in span_diffs)
     is_blanking = len(span_diffs) > 0 and all(int(d.get("is_blanking") or 0) == 1 for d in span_diffs)
 
-    # 2. Editor grouping keys -> RemovedByOtherAccount & DistinctInsertingEditors
+    # 2. Editor grouping keys -> RemovedByOtherAccount & DistinctInsertingEditors (side-1 inserters vs claim removers)
     ins_users: set[str] = set()
     for r in inserting_rev_ids:
         rm = rev_by_id.get(r)
@@ -526,49 +672,67 @@ def build_cluster_candidate(
             rem_users.add(aot.user_display(raw_u))
 
     non_remover_inserters = ins_users - rem_users
-    removed_by_other = (len(ins_users) == 0) or (len(non_remover_inserters) > 0)
+    removed_by_other = (len(ins_users) == 0) or (len(non_remover_inserters) > 0) or (len(rem_users - ins_users) > 0)
     if non_remover_inserters:
         distinct_editors = len(non_remover_inserters)
     elif ins_users:
         distinct_editors = len(ins_users)
     else:
-        distinct_editors = max(1, len({m.get("account_key") for m in ordered if m.get("account_key")}))
+        distinct_editors = max(1, len({m.get("account_key") for m in side1_units if m.get("account_key")}))
 
     # 3. InsertedByBot (`s6_editor_profile.is_bot` or S1 class `bot`)
     all_ins_bot = len(inserting_rev_ids) > 0 and all(bool(s6_bot_by_rev.get(r)) for r in inserting_rev_ids)
-    all_s1_bot = len(raw_removing) > 0 and all(s1_class_by_rev.get(r) == "bot" for r in raw_removing)
+    all_s1_bot = len(side1_rem_revs) > 0 and all(s1_class_by_rev.get(r) == "bot" for r in side1_rem_revs)
     inserted_by_bot = all_ins_bot or all_s1_bot
 
-    # 4. RemovalReason from `s5_revert_reason.removal_reasons` of removing revs
+    # 4. RemovalReason from `s5_revert_reason.removal_reasons` of claim-removing revs
     reason_tags: set[str] = set()
-    for r in raw_removing:
+    for r in claim_removing:
         raw_reasons = s5_reasons_by_rev.get(r) or ""
         for tag in raw_reasons.split(","):
             if tag.strip():
                 reason_tags.add(tag.strip())
     removal_reason = to_removal_reason(reason_tags)
 
-    # 5. ReinsertionCount (cluster insertions after the first removal) & InsertionSpan (first -> last insertion)
-    first_rem_dt = min(parse_utc(m["removed_at"]) for m in ordered)
-    reinsertion_count = sum(1 for m in ordered if parse_utc(m["inserted_at"]) >= first_rem_dt)
+    # 5. ReinsertionCount & InsertionSpan (side-1 units only)
+    first_rem_dt = min(parse_utc(m["removed_at"]) for m in side1_units)
+    reinsertion_units = [m for m in side1_units if parse_utc(m["inserted_at"]) >= first_rem_dt]
+    reinsertion_count = len(reinsertion_units)
 
     ins_dts: list[datetime] = [
         parse_utc(rev_by_id[r]["ts"]) for r in inserting_rev_ids if r in rev_by_id and rev_by_id[r].get("ts")
     ]
     if not ins_dts:
-        ins_dts = [parse_utc(m["inserted_at"]) for m in ordered]
+        ins_dts = [parse_utc(m["inserted_at"]) for m in side1_units]
     first_ins_dt = min(ins_dts)
     last_ins_dt = max(ins_dts)
     insertion_span = max(timedelta(0), last_ins_dt - first_ins_dt)
 
     last_rem_dt = max(
         [parse_utc(rev_by_id[r]["ts"]) for r in removing_rev_ids if r in rev_by_id and rev_by_id[r].get("ts")]
-        or [parse_utc(m["removed_at"]) for m in ordered]
+        or [parse_utc(m["removed_at"]) for m in side1_units]
     )
 
-    # 6. InEditWar (`s4_episode_rev` of an `edit_war` or `ping_pong` episode)
-    all_cluster_revs = set(inserting_rev_ids) | set(raw_removing)
-    in_edit_war = any(r in s4_war_revs for r in all_cluster_revs)
+    # 6. InEditWar (`passage` = >=2 claim removals & >=1 re-insertion by different editor camps; `s4` = page episode)
+    if edit_war_source == "s4":
+        all_cluster_revs = set(inserting_rev_ids) | set(claim_removing)
+        in_edit_war = any(r in s4_war_revs for r in all_cluster_revs)
+    else:
+        unmirrored_side2_removals = sum(
+            1
+            for m2 in side2_units
+            if (m2_ins := set(parse_rev_list(m2["inserting_rev_ids"]))) and not (m2_ins & side1_rem_revs)
+        )
+        removal_count = len(side1_rem_revs) + unmirrored_side2_removals
+        reinserter_users: set[str] = set()
+        for m in reinsertion_units:
+            for r in parse_rev_list(m["inserting_rev_ids"]):
+                rm = rev_by_id.get(r)
+                raw_u = (rm.get("user") if rm else None) or ""
+                if raw_u.strip():
+                    reinserter_users.add(aot.user_display(raw_u))
+        different_camps = bool(reinserter_users - rem_users) and bool(rem_users - reinserter_users)
+        in_edit_war = (removal_count >= 2) and (reinsertion_count >= 1) and different_camps
 
     # 7. DisputeTemplateAdded & diff-side SourceManipulation
     edit_diffs = (
@@ -604,7 +768,11 @@ def build_cluster_candidate(
         assessment is not None and assessment.category == ContentCategory.SOURCE_MANIPULATION
     )
 
-    distinct_articles = max(1, int(cluster_row.get("n_pages") or len(seen_pages)))
+    distinct_articles = (
+        len(seen_pages)
+        if side2_units
+        else max(1, int(cluster_row.get("n_pages") or len(seen_pages)))
+    )
 
     ev = IncidentEvidence(
         is_substantive=is_substantive,
@@ -627,9 +795,11 @@ def build_cluster_candidate(
     ordered_pages = [page_id, *other_page_ids_list]
     articles = tuple({"page_id": pid, "title_fi": titles.get(pid)} for pid in ordered_pages)
 
-    prose_chars = max(
-        int(cluster_row.get("prose_chars") or 0),
-        max((int(d.get("added_prose_chars") or 0) for d in span_diffs), default=0),
+    side1_max_prose = max((int(d.get("added_prose_chars") or 0) for d in span_diffs), default=0)
+    prose_chars = (
+        side1_max_prose
+        if (side2_units and side1_max_prose > 0)
+        else max(int(cluster_row.get("prose_chars") or 0), side1_max_prose)
     )
 
     return CandidateCluster(
@@ -643,7 +813,7 @@ def build_cluster_candidate(
         evidence=ev,
         diff_source_manipulation=diff_source_manip,
         prose_chars=prose_chars,
-        total_exposure_seconds=_compute_exposure_seconds(ordered),
+        total_exposure_seconds=_compute_exposure_seconds(side1_units),
         first_inserted_at=format_iso_z(first_ins_dt),
         last_removed_at=format_iso_z(last_rem_dt),
         inserted_raw_text=inserted_raw_text,
@@ -742,11 +912,16 @@ def load_candidates_for_pages(
     assessments_by_key: dict[str, dict[str, Any]] | None = None,
     method: str = "fuzzy",
     include_edit_diffs_for_assessed: bool = True,
+    sides: bool = True,
+    edit_war_source: str = "passage",
 ) -> tuple[list[CandidateCluster], dict[str, Any]]:
     """Load all S7 `method` clusters touching `page_ids` and compute `IncidentEvidence` for each."""
+    if edit_war_source not in EDIT_WAR_SOURCES:
+        raise ValueError(f"Unknown edit_war_source {edit_war_source!r}; valid: {sorted(EDIT_WAR_SOURCES)}")
+
     clean_pids = sorted({int(p) for p in page_ids if p is not None})
     if not clean_pids:
-        return [], {"clusters": 0, "missing_s3_diffs": 0}
+        return [], {"clusters": 0, "missing_s3_diffs": 0, "two_sided_clusters": 0}
 
     method_sql = aot.quote(method)
     pids_sql = aot.ints(clean_pids)
@@ -758,7 +933,7 @@ def load_candidates_for_pages(
         f"WHERE c.method = {method_sql} AND m.page_id IN ({pids_sql})"
     )
     if not cid_rows:
-        return [], {"clusters": 0, "missing_s3_diffs": 0}
+        return [], {"clusters": 0, "missing_s3_diffs": 0, "two_sided_clusters": 0}
 
     cids = sorted(int(r["cluster_id"]) for r in cid_rows)
 
@@ -785,20 +960,13 @@ def load_candidates_for_pages(
     all_member_pages: set[int] = set()
     all_ins_revs: set[int] = set()
     all_rem_revs: set[int] = set()
-    assessed_ins_revs: set[int] = set()
 
     for cid in cids:
         ms = members_by_cid.get(cid, [])
-        c_ins: set[int] = set()
         for m in ms:
             all_member_pages.add(int(m["page_id"]))
             all_rem_revs.add(int(m["reverting_rev_id"]))
-            c_ins.update(parse_rev_list(m["inserting_rev_ids"]))
-        all_ins_revs.update(c_ins)
-        if assessments_by_key and include_edit_diffs_for_assessed and c_ins:
-            ikey = contract.incident_key(sorted(c_ins))
-            if ikey in assessments_by_key:
-                assessed_ins_revs.update(c_ins)
+            all_ins_revs.update(parse_rev_list(m["inserting_rev_ids"]))
 
     sorted_pages = sorted(all_member_pages)
     sorted_ins = sorted(all_ins_revs)
@@ -835,17 +1003,47 @@ def load_candidates_for_pages(
             ):
                 rev_by_id[int(r["rev_id"])] = r
 
-    # S3 span diffs (`kind = 'span'`)
+    # S3 span diffs (`kind = 'span'`, including `removed_prose` for side orientation)
     span_diffs_by_rev: dict[int, dict[str, Any]] = {}
     for start in range(0, len(sorted_rem), 250):
         batch = sorted_rem[start : start + 250]
         for r in sql_query(
-            f"SELECT rev_id, page_id, added_prose, added_prose_chars, removed_refs, "
-            f"is_substantive, is_blanking, segments, error "
+            f"SELECT rev_id, page_id, added_prose, removed_prose, added_prose_chars, removed_prose_chars, "
+            f"removed_refs, is_substantive, is_blanking, segments, error "
             f"FROM research.s3_diff "
             f"WHERE kind = 'span' AND rev_id IN ({aot.ints(batch)})"
         ):
             span_diffs_by_rev[int(r["rev_id"])] = r
+
+    # Orient units per cluster so assessment lookup, edit-diff loading, and kept probes use side-1 units
+    ordered_by_cid: dict[int, list[dict[str, Any]]] = {}
+    side1_by_cid: dict[int, list[dict[str, Any]]] = {}
+    arow_by_cid: dict[int, dict[str, Any] | None] = {}
+    assessed_ins_revs: set[int] = set()
+    two_sided_count = 0
+
+    for cid in cids:
+        ms = members_by_cid.get(cid, [])
+        if not ms:
+            continue
+        ordered = sorted(ms, key=lambda m: (str(m["inserted_at"]), int(m["reverting_rev_id"])))
+        ordered_by_cid[cid] = ordered
+        u_sides = orient_cluster_units(ordered, span_diffs_by_rev) if sides else (1,) * len(ordered)
+        if 2 in u_sides:
+            two_sided_count += 1
+        s1 = [m for m, s in zip(ordered, u_sides) if s == 1]
+        side1_by_cid[cid] = s1
+
+        arow: dict[str, Any] | None = None
+        if assessments_by_key:
+            s1_ins = sorted({r for m in s1 for r in parse_rev_list(m["inserting_rev_ids"])})
+            s1_ikey = contract.incident_key(s1_ins) if s1_ins else ""
+            full_ins = sorted({r for m in ordered for r in parse_rev_list(m["inserting_rev_ids"])})
+            full_ikey = contract.incident_key(full_ins) if full_ins else ""
+            arow = assessments_by_key.get(s1_ikey) or assessments_by_key.get(full_ikey)
+            if arow is not None and include_edit_diffs_for_assessed:
+                assessed_ins_revs.update(s1_ins)
+        arow_by_cid[cid] = arow
 
     # Optional S3 edit diffs (`kind = 'edit'`) for candidates that have S9 assessments (verbatim quote parity with S9 inputs)
     edit_diffs_by_rev: dict[int, dict[str, Any]] = {}
@@ -869,18 +1067,19 @@ def load_candidates_for_pages(
         ):
             s1_class_by_rev[int(r["reverting_rev_id"])] = str(r.get("class") or "")
 
-    # S4 conflict episodes (`edit_war`, `ping_pong`, default window)
+    # S4 conflict episodes (`edit_war`, `ping_pong`, default window) — queried only when edit_war_source == 's4'
     s4_war_revs: set[int] = set()
-    for start in range(0, len(sorted_all_revs), 800):
-        batch = sorted_all_revs[start : start + 800]
-        for r in sql_query(
-            f"SELECT DISTINCT er.rev_id "
-            f"FROM research.s4_episode_rev er "
-            f"JOIN research.s4_episode e USING (episode_id) "
-            f"WHERE er.rev_id IN ({aot.ints(batch)}) "
-            f"AND e.is_default = 1 AND e.kind IN ('edit_war', 'ping_pong')"
-        ):
-            s4_war_revs.add(int(r["rev_id"]))
+    if edit_war_source == "s4":
+        for start in range(0, len(sorted_all_revs), 800):
+            batch = sorted_all_revs[start : start + 800]
+            for r in sql_query(
+                f"SELECT DISTINCT er.rev_id "
+                f"FROM research.s4_episode_rev er "
+                f"JOIN research.s4_episode e USING (episode_id) "
+                f"WHERE er.rev_id IN ({aot.ints(batch)}) "
+                f"AND e.is_default = 1 AND e.kind IN ('edit_war', 'ping_pong')"
+            ):
+                s4_war_revs.add(int(r["rev_id"]))
 
     # S5 revert reasons
     s5_reasons_by_rev: dict[int, str] = {}
@@ -908,17 +1107,16 @@ def load_candidates_for_pages(
     # Server-side KeptInLatestRevision (`LOCATE` of longest added sentence >= 25 chars in primary page's latest rev)
     kept_probes: list[tuple[int, int, int, str]] = []
     for cid in cids:
-        ms = members_by_cid.get(cid, [])
-        if not ms:
+        s1 = side1_by_cid.get(cid)
+        if not s1:
             continue
-        ordered = sorted(ms, key=lambda m: (str(m["inserted_at"]), int(m["reverting_rev_id"])))
-        primary_pid = int(ordered[0]["page_id"])
+        primary_pid = int(s1[0]["page_id"])
         latest_rid = latest_rev_by_page.get(primary_pid)
         if latest_rid is None:
             continue
         sds = [
             span_diffs_by_rev[int(m["reverting_rev_id"])]
-            for m in ordered
+            for m in s1
             if int(m["reverting_rev_id"]) in span_diffs_by_rev
             and not span_diffs_by_rev[int(m["reverting_rev_id"])].get("error")
         ]
@@ -932,12 +1130,10 @@ def load_candidates_for_pages(
     missing_s3_total = 0
     for cid in cids:
         crow = clusters_by_id.get(cid)
-        ms = members_by_cid.get(cid, [])
+        ms = ordered_by_cid.get(cid)
         if not crow or not ms:
             continue
-        ins_union = sorted({r for m in ms for r in parse_rev_list(m["inserting_rev_ids"])})
-        ikey = contract.incident_key(ins_union) if ins_union else ""
-        arow = assessments_by_key.get(ikey) if assessments_by_key else None
+        arow = arow_by_cid.get(cid)
         cand = build_cluster_candidate(
             cluster_row=crow,
             member_rows=ms,
@@ -951,6 +1147,8 @@ def load_candidates_for_pages(
             assessment_row=arow,
             titles_by_page=titles_by_page,
             edit_diffs_by_rev=edit_diffs_by_rev if arow else None,
+            sides=sides,
+            edit_war_source=edit_war_source,
         )
         missing_s3_total += cand.missing_s3_diffs
         candidates.append(cand)
@@ -958,6 +1156,7 @@ def load_candidates_for_pages(
     return candidates, {
         "clusters": len(candidates),
         "missing_s3_diffs": missing_s3_total,
+        "two_sided_clusters": two_sided_count,
         "kept_probes": len(kept_probes),
         "kept_hits": sum(1 for v in kept_by_cid.values() if v),
     }

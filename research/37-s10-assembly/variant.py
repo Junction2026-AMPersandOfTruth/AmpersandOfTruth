@@ -13,22 +13,28 @@ Validation:
 from __future__ import annotations
 
 import argparse
+import base64
 from collections import defaultdict
+import hashlib
 import json
 import math
 import pathlib
+import struct
 import sys
 import time
 from typing import Any, Callable
 
 HERE = pathlib.Path(__file__).resolve().parent
 RESEARCH_DIR = HERE.parent
+DEFAULT_EMBEDDINGS_CACHE = HERE / "results" / "embeddings.cache.json"
+
 sys.path.insert(0, str(RESEARCH_DIR / "lib"))
 sys.path.insert(0, str(RESEARCH_DIR / "eval"))
 sys.path.insert(0, str(HERE))
 
 import aot  # noqa: E402
 from evidence import (  # noqa: E402
+    EDIT_WAR_SOURCES,
     VALID_DISABLES,
     AssessmentMeta,
     CandidateCluster,
@@ -38,12 +44,80 @@ from evidence import (  # noqa: E402
 )
 from export_classify import score_variant_a  # noqa: E402
 from tiers import (  # noqa: E402
+    DEFAULT_THRESHOLDS,
     TIER_LEVELS,
     EvidenceTier,
     IncidentEvidence,
     TierAssessment,
+    TierThresholds,
     assess as assess_tier,
+    parse_threshold_overrides,
+    thresholds_to_dict,
 )
+
+
+def embed_cache_key(text: str) -> str:
+    """Privacy-safe normalised text key (24-hex SHA-1 of whitespace-collapsed text)."""
+    norm = " ".join((text or "").split())
+    return hashlib.sha1(norm.encode("utf-8")).hexdigest()[:24]
+
+
+def encode_vector_f16_b64(vec: list[float]) -> str:
+    """Pack a float vector as little-endian IEEE-754 binary16 base64."""
+    return base64.b64encode(struct.pack(f"<{len(vec)}e", *vec)).decode("ascii")
+
+
+def decode_cached_vector(raw: Any, dtype: str | None = None, dim: int = 1024) -> list[float] | None:
+    """Decode a cached vector from `list[float]` or base64 little-endian float16/float32."""
+    if raw is None:
+        return None
+    if isinstance(raw, list):
+        return [float(x) for x in raw]
+    if isinstance(raw, str):
+        buf = base64.b64decode(raw)
+        if dtype == "float32_le_b64" or (dtype is None and len(buf) == dim * 4):
+            n = len(buf) // 4
+            return list(struct.unpack(f"<{n}f", buf))
+        n = len(buf) // 2
+        return list(struct.unpack(f"<{n}e", buf))
+    return None
+
+
+def load_embedding_cache(
+    cache_path: str | pathlib.Path | None = DEFAULT_EMBEDDINGS_CACHE,
+) -> Callable[[str], list[float] | None]:
+    """Return a read-only lookup `text -> vector | None` backed solely by `cache_path` (no network calls)."""
+    if cache_path is None:
+        return lambda _text: None
+    p = pathlib.Path(cache_path)
+    if not p.exists():
+        return lambda _text: None
+
+    doc = json.loads(p.read_text(encoding="utf-8"))
+    dtype = doc.get("dtype") if isinstance(doc, dict) else None
+    dim = int(doc.get("dim") or 1024) if isinstance(doc, dict) else 1024
+    vectors: dict[str, Any] = (
+        doc["vectors"] if (isinstance(doc, dict) and isinstance(doc.get("vectors"), dict)) else doc
+    )
+    decoded_memo: dict[str, list[float] | None] = {}
+
+    def lookup(text: str) -> list[float] | None:
+        norm = " ".join((text or "").split())
+        if not norm:
+            return None
+        hkey = embed_cache_key(norm)
+        if hkey in decoded_memo:
+            return decoded_memo[hkey]
+        raw = vectors.get(hkey)
+        if raw is None:
+            raw = vectors.get(norm)
+        if raw is None:
+            raw = vectors.get(text)
+        vec = decode_cached_vector(raw, dtype=dtype, dim=dim)
+        decoded_memo[hkey] = vec
+        return vec
+
+    return lookup
 
 
 def cosine_similarity(u: list[float], v: list[float]) -> float:
@@ -135,7 +209,9 @@ def rank_and_assemble_incidents(
     cap_per_article: int = 5,
     min_tier: EvidenceTier = EvidenceTier.REVERTED,
     disabled: set[str] | frozenset[str] = frozenset(),
-    embed_fn: Callable[[str], list[float]] | None = None,
+    thresholds: TierThresholds = DEFAULT_THRESHOLDS,
+    embed_fn: Callable[[str], list[float] | None] | None = None,
+    embeddings_cache_path: str | pathlib.Path | None = DEFAULT_EMBEDDINGS_CACHE,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Pure ranking, tiering, per-article capping, and incident dictionary assembly over `candidates`."""
     if mode not in ("A", "B", "B+rel"):
@@ -151,15 +227,26 @@ def rank_and_assemble_incidents(
             "input_tokens": 0,
             "output_tokens": 0,
             "cost_usd": 0.0,
+            "rel_cache_hits": 0,
+            "rel_cache_misses": 0,
         }
 
-    embedder = embed_fn or aot.embed
     req_pages = {int(p) for p in requested_page_ids}
     min_level = TIER_LEVELS[min_tier]
 
+    embedder: Callable[[str], list[float] | None] | None = None
     q_vec: list[float] | None = None
-    if mode == "B+rel" and request_text and request_text.strip():
-        q_vec = embedder(request_text.strip())
+    rel_cache_hits = 0
+    rel_cache_misses = 0
+    if mode == "B+rel":
+        # Read ONLY the precomputed cache at request time unless a test injects `embed_fn`.
+        embedder = embed_fn if embed_fn is not None else load_embedding_cache(embeddings_cache_path)
+        if request_text and request_text.strip():
+            q_vec = embedder(request_text.strip())
+            if q_vec is None:
+                rel_cache_misses += 1
+            else:
+                rel_cache_hits += 1
 
     scored_rows: list[tuple[tuple[float, ...], float, CandidateCluster, IncidentEvidence, TierAssessment, AssessmentMeta | None]] = []
     excluded_count = 0
@@ -181,7 +268,7 @@ def rank_and_assemble_incidents(
             output_tokens += meta.output_tokens
             cost_usd += meta.cost_usd
 
-        ta = assess_tier(ev)
+        ta = assess_tier(ev, thresholds)
         if not ta.is_incident or ta.tier is None:
             excluded_count += 1
             continue
@@ -210,9 +297,14 @@ def rank_and_assemble_incidents(
             )
         else:  # B+rel
             rel_text = _claim_or_prose_for_relevance(cand, meta)
+            c_vec = embedder(rel_text) if (embedder is not None and q_vec is not None and rel_text) else None
             if q_vec is not None and rel_text:
-                c_vec = embedder(rel_text)
-                rel = max(0.0, cosine_similarity(q_vec, c_vec))
+                if c_vec is not None:
+                    rel_cache_hits += 1
+                    rel = max(0.0, cosine_similarity(q_vec, c_vec))
+                else:
+                    rel_cache_misses += 1
+                    rel = 1.0
             else:
                 rel = 1.0
             within_score = a_score * rel
@@ -257,6 +349,8 @@ def rank_and_assemble_incidents(
         "input_tokens": input_tokens,
         "output_tokens": output_tokens,
         "cost_usd": round(cost_usd, 6),
+        "rel_cache_hits": rel_cache_hits,
+        "rel_cache_misses": rel_cache_misses,
     }
     return incidents, diag
 
@@ -270,6 +364,10 @@ def run_signals_request(
     min_tier: EvidenceTier = EvidenceTier.REVERTED,
     disabled: set[str] | frozenset[str] = frozenset(),
     method: str = "fuzzy",
+    sides: bool = True,
+    edit_war_source: str = "passage",
+    thresholds: TierThresholds = DEFAULT_THRESHOLDS,
+    embeddings_cache_path: str | pathlib.Path | None = DEFAULT_EMBEDDINGS_CACHE,
 ) -> dict[str, Any]:
     t0 = time.monotonic()
     page_ids = [int(p) for p in req.get("page_ids") or ()]
@@ -293,6 +391,8 @@ def run_signals_request(
         assessments_by_key=assessments_by_key if use_assessments else None,
         method=method,
         include_edit_diffs_for_assessed=use_assessments,
+        sides=sides,
+        edit_war_source=edit_war_source,
     )
 
     incidents, rank_diag = rank_and_assemble_incidents(
@@ -304,11 +404,14 @@ def run_signals_request(
         cap_per_article=cap_per_article,
         min_tier=min_tier,
         disabled=disabled,
+        thresholds=thresholds,
+        embeddings_cache_path=embeddings_cache_path,
     )
 
     elapsed = time.monotonic() - t0
     aot.log(
-        f"s10 ({mode}): pages={len(page_ids)}, clusters={load_stats['clusters']}, "
+        f"s10 ({mode}, sides={'on' if sides else 'off'}, ew={edit_war_source}): "
+        f"pages={len(page_ids)}, clusters={load_stats['clusters']}, "
         f"excl={rank_diag['excluded']}, capped={rank_diag['capped']} -> "
         f"{len(incidents)} incident(s) in {elapsed:.2f}s"
     )
@@ -326,6 +429,9 @@ def run_signals_request(
         "debug": {
             "mode": mode,
             "method": method,
+            "sides": "on" if sides else "off",
+            "edit_war_source": edit_war_source,
+            "thresholds": thresholds_to_dict(thresholds),
             "cap_per_article": cap_per_article,
             "min_tier": min_tier.value,
             "disabled": sorted(disabled),
@@ -363,8 +469,37 @@ def main(argv: list[str] | None = None) -> int:
         choices=sorted(VALID_DISABLES),
         help="Ablate a signal (`removal_reason`, `reinsertion`, `edit_war`, `dispute_template`, `assessment`).",
     )
+    ap.add_argument(
+        "--threshold",
+        action="append",
+        default=[],
+        metavar="NAME=VALUE",
+        help="Override any `TierThresholds` field (repeatable, e.g. `--threshold min_coordination_signals=3`).",
+    )
+    ap.add_argument(
+        "--edit-war-source",
+        choices=sorted(EDIT_WAR_SOURCES),
+        default="passage",
+        help="Edit-war signal source: `passage` (cluster back-and-forth, default) or `s4` (page-level S4 episode).",
+    )
+    ap.add_argument(
+        "--sides",
+        choices=("on", "off"),
+        default="on",
+        help="Orient cluster units into side 1 vs opposite side 2 (default: `on`).",
+    )
+    ap.add_argument(
+        "--embeddings-cache",
+        default=str(DEFAULT_EMBEDDINGS_CACHE),
+        help="Read-only bge-m3 embedding cache JSON path for `--mode B+rel`.",
+    )
     ap.add_argument("--method", choices=("exact", "fuzzy"), default="fuzzy", help="S7 cluster method.")
     args = ap.parse_args(argv)
+
+    try:
+        thresholds = parse_threshold_overrides(args.threshold)
+    except ValueError as ex:
+        ap.error(str(ex))
 
     req = json.load(sys.stdin)
     if req.get("kind") != "signals":
@@ -379,6 +514,10 @@ def main(argv: list[str] | None = None) -> int:
         min_tier=EvidenceTier(args.min_tier),
         disabled=frozenset(args.disable or ()),
         method=args.method,
+        sides=(args.sides == "on"),
+        edit_war_source=args.edit_war_source,
+        thresholds=thresholds,
+        embeddings_cache_path=args.embeddings_cache,
     )
     json.dump(resp, sys.stdout, ensure_ascii=False)
     return 0
