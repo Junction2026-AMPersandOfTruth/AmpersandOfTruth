@@ -88,9 +88,36 @@ public sealed class FakeRevisionStore : IRevisionStore
     }
 }
 
+/// <summary>In-memory <c>research.s4_episode</c> + <c>s4_episode_rev</c>. <see cref="Unavailable"/> = the tables can't be read.</summary>
+public sealed class FakeConflictEpisodes : IConflictEpisodes
+{
+    private readonly List<(long PageId, ConflictEpisode Episode)> _episodes = [];
+    private int _calls;
+    public int Calls => _calls;
+    public bool Unavailable { get; set; }
+
+    /// <summary>An episode on <paramref name="pageId"/> holding <paramref name="revIds"/>; six undoing edits over two days.</summary>
+    public FakeConflictEpisodes Episode(long pageId, ConflictKind kind, params long[] revIds)
+    {
+        _episodes.Add((pageId, new ConflictEpisode(_episodes.Count + 1, kind, FakeRevisionStore.T0, FakeRevisionStore.T0.AddDays(1), 6, 14, revIds)));
+        return this;
+    }
+
+    public Task<IReadOnlyList<ConflictEpisode>> ContainingAsync(long pageId, IReadOnlyCollection<long> revIds, CancellationToken ct = default)
+    {
+        Interlocked.Increment(ref _calls);
+        if (Unavailable) throw new CorpusUnavailableException("fake: research.s4_episode doesn't exist");
+        return Task.FromResult<IReadOnlyList<ConflictEpisode>>(_episodes
+            .Where(e => e.PageId == pageId)
+            .Select(e => e.Episode with { RevIds = [.. e.Episode.RevIds.Where(revIds.Contains)] })
+            .Where(e => e.RevIds.Count > 0)
+            .ToList());
+    }
+}
+
 /// <summary>
 /// The real pipeline and stages over fakes: <see cref="FakeQueryEmbedder"/>, <see cref="FakeInvestigationCorpus"/>,
-/// <see cref="FakeRevisionStore"/> and <see cref="FakeAnalysisModel"/>. Defaults = the Winter War corpus with two
+/// <see cref="FakeRevisionStore"/>, <see cref="FakeConflictEpisodes"/> and <see cref="FakeAnalysisModel"/>. Defaults = the Winter War corpus with two
 /// removed edits on Talvisota: rev 1999 (adds a claim, by an IP) and rev 999 (a typo fix, not substantive).
 /// </summary>
 public sealed class PipelineKit
@@ -104,6 +131,7 @@ public sealed class PipelineKit
     public FakeRevisionStore Revisions { get; } = new FakeRevisionStore()
         .Edit(1256, 1998, 1999, "192.0.2.1", Before, After, "korjaus")
         .Edit(1256, 998, 999, "192.0.2.1", Before, Before + " ");
+    public FakeConflictEpisodes Conflicts { get; } = new();
     public FakeAnalysisModel Model { get; } = new FakeAnalysisModel().Returns("classify-edit", ClassificationJson());
     public InvestigationPipelineOptions Options { get; } = new();
 
@@ -121,7 +149,7 @@ public sealed class PipelineKit
         return new InvestigationPipeline(
             new VectorTopicSearch(Embedder, Corpus, o),
             new RevertCandidateSource(Corpus, Revisions, o),
-            reader ?? new CorpusEditReader(Revisions, o),
+            reader ?? new CorpusEditReader(Revisions, o, Conflicts),
             new GeminiEditClassifier(Model, o, NullLogger<GeminiEditClassifier>.Instance),
             o, TimeProvider.System, NullLogger<InvestigationPipeline>.Instance);
     }
@@ -130,7 +158,7 @@ public sealed class PipelineKit
     public CachingInvestigationRunner BuildCaching(TestDb db)
     {
         var o = Microsoft.Extensions.Options.Options.Create(Options);
-        var reader = new CachedEditReader(new CorpusEditReader(Revisions, o), o, db.Factory, TimeProvider.System,
+        var reader = new CachedEditReader(new CorpusEditReader(Revisions, o, Conflicts), o, db.Factory, TimeProvider.System,
             NullLogger<CachedEditReader>.Instance);
         var gemini = Microsoft.Extensions.Options.Options.Create(Gemini);
         var fingerprint = new PipelineFingerprint(o, gemini, new PromptLibrary(gemini, NullLogger<PromptLibrary>.Instance));
