@@ -335,6 +335,10 @@ public class SampleIncidentWarmupTests
         public ConcurrentDictionary<(long Page, long Rev), string> Texts { get; } = new();
         public ConcurrentDictionary<(long Page, long Rev), int> CallsPerText { get; } = new();
         public TimeSpan TextDelay { get; set; }
+
+        public Task<IReadOnlyList<RevisionRow>> RestoresAsync(
+            long pageId, DateTime afterTs, long afterRevId, IReadOnlyCollection<string> sha1s, int limit, CancellationToken ct = default) =>
+            Task.FromResult<IReadOnlyList<RevisionRow>>([]);
         public bool Unavailable { get; set; }
         public Exception? Fault { get; set; }
         public int TotalTextCalls => Volatile.Read(ref _totalTextCalls);
