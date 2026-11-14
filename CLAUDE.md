@@ -147,6 +147,11 @@ docs/known-limitations.md     # P1.P3 (#41): what the app cannot tell a user, wi
   `S10RankingTests`) × `TopicRelevance` (max(0, cos) of bge-m3(topic) and bge-m3(claim_en, else added prose)[:500]); the
   embedder down → relevance 1 and `Completed.Unranked` > 0, never cached. `Investigations:Pipeline:TopicRelevance=false` =
   ScoreA only. Not yet: dispute templates, kept-in-latest, multiple articles (needs S7 clusters), S10's per-article cap of 5.
+- Stage 2 (`RevertCandidateSource`) ranks **every** identity revert of the found articles by `CandidateRanking.Score` = P1.S3's
+  formula 3 (`f3_dispute_gated`) on the revert row — undone byte delta, time live, `Reappearances` (span put back), S5 reasons,
+  named vs anonymous inserter — across the whole topic, drops row-decidable S1 exclusions (bot, lone self-revert), and reads
+  the top `MaxCandidates` = 60 (S10/S11). The old newest-first round-robin filled the budget with graffiti (#120 review:
+  app dev recall 0.03 vs S10's 0.60). The row inputs come from `RevertsSql` (`undone_bytes`, `first_undone_ts`, `reappeared`).
 - Edits the evidence standard excludes without an assessment are never sent to the LLM. Limits: `Investigations:Pipeline` options.
 - Per-edit signals ported ahead of the S11 decision (#38) sit on `EditReading`, computed in stage 3a (`CorpusEditReader`), so they
   hold whatever the incident unit becomes (S10): `Conflicts` / `EditWar` = P1.S4 (`IConflictEpisodes` reads the precomputed
@@ -166,7 +171,7 @@ docs/known-limitations.md     # P1.P3 (#41): what the app cannot tell a user, wi
   candidate (LLM down/over budget) are never cached. Bump `InvestigationPipeline.Version` / `CorpusEditReader.Version` when
   their output changes. Score the pipeline: `research/eval/run pipeline --name p1-app -- scripts/investigate.sh variant`.
 - Latency (#40): `Parallelism` = 20 candidates in flight (4 left a 40-candidate topic at ~50 s cold; 40 is slower again — VPS
-  contention). Cold-run variance comes from the corpus link (tunnel + 2-vCPU VPS), not Gemini (~5 s per classify call either way);
+  contention; `MaxCandidates` is 60 since the stage-2 ranking, so re-time cold runs). Cold-run variance comes from the corpus link (tunnel + 2-vCPU VPS), not Gemini (~5 s per classify call either way);
   the corpus `Connection Timeout=15` makes a slow connect delay a read instead of degrading it. Demo topics must be warmed
   (`scripts/warm.sh`, needs `Gemini:ApiKey` — without it every candidate is degraded and nothing is cached); warm replays are instant.
 - Tests: `PipelineKit` = the real stages over fakes (`FakeInvestigationCorpus`, `FakeRevisionStore`, `FakeAnalysisModel`, `FakeQueryEmbedder`).

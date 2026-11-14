@@ -18,11 +18,11 @@ public sealed class InvestigationPipelineOptions
     /// or a fast fallback if the expansion's cold latency hurts a demo).</summary>
     public TopicSearchMethod TopicSearch { get; set; } = TopicSearchMethod.Expanded;
 
-    /// <summary>Newest identity reverts considered per fi article.</summary>
-    public int RevertsPerArticle { get; set; } = 50;
+    /// <summary>Newest identity reverts considered per fi article; stage 2 ranks them all (<see cref="CandidateRanking"/>).</summary>
+    public int RevertsPerArticle { get; set; } = 2000;
 
     /// <summary>Removed edits read and classified per topic, so a 3,000-revision article can't blow the budget.</summary>
-    public int MaxCandidates { get; set; } = 40;
+    public int MaxCandidates { get; set; } = 60;   // S10/S11: top 60 per topic (#120 review)
 
     /// <summary>Reverts that undid more revisions than this are skipped (P1.S1's <c>wide_span</c> exclusion).</summary>
     public int MaxSpanRevisions { get; set; } = 15;
@@ -90,8 +90,11 @@ public sealed class VectorTopicSearch(IQueryEmbedder embedder, IInvestigationCor
 }
 
 /// <summary>
-/// Stage 2 placeholder (P0.8 query): identity reverts on the fi articles, newest first, taken round-robin over the
-/// articles in retrieval order so the closest article doesn't use up the whole candidate cap. P1.S1/S4 replace it.
+/// Stage 2: every identity revert on the found fi articles (up to <see cref="InvestigationPipelineOptions.RevertsPerArticle"/>
+/// newest per article), minus the ones S1 excludes from the row alone, ranked by <see cref="CandidateRanking.Score"/>
+/// across the whole topic (ties: newest first); the top <see cref="InvestigationPipelineOptions.MaxCandidates"/> are read.
+/// Replaces P0.8's newest-first round-robin, which filled the budget with recent graffiti cleanups (#120 review: dev
+/// recall 0.03).
 /// </summary>
 public sealed class RevertCandidateSource(IInvestigationCorpus corpus, IRevisionStore revisions, IOptions<InvestigationPipelineOptions> options)
     : ICandidateSource
@@ -99,31 +102,19 @@ public sealed class RevertCandidateSource(IInvestigationCorpus corpus, IRevision
     public async Task<CandidateScan> ScanAsync(IReadOnlyList<TopicArticle> articles, CancellationToken ct = default)
     {
         var o = options.Value;
-        var fi = articles.Where(a => a.HasHistory).DistinctBy(a => a.PageId).ToList();
+        var fi = articles.Where(a => a.HasHistory).DistinctBy(a => a.PageId).ToDictionary(a => a.PageId);
         if (fi.Count == 0) return new CandidateScan(0, []);
 
-        var pageIds = fi.Select(a => a.PageId).ToList();
+        var pageIds = fi.Keys.ToList();
         var count = await revisions.RevisionCountAsync(pageIds, ct);
-        var reverts = (await corpus.RevertsAsync(pageIds, o.RevertsPerArticle, ct))
-            .Where(r => r.RevertedCount >= 1 && r.RevertedCount <= o.MaxSpanRevisions)
-            .ToLookup(r => r.PageId);
-
-        var queues = fi
-            .Select(a => new Queue<RemovedEdit>(reverts[a.PageId]
-                .OrderByDescending(r => r.Timestamp).ThenByDescending(r => r.RevId)
-                .Select(r => new RemovedEdit(a, r))))
-            .Where(q => q.Count > 0)
+        var picked = (await corpus.RevertsAsync(pageIds, o.RevertsPerArticle, ct))
+            .Where(r => r.RevertedCount >= 1 && r.RevertedCount <= o.MaxSpanRevisions && fi.ContainsKey(r.PageId))
+            .Where(r => !CandidateRanking.Excluded(r))
+            .Select(r => (Revert: r, Score: CandidateRanking.Score(r)))
+            .OrderByDescending(x => x.Score).ThenByDescending(x => x.Revert.Timestamp).ThenByDescending(x => x.Revert.RevId)
+            .Take(o.MaxCandidates)
+            .Select(x => new RemovedEdit(fi[x.Revert.PageId], x.Revert))
             .ToList();
-
-        var picked = new List<RemovedEdit>();
-        while (picked.Count < o.MaxCandidates && queues.Any(q => q.Count > 0))
-        {
-            foreach (var q in queues.Where(q => q.Count > 0))
-            {
-                if (picked.Count == o.MaxCandidates) break;
-                picked.Add(q.Dequeue());
-            }
-        }
         return new CandidateScan(count, picked);
     }
 }

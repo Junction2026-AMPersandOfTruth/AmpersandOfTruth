@@ -34,6 +34,17 @@ public sealed record RevertEvent(
     long RevertedRevId,
     string? RevertedUser)
 {
+    /// <summary>Bytes the undone span added (last undone revision minus the restored content); ≤ 0 = it took text out.
+    /// Stage 2's stand-in for prose length (P1.S3 formula 3) before any diff is read.</summary>
+    public int UndoneBytes { get; init; }
+
+    /// <summary>When the first undone revision was saved (the span's start). Null when unknown.</summary>
+    public DateTime? FirstUndoneAt { get; init; }
+
+    /// <summary>Later revisions with the exact content of the last undone revision: the whole span put back. Stage 2's
+    /// stand-in for re-insertions; stage 3 counts them properly (<c>EditReading.Reinsertions</c>).</summary>
+    public int Reappearances { get; init; }
+
     public Uri DiffUrl => WikipediaLinks.Diff(RevId);                  // the revert itself: diff=prev&oldid=RevId
     public Uri RevertedDiffUrl => WikipediaLinks.Diff(RevertedRevId);  // the last undone edit: diff=prev&oldid=RevertedRevId
 }

@@ -138,4 +138,21 @@ public class PipelineCorpusIntegrationTests(AppFactory app) : IClassFixture<AppF
             Assert.All(r.ReRemovals, x => Assert.True(x.Timestamp >= c.Revert.Timestamp));
         }
     }
+
+    [CorpusFact]
+    public async Task Revert_rows_carry_the_stage_2_ranking_inputs_consistent_with_their_spans()
+    {
+        var reverts = (await Corpus.RevertsAsync([Talvisota], perPage: 30)).Where(r => r.RevertedCount <= 15).ToList();
+        Assert.NotEmpty(reverts);
+
+        foreach (var r in reverts.Take(10))
+        {
+            var through = await Revisions.SpanAsync(Talvisota, r.RestoredRevId, r.RevId, 50);   // undone revisions + the revert
+            var lastUndone = through[^2];
+            Assert.Equal(through[0].Timestamp, r.FirstUndoneAt);
+            Assert.Equal(lastUndone.Bytes - through[^1].Bytes, r.UndoneBytes);   // the revert has the restored content
+            Assert.True(r.Reappearances >= 0);
+        }
+        Assert.Contains(reverts, r => r.UndoneBytes != 0);
+    }
 }
