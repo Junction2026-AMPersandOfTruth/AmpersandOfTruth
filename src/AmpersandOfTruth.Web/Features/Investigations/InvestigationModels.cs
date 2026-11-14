@@ -2,8 +2,11 @@ namespace AmpersandOfTruth.Web.Features.Investigations;
 
 using AmpersandOfTruth.Web.Features.Evidence;
 
-/// <summary>An article close to the topic in bge-m3 space. <see cref="Distance"/> = cosine distance (0 = identical).</summary>
-public sealed record TopicArticle(string Lang, long PageId, string Title, double Distance)
+/// <summary>
+/// An article close to the topic in bge-m3 space. <see cref="Distance"/> = cosine distance (0 = identical).
+/// <see cref="ViaLang"/> = the language whose vector matched, when an en/sv hit was folded onto this fi article (R1).
+/// </summary>
+public sealed record TopicArticle(string Lang, long PageId, string Title, double Distance, string? WikidataId = null, string? ViaLang = null)
 {
     public string Url => $"https://{Lang}.wikipedia.org/?curid={PageId}";
 
@@ -29,15 +32,4 @@ public sealed record RevertEvent(
 {
     public Uri DiffUrl => WikipediaLinks.Diff(RevId);                  // the revert itself: diff=prev&oldid=RevId
     public Uri RevertedDiffUrl => WikipediaLinks.Diff(RevertedRevId);  // the last undone edit: diff=prev&oldid=RevertedRevId
-}
-
-public sealed record ArticleReverts(TopicArticle Article, IReadOnlyList<RevertEvent> Reverts);
-
-public enum InvestigationStatus { Ok, EmbeddingUnavailable, CorpusUnavailable }
-
-public sealed record InvestigationResult(
-    InvestigationStatus Status, string Topic, IReadOnlyList<ArticleReverts> Articles, string? Error = null)
-{
-    public static InvestigationResult Unavailable(InvestigationStatus status, string topic, string error) =>
-        new(status, topic, [], error);
 }
