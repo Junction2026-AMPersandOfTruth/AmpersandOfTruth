@@ -323,6 +323,31 @@ public class InvestigationPipelineTests
     }
 
     [Fact]
+    public async Task A_reinsertion_chain_reverted_three_times_is_one_incident_not_three()
+    {
+        // 1999 inserted, 2000 reverts; 2002 puts it back, 2003 reverts; 2004 puts it back, 2005 reverts.
+        _kit.Revisions.Later(1256, 2000, "Rollbacker", PipelineKit.Before, FakeRevisionStore.T0.AddMinutes(2000));
+        _kit.Revisions.Later(1256, 2002, "198.51.100.7", PipelineKit.After, FakeRevisionStore.T0.AddMinutes(2002));
+        _kit.Revisions.Later(1256, 2003, "Reverter", PipelineKit.Before, FakeRevisionStore.T0.AddMinutes(2003));
+        _kit.Revisions.Later(1256, 2004, "203.0.113.9", PipelineKit.After, FakeRevisionStore.T0.AddMinutes(2004));
+        _kit.Revisions.Later(1256, 2005, "Reverter", PipelineKit.Before, FakeRevisionStore.T0.AddMinutes(2005));
+        _kit.Corpus.Reverts.AddRange([
+            FakeInvestigationCorpus.Revert(1256, 2003, revertedUser: "198.51.100.7") with { RestoredRevId = 2000, RevertedRevId = 2002 },
+            FakeInvestigationCorpus.Revert(1256, 2005, revertedUser: "203.0.113.9") with { RestoredRevId = 2003, RevertedRevId = 2004 },
+        ]);
+
+        var events = await _kit.RunAsync();
+
+        Assert.Equal(3, events.OfType<CandidateScored>().Count(c => c.Incident is not null));   // one per revert, streamed
+        var incident = Assert.Single(Assert.IsType<Completed>(events[^1]).Incidents);            // one per inserted content
+        Assert.Equal([1999L, 2002, 2004], incident.InsertingRevIds);
+        Assert.Equal([2000L, 2003, 2005], incident.RemovingRevIds);
+        Assert.Equal([1999L, 2000, 2002, 2003, 2004, 2005], incident.Edits.Select(e => e.RevId));
+        Assert.Equal(2, incident.ReinsertionCount);
+        Assert.Equal(incident.Id, incident.ClusterId);
+    }
+
+    [Fact]
     public async Task Put_back_twice_and_taken_out_again_is_a_passage_edit_war_but_two_coordination_signals_stay_contested()
     {
         _kit.Revisions.Later(1256, 2002, "198.51.100.7", PipelineKit.After, FakeRevisionStore.T0.AddDays(3));

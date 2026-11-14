@@ -146,7 +146,9 @@ docs/known-limitations.md     # P1.P3 (#41): what the app cannot tell a user, wi
   revert + `EditReading.ReRemovals`, later returns to the pre-edit sha1 that follow a re-insertion — and put back ≥ 1×, by
   different camps; the page-level S4 episode is **not** a tier input any more) and source change (S8 citations, or an S9
   `source_manipulation` assessment). `TierThresholds.MinCoordinationSignals` = 3 (S10; recorded in `docs/evidence-standard.md`).
-  One removed edit = one incident: re-insertions are exact restores, so counting is claim-side without S7 clusters.
+  One removed edit = one incident in stage 4 (re-insertions are exact restores, so counting is claim-side without S7
+  clusters); then `IncidentMerger` (S3-A) folds incidents on one page with overlapping `inserting_rev_ids` or identical
+  normalised added prose into one per inserted content (lead = highest tier, then score; its id = `cluster_id`), before ranking.
   Ranking = S10 mode B+rel: `score` = 100 × tier + `IncidentAssembler.ScoreA` (exact port of `score_variant_a`, parity values in
   `S10RankingTests`) × `TopicRelevance` (max(0, cos) of bge-m3(topic) and bge-m3(claim_en, else added prose)[:500]); the
   embedder down → relevance 1 and `Completed.Unranked` > 0, never cached. `Investigations:Pipeline:TopicRelevance=false` =

@@ -42,5 +42,19 @@ Caps in `appsettings.json`: `Oxylabs:PerScopeRequestCap` 60 per incident, `Daily
 
 ## Terms
 
-Not checked in this spike — someone should read the hackathon's Oxylabs terms before the demo. We only fetch pages a
-user asks about, cache them locally, never republish page text beyond a short quoted passage with a link.
+Read 2026-11-14: the [Acceptable Use Policy](https://oxylabs.io/legal/oxylabs-acceptable-use-policy) (last updated
+25 Jun 2024) and the [General Conditions](https://oxylabs.io/legal/oxylabs-general-conditions) (25 Sep 2024), which
+incorporate it (GC 1.1.3). **Nothing blocks our use.**
+
+- **Public data only:** "Unless the Customer has permission from the site, only publicly available data may be scraped"
+  (AUP, automated data gathering); no sensitive data (health, children); don't violate the site's own terms. We fetch only
+  public pages a user asks about; login-walled pages fail anyway. Adding them to the skip list (open item on #60) would
+  also keep us clearly inside this rule.
+- **Responsibility is ours:** "You are solely responsible for the Data you Access by using the Services" (GC 8.1); the
+  customer indemnifies Oxylabs for claims about publishing gathered content, e.g. copyright (GC 7.3). We show only a short
+  quoted passage with a link to the source, and keep the cached pages local.
+- **No limit on caching/storing, no attribution requirement** in either document. Usage limits live in the SoW or the
+  developer docs (GC 4.2.4).
+- **Credentials:** "will not be shared with third parties" and the Services are used "only by and for the benefit of the
+  Customer" (GC 4.2.8–4.2.9). The key is the team's hackathon key: keep it in user-secrets / the VPS `.env`, never in the
+  repo, chat or a public demo.

@@ -30,7 +30,8 @@ public sealed class InvestigationPipeline(
     TopicRelevance? relevance = null) : IInvestigationRunner
 {
     /// <summary>Bump when the pipeline's logic changes what a run produces; part of the run-cache fingerprint.</summary>
-    public const int Version = 4;   // 2: S10 evidence; 3: S10 B+rel ranking; 4: stage 2 ranks reverts by S3 formula 3
+    public const int Version = 5;   // 2: S10 evidence; 3: S10 B+rel ranking; 4: stage 2 ranks reverts by S3 formula 3;
+                                    // 5: one incident per inserted content (IncidentMerger, S3-A)
 
     /// <inheritdoc />
     /// <remarks><paramref name="refresh"/> is a no-op here: this class caches nothing at the run level.</remarks>
@@ -97,7 +98,9 @@ public sealed class InvestigationPipeline(
             if (scored is null) return; // StageFailed already written
             Done(InvestigationStage.AssembleIncidents);
 
-            var ranked = scored.Incidents.OrderByDescending(i => i.Score).ThenBy(i => i.Id, StringComparer.Ordinal).ToList();
+            // One incident per inserted content, not per revert: a re-insertion chain's reverts collapse into one (S3-A).
+            var merged = IncidentMerger.Merge(scored.Incidents);
+            var ranked = merged.OrderByDescending(i => i.Score).ThenBy(i => i.Id, StringComparer.Ordinal).ToList();
             Done(InvestigationStage.AssembleIncidents);
             var completed = new Completed(FromCache: false, ranked, time.GetElapsedTime(started))
             {
@@ -133,7 +136,7 @@ public sealed class InvestigationPipeline(
         double Ms(InvestigationStage s) => timings.TryGetValue(s, out var t) ? t.TotalMilliseconds : 0;
     }
 
-    private sealed record Scored(List<IncidentRecord> Incidents, int Degraded, TimeSpan? FirstIncidentAfter)
+    private sealed record Scored(List<IncidentMerger.Item> Incidents, int Degraded, TimeSpan? FirstIncidentAfter)
     {
         public int Unranked { get; init; }
     }
@@ -142,7 +145,7 @@ public sealed class InvestigationPipeline(
     private async Task<Scored?> ScoreAllAsync(
         string topic, IReadOnlyList<RemovedEdit> edits, string scope, long runStarted, ChannelWriter<InvestigationEvent> writer, CancellationToken ct)
     {
-        var incidents = new List<IncidentRecord>();
+        var incidents = new List<IncidentMerger.Item>();
         var gate = new Lock();
         int done = 0, failed = 0, unassessed = 0, unranked = 0;
         TimeSpan? firstIncident = null;
@@ -168,7 +171,7 @@ public sealed class InvestigationPipeline(
                 {
                     if (outcome.Incident is not null)
                     {
-                        incidents.Add(outcome.Incident);
+                        incidents.Add(new IncidentMerger.Item(outcome.Incident, outcome.ProseKey));
                         firstIncident ??= time.GetElapsedTime(runStarted);
                     }
                     if (outcome.AssessmentUnavailable) unassessed++;
@@ -191,11 +194,20 @@ public sealed class InvestigationPipeline(
     private sealed record Outcome(IncidentRecord? Incident, string? Exclusion, bool AssessmentUnavailable)
     {
         public bool Unranked { get; init; }
+
+        /// <summary><see cref="IncidentMerger.ProseKey"/> of the span's added prose.</summary>
+        public string? ProseKey { get; init; }
     }
 
     private async Task<Outcome> ScoreAsync(string topic, RemovedEdit edit, string scope, CancellationToken ct)
     {
         var reading = await reader.ReadAsync(edit, ct);
+        var outcome = await ScoreReadingAsync(topic, reading, scope, ct);
+        return outcome.Incident is null ? outcome : outcome with { ProseKey = IncidentMerger.ProseKey(reading.Diff.AddedProse) };
+    }
+
+    private async Task<Outcome> ScoreReadingAsync(string topic, EditReading reading, string scope, CancellationToken ct)
+    {
 
         // Exclusions that need no assessment can't be lifted by one, so don't spend an LLM call on them.
         var unassessed = IncidentAssembler.Assemble(reading, null);
