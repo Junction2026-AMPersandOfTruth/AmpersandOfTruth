@@ -22,6 +22,7 @@ Query embeddings: **Ollama `bge-m3`** (local, else the VPS through the tunnel) b
 | Embedding integration tests (opt-in; latency + dataset-vector check) | `scripts/corpus-tunnel.sh && EMBEDDING_TESTS=1 CORPUS_TESTS=1 dotnet test --filter Category=Embedding --logger "console;verbosity=detailed"` |
 | Deploy/update corpus DB on VPS (needs root key) | `scripts/corpus-deploy.sh` — details in `deploy/corpus/README.md` |
 | Run an LLM prompt / batch from the shell (same client, prompts, cache as the app) | `scripts/analyze.sh prompts` · `run <prompt> --vars x.json` · `batch <prompt> --in x.jsonl --out y.jsonl --model a,b` · `usage` |
+| Diff revision vs parent wikitext (the app's engine, for experiments; contract `research/eval/CONTRACT.md` §9) | `scripts/wikidiff.sh batch < pairs.jsonl > diffs.jsonl` · `one --new b.txt [--old a.txt]` · `prose < page.txt` · parity: `python3 research/29-wikidiff/check.py` |
 | Live Gemini tests (opt-in, real API calls) | `GEMINI_TESTS=1 dotnet test --filter Category=Gemini` |
 | Check a golden set / variant / judgement file against the eval contract (stdlib Python, no corpus) | `python3 research/eval/validate.py golden` · `variant retrieval\|signals -- <cmd>` · tests: `python3 -m unittest discover -s research/eval/tests` |
 
@@ -50,6 +51,7 @@ tests/AmpersandOfTruth.Tests/
   Features/<Feature>/         # mirrors src: service unit tests + bUnit component tests
   Smoke/AppSmokeTests.cs      # boots the real app via WebApplicationFactory; add new routes to the InlineData list
 tools/AmpersandOfTruth.Analyze/ # console tool behind scripts/analyze.sh (LLM prompts from the shell / research)
+tools/AmpersandOfTruth.WikiDiff/ # console tool behind scripts/wikidiff.sh (Features/WikiDiff for experiments, #29)
 research/<issue>/             # experiment scripts, small samples, results and reports (no big data files)
 research/eval/                # ⭐ P1 eval contract: CONTRACT.md, schemas/, validate.py, examples/ (golden.json + runner land here)
 docs/design/                  # ⭐ UI design system: brand book, plan, tokens, .aot-* CSS, component + page previews
@@ -188,3 +190,6 @@ a feedback round for compile errors. Workers also can't run `dotnet ef`/`dotnet 
 - Projects were renamed from the placeholder `Junction.Web`/`Junction.Tests` (`SomeMysteriousAppForJunction.sln`). Older branches:
   rebase onto `main` (git follows the folder rename) and fix `namespace Junction.Web…` → `AmpersandOfTruth.Web…` in new files.
   `UserSecretsId` is unchanged, so user-secrets still apply; a leftover `src/Junction.Web/app.db` can just be deleted.
+- Wikitext diffs: one engine, `WikitextDiff.Compare(parentText, revText)` (`Features/WikiDiff`, static, thread-safe, no DI);
+  experiments call `scripts/wikidiff.sh batch` with many pairs per call, never a Python re-implementation. Changing its
+  output → regenerate `research/29-wikidiff/expected.jsonl` (an xUnit test guards it) and update CONTRACT.md §9.

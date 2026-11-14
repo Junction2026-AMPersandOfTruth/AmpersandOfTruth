@@ -1,0 +1,36 @@
+{{Infobox sota
+| nimi = Talvisota
+| osa = toista maailmansotaa
+| kuva = Finnish soldiers 1940.jpg
+| alku = 30. marraskuuta 1939
+| loppu = 13. maaliskuuta 1940
+| paikka = Itä-Suomi, Karjalankannas
+| tulos = Moskovan rauha
+| osapuoli1 = {{lippu|Suomi}}
+| osapuoli2 = {{lippu|Neuvostoliitto}}
+| kuolleet1 = noin 25 000
+| kuolleet2 = noin 126 000
+}}
+'''Talvisota''' oli [[Suomi|Suomen]] ja [[Neuvostoliitto|Neuvostoliiton]] välinen sota, joka alkoi 30. marraskuuta 1939 ja päättyi [[Moskovan rauha|Moskovan rauhaan]] 13. maaliskuuta 1940.<ref>{{Kirjaviite | Tekijä = Leskinen, Jari; Juutilainen, Antti | Nimeke = Talvisodan pikkujättiläinen | Julkaisija = WSOY | Vuosi = 1999 | Sivu = 12}}</ref>
+
+== Tausta ==
+Neuvostoliitto vaati syksyllä 1939 Suomelta alueluovutuksia [[Karjalankannas|Karjalankannakselta]] ja vuokra-aluetta [[Hanko|Hangosta]]. Suomen hallitus hylkäsi vaatimukset neuvottelujen jälkeen.<ref name="tausta">{{Verkkoviite | Osoite = https://example.fi/talvisota/tausta | Nimeke = Talvisodan tausta | Julkaisija = Esimerkkiarkisto | Viitattu = 1.10.2026}}</ref>
+
+Neuvottelut käytiin [[Moskova]]ssa lokakuussa ja marraskuussa 1939. Suomen valtuuskuntaa johti [[Juho Kusti Paasikivi|J. K. Paasikivi]].
+
+== Sodan kulku ==
+Neuvostoliitto hyökkäsi Suomeen ilman sodanjulistusta. Puna-armeija eteni [[Laatokan Karjala]]ssa ja [[Kainuu]]ssa, mutta suomalaiset pysäyttivät hyökkäyksen [[Suomussalmen taistelu|Suomussalmella]] ja [[Raatteen tien taistelu|Raatteen tiellä]].<ref name="tausta" />
+
+Helmikuussa 1940 puna-armeija murtautui [[Mannerheim-linja]]n läpi [[Summa (Johannes)|Summassa]]. Suomen pääministerinä toimi [[Risto Ryti]].
+
+== Seuraukset ==
+Moskovan rauhassa Suomi luovutti noin kymmenesosan pinta-alastaan, muun muassa [[Viipuri]]n. Luovutetuilta alueilta evakuoitiin yli 400 000 ihmistä.<ref>{{Verkkoviite | Osoite = https://propaganda.example.org/evakot | Nimeke = Totuus evakoista | Viitattu = 2.11.2026}}</ref>
+
+== Lähteet ==
+{{Viitteet}}
+
+[[Luokka:Talvisota| ]]
+[[Luokka:Suomen sodat]]
+
+[[en:Winter War]]
+[[sv:Vinterkriget]]
