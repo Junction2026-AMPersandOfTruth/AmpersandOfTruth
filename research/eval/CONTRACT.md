@@ -5,8 +5,9 @@ runner can be built in parallel and still fit together. Owner: the cloud lane. F
 `schemas/*.schema.json`; `contract.py` holds the rules a schema cannot express. If this text and a schema disagree,
 the schema wins.
 
-**Status (2026-11-14):** §1–§5 and §7 are frozen as `contract: 1`. The runner (§6) is not merged yet; its scoring
-rules and metric keys are fixed here, so you can write against them now. §9 (diff CLI) is a draft until #29 merges.
+**Status (2026-11-14):** §1–§5 and §7 are frozen as `contract: 1`. The runner (§6) is `research/eval/run`
+(`runner.py`, tests in `tests/test_runner.py`). It waits only for `golden.json` (#20). §9's heading says whether
+the diff CLI (#29) is still a draft.
 **To change a frozen part:** edit the schema, an example and this file in one commit, and say so on #3. Adding an
 optional field is fine. Renaming or removing a field needs `contract: 2`.
 
@@ -195,13 +196,26 @@ scorecard lists them as challenges for a human to read.
 ## 6. Scoring (the runner; definitions follow `docs/evidence-standard.md` §4)
 
 ```bash
-research/eval/run retrieval --name r1-vector  -- python3 research/8-r1-vector/variant.py
-research/eval/run signals   --name s1-reverts -- python3 research/28-s1-revert/variant.py
-#   --split dev|test   --judgements f.jsonl   --reviews f.jsonl   --out research/<issue>-<slug>/results
+research/eval/run retrieval --name r1-vector  --out research/8-r1-vector/results  -- python3 research/8-r1-vector/variant.py
+research/eval/run signals   --name s1-reverts --out research/28-s1-revert/results -- python3 research/28-s1-revert/variant.py
+research/eval/run pipeline  --name p1-app     --out research/39-pipeline/results  -- <command>
+#   --split dev|test  --baseline <scorecard.json>  --judgements f.jsonl  --reviews f.jsonl  --topics a,b  --jobs N
+research/eval/run replay research/28-s1-revert/results/s1-reverts.dev.responses.jsonl --judgements j.jsonl --reviews r.jsonl
 ```
 
-It prints the Markdown scorecard for the issue comment and writes `<name>.<split>.scorecard.json`.
-`--split test` is refused unless `EVAL_ALLOW_TEST=1`. Only local Claude sets that, and only in R6 and S11.
+It prints the Markdown scorecard for the issue comment. In `--out` (default `research/eval/results/`, git-ignored)
+it writes `<name>.<split>.` + `scorecard.md`, `scorecard.json`, `unlabelled.jsonl` (signals and pipeline),
+`responses.jsonl` (every request and response) and `log` (the variant's stderr). Commit the first four to the
+experiment folder, not the log.
+
+- `--split test` is refused unless `EVAL_ALLOW_TEST=1`. Only local Claude sets that, and only in R6 and S11.
+- `replay` rescores saved responses without running the variant again. Use it after the E3 judge has written
+  judgements for the unlabelled file. A request that changed since the run (the golden set was edited) is a failure.
+- `--baseline` adds a Δ column, and only when `split`, `golden_version` and `limit` match and neither run is partial.
+  `--topics` makes a partial run, which is for development only.
+- Requests run one at a time by default (`--jobs 1`), so `seconds_per_topic` measures one request alone. On a
+  timeout the runner kills the variant's whole process group. Exit code: 0 = scored, 1 = every request failed,
+  2 = usage error (bad golden set, sealed split, …).
 
 **Retrieval.** Per query, over the first 20 results:
 
@@ -221,8 +235,9 @@ The headline is the mean over queries of `topic` and `control-quiet` topics. `by
    same split are candidates. Among the intersecting items that are still unmatched, it takes the one with the
    highest level, then the largest overlap, then the smallest id.
 2. *Outcome.* One per incident: `campaign`, `contested`, `reverted` or `not-incident` (the label of the item it
-   matched); `duplicate` (every item it intersects was already matched by a higher-ranked incident); or
-   `unlabelled` (it intersects no golden item).
+   matched); `duplicate` (a higher-ranked incident has the same incident key, or every item it intersects was
+   already matched by a higher-ranked incident); or `unlabelled` (it intersects no golden item). A duplicate is
+   labelled, so it never goes to the judge, and it is a false positive in every precision, judged ones included.
 3. *Expected.* The golden `contested` and `campaign` items whose `page_id` or `other_page_ids` are among the
    topic's golden articles.
 
@@ -239,14 +254,22 @@ The headline is the mean over queries of `topic` and `control-quiet` topics. `by
 | `quiet_shown`, `quiet_contested_or_above` | Incidents shown for `control-quiet` topics, and how many of them are level 2 or 3. |
 
 Precision is the mean over topics of kind `topic` that have at least one labelled outcome in the top k.
+`unlabelled@k` is the mean count per topic of kind `topic`. **Match state is per topic:** two topics that share an
+article do not turn each other's hits into duplicates. **Pipeline** runs score signals per query, as if each query
+were a topic. An `out_of_scope: true` answer hides its incidents as well, and `oos_incidents_shown` counts the
+incidents shown for out-of-corpus queries. `control-out-of-corpus` topics get no signals request: they have no
+articles.
 
-**Cost:** `seconds_per_topic` (wall-clock, measured by the runner), plus `llm_calls`, `input_tokens` and
-`output_tokens` summed from `cost`.
+**Cost:** `seconds_per_topic` (wall-clock, measured by the runner, per request: per query for retrieval and
+pipeline), plus `llm_calls`, `input_tokens` and `output_tokens` summed from `cost`. With `--judgements`, the
+metrics also carry `unjudged@10` and `unjudged@25`, totals over topics.
 
 **Scorecard JSON:** `contract`, `kind`, `variant`, `split`, `golden_version`, `dataset`, `git_commit`, `ran_at`,
 `command`, `metrics` (the keys above), `by_style` (retrieval), `per_topic[]`, `best[]` and `worst[]` (five each, for
 the issue comment), `unlabelled[]`, `failures[]` and `cost`. Diff two runs by comparing `metrics`. Runs are
-comparable only when `split` and `golden_version` are equal.
+comparable only when `split` and `golden_version` are equal. Pipeline cards add `per_query[]` and
+`worst_queries[]`, and `--reviews` adds `challenges[]`. Signals `best` lists the highest-ranked true positives.
+`worst` lists missed contested/campaign items first, then false positives, overclaims and duplicates by rank.
 
 ## 7. Working rules (from the execution plan on #3)
 
