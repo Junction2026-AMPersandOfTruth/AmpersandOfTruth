@@ -146,6 +146,27 @@ namespace AmpersandOfTruth.Web.Data.Migrations
                     b.ToTable("AnalysisCalls", (string)null);
                 });
 
+            modelBuilder.Entity("AmpersandOfTruth.Web.Features.Embedding.QueryEmbedding", b =>
+                {
+                    b.Property<string>("Model")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("CreatedAt")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<byte[]>("Vector")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.HasKey("Model", "Text");
+
+                    b.ToTable("QueryEmbeddings", (string)null);
+                });
+
             modelBuilder.Entity("AmpersandOfTruth.Web.Features.Notes.Note", b =>
                 {
                     b.Property<Guid>("Id")

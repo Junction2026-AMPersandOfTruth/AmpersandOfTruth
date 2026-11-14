@@ -4,6 +4,7 @@
 Blazor Web App on .NET 10, **Interactive Server** render mode everywhere (no WASM, no separate API).
 Persistence: **EF Core 10 + SQLite** (`src/AmpersandOfTruth.Web/app.db`, git-ignored, migrated automatically on startup) for app state.
 Wikipedia corpus: **MariaDB 12.3 on the team VPS**, raw SQL via `MySqlConnector` (see *Corpus* below).
+Query embeddings: **Ollama `bge-m3`** (local, else the VPS through the tunnel) behind `IQueryEmbedder` (see *Embedding* below).
 
 ## Commands
 
@@ -18,6 +19,7 @@ Wikipedia corpus: **MariaDB 12.3 on the team VPS**, raw SQL via `MySqlConnector`
 | Reset local DB | `rm src/AmpersandOfTruth.Web/app.db` (recreated on next start) |
 | Corpus tunnel (localhost:3307 → VPS MariaDB) | `scripts/corpus-tunnel.sh` (background, idempotent) · `--status` · `--stop` |
 | Corpus integration tests (opt-in) | `scripts/corpus-tunnel.sh && CORPUS_TESTS=1 dotnet test --filter Category=Corpus` |
+| Embedding integration tests (opt-in; latency + dataset-vector check) | `scripts/corpus-tunnel.sh && EMBEDDING_TESTS=1 CORPUS_TESTS=1 dotnet test --filter Category=Embedding --logger "console;verbosity=detailed"` |
 | Deploy/update corpus DB on VPS (needs root key) | `scripts/corpus-deploy.sh` — details in `deploy/corpus/README.md` |
 | Run an LLM prompt / batch from the shell (same client, prompts, cache as the app) | `scripts/analyze.sh prompts` · `run <prompt> --vars x.json` · `batch <prompt> --in x.jsonl --out y.jsonl --model a,b` · `usage` |
 | Live Gemini tests (opt-in, costs cents) | `GEMINI_TESTS=1 dotnet test --filter Category=Gemini` |
@@ -87,6 +89,23 @@ research/<issue>/             # experiment scripts, small samples, results and r
 - **`verify.sh` must pass with the corpus absent.** Corpus tests use `[CorpusFact]` (skipped unless `CORPUS_TESTS=1`).
   The `corpus` health check reports `Degraded` (still HTTP 200) when the tunnel is down; startup never depends on it.
 - Bulk jobs (loads, precompute) on 2 vCPUs starve interactive queries — run them early, never during a demo.
+- `corpus-deploy.sh` rsyncs `deploy/corpus/` with `--delete`: anything that lives only in `/opt/junction/corpus` on the VPS
+  (`loader/` + `data/` + `.venv/` + `.upstream-rag/` used by `scripts/corpus/load-*.sh --remote`) must be in its `--exclude` list
+  or a deploy wipes it.
+
+## Embedding (bge-m3 via Ollama)
+
+- Topic search only works with vectors from **`bge-m3` (1024-d)** — the model that built the dataset. Never Gemini embeddings.
+- Inject `IQueryEmbedder` → `float[] v = await embedder.EmbedAsync(topic, ct)`; pass to SQL with `CorpusVectors.ToBytes(v)`.
+  It's cached (memory + SQLite `QueryEmbeddings`, keyed by model + whitespace-normalised text, case kept), so a demo topic
+  embedded once works even with Ollama down. Catch `EmbeddingUnavailableException` → show a "search unavailable" state.
+- Endpoints: `Embedding:OllamaUrl` (default `127.0.0.1:11434` = laptop Ollama, or the VPS's own when the app runs there), then
+  `Embedding:FallbackOllamaUrl` (`127.0.0.1:11435` = VPS Ollama via `scripts/corpus-tunnel.sh`). Local is optional: `ollama pull bge-m3`.
+- `OllamaQueryEmbedder` (concrete, uncached) only to bypass the cache. Tests: `FakeQueryEmbedder` (deterministic unit vectors, `Unavailable` switch).
+- The VPS Ollama (2 vCPU) is for **one short query at a time**. Bulk embedding (P1.R5) runs on a laptop with a GPU/Apple silicon.
+- Ollama ≤0.12.x aborts on any bge-m3 input over ~512 tokens (`GGML_ASSERT ... n_ubatch >= n_tokens`, HTTP 500 + model reload) —
+  the VPS pins 0.40.16 (verified cosine 1.00000 vs stored vectors). Use a recent Ollama on laptops too.
+- `embedding` health check reports `Degraded` when no endpoint has the model; startup never depends on it.
 
 ## LLM analysis (Gemini, `Features/Analysis`, issue #16)
 
