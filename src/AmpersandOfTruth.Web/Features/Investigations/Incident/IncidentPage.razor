@@ -13,6 +13,9 @@
 @inject IServiceProvider Services
 
 <PageTitle>@BuildPageTitle() · Ampersand of Truth</PageTitle>
+<HeadContent>
+    <style>main.aot-page:has(> .aot-incident-wrap) { max-width: calc(1216px + 2 * var(--space-8)); }</style>
+</HeadContent>
 
 <div class="aot-stack aot-incident-wrap" style="gap:var(--space-6)" tabindex="-1" @ref="_wrapper" @onkeydown="HandleKeyDown" data-testid="incident-page">
     <SampleDataBanner />
@@ -59,22 +62,22 @@
     }
     else
     {
-        <div class="aot-row" style="justify-content:space-between">
+        <div class="aot-incident-topbar">
             <nav class="aot-crumbs" aria-label="Breadcrumb" data-testid="incident-breadcrumbs">
-                <a href="@OverviewHref" data-testid="breadcrumb-topic">@TopicLabel</a>
+                <a class="aot-incident-crumb-topic" href="@OverviewHref" data-testid="breadcrumb-topic">@TopicLabel</a>
                 <span aria-hidden="true">›</span>
                 <span>Incidents</span>
                 <span aria-hidden="true">›</span>
                 <span data-testid="incident-rank">@_rank of @_incidents.Count</span>
             </nav>
-            <div class="aot-row">
+            <div class="aot-incident-pager">
                 @if (_prevIncident is not null)
                 {
                     <a class="aot-btn aot-btn--sm" href="@IncidentHref(_prevIncident.Id)" data-testid="prev-incident">◀ Prev</a>
                 }
                 else
                 {
-                    <span class="aot-btn aot-btn--sm" aria-disabled="true" style="opacity:.5;pointer-events:none" data-testid="prev-incident">◀ Prev</span>
+                    <button type="button" class="aot-btn aot-btn--sm" disabled style="opacity:.5" data-testid="prev-incident">◀ Prev</button>
                 }
                 @if (_nextIncident is not null)
                 {
@@ -82,7 +85,7 @@
                 }
                 else
                 {
-                    <span class="aot-btn aot-btn--sm" aria-disabled="true" style="opacity:.5;pointer-events:none" data-testid="next-incident">Next ▶</span>
+                    <button type="button" class="aot-btn aot-btn--sm" disabled style="opacity:.5" data-testid="next-incident">Next ▶</button>
                 }
             </div>
         </div>
@@ -93,7 +96,7 @@
             @if (!string.IsNullOrWhiteSpace(_incident.ClaimOriginal))
             {
                 <div class="aot-row">
-                    <div class="aot-original" lang="@EffectiveLang(_incident.Lang)" style="font-size:14px" data-testid="claim-original">@_incident.ClaimOriginal</div>
+                    <div class="aot-original" lang="@EffectiveLang(_incident.Lang)" style="font-size:14px;margin-top:0" data-testid="claim-original">@_incident.ClaimOriginal</div>
                     @if (!string.IsNullOrWhiteSpace(_incident.ClaimEn))
                     {
                         <span class="aot-mt">
@@ -102,40 +105,53 @@
                     }
                 </div>
             }
-            <p class="aot-small aot-muted" style="margin:12px 0 0" data-testid="incident-facts">
-                First inserted @FormatDate(_incident.FirstSeen) · Live @OverviewState.Duration(_incident.TotalLive) total · @FormatCount(_incident.AccountCount, "account", "accounts") · @FormatCount(_incident.Articles.Count, "article", "articles")
-            </p>
-            @if (_incident.Articles.Count > 0)
-            {
-                <div class="aot-row aot-small" style="margin-top:4px" data-testid="incident-articles">
-                    @for (var i = 0; i < _incident.Articles.Count; i++)
-                    {
-                        var article = _incident.Articles[i];
-                        <span class="aot-row" style="gap:var(--space-1)">
-                            <a href="@string.Create(CultureInfo.InvariantCulture, $"/articles/{article.PageId}")" lang="fi">@article.TitleFi</a>@if (!string.IsNullOrWhiteSpace(article.TitleEn))
-                            {
-                                @if (!string.Equals(article.TitleEn, article.TitleFi, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    <span class="aot-muted">(@article.TitleEn)</span>
-                                }
-                            }
-                            else if (_titleTranslations.TryGetValue(article.TitleFi, out var translatedTitle) && !string.IsNullOrWhiteSpace(translatedTitle))
-                            {
-                                <MtLabel Text="@translatedTitle" Original="@article.TitleFi" />
-                            }
-                            @if (i < _incident.Articles.Count - 1)
-                            {
-                                <span aria-hidden="true">,</span>
-                            }
-                        </span>
-                    }
+            <dl class="aot-facts aot-incident-facts" data-testid="incident-facts">
+                <div>
+                    <dt>First inserted</dt>
+                    <dd>@FormatDate(_incident.FirstSeen)</dd>
                 </div>
-            }
+                <div>
+                    <dt>Last removed</dt>
+                    <dd>@(_incident.LastRemoved is { } lastRemoved ? FormatDate(lastRemoved) : "\u2014")</dd>
+                </div>
+                <div>
+                    <dt>Live in total</dt>
+                    <dd>@OverviewState.Duration(_incident.TotalLive)</dd>
+                </div>
+                <div>
+                    <dt>Accounts</dt>
+                    <dd>@FormatAccounts(_incident)</dd>
+                </div>
+                @if (_incident.Articles.Count > 0)
+                {
+                    <div>
+                        <dt>Articles</dt>
+                        <dd data-testid="incident-articles">@for (var i = 0; i < _incident.Articles.Count; i++)
+                            {
+                                var article = _incident.Articles[i];
+                                if (i > 0)
+                                {
+                                    @(", ")
+                                }
+                                <a href="@string.Create(CultureInfo.InvariantCulture, $"/articles/{article.PageId}")" lang="fi">@article.TitleFi</a>@if (!string.IsNullOrWhiteSpace(article.TitleEn))
+                                {
+                                    if (!string.Equals(article.TitleEn, article.TitleFi, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        @(" ")<span class="aot-muted aot-incident-article-en">(@article.TitleEn)</span>
+                                    }
+                                }
+                                else if (_titleTranslations.TryGetValue(article.TitleFi, out var translatedTitle) && !string.IsNullOrWhiteSpace(translatedTitle))
+                                {
+                                    @(" ")<MtLabel Text="@translatedTitle" Original="@article.TitleFi" />
+                                }
+                            }</dd>
+                    </div>
+                }
+            </dl>
         </header>
 
         <div class="aot-incident-grid">
-            <section class="aot-incident-diff">
-                <h2 class="aot-h2" style="margin-bottom:var(--space-3)">What changed</h2>
+            <div class="aot-incident-diff">
                 <DiffViewer Passage="_incident.Passage"
                             Mode="CurrentDiffMode"
                             Text="CurrentTextMode"
@@ -143,10 +159,10 @@
                             EvidenceQuotes="@(_incident.Assessment?.Quotes ?? [])"
                             OnModeChanged="HandleDiffModeChangedAsync"
                             Scope="@ScopeKey" />
-            </section>
+            </div>
 
             <section class="aot-incident-seq">
-                <h2 class="aot-h2" style="margin-bottom:var(--space-3)">Sequence of events</h2>
+                <h2 class="aot-h2" style="margin-bottom:var(--space-4)">Sequence of events</h2>
                 <EditSequence Edits="_incident.Edits" Scope="@ScopeKey" />
             </section>
 
@@ -302,7 +318,7 @@
         {
             try
             {
-                await _wrapper.FocusAsync();
+                await _wrapper.FocusAsync(preventScroll: true);
             }
             catch
             {
@@ -572,10 +588,19 @@
     private static string FormatDate(DateTimeOffset date) =>
         date.ToUniversalTime().ToString("d MMM yyyy", CultureInfo.InvariantCulture);
 
-    private static string FormatCount(int count, string singular, string plural) =>
-        count == 1
-            ? $"1 {singular}"
-            : string.Create(CultureInfo.InvariantCulture, $"{count:N0} {plural}");
+    private static string FormatAccounts(IncidentView incident)
+    {
+        var total = Math.Max(1, incident.AccountCount);
+        var anonCount = incident.Edits
+            .Where(static e => e.Action is EditAction.Inserted or EditAction.Reinserted && e.Editor.IsAnonymous)
+            .Select(static e => e.Editor.GroupingKey)
+            .Distinct(StringComparer.Ordinal)
+            .Count();
+
+        return anonCount > 0
+            ? string.Create(CultureInfo.InvariantCulture, $"{total:N0} ({anonCount:N0} anonymous)")
+            : total.ToString("N0", CultureInfo.InvariantCulture);
+    }
 
     private string ExtractQuery(bool excludeDiffMode)
     {

@@ -65,9 +65,15 @@ public sealed class IncidentPageTests : BunitContext
         Assert.Equal("fi", original.GetAttribute("lang"));
         Assert.Equal("Suomi aloitti talvisodan ampumalla Mainilan kylään.", original.TextContent);
 
-        // Key facts & article links with EN/FI titles
-        var facts = cut.Find("[data-testid=incident-facts]");
-        Assert.Equal("First inserted 3 Mar 2014 · Live 61 days total · 3 accounts · 2 articles", facts.TextContent.Trim());
+        // Key facts (.aot-facts grid) & article links with EN/FI titles
+        var facts = cut.Find("dl.aot-facts[data-testid=incident-facts]");
+        var dts = facts.QuerySelectorAll("dt").Select(static e => e.TextContent.Trim()).ToArray();
+        var dds = facts.QuerySelectorAll("dd").Select(static e => e.TextContent.Trim()).ToArray();
+        Assert.Equal(["First inserted", "Last removed", "Live in total", "Accounts", "Articles"], dts);
+        Assert.Equal("3 Mar 2014", dds[0]);
+        Assert.Equal("9 Jan 2016", dds[1]);
+        Assert.Equal("61 days", dds[2]);
+        Assert.Equal("3 (1 anonymous)", dds[3]);
 
         var articles = cut.Find("[data-testid=incident-articles]");
         Assert.NotNull(articles.QuerySelector("a[href='/articles/1256']"));
@@ -76,6 +82,11 @@ public sealed class IncidentPageTests : BunitContext
         Assert.Contains("Winter War", articles.TextContent);
         Assert.Contains("Mainilan laukaukset", articles.TextContent);
         Assert.Contains("Shelling of Mainila", articles.TextContent);
+
+        // Only "Sequence of events" is rendered as a section <h2> (no duplicate "What changed" <h2> above diff)
+        var h2s = cut.FindAll("h2");
+        var seqHeading = Assert.Single(h2s);
+        Assert.Equal("Sequence of events", seqHeading.TextContent);
 
         // Copy rules (including jargon) pass on rendered page text
         Assert.Empty(CopyRules.FindViolations(cut.Find("[data-testid=incident-page]").TextContent, includeJargon: true));
@@ -131,6 +142,7 @@ public sealed class IncidentPageTests : BunitContext
             .Add(x => x.IncidentId, "del-1"));
         Assert.Equal("Removed: The shots were staged by the NKVD.", delCut.Find("[data-testid=incident-claim]").TextContent);
         Assert.Null(delCut.Find("[data-testid=prev-incident]").GetAttribute("href"));
+        Assert.True(delCut.Find("[data-testid=prev-incident]").HasAttribute("disabled"));
         Assert.NotNull(delCut.Find("[data-testid=next-incident]").GetAttribute("href"));
 
         var nullCut = Render<IncidentPage>(p => p
@@ -139,6 +151,7 @@ public sealed class IncidentPageTests : BunitContext
         Assert.Equal("Text added to Winter War", nullCut.Find("[data-testid=incident-claim]").TextContent);
         Assert.NotNull(nullCut.Find("[data-testid=prev-incident]").GetAttribute("href"));
         Assert.Null(nullCut.Find("[data-testid=next-incident]").GetAttribute("href"));
+        Assert.True(nullCut.Find("[data-testid=next-incident]").HasAttribute("disabled"));
     }
 
     [Fact]
@@ -290,6 +303,57 @@ public sealed class IncidentPageTests : BunitContext
         Assert.Contains("&lt;script&gt;", cut.Markup);
         Assert.Equal(payload, cut.Find("[data-testid=incident-claim]").TextContent);
         Assert.Equal(payload, cut.Find("[data-testid=claim-original]").TextContent);
+    }
+
+    [Fact]
+    public void Key_facts_omits_anonymous_suffix_when_zero_anonymous_editors_and_renders_dash_when_not_removed()
+    {
+        var incident = new IncidentView(
+            Id: "ww-01",
+            Rank: 1,
+            Tier: EvidenceTier.Contested,
+            TierReason: "Disputed and removed \u2014 because: put back after removal.",
+            ClaimEn: "Named-only claim.",
+            ClaimOriginal: "Vain nimetty muokkaaja.",
+            Lang: "fi",
+            Kind: IncidentKind.Insertion,
+            Articles: [new ArticleRef(1256, "Talvisota", "Winter War")],
+            FirstSeen: new DateTimeOffset(2014, 3, 3, 14, 2, 0, TimeSpan.Zero),
+            LastRemoved: null,
+            TotalLive: TimeSpan.FromDays(5),
+            AccountCount: 2,
+            InsertCount: 2,
+            Signals: [],
+            Edits:
+            [
+                new EditView(901, 900, 1256, new DateTimeOffset(2014, 3, 3, 14, 2, 0, TimeSpan.Zero), EditorDisplay.For("NamedUser1"), "lisäys", EditAction.Inserted, TimeSpan.FromDays(5)),
+            ],
+            Passage: null,
+            Assessment: null,
+            Relevance: 0.9,
+            ClusterId: null,
+            Source: new AmpersandOfTruth.Web.Features.Investigations.IncidentRecord
+            {
+                Id = "ww-01",
+                PageId = 1256,
+                InsertingRevIds = [901],
+                RemovingRevIds = [],
+                Tier = EvidenceTier.Contested,
+                Score = 90,
+            });
+
+        _source.WithTopic("winter-war", [incident]);
+
+        var cut = Render<IncidentPage>(p => p
+            .Add(x => x.Topic, "winter-war")
+            .Add(x => x.IncidentId, "ww-01"));
+
+        var facts = cut.Find("dl.aot-facts[data-testid=incident-facts]");
+        var dds = facts.QuerySelectorAll("dd").Select(static e => e.TextContent.Trim()).ToArray();
+        Assert.Equal("3 Mar 2014", dds[0]);
+        Assert.Equal("\u2014", dds[1]);
+        Assert.Equal("5 days", dds[2]);
+        Assert.Equal("2", dds[3]);
     }
 
     private sealed class CapturingLoggerProvider : ILoggerProvider

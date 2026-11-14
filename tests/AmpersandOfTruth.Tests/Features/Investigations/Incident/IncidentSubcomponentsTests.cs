@@ -69,13 +69,17 @@ public sealed class IncidentSubcomponentsTests : BunitContext
         var rows = cut.FindAll("[data-testid=event-row]");
         Assert.Equal(3, rows.Count);
 
-        // Row 0: Added (+), UTC time, named editor link, translated summary with MtLabel + FI original, live 4 days, diff link
+        // Row 0: Added (+), UTC time, named editor link, quoted EN summary on first line + FI original underneath, live 4 days, diff link
         Assert.Equal("+", rows[0].QuerySelector(".aot-seq__dot")?.TextContent);
         Assert.Contains("Added", rows[0].TextContent);
         Assert.Contains("3 Mar 2014, 14:02 UTC", rows[0].TextContent);
-        Assert.Contains("corrected historical fact", rows[0].TextContent);
+        var mt0 = rows[0].QuerySelector("[data-testid=mt-label]");
+        Assert.NotNull(mt0);
+        Assert.Contains("aot-seq__summary", mt0.ClassList);
+        Assert.Equal("\u201Ccorrected historical fact\u201D", mt0.TextContent);
         var orig0 = rows[0].QuerySelector("[data-testid=mt-original]");
         Assert.NotNull(orig0);
+        Assert.Contains("aot-original", orig0.ClassList);
         Assert.Equal("fi", orig0.GetAttribute("lang"));
         Assert.Equal("korjattu historiallinen fakta", orig0.TextContent);
         Assert.Contains("live 4 days", rows[0].TextContent);
@@ -83,36 +87,44 @@ public sealed class IncidentSubcomponentsTests : BunitContext
             "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=1001",
             rows[0].QuerySelector("[data-testid=wiki-diff-link]")?.GetAttribute("href"));
 
-        // Row 1: Removed (−), no "live" duration
+        // Row 1: Removed (−), quoted EN summary + FI original underneath, no "live" duration
         Assert.Equal("\u2212", rows[1].QuerySelector(".aot-seq__dot")?.TextContent);
         Assert.Contains("Removed", rows[1].TextContent);
         Assert.Contains("7 Mar 2014, 09:41 UTC", rows[1].TextContent);
-        Assert.Contains("unsourced claim", rows[1].TextContent);
+        Assert.Equal("\u201Cunsourced claim\u201D", rows[1].QuerySelector("[data-testid=mt-label]")?.TextContent);
+        Assert.Equal("lähteetön väite", rows[1].QuerySelector("[data-testid=mt-original]")?.TextContent);
         Assert.DoesNotContain("live ", rows[1].QuerySelector(".aot-seq__live")?.TextContent ?? "");
 
         // Gap > 30 days between 7 Mar 2014 and 2 Feb 2015 → "… 11 months later"
         var gap = Assert.Single(cut.FindAll("[data-testid=event-gap]"));
         Assert.Equal("\u2026 11 months later", gap.TextContent);
 
-        // Row 2: Put back (+), masked IP without link, "(no edit summary)", live 41 days
+        // Row 2: Put back (+), masked IP without link, muted "(no edit summary)", live 41 days
         Assert.Equal("+", rows[2].QuerySelector(".aot-seq__dot")?.TextContent);
         Assert.Contains("Put back", rows[2].TextContent);
         Assert.DoesNotContain("85.76.123.45", rows[2].InnerHtml);
         Assert.Contains("85.76.x.x", rows[2].TextContent);
         Assert.Contains("(anonymous)", rows[2].TextContent);
         Assert.Null(rows[2].QuerySelector("[data-testid=editor-label] a"));
-        Assert.Contains("(no edit summary)", rows[2].TextContent);
+        var emptySummary = rows[2].QuerySelector(".aot-seq__summary.aot-muted");
+        Assert.NotNull(emptySummary);
+        Assert.Equal("(no edit summary)", emptySummary.TextContent);
         Assert.Contains("live 41 days", rows[2].TextContent);
     }
 
     [Fact]
-    public void WhyFlagged_renders_lead_details_with_first_open_limitation_and_levels_link()
+    public void WhyFlagged_renders_tier_badge_because_lead_spaced_signal_details_limitation_and_levels_link()
     {
         var incident = FakeIncidentSource.BuildIncident();
 
         var cut = Render<WhyFlagged>(p => p.Add(x => x.Incident, incident));
 
-        Assert.Equal(incident.TierReason, cut.Find("[data-testid=why-lead]").TextContent);
+        var panelBadge = cut.Find("[data-testid=why-flagged] [data-testid=tier-badge]");
+        Assert.Contains(EvidenceTiers.Get(incident.Tier).Label, panelBadge.TextContent);
+
+        var lead = cut.Find("[data-testid=why-lead]");
+        Assert.Equal("Because: put back after removal, removal reason given.", lead.TextContent);
+        Assert.DoesNotContain(EvidenceTiers.Get(incident.Tier).Label, lead.TextContent, StringComparison.Ordinal);
 
         var details = cut.FindAll("[data-testid=why-signal]");
         Assert.Equal(3, details.Count);
@@ -120,12 +132,16 @@ public sealed class IncidentSubcomponentsTests : BunitContext
         Assert.False(details[1].HasAttribute("open"));
         Assert.False(details[2].HasAttribute("open"));
 
-        Assert.Contains(incident.Signals[0].Phrase.Why, details[0].TextContent);
-        Assert.Contains("Put back on 2 Feb 2015 after removal.", details[0].TextContent);
+        var detailBody0 = details[0].QuerySelector("div");
+        Assert.NotNull(detailBody0);
+        Assert.Equal(
+            $"{incident.Signals[0].Phrase.Why} {incident.Signals[0].Evidence}",
+            detailBody0.TextContent.Trim());
 
         Assert.Contains(Methodology.Limitations[0], cut.Markup);
         var howLink = cut.Find("a[href='/methodology#levels']");
         Assert.Equal("How levels work", howLink.TextContent);
+        Assert.Empty(CopyRules.FindViolations(cut.Find("[data-testid=why-flagged]").TextContent, includeJargon: true));
     }
 
     [Theory]
@@ -157,8 +173,9 @@ public sealed class IncidentSubcomponentsTests : BunitContext
         Assert.Contains(expectedCategory, root.TextContent);
         Assert.Contains("Changed how the event is described.", root.TextContent);
 
-        var quotes = cut.FindAll("q[data-testid=assessment-quote]");
-        Assert.Equal(2, quotes.Count);
+        var quoteBox = Assert.Single(cut.FindAll("blockquote[data-testid=assessment-quotes]"));
+        var quotes = quoteBox.QuerySelectorAll("q[data-testid=assessment-quote]");
+        Assert.Equal(2, quotes.Length);
         Assert.Equal("First span", quotes[0].TextContent);
         Assert.Equal("Second span", quotes[1].TextContent);
 
@@ -181,5 +198,32 @@ public sealed class IncidentSubcomponentsTests : BunitContext
             "Assessment unavailable. The automated assessment could not be run for this incident. The removal history above still stands.",
             root.TextContent);
         Assert.Empty(CopyRules.FindViolations(root.TextContent, includeJargon: true));
+    }
+
+    [Fact]
+    public void EditSequence_normalizes_prequoted_translation_and_falls_back_to_fi_original_when_unavailable()
+    {
+        _translator.Returns("lainausmerkitty", "\"already quoted\"");
+
+        IReadOnlyList<EditView> edits =
+        [
+            new EditView(1, 0, 1256, new DateTimeOffset(2014, 3, 3, 14, 2, 0, TimeSpan.Zero), EditorDisplay.For("A"), "lainausmerkitty", EditAction.Inserted, TimeSpan.FromDays(1)),
+            new EditView(2, 1, 1256, new DateTimeOffset(2014, 3, 4, 14, 2, 0, TimeSpan.Zero), EditorDisplay.For("B"), "kääntämätön", EditAction.Removed, null),
+        ];
+
+        _translator.FailAll = true;
+        var failedCut = Render<EditSequence>(p => p.Add(x => x.Edits, edits));
+        failedCut.WaitForAssertion(() => Assert.Equal(1, _translator.TranslateManyCalls));
+        Assert.Empty(failedCut.FindAll("[data-testid=mt-label]"));
+        var fallbackOrig = failedCut.FindAll("[data-testid=event-row]")[0].QuerySelector(".aot-original[lang='fi']");
+        Assert.NotNull(fallbackOrig);
+        Assert.Equal("lainausmerkitty", fallbackOrig.TextContent);
+
+        _translator.FailAll = false;
+        var okCut = Render<EditSequence>(p => p.Add(x => x.Edits, [edits[0]]));
+        okCut.WaitForAssertion(() =>
+        {
+            Assert.Equal("\u201Calready quoted\u201D", okCut.Find("[data-testid=mt-label]").TextContent);
+        });
     }
 }

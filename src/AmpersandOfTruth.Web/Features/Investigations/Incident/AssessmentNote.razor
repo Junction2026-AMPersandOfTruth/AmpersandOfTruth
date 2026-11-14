@@ -1,7 +1,7 @@
 @using AmpersandOfTruth.Web.Features.Evidence
 @using AmpersandOfTruth.Web.Features.Investigations.View
 
-<section class="aot-panel aot-assess" data-testid="assessment">
+<section class="aot-assess" data-testid="assessment">
     <div class="aot-label">@Attribution.AutomatedAssessmentLabel</div>
     @if (Assessment is null)
     {
@@ -10,17 +10,25 @@
     else
     {
         var (steps, word) = MapConfidence(Assessment.Confidence);
+        var quotes = Assessment.Quotes.Where(static q => !string.IsNullOrWhiteSpace(q)).ToList();
         <p style="margin:8px 0 0"><b>Category:</b> @MapCategory(Assessment.Category)</p>
         @if (!string.IsNullOrWhiteSpace(Assessment.Reasoning))
         {
-            <p style="margin:8px 0 0">@Assessment.Reasoning</p>
+            <p class="aot-assess__reasoning">@Assessment.Reasoning</p>
         }
-        @foreach (var quote in Assessment.Quotes.Where(static q => !string.IsNullOrWhiteSpace(q)))
+        @if (quotes.Count > 0)
         {
-            <blockquote><q class="aot-ev" data-testid="assessment-quote">@quote</q></blockquote>
+            <blockquote class="aot-assess__quotes" data-testid="assessment-quotes">
+                @foreach (var quote in quotes)
+                {
+                    <div class="aot-assess__quote"><q class="aot-ev" data-testid="assessment-quote">@quote</q></div>
+                }
+            </blockquote>
         }
-        <div class="aot-small" style="margin-top:8px" data-testid="assessment-confidence">
-            Confidence <span class="aot-meter" aria-label="@word">@for (var i = 1; i <= 3; i++) { <i class="@(i <= steps ? "on" : null)"></i> }</span> @word
+        <div class="aot-small aot-assess__confidence" data-testid="assessment-confidence">
+            <span>Confidence</span>
+            <span class="aot-meter" aria-label="@word">@for (var i = 1; i <= 3; i++) { <i class="@(i <= steps ? "on" : null)"></i> }</span>
+            <span>@word</span>
         </div>
         <p class="aot-small aot-muted" style="margin:8px 0 0">@FormatUncertainty(Assessment.Uncertainty)</p>
     }
