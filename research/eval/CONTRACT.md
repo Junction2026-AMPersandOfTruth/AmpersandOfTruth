@@ -6,8 +6,8 @@ runner can be built in parallel and still fit together. Owner: the cloud lane. F
 the schema wins.
 
 **Status (2026-11-14):** §1–§5 and §7 are frozen as `contract: 1`. The runner (§6) is `research/eval/run`
-(`runner.py`, tests in `tests/test_runner.py`). It waits only for `golden.json` (#20). §9 (diff CLI) is a draft until
-#29 merges.
+(`runner.py`, tests in `tests/test_runner.py`). It waits only for `golden.json` (#20). §9's heading says whether
+the diff CLI (#29) is still a draft.
 **To change a frozen part:** edit the schema, an example and this file in one commit, and say so on #3. Adding an
 optional field is fine. Renaming or removing a field needs `contract: 2`.
 
