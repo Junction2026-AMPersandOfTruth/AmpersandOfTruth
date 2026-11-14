@@ -37,7 +37,7 @@ TOPICS = HERE / "topics.json"
 PACKS = HERE / "packs"
 
 N_LIKELY, N_LOOKALIKE, N_PARTIAL, MAX_PER_PAGE = 16, 12, 5, 6
-DIFF_CAP = 5000
+DIFF_CAP = 9000
 DISPUTE_TEMPLATES = re.compile(r"\{\{\s*(neutraalius|pov|lähteetön|lähde\?|lähde tarkentuu|korjattava|kiistanalainen|"
                                r"tarkistettava|epäselvä|näkökulma|puolueettomuus|tyylikorjattava)", re.I)
 DISPUTE_SUMMARY = re.compile(r"pov|neutra|puolueet|lähtee?t|lähdetön|lähteetön|lähde|spekul|propagand|valhe|väite|"
@@ -160,7 +160,7 @@ def render_diff(old: str, new: str, deleted_lines: list | None = None) -> tuple[
                 out.append("- " + _trim(x, 700)); removed.append(x)
                 if deleted_lines is not None: deleted_lines.append(x)
         for y in b[j1:j2]:
-            if y.strip(): out.append("+ " + _trim(y, 1600)); added.append(y)
+            if y.strip(): out.append("+ " + _trim(y, 3000)); added.append(y)
     d = "\n".join(out)
     if len(d) > DIFF_CAP:
         d = d[:DIFF_CAP] + f"\n… [diff truncated, {len(d) - DIFF_CAP} more chars]"
@@ -312,6 +312,11 @@ def page_runs(db: Corpus, page_id: int, title: str, ed: Editors) -> tuple[list[d
     users = {r["user"] for r in revs if r["user"]}
     revert_ts = [m[r["k"]]["ts"] for r in runs]
     removed_positions = {p for r in runs for p in range(r["j"] + 1, r["k"])}
+    undone_by: dict[int, int] = {}
+    for r in runs:
+        for p in range(r["j"] + 1, r["k"]):
+            undone_by.setdefault(p, m[r["k"]]["rev_id"])
+    revert_positions = {r["k"] for r in runs}
     out = []
     for i, run in enumerate(runs):
         j, k = run["j"], run["k"]
@@ -336,6 +341,8 @@ def page_runs(db: Corpus, page_id: int, title: str, ed: Editors) -> tuple[list[d
             "net_bytes": net, "survival_s": survival, "survival": human(survival),
             "flags": {"self_removal": self_removal, "bot_inserter": bot, "blanking": blanking,
                       "removal_was_itself_undone": k in removed_positions,
+                      **({"removal_undone_by_rev_id": undone_by[k]} if k in undone_by else {}),
+                      "first_undone_edit_is_itself_a_revert": (j + 1) in revert_positions,
                       "identity_reverts_on_page_within_3_days": near},
             "_users": set(ins_users) | rems,
         })
@@ -381,10 +388,19 @@ def build_partial(db: Corpus, p: dict, ed: Editors) -> dict | None:
                    key=len, reverse=True)
     if not lines:
         return None
-    needle = lines[0][:200]
-    ins = attribute_insertion(db, R["_page"], m, idx, needle)
-    if ins is None or ins == 0:
-        return None
+    ins = idiff = None
+    for line in lines[:3]:
+        needle = line[:200]
+        cand = attribute_insertion(db, R["_page"], m, idx, needle)
+        if cand is None or cand == 0:
+            continue
+        d, iadded, _ = render_diff(db.text(R["_page"], m[cand - 1]["rev_id"]), db.text(R["_page"], m[cand]["rev_id"]))
+        grew = m[cand]["bytes"] - m[cand - 1]["bytes"]
+        if needle[:60] in iadded and grew >= 0.3 * len(needle.encode()):
+            ins, idiff = cand, d
+            break
+    if ins is None:
+        return None  # the first revision containing the text did not add it (reformatting, moves): unattributable
     I = m[ins]
     return {
         "page_id": R["_page"], "title": R["_title"], "chain_key": None, "restored_rev_id": None,
@@ -395,7 +411,7 @@ def build_partial(db: Corpus, p: dict, ed: Editors) -> dict | None:
         "remover": ed.of(R["user"]), "removed_at": iso(R["ts"]), "removal_summary": ed.mask_comment(R["comment"], p["users"]),
         "net_bytes": -p["drop"], "survival_s": (R["ts"] - I["ts"]).total_seconds(), "survival": human((R["ts"] - I["ts"]).total_seconds()),
         "flags": {"self_removal": I["user"] == R["user"], "bot_inserter": bool(BOT.search(I["user"] or "")), "blanking": False},
-        "diff_of_removal": diff, "_users": {I["user"], R["user"]},
+        "diff_of_removal": diff, "insertion_diff": idiff, "_users": {I["user"], R["user"]},
     }
 
 
@@ -496,7 +512,8 @@ def build_pack(db: Corpus, topic: dict) -> dict:
         out.append({k: c[k] for k in ("cid", "bucket", "page_id", "title", "edits", "inserting_editors",
                                        "distinct_inserting_editor_groups", "remover", "removed_at", "removal_summary",
                                        "restored_rev_id", "removing_rev_id", "net_bytes", "survival", "flags",
-                                       "same_chain_candidates", "similar_to", "editor_reverted_runs_in_topic", "links", "diff")
+                                       "same_chain_candidates", "similar_to", "editor_reverted_runs_in_topic", "links", "diff",
+                                       "insertion_diff")
                     if k in c})
     return {
         "topic": {k: topic[k] for k in topic if k not in ("fulltext",)},

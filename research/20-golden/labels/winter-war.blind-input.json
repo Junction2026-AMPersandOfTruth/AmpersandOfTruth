@@ -1,0 +1,2634 @@
+{
+ "topic_id": "winter-war",
+ "topic_title": "Winter War 1939-40: Mainila shots, Terijoki government, who won",
+ "kind": "topic",
+ "editors": {
+  "E4": {
+   "kind": "anonymous",
+   "masked_range": "195.237.x.x"
+  },
+  "E17": {
+   "kind": "anonymous",
+   "masked_range": "62.237.x.x"
+  },
+  "E38": {
+   "kind": "named"
+  },
+  "E78": {
+   "kind": "named"
+  },
+  "E91": {
+   "kind": "anonymous",
+   "masked_range": "81.229.x.x"
+  },
+  "E93": {
+   "kind": "named"
+  },
+  "E94": {
+   "kind": "named"
+  },
+  "E95": {
+   "kind": "named"
+  },
+  "E116": {
+   "kind": "named"
+  },
+  "E119": {
+   "kind": "named"
+  },
+  "E120": {
+   "kind": "named"
+  },
+  "E121": {
+   "kind": "anonymous",
+   "masked_range": "217.140.x.x"
+  },
+  "E124": {
+   "kind": "named"
+  },
+  "E131": {
+   "kind": "anonymous",
+   "masked_range": "91.153.x.x"
+  },
+  "E134": {
+   "kind": "named"
+  },
+  "E138": {
+   "kind": "named"
+  },
+  "E147": {
+   "kind": "named"
+  },
+  "E154": {
+   "kind": "anonymous",
+   "masked_range": "84.249.x.x"
+  },
+  "E201": {
+   "kind": "anonymous",
+   "masked_range": "85.76.x.x"
+  },
+  "E202": {
+   "kind": "named"
+  },
+  "E203": {
+   "kind": "anonymous",
+   "masked_range": "85.76.x.x"
+  },
+  "E204": {
+   "kind": "anonymous",
+   "masked_range": "80.220.x.x"
+  },
+  "E205": {
+   "kind": "named"
+  },
+  "E206": {
+   "kind": "named",
+   "bot_like_name": true
+  },
+  "E207": {
+   "kind": "anonymous",
+   "masked_range": "87.93.x.x"
+  },
+  "E208": {
+   "kind": "named"
+  },
+  "E209": {
+   "kind": "named"
+  },
+  "E243": {
+   "kind": "anonymous",
+   "masked_range": "85.76.x.x"
+  },
+  "E244": {
+   "kind": "anonymous",
+   "masked_range": "85.76.x.x"
+  },
+  "E245": {
+   "kind": "named"
+  },
+  "E246": {
+   "kind": "anonymous",
+   "masked_range": "85.76.x.x"
+  },
+  "E256": {
+   "kind": "anonymous",
+   "masked_range": "146.81.x.x"
+  },
+  "E270": {
+   "kind": "named"
+  },
+  "E280": {
+   "kind": "anonymous",
+   "masked_range": "109.240.x.x"
+  },
+  "E287": {
+   "kind": "named"
+  },
+  "E306": {
+   "kind": "named"
+  },
+  "E320": {
+   "kind": "named"
+  },
+  "E332": {
+   "kind": "named"
+  },
+  "E334": {
+   "kind": "named"
+  },
+  "E354": {
+   "kind": "named"
+  },
+  "E358": {
+   "kind": "named"
+  },
+  "E359": {
+   "kind": "anonymous",
+   "masked_range": "77.244.x.x"
+  },
+  "E360": {
+   "kind": "named"
+  },
+  "E383": {
+   "kind": "named"
+  },
+  "E404": {
+   "kind": "named"
+  },
+  "E407": {
+   "kind": "anonymous",
+   "masked_range": "188.226.x.x"
+  },
+  "E422": {
+   "kind": "anonymous",
+   "masked_range": "85.76.x.x"
+  },
+  "E423": {
+   "kind": "anonymous",
+   "masked_range": "85.76.x.x"
+  },
+  "E424": {
+   "kind": "anonymous",
+   "masked_range": "85.76.x.x"
+  },
+  "E425": {
+   "kind": "anonymous",
+   "masked_range": "84.248.x.x"
+  },
+  "E485": {
+   "kind": "named"
+  },
+  "E555": {
+   "kind": "named"
+  },
+  "E557": {
+   "kind": "anonymous",
+   "masked_range": "91.153.x.x"
+  },
+  "E638": {
+   "kind": "named"
+  },
+  "E639": {
+   "kind": "anonymous",
+   "masked_range": "93.106.x.x"
+  },
+  "E651": {
+   "kind": "anonymous",
+   "masked_range": "46.132.x.x"
+  },
+  "E652": {
+   "kind": "anonymous",
+   "masked_range": "130.234.x.x"
+  },
+  "E681": {
+   "kind": "named"
+  },
+  "E684": {
+   "kind": "anonymous",
+   "masked_range": "62.197.x.x"
+  },
+  "E685": {
+   "kind": "named"
+  },
+  "E686": {
+   "kind": "named"
+  },
+  "E699": {
+   "kind": "anonymous",
+   "masked_range": "193.210.x.x"
+  },
+  "E700": {
+   "kind": "anonymous",
+   "masked_range": "85.76.x.x"
+  },
+  "E713": {
+   "kind": "anonymous",
+   "masked_range": "85.77.x.x"
+  },
+  "E714": {
+   "kind": "named"
+  },
+  "E721": {
+   "kind": "named"
+  }
+ },
+ "items": [
+  {
+   "id": "x01",
+   "page_id": 1256,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    13357298
+   ],
+   "removing_rev_ids": [
+    13357305
+   ],
+   "candidates": [
+    {
+     "cid": "c11",
+     "bucket": "likely",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 13357212,
+       "parent_rev_id": 13353876,
+       "ts": "2013-06-30T21:15:25Z",
+       "editor": "E244",
+       "bytes_delta": 181,
+       "summary": "Pienellä alkukirjaimella sana motti."
+      },
+      {
+       "rev_id": 13357246,
+       "parent_rev_id": 13357212,
+       "ts": "2013-06-30T21:48:47Z",
+       "editor": "E244",
+       "bytes_delta": 4,
+       "summary": ""
+      },
+      {
+       "rev_id": 13357274,
+       "parent_rev_id": 13357246,
+       "ts": "2013-06-30T22:16:11Z",
+       "editor": "E245",
+       "bytes_delta": -6,
+       "summary": "Maata ei yleensä ole muissa  taisteluissa tätä mallinetta käytettäessä lihavoitu."
+      },
+      {
+       "rev_id": 13357298,
+       "parent_rev_id": 13357274,
+       "ts": "2013-06-30T22:36:21Z",
+       "editor": "E246",
+       "bytes_delta": 1284,
+       "summary": "/* Suomen ja Saksan suhteet */"
+      }
+     ],
+     "inserting_editors": [
+      "E244",
+      "E245",
+      "E246"
+     ],
+     "distinct_inserting_editor_groups": 2,
+     "remover": "E124",
+     "removed_at": "2013-06-30T22:44:22Z",
+     "removal_summary": "Hylättiin viimeiset 4 tekstimuutosta: kh+w ongelmia, asiaankuulumatonta lähteetöntä tekstiä",
+     "restored_rev_id": 13353876,
+     "removing_rev_id": 13357305,
+     "net_bytes": 1463,
+     "survival": "89 min",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 5,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [
+      "c26"
+     ],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 2,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13357305",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13357212",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13357246",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13357274",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13357298"
+      ]
+     },
+     "diff": "~ | kuvateksti     = Suomalainen konekivääriryhmä Lemetin [-Motin-]{+tienhaaran+} [-lähellä.-]{+motin lähellä+}\n~ | paikka         = [-[[Suomi]]-]{+[[Suomi]]<br><small>[[Etelä-Karjalan maakunta|Etelä-Karjala]] (Karjalankannas, Viipurinlahden länsiranta)<br>[[Laatokan Karjala]]<br>[[Pohjois-Karjalan maakunta|Pohjois-Karjala]]<br>[[Kainuun maakunta|Kainuu]]<br>[[Lapin maakunta|Lappi]]+}\n~ | aluemuutokset  = Suomi luovutti [-[[Luovutettu-]{+[[luovutettu+} Karjala|Viipurin läänistä osan]] ja [-[[Luovutetut-]{+[[luovutetut+} alueet|muita alueita]] Neuvostoliitolle.\n~ | vaikutukset    = Suomen kansan yhtenäisyys lisääntyi. Maan armeijaa ryhdyttiin voimakkaasti kehittämään. Suomi alkoi etsiä tukea ensin [[Ruotsi]]sta, [-[[Yhdistynyt kuningaskunta|Britanniasta]]-]{+[[Britannia]]sta+} ja lopulta [[natsi-Saksa|Saksasta]]. Neuvostoliitto menetti sotilaspoliittista arvovaltaansa. Talvisodan kokemukset vaikuttivat puna-armeijan kehittämiseen. Suomen ja Neuvostoliiton väliset suhteet pysyivät erittäin huonoina.\n~ | lopputulos     = [[Moskovan [-rauhansopimus-]{+rauha]]+} [-(1940)|Moskovan rauha]]-]{+(1940)+}\n~ | komentaja1     = {{Suomen lippu}} [-[[Carl-]{+[[Gustaf+} [-Gustaf Emil Mannerheim|C. G. E. Mannerheim]]-]{+Mannerheim]]<br><br><br><br>+}\n- Saksa oli Ruotsin ohella tärkein vaikutteiden lähde Suomessa 1930-luvulla. Kansallissosialistien kannatus oli Suomessa kuitenkin marginaalista.<ref>http://jokisipila.blogspot.com/2006/03/sota-ajan-suomi-ja-rotuopit.html</ref>{{Lähde tarkemmin}}\n+ Saksa oli Ruotsin ohella tärkein vaikutteiden lähde Suomessa 1930-luvulla. Kansallissosialistien kannatus oli Suomessa kuitenkin marginaalista.<ref>http://jokisipila.blogspot.com/2006/03/sota-ajan-suomi-ja-rotuopit.html</ref>{{Lähde tarkemmin}} \n+ Suomessa kansallissosialistisia puolueita olivat [[Aseveljien Työjärjestö]] (1942) [[Suomen Kansan Järjestö]] (1933-1936), sen jatkaja [[Kansallissosialistien Järjestö]] (1940-1944), [[Suomen Kansallissosialistinen Työjärjestö]] (1940-1944), [[Suomalaissosialistinen puolue]] (1932-1937) , [[Suomalaissosialistinen Työväen Puolue]] (1934-1944), [[Suomen Kansallissosialistit]] (1941-1944) ja [[Suomen Työrintama]] (1936-1939). Osa puolueista oli samojen henkilöiden johtamia yhdistyksiä. Ennen [[puoluelaki]]a 1969 ei Suomessa rekisteröityä puoluetta (r.p., rp.) ei eroteltu muista [[rekisteröity yhdistys|rekisteröidyistä yhdistyksistä]]. Monet yhdistykset toimivat 1930-luvun pulavuosista [[Eduskuntavaalit 1939|eduskuntavaaleihin 1939]], jolloin ne eivät saaneet ainuttakaan kansanedustajaa. Talvisodan jälkeen ja jatkosodan aikana toimivat puolueyhdistykset eivät voineet saada kansanedustajia, koska sotien vuoksi seuraavat [[Eduskuntavaalit 1945|eduskuntavaalit käytiin vasta 1945]] [[Lapin sota|Lapin sodan]] miltei tultua päätökseensä 17. maaliskuuta - 18. maaliskuuta 1945. Kuitenkin Suomen kansallissosialistiset puolueet oli lakkautettu [[Moskovan välirauha]]n perusteella [[valvontakomissio]]n valvoessa Suomessa sopimuksen noudattamista."
+    }
+   ]
+  },
+  {
+   "id": "x02",
+   "page_id": 24889,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    22295376,
+    22295380
+   ],
+   "removing_rev_ids": [
+    22542688
+   ],
+   "candidates": [
+    {
+     "cid": "c06",
+     "bucket": "likely",
+     "page_id": 24889,
+     "title": "Simo Häyhä",
+     "edits": [
+      {
+       "rev_id": 22295376,
+       "parent_rev_id": 22239550,
+       "ts": "2024-03-31T12:59:53Z",
+       "editor": "E685",
+       "bytes_delta": 318,
+       "summary": "Näitä asioita pitää korjata, niin iso virhe että siitä on tullut \"fatkaa\" Voi olla että kaikki mitä kirjoitin ei ole 100% totta mutta suurin osa siitä pitäisi olla"
+      },
+      {
+       "rev_id": 22295380,
+       "parent_rev_id": 22295376,
+       "ts": "2024-03-31T13:02:59Z",
+       "editor": "E685",
+       "bytes_delta": 11,
+       "summary": "Korjasin pari kirjoitusvirhettä"
+      },
+      {
+       "rev_id": 22329018,
+       "parent_rev_id": 22295380,
+       "ts": "2024-04-16T07:27:43Z",
+       "editor": "E684",
+       "bytes_delta": 39,
+       "summary": ""
+      },
+      {
+       "rev_id": 22329036,
+       "parent_rev_id": 22329018,
+       "ts": "2024-04-16T07:32:08Z",
+       "editor": "E306",
+       "bytes_delta": -39,
+       "summary": "Käyttäjän E684 muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän E685 tekemään versioon."
+      },
+      {
+       "rev_id": 22333752,
+       "parent_rev_id": 22329036,
+       "ts": "2024-04-18T07:43:12Z",
+       "editor": "E686",
+       "bytes_delta": 12,
+       "summary": ""
+      },
+      {
+       "rev_id": 22333755,
+       "parent_rev_id": 22333752,
+       "ts": "2024-04-18T07:45:13Z",
+       "editor": "E358",
+       "bytes_delta": -12,
+       "summary": "Käyttäjän E686 muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän E306 tekemään versioon."
+      }
+     ],
+     "inserting_editors": [
+      "E306",
+      "E358",
+      "E684",
+      "E685",
+      "E686"
+     ],
+     "distinct_inserting_editor_groups": 5,
+     "remover": "E287",
+     "removed_at": "2024-07-30T14:46:39Z",
+     "removal_summary": "Hylättiin viimeisimmät 6 tekstimuutosta (tehneet E685, E684, E306, E686 ja E358) ja palautettiin versio 22239550, jonka on tehnyt E687",
+     "restored_rev_id": 22239550,
+     "removing_rev_id": 22542688,
+     "net_bytes": 329,
+     "survival": "121.1 days",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 0,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 2,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=22542688",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=22295376",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=22295380",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=22329018",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=22329036",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=22333752",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=22333755"
+      ]
+     },
+     "diff": "~ '''Simo Häyhä''' ({{Syntymä- ja kuolinaika|17|12|1905|[[Rautjärvi]]|1|4|2002|[[Hamina]]}}) oli suomalainen [[sotilas]] [ … attu = 29.12.2019 }}</ref> Puna-armeijan sotilaat nimesivät Häyhän ”Valkoiseksi kuolemaksi” ({{K-ru|Белая смерть|Belaja [-smert}})<ref>{{Verkkoviite-]{+smert}}).<ref>{{Verkkoviite+} | Osoite=http://www.palasuomenhistoriaa.net/?J%E4rjest%F6-_ja_henkil%F6historiat:Jatkosota:Simo_H%E4yh%E4 | Nimeke=Simo Häyhä | Tekijä=Niskanen, Matti | Julkaisija=Olli Kleemola & Janne Niemistö | [-Viitattu=20.12.2010}}</ref>.-]{+Viitattu=20.12.2010}}</ref> Tästä ei kuitenkaan olla kokonaan varmoja, ja moni jopa väittää lempinimen tulevan Suomen puolelta, ja päästen suosioon aikaisintaan 21.12.1939. Sinä päivänä jona Häyhä sai 25 tappoa yhdessä päivässä. <ref>{{Jaksoviite|Nimi=What Really Happened When Soviets Invaded Finland (The Winter War)|Kieli=fi-FI}}</ref> +}"
+    }
+   ]
+  },
+  {
+   "id": "x03",
+   "page_id": 1256,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    16057899
+   ],
+   "removing_rev_ids": [
+    16057903
+   ],
+   "candidates": [
+    {
+     "cid": "c31",
+     "bucket": "look-alike:self-removal",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 16057899,
+       "parent_rev_id": 15926769,
+       "ts": "2016-11-11T12:29:10Z",
+       "editor": "E280",
+       "bytes_delta": 35,
+       "summary": "Joo"
+      }
+     ],
+     "inserting_editors": [
+      "E280"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E280",
+     "removed_at": "2016-11-11T12:29:59Z",
+     "removal_summary": "",
+     "restored_rev_id": 15926769,
+     "removing_rev_id": 16057903,
+     "net_bytes": 35,
+     "survival": "49 s",
+     "flags": {
+      "self_removal": true,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 0,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=16057903",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=16057899"
+      ]
+     },
+     "diff": "~ Sota on tunnettu erityisen vaikeista talviolosuhteista (talvi 1939–1940 oli vuosisadan kylmimpiä), [[puna-armeija]]n val … le 11 prosenttia maa-alueistaan ja toiseksi suurimman kaupunkinsa [[Viipuri]]n. Talvisodan synnyttämä revanssihenki oli {+.saatanan ryssät hyökkäs suamee +}osaltaan viemässä Suomea [[jatkosota]]an."
+    }
+   ]
+  },
+  {
+   "id": "x04",
+   "page_id": 1256,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    197724
+   ],
+   "removing_rev_ids": [
+    197726
+   ],
+   "candidates": [
+    {
+     "cid": "c32",
+     "bucket": "look-alike:self-removal",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 197724,
+       "parent_rev_id": 197717,
+       "ts": "2005-05-17T13:04:49Z",
+       "editor": "E17",
+       "bytes_delta": 42,
+       "summary": "/* Sodan alku */"
+      }
+     ],
+     "inserting_editors": [
+      "E17"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E17",
+     "removed_at": "2005-05-17T13:09:48Z",
+     "removal_summary": "/* Sodan alku */",
+     "restored_rev_id": 197717,
+     "removing_rev_id": 197726,
+     "net_bytes": 42,
+     "survival": "5 min",
+     "flags": {
+      "self_removal": true,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 2,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=197726",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=197724"
+      ]
+     },
+     "diff": "+ koska niille tuli levoton paskahätä :/."
+    }
+   ]
+  },
+  {
+   "id": "x05",
+   "page_id": 8295,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    15356346,
+    15356377,
+    15356383
+   ],
+   "removing_rev_ids": [
+    15356370,
+    15356378,
+    15356388
+   ],
+   "candidates": [
+    {
+     "cid": "c04",
+     "bucket": "likely",
+     "page_id": 8295,
+     "title": "Mainilan laukaukset",
+     "edits": [
+      {
+       "rev_id": 15356346,
+       "parent_rev_id": 14834809,
+       "ts": "2015-11-25T04:36:41Z",
+       "editor": "E404",
+       "bytes_delta": 93,
+       "summary": "Muutettu väite: Todellisuudessa... Lähde on puutteellinen."
+      }
+     ],
+     "inserting_editors": [
+      "E404"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E270",
+     "removed_at": "2015-11-25T05:56:17Z",
+     "removal_summary": "Hylättiin viimeisin tekstimuutos (tehnyt E404) ja palautettiin versio 14834809, jonka on tehnyt E270: lähteetön",
+     "restored_rev_id": 14834809,
+     "removing_rev_id": 15356370,
+     "net_bytes": 93,
+     "survival": "80 min",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": true,
+      "identity_reverts_on_page_within_3_days": 4,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [
+      "c22",
+      "c23"
+     ],
+     "similar_to": [
+      "c22",
+      "c23"
+     ],
+     "editor_reverted_runs_in_topic": 5,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15356370",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15356346"
+      ]
+     },
+     "diff": "~ Venäläiset [-ovat-]{+eivät+} [-myöhemmin-]{+ole+} [-myöntäneet<ref>{{Verkkoviite-]{+myöntäneet, että <ref>{{Verkkoviite+} | Osoite = http://yle.fi/uutiset/mainilan_laukauksista_70_vuotta/5935602 | Nimeke = Mainilan laukauksista 70 vuotta | T …  Julkaisija = | Viitattu = 10.6.2014 | Kieli = }}</ref>{{lähde tarkemmin|Asia ei selviä lähteestä. 17.4.2015}} kyseessä [-olleen-]{+olisi ollut+} [[Lavastettu hyökkäys|Neuvostoliiton itse lavastama tykistöisku]] Mainilan kylään, jonka tarkoituksena oli saada Suomi näyttämään hyökkääjältä talvisodassa.{+ Tämä historiallinen fakta on edelleen kiistanalainen <ref name=\":0\" /> .+} Mainila ei tuolloin ollut Suomen tykistön kantaman sisällä, koska tykit oli [[Carl Gustaf Emil Mannerheim|Mannerheimin] … käskystä vedetty kauaksi rajalta, sillä Neuvostoliiton odotettiin järjestävän jonkin tapahtuneen kaltaisen provokaation.\n~ Historoitsija Pavel Aptekar ({{k-ru|Павел Аптекарь}}) kävi läpi myöhemmin salauksesta vapautuneita dokumentteja, eikä löytänyt merkkejä ihmishenkien menetyksistä alueella, josta hän päätteli, että Mainilan laukaukset oli lavastettu [-<ref>http://www.rkka.ru/analys/mainila/mainila.htm</ref>.-]{+<ref name=\":0\">http://www.rkka.ru/analys/mainila/mainila.htm</ref>.+} Myös muiden lähteiden mukaan Neuvostoliittolaisista arkistoista ei ole löytynyt raportteja Mainilan laukausten uhreista, joten ketään ei tiettävästi kuollut <ref name=ammattisotilas/>."
+    },
+    {
+     "cid": "c22",
+     "bucket": "likely",
+     "page_id": 8295,
+     "title": "Mainilan laukaukset",
+     "edits": [
+      {
+       "rev_id": 15356377,
+       "parent_rev_id": 15356370,
+       "ts": "2015-11-25T06:01:46Z",
+       "editor": "E404",
+       "bytes_delta": 93,
+       "summary": "Kumottu muokkaus 15356370, jonka teki E270 (keskustelu) Tekstissä on Lähde. Luetko edes tekstejä ennun kuin poistat?"
+      }
+     ],
+     "inserting_editors": [
+      "E404"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E270",
+     "removed_at": "2015-11-25T06:02:35Z",
+     "removal_summary": "Hylättiin viimeisin tekstimuutos (tehnyt E404) ja palautettiin versio 15356370, jonka on tehnyt E270: ylen lähteessä asiaa ei mainita, venäjänkielistä en ymmärrä",
+     "restored_rev_id": 15356370,
+     "removing_rev_id": 15356378,
+     "net_bytes": 93,
+     "survival": "49 s",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": true,
+      "identity_reverts_on_page_within_3_days": 4,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [
+      "c23"
+     ],
+     "similar_to": [
+      "c04",
+      "c23"
+     ],
+     "editor_reverted_runs_in_topic": 5,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15356378",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15356377"
+      ]
+     },
+     "diff": "~ Venäläiset [-ovat-]{+eivät+} [-myöhemmin-]{+ole+} [-myöntäneet<ref>{{Verkkoviite-]{+myöntäneet, että <ref>{{Verkkoviite+} | Osoite = http://yle.fi/uutiset/mainilan_laukauksista_70_vuotta/5935602 | Nimeke = Mainilan laukauksista 70 vuotta | T …  Julkaisija = | Viitattu = 10.6.2014 | Kieli = }}</ref>{{lähde tarkemmin|Asia ei selviä lähteestä. 17.4.2015}} kyseessä [-olleen-]{+olisi ollut+} [[Lavastettu hyökkäys|Neuvostoliiton itse lavastama tykistöisku]] Mainilan kylään, jonka tarkoituksena oli saada Suomi näyttämään hyökkääjältä talvisodassa.{+ Tämä historiallinen fakta on edelleen kiistanalainen <ref name=\":0\" /> .+} Mainila ei tuolloin ollut Suomen tykistön kantaman sisällä, koska tykit oli [[Carl Gustaf Emil Mannerheim|Mannerheimin] … käskystä vedetty kauaksi rajalta, sillä Neuvostoliiton odotettiin järjestävän jonkin tapahtuneen kaltaisen provokaation.\n~ Historoitsija Pavel Aptekar ({{k-ru|Павел Аптекарь}}) kävi läpi myöhemmin salauksesta vapautuneita dokumentteja, eikä löytänyt merkkejä ihmishenkien menetyksistä alueella, josta hän päätteli, että Mainilan laukaukset oli lavastettu [-<ref>http://www.rkka.ru/analys/mainila/mainila.htm</ref>.-]{+<ref name=\":0\">http://www.rkka.ru/analys/mainila/mainila.htm</ref>.+} Myös muiden lähteiden mukaan Neuvostoliittolaisista arkistoista ei ole löytynyt raportteja Mainilan laukausten uhreista, joten ketään ei tiettävästi kuollut <ref name=ammattisotilas/>."
+    },
+    {
+     "cid": "c23",
+     "bucket": "likely",
+     "page_id": 8295,
+     "title": "Mainilan laukaukset",
+     "edits": [
+      {
+       "rev_id": 15356383,
+       "parent_rev_id": 15356378,
+       "ts": "2015-11-25T06:10:06Z",
+       "editor": "E404",
+       "bytes_delta": 93,
+       "summary": "YLE:n lähde on spekulaatiota, eikä perustu tosiasioihin, ja on ristiriidassa kaikkien muiden lähteiden kanssa. Siksi sitä ei oikeastaan voi käyttää lähteenä."
+      }
+     ],
+     "inserting_editors": [
+      "E404"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E270",
+     "removed_at": "2015-11-25T06:11:29Z",
+     "removal_summary": "Hylättiin viimeisin tekstimuutos (tehnyt E404) ja palautettiin versio 15356378, jonka on tehnyt E270: ylen lähde on kuitenkin viitteenä tässä, korjaa",
+     "restored_rev_id": 15356378,
+     "removing_rev_id": 15356388,
+     "net_bytes": 93,
+     "survival": "83 s",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 4,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [
+      "c04",
+      "c22"
+     ],
+     "editor_reverted_runs_in_topic": 5,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15356388",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15356383"
+      ]
+     },
+     "diff": "~ Venäläiset [-ovat-]{+eivät+} [-myöhemmin-]{+ole+} [-myöntäneet<ref>{{Verkkoviite-]{+myöntäneet, että <ref>{{Verkkoviite+} | Osoite = http://yle.fi/uutiset/mainilan_laukauksista_70_vuotta/5935602 | Nimeke = Mainilan laukauksista 70 vuotta | T …  Julkaisija = | Viitattu = 10.6.2014 | Kieli = }}</ref>{{lähde tarkemmin|Asia ei selviä lähteestä. 17.4.2015}} kyseessä [-olleen-]{+olisi ollut+} [[Lavastettu hyökkäys|Neuvostoliiton itse lavastama tykistöisku]] Mainilan kylään, jonka tarkoituksena oli saada Suomi näyttämään hyökkääjältä talvisodassa.{+ Tämä historiallinen fakta on edelleen kiistanalainen <ref name=\":0\" /> .+} Mainila ei tuolloin ollut Suomen tykistön kantaman sisällä, koska tykit oli [[Carl Gustaf Emil Mannerheim|Mannerheimin] … käskystä vedetty kauaksi rajalta, sillä Neuvostoliiton odotettiin järjestävän jonkin tapahtuneen kaltaisen provokaation.\n~ Historoitsija Pavel Aptekar ({{k-ru|Павел Аптекарь}}) kävi läpi myöhemmin salauksesta vapautuneita dokumentteja, eikä löytänyt merkkejä ihmishenkien menetyksistä alueella, josta hän päätteli, että Mainilan laukaukset oli lavastettu [-<ref>http://www.rkka.ru/analys/mainila/mainila.htm</ref>.-]{+<ref name=\":0\">http://www.rkka.ru/analys/mainila/mainila.htm</ref>.+} Myös muiden lähteiden mukaan Neuvostoliittolaisista arkistoista ei ole löytynyt raportteja Mainilan laukausten uhreista, joten ketään ei tiettävästi kuollut <ref name=ammattisotilas/>."
+    }
+   ]
+  },
+  {
+   "id": "x06",
+   "page_id": 24889,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    18325402,
+    18325428
+   ],
+   "removing_rev_ids": [
+    18353640
+   ],
+   "candidates": [
+    {
+     "cid": "c14",
+     "bucket": "likely",
+     "page_id": 24889,
+     "title": "Simo Häyhä",
+     "edits": [
+      {
+       "rev_id": 18325402,
+       "parent_rev_id": 18307655,
+       "ts": "2019-08-05T07:59:29Z",
+       "editor": "E638",
+       "bytes_delta": 19,
+       "summary": "/* Taktiikka */Lisätty tietoa"
+      },
+      {
+       "rev_id": 18325428,
+       "parent_rev_id": 18325402,
+       "ts": "2019-08-05T08:10:39Z",
+       "editor": "E639",
+       "bytes_delta": 451,
+       "summary": "/* Taktiikka */ Lisätty tietoa."
+      }
+     ],
+     "inserting_editors": [
+      "E638",
+      "E639"
+     ],
+     "distinct_inserting_editor_groups": 2,
+     "remover": "E270",
+     "removed_at": "2019-08-20T06:34:23Z",
+     "removal_summary": "Hylättiin viimeiset 2 tekstimuutosta ja palautettiin versio 18307655, jonka on tehnyt E640: lähteistetty tekstiosuus jonka lähteessä tätä ei ole",
+     "restored_rev_id": 18307655,
+     "removing_rev_id": 18353640,
+     "net_bytes": 470,
+     "survival": "14.9 days",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 0,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=18353640",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=18325402",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=18325428"
+      ]
+     },
+     "diff": "~ Häyhä käytti tarkka-ampujan tehtävässään suojeluskunta-asettaan, varhaisen tuotantomallin [[Sako]] [[M/28|M/28-30 ”Pystykorva”]] -kivääriä [-(suojeluskuntanumero-]{+(sarjanumero 35281, suojeluskuntanumero+} S60974), ja toisin kuin neuvostoliittolaiset vastustajansa, hän suosi kiikaritähtäimen sijasta avotähtäimiä. Avotähtäim …  Kiikaritähtäin olisi myös edellyttänyt pään nostamisen muutamia senttejä korkeammalle, mikä saattoi olla kohtalokasta. {+Häyhällä ei myöskään ollut aiempaa kokemusta kiikarikivääreistä. Kiikarikivääreitä oli ennen sotaa Suojeluskuntajärjestöllä vain muutamia, armeijalla ei ainuttakaan. Kollaan taisteluiden aikana hänelle tarjottiin sotasaaliiksi saatua neuvostoliittolaista m/91-30 PE-kiikarikivääriä, mutta Häyhä ei halunnut ottaa kiikarikivääriä käyttöön. Uuden asejärjestelmän opetteleminen tulen alla oli vähemmän houkutteleva ajatus. +}Kylmiin oloihin varustautuakseen hän pani paljon vaatetta päälle. Pahimmillaan pakkasta oli esimerkiksi Kuusamossa -37,6 … asvinkki – näin tarkka-ampuja pärjäsi tuntikausia liikkumatta lumikuopassa talvisodassa| Julkaisu = Ilta-Sanomat}}</ref>"
+    }
+   ]
+  },
+  {
+   "id": "x07",
+   "page_id": 1256,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    9113749
+   ],
+   "removing_rev_ids": [
+    9132337
+   ],
+   "candidates": [
+    {
+     "cid": "c33",
+     "bucket": "look-alike:bot",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 9113749,
+       "parent_rev_id": 9108714,
+       "ts": "2010-09-28T05:29:33Z",
+       "editor": "E206",
+       "bytes_delta": 34,
+       "summary": "Lisätään Tekijänoikeus_201009-malline"
+      },
+      {
+       "rev_id": 9128032,
+       "parent_rev_id": 9113749,
+       "ts": "2010-09-30T18:01:47Z",
+       "editor": "E204",
+       "bytes_delta": 0,
+       "summary": ""
+      },
+      {
+       "rev_id": 9128042,
+       "parent_rev_id": 9128032,
+       "ts": "2010-09-30T18:04:19Z",
+       "editor": "E205",
+       "bytes_delta": 0,
+       "summary": "Käyttäjän E204 (keskustelu) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän E206 tekemään versioon."
+      },
+      {
+       "rev_id": 9128279,
+       "parent_rev_id": 9128042,
+       "ts": "2010-09-30T19:02:15Z",
+       "editor": "E207",
+       "bytes_delta": 14,
+       "summary": "/* Talvisodan seurauksista ja merkityksestä */"
+      },
+      {
+       "rev_id": 9128281,
+       "parent_rev_id": 9128279,
+       "ts": "2010-09-30T19:02:48Z",
+       "editor": "E208",
+       "bytes_delta": -14,
+       "summary": "Käyttäjän E207 (keskustelu) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän E205 tekemään versioon."
+      }
+     ],
+     "inserting_editors": [
+      "E204",
+      "E205",
+      "E206",
+      "E207",
+      "E208"
+     ],
+     "distinct_inserting_editor_groups": 5,
+     "remover": "E209",
+     "removed_at": "2010-10-01T17:48:43Z",
+     "removal_summary": "crashin diffit ok. tekijänoikeusmalline pois",
+     "restored_rev_id": 9108714,
+     "removing_rev_id": 9132337,
+     "net_bytes": 34,
+     "survival": "3.5 days",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": true,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 2,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 3,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=9132337",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=9113749",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=9128032",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=9128042",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=9128279",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=9128281"
+      ]
+     },
+     "diff": "~ [-{{hyvä}}-]{+{{Tekijänoikeus_201009|diff=600}}{{hyvä}}+}"
+    }
+   ]
+  },
+  {
+   "id": "x08",
+   "page_id": 1256,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    8960158,
+    8960194,
+    8962713,
+    8963132
+   ],
+   "removing_rev_ids": [
+    8960166,
+    8960205,
+    8963091,
+    8963567
+   ],
+   "candidates": [
+    {
+     "cid": "c19",
+     "bucket": "likely",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 8960158,
+       "parent_rev_id": 8954412,
+       "ts": "2010-08-27T09:53:08Z",
+       "editor": "E201",
+       "bytes_delta": 84,
+       "summary": ""
+      }
+     ],
+     "inserting_editors": [
+      "E201"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E134",
+     "removed_at": "2010-08-27T09:55:04Z",
+     "removal_summary": "rv, epämääräisiä käsitteitä",
+     "restored_rev_id": 8954412,
+     "removing_rev_id": 8960166,
+     "net_bytes": 84,
+     "survival": "116 s",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": true,
+      "identity_reverts_on_page_within_3_days": 6,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [
+      "c20",
+      "c21"
+     ],
+     "similar_to": [
+      "c03",
+      "c20",
+      "c21"
+     ],
+     "editor_reverted_runs_in_topic": 3,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8960166",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8960158"
+      ]
+     },
+     "diff": "-  | lopputulos = [[Moskovan rauhansopimus (1940)|Moskovan rauha]]\n+  | lopputulos = Neuvostoliiton voitto (sotilaallinen),<br>\n+ Suomen torjuntavoitto (poliittinen),<br>\n+ [[Moskovan rauhansopimus (1940)|Moskovan rauha]]"
+    },
+    {
+     "cid": "c17",
+     "bucket": "likely",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 8960166,
+       "parent_rev_id": 8960158,
+       "ts": "2010-08-27T09:55:04Z",
+       "editor": "E134",
+       "bytes_delta": -84,
+       "summary": "rv, epämääräisiä käsitteitä"
+      }
+     ],
+     "inserting_editors": [
+      "E134"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E201",
+     "removed_at": "2010-08-27T10:04:58Z",
+     "removal_summary": "Täsmennetty myös ru-Wikiin Победа СССР:ään: Победа СССР (военная), отраженная победа Финляндии (политическая)",
+     "restored_rev_id": 8960158,
+     "removing_rev_id": 8960194,
+     "net_bytes": -84,
+     "survival": "10 min",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": true,
+      "identity_reverts_on_page_within_3_days": 6,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [
+      "c18"
+     ],
+     "similar_to": [
+      "c02",
+      "c18"
+     ],
+     "editor_reverted_runs_in_topic": 3,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8960194",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8960166"
+      ]
+     },
+     "diff": "-  | lopputulos = Neuvostoliiton voitto (sotilaallinen),<br>\n- Suomen torjuntavoitto (poliittinen),<br>\n- [[Moskovan rauhansopimus (1940)|Moskovan rauha]]\n+  | lopputulos = [[Moskovan rauhansopimus (1940)|Moskovan rauha]]"
+    },
+    {
+     "cid": "c20",
+     "bucket": "likely",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 8960194,
+       "parent_rev_id": 8960166,
+       "ts": "2010-08-27T10:04:58Z",
+       "editor": "E201",
+       "bytes_delta": 84,
+       "summary": "Täsmennetty myös ru-Wikiin Победа СССР:ään: Победа СССР (военная), отраженная победа Финляндии (политическая)"
+      }
+     ],
+     "inserting_editors": [
+      "E201"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E134",
+     "removed_at": "2010-08-27T10:07:20Z",
+     "removal_summary": "lähteet ensin",
+     "restored_rev_id": 8960166,
+     "removing_rev_id": 8960205,
+     "net_bytes": 84,
+     "survival": "2 min",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": true,
+      "identity_reverts_on_page_within_3_days": 6,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [
+      "c21"
+     ],
+     "similar_to": [
+      "c03",
+      "c19",
+      "c21"
+     ],
+     "editor_reverted_runs_in_topic": 3,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8960205",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8960194"
+      ]
+     },
+     "diff": "-  | lopputulos = [[Moskovan rauhansopimus (1940)|Moskovan rauha]]\n+  | lopputulos = Neuvostoliiton voitto (sotilaallinen),<br>\n+ Suomen torjuntavoitto (poliittinen),<br>\n+ [[Moskovan rauhansopimus (1940)|Moskovan rauha]]"
+    },
+    {
+     "cid": "c18",
+     "bucket": "likely",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 8960205,
+       "parent_rev_id": 8960194,
+       "ts": "2010-08-27T10:07:20Z",
+       "editor": "E134",
+       "bytes_delta": -84,
+       "summary": "lähteet ensin"
+      }
+     ],
+     "inserting_editors": [
+      "E134"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E201",
+     "removed_at": "2010-08-27T20:45:00Z",
+     "removal_summary": "Suomihan ei voinut voittaa sotilaallisesti, koska joutui vetäytymään Rajajoelta Viipurin itäreunalle, toki poliittisesti Suomi saavutti torjuntavoiton.",
+     "restored_rev_id": 8960194,
+     "removing_rev_id": 8962713,
+     "net_bytes": -84,
+     "survival": "10.6 h",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": true,
+      "identity_reverts_on_page_within_3_days": 6,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [
+      "c02",
+      "c17"
+     ],
+     "editor_reverted_runs_in_topic": 3,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8962713",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8960205"
+      ]
+     },
+     "diff": "-  | lopputulos = Neuvostoliiton voitto (sotilaallinen),<br>\n- Suomen torjuntavoitto (poliittinen),<br>\n- [[Moskovan rauhansopimus (1940)|Moskovan rauha]]\n+  | lopputulos = [[Moskovan rauhansopimus (1940)|Moskovan rauha]]"
+    },
+    {
+     "cid": "c21",
+     "bucket": "likely",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 8962713,
+       "parent_rev_id": 8960205,
+       "ts": "2010-08-27T20:45:00Z",
+       "editor": "E201",
+       "bytes_delta": 84,
+       "summary": "Suomihan ei voinut voittaa sotilaallisesti, koska joutui vetäytymään Rajajoelta Viipurin itäreunalle, toki poliittisesti Suomi saavutti torjuntavoiton."
+      }
+     ],
+     "inserting_editors": [
+      "E201"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E202",
+     "removed_at": "2010-08-27T23:19:39Z",
+     "removal_summary": "Palautus - ilmeinen konsensus versiohistoriasta päätellen",
+     "restored_rev_id": 8960205,
+     "removing_rev_id": 8963091,
+     "net_bytes": 84,
+     "survival": "2.6 h",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": true,
+      "identity_reverts_on_page_within_3_days": 6,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [
+      "c03",
+      "c19",
+      "c20"
+     ],
+     "editor_reverted_runs_in_topic": 3,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8963091",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8962713"
+      ]
+     },
+     "diff": "-  | lopputulos = [[Moskovan rauhansopimus (1940)|Moskovan rauha]]\n+  | lopputulos = Neuvostoliiton voitto (sotilaallinen),<br>\n+ Suomen torjuntavoitto (poliittinen),<br>\n+ [[Moskovan rauhansopimus (1940)|Moskovan rauha]]"
+    },
+    {
+     "cid": "c02",
+     "bucket": "likely",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 8963091,
+       "parent_rev_id": 8962713,
+       "ts": "2010-08-27T23:19:39Z",
+       "editor": "E202",
+       "bytes_delta": -84,
+       "summary": "Palautus - ilmeinen konsensus versiohistoriasta päätellen"
+      }
+     ],
+     "inserting_editors": [
+      "E202"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E203",
+     "removed_at": "2010-08-27T23:42:31Z",
+     "removal_summary": "Monissa muissa ja muun kielisissä sota-artikkeleissa mainitaan voittaja(t), miksi ei sitten myös Suomen osuuksissa toisessa maailmansodassa.",
+     "restored_rev_id": 8962713,
+     "removing_rev_id": 8963132,
+     "net_bytes": -84,
+     "survival": "23 min",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": true,
+      "identity_reverts_on_page_within_3_days": 6,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [
+      "c17",
+      "c18"
+     ],
+     "similar_to": [
+      "c17",
+      "c18"
+     ],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8963132",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8963091"
+      ]
+     },
+     "diff": "-  | lopputulos = Neuvostoliiton voitto (sotilaallinen),<br>\n- Suomen torjuntavoitto (poliittinen),<br>\n- [[Moskovan rauhansopimus (1940)|Moskovan rauha]]\n+  | lopputulos = [[Moskovan rauhansopimus (1940)|Moskovan rauha]]"
+    },
+    {
+     "cid": "c03",
+     "bucket": "likely",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 8963132,
+       "parent_rev_id": 8963091,
+       "ts": "2010-08-27T23:42:31Z",
+       "editor": "E203",
+       "bytes_delta": 84,
+       "summary": "Monissa muissa ja muun kielisissä sota-artikkeleissa mainitaan voittaja(t), miksi ei sitten myös Suomen osuuksissa toisessa maailmansodassa."
+      }
+     ],
+     "inserting_editors": [
+      "E203"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E202",
+     "removed_at": "2010-08-28T05:55:05Z",
+     "removal_summary": "Kumottu muokkaus 8963132, jonka teki E203 (keskustelu)",
+     "restored_rev_id": 8963091,
+     "removing_rev_id": 8963567,
+     "net_bytes": 84,
+     "survival": "6.2 h",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 6,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [
+      "c19",
+      "c20",
+      "c21"
+     ],
+     "similar_to": [
+      "c19",
+      "c20",
+      "c21"
+     ],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8963567",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8963132"
+      ]
+     },
+     "diff": "-  | lopputulos = [[Moskovan rauhansopimus (1940)|Moskovan rauha]]\n+  | lopputulos = Neuvostoliiton voitto (sotilaallinen),<br>\n+ Suomen torjuntavoitto (poliittinen),<br>\n+ [[Moskovan rauhansopimus (1940)|Moskovan rauha]]"
+    }
+   ]
+  },
+  {
+   "id": "x09",
+   "page_id": 1256,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    14250522
+   ],
+   "removing_rev_ids": [
+    14250524
+   ],
+   "candidates": [
+    {
+     "cid": "c27",
+     "bucket": "look-alike:short-lived substantive",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 14250522,
+       "parent_rev_id": 14250507,
+       "ts": "2014-08-27T07:14:06Z",
+       "editor": "E256",
+       "bytes_delta": 303,
+       "summary": "/* Talvisodan seurauksista ja merkityksestä */"
+      }
+     ],
+     "inserting_editors": [
+      "E256"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E78",
+     "removed_at": "2014-08-27T07:16:07Z",
+     "removal_summary": "Kumottu muokkaus 14250522, jonka teki E256 (keskustelu). Lähteetön mielipidekirjoitus.",
+     "restored_rev_id": 14250507,
+     "removing_rev_id": 14250524,
+     "net_bytes": 303,
+     "survival": "2 min",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 1,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 2,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=14250524",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=14250522"
+      ]
+     },
+     "diff": "~ Suomalaisille talvisota oli lähinnä puolustuksellinen sota, mutta alue- ja henkilömenetykset nostattivat hyökkäysmielial … eet epäluulot Neuvostoliittoa kohtaan kärjistyivät [[ryssäviha]]ksi, jossa kaikki NL:n toimet tulkittiin negatiivisesti.{+ Ryssäviha lue rasismi oli yksi menestymisen tae sodassa. Taisteltiin alempiarvoista kansaa ja kultturia vastaan tunnontuskista piittaamatta. Suurelle osaa sotilaista soti samanaikaisesti bolshevismia ja ryssää vastaan. Näitä mielikuvia ja henkeä yleisesti viljeltiin taistelutahtoa nostattamaan. +}"
+    }
+   ]
+  },
+  {
+   "id": "x10",
+   "page_id": 24889,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    14105173
+   ],
+   "removing_rev_ids": [
+    14105241
+   ],
+   "candidates": [
+    {
+     "cid": "c35",
+     "bucket": "look-alike:small",
+     "page_id": 24889,
+     "title": "Simo Häyhä",
+     "edits": [
+      {
+       "rev_id": 14105173,
+       "parent_rev_id": 14023234,
+       "ts": "2014-06-13T20:09:16Z",
+       "editor": "E557",
+       "bytes_delta": 1,
+       "summary": "Vaihdoin ammuttujen sotilaiden numeron oikeaksi, sillä joku oli vandalisoinut sitä"
+      }
+     ],
+     "inserting_editors": [
+      "E557"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E138",
+     "removed_at": "2014-06-13T20:21:03Z",
+     "removal_summary": "Käyttäjän E557 (keskustelu) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän E555 tekemään versioon.",
+     "restored_rev_id": 14023234,
+     "removing_rev_id": 14105241,
+     "net_bytes": 1,
+     "survival": "12 min",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 0,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=14105241",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=14105173"
+      ]
+     },
+     "diff": "~ '''Simo ”Simuna” Häyhä''' ({{Syntymä- ja kuolinaika|17|12|1905|[[Rautjärvi]]|1|4|2002|[[Hamina]]}}) oli suomalainen [[so … en aikana ampumien [[puna-armeija]]n sotilaiden määräksi on esitetty jopa 542 miestä, joskin oikeampi arvio lienee noin [-200-]{+2000+} sotilasta.<ref name=\"kansallis\">Marjomaa 2004.</ref> Puna-armeijan sotilaat nimesivät Häyhän ”Valkoiseksi Kuolemaksi” ( … | Nimeke=Simo Häyhä | Tekijä=Niskanen, Matti | Julkaisija=Olli Kleemola & Janne Niemistö | Viitattu=210.12.2010}}</ref>."
+    }
+   ]
+  },
+  {
+   "id": "x11",
+   "page_id": 1256,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    4099689
+   ],
+   "removing_rev_ids": [
+    4099699
+   ],
+   "candidates": [
+    {
+     "cid": "c34",
+     "bucket": "look-alike:blanking",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 4099689,
+       "parent_rev_id": 4099681,
+       "ts": "2008-01-11T18:43:29Z",
+       "editor": "E119",
+       "bytes_delta": -82926,
+       "summary": ""
+      }
+     ],
+     "inserting_editors": [
+      "E119"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E120",
+     "removed_at": "2008-01-11T18:45:24Z",
+     "removal_summary": "Käyttäjän E119 vandalismi kumottiin ja sivu palautettiin käyttäjän E119 tekemään versioon 4099681.",
+     "restored_rev_id": 4099681,
+     "removing_rev_id": 4099699,
+     "net_bytes": -82926,
+     "survival": "115 s",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": true,
+      "removal_was_itself_undone": true,
+      "identity_reverts_on_page_within_3_days": 6,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 6,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=4099699",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=4099689"
+      ]
+     },
+     "diff": "- {{hyvä}}\n- {{Taistelu\n-  | nimi = Talvisota\n-  | osa_sotaa = [[Toinen maailmansota|toista maailmansotaa]]\n-  | kuva = Finn sksfdsfdsfdi troops.jpg\n-  | kuvateksti = [[Suomi|Suomalaisia]] [[hiihto]]joukkoja\n-  | päivämäärä = sfsdfsdfdsdf[[30. marraskuuta]] [[1939]] &ndash; <br>[[13. maaliskuuta]] [[1940]]\n-  | paikka = [[Suomi]]\n-  | casus = [[TUMPsdfsdfUTTAJIEN PARATIISI!!]] !\n-  | aluemuutokset =sdfsdfsdfsdfsdf [[Suomisfd]] sai alueita [saatu Karjala|osan Viipurin lääniä]] ja [[saadut alueet|muita alueita]] [[SNTL|Neuvostoliisdfsdfdsftolle]].\n-  | vaikutukset = Sdsfdsfdsfuomen kansan yhtenäisyys lisääntyi. Maan armeijaa ryhdyttiin kehittämään voimakkaasti. Suomi alkoi etsiä tukea ensin Ruotsista, Britfdsfdansfdsfdniasta ja lopulta Saksasta. Neuvostoliitto menetti sotilaspoliittista arvovaltaansa. Talvisodan kokemukdfsdsfdfsdsfset vaikuttivat Puna-armeijan kehittämiseen. Suomen ja Neuvostoliiton väliset suhteet pysyivät erittäin huonoina.dsfdsf\n-  | lopputulos = Neuvostoliitto voitti sfsdsfdodan, mutta kärsi erittäin raskaita tappioita. Suomi koki merkittäviä aluemenetyksiä, mutta säilytti itsenäisyytedsfsfdnsä.\n-  | taistelija1 = <divfsdsdfsfd style=\"width: 100%; text-align: center;\">[[Image:Flag of Finland.svg|50px|border]]<br />[[Suomi]]</div>\n-  | taistelija2 = <div style=\"width: 100%; text-align: center;\">[[Image:Flag of the Soviet Union 1923.svg|50px]]<br />[[Neuvostoliitto]]</dfssfdsfddiv>sdfg|25px|border]] [[Carl Gustaf Emil Mannerheim|C. G. E. Mannerheim]] \n-  | komentaja2 = [[Kuva:sdfsfdFlag of the Soviet Union 1923.svg|25px]] [[Kliment Vorošilov]], myöhemmin <br> [[Kuva:Flag of the Soviet Union 1923.svg|25px]] [[Semjon Timošenko]]\n-  | vahvuus1 = 330 000 miestä, <br>30 tafsdsfdnkkia ja<br>114 lentokonetta<ref name=\"Virrankoski\">Pentti Virrankoski, ''Suomen Historia 2'', 2001, ISBsdsfdsdfsdfdsfN 951-746-342-1, SKS</fsfdfsdref><ref name=\"Käkelä\">Erkki Käkelä, ''Laguksen miehet, Marskin nyrkki: Suomalainen panssariyhtymä 1941-1944'', 199fds2, ISBN 952-90-3858-5, Panssarikilta</ref>\n-  | vahvuus2 = 2 onnetonsdfsdfsdfsdfsdfta miestä,dsfsfd <br>0 tankkia ja<br>3 0 lentokonetta<ref>Tomas Ries, ''Cold Will - The Defense of Finland'', 1988, ISBN 0-08-033592-6, Potomac Books</ref><rdfsdfef>Ohto Manninen, ''Talvisodan salatut taustat'', 1994, ISBN 951-9052-51-0, Kirjaneuvos, using declassified Soviet archive material, Manninen found 12 previously unrecognized infantry divisions ordered to Finnish front</ref>\n-  | tappiot1 = 26 662 kuoli,<br>42 300haavoittui ja <br>1 000 jäi vangiksi<ref>Maanpuolustuskorkeakoulu, ''Talvisodan historia 4'', s.406, 1991, ISBN 951-0-17566-8, WSOY, Kaatuneiden luku sisältää 3671 vakavasti haavoittunutta, jotka kuolivat pääsemättä koskaan sairaalasta jopa vuosia sodan jälkeen.</ref>\n-  | tappiot2 = 126 875 kuoli tai katosi (arvio),<br>264 908 haavoittui ja<br>5 100 jäi vangiksi<ref>G. F. Krivošejev, ''Soviet Casualties and Combat Losses in the Twentieth Century'', 1997, ISBN 1-85367-280-7, Greenhill Books</ref>\n-  | huomautus = sdfsdfsfdsdf\n-  | muut_taistelut = Talvisodan taistelut\n- }}\n- '''Talvisota''' oli [sfdsdfsfd[30. marraskuuta]] [[1939]]–[[13. maaliskuuta]] [[1940]] [[Suomi|Suomen]] ja [[Neuvostoliitto|Neuvostoliiton]] välillä käyty [[sota]]. Konflikti oli osa [[Toinen maailmansota|toista maailmansotaa]]. Sota päättyi [[Moskovan rasfdsdfsfduha]]nsopimukseen, jossa Suomi luovutti 10 prosenttia maa-alueistaan ja toiseksi suuri … ltavista miestappioista, suomalaisten [[motti]]taktiikasta sekä [[Talvisodan henki|talvisodan hengestä]]. Koska [[Länsirintama (toinen maailmansota)|länsirintama]]lla oli käynnissä vähätapahtumainen [[valesota]], seurasi [[Länsimaat|länsimaiden]] lehdistö sotaa tarkasti. Termeistä [[sisu]] ja [[Molotovin cocktail]] tuli kansainvälisesti tunnettuja.\n+ Pornografia (kreikan πόρνη (porni) ”prostituoitu” ja γραφή (grafi) ”kirjoitus”), lyhyemmin porno, on seksuaaliseen kiihotukseen tarkoitettua kuvallista, kirjallista tai muuta niihin verrattavaa aineistoa.[1] Pornografian keskeisimmät muodot ovat pornokuvat sekä pornoelokuvat. Yleisesti porno eroaa erotiikasta siten, että erotiikka tavoittelee taiteellisia arvoja, kun taas pornossa niitä on vähän tai ei lainkaan.\n~ [-==-]{+Valtion+} [-Talvisodan-]{+elokuvatarkastamo+} [-tausta-]{+määrittelee+} [-==-]{+pornografiseksi materiaaliksi kuvauksen, jossa ”ihmisiä käsitellään vain ja ainoastaan seksuaalisina olentoina”.+}\n- Merkittävä tekijä talvisodan taustalla on [[Ensimmäinen maailmansota|ensimmäisen maailmansodan]] lopputulos. Sodan seurauksena [[Saksan keisarikunta|Saksa]] ja Neuvostoliiton ytimeksi sittemmin kehittynyt [[Venäjä]] menettivät [[suurvalta]]-asemansa vuosikymmeneksi. Varhain [[1930-luku|1930-luvulla]] ne alkoivat toipua maailmansodasta ja pyrkivät palauttamaan entisen asemansa. Ensimmäisen maailmansodan aiheuttama sisäinen epävakaus ja sodan antama malli edistivät [[Adolf Hitler]]in ja [[Josif Stalin]]in kaltaisten sotilaallisfdfsds-[[Diktaattori|diktatoristen]] johtajien valtaan nousua näi\n… [diff truncated, 73175 more chars]"
+    }
+   ]
+  },
+  {
+   "id": "x12",
+   "page_id": 1256,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    19864823
+   ],
+   "removing_rev_ids": [
+    19864830
+   ],
+   "candidates": [
+    {
+     "cid": "c28",
+     "bucket": "look-alike:short-lived substantive",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 19864823,
+       "parent_rev_id": 19831759,
+       "ts": "2021-07-04T19:12:29Z",
+       "editor": "E359",
+       "bytes_delta": 79,
+       "summary": ""
+      }
+     ],
+     "inserting_editors": [
+      "E359"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E360",
+     "removed_at": "2021-07-04T19:13:42Z",
+     "removal_summary": "Käyttäjän E359 muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän E320 tekemään versioon.",
+     "restored_rev_id": 19831759,
+     "removing_rev_id": 19864830,
+     "net_bytes": 79,
+     "survival": "73 s",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 0,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19864830",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19864823"
+      ]
+     },
+     "diff": "~ | nimi           = [-Talvisota-]{+ну финны пососали короче как хохлы+}\n~ | kuvateksti     = [-Suomalainen-]{+Тюркские+} [-konekivääriryhmä-]{+азиатские+} [-[[Lemetin-]{+пидорасы+} [-tienhaaran-]{+ждут+} [-motti|Lemetin-]{+русский+} [-tienhaaran motin]] lähellä.-]{+хуй+}\n~ [-'''Talvisota'''-]{+'''ну вы внатуре лошки ебать)'''+} oli [[30. marraskuuta]] [[1939]] – [[13. maaliskuuta]] [[1940]] [[Suomi|Suomen]] ja [[Neuvostoliitto|Neuvostoliiton]] v … sainliitto]] tuomitsi hyökkäyksen ja [[Talvisodan diplomatia|erotti Neuvostoliiton]] jäsenyydestään 14. joulukuuta 1939."
+    }
+   ]
+  },
+  {
+   "id": "x13",
+   "page_id": 24889,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    19012601
+   ],
+   "removing_rev_ids": [
+    19033208
+   ],
+   "candidates": [
+    {
+     "cid": "c13",
+     "bucket": "likely",
+     "page_id": 24889,
+     "title": "Simo Häyhä",
+     "edits": [
+      {
+       "rev_id": 18974466,
+       "parent_rev_id": 18883563,
+       "ts": "2020-06-07T15:00:10Z",
+       "editor": "E651",
+       "bytes_delta": -40,
+       "summary": ""
+      },
+      {
+       "rev_id": 18974467,
+       "parent_rev_id": 18974466,
+       "ts": "2020-06-07T15:00:35Z",
+       "editor": "E651",
+       "bytes_delta": 3,
+       "summary": ""
+      },
+      {
+       "rev_id": 18974468,
+       "parent_rev_id": 18974467,
+       "ts": "2020-06-07T15:01:13Z",
+       "editor": "E651",
+       "bytes_delta": -1,
+       "summary": ""
+      },
+      {
+       "rev_id": 18974474,
+       "parent_rev_id": 18974468,
+       "ts": "2020-06-07T15:03:48Z",
+       "editor": "E651",
+       "bytes_delta": -8,
+       "summary": ""
+      },
+      {
+       "rev_id": 18974476,
+       "parent_rev_id": 18974474,
+       "ts": "2020-06-07T15:04:22Z",
+       "editor": "E651",
+       "bytes_delta": 7,
+       "summary": ""
+      },
+      {
+       "rev_id": 19012601,
+       "parent_rev_id": 18974476,
+       "ts": "2020-06-29T10:02:19Z",
+       "editor": "E652",
+       "bytes_delta": 355,
+       "summary": "Lisännyt tiedon Häyhän tarkka-ampuja legendan siirtymisestä Japanilaiseen manga kulttuuriin."
+      }
+     ],
+     "inserting_editors": [
+      "E651",
+      "E652"
+     ],
+     "distinct_inserting_editor_groups": 2,
+     "remover": "E332",
+     "removed_at": "2020-07-11T15:34:52Z",
+     "removal_summary": "merkittävyys epäselvä",
+     "restored_rev_id": 18883563,
+     "removing_rev_id": 19033208,
+     "net_bytes": 316,
+     "survival": "34.0 days",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 0,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19033208",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=18974466",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=18974467",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=18974468",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=18974474",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=18974476",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19012601"
+      ]
+     },
+     "diff": "~ '''Simo Häyhä''' ({{Syntymä- ja kuolinaika|17|12|1905|[[Rautjärvi]]|1|4|2002|[[Hamina]]}}) oli suomalainen [[sotilas]][- [[Neuvostoliitto]]a vastaan käydyssä-] [[Talvisota|talvisodassa]]. Häntä pidetään yhtenä kaikkien aikojen tehokkaimmista [[Tarkka-ampuja|tarkka-ampujista]]. H …  | Nimeke=Simo Häyhä | Tekijä=Niskanen, Matti | Julkaisija=Olli Kleemola & Janne Niemistö | Viitattu=20.12.2010}}</ref>.\n+ Japanissa on julkaistu N<small>AGAKAWA</small> Narukin piirtämä Manga<ref>{{Verkkoviite|osoite=http://fanfox.net/manga/shiroi_majo/|nimeke=Manga Häyhästä|tekijä=Naruki Nagakawa|julkaisu=|ajankohta=|julkaisija=|viitattu=}}</ref>, jonka päähenkilönä on Häyhä niminen tarkka-ampuja nainen. Mangassa on alussa talvisota, ja myöhemmin jatkosota."
+    }
+   ]
+  },
+  {
+   "id": "x14",
+   "page_id": 8295,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    15609363
+   ],
+   "removing_rev_ids": [
+    15609365
+   ],
+   "candidates": [
+    {
+     "cid": "c30",
+     "bucket": "look-alike:short-lived substantive",
+     "page_id": 8295,
+     "title": "Mainilan laukaukset",
+     "edits": [
+      {
+       "rev_id": 15609363,
+       "parent_rev_id": 15409006,
+       "ts": "2016-03-22T16:29:15Z",
+       "editor": "E407",
+       "bytes_delta": 345,
+       "summary": ""
+      }
+     ],
+     "inserting_editors": [
+      "E407"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E334",
+     "removed_at": "2016-03-22T16:32:25Z",
+     "removal_summary": "Kumottu muokkaus 15609363, jonka teki E407 (keskustelu)",
+     "restored_rev_id": 15409006,
+     "removing_rev_id": 15609365,
+     "net_bytes": 345,
+     "survival": "3 min",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 0,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15609365",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15609363"
+      ]
+     },
+     "diff": "~ Venäläiset ovat myöhemmin myöntäneet<ref>{{Verkkoviite | Osoite = http://yle.fi/uutiset/mainilan_laukauksista_70_vuotta/ … käskystä vedetty kauaksi rajalta, sillä Neuvostoliiton odotettiin järjestävän jonkin tapahtuneen kaltaisen provokaation.{+ Uudempi tutkimus on kuitenkin osoittanut, että suomalaiset itse ampuivat laukaukset osana hitlerististä salaliittoa hyökätä Neuvostoliittoon. Laukausten jälkeen seuranneen diplomaattisen kriisin seurauksena suomalaiset hyökkäsivät Neuvostoliitton vuonna 1939 yhdessä saksalaisten, namibialaisten ja amerikkalaisten joukkojen kanssa.+}"
+    }
+   ]
+  },
+  {
+   "id": "x15",
+   "page_id": 1256,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    19639487,
+    19639606,
+    19642254
+   ],
+   "removing_rev_ids": [
+    19690942
+   ],
+   "candidates": [
+    {
+     "cid": "c09",
+     "bucket": "likely",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 19639487,
+       "parent_rev_id": 19624086,
+       "ts": "2021-03-16T08:53:49Z",
+       "editor": "E354",
+       "bytes_delta": 668,
+       "summary": "/* Kirjallisuutta */"
+      },
+      {
+       "rev_id": 19639606,
+       "parent_rev_id": 19639487,
+       "ts": "2021-03-16T09:49:12Z",
+       "editor": "E354",
+       "bytes_delta": 138,
+       "summary": "/* Kirjallisuutta */"
+      },
+      {
+       "rev_id": 19642254,
+       "parent_rev_id": 19639606,
+       "ts": "2021-03-17T10:57:59Z",
+       "editor": "E354",
+       "bytes_delta": 212,
+       "summary": "/* Lähteet */"
+      }
+     ],
+     "inserting_editors": [
+      "E354"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E38",
+     "removed_at": "2021-04-06T19:01:45Z",
+     "removal_summary": "Hylättiin viimeisimmät 3 tekstimuutosta (tehnyt E354) ja palautettiin versio 19624086, jonka on tehnyt E355: omakustannespämmiä",
+     "restored_rev_id": 19624086,
+     "removing_rev_id": 19690942,
+     "net_bytes": 1018,
+     "survival": "21.4 days",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 0,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19690942",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19639487",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19639606",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19642254"
+      ]
+     },
+     "diff": "+ *Mononen Väinö: ''Talvisota Suomussalmella I:'' Helsinki: Books on Demand, 2021. ISBN 978-952-80-4321-8. \n+ *Mononen Väinö: ''Talvisota Suomussalmella II:'' Helsinki: Books on Demand, 2021. ISBN 978-952-80-4392-8. \n+ *Mononen Väinö: ''Talvisota Kuhmossa I: Kuolema kolkuttaa korvessa.'' Helsinki: Books on Demand, 2020. ISBN 978-952-80-2246-6.\n+ *Mononen Väinö: ''Talvisota Kuhmossa II: Kuolema kolkuttaa korvessa.'' Helsinki: Books on Demand, 2020. ISBN 978-952-80-2264-0.\n+ *Mononen Väinö: ''Talvisota Kuhmossa III: Kuolema kolkuttaa korvessa.'' Helsinki: Books on Demand, 2020. ISBN 978-952-80-2304-3.\n+ *Mononen Väinö: ''Talvisota Kuhmossa IV: Kuolema kolkuttaa korvessa.'' Helsinki: Books on Demand, 2020. ISBN 978-952-80-2309-8.\n+ *Mononen Väinö: ''Talvisota Kuhmossa V: Kuolema kolkuttaa korvessa.'' Helsinki: Books on Demand, 2020. ISBN 978-952-80-2378-4.\n+ *Mononen Väinö: ''Tulta ja tulikiveä: Taunon tarina talvisodasta.'' Helsinki: Books on Demand, 2019. ISBN 978-952-80-0720-3.\n+ *Mononen Väinö: ''Dolinin hiihtoprikaati: Kuoleman kuriiri Kuhmossa.'' Helsinki: Books on Demand, 2018. ISBN 978-952-80-0107-2.\n+ *Mononen Väinö: ''Tuonelan tulenliekit: Tauno Pirhosen talvisota Lieksassa ja Kuhmossa.'' Helsinki: Edico Oy, 2011. ISBN 978-952-5708-44-8. \n~   | Nimeke = Kuoleman [-kujanjuoksu,-]{+kujanjuoksu:+} Talvisota Kuhmon rintamalla [-1939–1940-]{+1939-1940+}\n-   }}\n- * {{Kirjaviite\n-   | Tekijä = Mononen, Väinö\n-   | Vuosi = 2011\n-   | Kieli =\n-   | Nimeke = Tuonelan tulenliekit: Tauno Pirhosen talvisota Lieksassa ja Kuhmossa\n-   | Julkaisija = Edico Oy\n-   | Julkaisupaikka = Helsinki\n-   | Isbn = 978-952-5708-44-8"
+    }
+   ]
+  },
+  {
+   "id": "x16",
+   "page_id": 34207,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    7718605
+   ],
+   "removing_rev_ids": [
+    7719198
+   ],
+   "candidates": [
+    {
+     "cid": "c16",
+     "bucket": "likely",
+     "page_id": 34207,
+     "title": "Mannerheim-linja",
+     "edits": [
+      {
+       "rev_id": 7718605,
+       "parent_rev_id": 7664169,
+       "ts": "2009-12-12T19:49:10Z",
+       "editor": "E713",
+       "bytes_delta": 343,
+       "summary": "Mannerheim-linja on journalistinen nimitys"
+      }
+     ],
+     "inserting_editors": [
+      "E713"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E714",
+     "removed_at": "2009-12-12T22:45:52Z",
+     "removal_summary": "Kumottu muokkaus 7718605, jonka teki E713 (keskustelu)Lähteetön muutos pois.",
+     "restored_rev_id": 7664169,
+     "removing_rev_id": 7719198,
+     "net_bytes": 343,
+     "survival": "2.9 h",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 0,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7719198",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7718605"
+      ]
+     },
+     "diff": "- '''Mannerheim-linja''' oli [[kantalinnoite|kantalinnoitettu]] puolustuslinja, joka kulki [[Karjalankannas|Karjalankannaksella]] [[Laatokka|Laatokalta]] [[Suomenlahti|Suomenlahdelle]]. 132 kilometriä pitkä linja oli [[Talvisota|talvisodan]] merkittävimpien taistelujen paikka ja saavutti kansainvälisessä lehdistössä suuren maineen.\n+ '''Mannerheim-linja''' oli Suomen puolustusvoimien pääpuolustuslinja, jolle talvisodasta kertovat ulkomaalaiset sanomalehtimiehet antoivat nimityksen ''Mannerheim-linja'' Suomen puolustusvoimien komentajana toimineen [[Mannerheim|Carl Gustav Emil Mannerheimin]] mukaan. Suomen virallisessa kielenkäytössä ei linjaa kutsuttu Mannerheim-linajaksi.\n+ Puolustulinja oli [[kantalinnoite|kantalinnoitettu]] puolustuslinja, joka kulki [[Karjalankannas|Karjalankannaksella]] [[Laatokka|Laatokalta]] [[Suomenlahti|Suomenlahdelle]]. 132 kilometriä pitkä linja oli [[Talvisota|talvisodan]] merkittävimpien taistelujen paikka ja saavutti kansainvälisessä lehdistössä suuren maineen."
+    }
+   ]
+  },
+  {
+   "id": "x17",
+   "page_id": 1256,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    5892101
+   ],
+   "removing_rev_ids": [
+    5894382
+   ],
+   "candidates": [
+    {
+     "cid": "c01",
+     "bucket": "likely",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 5892101,
+       "parent_rev_id": 5882422,
+       "ts": "2008-11-29T15:16:31Z",
+       "editor": "E154",
+       "bytes_delta": 108,
+       "summary": "Terijoen hallituksen perustamisen tarkoitus oli oikeuttaa talvisota esittämällä, että NL toimi Suomen työläisten kutsun perusteella.."
+      }
+     ],
+     "inserting_editors": [
+      "E154"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E147",
+     "removed_at": "2008-11-29T21:39:56Z",
+     "removal_summary": "Käyttäjän E154 (keskustelu) muokkaus 5892101 kumottiin Kts. keskustelu",
+     "restored_rev_id": 5882422,
+     "removing_rev_id": 5894382,
+     "net_bytes": 108,
+     "survival": "6.4 h",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 0,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5894382",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5892101"
+      ]
+     },
+     "diff": "~  | casus = [-[[Mainilan-]{+[[Terijoen+} [-laukaukset]]-]{+hallitus|Terijoen hallituksen]] julistuksessa [[1. joulukuuta]] [[1939]] esitetty avunpyyntö [[SNTL|Neuvostoliitolle]].+}"
+    }
+   ]
+  },
+  {
+   "id": "x18",
+   "page_id": 52097,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    14736665,
+    14947746,
+    14949245
+   ],
+   "removing_rev_ids": [
+    14948659,
+    14949282
+   ],
+   "candidates": [
+    {
+     "cid": "c05",
+     "bucket": "likely",
+     "page_id": 52097,
+     "title": "Moskovan rauhansopimus (1940)",
+     "edits": [
+      {
+       "rev_id": 14736665,
+       "parent_rev_id": 14666806,
+       "ts": "2015-03-13T20:58:03Z",
+       "editor": "E422",
+       "bytes_delta": 76,
+       "summary": ""
+      },
+      {
+       "rev_id": 14947746,
+       "parent_rev_id": 14736665,
+       "ts": "2015-05-15T15:15:57Z",
+       "editor": "E423",
+       "bytes_delta": 339,
+       "summary": ""
+      }
+     ],
+     "inserting_editors": [
+      "E422",
+      "E423"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E138",
+     "removed_at": "2015-05-16T04:52:39Z",
+     "removal_summary": "rv, eston kiertoa",
+     "restored_rev_id": 14666806,
+     "removing_rev_id": 14948659,
+     "net_bytes": 415,
+     "survival": "63.3 days",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": true,
+      "identity_reverts_on_page_within_3_days": 2,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [
+      "c24"
+     ],
+     "similar_to": [
+      "c24"
+     ],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=14948659",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=14736665",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=14947746"
+      ]
+     },
+     "diff": "~ '''Moskovan rauha''' oli [[Suomi|Suomen]] ja [[Neuvostoliitto|Neuvostoliiton]] 12. maaliskuuta 1940 välillä solmittu rau … ukot olivat murtumassa ja Neuvostoliiton joukot jo lähentelivät [[Viipuri]]a. Neuvostoliiton halukkuutta rauhaan lisäsi [-[[Ranska]]n-]{+[[Britannian]]+} ja [-[[Yhdistynyt kuningaskunta|Ison-Britannian]]-]{+[[Ranska]]n+} lupaama sotilaallinen apu Suomelle.<ref>[http://www.veteraanienperinto.fi/suomi/sotilaat/talvisota/moskovan_rauha.htm V … ettäviksi myöhemmissä järjestelyissä.<ref> Max Jakobson: ''Diplomaattien talvisota'', s. 394. Porvoo: WSOY, 1955. </ref>\n- '''Luovutettuihin alueisiin kuuluivat:'''<ref>[http://heninen.net/sopimus/1940_f.htm Heninen.net - Rauhansopimus,] haettu 6.9.2009</ref>\n- * [[Karjalankannas]] (muun muassa [[Viipuri]]n ja [[Käkisalmi|Käkisalmen]] kaupungit) \n- * [[Laatokan Karjala]] (muun muassa [[Sortavala]]n kaupunki)\n- * Osia [[Salla|Sallasta]] ja [[Kuusamo]]sta eli [[Sallan–Kuusamon alue]]\n- * Suomen hallitsema osa [[Kalastajasaarento]]a [[Petsamo]]sta\n- * [[Suomenlahti|Suomenlahden]] ulkosaaret: [[Suursaari]], [[Tytärsaari]], [[Lavansaari]] ja [[Seiskari]]\n+ [[Luovutetut alueet|Luovutettuihin alueisiin]] kuuluivat:<ref>[https://www.finlex.fi/fi/sopimukset/sopsteksti/1940/19400003/19400003_2 Rauhansopimus Suomen Tasavallan ja Sosialististen Neuvostotasavaltojen Liiton välillä] 3/1940, 1940, Valtiosopimukset, Valtiosopimukset, Finlex</ref>\n+ * [[Suomenlahti|Suomenlahden ulkosaaret]] (suurimpina [[Suursaari]], [[Lavansaari]], [[Tytärsaari]] ja [[Seiskari]])\n+ * [[Karjalankannas|Karjalankannaksen]] Suomen puoleiset osat (Itä- ja Länsi-Kannas, muun muassa [[Käkisalmi|Käkisalmen]] ja [[Viipuri]]n kaupungit)\n+ * Karjalankannaksen ja uuden rajan välinen alue (mm. [[Viipurinlahti|Viipurinlahden]] länsirannikko ja [[Enso]]n taajama)\n+ * [[Laatokan Karjala]] (mm. [[Sortavala]]n kaupunki)\n+ * [[Sallan–Kuusamon alue|Kuusamon ja Sallan itäosat]]\n+ * [[Keskisaarento|Keski-]] ja [[Kalastajasaarento|Kalastajasaarennon]] Suomen puoleiset osat [[Petsamo]]sta\n~ [-'''Muita-]{+Muita+} rauhanehtoja olivat [-muun muassa:'''-]{+mm.:+}\n~ * [-[[Hanko|Hangon]]-]{+[[Hangon+} [-vuokraaminen-]{+vuokra-alue|Hangon vuokraaminen]]+} Neuvostoliitolle laivastotukikohdaksi seuraaviksi 30 vuodeksi\n~ * [-Menetettyjen-]{+luovutettujen+} alueiden [-taloudellisten-]{+tehtaiden+} [-laitosten-]{+koneiden+} palauttaminen[- (koneet ym.)-]\n~ * [-Liittoutumattomuus-]{+molemminpuolinen+} [-Neuvostoliittoa vastaan-]{+liittoutumattomuus+}\n- * [http://oppiminen.yle.fi/artikkeli?id=8183 Ylen verkkosivut: oppiminen - Moskovan rauhansopimus]\n- * [http://yle.fi/elavaarkisto/?s=s&g=7&ag=66&t=794&a=7366 Yle Elävä arkisto: Rauhansopimusta käsittelevää aineistoa]\n- * [http://heninen.net/sopimus/1940_f.htm Suomen ja Neuvostoliiton välinen rauhansopimus]\n+ * [https://www.finlex.fi/fi/sopimukset/sopsteksti/1940/19400003/19400003_2 Rauhansopimus Suomen Tasavallan ja Sosialististen Neuvostotasavaltojen Liiton välillä] 3/1940, 1940, Valtiosopimukset, Valtiosopimukset, Finlex\n+ * [http://yle.fi/aihe/artikkeli/2006/09/08/tannerin-radiopuhe-talvisodan-rauhan-ehdoista Tannerin radiopuhe talvisodan rauhan ehdoista] Moskovan rauha, Tapahtumat, Elävä arkisto, Yleisradio"
+    },
+    {
+     "cid": "c24",
+     "bucket": "likely",
+     "page_id": 52097,
+     "title": "Moskovan rauhansopimus (1940)",
+     "edits": [
+      {
+       "rev_id": 14949245,
+       "parent_rev_id": 14948659,
+       "ts": "2015-05-16T10:59:34Z",
+       "editor": "E424",
+       "bytes_delta": 415,
+       "summary": "runnygnome"
+      }
+     ],
+     "inserting_editors": [
+      "E424"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E425",
+     "removed_at": "2015-05-16T11:12:10Z",
+     "removal_summary": "",
+     "restored_rev_id": 14948659,
+     "removing_rev_id": 14949282,
+     "net_bytes": 415,
+     "survival": "13 min",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 2,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [
+      "c05"
+     ],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=14949282",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=14949245"
+      ]
+     },
+     "diff": "~ '''Moskovan rauha''' oli [[Suomi|Suomen]] ja [[Neuvostoliitto|Neuvostoliiton]] 12. maaliskuuta 1940 välillä solmittu rau … ukot olivat murtumassa ja Neuvostoliiton joukot jo lähentelivät [[Viipuri]]a. Neuvostoliiton halukkuutta rauhaan lisäsi [-[[Ranska]]n-]{+[[Britannian]]+} ja [-[[Yhdistynyt kuningaskunta|Ison-Britannian]]-]{+[[Ranska]]n+} lupaama sotilaallinen apu Suomelle.<ref>[http://www.veteraanienperinto.fi/suomi/sotilaat/talvisota/moskovan_rauha.htm V … ettäviksi myöhemmissä järjestelyissä.<ref> Max Jakobson: ''Diplomaattien talvisota'', s. 394. Porvoo: WSOY, 1955. </ref>\n- '''Luovutettuihin alueisiin kuuluivat:'''<ref>[http://heninen.net/sopimus/1940_f.htm Heninen.net - Rauhansopimus,] haettu 6.9.2009</ref>\n- * [[Karjalankannas]] (muun muassa [[Viipuri]]n ja [[Käkisalmi|Käkisalmen]] kaupungit) \n- * [[Laatokan Karjala]] (muun muassa [[Sortavala]]n kaupunki)\n- * Osia [[Salla|Sallasta]] ja [[Kuusamo]]sta eli [[Sallan–Kuusamon alue]]\n- * Suomen hallitsema osa [[Kalastajasaarento]]a [[Petsamo]]sta\n- * [[Suomenlahti|Suomenlahden]] ulkosaaret: [[Suursaari]], [[Tytärsaari]], [[Lavansaari]] ja [[Seiskari]]\n+ [[Luovutetut alueet|Luovutettuihin alueisiin]] kuuluivat:<ref>[https://www.finlex.fi/fi/sopimukset/sopsteksti/1940/19400003/19400003_2 Rauhansopimus Suomen Tasavallan ja Sosialististen Neuvostotasavaltojen Liiton välillä] 3/1940, 1940, Valtiosopimukset, Valtiosopimukset, Finlex</ref>\n+ * [[Suomenlahti|Suomenlahden ulkosaaret]] (suurimpina [[Suursaari]], [[Lavansaari]], [[Tytärsaari]] ja [[Seiskari]])\n+ * [[Karjalankannas|Karjalankannaksen]] Suomen puoleiset osat (Itä- ja Länsi-Kannas, muun muassa [[Käkisalmi|Käkisalmen]] ja [[Viipuri]]n kaupungit)\n+ * Karjalankannaksen ja uuden rajan välinen alue (mm. [[Viipurinlahti|Viipurinlahden]] länsirannikko ja [[Enso]]n taajama)\n+ * [[Laatokan Karjala]] (mm. [[Sortavala]]n kaupunki)\n+ * [[Sallan–Kuusamon alue|Kuusamon ja Sallan itäosat]]\n+ * [[Keskisaarento|Keski-]] ja [[Kalastajasaarento|Kalastajasaarennon]] Suomen puoleiset osat [[Petsamo]]sta\n~ [-'''Muita-]{+Muita+} rauhanehtoja olivat [-muun muassa:'''-]{+mm.:+}\n~ * [-[[Hanko|Hangon]]-]{+[[Hangon+} [-vuokraaminen-]{+vuokra-alue|Hangon vuokraaminen]]+} Neuvostoliitolle laivastotukikohdaksi seuraaviksi 30 vuodeksi\n~ * [-Menetettyjen-]{+luovutettujen+} alueiden [-taloudellisten-]{+tehtaiden+} [-laitosten-]{+koneiden+} palauttaminen[- (koneet ym.)-]\n~ * [-Liittoutumattomuus-]{+molemminpuolinen+} [-Neuvostoliittoa vastaan-]{+liittoutumattomuus+}\n- * [http://oppiminen.yle.fi/artikkeli?id=8183 Ylen verkkosivut: oppiminen - Moskovan rauhansopimus]\n- * [http://yle.fi/elavaarkisto/?s=s&g=7&ag=66&t=794&a=7366 Yle Elävä arkisto: Rauhansopimusta käsittelevää aineistoa]\n- * [http://heninen.net/sopimus/1940_f.htm Suomen ja Neuvostoliiton välinen rauhansopimus]\n+ * [https://www.finlex.fi/fi/sopimukset/sopsteksti/1940/19400003/19400003_2 Rauhansopimus Suomen Tasavallan ja Sosialististen Neuvostotasavaltojen Liiton välillä] 3/1940, 1940, Valtiosopimukset, Valtiosopimukset, Finlex\n+ * [http://yle.fi/aihe/artikkeli/2006/09/08/tannerin-radiopuhe-talvisodan-rauhan-ehdoista Tannerin radiopuhe talvisodan rauhan ehdoista] Moskovan rauha, Tapahtumat, Elävä arkisto, Yleisradio"
+    }
+   ]
+  },
+  {
+   "id": "x19",
+   "page_id": 1256,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    4257763,
+    4257774
+   ],
+   "removing_rev_ids": [
+    4257791
+   ],
+   "candidates": [
+    {
+     "cid": "c36",
+     "bucket": "look-alike:small",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 4257763,
+       "parent_rev_id": 4225763,
+       "ts": "2008-02-08T17:01:16Z",
+       "editor": "E131",
+       "bytes_delta": -1,
+       "summary": ""
+      },
+      {
+       "rev_id": 4257774,
+       "parent_rev_id": 4257763,
+       "ts": "2008-02-08T17:02:30Z",
+       "editor": "E131",
+       "bytes_delta": 0,
+       "summary": ""
+      }
+     ],
+     "inserting_editors": [
+      "E131"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E116",
+     "removed_at": "2008-02-08T17:05:58Z",
+     "removal_summary": "vandalismia pois",
+     "restored_rev_id": 4225763,
+     "removing_rev_id": 4257791,
+     "net_bytes": -1,
+     "survival": "5 min",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 1,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=4257791",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=4257763",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=4257774"
+      ]
+     },
+     "diff": "~  | vahvuus1 = [-250-]{+90+} 000 miestä, <br>30 tankkia ja<br>130 lentokonetta<ref name=\"Virrankoski\">Pentti Virrankoski, ''Suomen Historia 2'', 200 … ''Laguksen miehet, Marskin nyrkki: Suomalainen panssariyhtymä 1941-1944'', 1992, ISBN 952-90-3858-5, Panssarikilta</ref>\n~  | vahvuus2 = 1 [-000-]{+500+} 000 miestä, <br>3 000 tankkia ja<br>3 800 lentokonetta<ref>Tomas Ries, ''Cold Will - The Defense of Finland'', 1988, IS … ied Soviet archive material, Manninen found 12 previously unrecognized infantry divisions ordered to Finnish front</ref>\n~  | tappiot1 = [-26-]{+20+} [-662-]{+000+} kuoli,<br>39 886 haavoittui ja <br>1 000 jäi vangiksi<ref>Maanpuolustuskorkeakoulu, ''Talvisodan historia 4'', s.406, 1 … u sisältää 3671 vakavasti haavoittunutta, jotka kuolivat pääsemättä koskaan sairaalasta jopa vuosia sodan jälkeen.</ref>\n~  | tappiot2 = [-126-]{+200+} [-875-]{+000+} kuoli tai katosi (arvio),<br>264 908 haavoittui ja<br>3 100 jäi vangiksi<ref>G. F. Krivošejev, ''Soviet Casualties and Combat Losses in the Twentieth Century'', 1997, ISBN 1-85367-280-7, Greenhill Books</ref>"
+    }
+   ]
+  },
+  {
+   "id": "x20",
+   "page_id": 24889,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    21205039
+   ],
+   "removing_rev_ids": [
+    21563264
+   ],
+   "candidates": [
+    {
+     "cid": "c40",
+     "bucket": "partial-removal",
+     "page_id": 24889,
+     "title": "Simo Häyhä",
+     "edits": [
+      {
+       "rev_id": 21205039,
+       "parent_rev_id": 21194909,
+       "ts": "2023-01-19T13:24:36Z",
+       "editor": "E721",
+       "bytes_delta": 620,
+       "summary": "Simo Häyhä populaarikulttuurissa",
+       "note": "inserting revision found by text search for the longest removed paragraph; check it"
+      }
+     ],
+     "inserting_editors": [
+      "E721"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E681",
+     "removed_at": "2023-05-16T14:37:16Z",
+     "removal_summary": "/* Simo Häyhä kulttuurissa */ Lähteetöntä",
+     "restored_rev_id": null,
+     "removing_rev_id": 21563264,
+     "net_bytes": -901,
+     "survival": "117.1 days",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": null,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=21563264",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=21205039"
+      ]
+     },
+     "diff": "- Simo Häyhä -niminen hahmo seikkailee japanilaisessa Shiroi Majo (Valkoinen noita) -nimisessä mangasarjakuvassa, joka ilmestyy japanilaisessa Kissca-sarjakuvalehdessä. Hahmo on kuitenkin teiki-ikäinen, vaalea ja  liehuvahiuksinen  tarkka-ampuja, joka vuonna 1939 taistelee pahoja maahanhyökkääjiä vastaan. Sarjakuvassa esiintyy myös suomalaisten joukk … tämässä mangasarjakuvassa Record of Ragnarok. Mangassa jumalat aikovat poistaa ihmiskunnan maailmasta kokonaan, mutta ihmiset saavat mahdollisuuden estää oman tuhonsa, jos he voittavat vähintään seitsemän ottelua Ragnarokissa, Ihmiskunnan ja jumalien välisessä viimeisessä taistelussa. Simo Häyhän hahmo on yksi ihmiskunnan tulevista taistelijoista. "
+    }
+   ]
+  },
+  {
+   "id": "x21",
+   "page_id": 1256,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    2940776,
+    2942369
+   ],
+   "removing_rev_ids": [
+    2942005,
+    2942380
+   ],
+   "candidates": [
+    {
+     "cid": "c10",
+     "bucket": "likely",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 2940776,
+       "parent_rev_id": 2940711,
+       "ts": "2007-05-31T13:55:44Z",
+       "editor": "E91",
+       "bytes_delta": 535,
+       "summary": "/* Moskovan neuvottelut */"
+      }
+     ],
+     "inserting_editors": [
+      "E91"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E93",
+     "removed_at": "2007-05-31T17:14:12Z",
+     "removal_summary": "Käyttäjän E91 (keskustelu) muokkaus 2940776 kumottiin",
+     "restored_rev_id": 2940711,
+     "removing_rev_id": 2942005,
+     "net_bytes": 535,
+     "survival": "3.3 h",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": true,
+      "identity_reverts_on_page_within_3_days": 3,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [
+      "c25"
+     ],
+     "similar_to": [
+      "c25"
+     ],
+     "editor_reverted_runs_in_topic": 2,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2942005",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2940776"
+      ]
+     },
+     "diff": "- Suomen valtioneuvosto ei suostunut vaihtokauppaan esitetyssä laajuudessa, koska sekä yleinen mielipide että eduskunta vastustivat sitä, vaan tarjosivat Neuvostoliitolle vain Leningradia lähinnä olevia alueita, [[Kuokkala (Karjala)|Kuokkala]]n mutkaa ja [[Terijoki|Terijokea]]. [[Suomen puolustusneuvosto]]n puheenjohtajana ollut [[Carl Gustaf Emil Mannerheim]] ja Moskovaan neuvottelijaksi lähetetty Suomen Tukholman suurlähettiläs [[Juho Kusti Paasikivi]] olisivat suostuneet hieman suurempiin alueluovutuksiin, mutta neuvotteluvaltuuskunnalla ei ollut lupaa esittää muuta rajalinjaa. Neuvottelut katkesivat [[9. marraskuuta]].\n+ Suomen valtioneuvosto ei suostunut vaihtokauppaan esitetyssä laajuudessa, koska sekä yleinen mielipide että eduskunta vastustivat sitä, vaan tarjosivat Neuvostoliitolle vain Leningradia lähinnä olevia alueita, [[Kuokkala (Karjala)|Kuokkala]]n mutkaa ja [[Terijoki|Terijokea]]. [[Suomen puolustusneuvosto]]n puheenjohtajana ollut [[Carl Gustaf Emil Mannerheim]] ja Moskovaan neuvottelijaksi lähetetty Suomen Tukholman suurlähettiläs [[Juho Kusti Paasikivi]] olisivat suostuneet hieman suurempiin alueluovutuksiin, mutta neuvotteluvaltuuskunnalla ei ollut lupaa esittää muuta rajalinjaa. Neuvottelut katkesivat [[9. marraskuuta]].Mannerheim oli sitä mieltä että Venäläiaten ehdottama ratkaisu jossa Suomi saisi 5000 neliökilometriä maata Pohjois Karjalasta olisi edullista Suomelle sekä strategisesti ja syystä että Suomi oli vaatinut näitä maanosia liitettäväksi Suomeen. Ulkoministeri Erkko kielsi Mannerheimiä julkaisemaan tai ilmiantamaan Venäläisten ehdotusen. \n+ Valitettavasti neuvottelut lopetettiin, Suomi joutui sotaan ja 85 000 ihmistä sai maksaa hengellään Erkon tyhmyyden.\n+ Tosiasiaksi jää että Erkko oli numero yksi sotarikollinen."
+    },
+    {
+     "cid": "c25",
+     "bucket": "likely",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 2942369,
+       "parent_rev_id": 2942005,
+       "ts": "2007-05-31T18:16:21Z",
+       "editor": "E94",
+       "bytes_delta": 535,
+       "summary": "Käyttäjän E93 (keskustelu) muokkaus 2942005 kumottiin"
+      }
+     ],
+     "inserting_editors": [
+      "E94"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E95",
+     "removed_at": "2007-05-31T18:18:11Z",
+     "removal_summary": "Käyttäjän E94 (keskustelu) muokkaus 2942369 kumottiin",
+     "restored_rev_id": 2942005,
+     "removing_rev_id": 2942380,
+     "net_bytes": 535,
+     "survival": "110 s",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 3,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [
+      "c10"
+     ],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2942380",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2942369"
+      ]
+     },
+     "diff": "- Suomen valtioneuvosto ei suostunut vaihtokauppaan esitetyssä laajuudessa, koska sekä yleinen mielipide että eduskunta vastustivat sitä, vaan tarjosivat Neuvostoliitolle vain Leningradia lähinnä olevia alueita, [[Kuokkala (Karjala)|Kuokkala]]n mutkaa ja [[Terijoki|Terijokea]]. [[Suomen puolustusneuvosto]]n puheenjohtajana ollut [[Carl Gustaf Emil Mannerheim]] ja Moskovaan neuvottelijaksi lähetetty Suomen Tukholman suurlähettiläs [[Juho Kusti Paasikivi]] olisivat suostuneet hieman suurempiin alueluovutuksiin, mutta neuvotteluvaltuuskunnalla ei ollut lupaa esittää muuta rajalinjaa. Neuvottelut katkesivat [[9. marraskuuta]].\n+ Suomen valtioneuvosto ei suostunut vaihtokauppaan esitetyssä laajuudessa, koska sekä yleinen mielipide että eduskunta vastustivat sitä, vaan tarjosivat Neuvostoliitolle vain Leningradia lähinnä olevia alueita, [[Kuokkala (Karjala)|Kuokkala]]n mutkaa ja [[Terijoki|Terijokea]]. [[Suomen puolustusneuvosto]]n puheenjohtajana ollut [[Carl Gustaf Emil Mannerheim]] ja Moskovaan neuvottelijaksi lähetetty Suomen Tukholman suurlähettiläs [[Juho Kusti Paasikivi]] olisivat suostuneet hieman suurempiin alueluovutuksiin, mutta neuvotteluvaltuuskunnalla ei ollut lupaa esittää muuta rajalinjaa. Neuvottelut katkesivat [[9. marraskuuta]].Mannerheim oli sitä mieltä että Venäläiaten ehdottama ratkaisu jossa Suomi saisi 5000 neliökilometriä maata Pohjois Karjalasta olisi edullista Suomelle sekä strategisesti ja syystä että Suomi oli vaatinut näitä maanosia liitettäväksi Suomeen. Ulkoministeri Erkko kielsi Mannerheimiä julkaisemaan tai ilmiantamaan Venäläisten ehdotusen. \n+ Valitettavasti neuvottelut lopetettiin, Suomi joutui sotaan ja 85 000 ihmistä sai maksaa hengellään Erkon tyhmyyden.\n+ Tosiasiaksi jää että Erkko oli numero yksi sotarikollinen."
+    }
+   ]
+  },
+  {
+   "id": "x22",
+   "page_id": 24889,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    23525415
+   ],
+   "removing_rev_ids": [
+    23539387
+   ],
+   "candidates": [
+    {
+     "cid": "c12",
+     "bucket": "likely",
+     "page_id": 24889,
+     "title": "Simo Häyhä",
+     "edits": [
+      {
+       "rev_id": 23525415,
+       "parent_rev_id": 23388996,
+       "ts": "2025-08-30T10:21:26Z",
+       "editor": "E700",
+       "bytes_delta": 187,
+       "summary": ""
+      },
+      {
+       "rev_id": 23539382,
+       "parent_rev_id": 23525415,
+       "ts": "2025-09-06T09:08:34Z",
+       "editor": "E699",
+       "bytes_delta": 18,
+       "summary": "Suomi"
+      },
+      {
+       "rev_id": 23539384,
+       "parent_rev_id": 23539382,
+       "ts": "2025-09-06T09:11:31Z",
+       "editor": "E383",
+       "bytes_delta": -18,
+       "summary": "Käyttäjän E699 muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän E700 tekemään versioon."
+      }
+     ],
+     "inserting_editors": [
+      "E383",
+      "E699",
+      "E700"
+     ],
+     "distinct_inserting_editor_groups": 3,
+     "remover": "E383",
+     "removed_at": "2025-09-06T09:12:13Z",
+     "removal_summary": "Hylättiin viimeisimmät 3 tekstimuutosta (tehneet E700, E699 ja E383) ja palautettiin versio 23388996, jonka on tehnyt E320",
+     "restored_rev_id": 23388996,
+     "removing_rev_id": 23539387,
+     "net_bytes": 187,
+     "survival": "7.0 days",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 1,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 2,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=23539387",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=23525415",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=23539382",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=23539384"
+      ]
+     },
+     "diff": "+ Japanilaisessa manga-sarjakuvassa Record of Ragnarok esiintyvä Simo Häyhä taistelee ihmiskunnan puolesta 11. taisteluerässä Norjan mytologiassa esiintyvää jumalaa, Lokia vastaan."
+    }
+   ]
+  },
+  {
+   "id": "x23",
+   "page_id": 1256,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    4099654,
+    4099661,
+    4099673,
+    4099681
+   ],
+   "removing_rev_ids": [
+    4099704
+   ],
+   "candidates": [
+    {
+     "cid": "c37",
+     "bucket": "look-alike:removal undone",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 4099654,
+       "parent_rev_id": 4099396,
+       "ts": "2008-01-11T18:38:05Z",
+       "editor": "E119",
+       "bytes_delta": 2,
+       "summary": ""
+      },
+      {
+       "rev_id": 4099661,
+       "parent_rev_id": 4099654,
+       "ts": "2008-01-11T18:39:11Z",
+       "editor": "E119",
+       "bytes_delta": -7,
+       "summary": ""
+      },
+      {
+       "rev_id": 4099673,
+       "parent_rev_id": 4099661,
+       "ts": "2008-01-11T18:40:59Z",
+       "editor": "E119",
+       "bytes_delta": 1,
+       "summary": ""
+      },
+      {
+       "rev_id": 4099681,
+       "parent_rev_id": 4099673,
+       "ts": "2008-01-11T18:41:58Z",
+       "editor": "E119",
+       "bytes_delta": -396,
+       "summary": ""
+      },
+      {
+       "rev_id": 4099689,
+       "parent_rev_id": 4099681,
+       "ts": "2008-01-11T18:43:29Z",
+       "editor": "E119",
+       "bytes_delta": -82926,
+       "summary": ""
+      },
+      {
+       "rev_id": 4099699,
+       "parent_rev_id": 4099689,
+       "ts": "2008-01-11T18:45:24Z",
+       "editor": "E120",
+       "bytes_delta": 82926,
+       "summary": "Käyttäjän E119 vandalismi kumottiin ja sivu palautettiin käyttäjän E119 tekemään versioon 4099681."
+      }
+     ],
+     "inserting_editors": [
+      "E119",
+      "E120"
+     ],
+     "distinct_inserting_editor_groups": 2,
+     "remover": "E120",
+     "removed_at": "2008-01-11T18:46:02Z",
+     "removal_summary": "Käyttäjän E120 vandalismi kumottiin ja sivu palautettiin käyttäjän E121 tekemään versioon 4099396.",
+     "restored_rev_id": 4099396,
+     "removing_rev_id": 4099704,
+     "net_bytes": -400,
+     "survival": "8 min",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": true,
+      "identity_reverts_on_page_within_3_days": 6,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 6,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=4099704",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=4099654",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=4099661",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=4099673",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=4099681",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=4099689",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=4099699"
+      ]
+     },
+     "diff": "~  | kuva = Finn [-ski-]{+sksfdsfdsfdi+} troops.jpg\n~  | päivämäärä = [-[[30.-]{+sfsdfsdfdsdf[[30.+} marraskuuta]] [[1939]] &ndash; <br>[[13. maaliskuuta]] [[1940]]\n-  | casus = [[Mainilan laukaukset]]\n-  | aluemuutokset = [[Suomi]] luovutti [[Luovutettu Karjala|osan Viipurin lääniä]] ja [[Luovutetut alueet|muita alueita]] [[SNTL|Neuvostoliitolle]].\n-  | vaikutukset = Suomen kansan yhtenäisyys lisääntyi. Maan armeijaa ryhdyttiin kehittämään voimakkaasti. Suomi alkoi etsiä tukea ensin Ruotsista, Britanniasta ja lopulta Saksasta. Neuvostoliitto menetti sotilaspoliittista arvovaltaansa. Talvisodan kokemukset vaikuttivat Puna-armeijan kehittämiseen. Suomen ja Neuvostoliiton väliset suhteet pysyivät erittäin huonoina.\n-  | lopputulos = Neuvostoliitto voitti sodan, mutta kärsi erittäin raskaita tappioita. Suomi koki merkittäviä aluemenetyksiä, mutta säilytti itsenäisyytensä.\n-  | taistelija1 = <div style=\"width: 100%; text-align: center;\">[[Image:Flag of Finland.svg|50px|border]]<br />[[Suomi]]</div>\n-  | taistelija2 = <div style=\"width: 100%; text-align: center;\">[[Image:Flag of the Soviet Union 1923.svg|50px]]<br />[[Neuvostoliitto]]</div>\n-  | komentaja1 = [[Kuva:Flag of Finland.svg|25px|border]] [[Carl Gustaf Emil Mannerheim|C. G. E. Mannerheim]] \n-  | komentaja2 = [[Kuva:Flag of the Soviet Union 1923.svg|25px]] [[Kliment Vorošilov]], myöhemmin <br> [[Kuva:Flag of the Soviet Union 1923.svg|25px]] [[Semjon Timošenko]]\n-  | vahvuus1 = 330 000 miestä, <br>30 tankkia ja<br>114 lentokonetta<ref name=\"Virrankoski\">Pentti Virrankoski, ''Suomen Historia 2'', 2001, ISBN 951-746-342-1, SKS</ref><ref name=\"Käkelä\">Erkki Käkelä, ''Laguksen miehet, Marskin nyrkki: Suomalainen panssariyhtymä 1941-1944'', 1992, ISBN 952-90-3858-5, Panssarikilta</ref>\n-  | vahvuus2 = 1 000 000 miestä, <br>3 000 tankkia ja<br>3 800 lentokonetta<ref>Tomas Ries, ''Cold Will - The Defense of Finland'', 1988, ISBN 0-08-033592-6, Potomac Books</ref><ref>Ohto Manninen, ''Talvisodan salatut taustat'', 1994, ISBN 951-9052-51-0, Kirjaneuvos, using declassified Soviet archive material, Manninen found 12 previously unrecognized infantry divisions ordered to Finnish front</ref>\n+  | casus = [[TUMPsdfsdfUTTAJIEN PARATIISI!!]] !\n+  | aluemuutokset =sdfsdfsdfsdfsdf [[Suomisfd]] sai alueita [saatu Karjala|osan Viipurin lääniä]] ja [[saadut alueet|muita alueita]] [[SNTL|Neuvostoliisdfsdfdsftolle]].\n+  | vaikutukset = Sdsfdsfdsfuomen kansan yhtenäisyys lisääntyi. Maan armeijaa ryhdyttiin kehittämään voimakkaasti. Suomi alkoi etsiä tukea ensin Ruotsista, Britfdsfdansfdsfdniasta ja lopulta Saksasta. Neuvostoliitto menetti sotilaspoliittista arvovaltaansa. Talvisodan kokemukdfsdsfdfsdsfset vaikuttivat Puna-armeijan kehittämiseen. Suomen ja Neuvostoliiton väliset suhteet pysyivät erittäin huonoina.dsfdsf\n+  | lopputulos = Neuvostoliitto voitti sfsdsfdodan, mutta kärsi erittäin raskaita tappioita. Suomi koki merkittäviä aluemenetyksiä, mutta säilytti itsenäisyytedsfsfdnsä.\n+  | taistelija1 = <divfsdsdfsfd style=\"width: 100%; text-align: center;\">[[Image:Flag of Finland.svg|50px|border]]<br />[[Suomi]]</div>\n+  | taistelija2 = <div style=\"width: 100%; text-align: center;\">[[Image:Flag of the Soviet Union 1923.svg|50px]]<br />[[Neuvostoliitto]]</dfssfdsfddiv>sdfg|25px|border]] [[Carl Gustaf Emil Mannerheim|C. G. E. Mannerheim]] \n+  | komentaja2 = [[Kuva:sdfsfdFlag of the Soviet Union 1923.svg|25px]] [[Kliment Vorošilov]], myöhemmin <br> [[Kuva:Flag of the Soviet Union 1923.svg|25px]] [[Semjon Timošenko]]\n+  | vahvuus1 = 330 000 miestä, <br>30 tafsdsfdnkkia ja<br>114 lentokonetta<ref name=\"Virrankoski\">Pentti Virrankoski, ''Suomen Historia 2'', 2001, ISBsdsfdsdfsdfdsfN 951-746-342-1, SKS</fsfdfsdref><ref name=\"Käkelä\">Erkki Käkelä, ''Laguksen miehet, Marskin nyrkki: Suomalainen panssariyhtymä 1941-1944'', 199fds2, ISBN 952-90-3858-5, Panssarikilta</ref>\n+  | vahvuus2 = 2 onnetonsdfsdfsdfsdfsdfta miestä,dsfsfd <br>0 tankkia ja<br>3 0 lentokonetta<ref>Tomas Ries, ''Cold Will - The Defense of Finland'', 1988, ISBN 0-08-033592-6, Potomac Books</ref><rdfsdfef>Ohto Manninen, ''Talvisodan salatut taustat'', 1994, ISBN 951-9052-51-0, Kirjaneuvos, using declassified Soviet archive material, Manninen found 12 previously unrecognized infantry divisions ordered to Finnish front</ref>\n~  | huomautus = {+sdfsdfsfdsdf+}\n~ '''Talvisota''' oli [-[[30.-]{+[sfdsdfsfd[30.+} marraskuuta]] [[1939]]–[[13. maaliskuuta]] [[1940]] [[Suomi|Suomen]] ja [[Neuvostoliitto|Neuvostoliiton]] välillä käyty [[sota]]. Konflikti oli osa [[Toinen maailmansota|toista maailmansotaa]]. Sota päättyi [[Moskovan [-rauha]]nsopimukseen,-]{+rasfdsdfsfduha]]nsopimukseen,+} jossa Suomi luovutti 10 prosenttia maa-alueistaan ja toiseksi suurimman kaupunkinsa, [[Viipuri]]n, Neuvostoliitolle. So … at|länsimaiden]] lehdistö sotaa tarkasti. Termeistä [[sisu]] ja [[Molotovin cocktail]] tuli kansainvälisesti tunnettuja.\n~ Merkittävä tekijä talvisodan taustalla on [[Ensimmäinen maailmansota|ensimmäisen maailmansodan]] lopputu\n… [diff truncated, 3761 more chars]"
+    }
+   ]
+  },
+  {
+   "id": "x24",
+   "page_id": 24889,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    7714924,
+    7716568
+   ],
+   "removing_rev_ids": [
+    7715566,
+    7717839
+   ],
+   "candidates": [
+    {
+     "cid": "c07",
+     "bucket": "likely",
+     "page_id": 24889,
+     "title": "Simo Häyhä",
+     "edits": [
+      {
+       "rev_id": 7714924,
+       "parent_rev_id": 7637597,
+       "ts": "2009-12-11T21:48:16Z",
+       "editor": "E485",
+       "bytes_delta": 911,
+       "summary": ""
+      }
+     ],
+     "inserting_editors": [
+      "E485"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E124",
+     "removed_at": "2009-12-12T05:55:30Z",
+     "removal_summary": "sodanaikaisen propagandan alaiset julkaisut eivät ole asiassa luotettavia , anekdoottina mielenkiintoisia kunhan lähde+sivunro",
+     "restored_rev_id": 7637597,
+     "removing_rev_id": 7715566,
+     "net_bytes": 911,
+     "survival": "8.1 h",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": true,
+      "identity_reverts_on_page_within_3_days": 2,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [
+      "c08"
+     ],
+     "similar_to": [
+      "c08"
+     ],
+     "editor_reverted_runs_in_topic": 2,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7715566",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7714924"
+      ]
+     },
+     "diff": "- Häyhä käytti tarkka-ampujan tehtävässään suojeluskunta-asettaan, [[M/28|M/28-30 \"Pystykorva\"]] -kivääriä (sarjanumero 60974), ja toisin kuin neuvostoliittolaiset vastustajansa hän suosi avotähtäimiä kiikaritähtäimen sijaan. Avotähtäimen avulla oli mahdollista saada nopeampi tähtäinkuva kuin kiikaritähtäimellä, jonka lasi lisäksi huurtui helposti ta … astaisi ampujaa. Paksu vaatetus tasasi pulssia ja hengitystä. Häyhän pienikokoisuudestakin oli hyötyä viholliselta piilouduttaessa. Pisin matka jolta Häyhä tiettävästi ampui vihollisen tarkka-ampujan on noin 450 metriä.<ref name=\"hs2001\">Lappalainen/HS 2001</ref> Pisin matka, jolta Häyhä on tappanut vihollisen on noin 800 metriä.{{lähde|18.6.2009}}\n+ Häyhä käytti tarkka-ampujan tehtävässään suojeluskunta-asettaan, [[M/28|M/28-30 \"Pystykorva\"]] -kivääriä (sarjanumero 60974), ja toisin kuin neuvostoliittolaiset vastustajansa hän suosi avotähtäimiä kiikaritähtäimen sijaan. Avotähtäimen avulla oli mahdollista saada nopeampi tähtäinkuva kuin kiikaritähtäimellä, jonka lasi lisäksi huurtui helposti talvella. Kiikaritähtäin myös heijasti toisinaan valoa paljastaen samalla ampujan sijainnin.<ref name=\"rb\"/> Kiikaritähtäin olisi myös edellyttänyt pään nostamisen muutamia senttejä korkeammalle, mikä saattoi olla kohtalokasta. Lisäksi Häyhä kehitti erityisesti talvisiin oloihin sopivaa ampumistaktiikkaa ja -tekniikkaa. Hän muun muassa jäädytti vedellä hangen, jottei lumi lennähdä laukaisun yhteydessä, sekä piti lunta suussaan jottei hänen hengityksestään syntyvä vesihöyry paljastaisi ampujaa. Paksu vaatetus tasasi pulssia ja hengitystä. Häyhän pienikokoisuudestakin oli hyötyä viholliselta piilouduttaessa. Pisin matka jolta Häyhä tiettävästi ampui vihollisen tarkka-ampujan on noin 450 metriä.<ref name=\"hs2001\">Lappalainen/HS 2001</ref> Pisin matka, jolta Häyhä on tappanut vihollisen on noin 800 metriä.{{lähde|18.6.2009}} \n+ Yksi luotettavimmista Häyhää koskevista tiedoista löytynee vuonna 1941 ilmestuneestä Hurtti Ukko-lehdestä no 1. Häyhä antoi tuolloin harvinaisen haastattelun lehdelle. Jutun otsikossa mainitaan 600 tappoa \"varman päälle\". Häyhä kertoi, että ampui niistä 259 pystykorvalla. Lisäksi hän käytti suomikonepistoolia ja pikakivääriä. Haastattelussa ei eroteltu, mitkä tapoista on tehty tarkka-ampujana ja mitkä lähitaistelussa. Haastattelun mukaan Häyhä osallistui lukuisille väkivaltaisille partio/saalistusretkille vihollisen selustaan. Hänen päiväennätyksensä oli 40, jonka Häyhä ampui juuri haavoittumispäivänään.\n+ Lisäksi vuonna 1940 julkaistussa kirjassa Kollaa kestää taisteluihin osallistunut kirjailija lnt Palolampi kertoo, että vetäytymistaisteluissa Häyhä ampui enemmän vihollisia kuin voitiin laskea. Nämä osumat eivät ole mukana virallisissa laskuissa. "
+    },
+    {
+     "cid": "c08",
+     "bucket": "likely",
+     "page_id": 24889,
+     "title": "Simo Häyhä",
+     "edits": [
+      {
+       "rev_id": 7716568,
+       "parent_rev_id": 7715566,
+       "ts": "2009-12-12T11:42:18Z",
+       "editor": "E485",
+       "bytes_delta": 911,
+       "summary": ""
+      }
+     ],
+     "inserting_editors": [
+      "E485"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E124",
+     "removed_at": "2009-12-12T16:23:59Z",
+     "removal_summary": "Kumottu muokkaus 7716568, jonka teki E485 (keskustelu) kuten aikaisempi",
+     "restored_rev_id": 7715566,
+     "removing_rev_id": 7717839,
+     "net_bytes": 911,
+     "survival": "4.7 h",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 2,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [
+      "c07"
+     ],
+     "editor_reverted_runs_in_topic": 2,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7717839",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=7716568"
+      ]
+     },
+     "diff": "- Häyhä käytti tarkka-ampujan tehtävässään suojeluskunta-asettaan, [[M/28|M/28-30 \"Pystykorva\"]] -kivääriä (sarjanumero 60974), ja toisin kuin neuvostoliittolaiset vastustajansa hän suosi avotähtäimiä kiikaritähtäimen sijaan. Avotähtäimen avulla oli mahdollista saada nopeampi tähtäinkuva kuin kiikaritähtäimellä, jonka lasi lisäksi huurtui helposti ta … astaisi ampujaa. Paksu vaatetus tasasi pulssia ja hengitystä. Häyhän pienikokoisuudestakin oli hyötyä viholliselta piilouduttaessa. Pisin matka jolta Häyhä tiettävästi ampui vihollisen tarkka-ampujan on noin 450 metriä.<ref name=\"hs2001\">Lappalainen/HS 2001</ref> Pisin matka, jolta Häyhä on tappanut vihollisen on noin 800 metriä.{{lähde|18.6.2009}}\n+ Häyhä käytti tarkka-ampujan tehtävässään suojeluskunta-asettaan, [[M/28|M/28-30 \"Pystykorva\"]] -kivääriä (sarjanumero 60974), ja toisin kuin neuvostoliittolaiset vastustajansa hän suosi avotähtäimiä kiikaritähtäimen sijaan. Avotähtäimen avulla oli mahdollista saada nopeampi tähtäinkuva kuin kiikaritähtäimellä, jonka lasi lisäksi huurtui helposti talvella. Kiikaritähtäin myös heijasti toisinaan valoa paljastaen samalla ampujan sijainnin.<ref name=\"rb\"/> Kiikaritähtäin olisi myös edellyttänyt pään nostamisen muutamia senttejä korkeammalle, mikä saattoi olla kohtalokasta. Lisäksi Häyhä kehitti erityisesti talvisiin oloihin sopivaa ampumistaktiikkaa ja -tekniikkaa. Hän muun muassa jäädytti vedellä hangen, jottei lumi lennähdä laukaisun yhteydessä, sekä piti lunta suussaan jottei hänen hengityksestään syntyvä vesihöyry paljastaisi ampujaa. Paksu vaatetus tasasi pulssia ja hengitystä. Häyhän pienikokoisuudestakin oli hyötyä viholliselta piilouduttaessa. Pisin matka jolta Häyhä tiettävästi ampui vihollisen tarkka-ampujan on noin 450 metriä.<ref name=\"hs2001\">Lappalainen/HS 2001</ref> Pisin matka, jolta Häyhä on tappanut vihollisen on noin 800 metriä.{{lähde|18.6.2009}} \n+ Yksi luotettavimmista Häyhää koskevista tiedoista löytynee vuonna 1941 ilmestuneestä Hurtti Ukko-lehdestä no 1. Häyhä antoi tuolloin harvinaisen haastattelun lehdelle. Jutun otsikossa mainitaan 600 tappoa \"varman päälle\". Häyhä kertoi, että ampui niistä 259 pystykorvalla. Lisäksi hän käytti suomikonepistoolia ja pikakivääriä. Haastattelussa ei eroteltu, mitkä tapoista on tehty tarkka-ampujana ja mitkä lähitaistelussa. Haastattelun mukaan Häyhä osallistui lukuisille väkivaltaisille partio/saalistusretkille vihollisen selustaan. Hänen päiväennätyksensä oli 40, jonka Häyhä ampui juuri haavoittumispäivänään.\n+ Lisäksi vuonna 1940 julkaistussa kirjassa Kollaa kestää taisteluihin osallistunut kirjailija lnt Palolampi kertoo, että vetäytymistaisteluissa Häyhä ampui enemmän vihollisia kuin voitiin laskea. Nämä osumat eivät ole mukana virallisissa laskuissa. "
+    }
+   ]
+  },
+  {
+   "id": "x25",
+   "page_id": 1256,
+   "other_page_ids": [],
+   "inserting_rev_ids": [
+    13353490,
+    13357212,
+    13357246
+   ],
+   "removing_rev_ids": [
+    13353876,
+    13357305
+   ],
+   "candidates": [
+    {
+     "cid": "c26",
+     "bucket": "likely",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 13353490,
+       "parent_rev_id": 13351762,
+       "ts": "2013-06-29T08:46:43Z",
+       "editor": "E243",
+       "bytes_delta": 181,
+       "summary": ""
+      }
+     ],
+     "inserting_editors": [
+      "E243"
+     ],
+     "distinct_inserting_editor_groups": 1,
+     "remover": "E124",
+     "removed_at": "2013-06-29T12:15:55Z",
+     "removal_summary": "Hylättiin viimeisin tekstimuutos ja palautettiin versio 13351762 käyttäjältä E242: kh ja w ongelmia, ei parannuksia",
+     "restored_rev_id": 13351762,
+     "removing_rev_id": 13353876,
+     "net_bytes": 181,
+     "survival": "3.5 h",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": true,
+      "identity_reverts_on_page_within_3_days": 7,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 1,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13353876",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13353490"
+      ]
+     },
+     "diff": "~ | kuvateksti     = Suomalainen konekivääriryhmä Lemetin [-Motin-]{+tienhaaran+} [-lähellä.-]{+motin lähellä+}\n~ | paikka         = [-[[Suomi]]-]{+'''Suomi'''<br><small>[[Etelä-Karjalan maakunta|Etelä-Karjala]] (Karjalankannas, Viipurinlahden länsiranta)<br>[[Laatokan Karjala]]<br>[[Pohjois-Karjalan maakunta|Pohjois-Karjala]]<br>[[Kainuun maakunta|Kainuu]]<br>[[Lapin maakunta|Lappi]]+}\n~ | aluemuutokset  = Suomi luovutti [-[[Luovutettu-]{+[[luovutettu+} Karjala|Viipurin läänistä osan]] ja [-[[Luovutetut-]{+[[luovutetut+} alueet|muita alueita]] Neuvostoliitolle.\n~ | vaikutukset    = Suomen kansan yhtenäisyys lisääntyi. Maan armeijaa ryhdyttiin voimakkaasti kehittämään. Suomi alkoi etsiä tukea ensin [[Ruotsi]]sta, [-[[Yhdistynyt kuningaskunta|Britanniasta]]-]{+[[Britannia]]sta+} ja lopulta [[natsi-Saksa|Saksasta]]. Neuvostoliitto menetti sotilaspoliittista arvovaltaansa. Talvisodan kokemukset vaikuttivat puna-armeijan kehittämiseen. Suomen ja Neuvostoliiton väliset suhteet pysyivät erittäin huonoina.\n~ | lopputulos     = [[Moskovan [-rauhansopimus-]{+rauha]]+} [-(1940)|Moskovan rauha]]-]{+(1940)+}\n~ | komentaja1     = {{Suomen lippu}} [-[[Carl-]{+[[Gustaf+} [-Gustaf Emil Mannerheim|C. G. E. Mannerheim]]-]{+Mannerheim]]<br><br><br><br>+}"
+    },
+    {
+     "cid": "c11",
+     "bucket": "likely",
+     "page_id": 1256,
+     "title": "Talvisota",
+     "edits": [
+      {
+       "rev_id": 13357212,
+       "parent_rev_id": 13353876,
+       "ts": "2013-06-30T21:15:25Z",
+       "editor": "E244",
+       "bytes_delta": 181,
+       "summary": "Pienellä alkukirjaimella sana motti."
+      },
+      {
+       "rev_id": 13357246,
+       "parent_rev_id": 13357212,
+       "ts": "2013-06-30T21:48:47Z",
+       "editor": "E244",
+       "bytes_delta": 4,
+       "summary": ""
+      },
+      {
+       "rev_id": 13357274,
+       "parent_rev_id": 13357246,
+       "ts": "2013-06-30T22:16:11Z",
+       "editor": "E245",
+       "bytes_delta": -6,
+       "summary": "Maata ei yleensä ole muissa  taisteluissa tätä mallinetta käytettäessä lihavoitu."
+      },
+      {
+       "rev_id": 13357298,
+       "parent_rev_id": 13357274,
+       "ts": "2013-06-30T22:36:21Z",
+       "editor": "E246",
+       "bytes_delta": 1284,
+       "summary": "/* Suomen ja Saksan suhteet */"
+      }
+     ],
+     "inserting_editors": [
+      "E244",
+      "E245",
+      "E246"
+     ],
+     "distinct_inserting_editor_groups": 2,
+     "remover": "E124",
+     "removed_at": "2013-06-30T22:44:22Z",
+     "removal_summary": "Hylättiin viimeiset 4 tekstimuutosta: kh+w ongelmia, asiaankuulumatonta lähteetöntä tekstiä",
+     "restored_rev_id": 13353876,
+     "removing_rev_id": 13357305,
+     "net_bytes": 1463,
+     "survival": "89 min",
+     "flags": {
+      "self_removal": false,
+      "bot_inserter": false,
+      "blanking": false,
+      "removal_was_itself_undone": false,
+      "identity_reverts_on_page_within_3_days": 5,
+      "added_text_in_latest_revision": false
+     },
+     "same_chain_candidates": [
+      "c26"
+     ],
+     "similar_to": [],
+     "editor_reverted_runs_in_topic": 2,
+     "links": {
+      "removal": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13357305",
+      "insertion": [
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13357212",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13357246",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13357274",
+       "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13357298"
+      ]
+     },
+     "diff": "~ | kuvateksti     = Suomalainen konekivääriryhmä Lemetin [-Motin-]{+tienhaaran+} [-lähellä.-]{+motin lähellä+}\n~ | paikka         = [-[[Suomi]]-]{+[[Suomi]]<br><small>[[Etelä-Karjalan maakunta|Etelä-Karjala]] (Karjalankannas, Viipurinlahden länsiranta)<br>[[Laatokan Karjala]]<br>[[Pohjois-Karjalan maakunta|Pohjois-Karjala]]<br>[[Kainuun maakunta|Kainuu]]<br>[[Lapin maakunta|Lappi]]+}\n~ | aluemuutokset  = Suomi luovutti [-[[Luovutettu-]{+[[luovutettu+} Karjala|Viipurin läänistä osan]] ja [-[[Luovutetut-]{+[[luovutetut+} alueet|muita alueita]] Neuvostoliitolle.\n~ | vaikutukset    = Suomen kansan yhtenäisyys lisääntyi. Maan armeijaa ryhdyttiin voimakkaasti kehittämään. Suomi alkoi etsiä tukea ensin [[Ruotsi]]sta, [-[[Yhdistynyt kuningaskunta|Britanniasta]]-]{+[[Britannia]]sta+} ja lopulta [[natsi-Saksa|Saksasta]]. Neuvostoliitto menetti sotilaspoliittista arvovaltaansa. Talvisodan kokemukset vaikuttivat puna-armeijan kehittämiseen. Suomen ja Neuvostoliiton väliset suhteet pysyivät erittäin huonoina.\n~ | lopputulos     = [[Moskovan [-rauhansopimus-]{+rauha]]+} [-(1940)|Moskovan rauha]]-]{+(1940)+}\n~ | komentaja1     = {{Suomen lippu}} [-[[Carl-]{+[[Gustaf+} [-Gustaf Emil Mannerheim|C. G. E. Mannerheim]]-]{+Mannerheim]]<br><br><br><br>+}\n- Saksa oli Ruotsin ohella tärkein vaikutteiden lähde Suomessa 1930-luvulla. Kansallissosialistien kannatus oli Suomessa kuitenkin marginaalista.<ref>http://jokisipila.blogspot.com/2006/03/sota-ajan-suomi-ja-rotuopit.html</ref>{{Lähde tarkemmin}}\n+ Saksa oli Ruotsin ohella tärkein vaikutteiden lähde Suomessa 1930-luvulla. Kansallissosialistien kannatus oli Suomessa kuitenkin marginaalista.<ref>http://jokisipila.blogspot.com/2006/03/sota-ajan-suomi-ja-rotuopit.html</ref>{{Lähde tarkemmin}} \n+ Suomessa kansallissosialistisia puolueita olivat [[Aseveljien Työjärjestö]] (1942) [[Suomen Kansan Järjestö]] (1933-1936), sen jatkaja [[Kansallissosialistien Järjestö]] (1940-1944), [[Suomen Kansallissosialistinen Työjärjestö]] (1940-1944), [[Suomalaissosialistinen puolue]] (1932-1937) , [[Suomalaissosialistinen Työväen Puolue]] (1934-1944), [[Suomen Kansallissosialistit]] (1941-1944) ja [[Suomen Työrintama]] (1936-1939). Osa puolueista oli samojen henkilöiden johtamia yhdistyksiä. Ennen [[puoluelaki]]a 1969 ei Suomessa rekisteröityä puoluetta (r.p., rp.) ei eroteltu muista [[rekisteröity yhdistys|rekisteröidyistä yhdistyksistä]]. Monet yhdistykset toimivat 1930-luvun pulavuosista [[Eduskuntavaalit 1939|eduskuntavaaleihin 1939]], jolloin ne eivät saaneet ainuttakaan kansanedustajaa. Talvisodan jälkeen ja jatkosodan aikana toimivat puolueyhdistykset eivät voineet saada kansanedustajia, koska sotien vuoksi seuraavat [[Eduskuntavaalit 1945|eduskuntavaalit käytiin vasta 1945]] [[Lapin sota|Lapin sodan]] miltei tultua päätökseensä 17. maaliskuuta - 18. maaliskuuta 1945. Kuitenkin Suomen kansallissosialistiset puolueet oli lakkautettu [[Moskovan välirauha]]n perusteella [[valvontakomissio]]n valvoessa Suomessa sopimuksen noudattamista."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,161 @@
+{
+ "topic_id": "winter-war",
+ "labels": {
+  "x01": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: rev 13357298 added a list of Finnish national-socialist parties with years (\"Suomessa kansallissosialistisia puolueita olivat ... Suomen Kansan Järjestö (1933-1936)\", 'In Finland the national-socialist parties were ...'); removed as \"asiaankuulumatonta lähteetöntä tekstiä\" (irrelevant unsourced text). Plausible factual list, no slant, no dispute signal beyond missing source."
+  },
+  "x02": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: added nickname-origin text (\"Tästä ei kuitenkaan olla kokonaan varmoja, ja moni jopa väittää lempinimen tulevan Suomen puolelta\", 'not entirely certain, and many even claim the nickname came from the Finnish side'); edit summary says not everything written is 100% true. Removed 121 days later by a bulk undo with no stated reason; not put back. No dispute signal."
+  },
+  "x03": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": null,
+   "why": "Same account (E280) added and removed within 49 seconds; self-removal applies before graffiti (text was insulting nonsense about Russians)."
+  },
+  "x04": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": null,
+   "why": "Same account (E17) added and removed the line within 5 minutes (jokey crude remark in 'Sodan alku')."
+  },
+  "x05": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added \"Venäläiset eivät ole myöntäneet, että ... kyseessä olisi ollut Neuvostoliiton itse lavastama tykistöisku\" ('Russians have not admitted that it was a Soviet-staged shelling') and \"Tämä historiallinen fakta on edelleen kiistanalainen\" - reverses what the cited YLE source is said to state. Removals said \"lähteetön\" and \"ylen lähteessä asiaa ei mainita\" (the YLE source does not mention it); put back twice within about 90 minutes. One editor, one article, under 7 days, so not campaign."
+  },
+  "x06": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: added rifle serial number and \"Häyhällä ei myöskään ollut aiempaa kokemusta kiikarikivääreistä\" ('Häyhä also had no earlier experience with scoped rifles'). Removal summary: sourced paragraph whose source does not contain this. Plausible detail, no slant, not put back; sourcing complaint alone I read as at most Level 1."
+  },
+  "x07": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": null,
+   "why": "Only a copyright-notice template ({{Tekijänoikeus_201009}}) was added; no prose (also bot-like name). Not substantive comes first."
+  },
+  "x08": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: infobox result changed to \"Neuvostoliiton voitto (sotilaallinen), Suomen torjuntavoitto (poliittinen)\" ('Soviet victory (military), Finnish defensive victory (political)'), a framing of the war's outcome. Edit war over several removals/restorations in about 14 hours; removal summaries \"epämääräisiä käsitteitä\" (vague concepts), \"lähteet ensin\" (sources first). The two inserting anonymous accounts share the 85.76 range (one editor) and it spans one day, so not campaign."
+  },
+  "x09": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: anonymous added opinion text (\"Ryssäviha lue rasismi oli yksi menestymisen tae sodassa. Taisteltiin alempiarvoista kansaa ja kultturia vastaan tunnontuskista piittaamatta\", 'Hatred of Russians, i.e. racism, was a guarantee of success in the war. They fought an inferior people and culture without pangs of conscience'). Removed in 2 minutes as \"Lähteetön mielipidekirjoitus\" (unsourced opinion piece). Coherent text, so not graffiti; borderline on dispute signal."
+  },
+  "x10": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: changed an estimate from 200 to 2000 soldiers (\"oikeampi arvio lienee noin 2000\"), edit summary says it corrects vandalised number. Removed with automatic undo summary only, no dispute signal, not put back."
+  },
+  "x11": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": null,
+   "why": "The edit blanked the whole page (-82,926 bytes); removed as vandalism two minutes later by the restoring editor."
+  },
+  "x12": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": null,
+   "why": "Replaced title, caption and lead with Russian-language insults/profanity (e.g. 'ну финны пососали короче', 'ну вы внатуре лошки'); clearly vandalism, removed after 73 seconds."
+  },
+  "x13": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: rev 19012601 added a sentence about a Japanese manga with a Häyhä-named sniper character, linked to a fan site. Removed as \"merkittävyys epäselvä\" (significance unclear). Trivia, not a disputed claim."
+  },
+  "x14": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": null,
+   "why": "Added \"suomalaiset itse ampuivat laukaukset osana hitlerististä salaliittoa ... yhdessä saksalaisten, namibialaisten ja amerikkalaisten joukkojen kanssa\" ('the Finns themselves fired the shots as part of a Hitlerite conspiracy ... together with German, Namibian and American troops'); text is plainly absurd, removed in 3 minutes. No dispute signal. Least sure: coherent text, could be reverted instead."
+  },
+  "x15": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: added a list of ten books by one author (Mononen Väinö, Books on Demand) to the bibliography; removed as \"omakustannespämmiä\" (self-published spam). No claim in the text, no accuracy/neutrality dispute."
+  },
+  "x16": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: rewrote the lead to say the name was given by foreign journalists and that the line was not called Mannerheim Line in official Finnish usage (\"Suomen virallisessa kielenkäytössä ei linjaa kutsuttu Mannerheim-linjaksi\"). Removed as \"Lähteetön muutos pois\" (unsourced change out). Plausible, no slant; only recorded problem is missing source."
+  },
+  "x17": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 1: changed the infobox casus belli from the Mainila shots to the Terijoki government's call for help of 1 Dec 1939. Removal pointed to the talk page (\"Kts. keskustelu\") which alone is not a dispute signal; not put back. A claim about a contested topic, but no dispute signal I can use."
+  },
+  "x18": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: rewrote the list of ceded territories with a Finlex source and swapped Britain/France order. Removed with \"rv, eston kiertoa\" (revert, block evasion), which is about the account not the text; the later re-add (summary 'runnygnome') was removed 13 min later without reason. No claim or slant quotable."
+  },
+  "x19": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 1: anonymous changed infobox figures (troops 250 000 to 90 000, Soviet 1 000 000 to 1 500 000, Finnish dead 26 662 to 20 000, Soviet 126 875 to 200 000) leaving cited sources. Removed as \"vandalismia pois\" (vandalism out); I read that as not clearly about accuracy/sourcing, not put back, so kept at Level 1. Borderline."
+  },
+  "x20": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: partial removal; the earlier-added popular-culture paragraphs about manga (Shiroi Majo, Record of Ragnarok) were removed \"Lähteetöntä\" (unsourced). Trivia, no claim. Not clear it was a whole-section blanking."
+  },
+  "x21": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: anonymous added opinion (\"Erkon tyhmyyden\" / \"Tosiasiaksi jää että Erkko oli numero yksi sotarikollinen\", 'Erkko's stupidity' / 'It remains a fact that Erkko was the number-one war criminal'). Removed in about 3 hours, put back once by another account and removed again in under 2 minutes. Two inserting accounts but same day, one article, so not campaign. Coherent text so not graffiti."
+  },
+  "x22": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: rev 23525415 (E700) added a sentence on Record of Ragnarok manga where Häyhä fights Loki (trivia, no source); removed a week later in a bulk undo. Other edits in the item (E699 'Suomi' +18, E383's undo) are not the insertion."
+  },
+  "x23": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": null,
+   "why": "Edits replaced the infobox with keyboard-mash strings and \"TUMPUTTAJIEN PARATIISI!!\" in casus ('paradise of ...' insult); nonsense, restored by another editor as vandalism."
+  },
+  "x24": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added claim from a 1941 magazine: \"Jutun otsikossa mainitaan 600 tappoa 'varman päälle'. Häyhä kertoi, että ampui niistä 259 pystykorvalla\" ('headline mentions 600 kills for sure; he said 259 with the rifle'). Removal: \"sodanaikaisen propagandan alaiset julkaisut eivät ole asiassa luotettavia\" (wartime-propaganda publications are not reliable here; needs source+page number); put back 4.7 h later and removed again (\"kuten aikaisempi\"). One editor, one article: not campaign."
+  },
+  "x25": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: infobox edits listing regions of the war (\"Etelä-Karjala, Laatokan Karjala, Pohjois-Karjala, Kainuu, Lappi\") plus link changes; removed for \"kh ja w ongelmia, ei parannuksia\" (wikification/formatting problems, no improvements). No claim in dispute. Several inserting revs (13357212 is a lowercase typo fix) are formatting."
+  }
+ },
+ "rev_id_concerns": {
+  "x01": "Only rev 13357298 adds the party list; the other edits in the removed run are infobox formatting.",
+  "x22": "Rev 23539382 (E699, +18 'Suomi') and the undo are not part of the insertion; only 23525415 adds the manga sentence.",
+  "x13": "Edits 18974466-18974476 (E651) are small edits unrelated to the manga sentence; only 19012601 adds it.",
+  "x25": "Rev 13357212 is a lowercase typo fix and 13353490 is mostly infobox formatting."
+ }
+}

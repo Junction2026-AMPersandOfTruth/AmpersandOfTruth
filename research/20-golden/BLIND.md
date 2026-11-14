@@ -15,12 +15,15 @@ so an honest disagreement is worth more than a guess at what the first labeller 
 summary), `remover`, `removal_summary`, `diff` (restored version → last undone version: `+` added paragraph, `-` removed
 paragraph, `~` paragraph edited in place with `[-old-]{+new+}`), `flags`, `survival`. In an edit war a candidate's diff may
 *remove* the disputed text: that candidate is the other side undoing a removal. `editors`: pseudonym → kind
-(`anonymous` + masked range: one masked range counts as one editor).
+(`anonymous` + masked range: one masked range counts as one editor). `inserting_editors` counts everyone whose edit was
+undone, including typo fixers: count only editors who added the content. `survival` runs from the first undone edit; use
+the timestamps. Partial-removal candidates carry an `insertion_diff` (the inserting edit) next to the removal `diff`.
 
 ## Labels (with **you** as the careful reader in place of the automated assessment)
-- **Exclusions first** → `not-incident` + `exclusion`: `not-substantive` (markup/whitespace/categories/interwiki/templates
+- **Exclusions first** (first that applies, in this order) → `not-incident` + `exclusion`: `not-substantive` (markup/whitespace/categories/interwiki/templates
   only), `self-removal` (same account took its own addition out), `bot`, `blanking`, `kept` (removal undone and text still in
-  the latest revision: flags `removal_was_itself_undone` + `added_text_in_latest_revision`), `graffiti` (vandalism, test/nonsense).
+  the latest revision: flags `removal_was_itself_undone` + `added_text_in_latest_revision`), `graffiti` (clearly vandalism or
+  test/nonsense; borderline or coherent text a remover merely called vandalism is not graffiti).
 - **`reverted`**: substantive content taken out by a different account, no exclusion (good-faith mistakes, unsourced trivia,
   claims without a community dispute signal).
 - **`contested`**: reverted **and both** (a) a claim (content dispute, POV/narrative push, false factual claim, source
@@ -28,6 +31,10 @@ paragraph, `~` paragraph edited in place with `[-old-]{+new+}`), `flags`, `survi
   or sourcing; put back ≥ 1 time after removal; an edit war over the passage; or a dispute template in the episode.
 - **`campaign`**: contested **plus ≥ 2 of**: ≥ 2 distinct inserting editors (masked range = one), ≥ 2 articles, put back
   ≥ 2 times over ≥ 7 days, source manipulation alongside — at least one of the two about editors or articles.
+- **Claim or good-faith error?** Plausible text whose only recorded problem is a missing source and which has no slant (no
+  framing, loaded wording, or changed number/date/name/attribution that matters) → `good_faith_error`, at most `reverted`,
+  even if removed as "unsourced". It is a claim when it frames, slants or changes a contested fact, or the removal says it is
+  wrong, inaccurate or not neutral. Talk-page pointers ("kts. keskustelu") alone are not a dispute reason.
 - The content reading can exclude or cap at `reverted`, never promote alone. Good-faith error / other → at most `reverted`.
   **When in doubt, the lower level.**
 
