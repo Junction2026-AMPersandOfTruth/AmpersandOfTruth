@@ -499,3 +499,8 @@ $RECYCLE.BIN/
 # Eval runner: default output dir and variant stderr logs (research/eval/run)
 research/eval/results/
 research/**/results/*.log
+
+# Review walk (scripts/walk.sh)
+scripts/walk/node_modules/
+research/review-rounds/*/screens/
+
