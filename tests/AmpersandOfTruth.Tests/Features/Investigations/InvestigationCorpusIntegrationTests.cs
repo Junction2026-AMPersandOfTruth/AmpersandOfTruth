@@ -46,4 +46,23 @@ public class InvestigationCorpusIntegrationTests(AppFactory app) : IClassFixture
         Assert.Equal(("fi", Talvisota), (articles[0].Lang, articles[0].PageId));
         Assert.Equal(articles.OrderBy(a => a.Distance).Select(a => a.PageId), articles.Select(a => a.PageId));
     }
+
+    [CorpusFact]
+    public async Task Talvisota_reverts_ignore_null_edits_from_vakauttajabot()
+    {
+        var reverts = await Corpus.RevertsAsync([Talvisota], perPage: 100_000);
+        var byRevId = reverts.ToDictionary(r => r.RevId);
+
+        var r1 = byRevId[23400367];
+        Assert.Equal(1, r1.RevertedCount);
+        Assert.Equal(23400357, r1.RevertedRevId);
+        Assert.NotEqual("VakauttajaBot", r1.RevertedUser);
+
+        var r2 = byRevId[22615584];
+        Assert.Equal(1, r2.RevertedCount);
+        Assert.Equal(22615576, r2.RevertedRevId);
+        Assert.NotEqual("VakauttajaBot", r2.RevertedUser);
+
+        Assert.DoesNotContain(reverts, r => r.RevertedUser == "VakauttajaBot");
+    }
 }

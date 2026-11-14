@@ -37,15 +37,21 @@ public sealed class MariaDbInvestigationCorpus(CorpusConnectionFactory corpus, I
 
     // The upstream identity-revert rule (research/p0.5-gemini/extract_sample.py): revision R_k whose sha1 equals the
     // sha1 of an earlier revision R_j with j < k-1. R_j = most recent earlier occurrence; R_{k-1} = last reverted edit.
+    // Drops null edits (sha1 == prev_sha1, e.g. FlaggedRevs/VakauttajaBot dummy revisions, #78) before numbering positions.
     // {pages} is replaced by generated parameter names (@p0, @p1, …) — never by values.
     internal const string RevertsSql = """
-        WITH m AS (
+        WITH v AS (
+            SELECT page_id, rev_id, ts, `user`, comment, sha1,
+                   LAG(sha1) OVER (PARTITION BY page_id ORDER BY ts, rev_id) AS prev_sha1
+            FROM revision
+            WHERE page_id IN ({pages})
+        ), m AS (
             SELECT page_id, rev_id, ts, `user`, comment, sha1,
                    ROW_NUMBER() OVER (PARTITION BY page_id ORDER BY ts, rev_id) AS pos,
                    LAG(rev_id)  OVER (PARTITION BY page_id ORDER BY ts, rev_id) AS prev_rev_id,
                    LAG(`user`)  OVER (PARTITION BY page_id ORDER BY ts, rev_id) AS prev_user
-            FROM revision
-            WHERE page_id IN ({pages})
+            FROM v
+            WHERE sha1 IS NULL OR prev_sha1 IS NULL OR sha1 <> prev_sha1
         ), s AS (
             SELECT page_id, rev_id, pos,
                    LAG(pos)    OVER (PARTITION BY page_id, sha1 ORDER BY pos) AS prev_pos,

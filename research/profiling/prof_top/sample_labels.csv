@@ -1,0 +1,101 @@
+sample_idx,page_id,title,p_rev_id,last_edit_rev_id,r_rev_id,run_len,net_bytes_added,survival_sec,label,gist
+1,760605,Luettelo suojeluskuntapiireistä,10614344,10652071,10652490,3,299,6056,good-faith-but-unsourced,Added regional headings and local Civil Guard sub-units without citations.
+2,6021,Carl Gustaf Emil Mannerheim,18825026,18929400,18929435,1,736,657,factual-manipulation,"Changed presidential term end date (4.3.1946 -> 11.3.1946), regent end date, and removed Defence Council chair role."
+3,876,Nylon Beat,3351566,3351573,3354380,2,54,32950,factual-manipulation,Changed breakup year in infobox and added false claim that the pop duo reformed in 2004.
+4,1389479,Sininen eduskuntaryhmä,16546445,16546464,16546485,1,262,501,good-faith-but-unsourced,Prematurely added MP Arja Juvonen to the new parliamentary group during the June 2017 Finns Party split.
+5,20040,Paavo Väyrynen,16757614,16810311,16813855,9,1620,140779,good-faith-but-unsourced,Updated party end-year to 2017 based on news of planned expulsion before expulsion occurred.
+6,14596,Minna Canth,18014990,18016662,18016663,1,67,16,vandalism/graffiti,Inserted explicit sexual graffiti into writer Minna Canth's biography.
+7,12553,Kingston Wall,3785641,3797984,3798109,1,89,1332,good-faith-but-unsourced,"Added unpunctuated, unsourced fan trivia about record prices and the band's drummer."
+8,8477,Jämsänkoski,15315760,16778536,16778541,1,232,178,test/accidental,Overwrote external links footer with a chatty school-essay paragraph praising friendly locals and Citymarket.
+9,1360174,HX-hävittäjähanke,19189901,19190015,19190026,2,3531,1797,other,Twice-pasted petition spam claiming a fringe domestic fighter bid had PM approval in the HX tender and linking citizens' initiatives.
+10,5901,Martti Ahtisaari,8236304,8236424,8236463,1,315,987,good-faith-but-unsourced,Added unsourced pop-culture subsection describing Ahtisaari's caricature in TV satire Itse valtiaat.
+11,1005018,Kuunari Koivisto,14207441,14235955,14236087,1,759,26594,other,Inserted non-political local heritage grievance accusing the City of Pori of shameful destruction for scrapping the schooner Koivisto.
+12,1378011,Marja-Liisa Kiljunen,18121909,18892818,18929147,1,372,1465972,other,Replaced general ambassador category with eight non-standard country-specific ambassador categories.
+13,313650,Harvialan metsärata,5943170,6400819,6419564,1,57,319759,other,Added broad land-transport history category later removed as over-categorization.
+14,2979,Luettelo Suomen historian sodista,7521036,7522928,7523075,1,1955,2527,narrative/POV-pushing,Inserted 2 KB argument classifying Finland's ISAF deployment in Afghanistan as participation in a full-scale US war.
+15,470983,Kunnallisvaalit 1945,17560093,19349458,19350080,1,377,15285,other,Sourced rewrite on postwar Karelian evacuees reverted administratively due to block evasion (WPK).
+16,94858,Suomen presidentinvaali 1940,15541655,15541695,15541869,1,504,6119,other,"Infobox and prose restructuring by banned block-evading editor (WPK), reverted administratively."
+17,1069,Suomen tasavallan presidentti,11237668,11237699,11237705,5,331,136,good-faith-but-unsourced,Added president-elect Sauli Niinistö to the list of sitting presidents weeks before his inauguration.
+18,942,Paavo Lipponen,21539701,21539843,21540061,1,599,17701,narrative/POV-pushing,Inserted tabloid-sourced claim under Nord Stream consultancy that Lipponen humiliated scholar Veli-Pekka Tynkkynen.
+19,5261,Suomettuminen,772340,772360,772549,2,440,2315,narrative/POV-pushing,Inserted commentary equating Cold War Finlandization self-censorship with PM Vanhanen's Muhammad cartoons stance.
+20,11808,Veikko Vennamo,22463012,22615909,22616207,1,115,11586,other,"Formatting, capitalization, and infobox arrow edits characteristic of block-evading editor (WPK)."
+21,13310,Suomenlahden ulkosaaret,22449392,22449725,22449782,1,1173,105,other,Large structural reorganization of island lists and lead prose by block-evading editor (WPK).
+22,200797,Axel Olof Freudenthal,1402902,1402950,1403006,1,486,615,narrative/POV-pushing,Juxtaposed RKP's 2004 'spiritual father' tribute with claims Freudenthal called Swedes a master race and Finns inferior Turanians.
+23,529389,Suomen vaalirahoituskohu,4929263,4929285,4929427,1,349,1344,other,"Added summary of a Dec 2007 GRECO report on corruption risks, reverted as off-scope because the report predated the 2008 scandal."
+24,942,Paavo Lipponen,2718715,2727992,2727997,1,142,94,vandalism/graffiti,Inserted crude weight insult claiming Lipponen had a BMI of 50 and faced expulsion from Parliament.
+25,350448,Ville Tikkanen,9484412,9724764,9724767,1,394,54,good-faith-but-unsourced,"Inserted clumsy, unsourced constituent praise of SDP MP Ville Tikkanen's work on northern roads and war veterans."
+26,11396,Alexander Stubb,14339973,14377989,14377994,1,437,143,narrative/POV-pushing,Inserted partisan critique claiming PM Stubb's Twitter habit angered citizens while his government sank the economy.
+27,1221278,Martti Lintulahti,18121942,18892735,18930789,1,54,1542370,other,Replaced general ambassador category with non-standard country-specific ambassador categories.
+28,865709,Simon Elo,16551539,16555419,16555422,1,285,85,good-faith-but-unsourced,Appended unsourced one-line editorial/quote fragment on Israel/Palestine ('anyone who has visited Israel knows the demand is unrealistic').
+29,1122968,Maria Ohisalo,21061104,21062585,21062588,1,151,218,vandalism/graffiti,Defaced Minister Maria Ohisalo's name and called her a clown and Ugandan environment minister.
+30,311733,Helsingin nuorisofestivaalit 1962,13618969,13618972,13618974,1,139,24,other,Re-inserted deletion/merge template proposing redirect to the general youth festival article.
+31,94845,Teisko,15678189,15797787,15801819,1,174,199410,good-faith-but-unsourced,Added three local celebrities as summer-cottage residents without citations.
+32,12374,Käkisalmi,21337339,21525215,21578484,4,222,1564715,narrative/POV-pushing,Changed ceded Karelian town Priozersk/Käkisalmi's infobox country and map from Russia to Finland and founding year 1944 -> 1941.
+33,107386,Juha Rehula,15041837,15178266,15178281,1,492,271,narrative/POV-pushing,Inserted partisan anti-Centre Party jab mocking Minister Rehula over municipal democracy.
+34,458826,Antti Nylén,14539054,14544255,14544256,2,883,28,test/accidental,Accidentally substituted citation template into raw MediaWiki parser code and self-reverted 28 seconds later.
+35,20742,Venäläisvastaisuus,350560,350580,351578,1,125,64564,narrative/POV-pushing,Re-inserted nationalist essay link ('Another perspective on Russophobia') during an edit war.
+36,439,Johannes Virolainen,21563394,21568757,21568850,1,159,4401,good-faith-but-unsourced,Added unsourced claim about Lohja's voluntary bilingual status in the Swedish-language section.
+37,1508261,Riikka Purra,21682286,21682509,21682513,4,75,556,vandalism/graffiti,Appended the word 'nazi' into politician Riikka Purra's biography.
+38,8821,Läskikapina,10390394,10618507,10621509,1,253,60269,good-faith-but-unsourced,Added unsourced folk etymology claiming the 1922 Pork Mutiny was named after US relief bacon crates.
+39,1121620,Sanna Marin,20223718,20224225,20224228,1,428,197,vandalism/graffiti,"Inserted defamatory label and category claiming PM Sanna Marin was mentally disabled, citing a fringe blog."
+40,94859,Suomen presidentinvaali 1943,14207790,14209328,14209331,1,513,110,other,Structural and lead rewrite of wartime presidential election article by block-evading editor (WPK).
+41,45473,Hjallis Harkimo,18017577,18033786,18033788,1,51,32,test/accidental,Botched section edit that displaced 135 paragraphs from the top of the biography while adding 51 net bytes.
+42,20669,Turun akatemia,16115112,16227939,16227943,1,159,91,factual-manipulation,Inserted fabricated historical claim that 18th-century vandalism destroyed a university building restored in 1901.
+43,8751,Muonio,9222005,9344181,9344195,1,109,71,vandalism/graffiti,"Inserted nonsensical slang phrases ('vuonna nakki ja pottu', 'asia pihvi?') into municipality article."
+44,11680,V. J. Sukselainen,23075319,24179613,24179845,2,466,4930,other,Over-linking and school-name tweak reverted administratively as block evasion (WPK).
+45,1537565,Kuopion kouluhyökkäys,18449458,18449460,18449477,1,85,583,good-faith-but-unsourced,Appended breaking-news hospital casualty figures without citing a source supporting the numbers.
+46,43394,Ilkka-Christian Björklund,19340731,20421007,20421034,2,1352,558,other,"Pasted verbatim magazine paragraphs on Alpo Rusi's Stasi list, reverted as direct copyright infringement."
+47,5901,Martti Ahtisaari,7561498,7561513,7561514,1,122,6,vandalism/graffiti,Inserted juvenile profanity and slurs into President Ahtisaari's infobox.
+48,5237,Nastola,18129123,18270939,18282818,1,575,425553,good-faith-but-unsourced,Added 2014 urban-settlement population breakdown table without citing Statistics Finland.
+49,65760,Napakymppi (viihdeohjelma),4609000,4635906,4635909,1,58,28,good-faith-but-unsourced,Added unsourced one-line trivia that musician Aki Sirkesalo named Napakymppi his favourite show.
+50,5759,Lestadiolaisuus,8133790,8133816,8133828,1,245,89,good-faith-but-unsourced,Added unsourced original-research sentence interpreting Seppo Lohi's remark on the religious contraception ban.
+51,57277,Vienan Karjala,11759284,11762945,11763005,2,63,1265,test/accidental,Broke Karelian language template syntax and parenthetical Russian orthography in the lead sentence.
+52,47317,Mauri Pekkarinen,11964891,12414196,12414212,1,126,610,vandalism/graffiti,Inserted humorous romantic/sexual joke description into politician Mauri Pekkarinen's lead.
+53,542053,Kalevala (korvetti),10189616,12678353,12678614,1,203,4876,good-faith-but-unsourced,Added uncited book entry on Finns in 19th-century Japan to the corvette Kalevala's literature list.
+54,18658,Irak-vuoto,3036124,3637330,3637336,1,66,56,good-faith-but-unsourced,Added subjective unsourced remark calling Anneli Jäätteenmäki's Iraq-leak quote 'almost legendary'.
+55,1137,Sauli Niinistö,13637139,13645496,13645501,1,485,99,vandalism/graffiti,Spammed ten explicit anatomical images and a vulgar pun into President Niinistö's article.
+56,1314952,Suvi Auvinen,18092069,18177195,18177206,2,226,139,vandalism/graffiti,Inserted juvenile slang insult ('represents sand-people') over ice-hockey celebration criticism under fake summary 'Fixed a typo'.
+57,117065,Uuras,3207118,3207173,3208466,1,100,19104,other,"Modified Russian historical place-name chronology for ceded port Uuras/Vysotsk, reverted for block evasion (Hippophaë)."
+58,287274,Ratsutila,9228469,10761886,10761896,1,75,134,vandalism/graffiti,Inserted odd slang joke sentence into historical cavalry-estate article.
+59,7314,Mikael Agricola,20675334,20828855,20828856,1,103,32,vandalism/graffiti,Added classroom keyboard-mash graffiti ('xdxdxd') to Mikael Agricola's article.
+60,65544,W.i.t.c.h.,7823957,7833213,7833215,1,282,15,test/accidental,Posted all-caps child fan message ('WITCH I LOVE YOU...') directly into article prose.
+61,1275,Urho Kekkonen,7726206,7728711,7728715,1,169,107,good-faith-but-unsourced,Added unsourced pop-culture mention of hardcore punk band Kuolleet Kekkoset.
+62,324483,Suomen venäläiset,19673564,19956110,19956245,1,50,4971,factual-manipulation,Added Finnish-born politician of Ingrian-Finnish parentage (Daniel Sazonov) to list of ethnic Russians in Finland.
+63,24682,Meänkieli,19161164,19161173,19161174,1,139,47,good-faith-but-unsourced,Added external link to a youth organization's Meänkieli language booklet PDF.
+64,686068,Anton-tapaus,6965501,6970106,6970114,1,126,288,other,Re-inserted misspelled one-sentence subsection noting 7 Päivää tabloid coverage 'from the father's perspective'.
+65,622103,Naarajärven sotavankileiri,18214683,18214740,18216258,8,1772,73692,narrative/POV-pushing,"Eight-edit insertion alleging at least 51 Soviet POW shootings, forged medical reports, and a cover-up by Gen. Erik Heinrichs."
+66,58444,Max Jakobson,12865260,12868781,12868801,1,60,497,vandalism/graffiti,Inserted explicit pornographic image file into diplomat Max Jakobson's biography.
+67,421653,Jaakko Pukkila,12471620,13371114,13371119,1,56,82,vandalism/graffiti,Added nonsense inside-joke claiming kinship to a fictional 'häyhäilijä'.
+68,10858,Jyrki Katainen,21447210,21467444,21467496,1,386,2497,narrative/POV-pushing,Inserted unsourced partisan claim that Finance Minister Katainen personally caused the 2011 Finns Party surge.
+69,1155672,Tyrnävän kotiseutumuseo,14324953,14393309,14394236,1,194,29221,good-faith-but-unsourced,Added turn-by-turn driving directions to a local heritage museum.
+70,1202,Tony Halme,19825453,20172864,20173310,2,50,18037,vandalism/graffiti,Inserted juvenile inside-joke ('known as Jeremias's dad') into Tony Halme's biography.
+71,1137,Sauli Niinistö,17058837,17061279,17061285,1,108,213,factual-manipulation,"Inserted false claim that President Niinistö took up padel, with edit summary explicitly stating 'False information'."
+72,926229,Juha Sipilä,18071348,18072881,18072892,3,750,4104,narrative/POV-pushing,"Inserted multi-paragraph attack accusing PM Sipilä of importing cheap labour, selling national assets, and belonging to a sect."
+73,12639,Suvi Lindén,6136604,6261465,6261641,1,314,2712,narrative/POV-pushing,Added polemical section claiming Minister Lindén advocated strip-searching employees naked during the Lex Nokia debate.
+74,1633208,Mona Bling,19931957,19931961,19931963,1,267,93,other,Counter-reverted in BLP naming dispute to re-insert influencer's pre-transition name in the lead and lower follower count.
+75,23916,Tikkakoski,9307159,9328966,9328968,1,51,12,vandalism/graffiti,Added personal schoolyard graffiti naming a local individual in all caps.
+76,1275,Urho Kekkonen,10092315,10196860,10196863,2,379,197,vandalism/graffiti,Inserted absurd joke claiming President Kekkonen was a pop singer who released a 1934 double-platinum album.
+77,13384,Lyly Rajala,18723314,18841795,18841799,1,91,141,factual-manipulation,Inserted false biographical claim that MP Lyly Rajala skipped conscription and held rank 'total objector'.
+78,5901,Martti Ahtisaari,196258,196262,214673,2,211,79,vandalism/graffiti,Inserted surrealist nonsense sentences about lizards seizing a sabre.
+79,65798,Savolaiset,2571615,2571648,2571693,1,55,370,vandalism/graffiti,Added joke calling PM Jyrki Katainen 'the King of Finland from Siilinjärvi'.
+80,20669,Turun akatemia,23571100,24110239,24117806,1,254,375725,good-faith-but-unsourced,Added unsourced original-research claim disputing that the Academy of Turku was relocated to Helsinki in 1827.
+81,109236,Jomalan kirkko,14192694,15198060,15198067,2,115,189,narrative/POV-pushing,Inserted nationalist linguistic claim that Åland's Jomala church name proves an originally Finnish-speaking population.
+82,730602,Itsenäisyyden Liitto,14374825,16187976,16380416,2,74,6312770,other,"Added Hohenlockstedt Jäger monument photo, removed 73 days later as only tangentially related."
+83,62410,Jari Sillanpää,2060916,2166280,2166289,1,74,44,vandalism/graffiti,Inserted all-caps homophobic slur graffiti into singer Jari Sillanpää's article.
+84,8905,Suomen esihistoria,824553,824963,825004,8,2370,949,narrative/POV-pushing,"Eight-edit insertion of 2.4 KB fringe theory claiming Paleolithic Europeans (35,000-7000 BC) were genetically and linguistically Finns."
+85,63837,Lapväärtti,318936,318937,318939,1,63,191,vandalism/graffiti,Added photo of an M&M's candy dispenser captioned as a 'satellite image of Lapväärtti'.
+86,56884,Björköby,4285078,4708441,4719591,1,54,204146,other,Changed infobox municipality name format to bilingual 'kunta / kommun' wording.
+87,11537,Isänmaallinen kansanliike,1408239,1514101,1514244,1,153,2515,narrative/POV-pushing,Inserted categorical claim calling interwar IKL 'a completely fascist organization' whose Blackshirts gave Nazi salutes.
+88,952979,Karoliina Kestin katoamistapaus,10652029,10652226,10652238,1,110,237,good-faith-but-unsourced,Added external link to missing teenager's personal Facebook profile.
+89,18908,Anni Sinnemäki,1186305,1192754,1192817,1,51,540,other,Added fictional satire-character category to politician Anni Sinnemäki's biography.
+90,1126645,Porin Matti,13649816,14324249,14324257,1,69,267,vandalism/graffiti,Added joke claiming cast-iron wood stoves are commonly used to heat hot-air balloons.
+91,1046042,Tavast (keskiaikainen suku),21925969,22902816,22902828,2,89,506,good-faith-but-unsourced,Added medieval nobleman Arvid Henrikinpoika Tavast without citations and with an inaccurate death date.
+92,856829,Eduskuntavaalit 2015,14562235,14562696,14562701,1,325,77,good-faith-but-unsourced,Re-inserted unregistered extra-parliamentary Whisky Party into 2015 election party table.
+93,1256,Talvisota,5170303,5173677,5173687,3,86,81,good-faith-but-unsourced,Added unsourced wartime anecdote about roasted crow appearing on a Helsinki restaurant menu.
+94,573883,Suomi-Soffa,12953166,12953177,12953183,1,113,151,vandalism/graffiti,Inserted inside-joke hoax naming an individual as 'official sofa tester' awarded an international rest prize.
+95,725776,Homma,7324439,7324449,7324452,1,77,57,test/accidental,Copyedit removing forum slang term accidentally duplicated the sentence reporting registered user counts.
+96,9059,Osmo Soininvaara,9817186,10021446,10021779,1,316,5084,narrative/POV-pushing,Pasted rival party leader Paavo Arhinmäki's blog attack criticizing 'Lex Soininvaara' welfare cuts.
+97,284823,Ulvilan surma,14205537,14205684,14205690,11,683,721,other,Eleven-edit insertion of true-crime pro-defence blog arguments challenging forensic evidence in the Ulvila murder case.
+98,1314952,Suvi Auvinen,15841210,15852951,15852965,1,124,468,good-faith-but-unsourced,Added trivial unsourced claim about promoting Pokémon Go.
+99,14596,Minna Canth,18014299,18014302,18014307,1,155,127,vandalism/graffiti,Counter-reverted an anti-vandalism restoration back to a sexually defaced revision during a Minna Canth Day vandalism spree.
+100,8921,Pulkkila,372053,372063,372066,2,1306,81,other,Re-inserted 1.3 KB promotional text copied verbatim from the municipal web portal.

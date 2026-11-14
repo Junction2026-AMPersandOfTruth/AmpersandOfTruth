@@ -24,6 +24,81 @@ public static class EditorDisplay
 {
     private static readonly Regex TemporaryAccountRegex = new(@"^~\d{4}-\d+-\d+$", RegexOptions.Compiled);
     private static readonly Regex Ipv4Regex = new(@"^\d{1,3}(\.\d{1,3}){3}$", RegexOptions.Compiled);
+    private static readonly Regex WikilinkRegex = new(@"\[\[([^\[\]|]*)(?:\|([^\[\]]*))?\]\]", RegexOptions.Compiled);
+    private static readonly Regex CommentIpv4Regex = new(@"(?<!\d\.?)\d{1,3}(?:\.\d{1,3}){3}(?!\.?\d)", RegexOptions.Compiled);
+    private static readonly Regex CommentIpv6Regex = new(@"(?<![0-9A-Za-z])(?<![0-9A-Fa-f]:)(?<!::)[0-9A-Fa-f:]*:[0-9A-Fa-f:]*(?![0-9A-Za-z:])", RegexOptions.Compiled);
+
+    /// <summary>
+    /// Edit summary → plain text safe to display: wikilinks flattened, every IPv4/IPv6 address masked exactly like For().
+    /// </summary>
+    public static string MaskComment(string? comment)
+    {
+        if (string.IsNullOrWhiteSpace(comment))
+        {
+            return "";
+        }
+
+        // 1. Flatten wikilinks [[target|label]] → label (if non-blank), [[target]] / [[target|]] → target.
+        var text = WikilinkRegex.Replace(comment, m =>
+        {
+            var target = m.Groups[1].Value;
+            var label = m.Groups[2].Success ? m.Groups[2].Value : null;
+            return !string.IsNullOrWhiteSpace(label) ? label : target;
+        });
+
+        // 2. IPv4: candidates (?<!\d\.?)\d{1,3}(?:\.\d{1,3}){3}(?!\.?\d); replace with For(m).DisplayName iff For(m).Kind == IPv4.
+        text = CommentIpv4Regex.Replace(text, m =>
+        {
+            var label = For(m.Value);
+            return label.Kind == EditorKind.IPv4 ? label.DisplayName : m.Value;
+        });
+
+        // 3. IPv6: candidates not starting mid-word or mid-address (a ":" right before is fine after a namespace like
+        //    "User talk:"), containing ≥ 2 : and ≥ 1 hex digit;
+        //    replace with For(c).DisplayName iff Kind == IPv6. If it doesn't parse and ends with :, retry once without the last :.
+        text = CommentIpv6Regex.Replace(text, m =>
+        {
+            var c = m.Value;
+            int colonCount = 0;
+            bool hasHex = false;
+            foreach (char ch in c)
+            {
+                if (ch == ':')
+                {
+                    colonCount++;
+                }
+                else if ((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F'))
+                {
+                    hasHex = true;
+                }
+            }
+
+            if (colonCount < 2 || !hasHex)
+            {
+                return c;
+            }
+
+            var label = For(c);
+            if (label.Kind == EditorKind.IPv6)
+            {
+                return label.DisplayName;
+            }
+
+            if (c.EndsWith(':'))
+            {
+                var withoutColon = c[..^1];
+                var retry = For(withoutColon);
+                if (retry.Kind == EditorKind.IPv6)
+                {
+                    return retry.DisplayName + ":";
+                }
+            }
+
+            return c;
+        });
+
+        return text;
+    }
 
     /// <param name="user">raw corpus.revision.user (may be null)</param>
     public static EditorLabel For(string? user)

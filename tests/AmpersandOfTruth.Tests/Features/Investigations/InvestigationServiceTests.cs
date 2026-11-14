@@ -52,8 +52,8 @@ public class InvestigationServiceTests
     {
         var r = FakeInvestigationCorpus.Revert(1256, 2000);
 
-        Assert.Equal("https://fi.wikipedia.org/w/index.php?oldid=2000", r.RevisionUrl);
-        Assert.Equal("https://fi.wikipedia.org/w/index.php?diff=2000&oldid=1999", r.DiffUrl);
+        Assert.Equal("https://fi.wikipedia.org/w/index.php?diff=prev&oldid=2000", r.DiffUrl.AbsoluteUri);
+        Assert.Equal("https://fi.wikipedia.org/w/index.php?diff=prev&oldid=1999", r.RevertedDiffUrl.AbsoluteUri);
         Assert.Equal("https://fi.wikipedia.org/?curid=1256", new TopicArticle("fi", 1256, "Talvisota", 0).Url);
     }
 }
