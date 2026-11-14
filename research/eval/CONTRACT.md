@@ -263,7 +263,7 @@ comparable only when `split` and `golden_version` are equal.
 | Golden slice (laptop copy of the golden topics' articles, revisions and vectors). Suggestion: keep the `corpus.*` table and column names so SQL ports with few changes, and announce the file through one variable, `CORPUS_SLICE`. | Codex, at G1 |
 | The optional incident fields and the tier thresholds | #37 (local Claude) |
 | Judge and reviewer prompts and the calibration threshold. Only their output shapes are fixed, in §5. | #22 (local Claude) |
-| The C# `Incident` record and pipeline events. They follow `incident.schema.json` and land with #39, after the P0.8 slice (PR #75) is on `main`. | cloud |
+| The C# `Incident` record and pipeline events. They follow `incident.schema.json` and land with #39, in the `Features/Investigations` slice that P0.8 put on `main`. | cloud |
 
 ## 9. Draft: diff CLI `wikidiff` (#29)
 
