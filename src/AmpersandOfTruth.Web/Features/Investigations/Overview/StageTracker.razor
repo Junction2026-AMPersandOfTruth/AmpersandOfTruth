@@ -1,5 +1,9 @@
 @using System.Globalization
+@using AmpersandOfTruth.Web.Features.Demo
 @using AmpersandOfTruth.Web.Features.Investigations.Pipeline
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.Extensions.Options
+@inject IServiceProvider Services
 
 @if (Progress.IsComplete)
 {
@@ -8,20 +12,49 @@
             <path d="M3.5 9.5l3.5 3.5 7.5-8" />
         </svg>
         <div class="aot-banner__body">
-            Analysed in @FormatSeconds(Progress.Elapsed)@if (Progress.FromCache)
+            @if (EffectiveSafeMode)
             {
-                <text> · </text><span class="aot-muted">loaded from previous analysis</span>
+                @if (Progress.FromCache)
+                {
+                    <span class="aot-muted">Loaded from previous analysis</span>
+                }
+                else
+                {
+                    <span class="aot-muted">Analysis complete</span>
+                }
             }
-            @if (OnRerun.HasDelegate)
+            else
             {
-                <text> · </text><a href="" data-testid="rerun-link" @onclick="HandleRerunAsync" @onclick:preventDefault>Re-run</a>
+                <text>Analysed in @FormatSeconds(Progress.Elapsed)</text>@if (Progress.FromCache)
+                {
+                    <text> · </text><span class="aot-muted">loaded from previous analysis</span>
+                }
+                @if (OnRerun.HasDelegate)
+                {
+                    <text> · </text><a href="" data-testid="rerun-link" @onclick="HandleRerunAsync" @onclick:preventDefault>Re-run</a>
+                }
             }
         </div>
     </div>
 }
+else if (Progress.Failure is { Error: DemoOptions.SafeModeMissMessage } safeMiss)
+{
+    <StatusBanner Kind="StatusKind.Info"
+                  Title="@safeMiss.Error"
+                  TestId="safe-mode-miss" />
+}
 else
 {
     <div class="aot-stack" style="gap:8px">
+        @if (Progress.QueuedPosition is { } pos)
+        {
+            <div class="aot-banner aot-banner--info" role="status" aria-live="polite" data-testid="run-queued">
+                <div class="aot-banner__body">
+                    @FormatQueuedMessage(pos)
+                </div>
+            </div>
+        }
+
         <div class="aot-stages" role="status" aria-live="polite" data-testid="stage-tracker">
             @foreach (var (stage, number, label) in Stages)
             {
@@ -50,13 +83,13 @@ else
             <StatusBanner Kind="StatusKind.Error"
                           Title="@FailureSentence(failure.Kind)"
                           Detail="@failure.Error"
-                          OnRetry="OnRerun" />
+                          OnRetry="@(EffectiveSafeMode ? default : OnRerun)" />
         }
         else if (Progress.IsCancelled)
         {
             <div class="aot-banner aot-banner--info" role="status" data-testid="run-cancelled">
                 <div class="aot-banner__body">
-                    Analysis stopped.@if (OnRerun.HasDelegate)
+                    Analysis stopped.@if (!EffectiveSafeMode && OnRerun.HasDelegate)
                     {
                         <text> </text><a href="" data-testid="rerun-link" @onclick="HandleRerunAsync" @onclick:preventDefault>Re-run</a>
                     }
@@ -78,9 +111,18 @@ else
     [Parameter, EditorRequired] public RunProgress Progress { get; set; } = default!;
     [Parameter] public EventCallback OnCancel { get; set; }
     [Parameter] public EventCallback OnRerun { get; set; }
+    [Parameter] public bool? SafeMode { get; set; }
+
+    private bool EffectiveSafeMode =>
+        SafeMode ?? (Services.GetService<IOptionsMonitor<DemoOptions>>()?.CurrentValue.SafeMode == true);
 
     private Task HandleRerunAsync() =>
-        OnRerun.HasDelegate ? OnRerun.InvokeAsync() : Task.CompletedTask;
+        !EffectiveSafeMode && OnRerun.HasDelegate ? OnRerun.InvokeAsync() : Task.CompletedTask;
+
+    private static string FormatQueuedMessage(int position) =>
+        position == 1
+            ? "Queued — 1 investigation ahead"
+            : $"Queued — {position.ToString("N0", CultureInfo.InvariantCulture)} investigations ahead";
 
     private static string StageClass(StageState state) => state switch
     {

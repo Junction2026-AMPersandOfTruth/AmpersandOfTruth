@@ -3,6 +3,7 @@
 @using System.Diagnostics
 @using System.Globalization
 @using AmpersandOfTruth.Web.Features.Articles
+@using AmpersandOfTruth.Web.Features.Demo
 @using AmpersandOfTruth.Web.Features.Evidence
 @using AmpersandOfTruth.Web.Features.Investigations
 @using AmpersandOfTruth.Web.Features.Investigations.Pipeline
@@ -34,7 +35,7 @@
     @if (EffectiveSavedId is not null && _progress.Failure is null && _completedAnalysedAt is { } savedAnalysedAt)
     {
         <SavedInvestigationBanner AnalysedAt="savedAnalysedAt"
-                                  Running="_progress.IsRunning"
+                                  Running="@(_progress.IsRunning || IsSafeMode)"
                                   OnRerunLatest="RerunAsync" />
     }
 
@@ -46,7 +47,7 @@
                                          Articles="@_progress.Articles"
                                          Incidents="@_completedIncidents"
                                          AnalysedAt="@_completedAnalysedAt"
-                                         SavedId="@EffectiveSavedId"
+                                         SavedId="@(_isDemoSaved ? null : EffectiveSavedId)"
                                          OnSaved="HandleSaved" />
                 <button type="button" class="aot-btn aot-btn--sm" data-testid="copy-link" @onclick="CopyLinkAsync">
                     @(_copied ? "Copied" : "Copy link")
@@ -87,7 +88,18 @@
         </div>
     </div>
 
-    <StageTracker Progress="_progress" OnCancel="CancelRun" OnRerun="RerunAsync" />
+    @if (_rateLimited)
+    {
+        <StatusBanner Kind="StatusKind.Warn"
+                      Title="@StartLimiter.RateLimitedMessage"
+                      TestId="rate-limited" />
+    }
+    else
+    {
+        <StageTracker Progress="_progress"
+                      OnCancel="CancelRun"
+                      OnRerun="@(IsSafeMode ? default : EventCallback.Factory.Create(this, RerunAsync))" />
+    }
 
     @if (_incidents.Count > 0)
     {
@@ -200,7 +212,7 @@
             {
                 @if (visibleIncidents.Count > 0)
                 {
-                    @if (EffectiveSavedId is { } savedId)
+                    @if (EffectiveSavedId is { } savedId && !_isDemoSaved)
                     {
                         <SavedIncidentList SavedId="savedId"
                                            Incidents="visibleIncidents"
@@ -335,6 +347,8 @@
     private bool _disposed;
     private bool _wasSlow;
     private bool _copied;
+    private bool _rateLimited;
+    private bool _isDemoSaved;
     private string? _activeSlug;
     private Guid? _activeSavedId;
     private string? _hotId;
@@ -355,6 +369,9 @@
 
     private Guid? EffectiveSavedId => SavedQuery ?? TryParseSavedFromUri(Nav.Uri);
 
+    private bool IsSafeMode =>
+        Services.GetService<IOptionsMonitor<DemoOptions>>()?.CurrentValue.SafeMode == true;
+
     private string TopicText => Services.GetService<AmpersandOfTruth.Web.Features.Investigations.Fixtures.SampleIncidents>()?.Match(Topic ?? "")?.Title
         ?? (TopicSlug.ToQuery(Topic ?? "") is { Length: > 0 } q ? char.ToUpperInvariant(q[0]) + q[1..] : "");
 
@@ -372,6 +389,7 @@
 
     protected override void OnInitialized()
     {
+        Services.GetService<ClientIdentity>()?.Capture();
         _progress = new RunProgress(Time);
         Nav.LocationChanged += HandleLocationChanged;
     }
@@ -447,6 +465,7 @@
     private async Task StartRunAsync(bool refresh = false)
     {
         if (_disposed) return;
+        if (refresh && IsSafeMode) return;
 
         CancelCurrentRunTokens();
 
@@ -455,6 +474,7 @@
 
         var savedId = EffectiveSavedId;
 
+        _rateLimited = false;
         _incidents = [];
         _completedIncidents = null;
         if (!refresh || savedId is null)
@@ -467,6 +487,25 @@
         _hotId = null;
         _wasSlow = false;
         _dirty = false;
+
+        var limiter = Services.GetService<StartLimiter>();
+        if (limiter is not null && (savedId is null || refresh))
+        {
+            var clientIdentity = Services.GetService<ClientIdentity>();
+            clientIdentity?.Capture();
+            var clientKey = clientIdentity?.EffectiveKey ?? "unknown";
+            if (!limiter.TryAcquire(clientKey))
+            {
+                _progress = new RunProgress(Time);
+                _rateLimited = true;
+                await RenderNowAsync();
+                return;
+            }
+        }
+
+        var libraryStore = savedId is not null ? Services.GetService<LibraryStore>() : null;
+        _isDemoSaved = savedId is { } checkId && libraryStore is not null && await libraryStore.IsDemoAsync(checkId, ct);
+        if (!ReferenceEquals(runCts, _cts) || _disposed) return;
 
         _progress.Start();
         StartSlowMonitor();
@@ -489,6 +528,7 @@
 
                 switch (evt)
                 {
+                    case RunQueued:
                     case ArticlesFound:
                     case RevisionsScanned:
                         await RenderNowAsync();

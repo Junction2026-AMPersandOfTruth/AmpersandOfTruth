@@ -4,6 +4,7 @@ using AmpersandOfTruth.Web.Features.Accounts;
 using AmpersandOfTruth.Web.Features.Analysis;
 using AmpersandOfTruth.Web.Features.Articles;
 using AmpersandOfTruth.Web.Features.Corpus;
+using AmpersandOfTruth.Web.Features.Demo;
 using AmpersandOfTruth.Web.Features.Embedding;
 using AmpersandOfTruth.Web.Features.Hotspots;
 using AmpersandOfTruth.Web.Features.Investigations;
@@ -33,6 +34,7 @@ builder.Services.AddTimeMachineFeature();
 builder.Services.AddAccountsFeature();
 builder.Services.AddLibraryFeature();
 builder.Services.AddHotspotsFeature();
+builder.Services.AddDemoFeature();
 
 var app = builder.Build();
 
