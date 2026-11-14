@@ -1,0 +1,68 @@
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Articles
+@using AmpersandOfTruth.Web.Features.Investigations
+
+@if (Article.HasHistory)
+{
+    var hasDistinctEn = !string.IsNullOrWhiteSpace(TitleEn)
+        && !string.Equals(TitleEn, Article.Title, StringComparison.OrdinalIgnoreCase);
+
+    <div class="aot-art" data-testid="article-rail-item" data-page-id="@Article.PageId">
+        @if (hasDistinctEn)
+        {
+            <a class="aot-art__title" href="/articles/@Article.PageId">@TitleEn</a>
+        }
+        else
+        {
+            <a class="aot-art__title" href="/articles/@Article.PageId" lang="fi">@Article.Title</a>
+        }
+
+        <button type="button"
+                class="aot-btn aot-btn--ghost aot-art__count"
+                style="padding:0 4px"
+                aria-pressed="@(Selected ? "true" : "false")"
+                title="Show only this article’s incidents"
+                data-testid="article-rail-count"
+                @onclick="OnSelectArticle">
+            @IncidentCount.ToString("N0", CultureInfo.InvariantCulture)
+        </button>
+
+        <div class="aot-art__why">
+            @if (hasDistinctEn)
+            {
+                <span lang="fi">@Article.Title</span>
+                <text> · @EffectiveMatchReason</text>
+            }
+            else
+            {
+                @EffectiveMatchReason
+            }
+        </div>
+
+        @if (TimelineData is { Months.Count: > 0 })
+        {
+            <ArticleTimeline Data="TimelineData" Spark="true" />
+        }
+    </div>
+}
+else
+{
+    <div class="aot-art aot-muted" data-testid="article-rail-item" data-page-id="@Article.PageId">
+        <span class="aot-art__title aot-muted" lang="@Article.Lang">@Article.Title</span>
+        <span class="aot-small aot-muted">@Article.Lang.ToUpperInvariant()</span>
+        <div class="aot-art__why">no edit history in our data</div>
+    </div>
+}
+
+@code {
+    [Parameter, EditorRequired] public TopicArticle Article { get; set; } = default!;
+    [Parameter] public string? TitleEn { get; set; }
+    [Parameter] public string MatchReason { get; set; } = "similar text";
+    [Parameter] public int IncidentCount { get; set; }
+    [Parameter] public bool Selected { get; set; }
+    [Parameter] public ArticleAggregates? TimelineData { get; set; }
+    [Parameter] public EventCallback OnSelectArticle { get; set; }
+
+    private string EffectiveMatchReason =>
+        string.IsNullOrWhiteSpace(MatchReason) ? "similar text" : MatchReason;
+}

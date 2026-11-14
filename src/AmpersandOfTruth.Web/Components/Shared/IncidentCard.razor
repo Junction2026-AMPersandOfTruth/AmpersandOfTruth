@@ -1,10 +1,80 @@
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Investigations.Overview
 @using AmpersandOfTruth.Web.Features.Investigations.View
-@* STUB (#98 wave 2): the overview worker implements this. Parameters are the contract — keep them. *@
-<article class="aot-card" data-testid="incident-card" data-incident="@Incident.Id">
-    <a href="@Href">@(Incident.ClaimEn ?? Incident.PrimaryArticle.TitleFi)</a>
-</article>
+
+<a class="aot-card@(Highlighted ? " is-highlighted" : "")"
+   id="incident-@Incident.Id"
+   href="@Href"
+   data-testid="incident-card"
+   data-incident="@Incident.Id"
+   @onmouseenter="HandleMouseEnterAsync"
+   @onmouseleave="HandleMouseLeaveAsync">
+    <div class="aot-card__top">
+        <TierBadge Tier="Incident.Tier" />
+        <span class="aot-small aot-muted">
+            <span lang="fi">@Incident.PrimaryArticle.TitleFi</span>@if (HasDistinctEnglishTitle(Incident.PrimaryArticle))
+            {
+                <text> (@Incident.PrimaryArticle.TitleEn)</text>
+            }
+        </span>
+    </div>
+
+    <p class="aot-card__claim" data-testid="incident-claim">@FormatHeadline(Incident)</p>
+
+    @if (!string.IsNullOrWhiteSpace(Incident.ClaimOriginal))
+    {
+        <div class="aot-original" lang="@EffectiveLang" data-testid="incident-original">@Incident.ClaimOriginal</div>
+    }
+
+    <p class="aot-card__what" data-testid="incident-what">@OverviewState.WhatHappened(Incident)</p>
+
+    @if (!Compact)
+    {
+        <dl class="aot-facts">
+            <div>
+                <dt>First seen</dt>
+                <dd>@FormatDate(Incident.FirstSeen)</dd>
+            </div>
+            @if (Incident.LastRemoved is { } lastRemoved)
+            {
+                <div>
+                    <dt>Last removed</dt>
+                    <dd>@FormatDate(lastRemoved)</dd>
+                </div>
+            }
+            <div>
+                <dt>Live</dt>
+                <dd>@OverviewState.Duration(Incident.TotalLive)</dd>
+            </div>
+            <div>
+                <dt>Accounts</dt>
+                <dd>@Incident.AccountCount.ToString("N0", CultureInfo.InvariantCulture)</dd>
+            </div>
+            <div>
+                <dt>Articles</dt>
+                <dd>@Incident.Articles.Count.ToString("N0", CultureInfo.InvariantCulture)</dd>
+            </div>
+        </dl>
+
+        @if (Incident.Signals.Count > 0)
+        {
+            <div class="aot-row">
+                @foreach (var signal in Incident.Signals.Take(MaxVisibleSignals))
+                {
+                    <SignalChip Phrase="signal.Phrase" Evidence="signal.Evidence" />
+                }
+                @if (Incident.Signals.Count > MaxVisibleSignals)
+                {
+                    <span class="aot-small aot-muted" data-testid="incident-more-signals">+@((Incident.Signals.Count - MaxVisibleSignals).ToString("N0", CultureInfo.InvariantCulture)) more</span>
+                }
+            </div>
+        }
+    }
+</a>
 
 @code {
+    private const int MaxVisibleSignals = 4;
+
     [Parameter, EditorRequired] public IncidentView Incident { get; set; } = default!;
     /// <summary>Topic slug of the investigation, for the link.</summary>
     [Parameter, EditorRequired] public string Topic { get; set; } = "";
@@ -16,5 +86,87 @@
     /// <summary>Raised with the incident id on mouseenter and null on mouseleave.</summary>
     [Parameter] public EventCallback<string?> OnHover { get; set; }
 
-    private string Href => $"/investigate/{Uri.EscapeDataString(Topic)}/incidents/{Uri.EscapeDataString(Incident.Id)}{Query}";
+    public static RenderFragment Skeleton { get; } = builder =>
+    {
+        builder.OpenElement(0, "div");
+        builder.AddAttribute(1, "class", "aot-card aot-card--skeleton");
+        builder.AddAttribute(2, "data-testid", "incident-skeleton");
+        builder.AddAttribute(3, "aria-busy", "true");
+        builder.AddAttribute(4, "aria-label", "Scoring incident…");
+
+        builder.OpenElement(5, "span");
+        builder.AddAttribute(6, "class", "aot-skel");
+        builder.AddAttribute(7, "style", "width:180px;height:20px");
+        builder.CloseElement();
+
+        builder.OpenElement(8, "span");
+        builder.AddAttribute(9, "class", "aot-skel");
+        builder.AddAttribute(10, "style", "width:90%;height:18px;margin-top:16px");
+        builder.CloseElement();
+
+        builder.OpenElement(11, "span");
+        builder.AddAttribute(12, "class", "aot-skel");
+        builder.AddAttribute(13, "style", "width:60%");
+        builder.CloseElement();
+
+        builder.OpenElement(14, "span");
+        builder.AddAttribute(15, "class", "aot-skel");
+        builder.AddAttribute(16, "style", "width:40%");
+        builder.CloseElement();
+
+        builder.CloseElement();
+    };
+
+    private string EffectiveLang => string.IsNullOrWhiteSpace(Incident.Lang) ? "fi" : Incident.Lang;
+
+    private string Href
+    {
+        get
+        {
+            var slug = TopicSlug.From(Topic);
+            var effectiveTopic = slug.Length > 0 ? slug : Topic;
+            var normalizedQuery = string.IsNullOrEmpty(Query)
+                ? ""
+                : Query.StartsWith('?') ? Query : "?" + Query;
+            return $"/investigate/{Uri.EscapeDataString(effectiveTopic)}/incidents/{Uri.EscapeDataString(Incident.Id)}{normalizedQuery}";
+        }
+    }
+
+    private Task HandleMouseEnterAsync() =>
+        OnHover.HasDelegate ? OnHover.InvokeAsync(Incident.Id) : Task.CompletedTask;
+
+    private Task HandleMouseLeaveAsync() =>
+        OnHover.HasDelegate ? OnHover.InvokeAsync(null) : Task.CompletedTask;
+
+    private static bool HasDistinctEnglishTitle(ArticleRef article) =>
+        !string.IsNullOrWhiteSpace(article.TitleEn)
+        && !string.Equals(article.TitleEn, article.TitleFi, StringComparison.OrdinalIgnoreCase);
+
+    private static string FormatHeadline(IncidentView incident)
+    {
+        if (string.IsNullOrWhiteSpace(incident.ClaimEn))
+        {
+            var articleName = string.IsNullOrWhiteSpace(incident.PrimaryArticle.TitleEn)
+                ? incident.PrimaryArticle.TitleFi
+                : incident.PrimaryArticle.TitleEn;
+            return incident.Kind == IncidentKind.Deletion
+                ? $"Removed from {articleName}"
+                : $"Text added to {articleName}";
+        }
+
+        var trimmed = incident.ClaimEn.Trim();
+        if (incident.Kind == IncidentKind.Deletion)
+        {
+            return trimmed.StartsWith("Removed:", StringComparison.OrdinalIgnoreCase)
+                ? trimmed
+                : $"Removed: {trimmed}";
+        }
+
+        return trimmed is ['\u201C' or '"', .., '\u201D' or '"']
+            ? trimmed
+            : $"\u201C{trimmed}\u201D";
+    }
+
+    private static string FormatDate(DateTimeOffset timestamp) =>
+        timestamp.UtcDateTime.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
 }

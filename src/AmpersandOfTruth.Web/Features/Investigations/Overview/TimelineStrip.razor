@@ -1,0 +1,281 @@
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations.View
+
+@{
+    var lanes = BuildLanes(Incidents);
+    var laneCount = Math.Max(1, lanes.Count);
+    var axisY = TopPad + (laneCount * LaneHeight) + 6.0;
+    var svgHeight = axisY + 22.0;
+    var activeBrush = ResolveBrushRange();
+}
+
+<div class="aot-stack" style="gap:8px" data-testid="timeline-strip">
+    <svg class="aot-chart"
+         viewBox="0 0 @F(SvgWidth) @F(svgHeight)"
+         role="img"
+         aria-label="Incidents over time by article">
+        @for (var yr = StartYear; yr <= EndYear; yr++)
+        {
+            var yearValue = yr;
+            var x1 = YearX(yearValue);
+            var x2 = YearX(yearValue + 1.0);
+            <rect x="@F(x1)"
+                  y="@F(TopPad)"
+                  width="@F(Math.Max(1.0, x2 - x1))"
+                  height="@F(axisY - TopPad + 16.0)"
+                  fill="transparent"
+                  style="cursor:crosshair"
+                  data-testid="timeline-year"
+                  data-year="@yearValue"
+                  @onpointerdown="@(() => HandleYearPointerDown(yearValue))"
+                  @onpointerenter="@(() => HandleYearPointerEnter(yearValue))"
+                  @onpointerup="@(() => HandleYearPointerUpAsync(yearValue))"
+                  @onclick="@(() => HandleYearClickAsync(yearValue))" />
+        }
+
+        @for (var i = 0; i < lanes.Count; i++)
+        {
+            var lane = lanes[i];
+            var y = TopPad + (i * LaneHeight);
+            <g>
+                <rect class="lane"
+                      x="@F(LeftPad)"
+                      y="@F(y + 3)"
+                      width="@F(RightEdge - LeftPad)"
+                      height="@F(LaneHeight - 6)"
+                      rx="2"
+                      style="pointer-events:none" />
+                <text x="@F(LeftPad - 8)"
+                      y="@F(y + (LaneHeight / 2.0) + 4)"
+                      text-anchor="end">@TruncateLabel(lane.Label)</text>
+            </g>
+        }
+
+        @if (activeBrush is { } brush)
+        {
+            var bx1 = YearX(brush.From);
+            var bx2 = YearX(brush.To + 1.0);
+            <rect class="brush"
+                  x="@F(bx1)"
+                  y="@F(TopPad)"
+                  width="@F(Math.Max(2.0, bx2 - bx1))"
+                  height="@F(axisY - TopPad)"
+                  style="pointer-events:none"
+                  data-testid="timeline-brush" />
+        }
+
+        <line class="grid" x1="@F(LeftPad)" y1="@F(axisY)" x2="@F(RightEdge)" y2="@F(axisY)" />
+        @foreach (var tickYear in AxisTicks)
+        {
+            var gx = YearX(tickYear);
+            <g>
+                <line class="grid" x1="@F(gx)" y1="@F(axisY)" x2="@F(gx)" y2="@F(axisY + 4)" />
+                <text x="@F(gx)" y="@F(axisY + 16)" text-anchor="middle">@tickYear.ToString(CultureInfo.InvariantCulture)</text>
+            </g>
+        }
+
+        @for (var i = 0; i < lanes.Count; i++)
+        {
+            var lane = lanes[i];
+            var cy = TopPad + (i * LaneHeight) + (LaneHeight / 2.0);
+            @foreach (var incident in lane.Items)
+            {
+                var cx = YearX(YearFraction(incident.FirstSeen));
+                var isHot = string.Equals(HotId, incident.Id, StringComparison.Ordinal);
+                var shapeHot = isHot ? " is-hot" : "";
+                <g class="@(isHot ? "aot-mark is-hot" : "aot-mark")"
+                   data-testid="timeline-mark"
+                   data-incident="@incident.Id"
+                   style="cursor:pointer"
+                   @onclick="@(() => HandleMarkClickAsync(incident.Id))"
+                   @onclick:stopPropagation="true"
+                   @onmouseenter="@(() => HandleHoverAsync(incident.Id))"
+                   @onmouseleave="@(() => HandleHoverAsync(null))">
+                    <title>@incident.FirstSeen.UtcDateTime.ToString("d MMM yyyy", CultureInfo.InvariantCulture)</title>
+                    @if (incident.Tier == EvidenceTier.Reverted)
+                    {
+                        <circle class="aot-mk aot-mk--reverted@shapeHot" cx="@F(cx)" cy="@F(cy)" r="5" />
+                    }
+                    else if (incident.Tier == EvidenceTier.Contested)
+                    {
+                        <rect class="aot-mk aot-mk--contested@shapeHot"
+                              x="@F(cx - 5)"
+                              y="@F(cy - 5)"
+                              width="10"
+                              height="10"
+                              transform="rotate(45 @F(cx) @F(cy))" />
+                    }
+                    else
+                    {
+                        <rect class="aot-mk aot-mk--campaign@shapeHot"
+                              x="@F(cx - 5.5)"
+                              y="@F(cy - 5.5)"
+                              width="11"
+                              height="11"
+                              rx="1" />
+                    }
+                </g>
+            }
+        }
+    </svg>
+
+    <div class="aot-legend">
+        <span>
+            <svg viewBox="0 0 12 12" aria-hidden="true"><circle class="aot-mk aot-mk--reverted" cx="6" cy="6" r="4.5" /></svg>
+            <TierBadge Tier="EvidenceTier.Reverted" Short="true" />
+        </span>
+        <span>
+            <svg viewBox="0 0 12 12" aria-hidden="true"><rect class="aot-mk aot-mk--contested" x="2" y="2" width="8" height="8" transform="rotate(45 6 6)" /></svg>
+            <TierBadge Tier="EvidenceTier.Contested" Short="true" />
+        </span>
+        <span>
+            <svg viewBox="0 0 12 12" aria-hidden="true"><rect class="aot-mk aot-mk--campaign" x="1.5" y="1.5" width="9" height="9" rx="1" /></svg>
+            <TierBadge Tier="EvidenceTier.Campaign" Short="true" />
+        </span>
+    </div>
+</div>
+
+@code {
+    private const double SvgWidth = 900.0;
+    private const double LeftPad = 165.0;
+    private const double RightEdge = 888.0;
+    private const double TopPad = 6.0;
+    private const double LaneHeight = 22.0;
+    private const int StartYear = 2003;
+    private const int EndYear = 2026;
+    private const double AxisEnd = 2027.0;
+    private const int MaxArticleLanes = 5;
+
+    private static readonly int[] AxisTicks = [2003, 2006, 2009, 2012, 2015, 2018, 2021, 2024, 2026];
+
+    private int? _dragStartYear;
+    private int? _dragCurrentYear;
+    private bool _pointerHandled;
+
+    private sealed record StripLane(string Label, IReadOnlyList<IncidentView> Items);
+
+    [Parameter, EditorRequired] public IReadOnlyList<IncidentView> Incidents { get; set; } = [];
+    [Parameter] public string? HotId { get; set; }
+    [Parameter] public EventCallback<string> OnMarkClick { get; set; }
+    [Parameter] public EventCallback<(int From, int To)> OnRangeSelected { get; set; }
+    [Parameter] public EventCallback<string?> OnHover { get; set; }
+    [Parameter] public (int? From, int? To) SelectedRange { get; set; }
+
+    private void HandleYearPointerDown(int year)
+    {
+        _dragStartYear = year;
+        _dragCurrentYear = year;
+        _pointerHandled = false;
+    }
+
+    private void HandleYearPointerEnter(int year)
+    {
+        if (_dragStartYear is not null)
+        {
+            _dragCurrentYear = year;
+        }
+    }
+
+    private async Task HandleYearPointerUpAsync(int year)
+    {
+        if (_dragStartYear is not { } start) return;
+        _dragStartYear = null;
+        _dragCurrentYear = null;
+        _pointerHandled = true;
+
+        var from = Math.Min(start, year);
+        var to = Math.Max(start, year);
+        if (OnRangeSelected.HasDelegate)
+        {
+            await OnRangeSelected.InvokeAsync((from, to));
+        }
+    }
+
+    private async Task HandleYearClickAsync(int year)
+    {
+        if (_pointerHandled)
+        {
+            _pointerHandled = false;
+            return;
+        }
+
+        _dragStartYear = null;
+        _dragCurrentYear = null;
+        if (OnRangeSelected.HasDelegate)
+        {
+            await OnRangeSelected.InvokeAsync((year, year));
+        }
+    }
+
+    private Task HandleMarkClickAsync(string id) =>
+        OnMarkClick.HasDelegate ? OnMarkClick.InvokeAsync(id) : Task.CompletedTask;
+
+    private Task HandleHoverAsync(string? id) =>
+        OnHover.HasDelegate ? OnHover.InvokeAsync(id) : Task.CompletedTask;
+
+    private (int From, int To)? ResolveBrushRange()
+    {
+        if (_dragStartYear is { } ds && _dragCurrentYear is { } dc)
+        {
+            return (Math.Min(ds, dc), Math.Max(ds, dc));
+        }
+
+        if (SelectedRange.From is not null || SelectedRange.To is not null)
+        {
+            var from = Math.Clamp(SelectedRange.From ?? StartYear, StartYear, EndYear);
+            var to = Math.Clamp(SelectedRange.To ?? EndYear, StartYear, EndYear);
+            return from <= to ? (from, to) : (to, from);
+        }
+
+        return null;
+    }
+
+    private static List<StripLane> BuildLanes(IReadOnlyList<IncidentView> incidents)
+    {
+        if (incidents.Count == 0)
+        {
+            return [];
+        }
+
+        var groups = incidents
+            .GroupBy(static i => i.PrimaryArticle.PageId)
+            .OrderByDescending(static g => g.Count())
+            .ThenBy(static g => g.Min(i => i.Rank))
+            .ThenBy(static g => g.Key)
+            .ToList();
+
+        var lanes = new List<StripLane>(Math.Min(MaxArticleLanes + 1, groups.Count));
+        foreach (var group in groups.Take(MaxArticleLanes))
+        {
+            var primary = group.First().PrimaryArticle;
+            var label = string.IsNullOrWhiteSpace(primary.TitleEn) ? primary.TitleFi : primary.TitleEn;
+            lanes.Add(new StripLane(label, group.ToList()));
+        }
+
+        if (groups.Count > MaxArticleLanes)
+        {
+            var others = groups.Skip(MaxArticleLanes).SelectMany(static g => g).ToList();
+            lanes.Add(new StripLane("other", others));
+        }
+
+        return lanes;
+    }
+
+    private static double YearFraction(DateTimeOffset timestamp)
+    {
+        var utc = timestamp.UtcDateTime;
+        var daysInYear = DateTime.IsLeapYear(utc.Year) ? 366.0 : 365.0;
+        var fraction = utc.Year + ((utc.DayOfYear - 1) / daysInYear);
+        return Math.Clamp(fraction, StartYear, AxisEnd - 0.02);
+    }
+
+    private static double YearX(double year) =>
+        LeftPad + ((Math.Clamp(year, StartYear, AxisEnd) - StartYear) / (AxisEnd - StartYear) * (RightEdge - LeftPad));
+
+    private static string TruncateLabel(string label) =>
+        label.Length <= 22 ? label : string.Concat(label.AsSpan(0, 21), "…");
+
+    private static string F(double value) =>
+        value.ToString("0.##", CultureInfo.InvariantCulture);
+}

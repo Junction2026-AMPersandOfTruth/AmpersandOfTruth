@@ -43,6 +43,8 @@ public sealed class RunProgress
 
     public bool IsComplete { get; private set; }
 
+    public bool IsCancelled { get; private set; }
+
     public bool FromCache { get; private set; }
 
     public TimeSpan Elapsed => _finalElapsed
@@ -62,6 +64,7 @@ public sealed class RunProgress
         Of = 0;
         Failure = null;
         IsComplete = false;
+        IsCancelled = false;
         FromCache = false;
         _finalElapsed = null;
 
@@ -69,6 +72,22 @@ public sealed class RunProgress
         _startedAt = now;
         IsRunning = true;
         Activate(InvestigationStage.FindArticles, now);
+    }
+
+    public void Cancel()
+    {
+        if (!IsRunning) return;
+        IsRunning = false;
+        IsCancelled = true;
+        _finalElapsed = _startedAt is { } start ? _time.GetElapsedTime(start) : TimeSpan.Zero;
+        for (var i = 0; i < _states.Length; i++)
+        {
+            if (_states[i] == StageState.Active)
+            {
+                _states[i] = StageState.Pending;
+                _activatedAt[i] = null;
+            }
+        }
     }
 
     public void Apply(InvestigationEvent e)
@@ -129,6 +148,7 @@ public sealed class RunProgress
                 Failure = f;
                 IsRunning = false;
                 IsComplete = false;
+                IsCancelled = false;
                 _finalElapsed = _startedAt is { } start ? _time.GetElapsedTime(start) : TimeSpan.Zero;
                 SetFailed(f.Stage);
                 break;
@@ -141,6 +161,7 @@ public sealed class RunProgress
                 Failure = null;
                 IsRunning = false;
                 IsComplete = true;
+                IsCancelled = false;
                 for (var i = 0; i < _states.Length; i++)
                 {
                     _states[i] = StageState.Done;

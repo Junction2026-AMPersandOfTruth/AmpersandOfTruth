@@ -256,6 +256,30 @@ public sealed class RunProgressTests
         Assert.Equal([unflaggedVandalism, unflaggedSelfRevert], unflagged);
     }
 
+    [Fact]
+    public void Cancel_stops_running_freezes_elapsed_and_clears_active_stage()
+    {
+        var clock = new FakeTimeProvider();
+        var progress = new RunProgress(clock);
+        progress.Start();
+
+        var article = new TopicArticle("fi", 100, "Talvisota", 0.1);
+        progress.Apply(new ArticlesFound(1, [article]));
+
+        clock.Advance(TimeSpan.FromSeconds(7));
+        progress.Cancel();
+
+        Assert.False(progress.IsRunning);
+        Assert.False(progress.IsComplete);
+        Assert.True(progress.IsCancelled);
+        Assert.Equal(StageState.Done, progress.State(InvestigationStage.FindArticles));
+        Assert.Equal(StageState.Pending, progress.State(InvestigationStage.ScanHistory));
+        Assert.Equal(TimeSpan.FromSeconds(7), progress.Elapsed);
+
+        clock.Advance(TimeSpan.FromSeconds(30));
+        Assert.Equal(TimeSpan.FromSeconds(7), progress.Elapsed);
+    }
+
     private static RemovedEdit MakeCandidate(TopicArticle article, long revId, long revertedRevId) =>
         new(article, new RevertEvent(
             PageId: article.PageId,

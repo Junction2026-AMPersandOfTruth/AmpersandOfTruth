@@ -1,0 +1,55 @@
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations.Pipeline
+
+<details class="aot-collapsed" data-testid="unflagged-toggle" open="@Open">
+    <summary>Removed edits we did not flag (@Items.Count.ToString("N0", CultureInfo.InvariantCulture))</summary>
+    @if (Items.Count > 0)
+    {
+        <div style="overflow-x:auto;margin-top:12px">
+            <table class="aot-wikitable" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Article</th>
+                        <th>Account</th>
+                        <th>Removal summary</th>
+                        <th>Diff</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Items)
+                    {
+                        var maskedSummary = EditorDisplay.MaskComment(item.Revert.Comment);
+                        <tr data-testid="unflagged-row">
+                            <td class="aot-num" style="white-space:nowrap">@FormatDate(item.Revert.Timestamp)</td>
+                            <td><a href="/articles/@item.Article.PageId" lang="fi">@item.Article.Title</a></td>
+                            <td><EditorTag User="@item.Revert.RevertedUser" /></td>
+                            <td>
+                                @if (!string.IsNullOrWhiteSpace(maskedSummary))
+                                {
+                                    <span lang="fi">@maskedSummary</span>
+                                }
+                                else
+                                {
+                                    <span class="aot-muted">—</span>
+                                }
+                            </td>
+                            <td style="white-space:nowrap">
+                                <a href="@item.Revert.RevertedDiffUrl.AbsoluteUri" target="_blank" rel="noopener">diff ↗</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</details>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<RemovedEdit> Items { get; set; } = [];
+    [Parameter] public bool Open { get; set; }
+
+    private static string FormatDate(DateTime timestamp) =>
+        DateTime.SpecifyKind(timestamp, DateTimeKind.Utc).ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+}
