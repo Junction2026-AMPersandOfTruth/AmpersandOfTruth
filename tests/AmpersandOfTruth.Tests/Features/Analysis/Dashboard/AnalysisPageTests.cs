@@ -344,12 +344,12 @@ public sealed class AnalysisPageTests : BunitContext
     }
 
     [Fact]
-    public void NavMenu_contains_analysis_link()
+    public void Footer_contains_analysis_link()
     {
-        var cut = Render<NavMenu>();
+        var cut = Render<Footer>();
 
-        var link = Assert.Single(cut.FindAll("a.nav-link"), a => a.GetAttribute("href") == "analysis");
-        Assert.Contains("LLM usage", link.TextContent);
+        var link = Assert.Single(cut.FindAll("a"), a => a.GetAttribute("href") == "/analysis");
+        Assert.Contains("Assessment usage", link.TextContent);
     }
 
     protected override async ValueTask DisposeAsyncCore()

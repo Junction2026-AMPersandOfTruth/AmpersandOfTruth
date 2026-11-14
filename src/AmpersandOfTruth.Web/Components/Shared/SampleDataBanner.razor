@@ -1,0 +1,10 @@
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using Microsoft.Extensions.Options
+@inject IOptions<InvestigationSourceOptions> SourceOptions
+
+@if (SourceOptions.Value.IsSampleData)
+{
+    <StatusBanner Kind="StatusKind.Warn" Title="Sample incidents: not findings" TestId="sample-data-banner">
+        These incidents are hand-written examples on real edits, used while the analysis is being built. Articles, edits and diffs are real.
+    </StatusBanner>
+}

@@ -1,0 +1,51 @@
+@{
+    var testId = string.IsNullOrWhiteSpace(TestId) ? "status-banner" : TestId;
+    var modifier = Kind switch
+    {
+        StatusKind.Warn => "aot-banner--warn",
+        StatusKind.Error => "aot-banner--error",
+        _ => "aot-banner--info",
+    };
+    var role = Kind == StatusKind.Error ? "alert" : "status";
+}
+<div class="aot-banner @modifier" role="@role" data-testid="@testId">
+    @if (Kind == StatusKind.Warn)
+    {
+        <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M9 2.5 16 15H2zM9 7v4M9 13v.5" /></svg>
+    }
+    else if (Kind == StatusKind.Error)
+    {
+        <svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="7" /><path d="M9 5v5M9 12.5v.5" /></svg>
+    }
+    else
+    {
+        <svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="7" /><path d="M9 8v5M9 5.5v.5" /></svg>
+    }
+    <div class="aot-banner__body">
+        <b>@Title</b>
+        @if (ChildContent is not null)
+        {
+            <text> </text>@ChildContent
+        }
+        @if (!string.IsNullOrWhiteSpace(Detail))
+        {
+            <details>
+                <summary>Details</summary>
+                <pre>@Detail</pre>
+            </details>
+        }
+    </div>
+    @if (OnRetry.HasDelegate)
+    {
+        <button type="button" class="aot-btn aot-btn--sm" data-testid="status-retry" @onclick="OnRetry">Retry</button>
+    }
+</div>
+
+@code {
+    [Parameter] public StatusKind Kind { get; set; }
+    [Parameter, EditorRequired] public string Title { get; set; } = "";
+    [Parameter] public string? Detail { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public EventCallback OnRetry { get; set; }
+    [Parameter] public string? TestId { get; set; } = "status-banner";
+}

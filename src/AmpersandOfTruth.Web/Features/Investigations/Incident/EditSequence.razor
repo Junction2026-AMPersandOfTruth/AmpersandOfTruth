@@ -1,0 +1,184 @@
+@implements IDisposable
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Investigations.Overview
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using AmpersandOfTruth.Web.Features.Translation
+@inject IEvidenceTranslator Translator
+
+<ol class="aot-seq" data-testid="edit-sequence">
+    @for (var i = 0; i < Edits.Count; i++)
+    {
+        var edit = Edits[i];
+        if (i > 0)
+        {
+            var gap = edit.Timestamp - Edits[i - 1].Timestamp;
+            if (gap > TimeSpan.FromDays(30))
+            {
+                <li class="aot-seq__gaprow" data-testid="event-gap">@FormatGap(gap)</li>
+            }
+        }
+
+        var isInsert = edit.Action is EditAction.Inserted or EditAction.Reinserted;
+        var actionWord = ActionWord(edit.Action);
+
+        <li data-testid="event-row" @key="edit.RevId">
+            <span class="aot-seq__dot @(isInsert ? "aot-seq__dot--add" : "aot-seq__dot--del")" title="@actionWord">@(isInsert ? "+" : "\u2212")</span>
+            <div class="aot-seq__main">
+                <div class="aot-seq__head">
+                    <b>@actionWord</b>
+                    <span class="aot-num aot-muted">@FormatTimestamp(edit.Timestamp)</span>
+                    <EditorTag Label="@edit.Editor" />
+                </div>
+                @if (string.IsNullOrWhiteSpace(edit.Summary))
+                {
+                    <div class="aot-seq__summary aot-muted">(no edit summary)</div>
+                }
+                else if (_translations.TryGetValue(edit.Summary, out var translated) && !string.IsNullOrWhiteSpace(translated))
+                {
+                    <div class="aot-seq__summary">
+                        <MtLabel Text="@translated" Original="@edit.Summary" Lang="fi" Stacked="true" />
+                    </div>
+                }
+                else
+                {
+                    <div class="aot-seq__summary">
+                        <div class="aot-original" lang="fi">@edit.Summary</div>
+                    </div>
+                }
+            </div>
+            <span class="aot-seq__live">
+                @if (isInsert && edit.Live is { } live)
+                {
+                    <text>live @OverviewState.Duration(live)</text><br />
+                }
+                <a class="aot-ext" href="@edit.DiffUrl.AbsoluteUri" target="_blank" rel="noopener" data-testid="wiki-diff-link">diff</a>
+            </span>
+        </li>
+    }
+</ol>
+
+@code {
+    private readonly Dictionary<string, string> _translations = new(StringComparer.Ordinal);
+    private CancellationTokenSource? _cts;
+    private string? _translatedSignature;
+
+    [Parameter, EditorRequired] public IReadOnlyList<EditView> Edits { get; set; } = [];
+    [Parameter] public string? Scope { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        var signature = BuildSignature();
+        if (!string.Equals(_translatedSignature, signature, StringComparison.Ordinal))
+        {
+            _cts?.Cancel();
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var signature = BuildSignature();
+        if (string.Equals(_translatedSignature, signature, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        _translatedSignature = signature;
+
+        var pending = Edits
+            .Select(static e => e.Summary)
+            .Where(static s => !string.IsNullOrWhiteSpace(s))
+            .Select(static s => s!)
+            .Where(s => !_translations.ContainsKey(s))
+            .Distinct(StringComparer.Ordinal)
+            .ToList();
+
+        if (pending.Count == 0)
+        {
+            return;
+        }
+
+        _cts?.Cancel();
+        _cts?.Dispose();
+        var run = _cts = new CancellationTokenSource();
+        var ct = run.Token;
+
+        try
+        {
+            var results = await Translator.TranslateManyAsync(pending, "fi", Scope, ct);
+            if (ct.IsCancellationRequested || !ReferenceEquals(run, _cts))
+            {
+                return;
+            }
+
+            var updated = false;
+            var count = Math.Min(pending.Count, results.Count);
+            for (var i = 0; i < count; i++)
+            {
+                var r = results[i];
+                if (r.Ok && !string.IsNullOrWhiteSpace(r.English))
+                {
+                    _translations[pending[i]] = r.English;
+                    updated = true;
+                }
+            }
+
+            if (updated)
+            {
+                StateHasChanged();
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+        }
+    }
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+
+    private string BuildSignature() =>
+        $"{Scope ?? ""}|{string.Join("\u001F", Edits.Select(static e => $"{e.RevId}:{e.Summary ?? ""}"))}";
+
+    private static string ActionWord(EditAction action) => action switch
+    {
+        EditAction.Inserted => "Added",
+        EditAction.Removed => "Removed",
+        EditAction.Reinserted => "Put back",
+        _ => "Added",
+    };
+
+    private static string FormatTimestamp(DateTimeOffset timestamp) =>
+        timestamp.ToUniversalTime().ToString("d MMM yyyy, HH:mm 'UTC'", CultureInfo.InvariantCulture);
+
+    private static string FormatGap(TimeSpan gap)
+    {
+        var totalDays = gap.TotalDays;
+        if (totalDays < 365)
+        {
+            var months = Math.Clamp((int)Math.Round(totalDays / 30.4375), 1, 11);
+            return months == 1
+                ? "\u2026 1 month later"
+                : string.Create(CultureInfo.InvariantCulture, $"\u2026 {months} months later");
+        }
+
+        var years = (int)(totalDays / 365);
+        var remMonths = Math.Min(11, (int)((totalDays % 365) / 30));
+
+        var yearPart = years == 1
+            ? "1 year"
+            : string.Create(CultureInfo.InvariantCulture, $"{years} years");
+
+        if (remMonths == 0)
+        {
+            return $"\u2026 {yearPart} later";
+        }
+
+        var monthPart = remMonths == 1
+            ? "1 month"
+            : string.Create(CultureInfo.InvariantCulture, $"{remMonths} months");
+
+        return $"\u2026 {yearPart} {monthPart} later";
+    }
+}

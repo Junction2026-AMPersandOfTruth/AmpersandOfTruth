@@ -1,0 +1,267 @@
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Articles
+
+@{
+    var metrics = ComputeLayout();
+}
+
+@if (Spark)
+{
+    <svg class="aot-chart aot-spark"
+         data-testid="article-timeline"
+         viewBox="0 0 @F(SparkWidth) @F(SparkHeight)"
+         width="100%"
+         height="20"
+         preserveAspectRatio="none"
+         role="img"
+         aria-label="@SummaryText">
+        @foreach (var b in metrics.Months)
+        {
+            var bx = metrics.MonthX(b.Year, b.Month);
+            var barW = Math.Max(metrics.BarSlotWidth - 0.2, 0.6);
+            var namedH = (double)b.NamedEdits / metrics.MaxEdits * metrics.BarHeight;
+            var anonH = (double)b.AnonEdits / metrics.MaxEdits * metrics.BarHeight;
+            var namedY = metrics.Top + metrics.BarHeight - namedH;
+            var anonY = namedY - anonH;
+            <g data-testid="timeline-bar" @key="(b.Year, b.Month)">
+                <rect class="named" x="@F(bx)" y="@F(namedY)" width="@F(barW)" height="@F(namedH)" style="fill:var(--chart-named)" />
+                <rect class="anon" x="@F(bx)" y="@F(anonY)" width="@F(barW)" height="@F(anonH)" style="fill:var(--chart-anon)" />
+            </g>
+        }
+    </svg>
+}
+else
+{
+    var contested = Contested;
+    var bandPx = ComputeRangePixels(metrics, contested?.Range);
+    var selPx = ComputeRangePixels(metrics, Range);
+    var yearTicks = ComputeYearTicks(metrics.Months);
+    var sizePoints = BuildSizePoints(metrics);
+    var allPreset = AllPreset;
+    var last5Preset = LastFiveYearsPreset;
+
+    <div class="aot-stack">
+        <svg class="aot-chart"
+             data-testid="article-timeline"
+             viewBox="0 0 @F(FullWidth) @F(FullHeight)"
+             width="100%"
+             role="img"
+             aria-label="@SummaryText">
+            @if (bandPx is { } band)
+            {
+                <rect class="band"
+                      x="@F(band.X)"
+                      y="@F(metrics.Top)"
+                      width="@F(band.Width)"
+                      height="@F(metrics.BarHeight)"
+                      style="fill:var(--chart-band)" />
+            }
+            @if (selPx is { } selBar)
+            {
+                <rect class="brush"
+                      x="@F(selBar.X)"
+                      y="@F(metrics.Top)"
+                      width="@F(selBar.Width)"
+                      height="@F(metrics.BarHeight)"
+                      fill-opacity="0.16"
+                      style="fill:var(--accent);stroke:var(--accent);stroke-width:1" />
+            }
+
+            <line class="grid"
+                  x1="@F(metrics.Left)"
+                  x2="@F(metrics.Right)"
+                  y1="@F(metrics.Top)"
+                  y2="@F(metrics.Top)"
+                  style="stroke:var(--chart-grid);stroke-width:1" />
+            <text x="@F(metrics.Left - 6)" y="@F(metrics.Top + 4)" text-anchor="end">@metrics.MaxEdits.ToString("N0", CultureInfo.InvariantCulture)</text>
+
+            <line class="grid"
+                  x1="@F(metrics.Left)"
+                  x2="@F(metrics.Right)"
+                  y1="@F(metrics.Top + metrics.BarHeight)"
+                  y2="@F(metrics.Top + metrics.BarHeight)"
+                  style="stroke:var(--chart-grid);stroke-width:1" />
+            <text x="@F(metrics.Left - 6)" y="@F(metrics.Top + metrics.BarHeight + 4)" text-anchor="end">0</text>
+
+            @foreach (var b in metrics.Months)
+            {
+                var bx = metrics.MonthX(b.Year, b.Month);
+                var barX = bx + 0.3;
+                var barW = Math.Max(metrics.BarSlotWidth - 0.6, 0.6);
+                var namedH = (double)b.NamedEdits / metrics.MaxEdits * metrics.BarHeight;
+                var anonH = (double)b.AnonEdits / metrics.MaxEdits * metrics.BarHeight;
+                var namedY = metrics.Top + metrics.BarHeight - namedH;
+                var anonY = namedY - anonH;
+                <g data-testid="timeline-bar"
+                   style="cursor:pointer"
+                   @key="(b.Year, b.Month)"
+                   @onclick="@(e => HandleBarClickAsync(b, e))">
+                    <title>@FormatTooltip(b)</title>
+                    <path d="@HitPath(bx, metrics.Top, metrics.BarSlotWidth, metrics.BarHeight)" fill="transparent" />
+                    <rect class="named" x="@F(barX)" y="@F(namedY)" width="@F(barW)" height="@F(namedH)" style="fill:var(--chart-named)" />
+                    <rect class="anon" x="@F(barX)" y="@F(anonY)" width="@F(barW)" height="@F(anonH)" style="fill:var(--chart-anon)" />
+                </g>
+                @if (b.Removals > 0)
+                {
+                    var rx = bx + (metrics.BarSlotWidth * 0.5);
+                    var tickY1 = metrics.Top + metrics.BarHeight + 1;
+                    var tickH = 2.0 + (4.0 * b.Removals / metrics.MaxRemovals);
+                    <line data-testid="removal-tick"
+                          x1="@F(rx)"
+                          x2="@F(rx)"
+                          y1="@F(tickY1)"
+                          y2="@F(tickY1 + tickH)"
+                          style="stroke:var(--chart-named);stroke-width:1.5" />
+                }
+            }
+
+            @if (Marks is { Count: > 0 })
+            {
+                @foreach (var mark in Marks)
+                {
+                    var cx = metrics.MarkX(mark.At);
+                    var cy = metrics.Top + 6;
+                    <line class="grid"
+                          x1="@F(cx)"
+                          x2="@F(cx)"
+                          y1="@F(cy + 6)"
+                          y2="@F(metrics.Top + metrics.BarHeight)"
+                          stroke-dasharray="2 2"
+                          style="stroke:var(--chart-grid);stroke-width:1" />
+                    @if (!string.IsNullOrWhiteSpace(mark.Href))
+                    {
+                        <a href="@mark.Href" data-testid="timeline-mark" @key="mark.IncidentId">
+                            @RenderMarkShape(mark, cx, cy)
+                        </a>
+                    }
+                    else
+                    {
+                        <g data-testid="timeline-mark" @key="mark.IncidentId">
+                            @RenderMarkShape(mark, cx, cy)
+                        </g>
+                    }
+                }
+            }
+
+            @foreach (var yr in yearTicks)
+            {
+                var gx = metrics.MonthX(yr, 1);
+                <g @key="yr">
+                    <line class="grid"
+                          x1="@F(gx)"
+                          x2="@F(gx)"
+                          y1="@F(metrics.Top + metrics.BarHeight)"
+                          y2="@F(metrics.Top + metrics.BarHeight + 4)"
+                          style="stroke:var(--chart-grid);stroke-width:1" />
+                    <text x="@F(gx)" y="@F(metrics.Top + metrics.BarHeight + 22)" text-anchor="middle">@yr.ToString(CultureInfo.InvariantCulture)</text>
+                </g>
+            }
+
+            @if (selPx is { } selSize)
+            {
+                <rect class="brush"
+                      data-testid="timeline-brush"
+                      x="@F(selSize.X)"
+                      y="@F(SizeLaneTop - 2)"
+                      width="@F(selSize.Width)"
+                      height="@F(SizeLaneHeight + 4)"
+                      fill-opacity="0.22"
+                      style="fill:var(--accent);stroke:var(--accent);stroke-width:1" />
+            }
+
+            <line class="grid"
+                  x1="@F(metrics.Left)"
+                  x2="@F(metrics.Right)"
+                  y1="@F(SizeLaneTop + SizeLaneHeight)"
+                  y2="@F(SizeLaneTop + SizeLaneHeight)"
+                  style="stroke:var(--chart-grid);stroke-width:1" />
+            @if (sizePoints.Length > 0)
+            {
+                <polyline class="size"
+                          data-testid="size-lane"
+                          points="@sizePoints"
+                          style="fill:none;stroke:var(--accent);stroke-width:1.5" />
+            }
+            <text x="@F(metrics.Left - 6)" y="@F(SizeLaneTop + 10)" text-anchor="end">KB</text>
+            <text x="@F(metrics.Left + 4)" y="@F(SizeLaneTop + 10)">Article size</text>
+        </svg>
+
+        <div class="aot-row" style="justify-content:space-between">
+            <div class="aot-legend">
+                <span>
+                    <svg viewBox="0 0 12 12" aria-hidden="true"><rect class="named" x="1" y="1" width="10" height="10" style="fill:var(--chart-named)" /></svg>
+                    Registered accounts
+                </span>
+                <span>
+                    <svg viewBox="0 0 12 12" aria-hidden="true"><rect class="anon" x="1" y="1" width="10" height="10" style="fill:var(--chart-anon)" /></svg>
+                    Anonymous
+                </span>
+                <span>
+                    <svg viewBox="0 0 12 12" aria-hidden="true"><rect class="band" x="1" y="1" width="10" height="10" style="fill:var(--chart-band)" /></svg>
+                    Most contested
+                </span>
+            </div>
+            <div class="aot-row" role="group" aria-label="Time range presets">
+                <button type="button"
+                        class="aot-chip"
+                        data-testid="range-preset"
+                        aria-pressed="@(IsPresetActive(allPreset) ? "true" : "false")"
+                        @onclick="@(() => SelectPresetAsync(allPreset))">
+                    All
+                </button>
+                <button type="button"
+                        class="aot-chip"
+                        data-testid="range-preset"
+                        disabled="@(contested is null)"
+                        aria-pressed="@(IsPresetActive(contested?.Range) ? "true" : "false")"
+                        @onclick="@(() => SelectPresetAsync(contested?.Range))">
+                    Most contested
+                </button>
+                <button type="button"
+                        class="aot-chip"
+                        data-testid="range-preset"
+                        aria-pressed="@(IsPresetActive(last5Preset) ? "true" : "false")"
+                        @onclick="@(() => SelectPresetAsync(last5Preset))">
+                    Last 5 years
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private RenderFragment RenderMarkShape(IncidentMark mark, double cx, double cy) => builder =>
+    {
+        if (IsCircleMark(mark))
+        {
+            builder.OpenElement(0, "circle");
+            builder.AddAttribute(1, "class", MarkClass(mark));
+            builder.AddAttribute(2, "cx", F(cx));
+            builder.AddAttribute(3, "cy", F(cy));
+            builder.AddAttribute(4, "r", "5");
+            builder.CloseElement();
+        }
+        else if (IsDiamondMark(mark))
+        {
+            builder.OpenElement(0, "rect");
+            builder.AddAttribute(1, "class", MarkClass(mark));
+            builder.AddAttribute(2, "x", F(cx - 5));
+            builder.AddAttribute(3, "y", F(cy - 5));
+            builder.AddAttribute(4, "width", "10");
+            builder.AddAttribute(5, "height", "10");
+            builder.AddAttribute(6, "transform", Rotate45(cx, cy));
+            builder.CloseElement();
+        }
+        else
+        {
+            builder.OpenElement(0, "rect");
+            builder.AddAttribute(1, "class", MarkClass(mark));
+            builder.AddAttribute(2, "x", F(cx - 5.5));
+            builder.AddAttribute(3, "y", F(cy - 5.5));
+            builder.AddAttribute(4, "width", "11");
+            builder.AddAttribute(5, "height", "11");
+            builder.AddAttribute(6, "rx", "1");
+            builder.CloseElement();
+        }
+    };
+}

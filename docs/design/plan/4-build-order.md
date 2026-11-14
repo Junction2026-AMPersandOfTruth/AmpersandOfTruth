@@ -8,7 +8,7 @@ Shared means it is used by two or more features and lives in `Components/Shared/
 |---|---|---|---|
 | `TierBadge` | Shared | `Tier Tier`, `bool ShowWhy` | card, incident, strip legend, methodology |
 | `SignalChip` | Shared | `Signal Signal` (id → phrasebook text + tooltip) | card, why panel, filters |
-| `EditorLabel` | Shared | `string User`, `bool Anonymous` | event rows, account view, revisions table |
+| `EditorLabel` (Razor: `EditorTag`, the name `EditorLabel` is taken by the `Evidence` record) | Shared | `string User`, `bool Anonymous` | event rows, account view, revisions table |
 | `MtLabel` | Shared | `string Original`, `string Lang` | claim, diff, summaries, titles |
 | `IncidentCard` | Shared | `Incident Incident`, `bool Highlighted`, `EventCallback OnHover` | overview, related, saved (P4.1) |
 | `ArticleTimeline` | Shared | `ArticleAggregates Data`, `DateRange? Range`, `bool Spark`, `IEnumerable<IncidentMark> Marks` | article page, rail sparkline, dashboard (P4.6) |

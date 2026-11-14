@@ -1,0 +1,876 @@
+@page "/investigate/{Topic}"
+@implements IDisposable
+@using System.Diagnostics
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Articles
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations
+@using AmpersandOfTruth.Web.Features.Investigations.Pipeline
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.Extensions.Options
+@inject IInvestigationRunner Runner
+@inject IncidentMapper Mapper
+@inject RecentRuns RecentRuns
+@inject IOptions<InvestigationSourceOptions> SourceOptions
+@inject NavigationManager Nav
+@inject TimeProvider Time
+@inject IServiceProvider Services
+
+<PageTitle>@TopicText · Ampersand of Truth</PageTitle>
+
+@{
+    var tierCounts = OverviewState.TierCounts(_incidents);
+    var visibleIncidents = OverviewState.Apply(_incidents, _filter);
+    var signalOptions = BuildSignalOptions();
+    var queryString = _filter.ToQueryString();
+    var unflagged = _progress.Unflagged();
+}
+
+<div class="aot-stack" style="gap:20px" data-testid="investigation-page">
+    <SampleDataBanner />
+
+    <div data-testid="summary-header">
+        <div class="aot-row" style="justify-content:space-between">
+            <h1 class="aot-h1" data-testid="topic-title">@TopicText</h1>
+            <button type="button" class="aot-btn aot-btn--sm" data-testid="copy-link" @onclick="CopyLinkAsync">
+                @(_copied ? "Copied" : "Copy link")
+            </button>
+        </div>
+
+        <div class="aot-row aot-small" style="margin-top:4px;gap:6px 12px">
+            @if (_progress.Count(InvestigationStage.FindArticles) is { } articleCount)
+            {
+                <span><span class="aot-num">@articleCount.ToString("N0", CultureInfo.InvariantCulture)</span> @(articleCount == 1 ? "article" : "articles")</span>
+            }
+            @if (_progress.Count(InvestigationStage.ScanHistory) is { } revisionCount)
+            {
+                @if (_progress.Count(InvestigationStage.FindArticles) is not null)
+                {
+                    <span aria-hidden="true">·</span>
+                }
+                <span><span class="aot-num">@revisionCount.ToString("N0", CultureInfo.InvariantCulture)</span> @(revisionCount == 1 ? "revision" : "revisions") scanned</span>
+            }
+            @if (_incidents.Count > 0 || _progress.IsComplete)
+            {
+                @if (_progress.Count(InvestigationStage.FindArticles) is not null || _progress.Count(InvestigationStage.ScanHistory) is not null)
+                {
+                    <span aria-hidden="true">·</span>
+                }
+                <span><b class="aot-num">@_incidents.Count.ToString("N0", CultureInfo.InvariantCulture)</b> @(_incidents.Count == 1 ? "incident" : "incidents")@(_incidents.Count > 0 ? ":" : "")</span>
+                @if (_incidents.Count > 0)
+                {
+                    <TierBadge Tier="EvidenceTier.Campaign" Short="true" />
+                    <span class="aot-num">@tierCounts[EvidenceTier.Campaign].ToString("N0", CultureInfo.InvariantCulture)</span>
+                    <TierBadge Tier="EvidenceTier.Contested" Short="true" />
+                    <span class="aot-num">@tierCounts[EvidenceTier.Contested].ToString("N0", CultureInfo.InvariantCulture)</span>
+                    <TierBadge Tier="EvidenceTier.Reverted" Short="true" />
+                    <span class="aot-num">@tierCounts[EvidenceTier.Reverted].ToString("N0", CultureInfo.InvariantCulture)</span>
+                }
+            }
+        </div>
+    </div>
+
+    <StageTracker Progress="_progress" OnCancel="CancelRun" OnRerun="RerunAsync" />
+
+    @if (_incidents.Count > 0)
+    {
+        <div class="aot-panel" style="padding:12px 16px">
+            <TimelineStrip Incidents="visibleIncidents"
+                           HotId="@_hotId"
+                           SelectedRange="(_filter.FromYear, _filter.ToYear)"
+                           OnHover="SetHotId"
+                           OnMarkClick="HandleMarkClickAsync"
+                           OnRangeSelected="HandleRangeSelected" />
+        </div>
+    }
+
+    <div class="d-flex flex-column d-lg-grid aot-cols">
+        <section class="aot-stack" style="gap:16px">
+            @if (_incidents.Count > 0 || !_filter.IsDefault)
+            {
+                <div class="aot-stack" style="gap:8px">
+                    <div class="aot-toolbar">
+                        <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:6px">
+                            Sort
+                            <select class="aot-select"
+                                    data-testid="sort-select"
+                                    @bind="_sortValue"
+                                    @bind:after="OnSortAfterBind">
+                                <option value="relevance">Relevance</option>
+                                <option value="recent">Most recent</option>
+                                <option value="longest-live">Longest live</option>
+                            </select>
+                        </label>
+
+                        <span class="aot-small aot-muted" style="margin-left:8px">Level</span>
+                        @foreach (var level in FilterLevels)
+                        {
+                            var pressed = _filter.Tiers.Contains(level);
+                            <button type="button"
+                                    class="aot-chip"
+                                    style="padding:1px 4px"
+                                    aria-pressed="@(pressed ? "true" : "false")"
+                                    data-testid="tier-filter"
+                                    data-tier="@EvidenceTiers.Get(level).Id"
+                                    @onclick="@(() => ApplyFilter(_filter.ToggleTier(level)))">
+                                <TierBadge Tier="level" Short="true" />
+                            </button>
+                        }
+
+                        <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:4px;margin-left:auto">
+                            Years
+                            <input type="number"
+                                   class="aot-select"
+                                   style="width:76px;padding:4px 6px"
+                                   min="2003"
+                                   max="2026"
+                                   placeholder="2003"
+                                   aria-label="From year"
+                                   data-testid="from-year-input"
+                                   value="@(_filter.FromYear?.ToString(CultureInfo.InvariantCulture) ?? "")"
+                                   @onchange="HandleFromYearChange" />
+                            <span aria-hidden="true">–</span>
+                            <input type="number"
+                                   class="aot-select"
+                                   style="width:76px;padding:4px 6px"
+                                   min="2003"
+                                   max="2026"
+                                   placeholder="2026"
+                                   aria-label="To year"
+                                   data-testid="to-year-input"
+                                   value="@(_filter.ToYear?.ToString(CultureInfo.InvariantCulture) ?? "")"
+                                   @onchange="HandleToYearChange" />
+                        </label>
+
+                        @if (!_filter.IsDefault)
+                        {
+                            <button type="button"
+                                    class="aot-btn aot-btn--ghost aot-btn--sm"
+                                    data-testid="clear-filters"
+                                    @onclick="@(() => ApplyFilter(OverviewFilter.Default))">
+                                Clear filters
+                            </button>
+                        }
+                    </div>
+
+                    @if (signalOptions.Count > 0 || _filter.ArticleId is not null)
+                    {
+                        <div class="aot-row" data-testid="signal-filters">
+                            @if (_filter.ArticleId is { } activeArticleId)
+                            {
+                                <button type="button"
+                                        class="aot-chip"
+                                        aria-pressed="true"
+                                        data-testid="active-article-filter"
+                                        @onclick="@(() => ApplyFilter(_filter.WithArticle(null)))">
+                                    Article: @ResolveArticleLabel(activeArticleId) ×
+                                </button>
+                            }
+
+                            @foreach (var phrase in signalOptions)
+                            {
+                                var selected = _filter.Signals.Any(s => SignalCatalog.Normalize(s) == phrase.Id);
+                                <SignalChip Phrase="phrase"
+                                            Selected="selected"
+                                            OnClick="@(() => ApplyFilter(_filter.ToggleSignal(phrase.Id)))" />
+                            }
+                        </div>
+                    }
+                </div>
+            }
+
+            @if (_incidents.Count > 0)
+            {
+                @if (visibleIncidents.Count > 0)
+                {
+                    @foreach (var incident in visibleIncidents)
+                    {
+                        <IncidentCard Incident="incident"
+                                      Topic="@EffectiveSlug"
+                                      Query="@queryString"
+                                      Highlighted="@string.Equals(_hotId, incident.Id, StringComparison.Ordinal)"
+                                      OnHover="SetHotId"
+                                      @key="incident.Id" />
+                    }
+                }
+                else
+                {
+                    <EmptyState Title="No matching incidents"
+                                Message="None of the flagged incidents match the active filters.">
+                        <Actions>
+                            <button type="button"
+                                    class="aot-btn aot-btn--sm"
+                                    @onclick="@(() => ApplyFilter(OverviewFilter.Default))">
+                                Clear filters
+                            </button>
+                        </Actions>
+                    </EmptyState>
+                }
+
+                @if (_progress.IsRunning)
+                {
+                    @IncidentCard.Skeleton
+                }
+            }
+            else if (!_hasRendered || _progress.IsRunning)
+            {
+                @IncidentCard.Skeleton
+                @IncidentCard.Skeleton
+                @IncidentCard.Skeleton
+            }
+            else if (_progress.IsComplete)
+            {
+                var checkedArticles = _progress.Count(InvestigationStage.FindArticles) ?? 0;
+                var checkedRevisions = _progress.Count(InvestigationStage.ScanHistory) ?? 0;
+                var checkedRemovals = _progress.Candidates.Count;
+
+                <EmptyState Title="No disputed insertions found for this topic">
+                    <ChildContent>
+                        <ul>
+                            <li><span class="aot-num">@checkedArticles.ToString("N0", CultureInfo.InvariantCulture)</span> @(checkedArticles == 1 ? "article" : "articles") checked</li>
+                            <li><span class="aot-num">@checkedRevisions.ToString("N0", CultureInfo.InvariantCulture)</span> @(checkedRevisions == 1 ? "revision" : "revisions") scanned</li>
+                            <li><span class="aot-num">@checkedRemovals.ToString("N0", CultureInfo.InvariantCulture)</span> removed @(checkedRemovals == 1 ? "edit" : "edits") inspected</li>
+                        </ul>
+                    </ChildContent>
+                </EmptyState>
+            }
+
+            @if (unflagged.Count > 0)
+            {
+                <UnflaggedList Items="unflagged" />
+            }
+        </section>
+
+        <aside class="aot-panel order-first order-lg-last" style="padding:12px 16px 8px">
+            @if (_progress.Articles.Count > 0)
+            {
+                <details open class="w-100" data-testid="article-rail">
+                    <summary class="aot-label" style="margin-bottom:8px">
+                        Articles (@_progress.Articles.Count.ToString("N0", CultureInfo.InvariantCulture))
+                    </summary>
+                    @foreach (var article in OrderedArticles)
+                    {
+                        <ArticleRailItem Article="article"
+                                         TitleEn="@TryGetTitleEn(article.PageId)"
+                                         IncidentCount="@CountIncidentsForArticle(article.PageId)"
+                                         Selected="@(_filter.ArticleId == article.PageId)"
+                                         TimelineData="@TryGetTimeline(article.PageId)"
+                                         OnSelectArticle="@(() => ToggleArticleFilter(article.PageId))"
+                                         @key="(article.Lang, article.PageId)" />
+                    }
+                </details>
+            }
+            else if (!_hasRendered || _progress.IsRunning)
+            {
+                <div class="aot-stack" style="gap:8px;padding-bottom:8px" aria-busy="true" aria-label="Loading articles">
+                    <div class="aot-label">Articles</div>
+                    <span class="aot-skel" style="width:75%"></span>
+                    <span class="aot-skel" style="width:60%"></span>
+                    <span class="aot-skel" style="width:80%"></span>
+                </div>
+            }
+            else
+            {
+                <div class="aot-stack" style="gap:4px;padding-bottom:8px">
+                    <div class="aot-label">Articles (0)</div>
+                    <span class="aot-small aot-muted">No matching articles found.</span>
+                </div>
+            }
+        </aside>
+    </div>
+</div>
+
+@code {
+    private static readonly EvidenceTier[] FilterLevels =
+    [
+        EvidenceTier.Campaign,
+        EvidenceTier.Contested,
+        EvidenceTier.Reverted,
+    ];
+
+    private static readonly TimeSpan MinRenderInterval = TimeSpan.FromMilliseconds(100);
+
+    private readonly Dictionary<string, IncidentView> _mappedById = new(StringComparer.Ordinal);
+    private readonly Dictionary<long, string> _articleTitlesEn = [];
+    private readonly Dictionary<long, ArticleAggregates> _sparklines = [];
+
+    private RunProgress _progress = default!;
+    private OverviewFilter _filter = OverviewFilter.Default;
+    private string _sortValue = "relevance";
+    private List<IncidentView> _incidents = [];
+    private CancellationTokenSource? _cts;
+    private ITimer? _slowTimer;
+    private bool _hasRendered;
+    private bool _disposed;
+    private bool _wasSlow;
+    private bool _copied;
+    private string? _activeSlug;
+    private string? _hotId;
+
+    private long _lastRenderTicks;
+    private bool _dirty;
+    private bool _flushScheduled;
+
+    [Parameter] public string Topic { get; set; } = "";
+
+    [SupplyParameterFromQuery(Name = "sort")] public string? SortQuery { get; set; }
+    [SupplyParameterFromQuery(Name = "tier")] public string? TierQuery { get; set; }
+    [SupplyParameterFromQuery(Name = "signal")] public string? SignalQuery { get; set; }
+    [SupplyParameterFromQuery(Name = "article")] public long? ArticleQuery { get; set; }
+    [SupplyParameterFromQuery(Name = "from")] public int? FromQuery { get; set; }
+    [SupplyParameterFromQuery(Name = "to")] public int? ToQuery { get; set; }
+
+    private string TopicText => Services.GetService<AmpersandOfTruth.Web.Features.Investigations.Fixtures.SampleIncidents>()?.Match(Topic ?? "")?.Title
+        ?? (TopicSlug.ToQuery(Topic ?? "") is { Length: > 0 } q ? char.ToUpperInvariant(q[0]) + q[1..] : "");
+
+    private string EffectiveSlug
+    {
+        get
+        {
+            var slug = TopicSlug.From(Topic ?? "");
+            return slug.Length > 0 ? slug : (Topic ?? "").Trim();
+        }
+    }
+
+    private IEnumerable<TopicArticle> OrderedArticles =>
+        _progress.Articles.OrderByDescending(static a => a.HasHistory);
+
+    protected override void OnInitialized()
+    {
+        _progress = new RunProgress(Time);
+    }
+
+    protected override void OnParametersSet()
+    {
+        _filter = ResolveFilterFromParametersOrUri();
+        _sortValue = FormatSortValue(_filter.Sort);
+        _copied = false;
+
+        if (_hasRendered)
+        {
+            var nextSlug = EffectiveSlug;
+            if (!string.Equals(_activeSlug, nextSlug, StringComparison.Ordinal))
+            {
+                _activeSlug = nextSlug;
+                _ = StartRunAsync();
+            }
+        }
+    }
+
+    private OverviewFilter ResolveFilterFromParametersOrUri()
+    {
+        if (SortQuery is not null
+            || TierQuery is not null
+            || SignalQuery is not null
+            || ArticleQuery is not null
+            || FromQuery is not null
+            || ToQuery is not null)
+        {
+            return OverviewFilter.Parse(SortQuery, TierQuery, SignalQuery, ArticleQuery, FromQuery, ToQuery);
+        }
+
+        if (Uri.TryCreate(Nav.Uri, UriKind.Absolute, out var absUri) && !string.IsNullOrEmpty(absUri.Query))
+        {
+            var q = QueryHelpers.ParseQuery(absUri.Query);
+            long? art = q.TryGetValue("article", out var av) && long.TryParse(av.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsedArt)
+                ? parsedArt
+                : null;
+            int? from = q.TryGetValue("from", out var fv) && int.TryParse(fv.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsedFrom)
+                ? parsedFrom
+                : null;
+            int? to = q.TryGetValue("to", out var tv) && int.TryParse(tv.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsedTo)
+                ? parsedTo
+                : null;
+            return OverviewFilter.Parse(
+                q.TryGetValue("sort", out var sv) ? sv.ToString() : null,
+                q.TryGetValue("tier", out var trv) ? trv.ToString() : null,
+                q.TryGetValue("signal", out var sgv) ? sgv.ToString() : null,
+                art,
+                from,
+                to);
+        }
+
+        return OverviewFilter.Default;
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _hasRendered = true;
+            _activeSlug = EffectiveSlug;
+            _ = StartRunAsync();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task StartRunAsync(bool refresh = false)
+    {
+        if (_disposed) return;
+
+        CancelCurrentRunTokens();
+
+        var runCts = _cts = new CancellationTokenSource();
+        var ct = runCts.Token;
+
+        _incidents = [];
+        _mappedById.Clear();
+        _articleTitlesEn.Clear();
+        _sparklines.Clear();
+        _hotId = null;
+        _wasSlow = false;
+        _dirty = false;
+
+        _progress.Start();
+        StartSlowMonitor();
+        await RenderNowAsync();
+
+        var query = TopicSlug.ToQuery(Topic ?? "");
+        var slug = EffectiveSlug;
+
+        try
+        {
+            await foreach (var evt in Runner.RunAsync(query, refresh, ct))
+            {
+                if (!ReferenceEquals(runCts, _cts) || _disposed) return;
+
+                _progress.Apply(evt);
+
+                switch (evt)
+                {
+                    case ArticlesFound:
+                    case RevisionsScanned:
+                        await RenderNowAsync();
+                        break;
+
+                    case CandidateScored { Incident: { } scoredRecord }:
+                        var mapped = await MapAndCacheAsync(scoredRecord, rank: 1, ct);
+                        if (!ReferenceEquals(runCts, _cts) || _disposed) return;
+                        AddAndRankIncident(mapped);
+                        await RequestThrottledRenderAsync(ct);
+                        break;
+
+                    case CandidateScored:
+                        await RequestThrottledRenderAsync(ct);
+                        break;
+
+                    case StageFailed:
+                        StopSlowMonitor();
+                        await RenderNowAsync();
+                        break;
+
+                    case Completed done:
+                        StopSlowMonitor();
+                        RecentRuns.Record(slug, done.Incidents);
+                        await SyncFinalIncidentsAsync(done.Incidents, ct);
+                        if (!ReferenceEquals(runCts, _cts) || _disposed) return;
+                        await RenderNowAsync();
+                        _ = LoadSparklinesAsync(_progress.Articles, runCts, ct);
+                        break;
+                }
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            if (ReferenceEquals(runCts, _cts))
+            {
+                StopSlowMonitor();
+                _progress.Cancel();
+                if (!_disposed)
+                {
+                    await RenderNowAsync();
+                }
+            }
+        }
+    }
+
+    private void CancelRun()
+    {
+        if (!_progress.IsRunning) return;
+        StopSlowMonitor();
+        _progress.Cancel();
+        _cts?.Cancel();
+    }
+
+    private Task RerunAsync() => StartRunAsync(refresh: true);
+
+    private async Task<IncidentView> MapAndCacheAsync(IncidentRecord record, int rank, CancellationToken ct)
+    {
+        if (record.Id is { Length: > 0 } recordId
+            && _mappedById.TryGetValue(recordId, out var existing)
+            && ReferenceEquals(existing.Source, record))
+        {
+            var reRanked = existing with { Rank = rank };
+            _mappedById[recordId] = reRanked;
+            return reRanked;
+        }
+
+        var view = await Mapper.MapAsync(record, rank, ct);
+        _mappedById[view.Id] = view;
+        HarvestArticleTitles(view);
+        return view;
+    }
+
+    private void AddAndRankIncident(IncidentView added)
+    {
+        var list = new List<IncidentView>(_incidents.Count + 1);
+        var replaced = false;
+        foreach (var item in _incidents)
+        {
+            if (string.Equals(item.Id, added.Id, StringComparison.Ordinal))
+            {
+                list.Add(added);
+                replaced = true;
+            }
+            else
+            {
+                list.Add(item);
+            }
+        }
+
+        if (!replaced)
+        {
+            list.Add(added);
+        }
+
+        list.Sort(static (a, b) =>
+        {
+            var cmp = b.Source.Score.CompareTo(a.Source.Score);
+            return cmp != 0 ? cmp : StringComparer.Ordinal.Compare(a.Id, b.Id);
+        });
+
+        for (var i = 0; i < list.Count; i++)
+        {
+            if (list[i].Rank != i + 1)
+            {
+                list[i] = list[i] with { Rank = i + 1 };
+                _mappedById[list[i].Id] = list[i];
+            }
+        }
+
+        _incidents = list;
+    }
+
+    private async Task SyncFinalIncidentsAsync(IReadOnlyList<IncidentRecord> finalRecords, CancellationToken ct)
+    {
+        var finalViews = new List<IncidentView>(finalRecords.Count);
+        for (var i = 0; i < finalRecords.Count; i++)
+        {
+            var view = await MapAndCacheAsync(finalRecords[i], i + 1, ct);
+            finalViews.Add(view);
+        }
+
+        _incidents = finalViews;
+    }
+
+    private void HarvestArticleTitles(IncidentView view)
+    {
+        foreach (var article in view.Articles)
+        {
+            if (!string.IsNullOrWhiteSpace(article.TitleEn))
+            {
+                _articleTitlesEn[article.PageId] = article.TitleEn;
+            }
+        }
+    }
+
+    private async Task LoadSparklinesAsync(
+        IReadOnlyList<TopicArticle> articles,
+        CancellationTokenSource ownerCts,
+        CancellationToken ct)
+    {
+        if (articles.Count == 0 || _disposed) return;
+
+        var timelineService = Services.GetService<ArticleTimelineService>();
+        if (timelineService is null) return;
+
+        var loadedAny = false;
+        foreach (var article in articles)
+        {
+            if (!article.HasHistory) continue;
+            if (ct.IsCancellationRequested || _disposed || !ReferenceEquals(ownerCts, _cts)) return;
+
+            try
+            {
+                var aggregates = await timelineService.AggregatesAsync(article.PageId, ct);
+                if (ct.IsCancellationRequested || _disposed || !ReferenceEquals(ownerCts, _cts)) return;
+
+                if (aggregates is { Months.Count: > 0 })
+                {
+                    _sparklines[article.PageId] = aggregates;
+                    loadedAny = true;
+                }
+            }
+            catch (OperationCanceledException) when (ct.IsCancellationRequested)
+            {
+                return;
+            }
+            catch
+            {
+                // Spec: sparkline load failures -> no sparkline.
+            }
+        }
+
+        if (loadedAny && !ct.IsCancellationRequested && !_disposed && ReferenceEquals(ownerCts, _cts))
+        {
+            await RenderNowAsync();
+        }
+    }
+
+    private void StartSlowMonitor()
+    {
+        StopSlowMonitor();
+        _slowTimer = Time.CreateTimer(
+            static state => ((InvestigationPage)state!).CheckSlowStage(),
+            this,
+            TimeSpan.FromSeconds(1),
+            TimeSpan.FromSeconds(1));
+    }
+
+    private void StopSlowMonitor()
+    {
+        _slowTimer?.Dispose();
+        _slowTimer = null;
+    }
+
+    private void CheckSlowStage()
+    {
+        if (_disposed || !_progress.IsRunning) return;
+
+        var slowNow = false;
+        foreach (var stage in Enum.GetValues<InvestigationStage>())
+        {
+            if (_progress.IsSlow(stage))
+            {
+                slowNow = true;
+                break;
+            }
+        }
+
+        if (slowNow != _wasSlow)
+        {
+            _wasSlow = slowNow;
+            _ = InvokeAsync(() =>
+            {
+                if (!_disposed) StateHasChanged();
+            });
+        }
+    }
+
+    private async Task RenderNowAsync()
+    {
+        if (_disposed) return;
+        _dirty = false;
+        _lastRenderTicks = Stopwatch.GetTimestamp();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task RequestThrottledRenderAsync(CancellationToken ct)
+    {
+        if (_disposed) return;
+
+        var now = Stopwatch.GetTimestamp();
+        if (_lastRenderTicks == 0 || Stopwatch.GetElapsedTime(_lastRenderTicks, now) >= MinRenderInterval)
+        {
+            _dirty = false;
+            _lastRenderTicks = now;
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        _dirty = true;
+        if (_flushScheduled) return;
+
+        _flushScheduled = true;
+        var elapsed = Stopwatch.GetElapsedTime(_lastRenderTicks, now);
+        var delay = MinRenderInterval - elapsed;
+        if (delay < TimeSpan.FromMilliseconds(10))
+        {
+            delay = TimeSpan.FromMilliseconds(10);
+        }
+
+        _ = FlushRenderAfterDelayAsync(delay, ct);
+    }
+
+    private async Task FlushRenderAfterDelayAsync(TimeSpan delay, CancellationToken ct)
+    {
+        try
+        {
+            await Task.Delay(delay, ct);
+        }
+        catch (OperationCanceledException)
+        {
+            _flushScheduled = false;
+            return;
+        }
+
+        _flushScheduled = false;
+        if (_disposed || !_dirty || ct.IsCancellationRequested) return;
+
+        _dirty = false;
+        _lastRenderTicks = Stopwatch.GetTimestamp();
+        await InvokeAsync(() =>
+        {
+            if (!_disposed) StateHasChanged();
+        });
+    }
+
+    private void ApplyFilter(OverviewFilter next)
+    {
+        _filter = next;
+        _sortValue = FormatSortValue(next.Sort);
+        var uri = $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}{next.ToQueryString()}";
+        Nav.NavigateTo(uri, replace: true);
+    }
+
+    private void OnSortAfterBind()
+    {
+        var parsed = OverviewFilter.Parse(_sortValue, null, null, null, null, null).Sort;
+        ApplyFilter(_filter.WithSort(parsed));
+    }
+
+    private void HandleFromYearChange(ChangeEventArgs e)
+    {
+        int? year = int.TryParse(e.Value?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var y)
+            ? y
+            : null;
+        ApplyFilter(_filter.WithYears(year, _filter.ToYear));
+    }
+
+    private void HandleToYearChange(ChangeEventArgs e)
+    {
+        int? year = int.TryParse(e.Value?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var y)
+            ? y
+            : null;
+        ApplyFilter(_filter.WithYears(_filter.FromYear, year));
+    }
+
+    private void HandleRangeSelected((int From, int To) range) =>
+        ApplyFilter(_filter.WithYears(range.From, range.To));
+
+    private void ToggleArticleFilter(long pageId)
+    {
+        var nextId = _filter.ArticleId == pageId ? (long?)null : pageId;
+        ApplyFilter(_filter.WithArticle(nextId));
+    }
+
+    private void SetHotId(string? id)
+    {
+        if (string.Equals(_hotId, id, StringComparison.Ordinal)) return;
+        _hotId = id;
+        StateHasChanged();
+    }
+
+    private async Task HandleMarkClickAsync(string incidentId)
+    {
+        _hotId = incidentId;
+        var js = Services.GetService<IJSRuntime>();
+        if (js is null) return;
+
+        try
+        {
+            var element = await js.InvokeAsync<IJSObjectReference?>(
+                "document.getElementById",
+                $"incident-{incidentId}");
+            if (element is not null)
+            {
+                await element.InvokeVoidAsync("scrollIntoView", new { behavior = "smooth", block = "nearest" });
+                await element.DisposeAsync();
+            }
+        }
+        catch
+        {
+            // Ignore when running headless or if element is filtered out.
+        }
+    }
+
+    private async Task CopyLinkAsync()
+    {
+        var js = Services.GetService<IJSRuntime>();
+        if (js is null) return;
+
+        try
+        {
+            await js.InvokeVoidAsync("navigator.clipboard.writeText", Nav.Uri);
+            _copied = true;
+        }
+        catch
+        {
+            // Ignore clipboard errors in unsupported contexts.
+        }
+    }
+
+    private IReadOnlyList<SignalPhrase> BuildSignalOptions()
+    {
+        var counted = OverviewState.SignalCounts(_incidents);
+        var result = new List<SignalPhrase>(counted.Count + _filter.Signals.Count);
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+
+        foreach (var (phrase, _) in counted)
+        {
+            if (seen.Add(phrase.Id))
+            {
+                result.Add(phrase);
+            }
+        }
+
+        foreach (var selected in _filter.Signals.Order(StringComparer.Ordinal))
+        {
+            var canonical = SignalCatalog.Normalize(selected);
+            if (seen.Add(canonical))
+            {
+                result.Add(SignalCatalog.For(canonical));
+            }
+        }
+
+        return result;
+    }
+
+    private string? TryGetTitleEn(long pageId) =>
+        _articleTitlesEn.GetValueOrDefault(pageId);
+
+    private ArticleAggregates? TryGetTimeline(long pageId) =>
+        _sparklines.GetValueOrDefault(pageId);
+
+    private int CountIncidentsForArticle(long pageId) =>
+        _incidents.Count(i => i.Articles.Any(a => a.PageId == pageId));
+
+    private string ResolveArticleLabel(long pageId)
+    {
+        if (_articleTitlesEn.TryGetValue(pageId, out var en) && !string.IsNullOrWhiteSpace(en))
+        {
+            return en;
+        }
+
+        var fromRail = _progress.Articles.FirstOrDefault(a => a.PageId == pageId);
+        if (fromRail is not null)
+        {
+            return fromRail.Title;
+        }
+
+        return pageId.ToString(CultureInfo.InvariantCulture);
+    }
+
+    private static string FormatSortValue(IncidentSort sort) => sort switch
+    {
+        IncidentSort.Recent => "recent",
+        IncidentSort.LongestLive => "longest-live",
+        _ => "relevance",
+    };
+
+    private void CancelCurrentRunTokens()
+    {
+        StopSlowMonitor();
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = null;
+    }
+
+    public void Dispose()
+    {
+        _disposed = true;
+        CancelCurrentRunTokens();
+    }
+}

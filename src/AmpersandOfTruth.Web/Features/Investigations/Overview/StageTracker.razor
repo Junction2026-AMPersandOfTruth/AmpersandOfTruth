@@ -1,0 +1,163 @@
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Investigations.Pipeline
+
+@if (Progress.IsComplete)
+{
+    <div class="aot-banner aot-banner--info" role="status" aria-live="polite" data-testid="stage-tracker-done">
+        <svg viewBox="0 0 18 18" aria-hidden="true" style="stroke:var(--ok)">
+            <path d="M3.5 9.5l3.5 3.5 7.5-8" />
+        </svg>
+        <div class="aot-banner__body">
+            Analysed in @FormatSeconds(Progress.Elapsed)@if (Progress.FromCache)
+            {
+                <text> · </text><span class="aot-muted">loaded from previous analysis</span>
+            }
+            @if (OnRerun.HasDelegate)
+            {
+                <text> · </text><a href="" data-testid="rerun-link" @onclick="HandleRerunAsync" @onclick:preventDefault>Re-run</a>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="aot-stack" style="gap:8px">
+        <div class="aot-stages" role="status" aria-live="polite" data-testid="stage-tracker">
+            @foreach (var (stage, number, label) in Stages)
+            {
+                var state = Progress.State(stage);
+                <div class="@StageClass(state)" data-testid="@($"stage-{number}")" data-state="@state.ToString().ToLowerInvariant()">
+                    <span class="aot-stage__icon" aria-hidden="true">@StageIcon(state, number)</span>
+                    <span class="aot-stage__name">@label</span>
+                    <span class="aot-stage__count">@FormatStageDetail(stage, state)</span>
+                </div>
+            }
+
+            @if (Progress.IsRunning)
+            {
+                <button type="button"
+                        class="aot-btn aot-btn--sm"
+                        data-testid="cancel-run"
+                        style="align-self:center"
+                        @onclick="OnCancel">
+                    Cancel
+                </button>
+            }
+        </div>
+
+        @if (Progress.Failure is { } failure)
+        {
+            <StatusBanner Kind="StatusKind.Error"
+                          Title="@FailureSentence(failure.Kind)"
+                          Detail="@failure.Error"
+                          OnRetry="OnRerun" />
+        }
+        else if (Progress.IsCancelled)
+        {
+            <div class="aot-banner aot-banner--info" role="status" data-testid="run-cancelled">
+                <div class="aot-banner__body">
+                    Analysis stopped.@if (OnRerun.HasDelegate)
+                    {
+                        <text> </text><a href="" data-testid="rerun-link" @onclick="HandleRerunAsync" @onclick:preventDefault>Re-run</a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private static readonly (InvestigationStage Stage, int Number, string Label)[] Stages =
+    [
+        (InvestigationStage.FindArticles, 1, "Finding articles"),
+        (InvestigationStage.ScanHistory, 2, "Scanning edit history"),
+        (InvestigationStage.ReadEdits, 3, "Reading suspicious edits"),
+        (InvestigationStage.AssembleIncidents, 4, "Assembling incidents"),
+    ];
+
+    [Parameter, EditorRequired] public RunProgress Progress { get; set; } = default!;
+    [Parameter] public EventCallback OnCancel { get; set; }
+    [Parameter] public EventCallback OnRerun { get; set; }
+
+    private Task HandleRerunAsync() =>
+        OnRerun.HasDelegate ? OnRerun.InvokeAsync() : Task.CompletedTask;
+
+    private static string StageClass(StageState state) => state switch
+    {
+        StageState.Done => "aot-stage aot-stage--done",
+        StageState.Active => "aot-stage aot-stage--active",
+        StageState.Failed => "aot-stage aot-stage--failed",
+        _ => "aot-stage aot-stage--pending",
+    };
+
+    private static string StageIcon(StageState state, int number) => state switch
+    {
+        StageState.Done => "\u2713",
+        StageState.Active => "",
+        StageState.Failed => "!",
+        _ => number.ToString(CultureInfo.InvariantCulture),
+    };
+
+    private string FormatStageDetail(InvestigationStage stage, StageState state)
+    {
+        var baseText = stage switch
+        {
+            InvestigationStage.FindArticles when Progress.Count(stage) is { } n =>
+                n == 1 ? "1 article" : $"{n.ToString("N0", CultureInfo.InvariantCulture)} articles",
+
+            InvestigationStage.ScanHistory when Progress.Count(stage) is { } revs =>
+                FormatScanDetail(revs, Progress.Candidates.Count),
+
+            InvestigationStage.ReadEdits when Progress.Count(stage) is not null =>
+                Progress.Of > 0
+                    ? $"{Progress.Scored.ToString("N0", CultureInfo.InvariantCulture)} of {Progress.Of.ToString("N0", CultureInfo.InvariantCulture)}"
+                    : "0 edits",
+
+            InvestigationStage.AssembleIncidents when Progress.Count(stage) is { } inc =>
+                inc == 1 ? "1 incident" : $"{inc.ToString("N0", CultureInfo.InvariantCulture)} incidents",
+
+            _ => null,
+        };
+
+        if (state == StageState.Active && Progress.IsSlow(stage))
+        {
+            return string.IsNullOrEmpty(baseText) ? "Still working…" : $"{baseText} · Still working…";
+        }
+
+        if (!string.IsNullOrEmpty(baseText))
+        {
+            return baseText;
+        }
+
+        return state switch
+        {
+            StageState.Active => "working…",
+            StageState.Failed => "stopped",
+            _ => "waiting",
+        };
+    }
+
+    private static string FormatScanDetail(int revisions, int removals)
+    {
+        var revPart = revisions == 1
+            ? "1 revision"
+            : $"{revisions.ToString("N0", CultureInfo.InvariantCulture)} revisions";
+        var remPart = removals == 1
+            ? "1 removal"
+            : $"{removals.ToString("N0", CultureInfo.InvariantCulture)} removals";
+        return $"{revPart} · {remPart}";
+    }
+
+    private static string FormatSeconds(TimeSpan elapsed)
+    {
+        var seconds = Math.Max(0, (int)Math.Round(elapsed.TotalSeconds, MidpointRounding.AwayFromZero));
+        return string.Create(CultureInfo.InvariantCulture, $"{seconds} s");
+    }
+
+    public static string FailureSentence(StageFailureKind kind) => kind switch
+    {
+        StageFailureKind.EmbeddingUnavailable => "Topic search is not available right now.",
+        StageFailureKind.CorpusUnavailable => "The Wikipedia data is not reachable right now.",
+        _ => "Something went wrong in this step.",
+    };
+}

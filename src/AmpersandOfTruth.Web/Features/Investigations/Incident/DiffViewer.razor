@@ -1,0 +1,332 @@
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using AmpersandOfTruth.Web.Features.Translation
+@using Microsoft.Extensions.DependencyInjection
+@implements IDisposable
+
+<section class="@RootClass" data-testid="diff-viewer">
+    @if (Passage is null)
+    {
+        <StatusBanner Kind="StatusKind.Warn" Title="The text of this edit is not available right now." />
+    }
+    else if (_model is not null)
+    {
+        <div class="aot-diff__bar">
+            <span class="aot-label" style="margin-right:4px">What changed</span>
+            <div class="aot-seg d-none d-md-inline-flex" role="group" aria-label="Layout" data-testid="diff-view-toggle">
+                <button type="button" aria-pressed="@BoolAttr(Mode == DiffMode.Inline)" @onclick="() => ChangeModeAsync(DiffMode.Inline, Text, NormalizedLang)">Inline</button>
+                <button type="button" aria-pressed="@BoolAttr(Mode == DiffMode.Split)" @onclick="() => ChangeModeAsync(DiffMode.Split, Text, NormalizedLang)">Side by side</button>
+            </div>
+            <div class="aot-seg" role="group" aria-label="Text" data-testid="diff-text-toggle">
+                <button type="button" aria-pressed="@BoolAttr(Text == DiffTextMode.Prose)" @onclick="() => ChangeModeAsync(Mode, DiffTextMode.Prose, NormalizedLang)">Prose</button>
+                <button type="button" aria-pressed="@BoolAttr(Text == DiffTextMode.Wikitext)" @onclick="() => ChangeModeAsync(Mode, DiffTextMode.Wikitext, NormalizedLang)">Wikitext</button>
+            </div>
+            <span class="aot-spacer"></span>
+            <div class="aot-seg" role="group" aria-label="Language" data-testid="diff-lang-toggle">
+                <button type="button" aria-pressed="@BoolAttr(IsEnglish)" @onclick='() => ChangeModeAsync(Mode, Text, "en")'>EN</button>
+                <button type="button" aria-pressed="@BoolAttr(!IsEnglish)" @onclick='() => ChangeModeAsync(Mode, Text, "fi")'>FI original</button>
+            </div>
+        </div>
+
+        @if (Mode == DiffMode.Split)
+        {
+            <div class="aot-diff__body" lang="fi" style="overflow-wrap:anywhere" data-testid="diff-body-fi">
+                <div class="aot-diff__col" data-testid="diff-col-before">
+                    @foreach (var item in _model.Items)
+                    {
+                        @if (item is DiffFoldItem fold && !_expandedFolds.Contains(fold.Id))
+                        {
+                            <button type="button" class="aot-diff__fold" data-testid="diff-fold" @onclick="() => ExpandFold(fold.Id)">@fold.Label</button>
+                        }
+                        else
+                        {
+                            @foreach (var block in EnumerateBlocks(item))
+                            {
+                                var beforeTokens = GetSideTokens(block.Tokens, excludeKind: DiffTokenKind.Added);
+                                @if (beforeTokens.Count > 0)
+                                {
+                                    <p>@RenderTokens(DiffModel.Highlight(beforeTokens, EvidenceQuotes))</p>
+                                }
+                            }
+                        }
+                    }
+                </div>
+                <div class="aot-diff__col" data-testid="diff-col-after">
+                    @foreach (var item in _model.Items)
+                    {
+                        @if (item is DiffFoldItem fold && !_expandedFolds.Contains(fold.Id))
+                        {
+                            <button type="button" class="aot-diff__fold" @onclick="() => ExpandFold(fold.Id)">@fold.Label</button>
+                        }
+                        else
+                        {
+                            @foreach (var block in EnumerateBlocks(item))
+                            {
+                                var afterTokens = GetSideTokens(block.Tokens, excludeKind: DiffTokenKind.Removed);
+                                @if (afterTokens.Count > 0)
+                                {
+                                    <p>@RenderTokens(DiffModel.Highlight(afterTokens, EvidenceQuotes))</p>
+                                }
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="aot-diff__body" lang="fi" style="overflow-wrap:anywhere" data-testid="diff-body-fi">
+                @foreach (var item in _model.Items)
+                {
+                    @if (item is DiffFoldItem fold && !_expandedFolds.Contains(fold.Id))
+                    {
+                        <button type="button" class="aot-diff__fold" data-testid="diff-fold" @onclick="() => ExpandFold(fold.Id)">@fold.Label</button>
+                    }
+                    else
+                    {
+                        @foreach (var block in EnumerateBlocks(item))
+                        {
+                            <p>@RenderTokens(DiffModel.Highlight(block.Tokens, EvidenceQuotes))</p>
+                        }
+                    }
+                }
+            </div>
+        }
+
+        @if (IsEnglish)
+        {
+            var key = KeyOf(Passage);
+            <div class="aot-diff__mt" lang="en" style="overflow-wrap:anywhere" data-testid="diff-mt">
+                <div class="aot-mt" data-testid="mt-label">
+                    <span class="aot-label">EN</span>
+                    <span aria-hidden="true">·</span>
+                    <span class="aot-mt__tag" title="@Attribution.MachineTranslationNotice">Machine translation</span>
+                </div>
+                @if (!_translationCache.TryGetValue(key, out var translation))
+                {
+                    <p class="aot-small aot-muted" data-testid="diff-mt-loading">Loading translation…</p>
+                }
+                else if (!translation.Ok)
+                {
+                    <p class="aot-small aot-muted" data-testid="diff-mt-note">Translation unavailable.</p>
+                }
+                else if (translation.Aligned)
+                {
+                    @foreach (var paragraph in DiffModel.BuildAlignedTranslationParagraphs(translation))
+                    {
+                        <p>@RenderTokens(DiffModel.Highlight(paragraph, EvidenceQuotes))</p>
+                    }
+                }
+                else
+                {
+                    @foreach (var paragraph in PlainTranslationParagraphs(translation))
+                    {
+                        <p>@paragraph</p>
+                    }
+                    <p class="aot-small aot-muted" data-testid="diff-mt-note">Markers lost in translation; showing the plain translation.</p>
+                }
+            </div>
+        }
+    }
+</section>
+
+@code {
+    private static readonly string ParagraphBreak = new([(char)10, (char)10]);
+
+    private readonly record struct PassageKey(long RevId, long? ParentRevId, string Before, string After);
+
+    private readonly Dictionary<PassageKey, AlignedTranslation> _translationCache = new();
+    private readonly HashSet<int> _expandedFolds = new();
+    private readonly CancellationTokenSource _cts = new();
+
+    private (PassageKey Key, DiffTextMode Text)? _modelKey;
+    private DiffModel? _model;
+    private PassageKey? _loadingKey;
+    private bool _hasRendered;
+    private bool _disposed;
+
+    [Inject] private IServiceProvider Services { get; set; } = default!;
+
+    [Parameter] public DiffPassage? Passage { get; set; }
+    [Parameter] public DiffMode Mode { get; set; } = DiffMode.Inline;
+    [Parameter] public DiffTextMode Text { get; set; } = DiffTextMode.Prose;
+    /// <summary>"en" (FI diff + aligned EN machine translation) or "fi" (FI only).</summary>
+    [Parameter] public string Lang { get; set; } = "en";
+    /// <summary>Verbatim spans to highlight (assessment quotes).</summary>
+    [Parameter] public IReadOnlyList<string> EvidenceQuotes { get; set; } = [];
+    [Parameter] public EventCallback<(DiffMode Mode, DiffTextMode Text, string Lang)> OnModeChanged { get; set; }
+    /// <summary>Analysis scope (investigation id) for translation calls.</summary>
+    [Parameter] public string? Scope { get; set; }
+
+    private string NormalizedLang => string.Equals(Lang, "fi", StringComparison.OrdinalIgnoreCase) ? "fi" : "en";
+    private bool IsEnglish => NormalizedLang == "en";
+
+    private string RootClass => (Mode, Text) switch
+    {
+        (DiffMode.Split, DiffTextMode.Wikitext) => "aot-diff aot-diff--split aot-diff--wikitext",
+        (DiffMode.Split, DiffTextMode.Prose) => "aot-diff aot-diff--split",
+        (DiffMode.Inline, DiffTextMode.Wikitext) => "aot-diff aot-diff--wikitext",
+        _ => "aot-diff",
+    };
+
+    protected override void OnParametersSet()
+    {
+        if (Passage is null)
+        {
+            _model = null;
+            _modelKey = null;
+            _expandedFolds.Clear();
+            return;
+        }
+
+        var nextKey = (KeyOf(Passage), Text);
+        if (_modelKey != nextKey)
+        {
+            _modelKey = nextKey;
+            _model = DiffModel.Build(Passage, Text);
+            _expandedFolds.Clear();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (_hasRendered && IsEnglish && Passage is not null)
+        {
+            await LoadTranslationIfNeededAsync(Passage);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+
+        _hasRendered = true;
+        if (IsEnglish && Passage is not null)
+        {
+            await LoadTranslationIfNeededAsync(Passage);
+            if (!_disposed)
+            {
+                StateHasChanged();
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        if (_disposed) return;
+        _disposed = true;
+        _cts.Cancel();
+        _cts.Dispose();
+    }
+
+    private Task ChangeModeAsync(DiffMode mode, DiffTextMode text, string lang) =>
+        OnModeChanged.InvokeAsync((mode, text, lang));
+
+    private void ExpandFold(int foldId) => _expandedFolds.Add(foldId);
+
+    private async Task LoadTranslationIfNeededAsync(DiffPassage passage)
+    {
+        var key = KeyOf(passage);
+        if (_translationCache.ContainsKey(key) || _loadingKey == key) return;
+
+        var translator = Services.GetService<IEvidenceTranslator>();
+        if (translator is null)
+        {
+            _translationCache[key] = new AlignedTranslation("", "", [], [], Aligned: false, Ok: false, "translator unavailable");
+            return;
+        }
+
+        var input = DiffModel.BuildTranslationInput(passage);
+        if (input.IsEmpty)
+        {
+            _translationCache[key] = new AlignedTranslation("", "", [], [], Aligned: true, Ok: true);
+            return;
+        }
+
+        _loadingKey = key;
+        try
+        {
+            var result = await translator.TranslatePassageAsync(
+                input.Before,
+                input.After,
+                input.ChangedInAfter,
+                input.ChangedInBefore,
+                sourceLang: "fi",
+                scope: Scope,
+                ct: _cts.Token);
+            _translationCache[key] = result;
+        }
+        catch (OperationCanceledException) when (_disposed)
+        {
+            return;
+        }
+        catch (Exception ex)
+        {
+            _translationCache[key] = new AlignedTranslation("", "", [], [], Aligned: false, Ok: false, ex.Message);
+        }
+        finally
+        {
+            if (_loadingKey == key)
+            {
+                _loadingKey = null;
+            }
+        }
+    }
+
+    private static PassageKey KeyOf(DiffPassage p) =>
+        new(p.RevId, p.ParentRevId, p.BeforeWikitext ?? "", p.AfterWikitext ?? "");
+
+    private static string BoolAttr(bool active) => active ? "true" : "false";
+
+    private static IEnumerable<DiffBlock> EnumerateBlocks(DiffItem item) => item switch
+    {
+        DiffBlockItem single => [single.Block],
+        DiffFoldItem fold => fold.Blocks,
+        _ => [],
+    };
+
+    private static IReadOnlyList<DiffToken> GetSideTokens(IReadOnlyList<DiffToken> tokens, DiffTokenKind excludeKind) =>
+        tokens.Where(t => t.Kind != excludeKind && t.Text.Length > 0).ToArray();
+
+    private static IReadOnlyList<string> PlainTranslationParagraphs(AlignedTranslation translation)
+    {
+        var plain = !string.IsNullOrWhiteSpace(translation.AfterEn) ? translation.AfterEn : translation.BeforeEn;
+        if (string.IsNullOrWhiteSpace(plain)) return [];
+        return plain
+            .Split(ParagraphBreak, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+    }
+
+    private static RenderFragment RenderTokens(IReadOnlyList<DiffRenderToken> tokens) => __builder =>
+    {
+        foreach (var token in tokens)
+        {
+            switch (token.Kind)
+            {
+                case DiffTokenKind.Added:
+                    <ins class="aot-add aot-diff__add">@RenderSpans(token.Spans)</ins>
+                    break;
+                case DiffTokenKind.Removed:
+                    <del class="aot-del aot-diff__del">@RenderSpans(token.Spans)</del>
+                    break;
+                default:
+                    @RenderSpans(token.Spans)
+                    break;
+            }
+        }
+    };
+
+    private static RenderFragment RenderSpans(IReadOnlyList<DiffSpan> spans) => __builder =>
+    {
+        foreach (var span in spans)
+        {
+            if (span.Highlighted)
+            {
+                <mark class="aot-ev aot-evidence">@span.Text</mark>
+            }
+            else
+            {
+                @span.Text
+            }
+        }
+    };
+}
