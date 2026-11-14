@@ -3,6 +3,7 @@ using AmpersandOfTruth.Web.Data;
 using AmpersandOfTruth.Web.Features.Analysis;
 using AmpersandOfTruth.Web.Features.Corpus;
 using AmpersandOfTruth.Web.Features.Embedding;
+using AmpersandOfTruth.Web.Features.Investigations;
 using AmpersandOfTruth.Web.Features.Notes;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,7 @@ builder.Services.AddNotesFeature();
 builder.Services.AddCorpusFeature();
 builder.Services.AddEmbeddingFeature();
 builder.Services.AddAnalysisFeature();
+builder.Services.AddInvestigationsFeature();
 
 var app = builder.Build();
 

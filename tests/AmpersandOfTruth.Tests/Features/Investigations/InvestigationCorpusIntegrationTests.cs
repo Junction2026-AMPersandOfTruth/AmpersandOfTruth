@@ -1,0 +1,49 @@
+using AmpersandOfTruth.Tests.Features.Corpus;
+using AmpersandOfTruth.Tests.Infrastructure;
+using AmpersandOfTruth.Web.Features.Corpus;
+using AmpersandOfTruth.Web.Features.Investigations;
+using Microsoft.Extensions.DependencyInjection;
+using MySqlConnector;
+
+namespace AmpersandOfTruth.Tests.Features.Investigations;
+
+/// <summary>The real revert/top-k SQL against the VPS corpus. Opt-in: see <see cref="CorpusFactAttribute"/>.</summary>
+[Trait("Category", "Corpus")]
+public class InvestigationCorpusIntegrationTests(AppFactory app) : IClassFixture<AppFactory>
+{
+    private const long Talvisota = 1256;
+
+    private IInvestigationCorpus Corpus => app.Services.GetRequiredService<IInvestigationCorpus>();
+
+    [CorpusFact]
+    public async Task Talvisota_has_identity_reverts_newest_first()
+    {
+        var reverts = await Corpus.RevertsAsync([Talvisota], perPage: 20);
+
+        Assert.Equal(20, reverts.Count);
+        Assert.All(reverts, r =>
+        {
+            Assert.Equal(Talvisota, r.PageId);
+            Assert.True(r.RevertedCount >= 1);
+            Assert.True(r.RestoredRevId < r.RevertedRevId && r.RevertedRevId < r.RevId);
+        });
+        Assert.Equal(reverts.OrderByDescending(r => r.Timestamp).ThenByDescending(r => r.RevId).Select(r => r.RevId),
+                     reverts.Select(r => r.RevId));
+    }
+
+    [CorpusFact]
+    public async Task Talvisota_vector_finds_itself_first()
+    {
+        await using var c = await app.Services.GetRequiredService<CorpusConnectionFactory>().OpenAsync();
+        await using var cmd = new MySqlCommand(
+            "SELECT embedding FROM article_vector WHERE lang = 'fi' AND page_id = @p", c);
+        cmd.Parameters.AddWithValue("@p", Talvisota);
+        var vector = CorpusVectors.FromBytes((byte[])(await cmd.ExecuteScalarAsync())!);
+
+        var articles = await Corpus.NearestArticlesAsync(vector, 10);
+
+        Assert.Equal(10, articles.Count);
+        Assert.Equal(("fi", Talvisota), (articles[0].Lang, articles[0].PageId));
+        Assert.Equal(articles.OrderBy(a => a.Distance).Select(a => a.PageId), articles.Select(a => a.PageId));
+    }
+}
