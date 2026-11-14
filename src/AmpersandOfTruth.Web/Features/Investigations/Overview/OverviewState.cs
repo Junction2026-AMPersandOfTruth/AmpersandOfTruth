@@ -1,7 +1,9 @@
 using System.Collections.Frozen;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using AmpersandOfTruth.Web.Features.Evidence;
 using AmpersandOfTruth.Web.Features.Investigations.View;
+using AmpersandOfTruth.Web.Features.WikiDiff;
 
 namespace AmpersandOfTruth.Web.Features.Investigations.Overview;
 
@@ -242,7 +244,7 @@ public sealed record OverviewFilter(
     }
 }
 
-public static class OverviewState
+public static partial class OverviewState
 {
     public static IReadOnlyList<IncidentView> Apply(IEnumerable<IncidentView> incidents, OverviewFilter f)
     {
@@ -362,16 +364,104 @@ public static class OverviewState
             .ToList();
     }
 
+    public static string CardHeadline(IncidentView i)
+    {
+        ArgumentNullException.ThrowIfNull(i);
+
+        if (string.IsNullOrWhiteSpace(i.ClaimEn))
+        {
+            var articleName = string.IsNullOrWhiteSpace(i.PrimaryArticle.TitleEn)
+                ? i.PrimaryArticle.TitleFi
+                : i.PrimaryArticle.TitleEn;
+            if (i.Kind == IncidentKind.Deletion)
+            {
+                return IsReplacement(i)
+                    ? $"Text changed in {articleName}"
+                    : $"Removed from {articleName}";
+            }
+
+            return $"Text added to {articleName}";
+        }
+
+        var trimmed = StripOuterQuotes(i.ClaimEn.Trim());
+        if (trimmed.StartsWith("Removed:", StringComparison.OrdinalIgnoreCase)
+            || trimmed.StartsWith("Changed:", StringComparison.OrdinalIgnoreCase))
+        {
+            return trimmed;
+        }
+
+        if (i.Kind == IncidentKind.Deletion)
+        {
+            if (ClaimDescribesRemovedText(i, trimmed))
+            {
+                return RemovalNounPrefixRegex().IsMatch(trimmed)
+                    ? trimmed
+                    : $"Removed: {trimmed}";
+            }
+
+            return $"Changed: {trimmed}";
+        }
+
+        return trimmed;
+    }
+
+    public static bool IsReplacement(IncidentView i)
+    {
+        ArgumentNullException.ThrowIfNull(i);
+        if (i.Kind != IncidentKind.Deletion)
+        {
+            return false;
+        }
+
+        if (i.Passage is { } p)
+        {
+            var hasAdded = p.Diff.Stats.AddedProseChars > 0
+                || p.Diff.Stats.AddedRefs > 0
+                || p.Diff.Segments.Any(static s => !s.Moved && s.Op == DiffOp.Added && SegmentHasAlnum(s));
+            var hasRemoved = p.Diff.Stats.RemovedProseChars > 0
+                || p.Diff.Stats.RemovedRefs > 0
+                || p.Diff.Segments.Any(static s => !s.Moved && s.Op == DiffOp.Removed && SegmentHasAlnum(s));
+            return hasAdded && hasRemoved;
+        }
+
+        var whatChanged = i.Assessment?.Reasoning ?? i.Source.SummaryEn;
+        if (!string.IsNullOrWhiteSpace(whatChanged) && ReplacementSummaryRegex().IsMatch(whatChanged))
+        {
+            return true;
+        }
+
+        return !string.IsNullOrWhiteSpace(i.ClaimEn) && ReplacementClaimRegex().IsMatch(i.ClaimEn);
+    }
+
     public static string WhatHappened(IncidentView i)
     {
         ArgumentNullException.ThrowIfNull(i);
 
         var inserts = Math.Max(1, i.InsertCount);
         var accounts = Math.Max(1, i.AccountCount);
+        var isDeletion = i.Kind == IncidentKind.Deletion;
+        var isReplacement = isDeletion && IsReplacement(i);
+        var isPureDeletion = isDeletion && !isReplacement;
 
-        var insertPart = inserts == 1
-            ? "Inserted once"
-            : string.Create(CultureInfo.InvariantCulture, $"Inserted {inserts} times");
+        string actionPart;
+        if (isPureDeletion)
+        {
+            actionPart = inserts == 1
+                ? "Removed once"
+                : string.Create(CultureInfo.InvariantCulture, $"Removed {inserts} times");
+        }
+        else if (isReplacement)
+        {
+            actionPart = inserts == 1
+                ? "Changed once"
+                : string.Create(CultureInfo.InvariantCulture, $"Changed {inserts} times");
+        }
+        else
+        {
+            actionPart = inserts == 1
+                ? "Inserted once"
+                : string.Create(CultureInfo.InvariantCulture, $"Inserted {inserts} times");
+        }
 
         var accountPart = accounts == 1
             ? "by 1 account"
@@ -391,11 +481,21 @@ public static class OverviewState
             }
         }
 
-        var livePart = inserts == 1
-            ? $"live for {Duration(i.TotalLive)}."
-            : $"live for {Duration(i.TotalLive)} in total.";
+        string livePart;
+        if (isPureDeletion)
+        {
+            livePart = inserts == 1
+                ? $"stayed out for {Duration(i.TotalLive)}."
+                : $"stayed out for {Duration(i.TotalLive)} in total.";
+        }
+        else
+        {
+            livePart = inserts == 1
+                ? $"live for {Duration(i.TotalLive)}."
+                : $"live for {Duration(i.TotalLive)} in total.";
+        }
 
-        return $"{insertPart} {accountPart}{spanPart}; {livePart}";
+        return $"{actionPart} {accountPart}{spanPart}; {livePart}";
     }
 
     public static string Duration(TimeSpan t)
@@ -458,4 +558,110 @@ public static class OverviewState
             ? l - f
             : TimeSpan.Zero;
     }
+
+    private static bool ClaimDescribesRemovedText(IncidentView i, string trimmedClaim)
+    {
+        if (!IsReplacement(i))
+        {
+            return true;
+        }
+
+        if (RemovalNounPrefixRegex().IsMatch(trimmedClaim))
+        {
+            return true;
+        }
+
+        if (i.Passage is { } p)
+        {
+            var added = JoinSide(p.Diff.Segments, DiffOp.Added);
+            var removed = JoinSide(p.Diff.Segments, DiffOp.Removed);
+
+            var quotes = ExtractQuotedSpans(trimmedClaim);
+            if (quotes.Count > 0)
+            {
+                var anyAdded = quotes.Any(q => added.Contains(q, StringComparison.OrdinalIgnoreCase));
+                if (anyAdded)
+                {
+                    return false;
+                }
+
+                if (quotes.Any(q => removed.Contains(q, StringComparison.OrdinalIgnoreCase)))
+                {
+                    return true;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(i.ClaimOriginal))
+            {
+                var origNorm = CollapseSpace(i.ClaimOriginal).Trim(' ', '.', '!', '?', '"', '\'', '\u201C', '\u201D');
+                if (origNorm.Length >= 8)
+                {
+                    if (added.Contains(origNorm, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return false;
+                    }
+
+                    if (removed.Contains(origNorm, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static string JoinSide(IReadOnlyList<DiffSegment> segments, DiffOp op)
+    {
+        var parts = segments
+            .Where(s => !s.Moved && s.Op == op)
+            .Select(static s => s.Prose.Length > 0 ? $"{s.Prose} {s.Text}" : s.Text);
+        return CollapseSpace(string.Join(' ', parts));
+    }
+
+    private static List<string> ExtractQuotedSpans(string text)
+    {
+        var result = new List<string>();
+        foreach (Match match in QuotedSpanRegex().Matches(text))
+        {
+            var inner = CollapseSpace(match.Groups["q"].Value).Trim();
+            if (inner.Length >= 3)
+            {
+                result.Add(inner);
+            }
+        }
+
+        return result;
+    }
+
+    private static string CollapseSpace(string s) =>
+        string.Join(' ', s.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries));
+
+    private static bool SegmentHasAlnum(DiffSegment s) =>
+        (s.Prose.Length > 0 ? s.Prose : s.Text).Any(char.IsLetterOrDigit);
+
+    private static string StripOuterQuotes(string s)
+    {
+        if (s.Length >= 2
+            && ((s[0] == '\u201C' && s[^1] == '\u201D' && !s.AsSpan(1, s.Length - 2).ContainsAny('\u201C', '\u201D'))
+                || (s[0] == '"' && s[^1] == '"' && !s.AsSpan(1, s.Length - 2).Contains('"'))))
+        {
+            return s[1..^1].Trim();
+        }
+
+        return s;
+    }
+
+    [GeneratedRegex(@"^(?:removal|removing|deletion|deleting|omission|omitting)\s+of\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex RemovalNounPrefixRegex();
+
+    [GeneratedRegex(@"\b(?:replaced|replacing|changed|changing|substituted|substituting|altered|altering|rewrote|rewriting|swapped|swapping|modified|modifying|renamed|renaming)\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex ReplacementSummaryRegex();
+
+    [GeneratedRegex(@"\b(?:rather\s+than|instead\s+of|should\s+be\s+(?:titled|called|named))\b", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)]
+    private static partial Regex ReplacementClaimRegex();
+
+    [GeneratedRegex(@"(?:['\u2018](?<q>[^'\u2018\u2019]{3,80})['\u2019]|[""\u201C](?<q>[^""\u201C\u201D]{3,80})[""\u201D])", RegexOptions.CultureInvariant)]
+    private static partial Regex QuotedSpanRegex();
 }

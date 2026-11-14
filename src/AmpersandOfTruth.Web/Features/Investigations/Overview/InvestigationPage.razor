@@ -66,9 +66,20 @@
         </div>
 
         <div class="aot-row aot-small" style="margin-top:4px;gap:6px 12px">
-            @if (_progress.Count(InvestigationStage.FindArticles) is { } articleCount)
+            @if (_progress.Count(InvestigationStage.FindArticles) is { } rawArticleCount)
             {
-                <span><span class="aot-num">@articleCount.ToString("N0", CultureInfo.InvariantCulture)</span> @(articleCount == 1 ? "article" : "articles")</span>
+                var foundArticleCount = Math.Max(rawArticleCount, _progress.Articles.Count);
+                var historyArticleCount = _progress.Articles.Count(static a => a.HasHistory);
+                if (foundArticleCount > 0 && historyArticleCount != foundArticleCount)
+                {
+                    <span><span class="aot-num">@foundArticleCount.ToString("N0", CultureInfo.InvariantCulture)</span> @(foundArticleCount == 1 ? "article" : "articles") found</span>
+                    <span aria-hidden="true">·</span>
+                    <span><span class="aot-num">@historyArticleCount.ToString("N0", CultureInfo.InvariantCulture)</span> with edit history</span>
+                }
+                else
+                {
+                    <span><span class="aot-num">@foundArticleCount.ToString("N0", CultureInfo.InvariantCulture)</span> @(foundArticleCount == 1 ? "article" : "articles")</span>
+                }
             }
             @if (_progress.Count(InvestigationStage.ScanHistory) is { } revisionCount)
             {
@@ -158,8 +169,8 @@
                         <summary data-testid="filters-summary">
                             Filters@(activeFilterCount > 0 ? $" ({activeFilterCount.ToString("N0", CultureInfo.InvariantCulture)})" : "")
                         </summary>
-                        <div class="aot-toolbar">
-                            <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:6px">
+                        <div class="aot-toolbar aot-overview-toolbar">
+                            <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:4px">
                                 Sort
                                 <select class="aot-select"
                                         data-testid="sort-select"
@@ -171,7 +182,7 @@
                                 </select>
                             </label>
 
-                            <span class="aot-small aot-muted" style="margin-left:8px">Level</span>
+                            <span class="aot-small aot-muted">Level</span>
                             @foreach (var level in FilterLevels)
                             {
                                 var levelInfo = EvidenceTiers.Get(level);
@@ -210,8 +221,7 @@
                             <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:4px;margin-left:auto">
                                 Years
                                 <input type="number"
-                                       class="aot-select"
-                                       style="width:76px;padding:4px 6px"
+                                       class="aot-select aot-year-input"
                                        min="2003"
                                        max="2026"
                                        placeholder="2003"
@@ -221,8 +231,7 @@
                                        @onchange="HandleFromYearChange" />
                                 <span aria-hidden="true">–</span>
                                 <input type="number"
-                                       class="aot-select"
-                                       style="width:76px;padding:4px 6px"
+                                       class="aot-select aot-year-input"
                                        min="2003"
                                        max="2026"
                                        placeholder="2026"
@@ -353,9 +362,11 @@
             @if (_progress.Articles.Count > 0)
             {
                 var (visibleArticles, zeroArticles) = PartitionRailArticles();
+                var railHistoryCount = _progress.Articles.Count(static a => a.HasHistory);
+                var railHeaderCount = railHistoryCount > 0 ? railHistoryCount : _progress.Articles.Count;
                 <details class="w-100 aot-rail-details" data-testid="article-rail" @ref="_railDetailsRef">
                     <summary class="aot-label">
-                        Articles (@_progress.Articles.Count.ToString("N0", CultureInfo.InvariantCulture))
+                        Articles (@railHeaderCount.ToString("N0", CultureInfo.InvariantCulture))
                     </summary>
                     @foreach (var article in visibleArticles)
                     {

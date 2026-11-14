@@ -3,6 +3,7 @@ using AmpersandOfTruth.Web.Features.Evidence;
 using AmpersandOfTruth.Web.Features.Investigations;
 using AmpersandOfTruth.Web.Features.Investigations.Overview;
 using AmpersandOfTruth.Web.Features.Investigations.View;
+using AmpersandOfTruth.Web.Features.WikiDiff;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace AmpersandOfTruth.Tests.Features.Investigations.Overview;
@@ -312,6 +313,78 @@ public sealed class OverviewStateTests
         Assert.Equal("Inserted 2 times by 1 account in under an hour; live for under an hour in total.", rapidText);
         Assert.DoesNotContain("over under", rapidText, StringComparison.OrdinalIgnoreCase);
         Assert.Empty(CopyRules.FindViolations(rapidText));
+    }
+
+    [Fact]
+    public void CardHeadline_and_WhatHappened_distinguish_replacements_from_pure_deletions()
+    {
+        var firstInsert = Utc(2019, 4, 1);
+
+        // Replacement with AddedProseChars > 0 (classified Kind = Deletion because added < 20 and removed > added)
+        const string beforeRep = "Vanha pitempi kuvaus tapahtumasta.";
+        const string afterRep = "Uusi nimi.";
+        var replaceDiff = WikitextDiff.Compare(beforeRep, afterRep);
+        var replacement = MakeIncident("rep", 1, EvidenceTier.Contested, accountCount: 2, insertCount: 2,
+            edits: [MakeEdit(1, firstInsert, EditAction.Inserted), MakeEdit(2, firstInsert.AddDays(3), EditAction.Reinserted)])
+            with
+            {
+                Kind = IncidentKind.Deletion,
+                ClaimEn = "The event should be called Uusi nimi.",
+                ClaimOriginal = "Tapahtumaa tulisi kutsua nimellä Uusi nimi.",
+                Passage = new DiffPassage(1, 0, beforeRep, afterRep, replaceDiff),
+            };
+
+        Assert.True(OverviewState.IsReplacement(replacement));
+        Assert.Equal("Changed: The event should be called Uusi nimi.", OverviewState.CardHeadline(replacement));
+        Assert.Equal("Changed 2 times by 2 accounts over 3 days; live for 1 day in total.", OverviewState.WhatHappened(replacement));
+        Assert.Empty(CopyRules.FindViolations(OverviewState.CardHeadline(replacement)));
+        Assert.Empty(CopyRules.FindViolations(OverviewState.WhatHappened(replacement)));
+
+        // Degraded replacement (Passage == null) detected from Reasoning / SummaryEn
+        var degradedReplacement = MakeIncident("rep-deg", 2, EvidenceTier.Reverted)
+            with
+            {
+                Kind = IncidentKind.Deletion,
+                ClaimEn = "The battle ended in a stalemate.",
+                Source = new IncidentRecord
+                {
+                    Id = "rep-deg",
+                    PageId = 100,
+                    InsertingRevIds = [1],
+                    RemovingRevIds = [2],
+                    Tier = EvidenceTier.Reverted,
+                    Score = 10,
+                    SummaryEn = "Replaced the opening sentence about the battle outcome.",
+                },
+            };
+        Assert.True(OverviewState.IsReplacement(degradedReplacement));
+        Assert.Equal("Changed: The battle ended in a stalemate.", OverviewState.CardHeadline(degradedReplacement));
+        Assert.Equal("Changed once by 1 account; live for 1 day.", OverviewState.WhatHappened(degradedReplacement));
+
+        // Replacement whose claim quotes only the removed text keeps "Removed: ..."
+        var removedSideClaim = replacement with
+        {
+            ClaimEn = "Opening description 'Vanha pitempi kuvaus tapahtumasta'",
+            ClaimOriginal = "Vanha pitempi kuvaus tapahtumasta.",
+        };
+        Assert.Equal("Removed: Opening description 'Vanha pitempi kuvaus tapahtumasta'", OverviewState.CardHeadline(removedSideClaim));
+
+        // Pure deletion (AddedProseChars == 0) keeps "Removed: ..." and "Removed once ...; stayed out for ..."
+        const string beforeDel = "Poistettu lause kokonaisuudessaan. Jäävä teksti.";
+        const string afterDel = "Jäävä teksti.";
+        var deleteDiff = WikitextDiff.Compare(beforeDel, afterDel);
+        var pureDeletion = MakeIncident("del", 3, EvidenceTier.Contested, totalLive: TimeSpan.FromHours(6))
+            with
+            {
+                Kind = IncidentKind.Deletion,
+                ClaimEn = "Deleted statement.",
+                ClaimOriginal = "Poistettu lause kokonaisuudessaan.",
+                Passage = new DiffPassage(1, 0, beforeDel, afterDel, deleteDiff),
+            };
+        Assert.False(OverviewState.IsReplacement(pureDeletion));
+        Assert.Equal("Removed: Deleted statement.", OverviewState.CardHeadline(pureDeletion));
+        Assert.Equal("Removed once by 1 account; stayed out for 6 hours.", OverviewState.WhatHappened(pureDeletion));
+        Assert.Empty(CopyRules.FindViolations(OverviewState.WhatHappened(pureDeletion)));
     }
 
     private static OverviewFilter ReparseFromQueryString(string queryString)

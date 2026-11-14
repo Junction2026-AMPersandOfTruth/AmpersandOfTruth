@@ -4,15 +4,37 @@
 @inject NavigationManager Nav
 
 <div class="aot-shell">
-    <header class="aot-appbar">
-        <a class="aot-brand" href="/"><em>&amp;</em> Ampersand of Truth</a>
-        <div class="aot-appbar__search" data-testid="appbar-search-slot">
+    <header class="@AppbarClass">
+        <a class="aot-brand" href="/" aria-label="Ampersand of Truth"><em>&amp;</em><span class="aot-brand__name"> Ampersand of Truth</span></a>
+        <div class="@SearchSlotClass" data-testid="appbar-search-slot">
             @if (!IsLanding())
             {
                 <TopicSearch Compact />
             }
         </div>
         <NavMenu />
+        @if (!IsLanding())
+        {
+            <button type="button"
+                    class="aot-btn aot-btn--ghost aot-btn--sm aot-appbar__search-toggle"
+                    data-testid="appbar-search-toggle"
+                    aria-label="@(_mobileSearchOpen ? "Close search" : "Search a topic")"
+                    aria-expanded="@(_mobileSearchOpen ? "true" : "false")"
+                    title="@(_mobileSearchOpen ? "Close search" : "Search a topic")"
+                    @onclick="ToggleMobileSearch">
+                <svg viewBox="0 0 18 18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    @if (_mobileSearchOpen)
+                    {
+                        <path d="M4.5 4.5l9 9M13.5 4.5l-9 9" />
+                    }
+                    else
+                    {
+                        <circle cx="8" cy="8" r="5" />
+                        <path d="M12 12l4 4" />
+                    }
+                </svg>
+            </button>
+        }
         <ThemeToggle />
     </header>
 
@@ -30,10 +52,27 @@
 </div>
 
 @code {
+    private bool _mobileSearchOpen;
+
+    private string AppbarClass =>
+        _mobileSearchOpen && !IsLanding()
+            ? "aot-appbar aot-appbar--search-open"
+            : "aot-appbar";
+
+    private string SearchSlotClass =>
+        _mobileSearchOpen && !IsLanding()
+            ? "aot-appbar__search is-open"
+            : "aot-appbar__search";
+
     protected override void OnInitialized() => Nav.LocationChanged += OnLocationChanged;
 
-    private void OnLocationChanged(object? sender, LocationChangedEventArgs e) =>
+    private void ToggleMobileSearch() => _mobileSearchOpen = !_mobileSearchOpen;
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        _mobileSearchOpen = false;
         _ = InvokeAsync(StateHasChanged);
+    }
 
     private bool IsLanding()
     {

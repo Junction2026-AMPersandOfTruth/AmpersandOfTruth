@@ -2,6 +2,7 @@ using AmpersandOfTruth.Web.Components.Shared;
 using AmpersandOfTruth.Web.Features.Evidence;
 using AmpersandOfTruth.Web.Features.Investigations;
 using AmpersandOfTruth.Web.Features.Investigations.View;
+using AmpersandOfTruth.Web.Features.WikiDiff;
 using Bunit;
 
 namespace AmpersandOfTruth.Tests.Features.Investigations.Overview;
@@ -26,14 +27,20 @@ public sealed class IncidentCardTests : BunitContext
 
         var card = cut.Find("[data-testid=incident-card]");
         Assert.Equal("/investigate/winter-war/incidents/inc-42?sort=recent&tier=2,3", card.GetAttribute("href"));
-        Assert.Contains("Talvisota (Winter War)", card.TextContent);
+        Assert.Equal("Winter War (Talvisota)", cut.Find("[data-testid=incident-article]").TextContent.Trim());
+
+        var mt = Assert.Single(cut.FindAll("[data-testid=incident-claim-mt]"));
+        Assert.Equal("Automated English summary", mt.TextContent.Trim());
+        Assert.Equal(Attribution.MachineTranslationNotice, mt.QuerySelector(".aot-mt__tag")?.GetAttribute("title"));
 
         var claim = cut.Find("[data-testid=incident-claim]");
-        Assert.Contains("Finland started the Winter War by shelling Mainila.", claim.TextContent);
+        Assert.Equal("Finland started the Winter War by shelling Mainila.", claim.TextContent);
+        Assert.DoesNotContain("\u201C", claim.TextContent);
 
         var original = cut.Find("[data-testid=incident-original]");
         Assert.Equal("fi", original.GetAttribute("lang"));
         Assert.Equal("Suomi aloitti talvisodan ampumalla Mainilan kylään.", original.TextContent);
+        Assert.Equal("incident-original", claim.NextElementSibling?.GetAttribute("data-testid"));
 
         var what = cut.Find("[data-testid=incident-what]");
         Assert.Equal("Inserted 4 times by 3 accounts over 2 years; live for 61 days in total.", what.TextContent);
@@ -62,6 +69,7 @@ public sealed class IncidentCardTests : BunitContext
             .Add(x => x.Topic, "winter-war"));
 
         Assert.Equal("Text added to Winter War", cutNull.Find("[data-testid=incident-claim]").TextContent);
+        Assert.Empty(cutNull.FindAll("[data-testid=incident-claim-mt]"));
 
         var deletion = MakeView(
             id: "inc-del",
@@ -75,6 +83,8 @@ public sealed class IncidentCardTests : BunitContext
             .Add(x => x.Topic, "winter-war"));
 
         Assert.Equal("Removed: casualty figures from the opening paragraph", cutDel.Find("[data-testid=incident-claim]").TextContent);
+        Assert.Single(cutDel.FindAll("[data-testid=incident-claim-mt]"));
+        Assert.Equal("Removed 4 times by 3 accounts over 2 years; stayed out for 61 days in total.", cutDel.Find("[data-testid=incident-what]").TextContent);
         Assert.Empty(cutDel.FindAll("[data-testid=incident-original]"));
 
         var insertionWithRemovedPrefix = MakeView(
@@ -91,6 +101,68 @@ public sealed class IncidentCardTests : BunitContext
 
         Assert.Equal("Removed: Finland's defeat from the summary box.", cutRemPrefix.Find("[data-testid=incident-claim]").TextContent);
         Assert.Contains("Suomen sisällissodan nimet (Finnish Wikipedia)", cutRemPrefix.Find("[data-testid=incident-card]").TextContent);
+    }
+
+    [Fact]
+    public void Replacement_cards_with_added_text_use_changed_prefix_while_genuine_deletions_keep_removed()
+    {
+        // Real pipeline shape (Card #3 on civil-war-1918): removed prose slightly longer than added prose (< 20 chars),
+        // so IncidentMapper derives Kind = Deletion even though the edit replaced text and ClaimEn states what was added.
+        const string beforeOulu = "'''Oulun taistelu''' käytiin helmikuussa 1918 valkoisten ja punaisten välillä.";
+        const string afterOulu = "'''Oulun valtaus''' käytiin 1918.";
+        var replaceDiff = WikitextDiff.Compare(beforeOulu, afterOulu);
+        var replacement = MakeView(
+            id: "inc-replace",
+            tier: EvidenceTier.Contested,
+            kind: IncidentKind.Deletion,
+            claimEn: "The 1918 engagement in Oulu should be titled 'Oulun valtaus' rather than 'Oulun taistelu'.",
+            claimOriginal: "Vuoden 1918 yhteenotto Oulussa tulisi nimetä Oulun valtaukseksi.")
+            with
+            {
+                Articles = [new ArticleRef(8810, "Oulun taistelu", "Battle of Oulu")],
+                Passage = new DiffPassage(1001, 1000, beforeOulu, afterOulu, replaceDiff),
+            };
+
+        var cutRep = Render<IncidentCard>(p => p
+            .Add(x => x.Incident, replacement)
+            .Add(x => x.Topic, "civil-war-1918"));
+
+        Assert.Equal(
+            "Changed: The 1918 engagement in Oulu should be titled 'Oulun valtaus' rather than 'Oulun taistelu'.",
+            cutRep.Find("[data-testid=incident-claim]").TextContent);
+        Assert.Equal(
+            "Changed 4 times by 3 accounts over 2 years; live for 61 days in total.",
+            cutRep.Find("[data-testid=incident-what]").TextContent);
+        Assert.Equal("Battle of Oulu (Oulun taistelu)", cutRep.Find("[data-testid=incident-article]").TextContent.Trim());
+        Assert.Empty(CopyRules.FindViolations(cutRep.Find("[data-testid=incident-card]").TextContent));
+
+        // Genuine pure deletion (AddedProseChars == 0) keeps "Removed: ..." and "Removed N times ...; stayed out for ..."
+        const string beforePetsamo = "Neuvosto-Venäjä suostui vaihtamaan Petsamon alueen. Toinen lause jää.";
+        const string afterPetsamo = "Toinen lause jää.";
+        var pureDeleteDiff = WikitextDiff.Compare(beforePetsamo, afterPetsamo);
+        var pureDeletion = MakeView(
+            id: "inc-pure-del",
+            tier: EvidenceTier.Contested,
+            kind: IncidentKind.Deletion,
+            claimEn: "Soviet Russia agreed to exchange Petsamo.",
+            claimOriginal: "Neuvosto-Venäjä suostui vaihtamaan Petsamon alueen.")
+            with
+            {
+                Passage = new DiffPassage(1001, 1000, beforePetsamo, afterPetsamo, pureDeleteDiff),
+            };
+
+        var cutPureDel = Render<IncidentCard>(p => p
+            .Add(x => x.Incident, pureDeletion)
+            .Add(x => x.Topic, "civil-war-1918"));
+
+        Assert.Equal("Removed: Soviet Russia agreed to exchange Petsamo.", cutPureDel.Find("[data-testid=incident-claim]").TextContent);
+        Assert.Equal("Removed 4 times by 3 accounts over 2 years; stayed out for 61 days in total.", cutPureDel.Find("[data-testid=incident-what]").TextContent);
+
+        // Article header when English and Finnish titles match (e.g. "Mannerheim") does not repeat "(Mannerheim)"
+        var sameTitle = MakeView("inc-same", EvidenceTier.Reverted, IncidentKind.Insertion, "Claim.", null)
+            with { Articles = [new ArticleRef(999, "Mannerheim", "Mannerheim")] };
+        var cutSame = Render<IncidentCard>(p => p.Add(x => x.Incident, sameTitle).Add(x => x.Topic, "mannerheim"));
+        Assert.Equal("Mannerheim", cutSame.Find("[data-testid=incident-article]").TextContent.Trim());
     }
 
     [Fact]

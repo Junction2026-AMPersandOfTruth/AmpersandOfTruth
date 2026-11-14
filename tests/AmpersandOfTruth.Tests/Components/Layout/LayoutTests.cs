@@ -5,6 +5,7 @@ using AmpersandOfTruth.Web.Components.Pages;
 using AmpersandOfTruth.Web.Features.Evidence;
 using AmpersandOfTruth.Web.Features.Search;
 using Bunit;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
@@ -71,6 +72,7 @@ public sealed class LayoutTests : BunitContext
         var searchSlot = cut.Find("[data-testid=appbar-search-slot]");
         Assert.Contains("aot-appbar__search", searchSlot.ClassList);
         Assert.Empty(searchSlot.Children);
+        Assert.Empty(cut.FindAll("[data-testid=appbar-search-toggle]"));
 
         var navLinks = cut.FindAll("header.aot-appbar nav a");
         Assert.Equal(4, navLinks.Count);
@@ -118,6 +120,43 @@ public sealed class LayoutTests : BunitContext
         var footer = cut.Find("[data-testid=site-footer]");
         Assert.Empty(footer.QuerySelectorAll("a[href='/investigate']"));
         Assert.Single(footer.QuerySelectorAll("a[href='/analysis']"));
+    }
+
+    [Fact]
+    public void Phone_search_toggle_expands_compact_search_on_subpages_and_resets_on_navigation()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        Services.AddSearchFeature();
+        Services.AddSingleton<IWebHostEnvironment>(new StubWebHostEnvironment { EnvironmentName = Environments.Production });
+        var nav = Services.GetRequiredService<NavigationManager>();
+
+        var cut = Render<MainLayout>(p => p.Add(
+            x => x.Body,
+            b => b.AddMarkupContent(0, "<p>Body</p>")));
+
+        // On '/', search toggle is not rendered
+        Assert.Empty(cut.FindAll("[data-testid=appbar-search-toggle]"));
+
+        // On a subpage, search toggle renders collapsed by default and expands/collapses the search slot
+        nav.NavigateTo("/investigate/civil-war-1918");
+        cut.WaitForAssertion(() =>
+        {
+            var toggle = cut.Find("[data-testid=appbar-search-toggle]");
+            Assert.Equal("false", toggle.GetAttribute("aria-expanded"));
+            Assert.DoesNotContain("is-open", cut.Find("[data-testid=appbar-search-slot]").ClassList);
+        });
+
+        cut.Find("[data-testid=appbar-search-toggle]").Click();
+        Assert.Equal("true", cut.Find("[data-testid=appbar-search-toggle]").GetAttribute("aria-expanded"));
+        Assert.Contains("is-open", cut.Find("[data-testid=appbar-search-slot]").ClassList);
+
+        // Navigating to another route resets mobile search to collapsed
+        nav.NavigateTo("/methodology");
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Equal("false", cut.Find("[data-testid=appbar-search-toggle]").GetAttribute("aria-expanded"));
+            Assert.DoesNotContain("is-open", cut.Find("[data-testid=appbar-search-slot]").ClassList);
+        });
     }
 
     [Fact]
