@@ -1,0 +1,32 @@
+@using AmpersandOfTruth.Web.Features.Evidence
+@{
+    var hasOriginal = !string.IsNullOrWhiteSpace(Original);
+    var effectiveLang = string.IsNullOrWhiteSpace(Lang) ? "fi" : Lang;
+}
+<div data-testid="mt-label">
+    <div>
+        <span>@Text</span>
+        <span class="aot-mt">
+            <span class="aot-mt__tag" title="@Attribution.MachineTranslationNotice">Machine translation</span>
+            @if (!Stacked && hasOriginal)
+            {
+                <button type="button" class="aot-btn aot-btn--ghost aot-btn--sm" data-testid="mt-show-original" aria-expanded="@(_showOriginal ? "true" : "false")" @onclick="ToggleOriginal">@(_showOriginal ? "Hide original" : "Show original")</button>
+            }
+        </span>
+    </div>
+    @if (hasOriginal && (Stacked || _showOriginal))
+    {
+        <div class="aot-original" lang="@effectiveLang" data-testid="mt-original">@Original</div>
+    }
+</div>
+
+@code {
+    private bool _showOriginal;
+
+    [Parameter, EditorRequired] public string Text { get; set; } = "";
+    [Parameter] public string? Original { get; set; }
+    [Parameter] public string Lang { get; set; } = "fi";
+    [Parameter] public bool Stacked { get; set; }
+
+    private void ToggleOriginal() => _showOriginal = !_showOriginal;
+}

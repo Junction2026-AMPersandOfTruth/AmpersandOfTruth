@@ -21,7 +21,12 @@ public class NotesPageTests : BunitContext
         var cut = Render<NotesPage>();
 
         cut.WaitForElement("[data-testid=empty-state]").MarkupMatches(
-            """<div class="text-center text-muted py-5 border rounded" data-testid="empty-state">No notes yet.</div>""");
+            """
+            <div class="aot-empty" data-testid="empty-state">
+              <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="18" cy="18" r="11" /><path d="M26 26l8 8M13 18h10" /></svg>
+              <p class="aot-muted" style="margin:8px 0 0">No notes yet.</p>
+            </div>
+            """);
     }
 
     [Fact]

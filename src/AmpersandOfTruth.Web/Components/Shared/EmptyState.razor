@@ -1,7 +1,35 @@
-<div class="text-center text-muted py-5 border rounded" data-testid="empty-state">
-    @Message
+@{
+    var iconKind = string.IsNullOrWhiteSpace(Icon) ? "search" : Icon.Trim().ToLowerInvariant();
+    var showIcon = iconKind is "search" or "info";
+}
+<div class="aot-empty" data-testid="empty-state">
+    @if (iconKind == "search")
+    {
+        <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="18" cy="18" r="11" /><path d="M26 26l8 8M13 18h10" /></svg>
+    }
+    else if (iconKind == "info")
+    {
+        <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14" /><path d="M20 18v10M20 13v1" /></svg>
+    }
+    @if (!string.IsNullOrWhiteSpace(Title))
+    {
+        <h3 class="aot-h3" style="@(showIcon ? "margin-top:8px" : null)">@Title</h3>
+    }
+    @if (!string.IsNullOrWhiteSpace(Message))
+    {
+        <p class="aot-muted" style="margin:8px 0 0">@Message</p>
+    }
+    @ChildContent
+    @if (Actions is not null)
+    {
+        <div class="aot-row" style="justify-content:center">@Actions</div>
+    }
 </div>
 
 @code {
-    [Parameter, EditorRequired] public string Message { get; set; } = "";
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public string? Message { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? Actions { get; set; }
+    [Parameter] public string? Icon { get; set; }
 }
