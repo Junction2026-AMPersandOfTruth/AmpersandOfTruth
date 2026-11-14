@@ -102,7 +102,7 @@ research/<issue>/             # experiment scripts, small samples, results and r
 - Response cache (SQLite `AnalysisCache`, key = prompt id + version + content hash + model + schema + rendered input) makes reruns free;
   ledger `AnalysisCalls` + spend caps `Gemini:DailyCallCap / DailyCostCapUsd / PerScopeCallCap`. `/analysis` shows usage (playground in Development only).
 - Tests of LLM consumers: `tests/Junction.Tests/Infrastructure/FakeAnalysisModel.cs` (`.Returns("prompt-id", json)`), no HTTP.
-- Gotchas: Gemini 4 models reject `thinking_level: minimal` (400); Gemini 4 bills ~300 more input tokens per call than 3.x for the same prompt;
+- Gotchas: Gemini 4 models reject `thinking_level: minimal` (400); Gemini 4 bills ~300–600 more input tokens per call than 3.x for the same prompt;
   Argon can take 30+ s; a truncated reply is `status: incomplete` with **no** `steps`; safety blocks are HTTP 400 `error.code = safety`.
 
 ## Testing
