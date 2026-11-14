@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "recorded_at": "2026-11-14T21:00:00Z",
+  "git_commit": "0000000",
+  "pipeline_version": 3,
+  "top_n": 10,
+  "topics": [
+    {
+      "topic": "Talvisota",
+      "kind": "demo",
+      "scope": {
+        "in_scope": true,
+        "reason": "Finnish Winter War history."
+      },
+      "articles": [
+        {
+          "lang": "fi",
+          "page_id": 1256,
+          "title": "Talvisota",
+          "distance": 0.10,
+          "wikidata_id": "Q191721"
+        },
+        {
+          "lang": "fi",
+          "page_id": 5263,
+          "title": "Jatkosota",
+          "distance": 0.20,
+          "wikidata_id": "Q649022"
+        },
+        {
+          "lang": "fi",
+          "page_id": 9012,
+          "title": "Lapin sota",
+          "distance": 0.25,
+          "wikidata_id": "Q207818",
+          "via_lang": "en"
+        }
+      ],
+      "candidates": 3,
+      "classifications": {
+        "1256-2000": {
+          "category": "false_factual_claim",
+          "confidence": 4,
+          "what_changed_en": "Rewrote who started the war.",
+          "evidence": [
+            "kun Suomi hyökkäsi ensin"
+          ],
+          "claim_en": "Finland attacked the Soviet Union first, at Mainila.",
+          "claim_fi": "Suomi hyökkäsi ensin.",
+          "narrative_en": "Soviet justification of the Winter War",
+          "historical_note_en": null,
+          "uncertainty_note": null
+        },
+        "1256-3000": {
+          "category": "vandalism",
+          "confidence": 5,
+          "what_changed_en": null,
+          "evidence": [],
+          "claim_en": null,
+          "claim_fi": null,
+          "narrative_en": null,
+          "historical_note_en": null,
+          "uncertainty_note": null
+        }
+      },
+      "incidents": [
+        {
+          "rank": 1,
+          "id": "1256-2000",
+          "key": "1999",
+          "page_id": 1256,
+          "tier": "contested",
+          "score": 208.15,
+          "inserting_rev_ids": [
+            1999
+          ],
+          "removing_rev_ids": [
+            2000
+          ],
+          "claim_en": "Finland attacked the Soviet Union first, at Mainila."
+        }
+      ],
+      "expect": {
+        "no_new_campaign": true,
+        "max_contested_or_above": null,
+        "out_of_scope": null
+      }
+    },
+    {
+      "topic": "Quantum computing",
+      "kind": "out-of-scope",
+      "scope": {
+        "in_scope": false,
+        "reason": "General physics and computing topic unrelated to Finland."
+      },
+      "articles": [],
+      "candidates": 0,
+      "classifications": {},
+      "incidents": [],
+      "expect": {
+        "no_new_campaign": null,
+        "max_contested_or_above": null,
+        "out_of_scope": true
+      }
+    }
+  ]
+}
