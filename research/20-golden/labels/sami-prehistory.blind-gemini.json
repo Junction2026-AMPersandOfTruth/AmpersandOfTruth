@@ -1,0 +1,156 @@
+{
+ "topic_id": "sami-prehistory",
+ "labeller": "gemini:blind/gemini-4-carbon",
+ "labels": {
+  "x01": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "vandalism",
+   "why": "Excluded as blanking: an anonymous editor removed 20,419 bytes covering nearly the entire article with the summary \"cxgcg\", and another editor restored the page 7 minutes later."
+  },
+  "x02": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added a long pseudohistorical section claiming \"Suomen historiaa on vääristelty ja yritetty tuhota valloittajien toimesta satoja vuosia\" (\"Finland's history has been distorted and its destruction pursued by conquerors for hundreds of years\") and \"Ruotsin vallan aikan oli säädetty jopa kuolemantuomio sille joka kertoisi suomen historiasta\" (\"During Swedish rule even a death sentence was decreed for anyone who told of Finland's history\"), alongside a list of mythical kings; removed by another editor with the accuracy-related summary \"huuhaat pois\" (\"quackery out\")."
+  },
+  "x03": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added claims citing a 1934 encyclopedia that \"saamelaiset olisivat oppineet suomalais-ugrilaisen kielimuodon suomalaisiltä viimeistään noin 1000-luvulla jaa.\" (\"the Sámi would have learned the Finno-Ugric language form from Finns by around the 1000s CE at the latest\") and \"Nykyinen DNA-tutkimuksiin perustuva geneettinen tutkimustieto ei puolla saamelaisten ja suomalaisten eri alkuperää\" (\"Current DNA-based genetic research does not support a different origin for Sámi and Finns\"); removed by another editor disputing both sourcing and accuracy (\"Viittaaminen 1930-.luvulta olevaan tietosanakirjaan ja genetiikasta puhuminen samassa lauusessa ilman lähdettä ei nyt vaan toi mi\", \"Referring to a 1930s encyclopedia and talking about genetics in the same sentence without a source just does not work\")."
+  },
+  "x04": {
+   "label": "not-incident",
+   "exclusion": "not-substantive",
+   "category": "other",
+   "why": "Excluded as not substantive (and also made by a bot account): the edit only changed a Spanish interwiki link from \"[[es:Pueblo lapón]]\" to \"[[es:Pueblo Saami]]\" with the summary \"Botti muokkasi: es:Pueblo Saami\" (\"Bot edited: es:Pueblo Saami\")."
+  },
+  "x05": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 1: inserted the unsourced claim \"mutta puhuvat nykyään enemmän Inarinsaamea\" (\"but nowadays speak more Inari Sámi\") into a cited sentence about Forest Sámi; removed 5 minutes later by another editor with a standard undo summary and no recorded community dispute signal or re-insertion."
+  },
+  "x06": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 1: added a section asserting \"Suomalaiset ja baskit ovat Euroopan alkuperäisväestöjä\" (\"Finns and Basques are the indigenous populations of Europe\") and \"Euroopan alkuperäisasukkaita ennen 1700 lukua voidaan kutsua yhteisellä nimellä nimellä suomalaiset\" (\"the indigenous inhabitants of Europe before the 1700s can be called by the common name Finns\"); removed 23 minutes later with \"palautus. oudossa paikassa omituinen osio\" (\"restoration. a peculiar section in a strange place\"), which notes odd placement under the pre-Ice Age heading and strangeness without clearly stating an accuracy, neutrality, or sourcing reason, and with no re-insertion."
+  },
+  "x07": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: added a genetics section on the Ancient Kings of Finland page claiming \"Rurik ei ollut haploryhmältään viikinkeihin kuuluvaa I-ryhmää eikä slaavilaista ryhmää, vaan suomalais-ugrilaista N-haploryhmää\" (\"Rurik did not belong by haplogroup to the Viking I-group or a Slavic group, but to the Finno-Ugric N-haplogroup\"); removed with the accuracy-disputing summary \"poistettu asiaanliittymätön (suomalaisugrilainen != suomalainen), ja todennäköisesti täysi hömppä - Rurik tai ainakin suvut ovat fiktiivisiä\" (\"removed irrelevant (Finno-Ugric != Finnish), and probably total bunk - Rurik or at least the lineages are fictitious\") and subsequently put back once."
+  },
+  "x08": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: added a single abusive sentence (\"Saamelaiset ovat tunnettuja ihmisuhreista ja kannibalismista ja pedofiliaista\", \"The Sámi are known for human sacrifices and cannibalism and pedophilia\"), which was removed 87 seconds later."
+  },
+  "x09": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: across five edits, added unsourced claims such as \"Suomen kuninkaiden historiaa kuvaa laajimmin 1600-luvulla ruotsalainen historioitsija\" (\"The history of Finland's kings is described most extensively in the 1600s by a Swedish historian\") while slanting existing sourced prose—changing \"juontaa juurensa muinaisgermaaniseen sanaan\" (\"derives its roots from the Proto-Germanic word\") to \"jonka vastine on muinaisgermaaninen sana\" (\"whose counterpart is the Proto-Germanic word\") next to a loanword citation, removing \"mahdollisesti\" (\"possibly\"), downsizing neighboring kingdoms to \"pieniä kuningaskuntia\" (\"small kingdoms\"), and hedging mainstream archaeology from \"on perustunut\" (\"was based\") to \"olisi perustunut\" (\"would have been based\"); removed with the sourcing reason \"Kumottu lähteettömät lisäykset\" (\"Undid unsourced additions\")."
+  },
+  "x10": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: inserted a slur into the lead bold title (\"ruotsalaiset saamelaiset ovat homoja\", \"Swedish Sámi are gay\"), removed within 14 seconds."
+  },
+  "x11": {
+   "label": "campaign",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 3: two distinct named accounts added and put back the same narrative across two articles (Saamelaisten historia and Saamelaiset) over more than three months (November 2017 to March 2018), asserting \"Saamelaisten historia alkoi vasta tällä vuosituhannella\" (\"Sámi history began only in this millennium\") and \"Saamelaiset eivät ole alkuperäisempiä kuin suomalaiset, vaikka heitä kutsutaan alkuperäiskansaksi\" (\"The Sámi are not more indigenous than Finns, even though they are called an indigenous people\"); disputed and removed multiple times, including with \"ei kirjoiteta artikkelia uusiksi yhden lehtijutun perusteella\" (\"let us not rewrite the article on the basis of one magazine piece\")."
+  },
+  "x12": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 1: an anonymous editor altered two population figures in a table from 42,500 and 21,675 to 120,600 and 61,675 without a source; removed 12 minutes later with a generic undo summary, and never actually restored (a later edit in March 2018 rolled the page back to a November 2017 revision predating these numbers)."
+  },
+  "x13": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "good_faith_error",
+   "why": "Excluded as self-removal: the same named account added a sentence about Finns as an indigenous people and removed its own edit five hours later with the summary \"kelvoton lähde\" (\"unusable source\")."
+  },
+  "x14": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: inserted explicit sexual abuse text into the article body, which was removed after 56 seconds."
+  },
+  "x15": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: added a subsection arguing \"Voidaan siis olettaa skandinavisten ja suomalaisten kuningaskuntien olleen tasavertaisia\" (\"One can thus assume that Scandinavian and Finnish kingdoms were equal\") and urging parallels to be sought in folk poetry and the Kalevala; removed 5 minutes later with the accuracy and neutrality summary \"eräs virheellisyys ja pari muuta mahtipontisuutta poistettu\" (\"one inaccuracy and a couple of other grandiose claims removed\")."
+  },
+  "x16": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Excluded as self-removal: an anonymous editor adjusted an image caption link and undid its own change 76 seconds later."
+  },
+  "x17": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: replaced existing discussion of Sámi genetic origins with a synthesis citing an article on Sámi origins, English Wikipedia, and genetics papers to state \"Suomen alueella elävässä saamelaisväestössä on suomalaisille tyypillisiä isälinjan geenejä N1c ja I1\" (\"In the Sámi population living in Finland's area there are paternal-line genes N1c and I1 typical of Finns\") and that Sámi ancestors moved north from Western Europe after the Ice Age; removed with \"kumotaan muokkaukset - omaa tutkimusta, lähteenä wikipediaa, yms.\" (\"undoing edits - original research, Wikipedia as a source, etc.\")."
+  },
+  "x18": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Excluded as graffiti: inserted crude sexual profanities (\"runkkuja\" and \"runkattava nukke\", \"wanks\" and \"fuckable doll\") into the religion section, removed within 10 seconds."
+  },
+  "x19": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: an anonymous editor replaced the statement that Finnish \"kuningas\" derives from Proto-Germanic with \"väitetään periytyneen kantagermaanisesta lainasanasta\" (\"is claimed to have derived from a Proto-Germanic loanword\"), adding \"Kantagermaaninen kieli on kuitenkin rekonstruktio ja hypoteesi muinaisesta oletetusta kielestä, eikä siitä ole säilynyt todisteita\" (\"Proto-Germanic is however a reconstruction and hypothesis of an assumed ancient language, and no evidence of it has survived\") and arguing the word was used in Finland before Germanic influence; put back once 42 days after removal and removed again with \"rv, uutta tutkimusta ja lähteetöntä\" (\"removed, original research and unsourced\"). Stays at Level 2 as a single editor on a single article."
+  },
+  "x20": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 2: added a section citing an elementary school project webpage and claiming \"Vielä ensimmäisen vuosituhannen alussa saamelaiset hallitsivat yli 90% Suomesta\" (\"Still at the beginning of the first millennium the Sámi ruled over 90% of Finland\") and that they were heavily taxed in the 1200s for the reindeer they raised; tagged during the episode with \"{{tarkistettava|kummallisia väitteitä}}\" (\"needs checking | strange claims\") and removed with \"pois koko luku, lähteetön, outo ja copyvio\" (\"out with the whole section, unsourced, strange and copyvio\")."
+  },
+  "x21": {
+   "label": "campaign",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 3: at least two distinct named accounts replaced the redirect on Metsäsaamelaiset and put back the same passage three times after removals over more than 7 days (28 September 2021 18:08 UTC to 5 October 2021 19:00 UTC), asserting \"Metsäsaamelaiset ovat yksi neljästä Suomen alueella elävästä saamelaisryhmästä\" (\"Forest Sámi are one of the four Sámi groups living in the territory of Finland\") and \"Koska metsäsaamelaiset ovat menettäneet kielensä, heitä ei ole hyväksytty Saamelaiskäräjien vaaliluetteloon\" (\"Because the Forest Sámi have lost their language, they have not been accepted onto the Sámi Parliament electoral roll\"); disputed with \"{{Lähde}}\" (\"citation needed\") templates and removed with summaries including \"takaisin ohjaukseksi: lähteetöntä omaa tutkimusta\" (\"back to redirect: unsourced original research\")."
+  }
+ },
+ "rev_id_concerns": {},
+ "usage": {
+  "total_tokens": 85701,
+  "total_input_tokens": 61313,
+  "input_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 61313
+   }
+  ],
+  "total_cached_tokens": 0,
+  "total_output_tokens": 3185,
+  "output_tokens_by_modality": [
+   {
+    "modality": "text",
+    "tokens": 3185
+   }
+  ],
+  "total_tool_use_tokens": 0,
+  "total_thought_tokens": 21203,
+  "initial_input_tokens": 61313,
+  "cost_usd_est": 0.3665,
+  "seconds": 260.6
+ }
+}

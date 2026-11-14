@@ -1,0 +1,135 @@
+{
+ "topic_id": "sami-prehistory",
+ "labels": {
+  "x01": {
+   "label": "not-incident",
+   "exclusion": "blanking",
+   "category": "other",
+   "why": "Blanking: one edit with summary 'cxgcg' took out about 20,000 bytes, essentially the whole article, and was undone 7 minutes later."
+  },
+  "x02": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "pov_push",
+   "why": "Level 2: a new section says Finnish history has been 'falsified and attempted to be destroyed by conquerors' and that 'a death sentence was decreed under Swedish rule for telling Finland's history', plus a long unsourced king list. Removed after 8 h with the summary 'huuhaat pois' (hogwash out), which is about accuracy."
+  },
+  "x03": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: the partial removal takes out the claim that the Sámi 'would have learned the Finno-Ugric language from the Finns at the latest by about the 1000s', cited to a 1934 encyclopedia. Removal summary: citing a 1930s encyclopedia and speaking of genetics in the same sentence without a source does not work, so a sourcing and accuracy objection. Only one episode, no put-back; borderline against Level 1."
+  },
+  "x04": {
+   "label": "not-incident",
+   "exclusion": "bot",
+   "category": "other",
+   "why": "Bot edit: interwiki link change (es:Pueblo lapón to es:Pueblo Saami) by a bot-like account; also no prose."
+  },
+  "x05": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: two edits changed a sentence to say forest Sámi 'speak Inari Sámi nowadays, in the absence of their own language'. Removed 5 min later by a different account with the standard undo summary and no reason given; no dispute signal."
+  },
+  "x06": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: new section on hunter populations after the Ice Age, e.g. 'Finns and Basques are the original populations of Europe ... there were no Indo-European languages in Europe 35,000-7000 BC'. Removal summary: 'revert; odd section in an odd place', which is about placement, not accuracy or sourcing. No put-back."
+  },
+  "x07": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "false_factual_claim",
+   "why": "Level 2: a 'Gene research' section says Rurik was of 'Finno-Ugric N haplogroup' rather than Viking or Slavic. Removal summary calls it irrelevant (Finno-Ugric is not Finnish), 'probably full nonsense', and the Rurikid line fictional (accuracy). The removal was itself undone later (rev 3625211) so the text was put back at least once."
+  },
+  "x08": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Graffiti: a one-line insertion saying the Sámi 'are known for human sacrifices and cannibalism and pedophilia', undone after 87 seconds. Unsourced, clearly vandalism rather than an article claim."
+  },
+  "x09": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: five edits by one account reword the lead, add a sentence on a Karelian attack on Sigtuna in 1187 and add a Messenius/Ganander passage. Removed after 28 h as 'unsourced additions'. Plausible text whose only recorded problem is missing sources; no slant and no put-back."
+  },
+  "x10": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Graffiti: the lead title was changed to 'Saamelaiset (ruotsalaiset saamelaiset ovat homoja)' ('Swedish Sámi are gay'), undone after 14 seconds."
+  },
+  "x11": {
+   "label": "campaign",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 3: the same rewrite, sourced to one magazine article, says Sámi identity 'is less than a hundred years old', Sámi 'are not more indigenous than Finns' and ''Saamenmaa' was invented in the 1980s'. It was added to both Saamelaisten historia and Saamelaiset by one named account and put back by a second named account in March 2018 after removals ('not rewriting the article based on one magazine article'; 'Not like this'). Two editors, two articles, re-added over more than 7 days. Least sure: the second account put back the text with a source-based summary, so this could be read as one view with a real sourcing dispute (Level 2)."
+  },
+  "x12": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: three edits by an anonymous editor changed numeric values in an infobox table (e.g. 42 to 120, 500 to 600). The undo summary does not name a reason; no claim text to quote and no dispute signal. The removal was itself undone but the numbers are not in the latest revision. Weak evidence."
+  },
+  "x13": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Self-removal: the same account that added the sentence ('it has also been suggested that Finns are an indigenous people ... ignores that Finns have a national state') removed it 5 h later with the summary 'unusable source'."
+  },
+  "x14": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Graffiti: nonsense and vulgar sentence inserted into the middle of the origin paragraph ('...iso peniksesit saamalaiset ovat kivoja petikummpaneita'), undone after 56 seconds."
+  },
+  "x15": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "other",
+   "why": "Level 1: partial removal of reorganised headings and a paragraph saying 'it can be assumed that the Scandinavian and Finnish kingdoms were equals'. Removal summary: 'one inaccuracy and a couple of other pompous bits removed'. It is not clear from the diff which part was the inaccuracy, so no clear quotable claim tied to the dispute reason; kept at Level 1."
+  },
+  "x16": {
+   "label": "not-incident",
+   "exclusion": "self-removal",
+   "category": "other",
+   "why": "Self-removal: the account fixed its own caption wording within 76 seconds; the later edit only altered the image caption, and the text is still in the latest revision."
+  },
+  "x17": {
+   "label": "reverted",
+   "exclusion": null,
+   "category": "good_faith_error",
+   "why": "Level 1: two edits add Sámi genetics (paternal N1c and I1, maternal U5b1b1 and V, partly with references) and remove some genetics wording. Removal summary: 'own research, source is Wikipedia, etc.', a sourcing objection only. Plausible text with references, no slant; no put-back."
+  },
+  "x18": {
+   "label": "not-incident",
+   "exclusion": "graffiti",
+   "category": "vandalism",
+   "why": "Graffiti: vulgar words ('runkkuja', 'runkattava nukke') were inserted into the paragraph on religion and undone after 10 seconds."
+  },
+  "x19": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: the added text says the Proto-Germanic language 'is only a reconstruction and hypothesis' and that 'Finland was inhabited and Finnish was probably spoken before Germanic culture arose', so the loan direction of 'kuningas' can only be guessed. Removed three times; summaries: 'new research and unsourced' and an argument over wording. The text was put back once, 42 days after the first removal. One editor and one article, so not Level 3."
+  },
+  "x20": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: a section says the Sámi 'ruled over 90% of Finland' at the start of the first millennium and moved north because of taxation and mission. Removal summary: 'whole chapter out, unsourced, odd and copyvio'. A {{tarkistettava|kummallisia väitteitä}} (to be checked: strange claims) template was in the section. Single editor and article."
+  },
+  "x21": {
+   "label": "contested",
+   "exclusion": null,
+   "category": "content_dispute",
+   "why": "Level 2: a redirect page for Metsäsaamelaiset was repeatedly turned into an article saying the group 'has lost its language, so it has not been accepted to the Sámi Parliament electoral roll' and was turned back as 'unsourced, remain a redirect' and 'unsourced own research'. Several rounds of putting back over about a week, {{Lähde}} templates added, edit summaries from two editors disagreeing over what is accurate. Several named accounts took part but they did not all add the same text, and the dispute looks like a redirect-versus-article fight, so kept below Level 3."
+  }
+ },
+ "rev_id_concerns": {
+  "x16": "rev 6243067 (-6 bytes) is a small fix inside the same self-edit run",
+  "x11": "rev 16920192 is a larger rewrite on Saamelaiset; candidate c28 lists many unrelated editors (bot link removal, infobox maintenance) as 'inserting' that are not part of the content"
+ }
+}

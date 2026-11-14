@@ -1,0 +1,679 @@
+{
+  "topic": {
+    "id": "continuation-war",
+    "title": "Continuation War 1941-44: 'separate war' vs alliance with Germany",
+    "split": "dev",
+    "kind": "topic",
+    "queries": [
+      {
+        "id": "continuation-war.en",
+        "style": "en",
+        "lang": "en",
+        "text": "Was Finland an ally of Nazi Germany in the Continuation War or did it fight a separate war?"
+      },
+      {
+        "id": "continuation-war.fi",
+        "style": "fi",
+        "lang": "fi",
+        "text": "Oliko Suomi jatkosodassa Saksan liittolainen vai kävikö se erillissotaa?"
+      },
+      {
+        "id": "continuation-war.broad",
+        "style": "broad",
+        "lang": "en",
+        "text": "Finland and Nazi Germany in World War II"
+      },
+      {
+        "id": "continuation-war.sv",
+        "style": "sv",
+        "lang": "sv",
+        "text": "Var Finland Tysklands allierade i fortsättningskriget eller förde landet ett separatkrig?"
+      }
+    ],
+    "articles": [
+      {
+        "page_id": 440,
+        "grade": 2,
+        "title": "Jatkosota"
+      },
+      {
+        "page_id": 626022,
+        "grade": 2,
+        "title": "Erillissotateesi"
+      },
+      {
+        "page_id": 636526,
+        "grade": 2,
+        "title": "Suomen ja Saksan sotilasyhteistyö 1940–1941"
+      },
+      {
+        "page_id": 631505,
+        "grade": 2,
+        "title": "Suomen ja Saksan lähentyminen 1940–1941"
+      },
+      {
+        "page_id": 664648,
+        "grade": 2,
+        "title": "Suomi toisessa maailmansodassa"
+      },
+      {
+        "page_id": 105157,
+        "grade": 2,
+        "title": "Sotasyyllisyysoikeudenkäynti"
+      },
+      {
+        "page_id": 11398,
+        "grade": 2,
+        "title": "Risto Ryti"
+      },
+      {
+        "page_id": 6816,
+        "grade": 1,
+        "title": "Lapin sota"
+      },
+      {
+        "page_id": 278427,
+        "grade": 1,
+        "title": "Jatkosodan hyökkäysvaihe"
+      },
+      {
+        "page_id": 1496203,
+        "grade": 1,
+        "title": "Saksan ja Suomen suhteet"
+      },
+      {
+        "page_id": 24197,
+        "grade": 1,
+        "title": "Välirauha"
+      },
+      {
+        "page_id": 182451,
+        "grade": 1,
+        "title": "Operaatio Hopeakettu"
+      },
+      {
+        "page_id": 136099,
+        "grade": 1,
+        "title": "Suomalainen Waffen-SS-vapaaehtoispataljoona"
+      },
+      {
+        "page_id": 588384,
+        "grade": 1,
+        "title": "Suomen juutalaisluovutukset"
+      },
+      {
+        "page_id": 581593,
+        "grade": 1,
+        "title": "Einsatzkommando Finnland"
+      },
+      {
+        "page_id": 319344,
+        "grade": 1,
+        "title": "Itä-Karjalan keskitysleirit"
+      },
+      {
+        "page_id": 622103,
+        "grade": 1,
+        "title": "Naarajärven sotavankileiri"
+      },
+      {
+        "page_id": 969110,
+        "grade": 1,
+        "title": "Sotavangit Suomessa toisen maailmansodan aikana"
+      },
+      {
+        "page_id": 27916,
+        "grade": 1,
+        "title": "Pariisin rauhansopimus (1947)"
+      }
+    ],
+    "items": [
+      {
+        "id": "continuation-war/i01",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 440,
+        "inserting_rev_ids": [
+          302423,
+          302458
+        ],
+        "removing_rev_ids": [
+          302435,
+          302922
+        ],
+        "description": "Adds two sentences: the Finnish government still holds to the separate-war view although Finnish officers 'in reality' helped plan Barbarossa, and foreign research agrees Finland was Germany's ally.",
+        "why": "Level 2. Claim on the topic's core question: 'Suomen hallitus pitää edelleen kiinni näkemystä erillissodasta, vaikka todellisuudessa joukko korkea-arvoisia suomalaisupseereita osallistui operaatio Barbarossan suunnitteluun' ('the Finnish government still holds to the separate-war view, although in reality a group of high-ranking Finnish officers took part in planning Operation Barbarossa') and 'Ulkomaisessa historiantutkimuksessa on kuitenkin vallinnut yhteisymmärrys siitä, että Suomi oli Saksan liittolainen' ('foreign historical research has agreed that Finland was Germany's ally'). Community dispute: added by E13 (302423, 5 Jul 2005), removed after 7 min by a named account (302435, 'palautus, asiasta keskustellaan keskustelusivulla' = 'restore, this is being discussed on the talk page'), put back once by E15 (302458, summary cites NPOV and 'mainstream history'), removed again after 8 h (302922): put back after a removal and an edit war (c17, c01, c02). Not level 3: E13 and E15 are anonymous in the same masked range 128.214.x.x (one editor), one article, one put-back on the same day, no source change. E15's 8-byte typo fix 302427 is left out of the inserting revs.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i02",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 440,
+        "inserting_rev_ids": [
+          380655,
+          380661,
+          380669,
+          380677,
+          381749,
+          382397
+        ],
+        "removing_rev_ids": [
+          381268,
+          381932,
+          382822
+        ],
+        "description": "Adds separate-war framing to the run-up and start of the war: Finland stayed neutral, did not cut the Murmansk railway or join the siege of Leningrad, 'in practice fought a different war than Germany', and had declared neutrality and wanted to negotiate.",
+        "why": "Level 2. Claim: 'Käytännöllisesti katsottuna Suomi kävi siis eri sotaa kuin Saksa' ('practically speaking, Finland thus fought a different war from Germany'), 'eikä osallistunut Kaupungin piiritykseen' ('and did not take part in the siege of the city'), 'Suomi oli julistautunut puolueettomaksi Venäjän ja Saksan välisessä sodassa ja halusi neuvotella' ('Finland had declared itself neutral in the war between Russia and Germany and wanted to negotiate'), plus the loaded 'kommunistien törkeät ... uhkailut' ('the communists' outrageous threats'). Community dispute: added by E21 in four edits on 19 Aug 2005, rolled back by a named account after 8.6 h (381268), put back by E23 (381749), rolled back by a second named account after 4.2 h (381932), put back again by E23 (382397), rolled back after 3.3 h (382822): put back twice, an edit war (c19, c11, c13 are one sha1 chain). Not level 3: E21 and E23 are anonymous in the same masked range 80.220.x.x (one editor), one article, put back twice but within 2 days (< 7), no source change.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i03",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 105157,
+        "inserting_rev_ids": [
+          2355623
+        ],
+        "removing_rev_ids": [
+          2357823
+        ],
+        "description": "Adds criticism that the Ryti-Mannerheim 'war cabinet' broke the Moscow Peace Treaty by preparing to join Barbarossa without Parliament, and that Finland 'flagrantly' broke the Geneva conventions, so no retroactive laws were needed.",
+        "why": "Level 2. Claim with weasel attribution and loaded wording: 'Monien tulkintojen mukaan ... sotakabinetti rikkoi lainvoimaista Eduskunnan ratifioimaa Moskovan rauhansopimusta' ('according to many interpretations the war cabinet broke the legally binding Moscow Peace Treaty ratified by Parliament'), 'Suomi rikkoi räikeästi myös Geneven sopimuksia' ('Finland also flagrantly violated the Geneva conventions'), 'mitään takautuvia lakeja sotasyyllisten tuomitsemiseen ei olisi tarvittu' ('no retroactive laws would have been needed to convict those responsible for the war'). Community dispute: removed after 7.4 h by a different, named account with an accuracy/attribution reason: 'Kerro kenen mielestä, älä käytä sanaa \"monien\". Geneven sopimus pätee vain ratifioijien välillä, niin Suomi kuin NL eivät olleet ratifioineet' ('Say whose opinion it is, don't use the word \"many\". The Geneva convention applies only between ratifying states; neither Finland nor the USSR had ratified it'). One anonymous account (E379), one article, not put back: not level 3. Candidate c03 (must-include 2355623).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i04",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 440,
+        "inserting_rev_ids": [
+          1512124
+        ],
+        "removing_rev_ids": [
+          1573135
+        ],
+        "description": "Adds a paragraph saying the summer 1944 battles showed that crossing the old border and attacking East Karelia 'were the right decision', with a counterfactual that the Red Army would otherwise have been stopped only deep inside Finland.",
+        "why": "Level 2. Claim (an evaluative justification of the 1941 offensive beyond the old border): 'Kesän 1944 taistelut Laatokan pohjoispuolella osoittivat, että sotilaalliselta kannalta vanhojen rajojen ylittäminen ja Itä-Karjalaan hyökkäys olivat oikea päätös' ('the summer 1944 battles north of Lake Ladoga showed that, militarily, crossing the old borders and attacking East Karelia were the right decision'). Community dispute: while it stood a {{lähde}} (citation needed) tag was added to it (present in the removal diff, absent from the insertion diff), and a different named account removed it after 14.2 days with a sourcing reason: 'poistetaan lähteetön spekulaatio -> uutta tutkimusta' ('removing unsourced speculation -> original research'). Partial-removal candidate c34; its insertion_diff confirms rev 1512124 added the paragraph. One account (E532), one article, not put back: not level 3.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i05",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 136099,
+        "inserting_rev_ids": [
+          11703122
+        ],
+        "removing_rev_ids": [
+          11702972,
+          11704706
+        ],
+        "description": "Paragraph (put back after removal) citing TV journalist Boris Salomon that Finnish SS volunteers in the Caucasus took part in killing civilians and that a Finnish SS man witnessed killings of Jews in June 1941.",
+        "why": "Level 2. Claim (an attributed allegation about the battalion): 'TV-toimittaja Boris Salomon pitää todistettuna, että Kaukasuksella taistelleet suomalaiset ottivat osaa siviilien surmatöihin' ('TV journalist Boris Salomon regards it as established that Finns who fought in the Caucasus took part in killing civilians'), sourced to a TV programme. Community dispute: an edit war over the paragraph on 31 May 2012: E144 removed it (11702972, section-name summary only), E145 put it back (11703122, 'taitaa olla taas poliittista agendaa' = 'probably a political agenda again'), E144 removed it again (11704706), E320 put it back 11 min later (11704762, 'palautus' = 'restore'). Not 'kept': the text is not in the latest revision. The paragraph's original insertion predates the pack, and 11704762 is a removal rev in the pack, not an edit of any candidate, so it cannot be listed as an inserting rev. Two re-inserting accounts (E145, E320) are one level-3 signal; there is no second (one article, both put-backs on one day, no source change): level 2. Built from c05; c04 and c18 are the removal side of the same edit war (must-include 11703122).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i06",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 11398,
+        "inserting_rev_ids": [
+          15215087,
+          15216030,
+          15217931
+        ],
+        "removing_rev_ids": [
+          15216511,
+          15217941
+        ],
+        "description": "Changes the end of Ryti's presidency from 1 to 4 August 1944 with two added references, rewrites his resignation (handed duties to Linkomies for 'three' instead of 'four' days) and reorders the lead.",
+        "why": "Level 2. Claim: changes a date and a number about how Ryti's presidency ended (infobox '1.8.' -> '4.8.' 1944; 'kunnes virallisesti ero astui voimaan 4. elokuuta' = 'until the resignation officially took effect on 4 August'; 'neljäksi' -> 'kolmeksi' päiväksi = 'four' -> 'three' days), a disagreement over content rather than a typo. Community dispute: added by E340 (named, 15 Sep 2015), rolled back after 18.8 h by a named account without a reason (15216511), put back by a different, anonymous account E341 (15217931, undo of the rollback), rolled back again after 4 min by another named account (15217941): put back once after a removal (c12, c20 are one sha1 chain). Two inserting accounts (named + anonymous) are one level-3 signal; there is no second (one article, one put-back, the existing reference was kept): level 2. Low end of level 2: no visible slant toward either side of the topic.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i07",
+        "label": "contested",
+        "category": "false_factual_claim",
+        "page_id": 440,
+        "inserting_rev_ids": [
+          1470930,
+          1470935
+        ],
+        "removing_rev_ids": [
+          1470939
+        ],
+        "description": "Adds '(Palautettiin 1958)' ('returned 1958') after Petsamo in the infobox list of territory Finland lost, plus a see-also link to Tuntematon sotilas.",
+        "why": "Level 2 by the claim rule (the removal says the text is wrong). Claim: '[[Petsamo]]n(Palautettiin 1958)' ('Petsamo (returned 1958)') changes a fact about the war's territorial outcome. Community dispute: removed 4 min later by a different, named account with an accuracy reason: 'rv, Petsamoa ei palautettu ja sotilas kirjoitetaan pienellä' ('rv, Petsamo was not returned, and sotilas is written in lower case'). One anonymous account (E44), one article, not put back: not level 3. Small (43 bytes, sampled as look-alike:small); a reviewer who reads it as a plain good-faith slip would cap it at level 1.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i08",
+        "label": "reverted",
+        "category": "pov_push",
+        "page_id": 440,
+        "inserting_rev_ids": [
+          15073561,
+          15073573,
+          15073598,
+          15073599,
+          15073636,
+          15073640,
+          15073641,
+          15073659,
+          15073784
+        ],
+        "removing_rev_ids": [
+          15074205
+        ],
+        "description": "Large expansion: infobox result changed to a Soviet 'Pyrrhic victory', territorial changes and more Soviet commanders, a new section on pre-war Finnish-German military arrangements, a POW section, and a {{Korjattava/Suomi}} template.",
+        "why": "Level 1, capped. It is a claim: infobox 'lopputulos = Neuvostoliiton \"[[Pyrrhos|Pyrrhoksen]] voitto\"' ('result = Soviet \"Pyrrhic victory\"'), with the summary 'Miksi NL voittoa ei mainittu' ('why was the Soviet victory not mentioned'), plus the section on pre-war cooperation with Germany. But no community-dispute signal counts: the removal after 12.4 h says only 'Rv. Katso keskustelu' ('Rv. See talk'), a talk-page pointer that does not count on its own; the {{Korjattava}} template the pack flags came from the inserting account's own run (all nine undone edits are E192's; the restored version lacks it), so it is not the community disputing the text; no put-back of this content in the pack. When in doubt, the lower level.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i09",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 440,
+        "inserting_rev_ids": [
+          15951964,
+          15952027
+        ],
+        "removing_rev_ids": [
+          16007677
+        ],
+        "description": "Adds a paragraph on how far the 1941 Finnish advance reached (Koromyslovo in Ošta district, 'almost 300 km' from the border) plus infobox, wording and link changes.",
+        "why": "Level 1: substantive prose and numbers ('melkein 300 km [[Suomen ja Venäjän raja|raja]]sta' = 'almost 300 km from the border') removed after 31 days by a different, anonymous account with 'rv, eston kiertoa ([blocked account])' ('rv, block evasion'). A block-evasion rollback of ordinary prose: no accuracy, neutrality or sourcing reason, not put back in the pack, so no dispute signal. Inserting revs are E205's two edits only; three small edits by E85 that the rollback swept away (one removing an older unsourced troop figure) are left out.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i10",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 622103,
+        "inserting_rev_ids": [
+          18213645,
+          18213649,
+          18213667,
+          18213669,
+          18214485,
+          18214497,
+          18214499,
+          18214501,
+          18214503,
+          18214720,
+          18214722,
+          18214726,
+          18214728,
+          18214730,
+          18214732,
+          18214734,
+          18214740
+        ],
+        "removing_rev_ids": [
+          18213915,
+          18214598,
+          18216258
+        ],
+        "description": "Adds paragraphs on camp commander Emil Pekkanen's 1943 report on killings of prisoners and falsified records, the release of an accused officer and the generals who kept the report back (sourced to a Seura magazine article).",
+        "why": "Level 1, capped: the dispute was about copying, not about the claim. Added three times by one anonymous account (E429) on 12-13 Jun 2019 and removed three times by three named accounts: 18213915 'tekijänoikeusrikkomus, kopiointia ainakin seura.fi-sivulta hylkään kaikki' ('copyright violation, copied at least from the seura.fi page, rejecting all'), 18214598 (after another account tagged it {{Kopio}} = 'copied'), 18216258 'varmuuden vuoksi vielä veks' ('out again, to be safe'). The put-backs make an edit war, but over copyright; like an edit war over formatting, that is not a disputed claim (evidence standard §1, asymmetry). No removal questions accuracy, neutrality or sourcing. One account, one article. Inserting revs are E429's edits in all three runs (incl. tag removals and section reorders); the other account's {{Kopio}} tag 18214590 is left out. Must-include 18214740 is E429's same-length section reorder ('Osiot syytä olla aikajärjestyksessä' = 'sections should be in chronological order').",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i11",
+        "label": "reverted",
+        "category": "content_dispute",
+        "page_id": 440,
+        "inserting_rev_ids": [
+          6355895
+        ],
+        "removing_rev_ids": [
+          6355930
+        ],
+        "description": "Adds Italy as a co-belligerent on Finland's side in the infobox (flag, commander Giuseppe Bianchini, '100 Italians') with two web references.",
+        "why": "Level 1. Changes who is listed as fighting with Finland ('[[Italian kuningaskunta (1861–1946)|Italia]]', '100 italialaista' = '100 Italians'), which bears on the alliance question, but the only community signal is a talk-page pointer: rolled back after 5 min by a different, named account with 'ks. keskustelu' ('see talk'), which does not count on its own. Not put back in the pack. One anonymous account (E97).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i12",
+        "label": "reverted",
+        "category": "content_dispute",
+        "page_id": 440,
+        "inserting_rev_ids": [
+          15519346
+        ],
+        "removing_rev_ids": [
+          15519353
+        ],
+        "description": "Adds a sourced paragraph saying the 1941 offensive was halted before the Germans' first setback at Moscow and that more soldiers fell in 1941 than in the whole Winter War.",
+        "why": "Level 1. Text with two YLE references: 'Hyökkäys pysäytettiin Leningradiin tunkeutumatta ja Karjalassa ennen kuin saksalaiset olivat kokeneet ensimmäisen vastoinkäymisensä Moskovan taistelussa' ('the offensive was halted without entering Leningrad, and in Karelia, before the Germans had suffered their first setback at the Battle of Moscow'). Rejected 3 min later by a named reviewer with no reason (FlaggedRevs 'Hylättiin viimeisin tekstimuutos' = 'rejected the latest text change'). The rejection was undone by rev 15519361, whose author the pack does not give (it may be the reviewer withdrawing its own rejection), and the text is not in the latest revision. Both the claim (sourced, mild framing) and the dispute signal are doubtful: the lower level.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i13",
+        "label": "reverted",
+        "category": "false_factual_claim",
+        "page_id": 440,
+        "inserting_rev_ids": [
+          22210310
+        ],
+        "removing_rev_ids": [
+          22210311
+        ],
+        "description": "Adds 'Suomi kuitenkin jatkoi sotaa ja sai paljon alueita' ('Finland nevertheless continued the war and gained a lot of territory') after the 1944 peace-terms passage.",
+        "why": "Level 1. Coherent sentence, so not graffiti; it asserts that Finland gained much territory in 1944, which runs against the surrounding text, but the removal is a rollback after 66 s with no reason, it was not put back, and there is no template: no community-dispute signal. One anonymous account (E259).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i14",
+        "label": "reverted",
+        "category": "content_dispute",
+        "page_id": 440,
+        "inserting_rev_ids": [
+          2264340
+        ],
+        "removing_rev_ids": [
+          2276775
+        ],
+        "description": "Adds the sentence 'Suomea ei miehitetty' ('Finland was not occupied') to the peace section.",
+        "why": "Level 1: a substantive sentence removed 45 h later by a different, named account; the removal summary is only the section name ('/* Rauha */' = 'Peace'). No accuracy, neutrality or sourcing reason, not put back, no template: no dispute signal.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i15",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 6816,
+        "inserting_rev_ids": [
+          4215598
+        ],
+        "removing_rev_ids": [
+          4216315
+        ],
+        "description": "Adds an unsourced paragraph on the reopening of the Rovaniemi post office after the evacuation in December 1944, naming the staff.",
+        "why": "Level 1, good-faith error: plausible local detail with no slant, removed after 5.7 h by a different, named account because it was unsourced and off-topic: 'Lähteetön Roin postin avauskpl poistettu; sopii paremmin lähteistettynä ja tiivistettynä esim. Rovaniemi-artikkeliin' ('unsourced paragraph on the opening of the Rovaniemi post office removed; fits better, sourced and condensed, in e.g. the Rovaniemi article'). Missing source is the only recorded problem, so capped at level 1.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/i16",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 319344,
+        "inserting_rev_ids": [
+          3888482
+        ],
+        "removing_rev_ids": [
+          5399823
+        ],
+        "description": "Adds an image captioned 'Keskitysleiri Petroskoissa' ('Concentration camp in Petrozavodsk').",
+        "why": "Level 1: image with a caption naming the place, added by E402 (Dec 2007) and removed 277 days later without a summary by an anonymous account (E403). The removal was undone (rev 5402893), but the image is not in the latest revision, so 'kept' does not apply. A captioned image carries no quotable claim, so it is capped at level 1. The other four undone edits are other accounts' small undo and tool edits (E326 took the image out and put it back 23 min later for a file-search tool) and are left out.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/n01",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 440,
+        "inserting_rev_ids": [
+          4111531,
+          4111535
+        ],
+        "removing_rev_ids": [
+          4111552
+        ],
+        "description": "Replaces the Finnish flag icons in the infobox with a row of Soviet flags and changes 'Neuvostoliiton' to 'keijostoliiton'.",
+        "why": "Excluded: graffiti. Clearly vandalism of the infobox (repeated Soviet flag icons, a mangled country name), rolled back after 3 min.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/n02",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 105157,
+        "inserting_rev_ids": [
+          22077673,
+          22077709,
+          22077715,
+          22077717,
+          22077722,
+          22077724,
+          22077726,
+          22077731,
+          22077732,
+          22077737,
+          22078178,
+          22078207
+        ],
+        "removing_rev_ids": [
+          22078096,
+          22078234
+        ],
+        "description": "Converts the list of the war-responsibility court's members into a wikitable (same names, parties and references), later with soft hyphens for mobile.",
+        "why": "Excluded: not-substantive. Only layout and markup changed: the table carries the same names, roles and references as the list it replaced (the reference is duplicated under new names) and the follow-up adds soft hyphens. Removed twice by a named account over mobile readability ('taulukko tekee tiedosta lukukelvottomaan 70%:lle lukijoita (=mobiilikäyttäjät)' = 'the table makes the information unreadable for 70% of readers (mobile users)'; 'ei toimi Samsungissa' = 'does not work on Samsung'), put back once by another named account. An edit war over formatting is not a disputed claim.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/n03",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "other",
+        "page_id": 105157,
+        "inserting_rev_ids": [
+          12245471
+        ],
+        "removing_rev_ids": [
+          12245478
+        ],
+        "description": "Adds a sentence on what the Chancellor of Justice held the political leadership responsible for (Britain's declaration of war in 1941, the 1944 breakdown of peace talks).",
+        "why": "Excluded: self-removal. The same named account took its own sentence out 3 min later.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/n04",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "category": "other",
+        "page_id": 11398,
+        "inserting_rev_ids": [
+          1516632,
+          1516636
+        ],
+        "removing_rev_ids": [
+          1516657
+        ],
+        "description": "Adds an external link to a Suomen Kuvalehti excerpt of Ryti's wartime diary (9 June 1941).",
+        "why": "Excluded: self-removal. The same anonymous address added the link and took it out 3 min later.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/n05",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 136099,
+        "inserting_rev_ids": [
+          9119911
+        ],
+        "removing_rev_ids": [
+          9240489
+        ],
+        "description": "A bot-like account adds the copyright-check maintenance template {{Tekijänoikeus_201009|diff=300}}.",
+        "why": "Excluded: not-substantive (first in the exclusion order; the bot exclusion also applies). Only a maintenance template was added, by an account with a bot-like name; removed 26 days later as 'ei ilmeisesti copyvioja' ('apparently no copyright violations').",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "continuation-war/n06",
+        "label": "not-incident",
+        "exclusion": "blanking",
+        "category": "vandalism",
+        "page_id": 11398,
+        "inserting_rev_ids": [
+          3664579
+        ],
+        "removing_rev_ids": [
+          3664581
+        ],
+        "description": "Blanks the whole Risto Ryti article (-17,584 bytes).",
+        "why": "Excluded: blanking. The anonymous edit emptied the page (auto summary 'Ak: Sivu tyhjennettiin' = 'page was blanked') and was rolled back after 19 s. The Korjattava flag comes from the article text that the blanking removed.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      }
+    ],
+    "notes": "Labelled from the pack only (34 candidates on the 8 seed pages). Several candidates are 'inverted': the undone edit is a deletion and the 'removal' put text back (c01, c04, c18 folded into i01/i05 as the other side of an edit war; c32, c33 skipped because the inserting side is outside the pack). The core separate-war dispute shows up on Jatkosota from both directions: i01 adds the alliance view, i02 the separate-war view; both 2005, each one masked IP range, so level 2. Borderline calls: i06 and i07 are level 2 on the letter of the rules (low end); i08, i10 and i12 are capped at level 1 (self-added template, copyright edit war, unknown restorer)."
+  },
+  "item_sources": {
+    "continuation-war/i01": [
+      "c17",
+      "c01",
+      "c02"
+    ],
+    "continuation-war/i02": [
+      "c19",
+      "c11",
+      "c13"
+    ],
+    "continuation-war/i03": [
+      "c03"
+    ],
+    "continuation-war/i04": [
+      "c34"
+    ],
+    "continuation-war/i05": [
+      "c05",
+      "c04",
+      "c18"
+    ],
+    "continuation-war/i06": [
+      "c12",
+      "c20"
+    ],
+    "continuation-war/i07": [
+      "c30"
+    ],
+    "continuation-war/i08": [
+      "c10"
+    ],
+    "continuation-war/i09": [
+      "c07"
+    ],
+    "continuation-war/i10": [
+      "c08",
+      "c15",
+      "c06"
+    ],
+    "continuation-war/i11": [
+      "c22"
+    ],
+    "continuation-war/i12": [
+      "c23"
+    ],
+    "continuation-war/i13": [
+      "c25"
+    ],
+    "continuation-war/i14": [
+      "c31"
+    ],
+    "continuation-war/i15": [
+      "c16"
+    ],
+    "continuation-war/i16": [
+      "c09"
+    ],
+    "continuation-war/n01": [
+      "c24"
+    ],
+    "continuation-war/n02": [
+      "c14",
+      "c21"
+    ],
+    "continuation-war/n03": [
+      "c26"
+    ],
+    "continuation-war/n04": [
+      "c27"
+    ],
+    "continuation-war/n05": [
+      "c28"
+    ],
+    "continuation-war/n06": [
+      "c29"
+    ]
+  },
+  "skipped": [
+    {
+      "cid": "c32",
+      "reason": "Inverted candidate: the undone edit 8960202 is itself a deletion (E19 removed 'Neuvostoliiton sotilaallinen ja poliittinen voitto' = 'Soviet military and political victory' from the infobox result, summary 'turha' = 'useless'), and the 'removal' 8962702 by an anonymous account put that text back ('Suomi ei ainakaan voittanut jatkosotaa' = 'Finland at least did not win the Continuation War'); 8963085 then took it out again. The text's original insertion and 8963085 are not edits of any candidate, so no item can be built from the side that added it."
+    },
+    {
+      "cid": "c33",
+      "reason": "Nothing was added: the undone run is E85's four deletions of existing paragraphs ('toistoa' = 'repetition', 'lähteetöntä' = 'unsourced') and E192's undos of three of them; the 'removal' 15412517 is E192 undoing E85's first deletion, i.e. it put back a pre-existing paragraph about the May 1941 decision. That paragraph's insertion is not in the pack, so there is no added content to label."
+    }
+  ]
+}
