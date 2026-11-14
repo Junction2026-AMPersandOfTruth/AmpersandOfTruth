@@ -1,6 +1,10 @@
+@using AmpersandOfTruth.Web.Features.Annotations
+@using AmpersandOfTruth.Web.Features.Library
+@using Microsoft.Extensions.DependencyInjection
 @inject IJSRuntime JS
 @inject NavigationManager Navigation
 @inject ILogger<IncidentActions> Logger
+@inject IServiceProvider Services
 
 <section class="aot-panel" data-testid="incident-actions">
     <div class="aot-row">
@@ -27,17 +31,19 @@
             <textarea id="looks-wrong-note"
                       class="form-control"
                       rows="3"
-                      @bind="_note"
+                      value="@_note"
+                      @oninput="HandleNoteInput"
+                      @onchange="HandleNoteInput"
                       data-testid="looks-wrong-input"></textarea>
             <div class="aot-row">
-                <button type="button" class="aot-btn aot-btn--primary aot-btn--sm" data-testid="looks-wrong-send" @onclick="SendFeedback">Send</button>
+                <button type="button" class="aot-btn aot-btn--primary aot-btn--sm" data-testid="looks-wrong-send" @onclick="SendFeedbackAsync">Send</button>
             </div>
         </div>
     }
 </section>
 
 @code {
-    private (string Topic, string IncidentId) _key;
+    private (string Topic, string IncidentId, Guid? SavedId) _key;
     private bool _copied;
     private bool _showFeedback;
     private bool _submitted;
@@ -45,10 +51,14 @@
 
     [Parameter] public string Topic { get; set; } = "";
     [Parameter] public string IncidentId { get; set; } = "";
+    [Parameter] public Guid? SavedId { get; set; }
+    [Parameter] public EventCallback OnAnnotationSaved { get; set; }
+
+    private Guid? EffectiveSavedId => SavedId ?? TryReadSavedFromUri(Navigation.Uri);
 
     protected override void OnParametersSet()
     {
-        var current = (Topic, IncidentId);
+        var current = (Topic, IncidentId, EffectiveSavedId);
         if (_key != current)
         {
             _key = current;
@@ -78,14 +88,70 @@
         _showFeedback = !_showFeedback;
     }
 
-    private void SendFeedback()
+    private void HandleNoteInput(ChangeEventArgs e) =>
+        _note = e.Value?.ToString() ?? "";
+
+    private async Task SendFeedbackAsync()
     {
+        var trimmed = _note.Trim();
+
         Logger.LogInformation(
             "Incident feedback noted for {Topic}/{IncidentId}: {FeedbackNote}",
             Topic,
             IncidentId,
-            _note.Trim());
+            trimmed);
+
+        if (EffectiveSavedId is { } savedId
+            && !string.IsNullOrWhiteSpace(IncidentId)
+            && Services.GetService<AnnotationStore>() is { } store
+            && Services.GetService<OwnerKey>() is { } ownerKey)
+        {
+            var owner = await ownerKey.GetOrCreateAsync();
+            var existingMap = await store.ForInvestigationAsync(savedId);
+            existingMap.TryGetValue(IncidentId, out var existing);
+
+            var saved = await store.UpsertAsync(
+                savedId,
+                owner,
+                IncidentId,
+                verdict: existing?.Verdict,
+                dismiss: existing?.DismissReason,
+                note: trimmed,
+                source: "looks_wrong");
+
+            if (saved && OnAnnotationSaved.HasDelegate)
+            {
+                await OnAnnotationSaved.InvokeAsync();
+            }
+        }
+
         _submitted = true;
         _showFeedback = false;
+    }
+
+    private static Guid? TryReadSavedFromUri(string? rawUri)
+    {
+        if (!Uri.TryCreate(rawUri, UriKind.Absolute, out var uri) || string.IsNullOrEmpty(uri.Query))
+        {
+            return null;
+        }
+
+        foreach (var part in uri.Query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var eq = part.IndexOf('=');
+            if (eq < 0)
+            {
+                continue;
+            }
+
+            var name = Uri.UnescapeDataString(part[..eq]);
+            if (string.Equals(name, "saved", StringComparison.OrdinalIgnoreCase)
+                && Guid.TryParse(Uri.UnescapeDataString(part[(eq + 1)..]), out var parsed))
+            {
+                return parsed;
+            }
+        }
+
+        return null;
     }
 }
