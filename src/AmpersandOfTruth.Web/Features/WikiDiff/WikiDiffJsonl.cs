@@ -33,9 +33,9 @@ public static class WikiDiffJsonl
         {
             if (string.IsNullOrWhiteSpace(line)) continue;
             output.WriteLine(ProcessLine(line));
+            output.Flush();   // a process that dies on a later line still delivers every earlier result (#91)
             written++;
         }
-        output.Flush();
         return written;
     }
 

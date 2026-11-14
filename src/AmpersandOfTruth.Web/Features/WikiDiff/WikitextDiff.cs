@@ -52,10 +52,8 @@ public static class WikitextDiff
     public static WikitextDiffResult Compare(string? oldText, string newText)
     {
         ArgumentNullException.ThrowIfNull(newText);
-        return new Run(Normalize(oldText ?? ""), Normalize(newText)).Execute();
+        return new Run(TextUtil.NormalizeNewlines(oldText ?? ""), TextUtil.NormalizeNewlines(newText)).Execute();
     }
-
-    private static string Normalize(string s) => s.Contains('\r') ? s.Replace("\r\n", "\n").Replace('\r', '\n') : s;
 
     private sealed class Run(string oldText, string newText)
     {
@@ -368,7 +366,8 @@ public static class WikitextDiff
                 if (!t.IsSpace) classes.Add(t.Class);
                 if (t.Class != TokenClass.Reference || to - from == 1) sb.Append(t.Prose);
             }
-            string prose = TextUtil.CleanValues(sb.ToString());
+            // Template values carry "; " separators to clean up; running text stays verbatim, so it can be quoted (#91).
+            string prose = classes.Contains(TokenClass.Prose) ? TextUtil.Collapse(sb.ToString()) : TextUtil.CleanValues(sb.ToString());
             if (classes.Count == 1 && classes.First() is var only && only != TokenClass.Prose && only != TokenClass.Markup)
             {
                 return (only switch

@@ -13,7 +13,7 @@ public static class WikitextProse
     public static WikitextProseView Of(string wikitext)
     {
         ArgumentNullException.ThrowIfNull(wikitext);
-        var text = wikitext.Replace("\r\n", "\n");
+        var text = TextUtil.NormalizeNewlines(wikitext);
         var paragraphs = new List<string>();
         var references = new List<string>();
         var tokens = new List<WikiToken>();

@@ -292,7 +292,11 @@ scripts/wikidiff.sh prose < page.txt                     # prose view + citation
 ```
 
 - `id` is echoed as given. A line that cannot be diffed (not JSON, `new` missing or null for a suppressed revision)
-  answers `{"id", "contract", "error"}` and the batch goes on. Blank lines are skipped.
+  answers `{"id", "contract", "error"}` and the batch goes on. Blank lines are skipped. Each result line is flushed as it is
+  written, so if the process dies, only the line being diffed is lost.
+- **Pathological input.** Templates and links nested more than 100 deep are tokenized flat, as markup. So is anything
+  after a block has spent its look-ahead budget (2 M characters plus 16 per character of the block), which only
+  thousands of unclosed `{{`, `<ref>` or `[http://…` reach. Such an edit still gets a result, quickly.
 - **Blocks.** Each revision is split into blocks: a paragraph, a heading, a list item, or a template, table, comment,
   file, category or interwiki line. A multi-line infobox, table or `<ref>` stays in one block. `old_paragraph` and
   `new_paragraph` are 0-based block indices. An edit inside a block that partly survives has both. Text in a block

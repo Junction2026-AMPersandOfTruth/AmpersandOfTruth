@@ -5,6 +5,22 @@ namespace AmpersandOfTruth.Tests.Features.WikiDiff;
 public class WikitextProseTests
 {
     [Fact]
+    public void A_lone_carriage_return_is_a_line_break()   // #91: same newline handling as WikitextDiff
+    {
+        var lf = WikitextProse.Of("Eka kappale.\n\nToka kappale.");
+        var cr = WikitextProse.Of("Eka kappale.\r\rToka kappale.");
+        Assert.Equal("Eka kappale.\n\nToka kappale.", cr.Prose);
+        Assert.Equal(lf.Prose, cr.Prose);
+    }
+
+    [Fact]
+    public void Running_text_keeps_its_semicolons_verbatim()   // #91: CleanValues is for template values only
+    {
+        var r = WikitextDiff.Compare("Alku.", "Alku. Tämä kappale;; jossa on ;puolipisteitä.");
+        Assert.Equal("Tämä kappale;; jossa on ;puolipisteitä.", r.AddedProse);
+    }
+
+    [Fact]
     public void Links_become_their_labels_and_formatting_disappears()
     {
         var view = WikitextProse.Of("'''Talvisota''' oli [[Suomi|Suomen]] ''sota'', ja neuvottelut käytiin [[Moskova]]ssa.");

@@ -28,27 +28,54 @@ internal sealed class WikitextTokenizer
 {
     private enum Ctx { Prose, Template, TemplateValue }
 
+    /// <summary>
+    /// Templates, links and external links nested deeper than this are tokenized flat, as markup, instead of recursing
+    /// (#91): vandal edits can nest <c>{{…}}</c> tens of thousands deep, which would overflow the stack and kill a whole
+    /// <c>wikidiff batch</c>. Real articles stay far below it.
+    /// </summary>
+    internal const int MaxNesting = 100;
+
+    /// <summary>
+    /// Characters the look-ahead matchers (<see cref="MatchPair"/>, <see cref="RefEnd"/>, <see cref="ExternalLinkEnd"/>)
+    /// may scan per block, shared with the block's citations. A matcher that fails rescans to the end of the block, so
+    /// thousands of unclosed <c>{{</c>, <c>&lt;ref&gt;</c> or <c>[http://…</c> would be quadratic (#91). Once spent, the
+    /// matchers report "no match" and the rest is tokenized flat. Ordinary articles use a small fraction of it.
+    /// </summary>
+    internal const long MinScanBudget = 2_000_000;
+    internal const long ScanBudgetPerChar = 16;
+
+    private sealed class ScanBudget(long chars)
+    {
+        public long Left = chars;
+    }
+
     private readonly string _s;
     private readonly int _block;
     private readonly bool _citation;
     private readonly List<WikiToken> _out;
+    private readonly ScanBudget _budget;
+    private int _depth;
+    private int _lineStartAt = -1, _lineStart, _firstNonBlankOf = -1, _firstNonBlank;
 
-    private WikitextTokenizer(string s, int block, bool citation, List<WikiToken> output)
+    private WikitextTokenizer(string s, int block, bool citation, List<WikiToken> output, ScanBudget budget, int depth = 0)
     {
         _s = s;
         _block = block;
         _citation = citation;
         _out = output;
+        _budget = budget;
+        _depth = depth;
     }
 
     public static void Tokenize(string s, int start, int end, int block, List<WikiToken> output) =>
-        new WikitextTokenizer(s, block, citation: false, output).Scan(start, end, Ctx.Prose, start);
+        new WikitextTokenizer(s, block, citation: false, output, new ScanBudget(MinScanBudget + ScanBudgetPerChar * (end - start)))
+            .Scan(start, end, Ctx.Prose, start);
 
     /// <summary>The readable text of a reference: its prose plus every template parameter value, joined with "; ".</summary>
-    public static string CitationText(string s, int start, int end)
+    private static string CitationText(string s, int start, int end, ScanBudget budget, int depth)
     {
         var tokens = new List<WikiToken>();
-        new WikitextTokenizer(s, -1, citation: true, tokens).Scan(start, end, Ctx.Prose, start);
+        new WikitextTokenizer(s, -1, citation: true, tokens, budget, depth).Scan(start, end, Ctx.Prose, start);
         var sb = new StringBuilder();
         foreach (var t in tokens) sb.Append(t.Prose);
         return TextUtil.CleanValues(sb.ToString());
@@ -87,19 +114,23 @@ internal sealed class WikitextTokenizer
                     }
                     break;
                 case '{' when i + 1 < end && _s[i + 1] == '{':
-                    j = MatchPair(i, end, '{', '}');
+                    j = _depth < MaxNesting ? MatchPair(i, end, '{', '}') : -1;
                     if (j > 0) ScanTemplate(i, j, ctx);
                     else Add(i, j = i + 2, TokenClass.Markup, ctx, "");
                     i = j;
                     continue;
                 case '[' when i + 1 < end && _s[i + 1] == '[':
-                    j = MatchPair(i, end, '[', ']');
+                    j = _depth < MaxNesting ? MatchPair(i, end, '[', ']') : -1;
                     if (j > 0) ScanLink(i, j, ctx);
                     else Add(i, j = i + 2, TokenClass.Markup, ctx, "");
                     i = j;
                     continue;
+                case '}' or ']' when _depth >= MaxNesting && i + 1 < end && _s[i + 1] == c:
+                    Add(i, i + 2, TokenClass.Markup, ctx, "");   // the closing half of a construct tokenized flat
+                    i += 2;
+                    continue;
                 case '[':
-                    if ((j = ExternalLinkEnd(i, end)) > 0)
+                    if (_depth < MaxNesting && (j = ExternalLinkEnd(i, end)) > 0)
                     {
                         ScanExternalLink(i, j, ctx);
                         i = j;
@@ -189,6 +220,19 @@ internal sealed class WikitextTokenizer
 
     private void ScanTemplate(int i, int j, Ctx ctx)
     {
+        _depth++;
+        try
+        {
+            ScanTemplateParts(i, j, ctx);
+        }
+        finally
+        {
+            _depth--;
+        }
+    }
+
+    private void ScanTemplateParts(int i, int j, Ctx ctx)
+    {
         // An infobox is a template that spans lines; its parameter values are numbers, dates and names shown on the page.
         bool valued = ctx == Ctx.Prose && (_citation || _s.IndexOf('\n', i, j - i) >= 0);
         var valueCtx = valued ? Ctx.TemplateValue : Ctx.Template;
@@ -221,6 +265,19 @@ internal sealed class WikitextTokenizer
 
     private void ScanLink(int i, int j, Ctx ctx)
     {
+        _depth++;
+        try
+        {
+            ScanLinkParts(i, j, ctx);
+        }
+        finally
+        {
+            _depth--;
+        }
+    }
+
+    private void ScanLinkParts(int i, int j, Ctx ctx)
+    {
         int innerStart = i + 2, innerEnd = j - 2;
         int bar = NextTopLevel(innerStart, innerEnd, '|');
         int targetEnd = bar < 0 ? innerEnd : bar;
@@ -249,7 +306,15 @@ internal sealed class WikitextTokenizer
         int urlEnd = i + 1;
         while (urlEnd < j - 1 && !char.IsWhiteSpace(_s[urlEnd])) urlEnd++;
         Add(i, urlEnd, TokenClass.Markup, ctx, "");
-        Scan(urlEnd, j - 1, ctx, -1);
+        _depth++;
+        try
+        {
+            Scan(urlEnd, j - 1, ctx, -1);
+        }
+        finally
+        {
+            _depth--;
+        }
         Add(j - 1, j, TokenClass.Markup, ctx, "");
     }
 
@@ -260,7 +325,7 @@ internal sealed class WikitextTokenizer
         if (_s[gt - 1] != '/')
         {
             int close = _s.LastIndexOf("</", j - 1, j - gt, StringComparison.Ordinal);
-            if (close > gt) prose = CitationText(_s, gt + 1, close);
+            if (close > gt) prose = CitationText(_s, gt + 1, close, _budget, _depth + 1);
         }
         AddAtomic(i, j, TokenClass.Reference, prose);
     }
@@ -294,6 +359,7 @@ internal sealed class WikitextTokenizer
     /// <summary>End of the balanced <c>{{…}}</c> or <c>[[…]]</c> that starts at <paramref name="i"/>, or -1.</summary>
     private int MatchPair(int i, int end, char open, char close)
     {
+        if (_budget.Left <= 0) return -1;
         int depth = 0;
         int k = i;
         while (k < end - 1)
@@ -308,13 +374,18 @@ internal sealed class WikitextTokenizer
             {
                 depth--;
                 k += 2;
-                if (depth == 0) return k;
+                if (depth == 0)
+                {
+                    _budget.Left -= k - i;
+                    return k;
+                }
             }
             else
             {
                 k++;
             }
         }
+        _budget.Left -= k - i;
         return -1;
     }
 
@@ -343,15 +414,19 @@ internal sealed class WikitextTokenizer
 
     private int RefEnd(int i, int end)
     {
-        if (!AtIgnoreCase(i, "<ref") || i + 4 >= end) return -1;
+        if (!AtIgnoreCase(i, "<ref") || i + 4 >= end || _budget.Left <= 0) return -1;
         char after = _s[i + 4];
         if (after != '>' && after != '/' && !char.IsWhiteSpace(after)) return -1;
         int gt = _s.IndexOf('>', i + 4, end - (i + 4));
-        if (gt < 0) return -1;
+        if (gt < 0)
+        {
+            _budget.Left -= end - i;
+            return -1;
+        }
         if (_s[gt - 1] == '/') return gt + 1;
         int close = _s.IndexOf("</ref", gt + 1, end - (gt + 1), StringComparison.OrdinalIgnoreCase);
-        if (close < 0) return -1;
-        int gt2 = _s.IndexOf('>', close, end - close);
+        int gt2 = close < 0 ? -1 : _s.IndexOf('>', close, end - close);
+        _budget.Left -= (gt2 < 0 ? end : gt2) - i;
         return gt2 < 0 ? -1 : gt2 + 1;
     }
 
@@ -373,10 +448,16 @@ internal sealed class WikitextTokenizer
     {
         int k = i + 1;
         if (!(AtIgnoreCase(k, "http://") || AtIgnoreCase(k, "https://") || AtIgnoreCase(k, "ftp://") || At(k, "//"))) return -1;
+        if (_budget.Left <= 0) return -1;
         for (; k < end && _s[k] != '\n'; k++)
         {
-            if (_s[k] == ']') return k + 1;
+            if (_s[k] == ']')
+            {
+                _budget.Left -= k - i;
+                return k + 1;
+            }
         }
+        _budget.Left -= k - i;
         return -1;
     }
 
@@ -443,12 +524,30 @@ internal sealed class WikitextTokenizer
         return j >= end || _s[j] == '\n';
     }
 
+    /// <summary>Does the line holding <paramref name="i"/> start (after blanks) with a table cell marker? Line start and its
+    /// first non-blank are cached: Scan moves forward, so a long line of "||" stays linear (#91).</summary>
     private bool InTableLine(int i)
     {
-        int ls = i;
-        while (ls > 0 && _s[ls - 1] != '\n') ls--;
-        while (ls < i && _s[ls] is ' ' or '\t') ls++;
-        return _s[ls] is '|' or '!';
+        if (_lineStartAt < 0 || i < _lineStartAt)
+        {
+            _lineStart = i;
+            while (_lineStart > 0 && _s[_lineStart - 1] != '\n') _lineStart--;
+        }
+        else
+        {
+            for (int k = _lineStartAt; k < i; k++)
+            {
+                if (_s[k] == '\n') _lineStart = k + 1;
+            }
+        }
+        _lineStartAt = i;
+        if (_firstNonBlankOf != _lineStart)
+        {
+            _firstNonBlankOf = _lineStart;
+            _firstNonBlank = _lineStart;
+            while (_firstNonBlank < _s.Length && _s[_firstNonBlank] is ' ' or '\t') _firstNonBlank++;
+        }
+        return _s[Math.Min(_firstNonBlank, i)] is '|' or '!';
     }
 
     internal static bool IsWordChar(char c) =>
@@ -487,6 +586,9 @@ internal static class TextUtil
         }
         return true;
     }
+
+    /// <summary>CRLF and lone CR → LF, so both revisions of a pair split into the same blocks.</summary>
+    public static string NormalizeNewlines(string s) => s.Contains('\r') ? s.Replace("\r\n", "\n").Replace('\r', '\n') : s;
 
     /// <summary>Whitespace runs → one space, trimmed.</summary>
     public static string Collapse(ReadOnlySpan<char> s)
