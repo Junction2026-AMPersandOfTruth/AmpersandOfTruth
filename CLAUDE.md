@@ -205,6 +205,9 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
 - Every new page: add its route to `AppSmokeTests` `InlineData` — this catches DI and routing breakage cheaply.
 - Every new service with logic: a few xUnit facts. Don't chase coverage; test what would embarrass us in the demo.
 - Time-dependent logic: `Microsoft.Extensions.TimeProvider.Testing` (`FakeTimeProvider`) is available in the test project.
+- Proving that fetches run concurrently: never a stopwatch (it fails at random when the suite runs in parallel). Hold the fake's calls and
+  count the overlap with `InFlightCalls` (`Features/Investigations/View`): `Hold()` → start the work → `await WaitForAsync(n)` → `Release()`,
+  then assert on `Max`. `FakeIncidentCorpus.Calls` + `IncidentMapperTests` show it.
 
 ## Agent workflow rules
 
