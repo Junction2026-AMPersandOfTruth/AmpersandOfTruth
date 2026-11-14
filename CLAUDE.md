@@ -51,6 +51,7 @@ tests/AmpersandOfTruth.Tests/
 tools/AmpersandOfTruth.Analyze/ # console tool behind scripts/analyze.sh (LLM prompts from the shell / research)
 research/<issue>/             # experiment scripts, small samples, results and reports (no big data files)
 docs/design/                  # ⭐ UI design system: brand book, plan, tokens, .aot-* CSS, component + page previews
+docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, editor display, golden-set TP definition
 ```
 
 `Features/Notes` is the **reference slice** — copy its shape. Delete it once real features exist (remove its `AddNotesFeature()` line, nav link, tests, smoke route).
@@ -66,6 +67,9 @@ docs/design/                  # ⭐ UI design system: brand book, plan, tokens, 
 - UI: Bootstrap 5 classes are already loaded (`wwwroot/lib/bootstrap`). Don't add a component library unless the team decides to.
 - **UI look and feel = `docs/design/`** (read its `README.md` first). It is Wikipedia-inspired and quiet: 2px corners, white page with grey infobox panels, no shadows, serif titles with a rule under them, system fonts, link blue as the only saturated colour. Styles come from `docs/design/tokens.css` + `aot.css` (copied into `wwwroot/app.css`). Match the component and page previews (`components/*/preview.html`, which open in a browser). Tier wording only via `TierBadge`. Change the design by editing those files in the same PR, never ad hoc in a page.
 - Put `data-testid="..."` on elements tests interact with; tests select by it, not by CSS classes.
+- **Evidence wording is decided, not improvised** (`docs/evidence-standard.md`, code in `Features/Evidence`): tier labels come from
+  `EvidenceTiers`, levels from `TierRules`, editor names/IPs from `EditorDisplay` (IPs masked), license/methodology text from
+  `Attribution`/`Methodology`. Never label an account (propagandist, troll, …) or claim certainty ("proven"); `CopyRules` tests scan every `.razor` file.
 - Secrets (API keys): `dotnet user-secrets set "Key" "value" --project src/AmpersandOfTruth.Web`, read via `IConfiguration`. Never commit keys; never put them in `appsettings*.json`.
 
 ## Persistence (EF Core + SQLite)
