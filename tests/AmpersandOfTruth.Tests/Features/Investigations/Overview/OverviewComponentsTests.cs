@@ -201,6 +201,96 @@ public sealed class OverviewComponentsTests : BunitContext
     }
 
     [Fact]
+    public void ArticleRailItem_uses_aggregates_TitleEn_fallback_and_renders_finnish_wikipedia_tag_when_unknown()
+    {
+        var fiArticle = new TopicArticle("fi", 1150, "Talvisota", 0.04);
+        var aggregates = new ArticleAggregates(
+            PageId: 1150,
+            TitleFi: "Talvisota",
+            TitleEn: "Winter War",
+            Revisions: 100,
+            FirstEdit: new DateTime(2004, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            LastEdit: new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            Months: [new MonthBucket(2014, 3, NamedEdits: 10, AnonEdits: 2, Removals: 3, MaxBytes: 12000)]);
+
+        var withAggEn = Render<ArticleRailItem>(p => p
+            .Add(x => x.Article, fiArticle)
+            .Add(x => x.TimelineData, aggregates));
+        Assert.Equal("Winter War", withAggEn.Find(".aot-art__title").TextContent);
+        Assert.Equal("Talvisota", withAggEn.Find(".aot-art__why span[lang=fi]").TextContent);
+        Assert.Empty(withAggEn.FindAll("[data-testid=rail-fi-tag]"));
+
+        var withoutEn = Render<ArticleRailItem>(p => p.Add(x => x.Article, fiArticle));
+        Assert.Equal("Talvisota", withoutEn.Find(".aot-art__title").TextContent);
+        Assert.Equal("fi", withoutEn.Find(".aot-art__title").GetAttribute("lang"));
+        Assert.Equal("Finnish Wikipedia", withoutEn.Find("[data-testid=rail-fi-tag]").TextContent);
+    }
+
+    [Fact]
+    public void TimelineStrip_renders_phone_svg_with_stacked_lanes_fewer_ticks_and_12px_text_and_full_legend_aria()
+    {
+        var incidents = Enumerable.Range(1, 5)
+            .Select(idx => MakeIncident(
+                id: $"inc-{idx}",
+                rank: idx,
+                pageId: 2000 + idx,
+                titleFi: $"Artikkeli {idx}",
+                titleEn: $"Article {idx}",
+                tier: idx == 1 ? EvidenceTier.Campaign : idx == 2 ? EvidenceTier.Contested : EvidenceTier.Reverted,
+                year: 2012 + idx))
+            .ToList();
+
+        string? clickedId = null;
+        (int From, int To)? selectedRange = null;
+
+        var cut = Render<TimelineStrip>(p => p
+            .Add(x => x.Incidents, incidents)
+            .Add(x => x.HotId, "inc-1")
+            .Add(x => x.OnMarkClick, id => clickedId = id)
+            .Add(x => x.OnRangeSelected, r => selectedRange = r));
+
+        var phoneSvg = cut.Find("[data-testid=timeline-svg-phone]");
+        Assert.StartsWith("0 0 320 ", phoneSvg.GetAttribute("viewBox"), StringComparison.Ordinal);
+
+        var phoneTexts = phoneSvg.QuerySelectorAll("text");
+        Assert.NotEmpty(phoneTexts);
+        Assert.All(phoneTexts, t => Assert.Equal("12", t.GetAttribute("font-size")));
+
+        var textValues = phoneTexts.Select(static t => t.TextContent).ToList();
+        Assert.Contains("2003", textValues);
+        Assert.Contains("2009", textValues);
+        Assert.Contains("2015", textValues);
+        Assert.Contains("2021", textValues);
+        Assert.Contains("2026", textValues);
+        Assert.DoesNotContain("2006", textValues);
+        Assert.Contains("Article 1", textValues);
+        Assert.Contains("Article 3", textValues);
+        Assert.Contains("other", textValues);
+        Assert.DoesNotContain("Article 4", textValues);
+
+        var phoneMarks = cut.FindAll("[data-testid=timeline-mark-phone]");
+        Assert.Equal(5, phoneMarks.Count);
+        var hotPhoneMark = cut.Find("[data-testid=timeline-mark-phone][data-incident=inc-1]");
+        Assert.Contains("is-hot", hotPhoneMark.ClassList);
+        Assert.Equal("16", hotPhoneMark.QuerySelector("circle[fill=transparent]")?.GetAttribute("r"));
+
+        hotPhoneMark.Click();
+        Assert.Equal("inc-1", clickedId);
+
+        cut.Find("[data-testid=timeline-year-phone][data-year='2015']").Click();
+        Assert.Equal((2015, 2015), selectedRange);
+
+        var legendBadges = cut.FindAll(".aot-legend [data-testid=tier-badge]");
+        Assert.Equal(
+            [
+                EvidenceTiers.Reverted.Label,
+                EvidenceTiers.Contested.Label,
+                EvidenceTiers.Campaign.Label,
+            ],
+            legendBadges.Select(static b => b.GetAttribute("aria-label") ?? "").ToArray());
+    }
+
+    [Fact]
     public void UnflaggedList_renders_quiet_reason_tags_and_omits_other_and_excluded()
     {
         var article = new TopicArticle("fi", 1150, "Talvisota", 0.05);

@@ -25,6 +25,14 @@
     var tierCounts = OverviewState.TierCounts(_incidents);
     var visibleIncidents = OverviewState.Apply(_incidents, _filter);
     var signalOptions = BuildSignalOptions();
+    var selectedSignalPhrases = signalOptions
+        .Where(p => _filter.Signals.Any(s => SignalCatalog.Normalize(s) == p.Id))
+        .ToList();
+    var activeFilterCount = _filter.Tiers.Count
+        + selectedSignalPhrases.Count
+        + (_filter.ArticleId is not null ? 1 : 0)
+        + (_filter.FromYear is not null || _filter.ToYear is not null ? 1 : 0)
+        + (_filter.Sort != IncidentSort.Relevance ? 1 : 0);
     var queryString = _filter.ToQueryString();
     var unflagged = _progress.Unflagged();
 }
@@ -78,11 +86,11 @@
                 <span><b class="aot-num">@_incidents.Count.ToString("N0", CultureInfo.InvariantCulture)</b> @(_incidents.Count == 1 ? "incident" : "incidents")@(_incidents.Count > 0 ? ":" : "")</span>
                 @if (_incidents.Count > 0)
                 {
-                    <TierBadge Tier="EvidenceTier.Campaign" Short="true" />
+                    <TierBadge Tier="EvidenceTier.Campaign" />
                     <span class="aot-num">@tierCounts[EvidenceTier.Campaign].ToString("N0", CultureInfo.InvariantCulture)</span>
-                    <TierBadge Tier="EvidenceTier.Contested" Short="true" />
+                    <TierBadge Tier="EvidenceTier.Contested" />
                     <span class="aot-num">@tierCounts[EvidenceTier.Contested].ToString("N0", CultureInfo.InvariantCulture)</span>
-                    <TierBadge Tier="EvidenceTier.Reverted" Short="true" />
+                    <TierBadge Tier="EvidenceTier.Reverted" />
                     <span class="aot-num">@tierCounts[EvidenceTier.Reverted].ToString("N0", CultureInfo.InvariantCulture)</span>
                 }
             }
@@ -134,73 +142,99 @@
             @if (_incidents.Count > 0 || !_filter.IsDefault)
             {
                 <div class="aot-stack" style="gap:8px">
-                    <div class="aot-toolbar">
-                        <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:6px">
-                            Sort
-                            <select class="aot-select"
-                                    data-testid="sort-select"
-                                    @bind="_sortValue"
-                                    @bind:after="OnSortAfterBind">
-                                <option value="relevance">Relevance</option>
-                                <option value="recent">Most recent</option>
-                                <option value="longest-live">Longest live</option>
-                            </select>
-                        </label>
+                    <details class="aot-filter-disclosure" data-testid="filters-disclosure" @ref="_filtersDetailsRef">
+                        <summary data-testid="filters-summary">
+                            Filters@(activeFilterCount > 0 ? $" ({activeFilterCount.ToString("N0", CultureInfo.InvariantCulture)})" : "")
+                        </summary>
+                        <div class="aot-toolbar">
+                            <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:6px">
+                                Sort
+                                <select class="aot-select"
+                                        data-testid="sort-select"
+                                        @bind="_sortValue"
+                                        @bind:after="OnSortAfterBind">
+                                    <option value="relevance">Relevance</option>
+                                    <option value="recent">Most recent</option>
+                                    <option value="longest-live">Longest live</option>
+                                </select>
+                            </label>
 
-                        <span class="aot-small aot-muted" style="margin-left:8px">Level</span>
-                        @foreach (var level in FilterLevels)
-                        {
-                            var pressed = _filter.Tiers.Contains(level);
-                            <button type="button"
-                                    class="aot-chip"
-                                    style="padding:1px 4px"
-                                    aria-pressed="@(pressed ? "true" : "false")"
-                                    data-testid="tier-filter"
-                                    data-tier="@EvidenceTiers.Get(level).Id"
-                                    @onclick="@(() => ApplyFilter(_filter.ToggleTier(level)))">
-                                <TierBadge Tier="level" Short="true" />
-                            </button>
-                        }
+                            <span class="aot-small aot-muted" style="margin-left:8px">Level</span>
+                            @foreach (var level in FilterLevels)
+                            {
+                                var levelInfo = EvidenceTiers.Get(level);
+                                var pressed = _filter.Tiers.Contains(level);
+                                <button type="button"
+                                        class="aot-chip"
+                                        style="padding:1px 4px"
+                                        aria-pressed="@(pressed ? "true" : "false")"
+                                        title="@($"{levelInfo.Label} — {levelInfo.Meaning}")"
+                                        aria-label="@($"Filter by level: {levelInfo.Label}")"
+                                        data-testid="tier-filter"
+                                        data-tier="@levelInfo.Id"
+                                        @onclick="@(() => ApplyFilter(_filter.ToggleTier(level)))">
+                                    <TierBadge Tier="level" Short="true" />
+                                </button>
+                            }
 
-                        <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:4px;margin-left:auto">
-                            Years
-                            <input type="number"
-                                   class="aot-select"
-                                   style="width:76px;padding:4px 6px"
-                                   min="2003"
-                                   max="2026"
-                                   placeholder="2003"
-                                   aria-label="From year"
-                                   data-testid="from-year-input"
-                                   value="@(_filter.FromYear?.ToString(CultureInfo.InvariantCulture) ?? "")"
-                                   @onchange="HandleFromYearChange" />
-                            <span aria-hidden="true">–</span>
-                            <input type="number"
-                                   class="aot-select"
-                                   style="width:76px;padding:4px 6px"
-                                   min="2003"
-                                   max="2026"
-                                   placeholder="2026"
-                                   aria-label="To year"
-                                   data-testid="to-year-input"
-                                   value="@(_filter.ToYear?.ToString(CultureInfo.InvariantCulture) ?? "")"
-                                   @onchange="HandleToYearChange" />
-                        </label>
+                            @if (signalOptions.Count > 0)
+                            {
+                                <details class="aot-signal-menu" data-testid="signal-menu">
+                                    <summary class="aot-select" data-testid="signal-menu-toggle">
+                                        Signal@(selectedSignalPhrases.Count > 0 ? $" ({selectedSignalPhrases.Count.ToString("N0", CultureInfo.InvariantCulture)})" : "")
+                                    </summary>
+                                    <div class="aot-signal-menu__popover" data-testid="signal-filters">
+                                        @foreach (var phrase in signalOptions)
+                                        {
+                                            var selected = _filter.Signals.Any(s => SignalCatalog.Normalize(s) == phrase.Id);
+                                            <SignalChip Phrase="phrase"
+                                                        Selected="selected"
+                                                        OnClick="@(() => ApplyFilter(_filter.ToggleSignal(phrase.Id)))" />
+                                        }
+                                    </div>
+                                </details>
+                            }
 
-                        @if (!_filter.IsDefault)
-                        {
-                            <button type="button"
-                                    class="aot-btn aot-btn--ghost aot-btn--sm"
-                                    data-testid="clear-filters"
-                                    @onclick="@(() => ApplyFilter(OverviewFilter.Default))">
-                                Clear filters
-                            </button>
-                        }
-                    </div>
+                            <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:4px;margin-left:auto">
+                                Years
+                                <input type="number"
+                                       class="aot-select"
+                                       style="width:76px;padding:4px 6px"
+                                       min="2003"
+                                       max="2026"
+                                       placeholder="2003"
+                                       aria-label="From year"
+                                       data-testid="from-year-input"
+                                       value="@(_filter.FromYear?.ToString(CultureInfo.InvariantCulture) ?? "")"
+                                       @onchange="HandleFromYearChange" />
+                                <span aria-hidden="true">–</span>
+                                <input type="number"
+                                       class="aot-select"
+                                       style="width:76px;padding:4px 6px"
+                                       min="2003"
+                                       max="2026"
+                                       placeholder="2026"
+                                       aria-label="To year"
+                                       data-testid="to-year-input"
+                                       value="@(_filter.ToYear?.ToString(CultureInfo.InvariantCulture) ?? "")"
+                                       @onchange="HandleToYearChange" />
+                            </label>
 
-                    @if (signalOptions.Count > 0 || _filter.ArticleId is not null)
+                            @if (!_filter.IsDefault)
+                            {
+                                <button type="button"
+                                        class="aot-btn aot-btn--ghost aot-btn--sm"
+                                        data-testid="clear-filters"
+                                        @onclick="@(() => ApplyFilter(OverviewFilter.Default))">
+                                    Clear filters
+                                </button>
+                            }
+                        </div>
+                    </details>
+
+                    @if (_filter.ArticleId is not null || selectedSignalPhrases.Count > 0)
                     {
-                        <div class="aot-row" data-testid="signal-filters">
+                        <div class="aot-row" data-testid="active-filters">
                             @if (_filter.ArticleId is { } activeArticleId)
                             {
                                 <button type="button"
@@ -208,16 +242,21 @@
                                         aria-pressed="true"
                                         data-testid="active-article-filter"
                                         @onclick="@(() => ApplyFilter(_filter.WithArticle(null)))">
-                                    Article: @ResolveArticleLabel(activeArticleId) ×
+                                    Article: @ResolveArticleLabel(activeArticleId) <span aria-hidden="true">×</span>
                                 </button>
                             }
 
-                            @foreach (var phrase in signalOptions)
+                            @foreach (var phrase in selectedSignalPhrases)
                             {
-                                var selected = _filter.Signals.Any(s => SignalCatalog.Normalize(s) == phrase.Id);
-                                <SignalChip Phrase="phrase"
-                                            Selected="selected"
-                                            OnClick="@(() => ApplyFilter(_filter.ToggleSignal(phrase.Id)))" />
+                                <button type="button"
+                                        class="aot-chip"
+                                        aria-pressed="true"
+                                        title="@phrase.Why"
+                                        data-testid="active-signal-filter"
+                                        data-signal="@phrase.Id"
+                                        @onclick="@(() => ApplyFilter(_filter.ToggleSignal(phrase.Id)))">
+                                    @phrase.Chip <span aria-hidden="true">×</span>
+                                </button>
                             }
                         </div>
                     }
@@ -298,14 +337,15 @@
             }
         </section>
 
-        <aside class="aot-panel order-first order-lg-last" style="padding:12px 16px 8px">
+        <aside class="aot-panel aot-rail-panel order-first order-lg-last">
             @if (_progress.Articles.Count > 0)
             {
-                <details open class="w-100" data-testid="article-rail">
-                    <summary class="aot-label" style="margin-bottom:8px">
+                var (visibleArticles, zeroArticles) = PartitionRailArticles();
+                <details class="w-100 aot-rail-details" data-testid="article-rail" @ref="_railDetailsRef">
+                    <summary class="aot-label">
                         Articles (@_progress.Articles.Count.ToString("N0", CultureInfo.InvariantCulture))
                     </summary>
-                    @foreach (var article in OrderedArticles)
+                    @foreach (var article in visibleArticles)
                     {
                         <ArticleRailItem Article="article"
                                          TitleEn="@TryGetTitleEn(article.PageId)"
@@ -315,6 +355,25 @@
                                          Contest="@TryGetContest(article.PageId)"
                                          OnSelectArticle="@(() => ToggleArticleFilter(article.PageId))"
                                          @key="(article.Lang, article.PageId)" />
+                    }
+                    @if (zeroArticles.Count > 0)
+                    {
+                        <details class="aot-rail-more" data-testid="rail-more-articles">
+                            <summary data-testid="rail-more-summary">
+                                Show @zeroArticles.Count.ToString("N0", CultureInfo.InvariantCulture) more @(zeroArticles.Count == 1 ? "article" : "articles")
+                            </summary>
+                            @foreach (var article in zeroArticles)
+                            {
+                                <ArticleRailItem Article="article"
+                                                 TitleEn="@TryGetTitleEn(article.PageId)"
+                                                 IncidentCount="0"
+                                                 Selected="@(_filter.ArticleId == article.PageId)"
+                                                 TimelineData="@TryGetTimeline(article.PageId)"
+                                                 Contest="@TryGetContest(article.PageId)"
+                                                 OnSelectArticle="@(() => ToggleArticleFilter(article.PageId))"
+                                                 @key="(article.Lang, article.PageId)" />
+                            }
+                        </details>
                     }
                 </details>
             }
@@ -374,6 +433,12 @@
     private string? _prerenderFailureDetail;
     private string? _cachedFallbackDetail;
 
+    private ElementReference _railDetailsRef;
+    private ElementReference _filtersDetailsRef;
+    private bool _syncedRailRef;
+    private bool _syncedFiltersRef;
+    private IJSObjectReference? _jsModule;
+
     private long _lastRenderTicks;
     private bool _dirty;
     private bool _flushScheduled;
@@ -407,7 +472,35 @@
         : $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}/network";
 
     private IEnumerable<TopicArticle> OrderedArticles =>
-        _progress.Articles.OrderByDescending(static a => a.HasHistory);
+        _progress.Articles
+            .OrderByDescending(a => CountIncidentsForArticle(a.PageId) > 0 || _filter.ArticleId == a.PageId)
+            .ThenByDescending(a => CountIncidentsForArticle(a.PageId))
+            .ThenByDescending(static a => a.HasHistory);
+
+    private (IReadOnlyList<TopicArticle> Visible, IReadOnlyList<TopicArticle> HiddenZero) PartitionRailArticles()
+    {
+        var ordered = OrderedArticles.ToList();
+        if (!_progress.IsComplete && _incidents.Count == 0)
+        {
+            return (ordered, []);
+        }
+
+        var visible = new List<TopicArticle>();
+        var zero = new List<TopicArticle>();
+        foreach (var article in ordered)
+        {
+            if (CountIncidentsForArticle(article.PageId) > 0 || _filter.ArticleId == article.PageId)
+            {
+                visible.Add(article);
+            }
+            else
+            {
+                zero.Add(article);
+            }
+        }
+
+        return (visible, zero);
+    }
 
     protected override void OnInitialized()
     {
@@ -520,7 +613,49 @@
             _ = StartRunAsync();
         }
 
+        _ = SyncDisclosuresAsync();
         return Task.CompletedTask;
+    }
+
+    private async Task SyncDisclosuresAsync()
+    {
+        var hasRail = _progress.Articles.Count > 0;
+        var hasFilters = _incidents.Count > 0 || !_filter.IsDefault;
+
+        if (!hasRail) _syncedRailRef = false;
+        if (!hasFilters) _syncedFiltersRef = false;
+
+        var needRail = hasRail && !_syncedRailRef;
+        var needFilters = hasFilters && !_syncedFiltersRef;
+        if (!needRail && !needFilters) return;
+
+        if (needRail) _syncedRailRef = true;
+        if (needFilters) _syncedFiltersRef = true;
+
+        var js = Services.GetService<IJSRuntime>();
+        if (js is null) return;
+
+        try
+        {
+            _jsModule ??= await js.InvokeAsync<IJSObjectReference>(
+                "import",
+                "./Features/Investigations/Overview/InvestigationPage.razor.js");
+            if (_disposed || _jsModule is null) return;
+
+            if (needRail && _progress.Articles.Count > 0)
+            {
+                await _jsModule.InvokeVoidAsync("syncDisclosure", _railDetailsRef);
+            }
+
+            if (needFilters && (_incidents.Count > 0 || !_filter.IsDefault))
+            {
+                await _jsModule.InvokeVoidAsync("syncDisclosure", _filtersDetailsRef);
+            }
+        }
+        catch
+        {
+            // Ignore in headless/prerender/test environments without JS module support.
+        }
     }
 
     private async Task StartRunAsync(bool refresh = false)
@@ -549,6 +684,8 @@
         _wasSlow = false;
         _dirty = false;
         _cachedFallbackDetail = null;
+        _syncedRailRef = false;
+        _syncedFiltersRef = false;
 
         _progress.Start();
         StartSlowMonitor();
@@ -573,6 +710,7 @@
                 {
                     case ArticlesFound found:
                         _wasSlow = false;
+                        _ = LoadArticleTitlesAsync(found.Items, runCts, ct);
                         _ = LoadPageContestsAsync(found.Items, runCts, ct);
                         await RenderNowAsync();
                         break;
@@ -624,7 +762,7 @@
                             if (!ReferenceEquals(runCts, _cts) || _disposed) return;
                         }
                         await RenderNowAsync();
-                        _ = LoadSparklinesAsync(_progress.Articles, runCts, ct);
+                        _ = LoadSparklinesAsync(OrderedArticles.ToList(), runCts, ct);
                         break;
                 }
             }
@@ -761,6 +899,53 @@
             {
                 _articleTitlesEn[article.PageId] = article.TitleEn;
             }
+        }
+    }
+
+    private async Task LoadArticleTitlesAsync(
+        IReadOnlyList<TopicArticle> articles,
+        CancellationTokenSource ownerCts,
+        CancellationToken ct)
+    {
+        if (articles.Count == 0 || _disposed) return;
+
+        var incidentCorpus = Services.GetService<IIncidentCorpus>();
+        if (incidentCorpus is null) return;
+
+        var fiPageIds = articles
+            .Where(static a => a.HasHistory)
+            .Select(static a => a.PageId)
+            .Distinct()
+            .ToList();
+        if (fiPageIds.Count == 0) return;
+
+        try
+        {
+            var refs = await incidentCorpus.ArticlesAsync(fiPageIds, ct);
+            if (ct.IsCancellationRequested || _disposed || !ReferenceEquals(ownerCts, _cts)) return;
+
+            var loadedAny = false;
+            foreach (var (pageId, articleRef) in refs)
+            {
+                if (!string.IsNullOrWhiteSpace(articleRef.TitleEn) && !_articleTitlesEn.ContainsKey(pageId))
+                {
+                    _articleTitlesEn[pageId] = articleRef.TitleEn;
+                    loadedAny = true;
+                }
+            }
+
+            if (loadedAny)
+            {
+                await RenderNowAsync();
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        catch
+        {
+            // Corpus unavailable: rail falls back to Finnish title and "Finnish Wikipedia" tag.
         }
     }
 
@@ -1208,5 +1393,22 @@
         _disposed = true;
         Nav.LocationChanged -= HandleLocationChanged;
         CancelCurrentRunTokens();
+        if (_jsModule is { } jsModule)
+        {
+            _jsModule = null;
+            _ = DisposeJsModuleAsync(jsModule);
+        }
+    }
+
+    private static async Task DisposeJsModuleAsync(IJSObjectReference jsModule)
+    {
+        try
+        {
+            await jsModule.DisposeAsync();
+        }
+        catch
+        {
+            // Ignore disconnected circuit disposal errors.
+        }
     }
 }

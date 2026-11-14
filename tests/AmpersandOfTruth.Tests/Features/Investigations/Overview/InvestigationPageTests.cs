@@ -772,6 +772,104 @@ public sealed class InvestigationPageTests : BunitContext
         });
     }
 
+    [Fact]
+    public async Task Overview_collapses_phone_disclosures_folds_zero_incident_rail_entries_loads_sibling_titles_and_uses_signal_menu()
+    {
+        _incidentCorpus.Articles[1150] = new ArticleRef(1150, "Talvisota", "Winter War");
+        _incidentCorpus.Articles[1200] = new ArticleRef(1200, "Mainilan laukaukset", "Shelling of Mainila");
+        _incidentCorpus.Articles[1300] = new ArticleRef(1300, "Paikallinen artikkeli", null);
+
+        var session = _runner.EnqueueChannelRun();
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+
+        var fiMain = new TopicArticle("fi", 1150, "Talvisota", 0.02);
+        var fiZeroWithEn = new TopicArticle("fi", 1200, "Mainilan laukaukset", 0.05);
+        var fiZeroNoEn = new TopicArticle("fi", 1300, "Paikallinen artikkeli", 0.08);
+        var inc = MakeRecord(
+            "inc-1",
+            pageId: 1150,
+            insertRev: 1001,
+            removeRev: 1002,
+            EvidenceTier.Campaign,
+            90.0,
+            "Coordinated claim",
+            signals: ["multiple_editors", "removed_as_unsourced"]);
+
+        var candidate = MakeCandidate(fiMain, 1002, 1001, "Editor1", "Kumottu");
+        await session.WriteAsync(new ArticlesFound(3, [fiZeroNoEn, fiZeroWithEn, fiMain]));
+        await session.WriteAsync(new RevisionsScanned(300, [candidate]));
+        await session.WriteAsync(new CandidateScored(1, 1, candidate, inc));
+        await session.WriteAsync(new Completed(FromCache: false, [inc], TimeSpan.FromSeconds(2)));
+        session.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            // R1-05: rail and filter disclosures render without `open` so <992px phone starts collapsed
+            var railDetails = cut.Find("[data-testid=article-rail]");
+            Assert.False(railDetails.HasAttribute("open"));
+            Assert.Contains("Articles (3)", railDetails.QuerySelector("summary")!.TextContent);
+
+            var filterDetails = cut.Find("[data-testid=filters-disclosure]");
+            Assert.False(filterDetails.HasAttribute("open"));
+            Assert.Equal("Filters", cut.Find("[data-testid=filters-summary]").TextContent.Trim());
+
+            // R1-08: 0-incident rail entries are tucked behind collapsed "Show 2 more articles",
+            // and English sibling titles from IIncidentCorpus are shown with Finnish under them
+            var moreDetails = cut.Find("[data-testid=rail-more-articles]");
+            Assert.False(moreDetails.HasAttribute("open"));
+            Assert.Equal("Show 2 more articles", cut.Find("[data-testid=rail-more-summary]").TextContent.Trim());
+
+            var directRailItems = railDetails.Children.Where(static el => el.GetAttribute("data-testid") == "article-rail-item").ToList();
+            var visibleItem = Assert.Single(directRailItems);
+            Assert.Equal("1150", visibleItem.GetAttribute("data-page-id"));
+            Assert.Equal("Winter War", visibleItem.QuerySelector(".aot-art__title")?.TextContent);
+
+            var hiddenEnItem = moreDetails.QuerySelector("[data-testid=article-rail-item][data-page-id='1200']")!;
+            Assert.Equal("Shelling of Mainila", hiddenEnItem.QuerySelector(".aot-art__title")?.TextContent);
+            Assert.Contains("Mainilan laukaukset", hiddenEnItem.TextContent);
+
+            var hiddenFiOnlyItem = moreDetails.QuerySelector("[data-testid=article-rail-item][data-page-id='1300']")!;
+            Assert.Equal("Paikallinen artikkeli", hiddenFiOnlyItem.QuerySelector(".aot-art__title")?.TextContent);
+            Assert.Contains("Finnish Wikipedia", hiddenFiOnlyItem.TextContent);
+
+            // R1-12: summary header shows full EvidenceTiers labels; filter chips expose full labels in aria/title
+            var summaryHeader = cut.Find("[data-testid=summary-header]");
+            Assert.Contains(EvidenceTiers.Campaign.Label, summaryHeader.TextContent);
+            Assert.Contains(EvidenceTiers.Contested.Label, summaryHeader.TextContent);
+            Assert.Contains(EvidenceTiers.Reverted.Label, summaryHeader.TextContent);
+
+            var campaignFilter = cut.Find("[data-testid=tier-filter][data-tier=campaign]");
+            Assert.Equal($"Filter by level: {EvidenceTiers.Campaign.Label}", campaignFilter.GetAttribute("aria-label"));
+            Assert.Contains(EvidenceTiers.Campaign.Label, campaignFilter.GetAttribute("title"));
+
+            // R1-06: compact Signal ▾ menu is closed by default and no removable chips show until selected
+            var signalMenu = cut.Find("[data-testid=signal-menu]");
+            Assert.False(signalMenu.HasAttribute("open"));
+            Assert.Equal("Signal", cut.Find("[data-testid=signal-menu-toggle]").TextContent.Trim());
+            Assert.Empty(cut.FindAll("[data-testid=active-filters]"));
+        });
+
+        // Select a signal -> Signal (1), Filters (1), and removable active-signal-filter chip
+        cut.Find("[data-testid=signal-filters] [data-testid=signal-chip][data-signal=multiple_editors]").Click();
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Equal("Signal (1)", cut.Find("[data-testid=signal-menu-toggle]").TextContent.Trim());
+            Assert.Equal("Filters (1)", cut.Find("[data-testid=filters-summary]").TextContent.Trim());
+            var removable = Assert.Single(cut.FindAll("[data-testid=active-signal-filter]"));
+            Assert.Equal("multiple_editors", removable.GetAttribute("data-signal"));
+            Assert.Contains("×", removable.TextContent);
+        });
+
+        // Clicking removable chip clears the signal filter
+        cut.Find("[data-testid=active-signal-filter][data-signal=multiple_editors]").Click();
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Equal("Signal", cut.Find("[data-testid=signal-menu-toggle]").TextContent.Trim());
+            Assert.Empty(cut.FindAll("[data-testid=active-signal-filter]"));
+        });
+    }
+
     private sealed class FakeContestSignals : IContestSignals
     {
         public Dictionary<long, PageContest> Contests { get; } = [];

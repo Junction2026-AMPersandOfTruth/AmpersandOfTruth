@@ -10,5 +10,5 @@ Walk against a local app on the real pipeline (#102 + #40, before #117/#120): 19
 | PM-02 | hurts comprehension | Assessment quotes show raw wikitext and entities (`&nbsp;`, `\| tappiot2 = …`) | `p2-fixincident` (decode entities, strip markup for display) |
 | PM-03 | blocks demo (pipeline) | "Civil War 1918" retrieves Vilho Lehokas, Quebecin taistelu (1759)… and not *Suomen sisällissota*; 9 of 10 rail articles have 0 incidents | P1: R6 / PR #117 |
 | PM-04 | polish | 2 of 9 incidents have no claim → "Text added to Battle of Tampere" (fallback works, reads thin) | P1: S9/S10 claim extraction |
-| PM-05 | polish | Related cards in the side column are cramped (article name wraps into 4 lines) | `p2-fixoverview` (IncidentCard Compact) |
+| PM-05 ✅ | polish | Related cards in the side column are cramped (article name wraps into 4 lines) | `p2-fixoverview` ✅ (`IncidentCard` Compact stacks article name under badge + `16px` claim font) |
 | PM-06 | hurts comprehension | EN diff and edit summaries show "Loading translation…" on a cold incident | `p2-fixincident` (R1-01) |
