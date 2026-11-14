@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Retrieval variant: stdin",
+  "type": "object",
+  "required": ["contract", "kind", "query_id", "text", "k"],
+  "additionalProperties": false,
+  "properties": {
+    "contract": { "const": 1 },
+    "kind": { "const": "retrieval" },
+    "query_id": { "type": "string", "minLength": 1, "description": "Opaque. For logs only." },
+    "text": { "type": "string", "minLength": 1, "description": "Free text in any language, exactly as a user would type it. The language is not given." },
+    "k": { "type": "integer", "minimum": 1, "description": "Return at most this many results." }
+  }
+}

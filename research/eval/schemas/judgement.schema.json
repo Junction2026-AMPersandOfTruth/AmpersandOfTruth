@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "One line of a judgements .jsonl file (P1.E3 judge, #22): a label for a shown incident that has no golden item",
+  "type": "object",
+  "required": ["key", "label", "confidence", "evidence", "judge"],
+  "additionalProperties": true,
+  "properties": {
+    "key": { "type": "string", "pattern": "^[0-9]+(\\+[0-9]+)*$", "description": "Incident key: the inserting rev ids, ascending, joined with +." },
+    "label": { "enum": ["campaign", "contested", "reverted", "not-incident"] },
+    "exclusion": { "enum": ["not-substantive", "self-removal", "bot", "blanking", "kept", "graffiti", null] },
+    "confidence": { "type": "integer", "minimum": 1, "maximum": 5 },
+    "evidence": { "type": "array", "items": { "type": "string" }, "description": "Spans quoted verbatim from the diff or the summaries." },
+    "note": { "type": ["string", "null"] },
+    "judge": { "type": "string", "minLength": 1, "description": "<prompt id>@<version>/<model>, or human:<initials>." }
+  }
+}

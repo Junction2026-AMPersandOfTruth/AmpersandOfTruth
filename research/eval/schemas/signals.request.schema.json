@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Signal variant: stdin",
+  "type": "object",
+  "required": ["contract", "kind", "topic_id", "text", "page_ids", "limit"],
+  "additionalProperties": false,
+  "properties": {
+    "contract": { "const": 1 },
+    "kind": { "const": "signals" },
+    "topic_id": { "type": "string", "minLength": 1, "description": "Opaque. For logs only." },
+    "text": { "type": "string", "minLength": 1, "description": "The topic as the user typed it, for ranking incidents by relevance to it." },
+    "page_ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "integer", "minimum": 1 }, "description": "fi articles to mine. In the eval these are the golden relevant articles (oracle retrieval)." },
+    "limit": { "type": "integer", "minimum": 1, "description": "Return at most this many incidents." }
+  }
+}

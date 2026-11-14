@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Signal variant: stdout",
+  "type": "object",
+  "required": ["contract", "incidents"],
+  "additionalProperties": true,
+  "properties": {
+    "contract": { "const": 1 },
+    "incidents": { "type": "array", "description": "Best first. Rank = position. Only what the app would show: no excluded items.", "items": { "$ref": "incident.schema.json" } },
+    "cost": { "$ref": "cost.schema.json" },
+    "debug": {}
+  }
+}

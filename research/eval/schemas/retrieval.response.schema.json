@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Retrieval variant: stdout",
+  "type": "object",
+  "required": ["contract", "out_of_scope", "results"],
+  "additionalProperties": true,
+  "properties": {
+    "contract": { "const": 1 },
+    "out_of_scope": { "type": "boolean", "description": "true = nothing in this corpus is relevant. Results are then scored as empty." },
+    "results": {
+      "type": "array",
+      "description": "Best first. Rank = position.",
+      "items": {
+        "type": "object",
+        "required": ["page_id"],
+        "additionalProperties": true,
+        "properties": {
+          "page_id": { "type": "integer", "minimum": 1, "description": "fi page id with revision history (corpus.revision.page_id). en/sv hits must be folded to the fi sibling." },
+          "score": { "type": "number", "description": "Higher = better. Informational." },
+          "why": { "type": "array", "items": { "type": "string" }, "description": "Which arm matched: vector, keyword, category, wikidata, claim, llm." },
+          "title": { "type": "string" }
+        }
+      }
+    },
+    "cost": { "$ref": "cost.schema.json" },
+    "debug": {}
+  }
+}

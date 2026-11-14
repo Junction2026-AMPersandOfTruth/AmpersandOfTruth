@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "End-to-end variant: stdout = retrieval response + incidents",
+  "type": "object",
+  "required": ["contract", "out_of_scope", "results", "incidents"],
+  "additionalProperties": true,
+  "properties": {
+    "contract": { "const": 1 },
+    "out_of_scope": { "type": "boolean" },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["page_id"],
+        "additionalProperties": true,
+        "properties": {
+          "page_id": { "type": "integer", "minimum": 1 },
+          "score": { "type": "number" },
+          "why": { "type": "array", "items": { "type": "string" } },
+          "title": { "type": "string" }
+        }
+      }
+    },
+    "incidents": { "type": "array", "items": { "$ref": "incident.schema.json" } },
+    "cost": { "$ref": "cost.schema.json" },
+    "debug": {}
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Golden set (P1.E1, #20) — research/eval/golden.json",
+  "type": "object",
+  "required": ["contract", "version", "dataset", "topics"],
+  "additionalProperties": false,
+  "properties": {
+    "contract": { "const": 1 },
+    "version": { "type": "string", "minLength": 1, "description": "Bump on every change. Scorecards record it; scores from different versions are not comparable." },
+    "dataset": { "type": "string", "minLength": 1, "description": "Corpus release the ids refer to, e.g. m-2026-10." },
+    "notes": { "type": "string" },
+    "topics": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/topic" } }
+  },
+  "$defs": {
+    "topic": {
+      "type": "object",
+      "required": ["id", "split", "kind", "queries", "articles", "items"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "description": "Stable kebab-case slug." },
+        "title": { "type": "string" },
+        "split": { "enum": ["dev", "test"] },
+        "kind": { "enum": ["topic", "control-quiet", "control-out-of-corpus"] },
+        "queries": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/query" } },
+        "articles": { "type": "array", "items": { "$ref": "#/$defs/article" } },
+        "items": { "type": "array", "items": { "$ref": "#/$defs/item" } },
+        "notes": { "type": "string" }
+      }
+    },
+    "query": {
+      "type": "object",
+      "required": ["id", "style", "lang", "text"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*\\.[a-z0-9]+(-[a-z0-9]+)*$", "description": "<topic id>.<suffix>, unique in the file." },
+        "style": { "enum": ["en", "fi", "broad", "sv"], "description": "en / fi = the topic phrased precisely in that language; broad = a vaguer, wider phrasing; sv = optional Swedish phrasing." },
+        "lang": { "type": "string", "pattern": "^[a-z]{2}$", "description": "Language the text is written in. Never sent to variants." },
+        "text": { "type": "string", "minLength": 1 }
+      }
+    },
+    "article": {
+      "type": "object",
+      "required": ["page_id", "grade", "title"],
+      "additionalProperties": false,
+      "properties": {
+        "page_id": { "type": "integer", "minimum": 1, "description": "fi.wikipedia page id = corpus.revision.page_id." },
+        "grade": { "enum": [1, 2], "description": "2 = central to the topic, 1 = related." },
+        "title": { "type": "string", "minLength": 1, "description": "Finnish title, for human readers only." }
+      }
+    },
+    "item": {
+      "type": "object",
+      "required": ["id", "label", "page_id", "inserting_rev_ids", "removing_rev_ids", "description", "why", "human_verified"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*/[a-z0-9]+(-[a-z0-9]+)*$", "description": "<topic id>/<suffix>, unique in the file." },
+        "label": { "enum": ["campaign", "contested", "reverted", "not-incident"], "description": "docs/evidence-standard.md §1 and §4." },
+        "exclusion": { "enum": ["not-substantive", "self-removal", "bot", "blanking", "kept", "graffiti", null], "description": "Required when label = not-incident, otherwise absent or null." },
+        "category": { "enum": ["vandalism", "test_or_nonsense", "good_faith_error", "content_dispute", "pov_push", "false_factual_claim", "source_manipulation", "other", null], "description": "Optional. The P1.S9 category a careful human would assign (same ids as classify-edit.schema.json)." },
+        "page_id": { "type": "integer", "minimum": 1, "description": "Article of the first insertion. Must be one of the topic's articles." },
+        "other_page_ids": { "type": "array", "uniqueItems": true, "items": { "type": "integer", "minimum": 1 }, "description": "Further articles the same claim was added to." },
+        "inserting_rev_ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "integer", "minimum": 1 }, "description": "Every revision that added or re-added the content, on any member article." },
+        "removing_rev_ids": { "type": "array", "uniqueItems": true, "items": { "type": "integer", "minimum": 1 }, "description": "Every revision that took it out, oldest first. At least one unless label = not-incident." },
+        "description": { "type": "string", "minLength": 1, "description": "One line: what was added." },
+        "why": { "type": "string", "minLength": 1, "description": "Why this label, against the evidence standard. Later reviewers will challenge it." },
+        "human_verified": { "type": "boolean", "description": "A person read the diffs and confirmed the label. Must be true for contested and campaign before sign-off." },
+        "labelled_by": { "type": "array", "items": { "type": "string" } },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

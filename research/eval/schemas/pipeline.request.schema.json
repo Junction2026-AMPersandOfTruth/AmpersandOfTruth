@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "End-to-end variant (retrieval + signals, e.g. the production pipeline): stdin",
+  "type": "object",
+  "required": ["contract", "kind", "query_id", "text", "k", "limit"],
+  "additionalProperties": false,
+  "properties": {
+    "contract": { "const": 1 },
+    "kind": { "const": "pipeline" },
+    "query_id": { "type": "string", "minLength": 1 },
+    "text": { "type": "string", "minLength": 1 },
+    "k": { "type": "integer", "minimum": 1 },
+    "limit": { "type": "integer", "minimum": 1 }
+  }
+}

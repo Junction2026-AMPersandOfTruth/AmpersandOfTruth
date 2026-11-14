@@ -1,0 +1,23 @@
+{
+  "contract": 1,
+  "incidents": [
+    {
+      "page_id": 900001,
+      "other_page_ids": [900002],
+      "inserting_rev_ids": [5000201, 5000230],
+      "removing_rev_ids": [5000210, 5000244],
+      "tier": "contested",
+      "score": 0.92,
+      "claim_en": "The war caused 250,000 casualties.",
+      "claim_fi": "Sodassa kaatui 250 000 ihmistä.",
+      "reinsertion_count": 1,
+      "signals": [
+        { "kind": "removal_reason", "label": "removed as unsourced", "evidence": "lähteetön väite" },
+        { "kind": "reinserted", "label": "put back 1 time after removal" }
+      ]
+    },
+    { "page_id": 900001, "inserting_rev_ids": [5000501], "removing_rev_ids": [5000502], "tier": "reverted", "score": 0.4 },
+    { "page_id": 900002, "inserting_rev_ids": [5000777], "removing_rev_ids": [5000778], "tier": "reverted", "score": 0.3 }
+  ],
+  "cost": { "llm_calls": 3, "input_tokens": 4100, "output_tokens": 620 }
+}
