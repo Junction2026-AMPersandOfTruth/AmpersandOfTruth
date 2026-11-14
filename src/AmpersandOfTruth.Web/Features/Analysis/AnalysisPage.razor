@@ -1,0 +1,325 @@
+@page "/analysis"
+@implements IDisposable
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Analysis
+@using AmpersandOfTruth.Web.Features.Analysis.Dashboard
+@using AmpersandOfTruth.Web.Features.Analysis.Store
+@using Microsoft.Extensions.Options
+@inject AnalysisLedger Ledger
+@inject AnalysisBudget Budget
+@inject IOptionsMonitor<GeminiOptions> Options
+@inject TimeProvider Time
+
+<PageTitle>LLM usage</PageTitle>
+
+@{
+    var opts = Options.CurrentValue;
+    var budgetToday = Budget.Today;
+    var liveCalls = Math.Max(_summary.LiveCalls, budgetToday.Calls);
+    var costUsd = Math.Max(_summary.EstimatedCostUsd, budgetToday.CostUsd);
+    var callsPct = opts.DailyCallCap > 0
+        ? Math.Clamp((liveCalls * 100.0) / opts.DailyCallCap, 0.0, 100.0)
+        : 0.0;
+    var costPct = opts.DailyCostCapUsd > 0
+        ? Math.Clamp((costUsd * 100.0) / opts.DailyCostCapUsd, 0.0, 100.0)
+        : 0.0;
+}
+
+<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <h1 class="mb-0">LLM usage</h1>
+    @if (!string.IsNullOrWhiteSpace(opts.ApiKey))
+    {
+        <span class="badge bg-success" data-testid="gemini-key-ok">Gemini key configured</span>
+    }
+</div>
+
+@if (string.IsNullOrWhiteSpace(opts.ApiKey))
+{
+    <div class="alert alert-warning" data-testid="gemini-no-key">
+        Gemini API key is not configured. Set it locally with:
+        <code class="d-block mt-1">dotnet user-secrets set "Gemini:ApiKey" "&lt;key&gt;" --project src/AmpersandOfTruth.Web</code>
+    </div>
+}
+
+<section class="mb-4">
+    <h2 class="h5 mb-2">Model jobs</h2>
+    <div class="table-responsive">
+        <table class="table table-sm align-middle mb-0" data-testid="jobs-table">
+            <thead>
+                <tr>
+                    <th>Job</th>
+                    <th>Model</th>
+                    <th>Input / Output ($ per 1M)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var job in Enum.GetValues<AnalysisJob>())
+                {
+                    var model = opts.ModelFor(job);
+                    <tr>
+                        <td>@job</td>
+                        <td><code>@model</code></td>
+                        <td>@FormatPricing(opts.Pricing, model)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="mb-4">
+    <div class="d-flex flex-wrap align-items-baseline justify-content-between gap-2 mb-2">
+        <h2 class="h5 mb-0">Today (UTC)</h2>
+        <span class="text-muted small">
+            Per-scope cap: @opts.PerScopeCallCap.ToString("N0", CultureInfo.InvariantCulture) live calls
+        </span>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="text-muted small">Live calls</div>
+                    <div class="fs-4 fw-semibold" data-testid="today-calls">
+                        @string.Create(CultureInfo.InvariantCulture, $"{liveCalls:N0} / {opts.DailyCallCap:N0}")
+                    </div>
+                    <div class="progress mt-2" style="height: 6px;" role="progressbar"
+                         aria-label="Daily call usage"
+                         aria-valuenow="@callsPct.ToString("0", CultureInfo.InvariantCulture)"
+                         aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar @(callsPct >= 100 ? "bg-danger" : "")"
+                             style="@($"width: {callsPct.ToString("0.#", CultureInfo.InvariantCulture)}%")"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="text-muted small">Estimated cost</div>
+                    <div class="fs-4 fw-semibold" data-testid="today-cost">
+                        @(opts.DailyCostCapUsd > 0
+                            ? string.Create(CultureInfo.InvariantCulture, $"${costUsd:F2} / ${opts.DailyCostCapUsd:F2}")
+                            : string.Create(CultureInfo.InvariantCulture, $"${costUsd:F2} / —"))
+                    </div>
+                    <div class="progress mt-2" style="height: 6px;" role="progressbar"
+                         aria-label="Daily cost usage"
+                         aria-valuenow="@costPct.ToString("0", CultureInfo.InvariantCulture)"
+                         aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar @(costPct >= 100 ? "bg-danger" : "")"
+                             style="@($"width: {costPct.ToString("0.#", CultureInfo.InvariantCulture)}%")"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="text-muted small">Cache hits</div>
+                    <div class="fs-4 fw-semibold" data-testid="today-cache-hits">
+                        @_summary.CacheHits.ToString("N0", CultureInfo.InvariantCulture)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-muted small mt-2" data-testid="today-outcomes">
+        @string.Create(
+            CultureInfo.InvariantCulture,
+            $"ok {_summary.Ok} · blocked {_summary.Blocked} · invalid {_summary.Invalid} · truncated {_summary.Truncated} · failed {_summary.Failed} · budget {_summary.BudgetExceeded}")
+    </div>
+</section>
+
+<section class="mb-4" data-testid="by-model">
+    <h2 class="h5 mb-2">By model today</h2>
+    @if (_byModel.Count == 0)
+    {
+        <p class="text-muted small mb-0">No live model calls today.</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-sm align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th class="text-end">Live calls</th>
+                        <th class="text-end">Input tokens</th>
+                        <th class="text-end">Output tokens</th>
+                        <th class="text-end">Thought tokens</th>
+                        <th class="text-end">Cost</th>
+                        <th class="text-end">Avg latency</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in _byModel)
+                    {
+                        <tr @key="row.Model">
+                            <td><code>@row.Model</code></td>
+                            <td class="text-end">@row.LiveCalls.ToString("N0", CultureInfo.InvariantCulture)</td>
+                            <td class="text-end">@row.InputTokens.ToString("N0", CultureInfo.InvariantCulture)</td>
+                            <td class="text-end">@row.OutputTokens.ToString("N0", CultureInfo.InvariantCulture)</td>
+                            <td class="text-end">@row.ThoughtTokens.ToString("N0", CultureInfo.InvariantCulture)</td>
+                            <td class="text-end">@($"${row.EstimatedCostUsd.ToString("0.0000", CultureInfo.InvariantCulture)}")</td>
+                            <td class="text-end">@($"{row.AvgLatencyMs.ToString("F0", CultureInfo.InvariantCulture)} ms")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
+
+<section class="mb-4" data-testid="recent-calls">
+    <h2 class="h5 mb-2">Recent calls</h2>
+    @if (_recent.Count == 0)
+    {
+        <EmptyState Message="No LLM calls yet." />
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-sm align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Prompt</th>
+                        <th>Model</th>
+                        <th>Outcome</th>
+                        <th class="text-end">Latency</th>
+                        <th class="text-end">Tokens (in / out)</th>
+                        <th class="text-end">Cost</th>
+                        <th>Scope</th>
+                        <th>Error</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var call in _recent)
+                    {
+                        <tr @key="call.Id">
+                            <td class="text-nowrap">@call.At.ToUniversalTime().ToString("HH:mm:ss 'UTC'", CultureInfo.InvariantCulture)</td>
+                            <td class="text-nowrap">@($"{call.PromptId} @{call.PromptVersion}")</td>
+                            <td><code>@call.Model</code></td>
+                            <td class="text-nowrap">
+                                <OutcomeBadge Outcome="call.Outcome" />
+                                @if (call.FromCache)
+                                {
+                                    <span class="badge bg-info text-dark ms-1">cache</span>
+                                }
+                            </td>
+                            <td class="text-end text-nowrap">@($"{call.LatencyMs.ToString("N0", CultureInfo.InvariantCulture)} ms")</td>
+                            <td class="text-end text-nowrap">
+                                @($"{call.InputTokens.ToString("N0", CultureInfo.InvariantCulture)} / {call.OutputTokens.ToString("N0", CultureInfo.InvariantCulture)}")
+                            </td>
+                            <td class="text-end text-nowrap">@($"${call.EstimatedCostUsd.ToString("0.0000", CultureInfo.InvariantCulture)}")</td>
+                            <td>@(string.IsNullOrEmpty(call.Scope) ? "—" : call.Scope)</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(call.Error))
+                                {
+                                    var truncated = call.Error.Length > 120 ? call.Error[..120] + "…" : call.Error;
+                                    <span class="text-danger small" title="@call.Error">@truncated</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
+
+@if (opts.PlaygroundEnabled)
+{
+    <PromptPlayground />
+}
+
+@code {
+    private UsageSummary _summary = new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    private IReadOnlyList<ModelUsage> _byModel = [];
+    private IReadOnlyList<AnalysisCallRecord> _recent = [];
+    private bool _loading;
+    private bool _reloadPending;
+    private bool _disposed;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Ledger.Changed -= OnLedgerChanged;
+        Ledger.Changed += OnLedgerChanged;
+        await RefreshUsageAsync();
+    }
+
+    private void OnLedgerChanged() => InvokeAsync(async () =>
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        await RefreshUsageAsync();
+        if (!_disposed)
+        {
+            StateHasChanged();
+        }
+    });
+
+    private async Task RefreshUsageAsync()
+    {
+        if (_loading)
+        {
+            _reloadPending = true;
+            return;
+        }
+
+        _loading = true;
+        try
+        {
+            do
+            {
+                _reloadPending = false;
+                if (_disposed)
+                {
+                    return;
+                }
+
+                var utcNow = Time.GetUtcNow();
+                var midnight = new DateTimeOffset(utcNow.UtcDateTime.Date, TimeSpan.Zero);
+                _summary = await Ledger.SummarizeAsync(midnight);
+                _byModel = await Ledger.ByModelAsync(midnight);
+                _recent = await Ledger.RecentAsync(25);
+            }
+            while (_reloadPending && !_disposed);
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    public void Dispose()
+    {
+        _disposed = true;
+        Ledger.Changed -= OnLedgerChanged;
+    }
+
+    private static string FormatPricing(Dictionary<string, ModelPrice>? pricing, string model)
+    {
+        if (pricing is null)
+        {
+            return "—";
+        }
+
+        if (!pricing.TryGetValue(model, out var price) || price is null)
+        {
+            price = pricing
+                .FirstOrDefault(kvp => string.Equals(kvp.Key, model, StringComparison.OrdinalIgnoreCase))
+                .Value;
+        }
+
+        return price is null
+            ? "—"
+            : string.Create(CultureInfo.InvariantCulture, $"${price.InputPerMTok:0.00##} / ${price.OutputPerMTok:0.00##}");
+    }
+}
