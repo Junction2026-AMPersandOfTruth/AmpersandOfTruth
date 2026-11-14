@@ -262,7 +262,9 @@ public sealed class ColdRunGateTests : IDisposable
             release?.TrySetResult();
         }
 
-        public async Task<IReadOnlyList<TopicArticle>> FindArticlesAsync(string topic, CancellationToken ct = default)
+        public string Fingerprint => "gated-test-search";
+
+        public async Task<TopicSearchResult> SearchAsync(string topic, CancellationToken ct = default)
         {
             TaskCompletionSource? entered;
             TaskCompletionSource? release;
@@ -278,7 +280,7 @@ public sealed class ColdRunGateTests : IDisposable
                 await release.Task.WaitAsync(ct);
             }
 
-            return [new TopicArticle("fi", 1256, "Talvisota", 0.05)];
+            return new TopicSearchResult([new TopicArticle("fi", 1256, "Talvisota", 0.05)]);
         }
     }
 }
