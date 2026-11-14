@@ -243,4 +243,65 @@ public class InvestigationPipelineTests
 
         Assert.Equal([300L, 400L, 200L], scan.Candidates.Select(c => c.Revert.RevId));
     }
+
+    private async Task<IncidentRecord> TheIncident() =>
+        Assert.Single(Assert.IsType<Completed>((await _kit.RunAsync())[^1]).Incidents);
+
+    private void RevertComment(string comment)
+    {
+        _kit.Corpus.Reverts.RemoveAll(r => r.RevId == 2000);
+        _kit.Corpus.Reverts.Add(FakeInvestigationCorpus.Revert(1256, 2000, comment: comment));
+    }
+
+    [Fact]
+    public async Task A_claim_removed_as_inaccurate_is_disputed()
+    {
+        RevertComment("Kumottu muokkaus 1999, jonka teki 192.0.2.1 (keskustelu) väärää tietoa");
+
+        var incident = await TheIncident();
+
+        Assert.Equal(EvidenceTier.Contested, incident.Tier);
+        Assert.Equal(["removal_reason", "claim_content"], incident.Signals.Select(s => s.Kind));
+        Assert.Equal("väärää tietoa", incident.Signals[0].Evidence);
+    }
+
+    [Fact]
+    public async Task A_removal_reason_without_a_verified_claim_stays_at_level_one()
+    {
+        RevertComment("rv, väärää tietoa");
+        _kit.Model.Returns("classify-edit", PipelineKit.ClassificationJson(quote: "not in the edit"));
+
+        Assert.Equal(EvidenceTier.Reverted, (await TheIncident()).Tier);
+    }
+
+    [Fact]
+    public async Task Content_put_back_after_removal_is_disputed_and_listed_as_reinserted()
+    {
+        _kit.Revisions.Later(1256, 2001, "Someone", PipelineKit.Before + " muu", FakeRevisionStore.T0.AddMinutes(2001));
+        _kit.Revisions.Later(1256, 2002, "192.0.2.1", PipelineKit.After, FakeRevisionStore.T0.AddMinutes(2002));
+        _kit.Revisions.Later(1256, 2003, "VakauttajaBot", PipelineKit.After, FakeRevisionStore.T0.AddMinutes(2003)); // null revision
+
+        var incident = await TheIncident();
+
+        Assert.Equal(EvidenceTier.Contested, incident.Tier);
+        Assert.Equal(1, incident.ReinsertionCount);
+        Assert.Equal([1999L, 2002L], incident.InsertingRevIds);
+        Assert.Equal([IncidentEditRole.Inserted, IncidentEditRole.Removed, IncidentEditRole.Reinserted], incident.Edits.Select(e => e.Role));
+        Assert.Contains("reinserted", incident.Signals.Select(s => s.Kind));
+    }
+
+    [Fact]
+    public async Task Put_back_by_other_editors_over_more_than_a_week_is_a_possible_campaign()
+    {
+        _kit.Revisions.Later(1256, 2002, "198.51.100.7", PipelineKit.After, FakeRevisionStore.T0.AddDays(3));
+        _kit.Revisions.Later(1256, 2003, "Someone", PipelineKit.Before, FakeRevisionStore.T0.AddDays(4));
+        _kit.Revisions.Later(1256, 2004, "203.0.113.9", PipelineKit.After, FakeRevisionStore.T0.AddDays(12));
+
+        var incident = await TheIncident();
+
+        Assert.Equal(EvidenceTier.Campaign, incident.Tier);
+        Assert.Equal(2, incident.ReinsertionCount);
+        Assert.Equal(["multiple_editors", "persistence", "claim_content"], incident.Signals.Select(s => s.Kind));
+        Assert.All(incident.Edits, e => Assert.DoesNotMatch(@"\d+\.\d+\.\d+\.\d+", e.UserDisplay!));
+    }
 }

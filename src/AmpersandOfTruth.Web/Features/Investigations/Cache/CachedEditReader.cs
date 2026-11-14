@@ -23,7 +23,8 @@ public sealed class CachedEditReader(
     };
 
     private sealed record Payload(
-        IReadOnlyList<RevisionRow> Span, WikitextDiffResult Diff, string InsertedText, string RemovedText, string Context);
+        IReadOnlyList<RevisionRow> Span, WikitextDiffResult Diff, string InsertedText, string RemovedText, string Context,
+        IReadOnlyList<RevisionRow> Reinsertions);
 
     public string KeyFor(RemovedEdit edit) =>
         $"{edit.Article.PageId}:{edit.Revert.RestoredRevId}:{edit.Revert.RevertedRevId}" +
@@ -38,7 +39,7 @@ public sealed class CachedEditReader(
             var json = await db.Set<EditReadingCacheRow>().AsNoTracking()
                 .Where(r => r.Key == key).Select(r => r.Json).FirstOrDefaultAsync(ct);
             if (json is not null && JsonSerializer.Deserialize<Payload>(json, Json) is { Span.Count: > 0 } p)
-                return new EditReading(edit, p.Span, p.Diff, p.InsertedText, p.RemovedText, p.Context);
+                return new EditReading(edit, p.Span, p.Diff, p.InsertedText, p.RemovedText, p.Context) { Reinsertions = p.Reinsertions };
         }
         catch (Exception ex) when (ex is JsonException or DbUpdateException or InvalidOperationException)
         {
@@ -56,7 +57,7 @@ public sealed class CachedEditReader(
                 PageId = edit.Article.PageId,
                 RevertRevId = edit.Revert.RevId,
                 Json = JsonSerializer.Serialize(
-                    new Payload(reading.Span, reading.Diff, reading.InsertedText, reading.RemovedText, reading.Context), Json),
+                    new Payload(reading.Span, reading.Diff, reading.InsertedText, reading.RemovedText, reading.Context, reading.Reinsertions), Json),
                 CreatedAt = clock.GetUtcNow(),
             });
             await db.SaveChangesAsync(ct);

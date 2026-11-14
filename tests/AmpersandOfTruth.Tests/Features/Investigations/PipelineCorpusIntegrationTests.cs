@@ -59,4 +59,18 @@ public class PipelineCorpusIntegrationTests(AppFactory app) : IClassFixture<AppF
 
         Assert.Equal(Talvisota, Assert.Single(siblings).Value.PageId);
     }
+
+    [CorpusFact]
+    public async Task The_first_restore_of_the_restored_content_is_the_revert_itself()
+    {
+        var revert = (await Corpus.RevertsAsync([Talvisota], perPage: 20)).First();
+        var through = await Revisions.SpanAsync(Talvisota, revert.RestoredRevId, revert.RevId, 50);
+        var undone = through[0];
+        var restoredSha1 = through[^1].Sha1!; // the revert has the restored revision's content
+
+        var restores = await Revisions.RestoresAsync(Talvisota, undone.Timestamp, undone.RevId, [restoredSha1], 5);
+
+        Assert.Equal(revert.RevId, restores[0].RevId);
+        Assert.All(restores, r => Assert.Equal(restoredSha1, r.Sha1));
+    }
 }

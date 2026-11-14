@@ -129,7 +129,9 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   `IncidentRecordTests` keeps record and schema in sync — change both together).
 - Stages are interfaces, one per P1 experiment, swapped in `InvestigationsFeature` without touching the orchestrator or the UI:
   `ITopicSearch` (R6), `ICandidateSource` (S1/S4), `IEditReader` (S2/S3), `IEditClassifier` (S9), `IncidentAssembler` (S10, static).
-  Today's implementations are placeholders from P0.8 + `wikidiff` + `classify-edit` v1; without S5/S1/S4 signals every incident is `reverted`.
+  Today's implementations are placeholders from P0.8 + `wikidiff` + `classify-edit` v1. Dispute signals wired: removal reason
+  (S5 lexicon ported as `RevertReasons`; `Fixtures/s5-parity.jsonl` + `s5_parity.py` keep it identical to the Python) and
+  re-insertion (S1 identity restores). Not yet: edit war (S4), dispute templates, source change (S8), kept-in-latest.
 - Edits the evidence standard excludes without an assessment are never sent to the LLM. Limits: `Investigations:Pipeline` options.
 - Stage 1 = R1 (#8): vector hits in every language, en/sv folded onto their fi sibling by `wikidata_id`; only fi articles come out.
 - Caches (#40, SQLite): `EditReadingCache` (span + diff per removed edit, keyed by revision ids + reader version) and

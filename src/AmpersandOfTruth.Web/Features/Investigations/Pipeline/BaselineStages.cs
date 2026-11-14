@@ -101,7 +101,10 @@ public sealed class RevertCandidateSource(IInvestigationCorpus corpus, IRevision
 public sealed class CorpusEditReader(IRevisionStore revisions, IOptions<InvestigationPipelineOptions> options) : IEditReader
 {
     /// <summary>Bump when what a reading contains changes (span rule, passages, context); invalidates the reading cache.</summary>
-    public const int Version = 1;
+    public const int Version = 2;
+
+    /// <summary>Re-insertions read per removed edit.</summary>
+    internal const int MaxReinsertions = 50;
 
     public async Task<EditReading> ReadAsync(RemovedEdit edit, CancellationToken ct = default)
     {
@@ -118,7 +121,15 @@ public sealed class CorpusEditReader(IRevisionStore revisions, IOptions<Investig
 
         var diff = WikitextDiff.Compare(before, after);
         var (inserted, removed) = Passages(before, after, diff);
-        return new EditReading(edit, span, diff, inserted, removed, Context(before, diff, options.Value.MaxPromptChars));
+
+        // P1.S1 re-insertion: a later revision restoring the exact content of a non-empty undone revision.
+        var sha1s = span.Where(s => s.Bytes > 0 && s.Sha1 is not null).Select(s => s.Sha1!).Distinct().ToList();
+        var restores = await revisions.RestoresAsync(pageId, r.Timestamp, r.RevId, sha1s, MaxReinsertions, ct);
+
+        return new EditReading(edit, span, diff, inserted, removed, Context(before, diff, options.Value.MaxPromptChars))
+        {
+            Reinsertions = restores,
+        };
     }
 
     /// <summary>A paragraph changed in place is widened to the whole paragraph on both sides up to this length.</summary>

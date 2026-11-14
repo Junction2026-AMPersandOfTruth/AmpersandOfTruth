@@ -44,14 +44,41 @@ public sealed class FakeRevisionStore : IRevisionStore
         return Task.FromResult(Texts.GetValueOrDefault((pageId, revId)));
     }
 
-    /// <summary>Adds the restored revision and one undone edit (<paramref name="revertedRevId"/>) with their texts.</summary>
+    public Task<IReadOnlyList<RevisionRow>> RestoresAsync(
+        long pageId, DateTime afterTs, long afterRevId, IReadOnlyCollection<string> sha1s, int limit, CancellationToken ct = default)
+    {
+        ThrowIfDown();
+        var result = new List<RevisionRow>();
+        string? previous = null;
+        foreach (var r in Rows.Where(r => r.PageId == pageId && r.RevId > afterRevId).OrderBy(r => r.RevId))
+        {
+            if (r.Sha1 is not null && sha1s.Contains(r.Sha1) && r.Sha1 != previous) result.Add(r);
+            previous = r.Sha1;
+        }
+        return Task.FromResult<IReadOnlyList<RevisionRow>>(result.Take(limit).ToList());
+    }
+
+    public static readonly DateTime T0 = new(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
+
+    public static string Sha1(string text) =>
+        Convert.ToHexStringLower(System.Security.Cryptography.SHA1.HashData(System.Text.Encoding.UTF8.GetBytes(text)));
+
+    /// <summary>Adds the restored revision and one undone edit (<paramref name="revertedRevId"/>) with their texts.
+    /// Timestamps = <see cref="T0"/> + rev id minutes, matching <see cref="FakeInvestigationCorpus.Revert"/>.</summary>
     public FakeRevisionStore Edit(long pageId, long restoredRevId, long revertedRevId, string? user, string before, string after, string? comment = null)
     {
-        var ts = new DateTime(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
-        Rows.Add(new RevisionRow(pageId, restoredRevId, restoredRevId - 1, ts.AddMinutes(restoredRevId), "Someone", null, before.Length));
-        Rows.Add(new RevisionRow(pageId, revertedRevId, restoredRevId, ts.AddMinutes(revertedRevId), user, comment, after.Length));
+        Rows.Add(new RevisionRow(pageId, restoredRevId, restoredRevId - 1, T0.AddMinutes(restoredRevId), "Someone", null, before.Length, Sha1(before)));
+        Rows.Add(new RevisionRow(pageId, revertedRevId, restoredRevId, T0.AddMinutes(revertedRevId), user, comment, after.Length, Sha1(after)));
         Texts[(pageId, restoredRevId)] = before;
         Texts[(pageId, revertedRevId)] = after;
+        return this;
+    }
+
+    /// <summary>A later revision whose content is <paramref name="text"/> (e.g. someone putting removed content back).</summary>
+    public FakeRevisionStore Later(long pageId, long revId, string? user, string text, DateTime ts, string? comment = null)
+    {
+        Rows.Add(new RevisionRow(pageId, revId, revId - 1, ts, user, comment, text.Length, Sha1(text)));
+        Texts[(pageId, revId)] = text;
         return this;
     }
 
