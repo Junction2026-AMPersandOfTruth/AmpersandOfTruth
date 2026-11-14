@@ -1,0 +1,45 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../../aot.css"><meta charset="utf-8"><title>Cover</title>
+<style>
+  html, body { margin: 0; background: var(--paper); }
+  .cv { position: relative; width: 960px; height: 288px; overflow: hidden; background: var(--paper); }
+  .cv svg { position: absolute; left: 480px; top: 0; width: 480px; height: 288px; }
+  .big { fill: var(--surface-sunken); stroke: var(--line); } .accent { fill: var(--accent); } .camp { fill: var(--tier-campaign-bg); stroke: var(--tier-campaign-line); } .cont { fill: var(--tier-contested-bg); stroke: var(--tier-contested-line); }
+  .sheet { fill: var(--surface); stroke: var(--line); }
+  .bar { fill: var(--ink-muted); } .add { fill: var(--diff-add-ink); } .del { fill: var(--diff-del-bg); }
+  .strike { stroke: var(--diff-del-ink); stroke-width: 1.5; }
+  .cut { fill: var(--line); }
+  .md { rx: var(--radius-sm); } .sm { rx: var(--radius-sm); }
+  .name { position: absolute; left: 40px; bottom: 36px; width: 420px; }
+  .name h1 { margin: 0; font: 400 76px/.95 var(--font-serif); color: var(--ink); }
+  .name p { margin: 16px 0 0; font: 400 14px/20px var(--font-sans); color: var(--ink-muted); }
+</style></head>
+<body>
+<div class="cv">
+  <svg viewBox="0 0 480 288" aria-hidden="true">
+    <!-- blocks (quiet): surface-sunken 192×168 bleeding off the top; tier-campaign-bg 120×96; tier-contested-bg 124×244 bleeding off the right; accent 192×80, the only saturated block; the sheet (surface + line) 120×152 -->
+    <!-- arrangement: staggered modular grid, gaps of space-4 (16px), corners radius-sm (2px, near-square like Wikipedia boxes) -->
+    <!-- pattern: a literal motif, lines of an edited passage (the diff): text bars with one inserted (diff-add-ink) and one struck (diff-del) line, because the product is "what was written and what was removed" -->
+    <!-- scales: pitch space-4 (16px), bar height space-2 (8px), radius-sm on bars, radius-md on blocks -->
+    <rect class="big md" x="24.5" y="-12" width="192" height="180"/>
+    <rect class="camp md" x="232" y="-12" width="120" height="108"/>
+    <rect class="cont md" x="368" y="-12" width="124" height="244"/>
+    <rect class="accent md" x="24" y="184" width="192" height="80"/>
+    <rect class="sheet md" x="232" y="112" width="120" height="152"/>
+    <rect class="bar sm" x="248" y="132" width="88" height="8"/>
+    <rect class="bar sm" x="248" y="148" width="64" height="8"/>
+    <rect class="add sm" x="248" y="164" width="80" height="8"/>
+    <rect class="del sm" x="248" y="180" width="72" height="8"/>
+    <line class="strike" x1="244" y1="184" x2="324" y2="184"/>
+    <rect class="bar sm" x="248" y="196" width="88" height="8"/>
+    <rect class="bar sm" x="248" y="212" width="48" height="8"/>
+    <rect class="cut sm" x="40" y="40" width="120" height="8"/>
+    <rect class="cut sm" x="40" y="56" width="88" height="8"/>
+    <rect class="cut sm" x="40" y="72" width="104" height="8"/>
+  </svg>
+  <div class="name"><h1>Ampersand of Truth</h1><p>See what was pushed into Wikipedia, and what the community took out.</p></div>
+</div>
+</body>
+</html>
