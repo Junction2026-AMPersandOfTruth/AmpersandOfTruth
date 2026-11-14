@@ -15,7 +15,9 @@ from datetime import timedelta
 import json
 import pathlib
 import sys
+import tempfile
 import unittest
+from unittest import mock
 
 HERE = pathlib.Path(__file__).resolve().parent
 RESEARCH_DIR = HERE.parent
@@ -23,6 +25,7 @@ sys.path.insert(0, str(RESEARCH_DIR / "lib"))
 sys.path.insert(0, str(RESEARCH_DIR / "eval"))
 sys.path.insert(0, str(HERE))
 
+import aot  # noqa: E402
 import contract  # noqa: E402
 from evidence import (  # noqa: E402
     apply_disables,
@@ -30,6 +33,7 @@ from evidence import (  # noqa: E402
     has_dispute_template_added,
     has_ref_manipulation,
     longest_added_sentence,
+    orient_cluster_units,
     parse_assessment_row,
     to_removal_reason,
 )
@@ -44,8 +48,14 @@ from tiers import (  # noqa: E402
     TierReasonKind,
     TierRules,
     TierThresholds,
+    parse_threshold_overrides,
 )
-from variant import rank_and_assemble_incidents  # noqa: E402
+from variant import (  # noqa: E402
+    embed_cache_key,
+    encode_vector_f16_b64,
+    load_embedding_cache,
+    rank_and_assemble_incidents,
+)
 
 
 def create_contested_evidence() -> IncidentEvidence:
@@ -818,6 +828,243 @@ class VariantScoringAndAssemblyTests(unittest.TestCase):
             self.assertTrue(inc["tier_reason"].endswith("."))
             self.assertIsNotNone(inc["assessment"])
             self.assertIn("has_verified_quote", inc["assessment"])
+
+
+class S10TuningTests(unittest.TestCase):
+    """P1.S10 tuning tests: two-sided cluster orientation, passage edit war, thresholds, and B+rel cache."""
+
+    X_TEXT = "Suomen hallitus sopi salaisesta hyökkäyssopimuksesta jo syksyllä 1940 ennen sotaa."
+    Y_TEXT = "Suomen hallitus noudatti puolueettomuuspolitiikkaa välirauhan aikana vuosina 1940–1941."
+
+    def test_synthetic_xy_edit_war_orients_sides_to_single_inserting_editor(self) -> None:
+        # Timeline on page 300:
+        #   r1 (EditorClaimant) : replaces Y with X
+        #   r2 (ReviewerOne)    : reverts r1 back to Y -> U1 (side 1: ins=[1], rev=2, added=X, removed=Y)
+        #   r3 (EditorClaimant) : reverts r2 back to X -> U2 (side 2: ins=[2], rev=3, added=Y, removed=X)
+        #   r4 (ReviewerTwo)    : reverts r3 back to Y -> U3 (side 1: ins=[3], rev=4, added=X, removed=Y)
+        #   r5 (EditorClaimant) : reverts r4 back to X -> U4 (side 2: ins=[4], rev=5, added=Y, removed=X)
+        crow = {"cluster_id": "900", "n_units": "4", "n_pages": "1", "prose_chars": "82"}
+        members = [
+            {"cluster_id": "900", "page_id": "300", "reverting_rev_id": "2", "inserting_rev_ids": "1", "inserted_at": "2024-03-01 10:00:00", "removed_at": "2024-03-01 10:05:00", "account_key": "a"},
+            {"cluster_id": "900", "page_id": "300", "reverting_rev_id": "3", "inserting_rev_ids": "2", "inserted_at": "2024-03-01 10:05:00", "removed_at": "2024-03-01 10:10:00", "account_key": "b"},
+            {"cluster_id": "900", "page_id": "300", "reverting_rev_id": "4", "inserting_rev_ids": "3", "inserted_at": "2024-03-01 10:10:00", "removed_at": "2024-03-09 10:15:00", "account_key": "a"},
+            {"cluster_id": "900", "page_id": "300", "reverting_rev_id": "5", "inserting_rev_ids": "4", "inserted_at": "2024-03-09 10:15:00", "removed_at": "2024-03-09 10:20:00", "account_key": "c"},
+        ]
+        revs = {
+            1: {"page_id": "300", "rev_id": "1", "ts": "2024-03-01 10:00:00", "user": "EditorClaimant", "anonymous": "0"},
+            2: {"page_id": "300", "rev_id": "2", "ts": "2024-03-01 10:05:00", "user": "ReviewerOne", "anonymous": "0"},
+            3: {"page_id": "300", "rev_id": "3", "ts": "2024-03-01 10:10:00", "user": "EditorClaimant", "anonymous": "0"},
+            4: {"page_id": "300", "rev_id": "4", "ts": "2024-03-09 10:15:00", "user": "ReviewerTwo", "anonymous": "0"},
+            5: {"page_id": "300", "rev_id": "5", "ts": "2024-03-09 10:20:00", "user": "EditorClaimant", "anonymous": "0"},
+        }
+        sdiffs = {
+            2: {"is_substantive": "1", "is_blanking": "0", "added_prose": self.X_TEXT, "removed_prose": self.Y_TEXT, "added_prose_chars": "82", "segments": "[]"},
+            3: {"is_substantive": "1", "is_blanking": "0", "added_prose": self.Y_TEXT, "removed_prose": self.X_TEXT, "added_prose_chars": "87", "segments": "[]"},
+            4: {"is_substantive": "1", "is_blanking": "0", "added_prose": self.X_TEXT, "removed_prose": self.Y_TEXT, "added_prose_chars": "82", "segments": "[]"},
+            5: {"is_substantive": "1", "is_blanking": "0", "added_prose": self.Y_TEXT, "removed_prose": self.X_TEXT, "added_prose_chars": "87", "segments": "[]"},
+        }
+        arow = {
+            "id": "1+2+3+4",
+            "model": "gemini-4-carbon",
+            "outcome": "ok",
+            "value": {
+                "category": "content_dispute",
+                "confidence": 4,
+                "evidence": ["salaisesta hyökkäyssopimuksesta"],
+                "claim_en": "Secret offensive pact in autumn 1940.",
+            },
+        }
+
+        self.assertEqual((1, 2, 1, 2), orient_cluster_units(members, sdiffs))
+
+        cand_on = build_cluster_candidate(
+            cluster_row=crow,
+            member_rows=members,
+            rev_by_id=revs,
+            span_diffs_by_rev=sdiffs,
+            s1_class_by_rev={},
+            s4_war_revs=set(),
+            s5_reasons_by_rev={},
+            s6_bot_by_rev={},
+            assessment_row=arow,
+            sides=True,
+            edit_war_source="passage",
+        )
+        # Side-1 units are U1 (ins=1) and U3 (ins=3). U4's reverting rev 5 is NOT a removal of X!
+        self.assertEqual((1, 3), cand_on.inserting_rev_ids)
+        self.assertEqual((2, 4), cand_on.removing_rev_ids)
+        self.assertEqual(1, cand_on.evidence.distinct_inserting_editors)
+        self.assertEqual(1, cand_on.evidence.reinsertion_count)
+        self.assertTrue(cand_on.evidence.in_edit_war)
+        ta_on = TierRules.Assess(cand_on.evidence)
+        self.assertEqual(EvidenceTier.CONTESTED, ta_on.tier)
+
+        # With --sides off, Reviewers 2 and 4 pollute inserting_rev_ids -> multiple_editors!
+        cand_off = build_cluster_candidate(
+            cluster_row=crow,
+            member_rows=members,
+            rev_by_id=revs,
+            span_diffs_by_rev=sdiffs,
+            s1_class_by_rev={},
+            s4_war_revs=set(),
+            s5_reasons_by_rev={},
+            s6_bot_by_rev={},
+            assessment_row=arow,
+            sides=False,
+            edit_war_source="passage",
+        )
+        self.assertEqual((1, 2, 3, 4), cand_off.inserting_rev_ids)
+        self.assertGreaterEqual(cand_off.evidence.distinct_inserting_editors, 2)
+
+    def test_single_revert_plus_counter_revert_is_one_removal_not_edit_war(self) -> None:
+        # r1 (A adds X) -> r2 (B reverts to Y, U1 side 1) -> r3 (A reverts r2 back to X, U2 side 2, never reverted again)
+        crow = {"cluster_id": "901", "n_units": "2", "n_pages": "1", "prose_chars": "82"}
+        members = [
+            {"cluster_id": "901", "page_id": "300", "reverting_rev_id": "2", "inserting_rev_ids": "1", "inserted_at": "2024-03-01 10:00:00", "removed_at": "2024-03-01 10:05:00", "account_key": "a"},
+            {"cluster_id": "901", "page_id": "300", "reverting_rev_id": "3", "inserting_rev_ids": "2", "inserted_at": "2024-03-01 10:05:00", "removed_at": "2024-03-01 10:10:00", "account_key": "b"},
+        ]
+        revs = {
+            1: {"page_id": "300", "rev_id": "1", "ts": "2024-03-01 10:00:00", "user": "EditorA", "anonymous": "0"},
+            2: {"page_id": "300", "rev_id": "2", "ts": "2024-03-01 10:05:00", "user": "EditorB", "anonymous": "0"},
+            3: {"page_id": "300", "rev_id": "3", "ts": "2024-03-01 10:10:00", "user": "EditorA", "anonymous": "0"},
+        }
+        sdiffs = {
+            2: {"is_substantive": "1", "is_blanking": "0", "added_prose": self.X_TEXT, "removed_prose": self.Y_TEXT, "added_prose_chars": "82", "segments": "[]"},
+            3: {"is_substantive": "1", "is_blanking": "0", "added_prose": self.Y_TEXT, "removed_prose": self.X_TEXT, "added_prose_chars": "87", "segments": "[]"},
+        }
+        cand = build_cluster_candidate(
+            cluster_row=crow,
+            member_rows=members,
+            rev_by_id=revs,
+            span_diffs_by_rev=sdiffs,
+            s1_class_by_rev={},
+            s4_war_revs=set(),
+            s5_reasons_by_rev={},
+            s6_bot_by_rev={},
+            sides=True,
+            edit_war_source="passage",
+        )
+        self.assertEqual((1,), cand.inserting_rev_ids)
+        self.assertEqual((2,), cand.removing_rev_ids)
+        self.assertEqual(0, cand.evidence.reinsertion_count)
+        self.assertFalse(cand.evidence.in_edit_war)
+
+    def test_passage_edit_war_vs_s4_and_same_editor_guard(self) -> None:
+        crow = {"cluster_id": "902", "n_units": "1", "n_pages": "1", "prose_chars": "82"}
+        singleton_members = [
+            {"cluster_id": "902", "page_id": "300", "reverting_rev_id": "12", "inserting_rev_ids": "11", "inserted_at": "2024-03-01 10:00:00", "removed_at": "2024-03-01 10:05:00", "account_key": "a"},
+        ]
+        revs = {
+            11: {"page_id": "300", "rev_id": "11", "ts": "2024-03-01 10:00:00", "user": "EditorA", "anonymous": "0"},
+            12: {"page_id": "300", "rev_id": "12", "ts": "2024-03-01 10:05:00", "user": "EditorB", "anonymous": "0"},
+        }
+        sdiffs = {
+            12: {"is_substantive": "1", "is_blanking": "0", "added_prose": self.X_TEXT, "removed_prose": "", "added_prose_chars": "82", "segments": "[]"},
+        }
+        # Singleton in an S4 page-level edit war: False under `passage`, True under `s4`
+        c_passage = build_cluster_candidate(
+            crow, singleton_members, revs, sdiffs, {}, {11, 12}, {}, {}, edit_war_source="passage"
+        )
+        c_s4 = build_cluster_candidate(
+            crow, singleton_members, revs, sdiffs, {}, {11, 12}, {}, {}, edit_war_source="s4"
+        )
+        self.assertFalse(c_passage.evidence.in_edit_war)
+        self.assertTrue(c_s4.evidence.in_edit_war)
+
+        # Two removals + 1 re-insertion where remover and re-inserter share the SAME editor grouping key -> False
+        same_camp_members = [
+            {"cluster_id": "903", "page_id": "300", "reverting_rev_id": "22", "inserting_rev_ids": "21", "inserted_at": "2024-03-01 10:00:00", "removed_at": "2024-03-01 10:05:00", "account_key": "a"},
+            {"cluster_id": "903", "page_id": "300", "reverting_rev_id": "24", "inserting_rev_ids": "23", "inserted_at": "2024-03-01 10:10:00", "removed_at": "2024-03-01 10:15:00", "account_key": "a"},
+        ]
+        same_camp_revs = {
+            21: {"page_id": "300", "rev_id": "21", "ts": "2024-03-01 10:00:00", "user": "85.76.1.10", "anonymous": "1"},
+            22: {"page_id": "300", "rev_id": "22", "ts": "2024-03-01 10:05:00", "user": "85.76.2.20", "anonymous": "1"},
+            23: {"page_id": "300", "rev_id": "23", "ts": "2024-03-01 10:10:00", "user": "85.76.3.30", "anonymous": "1"},
+            24: {"page_id": "300", "rev_id": "24", "ts": "2024-03-01 10:15:00", "user": "85.76.4.40", "anonymous": "1"},
+        }
+        same_camp_diffs = {
+            22: {"is_substantive": "1", "is_blanking": "0", "added_prose": self.X_TEXT, "removed_prose": "", "added_prose_chars": "82", "segments": "[]"},
+            24: {"is_substantive": "1", "is_blanking": "0", "added_prose": self.X_TEXT, "removed_prose": "", "added_prose_chars": "82", "segments": "[]"},
+        }
+        c_same_camp = build_cluster_candidate(
+            {"cluster_id": "903", "n_units": "2", "n_pages": "1", "prose_chars": "82"},
+            same_camp_members,
+            same_camp_revs,
+            same_camp_diffs,
+            {},
+            set(),
+            {},
+            {},
+            edit_war_source="passage",
+        )
+        self.assertEqual(1, c_same_camp.evidence.reinsertion_count)
+        self.assertFalse(c_same_camp.evidence.in_edit_war)
+
+    def test_parse_threshold_overrides_all_fields(self) -> None:
+        t = parse_threshold_overrides(
+            [
+                "min_model_confidence=4",
+                "min_distinct_editors=3",
+                "min_distinct_articles=4",
+                "min_persistence_reinsertions=5",
+                "min_persistence_span=14",
+                "min_coordination_signals=3",
+            ]
+        )
+        self.assertEqual(
+            TierThresholds(
+                min_model_confidence=4,
+                min_distinct_editors=3,
+                min_distinct_articles=4,
+                min_persistence_reinsertions=5,
+                min_persistence_span=timedelta(days=14),
+                min_coordination_signals=3,
+            ),
+            t,
+        )
+        with self.assertRaises(ValueError):
+            parse_threshold_overrides(["not_a_threshold=2"])
+        with self.assertRaises(ValueError):
+            parse_threshold_overrides(["min_model_confidence=9"])
+
+    def test_brel_reads_only_cache_and_defaults_missing_to_unit_relevance(self) -> None:
+        ev = create_contested_evidence()
+        c_hit_low = VariantScoringAndAssemblyTests()._make_synthetic_cand(
+            201, 500, 41, 42, ev, claim_en="Off-topic claim", prose_chars=300
+        )
+        c_miss = VariantScoringAndAssemblyTests()._make_synthetic_cand(
+            202, 500, 51, 52, ev, claim_en="Uncached claim", prose_chars=250
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            cache_file = pathlib.Path(tmp) / "embeddings.cache.json"
+            q_vec = [1.0] + [0.0] * 1023
+            low_vec = [0.1, 0.99] + [0.0] * 1022
+            cache_doc = {
+                "model": "bge-m3",
+                "dim": 1024,
+                "dtype": "float16_le_b64",
+                "vectors": {
+                    embed_cache_key("Target query"): encode_vector_f16_b64(q_vec),
+                    embed_cache_key("Off-topic claim"): encode_vector_f16_b64(low_vec),
+                },
+            }
+            cache_file.write_text(json.dumps(cache_doc), encoding="utf-8")
+            lookup = load_embedding_cache(cache_file)
+            self.assertIsNotNone(lookup("Target query"))
+            self.assertIsNone(lookup("Uncached claim"))
+
+            with mock.patch.object(aot, "embed", side_effect=AssertionError("aot.embed must not be called in B+rel")):
+                incidents, diag = rank_and_assemble_incidents(
+                    [c_hit_low, c_miss],
+                    "Target query",
+                    [500],
+                    limit=10,
+                    mode="B+rel",
+                    embeddings_cache_path=cache_file,
+                )
+            # `c_miss` gets fallback rel=1.0 while `c_hit_low` gets cos ~ 0.1 -> `c_miss` ranks first, zero aot.embed calls!
+            self.assertEqual(["51", "41"], [x["id"] for x in incidents])
+            self.assertEqual(1, diag["rel_cache_misses"])
 
 
 if __name__ == "__main__":

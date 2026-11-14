@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Incident — what a signal variant returns and what the app shows. DRAFT of the #37 output contract; the five required fields are frozen for the eval.",
+  "title": "Incident — what a signal variant returns and what the app shows. Frozen output contract (contract 1, #37): the five required fields are what the eval matches on; the optional fields are frozen in name, type and meaning (CONTRACT.md §3) and optional for research variants.",
   "type": "object",
   "required": ["page_id", "inserting_rev_ids", "removing_rev_ids", "tier", "score"],
   "additionalProperties": true,
