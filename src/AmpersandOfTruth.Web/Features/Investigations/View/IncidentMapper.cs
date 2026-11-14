@@ -130,7 +130,7 @@ public sealed partial class IncidentMapper(IIncidentCorpus corpus, IRevisionStor
             Passage: passage,
             Assessment: assessment,
             Relevance: r.Score,
-            ClusterId: null,
+            ClusterId: string.IsNullOrWhiteSpace(r.ClusterId) ? null : r.ClusterId,
             Source: r);
     }
 

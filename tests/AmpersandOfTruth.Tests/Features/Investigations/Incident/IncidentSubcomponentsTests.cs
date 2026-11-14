@@ -226,4 +226,24 @@ public sealed class IncidentSubcomponentsTests : BunitContext
             Assert.Equal("\u201Calready quoted\u201D", okCut.Find("[data-testid=mt-label]").TextContent);
         });
     }
+
+    [Fact]
+    public void RelatedIncidents_lists_same_cluster_first()
+    {
+        var six = FakeIncidentSource.BuildSix();
+        // ww-06 shares a cluster with ww-02 but nothing else; it must come before article/editor matches.
+        var incidents = six.Select(v => v.Id is "ww-02" or "ww-06" ? v with { ClusterId = "c-7" } : v).ToList();
+        var current = incidents.Single(v => v.Id == "ww-02");
+
+        var cut = Render<RelatedIncidents>(p => p
+            .Add(x => x.Current, current)
+            .Add(x => x.Incidents, incidents)
+            .Add(x => x.Topic, "winter-war"));
+
+        var ids = cut.FindAll("[data-testid=incident-card]").Select(c => c.GetAttribute("data-incident")).ToList();
+        Assert.NotEmpty(ids);
+        Assert.Equal("ww-06", ids[0]);
+        Assert.DoesNotContain("ww-02", ids);
+        Assert.Equal(ids.Count, ids.Distinct().Count());
+    }
 }
