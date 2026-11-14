@@ -53,13 +53,64 @@ public sealed class WebSpreadGatewayTests : IDisposable
         Assert.Single(_fetch.Requests);
     }
 
+    [Theory]
+    [InlineData("http_500: {\"status\":500,\"title\":\"REQUEST_FAILED_RESPONSE_TOO_BIG\"}", true)]
+    [InlineData("http_400: {\"status\":400,\"title\":\"INVALID_BODY_PROPERTY\"}", true)]
+    [InlineData("http_404: not found", true)]
+    [InlineData("http_401: Oxylabs rejected the credentials", false)]
+    [InlineData("http_403: forbidden", false)]
+    [InlineData("http_429: slow down", false)]
+    [InlineData("http_502: bad gateway", false)]
+    [InlineData("timeout after 90 s", false)]
+    [InlineData("network: connection reset", false)]
+    public async Task Only_failures_a_retry_wont_fix_are_remembered(string error, bool remembered)
+    {
+        const string url = "https://b.example/page";
+        _fetch.Errors[url] = error;
+
+        await _gateway.FetchAsync(url);
+        var again = await _gateway.FetchAsync(url);
+
+        Assert.Equal(remembered, again.FromCache);
+        Assert.Equal(remembered ? 1 : 2, _fetch.Requests.Count);
+    }
+
     [Fact]
-    public async Task Failures_are_not_cached()
+    public async Task Ordinary_failures_are_not_cached()
     {
         await _gateway.FetchAsync("https://missing.example/");
         await _gateway.FetchAsync("https://missing.example/");
 
         Assert.Equal(2, _fetch.Requests.Count);
+    }
+
+    [Fact]
+    public async Task A_page_oxylabs_gave_up_on_replays_as_a_failure_for_a_day_then_is_tried_again()
+    {
+        const string url = "https://www.facebook.com/some/post";
+        _fetch.Errors[url] = "http_500: {\"status\":500,\"title\":\"REQUEST_FAILED_AFTER_TOO_MANY_RETRIES\",\"state\":\"faulted\"}";
+
+        var first = await _gateway.FetchAsync(url, "t1");
+        _time.Advance(TimeSpan.FromHours(23));
+        var replay = await _gateway.FetchAsync(url, "t1");
+
+        Assert.Equal(WebCallOutcome.Failed, first.Outcome);
+        Assert.False(first.FromCache);
+        Assert.Equal(WebCallOutcome.Failed, replay.Outcome);
+        Assert.True(replay.FromCache);
+        Assert.Contains("REQUEST_FAILED_AFTER_TOO_MANY_RETRIES", replay.Error);
+        Assert.Single(_fetch.Requests);
+        var usage = await _store.UsageAsync("t1"); // (23 h later is the next UTC day, so "today" has reset)
+        Assert.Equal(1, usage.LiveInScope); // the replay cost nothing
+        Assert.Equal(1, usage.CacheHitsToday);
+
+        _time.Advance(TimeSpan.FromHours(2));
+        _fetch.Add(url, "now public");
+        var later = await _gateway.FetchAsync(url, "t1");
+
+        Assert.Equal(WebCallOutcome.Ok, later.Outcome);
+        Assert.Equal(2, _fetch.Requests.Count);
+        Assert.True((await _gateway.FetchAsync(url, "t1")).FromCache); // and the success replaces the failure
     }
 
     [Fact]
@@ -106,6 +157,8 @@ public sealed class WebSpreadGatewayTests : IDisposable
     [Theory]
     [InlineData("https://fi.wikipedia.org/wiki/Talvisota")]
     [InlineData("https://example.com/report.pdf")]
+    [InlineData("https://erepo.uef.fi/server/api/core/bitstreams/dee2917a-72a3-46d8-9ab/content")]
+    [InlineData("https://helda.helsinki.fi/bitstream/handle/10138/1234/thesis?sequence=1")]
     [InlineData("ftp://example.com/x")]
     public async Task Skip_list_urls_are_never_fetched(string url)
     {

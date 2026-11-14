@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Net.Http.Headers;
 using System.Text;
@@ -12,7 +13,7 @@ namespace AmpersandOfTruth.Web.Features.WebSpread.Oxylabs;
 /// backoff on 429/5xx/timeouts and an app-wide concurrency limit. No cache and no budget — <see cref="WebSpreadGateway"/>
 /// wraps it with both. Never throws for provider problems; never logs credentials. Singleton; thread-safe.
 /// </summary>
-public sealed class OxylabsClient(
+public sealed partial class OxylabsClient(
     HttpClient http,
     IOptionsMonitor<OxylabsOptions> options,
     TimeProvider time,
@@ -146,10 +147,20 @@ public sealed class OxylabsClient(
     /// <summary>429, 5xx and Oxylabs' own 6xx job-failure codes are worth retrying.</summary>
     public static bool IsRetryable(int status) => status == 429 || status >= 500;
 
-    /// <summary>Oxylabs already retried the target itself (Web API 500 <c>REQUEST_FAILED_AFTER_TOO_MANY_RETRIES</c>, ~40 s
-    /// each; seen on facebook.com in the P3.1 spike). Retrying again only triples the wait for the same failure.</summary>
+    /// <summary>Oxylabs already gave up on the target itself: a Web API 500 titled <c>REQUEST_FAILED_…</c> — seen
+    /// <c>AFTER_TOO_MANY_RETRIES</c> (login walls, ~40 s) and <c>RESPONSE_TOO_BIG</c> (large downloads, 25–100 s).
+    /// Retrying again only multiplies the wait for the same failure.</summary>
     public static bool ProviderGaveUp(string body) =>
-        body.Contains("REQUEST_FAILED_AFTER_TOO_MANY_RETRIES", StringComparison.Ordinal);
+        body.Contains("\"REQUEST_FAILED_", StringComparison.Ordinal);
+
+    /// <summary>A failure a retry won't fix (the gateway remembers it for <see cref="OxylabsOptions.GaveUpCacheTime"/>):
+    /// Oxylabs gave up, or rejected the request with a 4xx (e.g. 400 <c>INVALID_BODY_PROPERTY</c>) — except 401/403
+    /// (credentials, fixable), 408 and 429 (transient). Takes the client's error text (<c>http_{status}: {body}</c>).</summary>
+    public static bool IsPermanentFailure(string error) =>
+        ProviderGaveUp(error) || PermanentRejection().IsMatch(error);
+
+    [GeneratedRegex(@"^http_4(?!01|03|08|29)\d\d\b")]
+    private static partial Regex PermanentRejection();
 
     private static TimeSpan RetryDelay(int attempt, TimeSpan? retryAfter, OxylabsOptions opt)
     {

@@ -41,6 +41,9 @@ public static class UrlPolicy
         if (WikipediaHosts.Any(h => HostIs(host, h))) return UrlKind.Wikipedia;
         if (MirrorHosts.Any(h => HostIs(host, h))) return UrlKind.Mirror;
         if (FileExtensions.Contains(Path.GetExtension(uri.AbsolutePath))) return UrlKind.File;
+        // Repository downloads without an extension (DSpace /bitstream(s)/…: theses, PDFs; Oxylabs answers RESPONSE_TOO_BIG).
+        if (uri.AbsolutePath.Contains("/bitstream/", StringComparison.OrdinalIgnoreCase)
+            || uri.AbsolutePath.Contains("/bitstreams/", StringComparison.OrdinalIgnoreCase)) return UrlKind.File;
         return UrlKind.Page;
     }
 

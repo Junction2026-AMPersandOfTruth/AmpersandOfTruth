@@ -4,6 +4,7 @@
 @using AmpersandOfTruth.Web.Features.Analysis
 @using AmpersandOfTruth.Web.Features.Analysis.Dashboard
 @using AmpersandOfTruth.Web.Features.Analysis.Store
+@using AmpersandOfTruth.Web.Features.WebSpread
 @using Microsoft.Extensions.Options
 @inject AnalysisLedger Ledger
 @inject AnalysisBudget Budget
@@ -132,6 +133,8 @@
             $"ok {_summary.Ok} · blocked {_summary.Blocked} · invalid {_summary.Invalid} · truncated {_summary.Truncated} · failed {_summary.Failed} · budget {_summary.BudgetExceeded}")
     </div>
 </section>
+
+<WebSpreadUsagePanel />
 
 <section class="mb-4" data-testid="by-model">
     <h2 class="h5 mb-2">Usage by model today</h2>

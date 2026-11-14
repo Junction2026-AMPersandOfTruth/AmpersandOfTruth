@@ -211,7 +211,10 @@ docs/known-limitations.md     # P1.P3 (#41): what the app cannot tell a user, wi
   (~40 s, login-walled sites) is never retried). The Scraper API side (`tbs`, `organic[]`) is still unverified.
 - Layering: `OxylabsClient` (raw HTTP, retries, concurrency) ← `WebSpreadGateway` (= the registered `IWebSearchClient` /
   `IPageFetcher`: skip list → SQLite `WebSpreadCache` → caps `Oxylabs:PerScopeRequestCap` (per incident, all time) /
-  `DailyRequestCap`, fail closed → provider; ledger `WebSpreadCalls`). Only `Ok` responses are cached.
+  `DailyRequestCap`, fail closed → provider; ledger `WebSpreadCalls`, shown live on `/analysis` by `WebSpreadUsagePanel`).
+  `Ok` responses are cached; so are fetches that fail for good (`OxylabsClient.IsPermanentFailure`: Oxylabs `REQUEST_FAILED_*`
+  = login walls / too big, or a 4xx other than 401/403/408/429) for `Oxylabs:GaveUpCacheTime` (24 h), so a replay makes
+  **zero** live calls; transient failures are always retried. DSpace `/bitstream(s)/` downloads are on the skip list.
 - `WebSpreadTracer.TraceAsync(WebSpreadClaim)` streams `Planned → Searched × N → Reading → SourceFound × N → Completed`
   (never throws for provider/LLM problems; `WebSpreadResult.Status` + `Notes` say what degraded, in UI wording; the LLM
   being down sets `AssessmentDegraded`). Stages: `ClaimSearchPlanner` (P3.2: `DistinctiveFragment` exact phrase +

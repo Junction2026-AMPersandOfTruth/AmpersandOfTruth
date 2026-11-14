@@ -73,6 +73,11 @@ public sealed class OxylabsOptions
 
     public bool CacheEnabled { get; set; } = true;
 
+    /// <summary>How long a fetch that failed for good (Oxylabs gave up on it, or rejected it with a 4xx; see
+    /// <c>OxylabsClient.IsPermanentFailure</c>) is replayed as a failure instead of fetched again. Transient failures
+    /// (timeouts, 429, 5xx, network) are never cached. Zero = off.</summary>
+    public TimeSpan GaveUpCacheTime { get; set; } = TimeSpan.FromHours(24);
+
     public OxylabsMode EffectiveMode =>
         Mode ?? (!string.IsNullOrWhiteSpace(Username) && !string.IsNullOrWhiteSpace(Password) ? OxylabsMode.ScraperApi
             : !string.IsNullOrWhiteSpace(ApiKey) ? OxylabsMode.WebApi

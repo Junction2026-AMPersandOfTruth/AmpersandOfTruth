@@ -23,6 +23,10 @@ public sealed class WebSpreadGateway(
 {
     private static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.Web);
 
+    /// <summary>Cache kind for a fetch that failed for good (<see cref="Oxylabs.OxylabsClient.IsPermanentFailure"/>):
+    /// replayed as a failure until <see cref="OxylabsOptions.GaveUpCacheTime"/> has passed.</summary>
+    public const string GaveUpKind = "fetch-fail";
+
     // Live requests admitted but not yet in the ledger, so concurrent callers can't all slip under a cap.
     private readonly SemaphoreSlim _admit = new(1, 1);
     private readonly Dictionary<string, int> _pendingByScope = [];
@@ -92,9 +96,18 @@ public sealed class WebSpreadGateway(
         var key = Key("fetch", opt, UrlPolicy.Normalize(url), opt.RenderJavaScript ? "js" : "nojs");
         if (opt.CacheEnabled && await store.GetAsync(key, ct) is { } hit)
         {
-            var page = JsonSerializer.Deserialize<FetchedPage>(hit.ResponseJson, Json)!;
-            await RecordAsync("fetch", scope, url, WebCallOutcome.Ok, true, false, 0, null, ct);
-            return new PageFetchResponse(WebCallOutcome.Ok, page) { FromCache = true };
+            if (hit.Kind != GaveUpKind)
+            {
+                var page = JsonSerializer.Deserialize<FetchedPage>(hit.ResponseJson, Json)!;
+                await RecordAsync("fetch", scope, url, WebCallOutcome.Ok, true, false, 0, null, ct);
+                return new PageFetchResponse(WebCallOutcome.Ok, page) { FromCache = true };
+            }
+            if (time.GetUtcNow() - hit.CreatedAt < opt.GaveUpCacheTime)
+            {
+                await RecordAsync("fetch", scope, url, WebCallOutcome.Failed, true, false, 0, hit.ResponseJson, ct);
+                return PageFetchResponse.Fail(WebCallOutcome.Failed, hit.ResponseJson) with { FromCache = true };
+            }
+            // expired: try the page again (a success or a new failure overwrites the entry)
         }
 
         var started = time.GetTimestamp();
@@ -115,6 +128,16 @@ public sealed class WebSpreadGateway(
                 {
                     Key = key, Kind = "fetch", Request = Trim(url, 2000),
                     ResponseJson = JsonSerializer.Serialize(page, Json), CreatedAt = time.GetUtcNow(),
+                }, ct);
+            }
+            else if (response is { Outcome: WebCallOutcome.Failed, Error: { } error } && opt.CacheEnabled
+                     && opt.GaveUpCacheTime > TimeSpan.Zero && Oxylabs.OxylabsClient.IsPermanentFailure(error))
+            {
+                // Oxylabs gave up on this page (login wall, too big) or rejected it: don't pay that again on a replay.
+                await store.PutAsync(new WebCacheEntry
+                {
+                    Key = key, Kind = GaveUpKind, Request = Trim(url, 2000),
+                    ResponseJson = Trim(error, 1000), CreatedAt = time.GetUtcNow(),
                 }, ct);
             }
             var live = response.Outcome is WebCallOutcome.Ok or WebCallOutcome.Failed;
