@@ -5,6 +5,7 @@ using AmpersandOfTruth.Web.Features.Analysis;
 using AmpersandOfTruth.Web.Features.Annotations;
 using AmpersandOfTruth.Web.Features.Articles;
 using AmpersandOfTruth.Web.Features.Corpus;
+using AmpersandOfTruth.Web.Features.Demo;
 using AmpersandOfTruth.Web.Features.Embedding;
 using AmpersandOfTruth.Web.Features.Hotspots;
 using AmpersandOfTruth.Web.Features.Investigations;
@@ -12,6 +13,7 @@ using AmpersandOfTruth.Web.Features.Library;
 using AmpersandOfTruth.Web.Features.Reports;
 using AmpersandOfTruth.Web.Features.Network;
 using AmpersandOfTruth.Web.Features.Search;
+using AmpersandOfTruth.Web.Features.Sharing;
 using AmpersandOfTruth.Web.Features.TimeMachine;
 using AmpersandOfTruth.Web.Features.Translation;
 
@@ -39,6 +41,8 @@ builder.Services.AddAnnotationsFeature();
 builder.Services.AddHotspotsFeature();
 builder.Services.AddReportsFeature();
 builder.Services.AddNetworkFeature();
+builder.Services.AddSharingFeature();
+builder.Services.AddDemoFeature();
 
 var app = builder.Build();
 

@@ -17,6 +17,7 @@ public class AppSmokeTests(AppFactory factory) : IClassFixture<AppFactory>
     [InlineData("/dev/annotations")]
     [InlineData("/hotspots")]
     [InlineData("/library/00000000-0000-0000-0000-000000000000/report")]
+    [InlineData("/r/doesnotexist")]
     [InlineData("/articles/1150")]
     [InlineData("/articles/1/at")]
     [InlineData("/investigate/winter-war/incidents/ww-01")]

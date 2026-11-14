@@ -21,7 +21,7 @@
             </div>
         </div>
     }
-    else if (_items.Count == 0)
+    else if (_items.Count == 0 && _examples.Count == 0)
     {
         <div data-testid="library-empty">
             <EmptyState Title="No saved investigations yet"
@@ -32,7 +32,7 @@
             </EmptyState>
         </div>
     }
-    else
+    else if (_items.Count > 0)
     {
         <div class="table-responsive">
             <table class="aot-wikitable w-100">
@@ -95,6 +95,7 @@
                                 <div class="aot-row" style="gap:6px">
                                     <a class="aot-btn aot-btn--sm" href="@openHref" data-testid="library-open">Open</a>
                                     <a class="aot-btn aot-btn--sm" href="@($"/library/{item.Id}/report")" data-testid="library-report">Report</a>
+                                    <AmpersandOfTruth.Web.Features.Sharing.ShareButton InvestigationId="item.Id" />
                                     @if (_renamingId != item.Id)
                                     {
                                         <button type="button"
@@ -135,12 +136,58 @@
             </table>
         </div>
     }
+
+    @if (!_loading && _examples.Count > 0)
+    {
+        <section class="aot-stack" style="gap:12px" data-testid="library-examples">
+            <h2 class="aot-h2">Examples</h2>
+            <div class="table-responsive">
+                <table class="aot-wikitable w-100">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Topic</th>
+                            <th>Incidents</th>
+                            <th>Updated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in _examples)
+                        {
+                            var openHref = OpenHref(item);
+                            <tr data-testid="library-example" data-id="@item.Id" @key="item.Id">
+                                <td><span class="fw-semibold">@item.Title</span></td>
+                                <td>@item.Topic</td>
+                                <td>
+                                    <div class="aot-row" style="gap:6px 10px">
+                                        <TierBadge Tier="EvidenceTier.Campaign" Short="true" />
+                                        <span class="aot-num">@TierCount(item, EvidenceTier.Campaign).ToString("N0", CultureInfo.InvariantCulture)</span>
+                                        <TierBadge Tier="EvidenceTier.Contested" Short="true" />
+                                        <span class="aot-num">@TierCount(item, EvidenceTier.Contested).ToString("N0", CultureInfo.InvariantCulture)</span>
+                                        <TierBadge Tier="EvidenceTier.Reverted" Short="true" />
+                                        <span class="aot-num">@TierCount(item, EvidenceTier.Reverted).ToString("N0", CultureInfo.InvariantCulture)</span>
+                                    </div>
+                                </td>
+                                <td class="aot-num text-nowrap">@FormatDate(item.UpdatedAt)</td>
+                                <td class="text-nowrap">
+                                    <a class="aot-btn aot-btn--sm" href="@openHref" data-testid="library-open">Open</a>
+                                    <a class="aot-btn aot-btn--sm" href="/library/@item.Id/report">Report</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    }
 </div>
 
 @code {
     private bool _loading = true;
     private string? _owner;
     private IReadOnlyList<SavedSummary> _items = [];
+    private IReadOnlyList<SavedSummary> _examples = [];
     private Guid? _renamingId;
     private string _renameTitle = "";
     private Guid? _confirmDeleteId;
@@ -150,7 +197,10 @@
         if (firstRender)
         {
             _owner = await OwnerKey.GetOrCreateAsync();
-            _items = await Store.ListAsync(_owner);
+            _items = string.Equals(_owner, LibraryStore.DemoOwner, StringComparison.OrdinalIgnoreCase)
+                ? []
+                : await Store.ListAsync(_owner);
+            _examples = await Store.ListExamplesAsync();
             _loading = false;
             StateHasChanged();
         }

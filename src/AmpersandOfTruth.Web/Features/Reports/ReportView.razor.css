@@ -1,0 +1,263 @@
+.report-page {
+    max-width: 880px;
+    margin: 0 auto;
+    gap: var(--space-6, 24px);
+    overflow-wrap: anywhere;
+}
+
+.report-toolbar {
+    gap: var(--space-2, 8px);
+}
+
+.report-toolbar__spacer {
+    flex: 1;
+}
+
+.report-header {
+    gap: var(--space-2, 8px);
+}
+
+.report-meta {
+    margin: 0;
+}
+
+.report-section {
+    gap: var(--space-4, 16px);
+}
+
+.report-section p {
+    margin: 0;
+}
+
+.report-level-counts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2, 8px) var(--space-5, 20px);
+    align-items: center;
+}
+
+.report-level-counts li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2, 8px);
+}
+
+.report-auto-summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1, 4px);
+}
+
+.report-incident {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm, 2px);
+    padding: var(--space-5, 20px);
+    background: var(--surface);
+    gap: var(--space-4, 16px);
+}
+
+.report-incident__head {
+    gap: var(--space-2, 8px);
+}
+
+.report-incident__title {
+    font: 400 22px/30px var(--font-serif);
+    margin: 0;
+}
+
+.report-original {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.report-original p {
+    margin: 0;
+}
+
+.report-reason {
+    margin: 0;
+}
+
+.report-incident__facts {
+    margin: 0;
+}
+
+.report-subsection {
+    gap: var(--space-2, 8px);
+}
+
+.report-timeline {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2, 8px);
+}
+
+.report-timeline__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px var(--space-2, 8px);
+    align-items: center;
+    font-size: 13px;
+    line-height: 19px;
+}
+
+.report-timeline__summary {
+    font-size: 13px;
+    line-height: 19px;
+    color: var(--ink-muted);
+    margin-top: 2px;
+}
+
+.report-timeline__url {
+    font-size: 12px;
+    line-height: 18px;
+    font-family: var(--font-mono);
+    margin-top: 2px;
+}
+
+.report-url {
+    word-break: break-all;
+}
+
+.report-passage-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3, 12px);
+}
+
+@media (max-width: 767.98px) {
+    .report-passage-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.report-passage-box {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm, 2px);
+    padding: var(--space-3, 12px);
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2, 8px);
+}
+
+.report-passage-prose {
+    font: 400 15px/24px var(--font-serif);
+}
+
+.report-passage-prose p + p {
+    margin-top: var(--space-2, 8px);
+}
+
+del.report-del {
+    background: var(--diff-del-bg);
+    color: var(--diff-del-ink);
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+ins.report-ins {
+    background: var(--diff-add-bg);
+    color: var(--diff-add-ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+.report-pin-note {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1, 4px);
+}
+
+.report-levels-list,
+.report-list,
+.report-revisions-list {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2, 8px);
+}
+
+.report-levels-list li {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.report-revisions-list {
+    font-size: 13px;
+    line-height: 19px;
+}
+
+@media print {
+    .report-page {
+        max-width: none;
+        font-family: var(--font-serif);
+        color: #000000;
+        background: #ffffff;
+        gap: 18pt;
+    }
+
+    .report-toolbar,
+    ::deep button {
+        display: none !important;
+    }
+
+    .report-incident {
+        border: 1px solid #888888;
+        padding: 12pt;
+        break-after: page;
+        page-break-after: always;
+    }
+
+    .report-incident:last-child {
+        break-after: auto;
+        page-break-after: auto;
+    }
+
+    .report-passage-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .report-passage-box,
+    .report-auto-summary,
+    .report-pin-note {
+        border: 1px solid #999999;
+        background: transparent !important;
+    }
+
+    del.report-del {
+        background: transparent !important;
+        color: #000000 !important;
+        text-decoration: line-through !important;
+        text-decoration-thickness: 1.5px !important;
+    }
+
+    ins.report-ins {
+        background: transparent !important;
+        color: #000000 !important;
+        text-decoration: underline !important;
+        text-decoration-thickness: 1.5px !important;
+    }
+
+    .report-url {
+        color: #000000 !important;
+        text-decoration: underline;
+    }
+
+    .report-url::after {
+        content: none !important;
+    }
+}

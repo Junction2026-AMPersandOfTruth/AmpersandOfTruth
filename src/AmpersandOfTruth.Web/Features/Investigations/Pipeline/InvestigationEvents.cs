@@ -17,6 +17,9 @@ public enum StageFailureKind { EmbeddingUnavailable, CorpusUnavailable, Error }
 /// </summary>
 public abstract record InvestigationEvent;
 
+/// <summary>Emitted before a cold run while waiting on <c>ColdRunGate</c> (<paramref name="Position"/> is 1-based).</summary>
+public sealed record RunQueued(int Position) : InvestigationEvent;
+
 /// <summary>Stage 1 done: articles closest to the topic, closest first. The real pipeline returns fi articles only (en/sv hits
 /// folded onto them); other runners may include other languages, which have no edit history.</summary>
 public sealed record ArticlesFound(int Count, IReadOnlyList<TopicArticle> Items) : InvestigationEvent

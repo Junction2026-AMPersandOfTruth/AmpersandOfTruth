@@ -1,0 +1,257 @@
+@using System.Globalization
+@using AmpersandOfTruth.Web.Data
+@using AmpersandOfTruth.Web.Features.Library
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.Extensions.DependencyInjection
+@inject IServiceProvider Services
+@inject NavigationManager Nav
+@inject IJSRuntime JS
+
+<div class="share-anchor">
+    <button type="button"
+            class="aot-btn aot-btn--sm"
+            aria-expanded="@(_open ? "true" : "false")"
+            data-testid="share-button"
+            @onclick="ToggleAsync">
+        Share
+    </button>
+
+    @if (_open)
+    {
+        <div class="aot-panel share-panel aot-stack"
+             role="region"
+             aria-label="Share report link"
+             data-testid="share-panel">
+            <div class="aot-row share-controls">
+                <select class="aot-select share-expiry-select"
+                        aria-label="Link expiry"
+                        data-testid="share-expiry"
+                        value="@_expiryChoice"
+                        @onchange="HandleExpiryChange">
+                    <option value="never">Never expires</option>
+                    <option value="7d">7 days</option>
+                    <option value="30d">30 days</option>
+                </select>
+                <button type="button"
+                        class="aot-btn aot-btn--primary aot-btn--sm"
+                        data-testid="share-create"
+                        disabled="@_busy"
+                        @onclick="CreateLinkAsync">
+                    Create link
+                </button>
+            </div>
+
+            @if (!string.IsNullOrEmpty(_createdUrl))
+            {
+                <div class="share-created aot-stack">
+                    <span class="aot-small aot-muted">Copy this link now — it is shown only once.</span>
+                    <div class="aot-row share-copy-row">
+                        <input type="text"
+                               class="aot-select share-url-input"
+                               readonly
+                               aria-label="Shareable report URL"
+                               value="@_createdUrl"
+                               data-testid="share-url" />
+                        <button type="button"
+                                class="aot-btn aot-btn--sm"
+                                data-testid="share-copy"
+                                @onclick="CopyUrlAsync">
+                            @(_copied ? "Copied" : "Copy")
+                        </button>
+                    </div>
+                </div>
+            }
+
+            <div class="share-links aot-stack" data-testid="share-links">
+                @if (_links.Count == 0)
+                {
+                    <p class="aot-small aot-muted share-empty">No active share links.</p>
+                }
+                else
+                {
+                    <ul class="share-links-list">
+                        @foreach (var link in _links)
+                        {
+                            <li class="share-links-item" @key="link.TokenHashPrefix">
+                                <div class="share-links-meta">
+                                    <code class="aot-num">@link.TokenHashPrefix</code>
+                                    <span class="aot-small aot-muted">
+                                        created @FormatDate(link.CreatedAt)@(link.ExpiresAt is { } exp ? $" · expires {FormatDate(exp)}" : "")
+                                    </span>
+                                </div>
+                                <button type="button"
+                                        class="aot-btn aot-btn--ghost aot-btn--sm"
+                                        data-testid="share-revoke"
+                                        disabled="@_busy"
+                                        @onclick="@(() => RevokeLinkAsync(link.TokenHashPrefix))">
+                                    Revoke
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private Guid _lastInvestigationId;
+    private bool _open;
+    private bool _busy;
+    private string _expiryChoice = "never";
+    private string? _createdUrl;
+    private bool _copied;
+    private IReadOnlyList<ShareLinkInfo> _links = [];
+
+    [Parameter, EditorRequired] public Guid InvestigationId { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (_lastInvestigationId != InvestigationId)
+        {
+            _lastInvestigationId = InvestigationId;
+            _open = false;
+            _createdUrl = null;
+            _copied = false;
+            _links = [];
+        }
+    }
+
+    private async Task ToggleAsync()
+    {
+        if (_open)
+        {
+            _open = false;
+            _createdUrl = null;
+            _copied = false;
+            return;
+        }
+
+        _open = true;
+        _createdUrl = null;
+        _copied = false;
+        await RefreshLinksAsync();
+    }
+
+    private void HandleExpiryChange(ChangeEventArgs e)
+    {
+        _expiryChoice = NormalizeChoice(e.Value?.ToString());
+    }
+
+    private async Task CreateLinkAsync()
+    {
+        if (_busy)
+        {
+            return;
+        }
+
+        var store = ResolveStore();
+        var ownerKey = Services.GetService<OwnerKey>();
+        if (store is null || ownerKey is null)
+        {
+            return;
+        }
+
+        _busy = true;
+        try
+        {
+            var owner = await ownerKey.GetOrCreateAsync();
+            var lifetime = ParseLifetime(_expiryChoice);
+            var token = await store.CreateAsync(InvestigationId, owner, lifetime);
+            if (!string.IsNullOrEmpty(token))
+            {
+                _createdUrl = Nav.ToAbsoluteUri($"/r/{token}").AbsoluteUri;
+                _copied = false;
+            }
+
+            _links = await store.ForInvestigationAsync(InvestigationId, owner);
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
+
+    private async Task RevokeLinkAsync(string tokenHashPrefix)
+    {
+        if (_busy)
+        {
+            return;
+        }
+
+        var store = ResolveStore();
+        var ownerKey = Services.GetService<OwnerKey>();
+        if (store is null || ownerKey is null)
+        {
+            return;
+        }
+
+        _busy = true;
+        try
+        {
+            var owner = await ownerKey.GetOrCreateAsync();
+            await store.RevokeAsync(InvestigationId, owner, tokenHashPrefix);
+            _links = await store.ForInvestigationAsync(InvestigationId, owner);
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
+
+    private async Task CopyUrlAsync()
+    {
+        if (string.IsNullOrEmpty(_createdUrl))
+        {
+            return;
+        }
+
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", _createdUrl);
+            _copied = true;
+        }
+        catch
+        {
+            // Clipboard API may be unavailable during tests, insecure contexts, or disconnected circuits.
+        }
+    }
+
+    private async Task RefreshLinksAsync()
+    {
+        var store = ResolveStore();
+        var ownerKey = Services.GetService<OwnerKey>();
+        if (store is null || ownerKey is null)
+        {
+            _links = [];
+            return;
+        }
+
+        var owner = await ownerKey.GetOrCreateAsync();
+        _links = await store.ForInvestigationAsync(InvestigationId, owner);
+    }
+
+    private ShareLinkStore? ResolveStore() =>
+        Services.GetService<ShareLinkStore>()
+        ?? (Services.GetService<IDbContextFactory<AppDbContext>>() is { } dbFactory
+            ? new ShareLinkStore(dbFactory, Services.GetService<TimeProvider>() ?? TimeProvider.System)
+            : null);
+
+    private static string NormalizeChoice(string? raw) => raw?.Trim().ToLowerInvariant() switch
+    {
+        "7" or "7d" or "7 days" => "7d",
+        "30" or "30d" or "30 days" => "30d",
+        _ => "never",
+    };
+
+    private static TimeSpan? ParseLifetime(string choice) => choice switch
+    {
+        "7d" => TimeSpan.FromDays(7),
+        "30d" => TimeSpan.FromDays(30),
+        _ => null,
+    };
+
+    private static string FormatDate(DateTimeOffset date) =>
+        date.UtcDateTime.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+}

@@ -1,0 +1,139 @@
+@page "/r/{Token}"
+@implements IDisposable
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Reports
+@inject ShareLinkStore Store
+@inject ReportBuilder Builder
+
+<PageTitle>Shared report · Ampersand of Truth</PageTitle>
+
+<HeadContent>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta property="og:title" content="Shared report · Ampersand of Truth" />
+    <meta property="og:description" content="Edit-history findings from Finnish Wikipedia, with the evidence behind each." />
+    <style>
+        @@media print {
+            .aot-appbar,
+            .aot-footer {
+                display: none !important;
+            }
+
+            main.aot-page {
+                max-width: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                font-family: var(--font-serif) !important;
+            }
+        }
+    </style>
+</HeadContent>
+
+@if (_loading)
+{
+    <div class="aot-stack report-shell" aria-busy="true">
+        <div class="aot-card aot-card--skeleton" aria-label="Loading shared report…">
+            <span class="aot-skel" style="width:280px;height:20px"></span>
+            <span class="aot-skel" style="width:65%;height:14px;margin-top:10px"></span>
+        </div>
+    </div>
+}
+else if (_report is null)
+{
+    <div class="report-shell" data-testid="shared-not-found">
+        <EmptyState Icon="info"
+                    Title="This link is not valid or has been revoked."
+                    Message="Ask the sender for a new share link, or start your own investigation on Ampersand of Truth.">
+            <Actions>
+                <a class="aot-btn aot-btn--primary" href="/">Explore Ampersand of Truth</a>
+            </Actions>
+        </EmptyState>
+    </div>
+}
+else
+{
+    <div class="report-shell aot-stack" data-testid="shared-report">
+        <div class="aot-banner aot-banner--info" role="note" data-testid="shared-intro">
+            <div class="aot-banner__body">
+                Shared report from Ampersand of Truth — read-only snapshot analysed @FormatDate(_report.AnalysedAt).
+                <a href="@Attribution.MethodologyRoute">@Attribution.FooterLinkText</a>
+            </div>
+        </div>
+
+        <ReportView Report="_report" ReadOnly="true" />
+    </div>
+}
+
+@code {
+    private CancellationTokenSource? _cts;
+    private bool _disposed;
+    private bool _loading = true;
+    private string? _loadedToken;
+    private bool _hasLoaded;
+    private InvestigationReport? _report;
+
+    [Parameter] public string Token { get; set; } = "";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!_hasLoaded || !string.Equals(_loadedToken, Token, StringComparison.Ordinal))
+        {
+            await LoadSharedReportAsync(Token);
+        }
+    }
+
+    private async Task LoadSharedReportAsync(string token)
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = new CancellationTokenSource();
+        var ct = _cts.Token;
+
+        _loading = true;
+        try
+        {
+            InvestigationReport? built = null;
+            var id = await Store.ResolveAsync(token, ct);
+            if (id is { } investigationId && !ct.IsCancellationRequested)
+            {
+                built = await Builder.BuildAsync(
+                    investigationId,
+                    new ReportOptions(PinnedOnly: false, IncludeSummary: true),
+                    ct);
+            }
+
+            if (!ct.IsCancellationRequested)
+            {
+                _report = built;
+                _loadedToken = token;
+                _hasLoaded = true;
+            }
+        }
+        catch (OperationCanceledException) when (_disposed || ct.IsCancellationRequested)
+        {
+            return;
+        }
+        finally
+        {
+            if (!ct.IsCancellationRequested)
+            {
+                _loading = false;
+            }
+        }
+    }
+
+    private static string FormatDate(DateTimeOffset date) =>
+        date.UtcDateTime.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+
+    public void Dispose()
+    {
+        _disposed = true;
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+}

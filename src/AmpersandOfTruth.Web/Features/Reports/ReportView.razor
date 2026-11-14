@@ -1,0 +1,396 @@
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations.Incident
+@inject IJSRuntime JS
+
+<article class="report-page aot-stack" data-testid="report-page">
+    <div class="aot-toolbar report-toolbar">
+        @if (!ReadOnly)
+        {
+            <a class="aot-btn aot-btn--sm report-back-link" href="@InvestigationHref">Back to investigation</a>
+        }
+        <div class="report-toolbar__spacer"></div>
+        @if (!ReadOnly)
+        {
+            <button type="button"
+                    class="aot-btn aot-btn--sm"
+                    aria-pressed="@(Report.PinnedOnly ? "true" : "false")"
+                    data-testid="report-pinned-toggle"
+                    @onclick="OnTogglePinned">
+                @PinnedToggleLabel
+            </button>
+            <a class="aot-btn aot-btn--sm"
+               href="@DownloadHref"
+               download
+               data-testid="report-download-md">
+                Download Markdown
+            </a>
+        }
+        <button type="button"
+                class="aot-btn aot-btn--primary aot-btn--sm"
+                data-testid="report-print"
+                @onclick="PrintAsync">
+            Print / Save as PDF
+        </button>
+    </div>
+
+    <header class="report-header aot-stack">
+        <h1 class="aot-h1">@Report.Title</h1>
+        <dl class="aot-facts report-meta">
+            <div>
+                <dt>Topic</dt>
+                <dd>@Report.Topic</dd>
+            </div>
+            <div>
+                <dt>Generated</dt>
+                <dd class="aot-num">Generated @MarkdownReport.FormatUtc(Report.GeneratedAt)</dd>
+            </div>
+            <div>
+                <dt>Analysed</dt>
+                <dd class="aot-num">Analysed @MarkdownReport.FormatUtc(Report.AnalysedAt)</dd>
+            </div>
+            <div>
+                <dt>Data coverage</dt>
+                <dd>@ReportBuilder.FormatCoverageLine(Report.Coverage)</dd>
+            </div>
+        </dl>
+    </header>
+
+    <section class="report-section aot-stack" data-testid="report-summary" aria-labelledby="report-summary-heading">
+        <h2 id="report-summary-heading" class="aot-h2">Executive summary</h2>
+
+        <ul class="report-level-counts">
+            <li>
+                <TierBadge Tier="EvidenceTier.Campaign" />
+                <span class="aot-num fw-semibold">@CountFor(EvidenceTier.Campaign)</span>
+            </li>
+            <li>
+                <TierBadge Tier="EvidenceTier.Contested" />
+                <span class="aot-num fw-semibold">@CountFor(EvidenceTier.Contested)</span>
+            </li>
+            <li>
+                <TierBadge Tier="EvidenceTier.Reverted" />
+                <span class="aot-num fw-semibold">@CountFor(EvidenceTier.Reverted)</span>
+            </li>
+        </ul>
+
+        @if (!string.IsNullOrWhiteSpace(Report.ExecutiveSummary.AutomatedSummary))
+        {
+            <div class="aot-panel report-auto-summary">
+                <div class="aot-label">Automated summary</div>
+                <p>@Report.ExecutiveSummary.AutomatedSummary</p>
+            </div>
+        }
+    </section>
+
+    <section class="report-section aot-stack" aria-labelledby="report-findings-heading">
+        <h2 id="report-findings-heading" class="aot-h2">Findings (@Report.Incidents.Count.ToString("N0", CultureInfo.InvariantCulture))</h2>
+
+        @if (Report.Incidents.Count == 0)
+        {
+            <p class="aot-muted">@(ReadOnly ? "No findings included in this report." : "No findings match the current filter.")</p>
+        }
+        else
+        {
+            @for (var index = 0; index < Report.Incidents.Count; index++)
+            {
+                var incident = Report.Incidents[index];
+                <section id="@($"incident-{incident.Id}")" class="report-incident aot-stack" data-testid="report-incident" @key="incident.Id">
+                    <div class="report-incident__head aot-stack">
+                        <div class="aot-row" style="gap:8px;align-items:center">
+                            <span class="aot-num aot-muted">#@((index + 1).ToString(CultureInfo.InvariantCulture))</span>
+                            <TierBadge Tier="incident.Tier" />
+                            @if (incident.IsPinned)
+                            {
+                                <span class="aot-chip">Pinned</span>
+                            }
+                        </div>
+                        <h3 class="report-incident__title">@incident.Headline</h3>
+                        @if (!string.IsNullOrWhiteSpace(incident.ClaimOriginal))
+                        {
+                            <div class="report-original">
+                                @if (incident.IsMachineTranslatedHeadline)
+                                {
+                                    <span class="aot-mt">Machine translation · Finnish original below</span>
+                                }
+                                <p class="aot-original" lang="@incident.Lang">@incident.ClaimOriginal</p>
+                            </div>
+                        }
+                    </div>
+
+                    <p class="report-reason">@incident.TierReason</p>
+
+                    <dl class="aot-facts report-incident__facts">
+                        <div>
+                            <dt>@(incident.Articles.Count == 1 ? "Article" : "Articles")</dt>
+                            <dd>
+                                @for (var aIdx = 0; aIdx < incident.Articles.Count; aIdx++)
+                                {
+                                    var article = incident.Articles[aIdx];
+                                    if (aIdx > 0)
+                                    {
+                                        <span>, </span>
+                                    }
+                                    <span>@FormatArticleDisplay(article)</span>
+                                }
+                            </dd>
+                        </div>
+                        <div>
+                            <dt>First seen</dt>
+                            <dd class="aot-num">@MarkdownReport.FormatUtc(incident.FirstSeen)</dd>
+                        </div>
+                        @if (incident.LastRemoved is { } lastRemoved)
+                        {
+                            <div>
+                                <dt>Removed</dt>
+                                <dd class="aot-num">@MarkdownReport.FormatUtc(lastRemoved)</dd>
+                            </div>
+                        }
+                        <div>
+                            <dt>Total live</dt>
+                            <dd class="aot-num">@incident.TotalLiveText</dd>
+                        </div>
+                    </dl>
+
+                    <div class="report-subsection aot-stack">
+                        <h4 class="aot-h3">Edit timeline</h4>
+                        @if (incident.Edits.Count == 0)
+                        {
+                            <p class="aot-small aot-muted">No edit timeline entries available.</p>
+                        }
+                        else
+                        {
+                            <ol class="report-timeline">
+                                @foreach (var edit in incident.Edits)
+                                {
+                                    <li>
+                                        <div class="report-timeline__row">
+                                            <span class="aot-num">@MarkdownReport.FormatUtc(edit.Timestamp)</span>
+                                            <span>·</span>
+                                            <strong>@edit.ActionLabel</strong>
+                                            <span>·</span>
+                                            <EditorTag Label="edit.Editor" />
+                                        </div>
+                                        @if (!string.IsNullOrWhiteSpace(edit.Summary))
+                                        {
+                                            <div class="report-timeline__summary" lang="@incident.Lang">@edit.Summary</div>
+                                        }
+                                        @if (edit.RevisionUrl is not null)
+                                        {
+                                            <div class="report-timeline__url">
+                                                <a class="aot-ext report-url" href="@edit.RevisionUrl.AbsoluteUri" target="_blank" rel="noopener">@edit.RevisionUrl.AbsoluteUri</a>
+                                            </div>
+                                        }
+                                    </li>
+                                }
+                            </ol>
+                        }
+                    </div>
+
+                    <div class="report-subsection aot-stack">
+                        <h4 class="aot-h3">Before and after passage</h4>
+                        @if (incident.Passage is { } passage && passage.Paragraphs.Count > 0)
+                        {
+                            <div class="report-passage-grid">
+                                <div class="report-passage-box">
+                                    <div class="aot-label">Before</div>
+                                    <div class="report-passage-prose" lang="@incident.Lang">
+                                        @if (!HasTokensForSide(passage.Paragraphs, DiffTokenKind.Added))
+                                        {
+                                            <p class="aot-muted">(empty before edit)</p>
+                                        }
+                                        else
+                                        {
+                                            @foreach (var paragraph in passage.Paragraphs)
+                                            {
+                                                if (ParagraphHasSide(paragraph, DiffTokenKind.Added))
+                                                {
+                                                    <p>
+                                                        @foreach (var token in paragraph)
+                                                        {
+                                                            if (token.Kind == DiffTokenKind.Removed)
+                                                            {
+                                                                <del class="report-del">@token.Text</del>
+                                                            }
+                                                            else if (token.Kind == DiffTokenKind.Same)
+                                                            {
+                                                                @token.Text
+                                                            }
+                                                        }
+                                                    </p>
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <div class="report-passage-box">
+                                    <div class="aot-label">After</div>
+                                    <div class="report-passage-prose" lang="@incident.Lang">
+                                        @if (!HasTokensForSide(passage.Paragraphs, DiffTokenKind.Removed))
+                                        {
+                                            <p class="aot-muted">(removed)</p>
+                                        }
+                                        else
+                                        {
+                                            @foreach (var paragraph in passage.Paragraphs)
+                                            {
+                                                if (ParagraphHasSide(paragraph, DiffTokenKind.Removed))
+                                                {
+                                                    <p>
+                                                        @foreach (var token in paragraph)
+                                                        {
+                                                            if (token.Kind == DiffTokenKind.Added)
+                                                            {
+                                                                <ins class="report-ins">@token.Text</ins>
+                                                            }
+                                                            else if (token.Kind == DiffTokenKind.Same)
+                                                            {
+                                                                @token.Text
+                                                            }
+                                                        }
+                                                    </p>
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="aot-small aot-muted">The text of this edit is not available right now.</p>
+                        }
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(incident.PinNote))
+                    {
+                        <div class="aot-panel report-pin-note">
+                            <span class="aot-label">Pinned note</span>
+                            <p>@incident.PinNote</p>
+                        </div>
+                    }
+                </section>
+            }
+        }
+    </section>
+
+    <section class="report-section report-appendix aot-stack" data-testid="report-appendix" aria-labelledby="report-appendix-heading">
+        <h2 id="report-appendix-heading" class="aot-h2">Appendix</h2>
+
+        <div class="report-subsection aot-stack">
+            <h3 class="aot-h3">Methodology</h3>
+            <p>@Report.Appendix.MethodologySummary</p>
+            <p class="aot-small"><a href="@Attribution.MethodologyRoute">@Attribution.FooterLinkText</a></p>
+            <ul class="report-levels-list">
+                @foreach (var level in Report.Appendix.Levels)
+                {
+                    <li>
+                        <TierBadge Tier="level.Tier" />
+                        <span>@level.Meaning</span>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="report-subsection aot-stack">
+            <h3 class="aot-h3">Limitations</h3>
+            <ul class="report-list">
+                @foreach (var limitation in Report.Appendix.Limitations)
+                {
+                    <li>@limitation</li>
+                }
+            </ul>
+        </div>
+
+        <div class="report-subsection aot-stack">
+            <h3 class="aot-h3">Attribution and licence</h3>
+            <p>@Report.Appendix.AttributionText</p>
+            <p>
+                @Report.Appendix.MachineTranslationNotice
+                Licence: @Report.Appendix.License
+                (<a class="aot-ext report-url" href="@Report.Appendix.LicenseUrl.AbsoluteUri" target="_blank" rel="noopener">@Report.Appendix.LicenseUrl.AbsoluteUri</a>).
+            </p>
+        </div>
+
+        <div class="report-subsection aot-stack">
+            <h3 class="aot-h3">Cited revisions (@Report.Appendix.CitedRevisions.Count.ToString("N0", CultureInfo.InvariantCulture))</h3>
+            @if (Report.Appendix.CitedRevisions.Count == 0)
+            {
+                <p class="aot-small aot-muted">No revisions cited.</p>
+            }
+            else
+            {
+                <ul class="report-revisions-list">
+                    @foreach (var rev in Report.Appendix.CitedRevisions)
+                    {
+                        <li>
+                            <span class="aot-num">Revision @rev.RevId.ToString(CultureInfo.InvariantCulture)</span>
+                            <span> — </span>
+                            <a class="aot-ext report-url" href="@rev.Url.AbsoluteUri" target="_blank" rel="noopener">@rev.Url.AbsoluteUri</a>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </section>
+</article>
+
+@code {
+    [Parameter, EditorRequired] public InvestigationReport Report { get; set; } = default!;
+    [Parameter] public bool ReadOnly { get; set; }
+    [Parameter] public EventCallback OnTogglePinned { get; set; }
+
+    private string InvestigationHref =>
+        $"/investigate/{Uri.EscapeDataString(Report.TopicSlug)}?saved={Report.SavedId}";
+
+    private string DownloadHref =>
+        Report.PinnedOnly
+            ? $"/library/{Report.SavedId}/report.md?pinned=1"
+            : $"/library/{Report.SavedId}/report.md";
+
+    private string PinnedToggleLabel =>
+        Report.PinnedOnly
+            ? $"Pinned only ({Report.PinnedIncidentCount} of {Report.TotalIncidentCount})"
+            : $"Pinned only ({Report.PinnedIncidentCount})";
+
+    private async Task PrintAsync()
+    {
+        await JS.InvokeVoidAsync("print");
+    }
+
+    private string CountFor(EvidenceTier tier) =>
+        Report.ExecutiveSummary.TierCounts.GetValueOrDefault(tier, 0)
+            .ToString("N0", CultureInfo.InvariantCulture);
+
+    private static string FormatArticleDisplay(AmpersandOfTruth.Web.Features.Investigations.View.ArticleRef article) =>
+        !string.IsNullOrWhiteSpace(article.TitleEn)
+        && !string.Equals(article.TitleEn, article.TitleFi, StringComparison.OrdinalIgnoreCase)
+            ? $"{article.TitleFi} ({article.TitleEn})"
+            : article.TitleFi;
+
+    private static bool HasTokensForSide(IReadOnlyList<IReadOnlyList<DiffToken>> paragraphs, DiffTokenKind excluded)
+    {
+        foreach (var p in paragraphs)
+        {
+            if (ParagraphHasSide(p, excluded))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool ParagraphHasSide(IReadOnlyList<DiffToken> paragraph, DiffTokenKind excluded)
+    {
+        foreach (var token in paragraph)
+        {
+            if (token.Kind != excluded && token.Text.Length > 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}

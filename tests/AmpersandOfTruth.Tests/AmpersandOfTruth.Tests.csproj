@@ -25,4 +25,8 @@
     <ProjectReference Include="..\..\src\AmpersandOfTruth.Web\AmpersandOfTruth.Web.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Features/Investigations/Fixtures/*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
