@@ -1,0 +1,41 @@
+@using System.Globalization
+
+@if (Values is { Count: > 0 })
+{
+    var count = Values.Count;
+    var maxVal = Math.Max(1, Values.Max());
+    var peakVal = Values.Max();
+    var slotWidth = Width / count;
+    var barWidth = Math.Max(0.8, slotWidth - 0.8);
+
+    <svg class="aot-chart aot-spark"
+         data-testid="article-sparkline"
+         viewBox="0 0 @F(Width) @F(Height)"
+         width="@F(Width)"
+         height="@F(Height)"
+         preserveAspectRatio="none"
+         aria-hidden="true">
+        @for (var i = 0; i < count; i++)
+        {
+            var v = Math.Max(0, Values[i]);
+            var h = v == 0 ? 0.8 : Math.Max(2.0, (double)v / maxVal * (Height - 2.0));
+            var x = i * slotWidth;
+            var y = Height - h;
+            var isPeak = peakVal > 0 && v == peakVal;
+            <rect class="@(isPeak ? "hot" : null)"
+                  x="@F(x)"
+                  y="@F(y)"
+                  width="@F(barWidth)"
+                  height="@F(h)" />
+        }
+    </svg>
+}
+
+@code {
+    private const double Width = 112.0;
+    private const double Height = 20.0;
+
+    [Parameter] public IReadOnlyList<int>? Values { get; set; }
+
+    private static string F(double v) => v.ToString("0.##", CultureInfo.InvariantCulture);
+}
