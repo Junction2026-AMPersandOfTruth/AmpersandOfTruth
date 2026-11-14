@@ -22,11 +22,13 @@ public sealed class AccountPageTests : BunitContext
 {
     private readonly FakeTimeProvider _clock = new(new DateTimeOffset(2026, 11, 14, 12, 0, 0, TimeSpan.Zero));
     private readonly FakeAccountCorpus _fake = new();
+    private readonly FakeEditorProfileSource _fakeProfile = new();
 
     public AccountPageTests()
     {
         Services.AddSingleton<TimeProvider>(_clock);
         Services.AddSingleton<IAccountCorpus>(sp => new CachedAccountCorpus(_fake, sp.GetRequiredService<TimeProvider>()));
+        Services.AddSingleton<IEditorProfileSource>(sp => new CachedEditorProfileSource(_fakeProfile, sp.GetRequiredService<TimeProvider>()));
     }
 
     [Fact]
@@ -90,6 +92,8 @@ public sealed class AccountPageTests : BunitContext
         Assert.NotEmpty(empty.QuerySelector("p")?.TextContent?.Trim() ?? "");
         Assert.Empty(CopyRules.FindViolations(empty.TextContent, includeJargon: true));
         Assert.Equal(0, _fake.Calls);
+        Assert.Equal(0, _fakeProfile.Calls);
+        Assert.Empty(cut.FindAll("[data-testid=account-profile]"));
         Assert.DoesNotContain(rawName, cut.Markup, StringComparison.OrdinalIgnoreCase);
 
         var title = cut.FindComponent<PageTitle>();
@@ -405,6 +409,214 @@ public sealed class AccountPageTests : BunitContext
         Assert.Empty(section.QuerySelectorAll("[data-testid=sample-data-banner]"));
         var card = Assert.Single(section.QuerySelectorAll("[data-testid=incident-card]"));
         Assert.Equal("/investigate/lapland-war/incidents/lw-01", card.GetAttribute("href"));
+    }
+
+    [Fact]
+    public async Task MariaDbEditorProfileSource_never_opens_connection_for_anonymous_input()
+    {
+        var config = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["ConnectionStrings:Corpus"] = "Server=127.0.0.1;Port=1;Database=corpus;User ID=x;Connection Timeout=1",
+            })
+            .Build();
+        await using var factory = new CorpusConnectionFactory(config);
+        var source = new MariaDbEditorProfileSource(factory, NullLogger<MariaDbEditorProfileSource>.Instance);
+
+        Assert.Null(await source.ProfileAsync("85.76.123.45"));
+        Assert.Null(await source.ProfileAsync("2001:14bb:51:d813:a1b9:8f12:23b6:8d13"));
+        Assert.Null(await source.ProfileAsync("~2025-26183-73"));
+    }
+
+    [Fact]
+    public void Profile_section_renders_all_lines_top_page_link_and_passes_copy_rules()
+    {
+        _fake.Accounts["Pohjantähti77"] = SampleFacts("Pohjantähti77");
+        _fakeProfile.Profiles["Pohjantähti77"] = new EditorProfile(
+            User: "Pohjantähti77",
+            IsBot: true,
+            FirstTs: new DateTime(2009, 3, 3, 14, 2, 0, DateTimeKind.Utc),
+            LastTs: new DateTime(2024, 2, 2, 9, 15, 0, DateTimeKind.Utc),
+            Edits: 12,
+            NonNullEdits: 12,
+            ActiveDays: 214,
+            TopPageId: 1256,
+            TopPageTitle: "Talvisota",
+            TopPageShare: 0.62,
+            RevertedEditsByOthers: 9,
+            RevertsMadeOthers: 40,
+            CustomSummaryUsage: 0.35);
+
+        var cut = Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
+
+        var section = cut.Find("[data-testid=account-profile]");
+        Assert.Equal("Activity in our dataset", section.QuerySelector("h2")?.TextContent);
+
+        var list = section.QuerySelector("ul");
+        Assert.NotNull(list);
+        Assert.Contains("aot-muted", list.ClassList);
+
+        var items = section.QuerySelectorAll("li").Select(li => li.TextContent.Trim()).ToArray();
+        Assert.Equal(
+            [
+                "Active on 214 days between 3 Mar 2009 and 2 Feb 2024.",
+                "62% of its edits are on one article: Talvisota.",
+                "9 of 12 edits were later removed by other editors.",
+                "It removed 40 edits by other editors.",
+                "Wrote its own edit summary on 35% of edits.",
+                "Marked as a bot account.",
+            ],
+            items);
+
+        var topLink = section.QuerySelector("li a");
+        Assert.NotNull(topLink);
+        Assert.Equal("/articles/1256", topLink.GetAttribute("href"));
+        Assert.Equal("fi", topLink.GetAttribute("lang"));
+        Assert.Equal("Talvisota", topLink.TextContent);
+
+        Assert.Empty(CopyRules.FindViolations(cut.Find("[data-testid=account-page]").TextContent, includeJargon: true));
+    }
+
+    [Fact]
+    public void Profile_section_shows_or_omits_each_line_by_data_formats_thousands_and_encodes_title()
+    {
+        var baseProfile = new EditorProfile(
+            User: "Pohjantähti77",
+            IsBot: true,
+            FirstTs: new DateTime(2009, 3, 3, 0, 0, 0, DateTimeKind.Utc),
+            LastTs: new DateTime(2024, 2, 2, 0, 0, 0, DateTimeKind.Utc),
+            Edits: 12_345,
+            NonNullEdits: 12_345,
+            ActiveDays: 1_214,
+            TopPageId: 1150,
+            TopPageTitle: "Suomen sisällissota <script>alert(1)</script>",
+            TopPageShare: 0.5,
+            RevertedEditsByOthers: 1_050,
+            RevertsMadeOthers: 1_200,
+            CustomSummaryUsage: 0.35);
+
+        // 1. Thousands separators + XSS-safe top-page title at exact 0.5 boundary
+        _fake.Accounts["UserFull"] = SampleFacts("UserFull");
+        _fakeProfile.Profiles["UserFull"] = baseProfile with { User = "UserFull" };
+        var fullCut = Render<AccountPage>(p => p.Add(x => x.Name, "UserFull"));
+        var fullSection = fullCut.Find("[data-testid=account-profile]");
+        var fullLines = fullSection.QuerySelectorAll("li").Select(li => li.TextContent.Trim()).ToArray();
+        Assert.Equal(
+            [
+                "Active on 1,214 days between 3 Mar 2009 and 2 Feb 2024.",
+                "50% of its edits are on one article: Suomen sisällissota <script>alert(1)</script>.",
+                "1,050 of 12,345 edits were later removed by other editors.",
+                "It removed 1,200 edits by other editors.",
+                "Wrote its own edit summary on 35% of edits.",
+                "Marked as a bot account.",
+            ],
+            fullLines);
+        Assert.Empty(fullCut.FindAll("script"));
+        Assert.Empty(CopyRules.FindViolations(fullSection.TextContent, includeJargon: true));
+
+        // 2. Active-days line absent when single-day; top-page line absent when share < 0.5; bot line absent when !IsBot
+        _fake.Accounts["UserPartialA"] = SampleFacts("UserPartialA");
+        _fakeProfile.Profiles["UserPartialA"] = baseProfile with
+        {
+            User = "UserPartialA",
+            ActiveDays = 1,
+            FirstTs = new DateTime(2024, 2, 2, 8, 0, 0, DateTimeKind.Utc),
+            LastTs = new DateTime(2024, 2, 2, 9, 0, 0, DateTimeKind.Utc),
+            TopPageShare = 0.49,
+            IsBot = false,
+        };
+        var partialACut = Render<AccountPage>(p => p.Add(x => x.Name, "UserPartialA"));
+        var partialALines = partialACut.Find("[data-testid=account-profile]").QuerySelectorAll("li").Select(li => li.TextContent.Trim()).ToArray();
+        Assert.Equal(
+            [
+                "1,050 of 12,345 edits were later removed by other editors.",
+                "It removed 1,200 edits by other editors.",
+                "Wrote its own edit summary on 35% of edits.",
+            ],
+            partialALines);
+        Assert.Empty(CopyRules.FindViolations(partialACut.Find("[data-testid=account-profile]").TextContent, includeJargon: true));
+
+        // 3. Removed-by-others, removed-others, and custom-summary lines absent when 0; top-page absent when title missing
+        _fake.Accounts["UserPartialB"] = SampleFacts("UserPartialB");
+        _fakeProfile.Profiles["UserPartialB"] = baseProfile with
+        {
+            User = "UserPartialB",
+            TopPageTitle = null,
+            RevertedEditsByOthers = 0,
+            RevertsMadeOthers = 0,
+            CustomSummaryUsage = 0.0,
+            IsBot = false,
+        };
+        var partialBCut = Render<AccountPage>(p => p.Add(x => x.Name, "UserPartialB"));
+        var partialBLines = partialBCut.Find("[data-testid=account-profile]").QuerySelectorAll("li").Select(li => li.TextContent.Trim()).ToArray();
+        Assert.Equal(["Active on 1,214 days between 3 Mar 2009 and 2 Feb 2024."], partialBLines);
+        Assert.Empty(CopyRules.FindViolations(partialBCut.Find("[data-testid=account-profile]").TextContent, includeJargon: true));
+
+        // 4. All lines unsupported -> whole section hidden, no banner
+        _fake.Accounts["UserNone"] = SampleFacts("UserNone");
+        _fakeProfile.Profiles["UserNone"] = new EditorProfile(
+            User: "UserNone",
+            IsBot: false,
+            FirstTs: new DateTime(2024, 2, 2, 8, 0, 0, DateTimeKind.Utc),
+            LastTs: new DateTime(2024, 2, 2, 8, 5, 0, DateTimeKind.Utc),
+            Edits: 2,
+            NonNullEdits: 2,
+            ActiveDays: 1,
+            TopPageId: 1256,
+            TopPageTitle: "Talvisota",
+            TopPageShare: 0.4,
+            RevertedEditsByOthers: 0,
+            RevertsMadeOthers: 0,
+            CustomSummaryUsage: 0.0);
+        var noneCut = Render<AccountPage>(p => p.Add(x => x.Name, "UserNone"));
+        Assert.Empty(noneCut.FindAll("[data-testid=account-profile]"));
+        Assert.Empty(noneCut.FindAll("[data-testid=status-banner]"));
+    }
+
+    [Fact]
+    public void Profile_lookup_failure_or_missing_row_hides_section_without_banner_and_caches_only_clean_responses()
+    {
+        _fake.Accounts["Pohjantähti77"] = SampleFacts("Pohjantähti77");
+        _fakeProfile.Unavailable = true;
+
+        var failedCut = Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
+        Assert.NotNull(failedCut.Find("[data-testid=account-facts]"));
+        Assert.Empty(failedCut.FindAll("[data-testid=account-profile]"));
+        Assert.Empty(failedCut.FindAll("[data-testid=status-banner]"));
+        Assert.Equal(1, _fakeProfile.Calls);
+
+        // Failure was not cached -> recovery succeeds immediately and is then cached for 1h
+        _fakeProfile.Unavailable = false;
+        _fakeProfile.Profiles["Pohjantähti77"] = new EditorProfile(
+            User: "Pohjantähti77",
+            IsBot: true,
+            FirstTs: null,
+            LastTs: null,
+            Edits: 5,
+            NonNullEdits: 5,
+            ActiveDays: 1,
+            TopPageId: null,
+            TopPageTitle: null,
+            TopPageShare: 0,
+            RevertedEditsByOthers: 0,
+            RevertsMadeOthers: 0,
+            CustomSummaryUsage: 0);
+
+        var recoveredCut = Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
+        Assert.Equal("Marked as a bot account.", recoveredCut.Find("[data-testid=account-profile] li").TextContent.Trim());
+        Assert.Equal(2, _fakeProfile.Calls);
+
+        _clock.Advance(TimeSpan.FromMinutes(30));
+        var cachedCut = Render<AccountPage>(p => p.Add(x => x.Name, "Pohjantähti77"));
+        Assert.Equal("Marked as a bot account.", cachedCut.Find("[data-testid=account-profile] li").TextContent.Trim());
+        Assert.Equal(2, _fakeProfile.Calls);
+
+        // Missing profile row (e.g. absent s6_editor_profile table) also hides section with no banner
+        _fake.Accounts["NoProfileUser"] = SampleFacts("NoProfileUser");
+        var missingCut = Render<AccountPage>(p => p.Add(x => x.Name, "NoProfileUser"));
+        Assert.NotNull(missingCut.Find("[data-testid=account-facts]"));
+        Assert.Empty(missingCut.FindAll("[data-testid=account-profile]"));
+        Assert.Empty(missingCut.FindAll("[data-testid=status-banner]"));
     }
 
     private sealed class PendingAccountCorpus : IAccountCorpus

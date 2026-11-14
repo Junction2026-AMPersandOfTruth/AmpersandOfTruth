@@ -97,4 +97,40 @@ public sealed class AccountCorpusIntegrationTests(AppFactory factory, ITestOutpu
         Assert.Empty(missing.PerYear);
         Assert.Empty(missing.TopArticles);
     }
+
+    [CorpusFact]
+    public async Task Large_account_profile_from_s6_returns_consistent_facts()
+    {
+        var profileSource = factory.Services.GetRequiredService<MariaDbEditorProfileSource>();
+
+        var sw = Stopwatch.StartNew();
+        var botProfile = await profileSource.ProfileAsync("Ipr1Bot");
+        sw.Stop();
+        Assert.NotNull(botProfile);
+        output.WriteLine($"Ipr1Bot profile: {botProfile.Edits} edits, {botProfile.ActiveDays} active days, isBot={botProfile.IsBot} in {sw.Elapsed.TotalMilliseconds:F1} ms");
+
+        Assert.True(sw.Elapsed < TimeSpan.FromSeconds(5), $"ProfileAsync(Ipr1Bot) took {sw.Elapsed}");
+        Assert.Equal("Ipr1Bot", botProfile.User);
+        Assert.True(botProfile.IsBot);
+        Assert.True(botProfile.Edits >= 10_000);
+        Assert.InRange(botProfile.NonNullEdits, 1, botProfile.Edits);
+        Assert.InRange(botProfile.ActiveDays, 2, botProfile.Edits);
+        Assert.NotNull(botProfile.FirstTs);
+        Assert.NotNull(botProfile.LastTs);
+        Assert.True(botProfile.FirstTs < botProfile.LastTs);
+        Assert.NotNull(botProfile.TopPageId);
+        Assert.True(botProfile.TopPageId > 0);
+        Assert.False(string.IsNullOrWhiteSpace(botProfile.TopPageTitle));
+        Assert.InRange(botProfile.TopPageShare, 0.0, 1.0);
+        Assert.InRange(botProfile.RevertedEditsByOthers, 0, botProfile.NonNullEdits);
+        Assert.True(botProfile.RevertsMadeOthers >= 0);
+        Assert.InRange(botProfile.CustomSummaryUsage, 0.0, 1.0);
+
+        var humanProfile = await profileSource.ProfileAsync("Tureku");
+        Assert.NotNull(humanProfile);
+        Assert.False(humanProfile.IsBot);
+        Assert.True(humanProfile.Edits >= 10_000);
+
+        Assert.Null(await profileSource.ProfileAsync("DefinitelyNotAnAccountInFiWiki_98"));
+    }
 }

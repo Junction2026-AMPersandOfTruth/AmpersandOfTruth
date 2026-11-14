@@ -107,6 +107,26 @@
                 </section>
             }
 
+            @if (BuildProfileItems(_profile) is { Count: > 0 } profileItems)
+            {
+                <section class="aot-stack" style="gap:8px" data-testid="account-profile">
+                    <h2 class="aot-h2">Activity in our dataset</h2>
+                    <ul class="aot-small aot-muted" style="margin:0;padding-left:20px">
+                        @foreach (var item in profileItems)
+                        {
+                            if (item.LinkHref is not null && item.LinkTitle is not null)
+                            {
+                                <li>@item.Text<a href="@item.LinkHref" lang="fi">@item.LinkTitle</a>@item.Suffix</li>
+                            }
+                            else
+                            {
+                                <li>@item.Text</li>
+                            }
+                        }
+                    </ul>
+                </section>
+            }
+
             @if (_facts.TopArticles.Count > 0)
             {
                 <section class="aot-stack" style="gap:8px">
@@ -176,6 +196,7 @@
     private bool _disposed;
     private EditorLabel _editor = EditorDisplay.For(null);
     private AccountFacts? _facts;
+    private EditorProfile? _profile;
     private string _errorTitle = "We can’t reach the Wikipedia data right now.";
     private IReadOnlyList<AccountIncidentMatch> _incidents = [];
     private string? _error;
@@ -191,6 +212,7 @@
     {
         _editor = EditorDisplay.For(Name);
         _facts = null;
+        _profile = null;
         _incidents = [];
         _error = null;
 
@@ -214,11 +236,15 @@
         _loading = true;
         _isSlow = false;
         _error = null;
+        _profile = null;
         _errorTitle = "We can’t reach the Wikipedia data right now.";
         StartSlowTimer();
         try
         {
-            _facts = await Corpus.FactsAsync(_editor.DisplayName, ct);
+            var factsTask = Corpus.FactsAsync(_editor.DisplayName, ct);
+            var profileTask = LoadProfileAsync(_editor.DisplayName, ct);
+            _facts = await factsTask;
+            _profile = await profileTask;
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
         {
@@ -241,6 +267,24 @@
             {
                 _loading = false;
             }
+        }
+    }
+
+    private async Task<EditorProfile?> LoadProfileAsync(string user, CancellationToken ct)
+    {
+        var profileSource = Services.GetService<IEditorProfileSource>();
+        if (profileSource is null)
+        {
+            return null;
+        }
+
+        try
+        {
+            return await profileSource.ProfileAsync(user, ct);
+        }
+        catch
+        {
+            return null;
         }
     }
 
@@ -393,11 +437,82 @@
         return string.Join(" · ", parts);
     }
 
+    private static IReadOnlyList<ProfileItem> BuildProfileItems(EditorProfile? profile)
+    {
+        if (profile is null)
+        {
+            return [];
+        }
+
+        var items = new List<ProfileItem>(6);
+
+        if (profile.ActiveDays >= 2
+            && profile.FirstTs is { } first
+            && profile.LastTs is { } last
+            && first <= last)
+        {
+            var firstStr = FormatDate(first);
+            var lastStr = FormatDate(last);
+            if (!string.Equals(firstStr, lastStr, StringComparison.Ordinal))
+            {
+                items.Add(new ProfileItem($"Active on {FormatInt(profile.ActiveDays)} days between {firstStr} and {lastStr}."));
+            }
+        }
+
+        if (profile.TopPageShare >= 0.5
+            && profile.TopPageId is > 0
+            && !string.IsNullOrWhiteSpace(profile.TopPageTitle))
+        {
+            var pct = RoundPercent(profile.TopPageShare);
+            items.Add(new ProfileItem(
+                Text: $"{pct.ToString("N0", CultureInfo.InvariantCulture)}% of its edits are on one article: ",
+                LinkHref: $"/articles/{profile.TopPageId.Value.ToString(CultureInfo.InvariantCulture)}",
+                LinkTitle: profile.TopPageTitle,
+                Suffix: "."));
+        }
+
+        if (profile.RevertedEditsByOthers > 0 && profile.NonNullEdits > 0)
+        {
+            var editNoun = profile.NonNullEdits == 1 ? "edit" : "edits";
+            var verb = profile.RevertedEditsByOthers == 1 ? "was" : "were";
+            items.Add(new ProfileItem(
+                $"{FormatInt(profile.RevertedEditsByOthers)} of {FormatInt(profile.NonNullEdits)} {editNoun} {verb} later removed by other editors."));
+        }
+
+        if (profile.RevertsMadeOthers > 0)
+        {
+            var editNoun = profile.RevertsMadeOthers == 1 ? "edit" : "edits";
+            items.Add(new ProfileItem(
+                $"It removed {FormatInt(profile.RevertsMadeOthers)} {editNoun} by other editors."));
+        }
+
+        var summaryPct = RoundPercent(profile.CustomSummaryUsage);
+        if (summaryPct > 0)
+        {
+            items.Add(new ProfileItem(
+                $"Wrote its own edit summary on {summaryPct.ToString("N0", CultureInfo.InvariantCulture)}% of edits."));
+        }
+
+        if (profile.IsBot)
+        {
+            items.Add(new ProfileItem("Marked as a bot account."));
+        }
+
+        return items;
+    }
+
+    private static int RoundPercent(double ratio) =>
+        double.IsNaN(ratio) || double.IsInfinity(ratio)
+            ? 0
+            : Math.Clamp((int)Math.Round(ratio * 100.0, MidpointRounding.AwayFromZero), 0, 100);
+
     private static string FormatInt(int value) => value.ToString("N0", CultureInfo.InvariantCulture);
 
     private static string FormatDate(DateTime utc) => utc.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
 
     private static string Fmt(double value) => value.ToString("0.#", CultureInfo.InvariantCulture);
+
+    private sealed record ProfileItem(string Text, string? LinkHref = null, string? LinkTitle = null, string Suffix = "");
 
     private sealed record AccountIncidentMatch(string Topic, IncidentView Incident);
 }
