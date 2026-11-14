@@ -8,4 +8,4 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 FILE="${1:-$ROOT/scripts/demo-topics.txt}"
 [[ "${1:-}" == --* ]] && FILE="$ROOT/scripts/demo-topics.txt"
 ARGS=(); for a in "$@"; do [[ "$a" == --* ]] && ARGS+=("$a"); done
-exec "$ROOT/scripts/investigate.sh" warm "$FILE" "${ARGS[@]}"
+exec "$ROOT/scripts/investigate.sh" warm "$FILE" ${ARGS[@]+"${ARGS[@]}"}   # bash 3.2 (macOS) + set -u: empty array
