@@ -19,6 +19,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent / "eval"))
 import contract  # noqa: E402
 
+WARN: list[str] = []
 LABELS = {"campaign", "contested", "reverted", "not-incident"}
 EXCLUSIONS = {"not-substantive", "self-removal", "bot", "blanking", "kept", "graffiti"}
 
@@ -52,13 +53,14 @@ def check_labeller(doc: dict) -> list[str]:
         if missing:
             errs.append(f"{it['id']}: unknown candidates {missing}"); continue
         ins_ok = {e["rev_id"] for c in cids for e in cands[c]["edits"]}
+        ins_ok |= {cands[c]["flags"].get("removal_undone_by_rev_id") for c in cids}  # an undo of a removal re-inserts
         rem_ok = {cands[c]["removing_rev_id"] for c in cids}
         for r in it["inserting_rev_ids"]:
             if r not in ins_ok:
-                errs.append(f"{it['id']}: inserting rev {r} is not an inserting edit of {cids}")
+                WARN.append(f"{it['id']}: inserting rev {r} is not in {cids}'s edits; merge.py checks it against the corpus")
         for r in it["removing_rev_ids"]:
             if r not in rem_ok and r not in ins_ok:
-                errs.append(f"{it['id']}: removing rev {r} is not a removal in {cids}")
+                WARN.append(f"{it['id']}: removing rev {r} is not a removal in {cids}; merge.py checks it against the corpus")
         if it["removing_rev_ids"] != sorted(it["removing_rev_ids"]):
             errs.append(f"{it['id']}: removing_rev_ids must be oldest first (ascending)")
     return errs
@@ -84,6 +86,8 @@ def main() -> int:
     errs = check_blind(doc) if "labels" in doc else check_labeller(doc)
     for e in errs:
         print("ERROR", e)
+    for w in WARN:
+        print("WARN ", w)
     if not errs:
         if "topic" in doc:
             items = doc["topic"]["items"]

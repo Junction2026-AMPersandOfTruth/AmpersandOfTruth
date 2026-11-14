@@ -1,0 +1,512 @@
+{
+  "topic": {
+    "id": "language-politics",
+    "title": "Swedish and Finnish language politics, Fennomans and Svecomans, Åland",
+    "split": "test",
+    "kind": "topic",
+    "queries": [
+      {
+        "id": "language-politics.en",
+        "style": "en",
+        "lang": "en",
+        "text": "Fennomans and Svecomans: the Finnish–Swedish language dispute in Finland and the Åland question"
+      },
+      {
+        "id": "language-politics.fi",
+        "style": "fi",
+        "lang": "fi",
+        "text": "fennomaanit ja svekomaanit, kieliriita ja ruotsin kielen asema Suomessa"
+      },
+      {
+        "id": "language-politics.broad",
+        "style": "broad",
+        "lang": "en",
+        "text": "conflict between Finnish and Swedish speakers in Finland"
+      },
+      {
+        "id": "language-politics.sv",
+        "style": "sv",
+        "lang": "sv",
+        "text": "språkstriden i Finland mellan fennomaner och svekomaner"
+      }
+    ],
+    "articles": [
+      {
+        "page_id": 255,
+        "grade": 2,
+        "title": "Fennomania"
+      },
+      {
+        "page_id": 53740,
+        "grade": 2,
+        "title": "Svekomania"
+      },
+      {
+        "page_id": 432900,
+        "grade": 2,
+        "title": "Kielitaistelu"
+      },
+      {
+        "page_id": 200797,
+        "grade": 2,
+        "title": "Axel Olof Freudenthal"
+      },
+      {
+        "page_id": 72145,
+        "grade": 2,
+        "title": "Suomalaisuuden liitto"
+      },
+      {
+        "page_id": 202404,
+        "grade": 2,
+        "title": "Ahvenanmaan kysymys"
+      },
+      {
+        "page_id": 11634,
+        "grade": 2,
+        "title": "Suomalainen puolue"
+      },
+      {
+        "page_id": 769025,
+        "grade": 2,
+        "title": "Vapaa kielivalinta"
+      },
+      {
+        "page_id": 72257,
+        "grade": 1,
+        "title": "Yrjö Sakari Yrjö-Koskinen"
+      },
+      {
+        "page_id": 1549193,
+        "grade": 1,
+        "title": "Suomalainen nationalismi"
+      },
+      {
+        "page_id": 923196,
+        "grade": 1,
+        "title": "Nimien suomalaistaminen"
+      },
+      {
+        "page_id": 1623503,
+        "grade": 1,
+        "title": "Ahvenanmaan historia"
+      },
+      {
+        "page_id": 1356913,
+        "grade": 1,
+        "title": "Ahvenanmaan miehitys"
+      },
+      {
+        "page_id": 913815,
+        "grade": 1,
+        "title": "Ahvenanmaan sopimus"
+      },
+      {
+        "page_id": 1037500,
+        "grade": 1,
+        "title": "Länsipohjan kysymys"
+      },
+      {
+        "page_id": 109236,
+        "grade": 1,
+        "title": "Jomalan kirkko"
+      }
+    ],
+    "items": [
+      {
+        "id": "language-politics/i01",
+        "label": "campaign",
+        "category": "pov_push",
+        "page_id": 255,
+        "inserting_rev_ids": [
+          1397224,
+          2902141,
+          2952340,
+          3007149
+        ],
+        "removing_rev_ids": [
+          1761915,
+          2902163,
+          2952344,
+          3007205
+        ],
+        "description": "Adds a section 'Fennomania in the internet era': the term now means opponents of compulsory Swedish, some of whom 'oppose anything with even a hint of Swedishness'.",
+        "why": "Level 3 (c13, c24, c27, c26). Claim (pov_push), quoted from the added text: 'Näiden joukossa on myös henkilöitä, jotka vastustavat kaikkea ruotsalaisuuteen vivahtavaakin' ('Among them are also people who oppose anything with even a hint of Swedishness'); the c26 version adds 'Heidän järjestönään on Suomalaisuuden Liitto' ('Their organisation is the Suomalaisuuden Liitto'). Community dispute: removal summaries about accuracy and sourcing, 1761915 'fennomania internet-aikana sisälsi lähinnä mutua' ('the internet-era section contained mostly gut feeling') and 2902163 'lähteetöntä itse sanailtua huttua' ('unsourced, self-worded mush'); a {{lähteetön}} (unsourced) template in the c26 version; every removal shown was itself undone (flag removal_undone_by_rev_id on all four). Level 3 signals: (1) accounts: added by E5 (named, 1397224), E116 (named, 2902141) and E78 (anonymous 88.114.x.x, 2952340 and 3007149) = 3 editors; (2) persistence: put back at least 3 times, first insertion 2006-07-22, last 2007-06-14 (327 days). One article. The first version stayed 87 days, the 2007 put-backs 2 to 9 min. E1's trim of the passage on 2006-07-30 (1434614) is not counted as an insertion. Not in the latest revision.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "language-politics/i02",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 200797,
+        "inserting_rev_ids": [
+          1400527,
+          1400591,
+          1400625,
+          1400629,
+          1400664,
+          1400727,
+          1400785,
+          1400797,
+          1400799,
+          1402591,
+          1402950
+        ],
+        "removing_rev_ids": [
+          1400555,
+          1402116,
+          1402615,
+          1402894,
+          1402902,
+          1403006,
+          1405850,
+          1405860
+        ],
+        "description": "Adds that Freudenthal called Finns an inferior 'Turanian' people, a medal section tying the SFP's Freudenthal medal to compulsory Swedish, and (in later versions) that the SFP never disowned his 'racist doctrines'.",
+        "why": "Level 2 (c21, c15, c22, c02; c01 and c31 are the removing side's runs). Claim (pov_push), quoted from the c15/c22 version: 'Freudenthalin rasistisista opeista se ei ole kuitenkaan koskaan sanoutunut ainakaan julkisesti irti' ('it [the SFP] has never, at least publicly, distanced itself from Freudenthal's racist doctrines') and a statement attributed to Vennamo that a Freudenthal medallist spread the view 'että vain ruotsinkieliset ovat Suomessa sivistyneitä ja suomalaiset ovat moukkia' ('that only Swedish speakers in Finland are educated and Finns are boors'); every version carries the sentence that Finns were to him 'alempiarvoista kansaa, turaaneja' ('an inferior people, Turanians'). Community dispute: an edit war over the passage, 2006-07-22 21:23 to 07-23 18:42. Added by E14 (1400527), put back by E7 (1400591, summary asks administrators to step in), extended by E14 and E12, put back by E13 (1402591, 'huoh sotkemista, palautus' = 'sigh, messing about, restoring') and by E14 (1402950, must-include, 'ihan järjetöntä tämä palauttelu' = 'this back-and-forth is absurd'). Taken out six times, all by E5 (1400555, 1402116, 1402615, 1402894+1402902, 1403006, 1405850+1405860); each version stayed 4 min to 9.8 h. A {{kiistelty}} ('disputed') template stood on the article during the episode (1400527 took it off). Not level 3: the accounts signal is met (E14 anonymous 88.113.x.x, E7, E12, E13), but all insertions fall within 22 hours, one article, no source manipulation: one signal only. E16's reference-list and ISBN edits (1402079, 1402080) are not counted as insertions. Further put-backs (before 1402849, before 1404545, and E7's 1405894) are not edits of any candidate, so not listed. Not kept: added_text_in_latest_revision is not set; the later 'Rasismi' section (i03) is different text.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "language-politics/i03",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 200797,
+        "inserting_rev_ids": [
+          1886180
+        ],
+        "removing_rev_ids": [
+          1887883
+        ],
+        "description": "Adds to the Rasismi section that the defenders of Finnish 'did not resort to racism', citing the pro-Finnish newspaper Suometar as the example.",
+        "why": "Level 2 (c35). Claim (pov_push), quoted: 'Suomenkielisten aseman puolustajat eivät kuitenkaan turvautuneet rasismiin' ('The defenders of the status of Finnish speakers, however, did not resort to racism'), with Suometar as the example. Community dispute: a {{lähde}} (citation needed) template was put on the sentence before the removal (it is in the removed text, not in 1886180), and the removal summary is about accuracy: 'ei pidä paikkaansa, aitosuomalaisten näkemykset saamelaisista olivat samalla tavoin rasistisia kuin A.O:n' ('not true; the Finnish-nationalist (aitosuomalainen) views of the Sami were racist in the same way as A. O.'s'). Stayed 5.3 h. Not level 3: one editor (E23, anonymous 193.167.x.x), one article, never put back in the pack. The partial-removal insertion (1886180, found by text search) checks out: its insertion_diff adds this exact sentence, and E22's removal took out only this sentence.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "language-politics/i04",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 72145,
+        "inserting_rev_ids": [
+          2847228
+        ],
+        "removing_rev_ids": [
+          2847272
+        ],
+        "description": "Puts back a sentence, cited to a 2002 Helsingin Sanomat editorial critical of the league, that the association has a few hundred active members.",
+        "why": "Level 2 (c25). Claim (content_dispute): 'Yhdistyksessä on muutama sata aktiivijäsentä' ('The association has a few hundred active members'), a membership figure taken from an editorial titled 'Hienon nimen likaajat'. Community dispute: the removal summary is about sourcing and neutrality, 'Pennanen ei ole esittänyt kirjoituksessaan mitään lähdettä tiedolle joten se on poistettava omana ruotsinmielisenä fiiliksenä' ('Pennanen gives no source for the figure in his piece, so it must be removed as his own pro-Swedish feeling'), and 2847228 itself put the sentence back after an earlier removal (flag first_undone_edit_is_itself_a_revert; summary 'Hesari on aivan ok. lähde' = 'Helsingin Sanomat is a perfectly fine source'). Stayed 6 min. Not level 3: one editor (E17), one article, one put-back in the pack.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "language-politics/i05",
+        "label": "contested",
+        "category": "pov_push",
+        "page_id": 202404,
+        "inserting_rev_ids": [
+          8443343,
+          8443386
+        ],
+        "removing_rev_ids": [
+          8443348,
+          8443389
+        ],
+        "description": "Adds a 'Later effects' section: Åland costs Finland twice the provincial average, has 'especially much hatred of Finns', and should be sold or given to Sweden.",
+        "why": "Level 2 (c17, c07; c06 is the first rollback seen from the other side). Claim (pov_push), quoted: 'Ahvenanmaalla on erityisen paljon suomalaisvihaa' ('there is especially much hatred of Finns on Åland') and 'meidän tulisikin myydä Ahvenanmaa Ruotsille' ('we should sell Åland to Sweden'). A coherent argument with a figure and a proposal that its editor defended as factual, so judged as content, not graffiti, despite calling Åland 'koko roska' ('the whole junk'). Community dispute: put back once after a rollback (8443386, must-include, 'Ei siinä ollut omia mielipiteitäni ... vaan ihan faktapohjaa oli artikkelilla' = 'there were no opinions of mine in it ... the text had a factual basis'), then removed with 'rv. lähteetöntä' ('unsourced'). The two versions stayed 87 s and 58 s. Not level 3: one editor (E132, anonymous 91.156.x.x), one article, both insertions within 11 min.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "language-politics/i06",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 200797,
+        "inserting_rev_ids": [
+          8384609,
+          8386131
+        ],
+        "removing_rev_ids": [
+          8385092,
+          8387660
+        ],
+        "description": "Adds a paragraph saying Freudenthal held racist ideas about Finns and believed Finnish speakers were racially inferior.",
+        "why": "Level 2 (c23, c16). Claim (content_dispute), quoted: 'Sitä, että juuri Freudenthal uskoi suomenkielisten alempirotuisuuteen, voidaan pitää yllättävänä' ('That Freudenthal of all people believed in the racial inferiority of Finnish speakers can be considered surprising'). Community dispute: removed by E35 after 89 min (8385092, 'Hyvin kontroversielli kappale poistettu' = 'very controversial paragraph removed', plus a talk pointer), put back by E17 (8386131, 'tekstistä tulee irrallinen ilman sitä kappaletta' = 'the text becomes disjointed without that paragraph'), removed again by E35 about 10 h later (8387660) with an accuracy reason: 'Freudenthal ei ole näitä mietteitä koskaan esittänyt, ja mikäli olen väärässä toivoisin suoran siteerauksen' ('Freudenthal never expressed these thoughts; if I am wrong I would like a direct quotation'). Not level 3: two inserting editors (E34, E17, both named) give the accounts signal, but the passage was put back once, on the same day; one article; no source change. E35's own edits swept up by 8386131 (8385096 to 8385207) are not insertions. Not put back after 8387660.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "language-politics/i07",
+        "label": "contested",
+        "category": "content_dispute",
+        "page_id": 200797,
+        "inserting_rev_ids": [
+          13188490,
+          13188547
+        ],
+        "removing_rev_ids": [
+          13264723
+        ],
+        "description": "Puts back a cited lead sentence: Freudenthal held race theories typical of his time and believed Finnish speakers were inferior.",
+        "why": "Level 2 (c03; must-include 13188547). Claim (content_dispute) in the lead: 'Freudenthal harrasti ajalleen tyypillisiä rotuoppeja ja uskoi suomenkielisten alempiarvoisuuteen' ('Freudenthal held race theories typical of his time and believed in the inferiority of Finnish speakers'), cited to McRae 1997. Community dispute: back-and-forth over the wording in one episode. E59 put the cited sentence back (13188490, itself a revert: 'palautus vielä aikaisempaan versioon lähdeviitteen takia' = 'restoring an even earlier version because of the citation'), then took the label out (13188516, 'Rasisti-leimaa ei välttämättä johdannossa tarvita' = 'the racist label is not necessarily needed in the lead'); E60 put it back 'kaunisteltuna' ('toned down', 13188547). After E35's removal 30.6 days later (summary only 'Ks. keskustelu osio' = 'see the talk section', which alone does not count) it was put back again by 13265477 (flag). Not level 3, when in doubt the lower level: persistence is met (put back at least twice, 2013-04-17 to 2013-05-18), but the accounts signal is unclear, because E59 restored the cited sentence and then removed the disputed label, so within the pack only E60 clearly added the disputed wording; one article; the second signal must be accounts or articles. E59's trim (13188516) is not counted as an insertion.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "language-politics/i08",
+        "label": "reverted",
+        "category": "pov_push",
+        "page_id": 109236,
+        "inserting_rev_ids": [
+          15198057,
+          15198060
+        ],
+        "removing_rev_ids": [
+          15198067
+        ],
+        "description": "Adds that the church's name is 'clear evidence' of an originally Finnish-speaking Christian population in southern mainland Åland.",
+        "why": "Level 1 (c08; must-include 15198060). Substantive, removed by a different account (E69) by rollback 4 min later with no reason. The sentence 'Kirkon nimi on selkeä näyttö Ahvenanmantereen eteläosan alkujaan suomenkielisestä kristitystä väestöstä' ('The church's name is clear evidence of an originally Finnish-speaking Christian population in the southern part of mainland Åland') presents a contested place-name inference as certain, so it reads as a claim, but there is no community-dispute signal: no reason in the removal, never put back, no template. One editor (E143, anonymous 194.197.x.x).",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "language-politics/i09",
+        "label": "reverted",
+        "category": "other",
+        "page_id": 200797,
+        "inserting_rev_ids": [
+          11150609,
+          11431512,
+          11457462,
+          11465452
+        ],
+        "removing_rev_ids": [
+          11150652,
+          11431519,
+          11458419,
+          11466133
+        ],
+        "description": "Adds a 'Wikisitaatit' (Wikiquote) block of seven quotations attributed to Freudenthal on Finns and 'Turanian' peoples as inferior.",
+        "why": "Level 1 (c18, c19, c14, c20). Added by E50 (anonymous 84.250.x.x, 2012-01-15, in the 'Rotuopit' [race theories] section) and put back three times by E51 (138.111.x.x, 2012-03-26) and E53 (80.220.x.x, 2012-04-01 and 04-04); removed four times by four accounts (E19 and E54 by rollback, E48 by undo, E52 with 'rv, väärä projekti, linkki wikisitaatteihin on riittävä' = 'wrong project, the link to Wikiquote is enough'). Each version stayed 2 min to 9.8 h. The structural signals would reach level 3 (3 masked ranges, put back 3 times over 80 days), but the content check does not: the block is a list of quotations (e.g. 'olisivat ne raakalaisimmat kaikista' = 'they would be the most barbaric of all') headed 'Wikisitaatit' and placed in a section on the same race theories, and the only stated objection is where the quotes belong, not their accuracy, neutrality or sourcing. An edit war over placement is not a disputed claim (evidence standard §1, asymmetry); when in doubt, the lower level. A reviewer who reads the selection itself as a POV push would reach level 3, so this needs a human decision.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "language-politics/i10",
+        "label": "reverted",
+        "category": "content_dispute",
+        "page_id": 200797,
+        "inserting_rev_ids": [
+          9395055
+        ],
+        "removing_rev_ids": [
+          11083669
+        ],
+        "description": "Adds that critics note Freudenthal had little contact with Finnish speakers, which 'naturally reduces the reliability' of his claims about them.",
+        "why": "Level 1 (c33). Substantive, stayed 408 days, removed by a different account (E149, anonymous 91.155.x.x) with the one-word summary 'tutkimus?' ('research?') in the section 'Tutkimuskritiikkiä' (criticism of research). The text is an unattributed evaluation ('Freudenthalin kriitikot ovat huomauttaneet ... mikä luonnollisesti vähentää hänen suomenkielisiä koskevien väitteidensä luotettavuutta' = 'Freudenthal's critics have pointed out ... which naturally reduces the reliability of his claims about Finnish speakers'), but the one-word question is not clearly an accuracy, neutrality or sourcing reason, and there is no put-back or template in the pack, so no community-dispute signal: level 1. The partial-removal insertion (9395055, found by text search) checks out: its insertion_diff adds this exact sentence.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "language-politics/i11",
+        "label": "reverted",
+        "category": "good_faith_error",
+        "page_id": 255,
+        "inserting_rev_ids": [
+          2074977
+        ],
+        "removing_rev_ids": [
+          2074989
+        ],
+        "description": "Puts back an older wording of three paragraphs on 18th-century Swedification and the fennophiles, with Finnish name forms and without the qualifier 'isolated'.",
+        "why": "Level 1 (c30). E24's edit was itself a revert to an older version (summary calls the newer changes 'perusteettomia muutoksia', 'unfounded changes'). It changes wording in three paragraphs: Finnish name forms ('Taneli Juslenius', 'Kustaa Purtasen poika'), 'fennofiileissa', and drops 'jopa yksittäisiä' ('even isolated') before the proposals to eradicate Finnish. Removed 3 min later by E86 (anonymous 217.112.x.x) as 'ala-arvoinen kieliasu' ('substandard language'). Substantive and removed by a different account, but the only recorded objection is language quality and no claim can be quoted from it with confidence: capped at level 1.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "language-politics/n01",
+        "label": "not-incident",
+        "exclusion": "kept",
+        "category": "content_dispute",
+        "page_id": 72145,
+        "inserting_rev_ids": [
+          18302504,
+          18305995,
+          18310349,
+          18311811,
+          18328607,
+          18331668,
+          22343803
+        ],
+        "removing_rev_ids": [
+          2848909,
+          18305592,
+          18308010,
+          18308014,
+          18311692,
+          18312463,
+          18331471,
+          18333872,
+          22342840,
+          22342847,
+          22342852,
+          22346053
+        ],
+        "description": "Criticism section on the league quoting a former secretary-general, Helsingin Sanomat, Karjalainen and Folktinget (e.g. 'pathological resentment and hatred of the Swedish language').",
+        "why": "Excluded: kept (c11, c09, c10, c12, c05; c04 and c32 are removal runs of the same section). The section, with quotes such as 'Suomalaisuuden liittoa piinaa patologinen kauna ja viha ruotsin kieltä ja sen opettamista kohtaan' ('the league is plagued by pathological resentment and hatred of the Swedish language and its teaching'), was removed and put back many times: 2007-05-15 removed by E79 (2848909) and put back by E26; 2019-07-24 to 08-09 removed seven times (E104, E105, E106 twice, E108, E102; anonymous ranges 93.106.x.x, 109.240.x.x and one IPv6 range among them, summaries such as 'vanhentunut ja puolueellinen' = 'outdated and biased') and put back six times by E48, E41 and E107 ('Wikipedia ei keskity nykyhetkeen vaan myös historiaan' = 'Wikipedia covers history, not only the present'); 2024-04-22/23 removed by E109 and E111 as outdated and put back by E110 (22343803, must-include) and by 22347809. c05's flags: removal_was_itself_undone and added_text_in_latest_revision, so the community kept it (c09's flag is unset only because of small differences: 'Helsingin sanomat' casing, no archive link). E109's 22342847 and 22342852 removed two state-funding sentences that 22343803 also put back. The persistent pattern here is on the removing side, which the evidence standard does not grade.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "language-politics/n02",
+        "label": "not-incident",
+        "exclusion": "not-substantive",
+        "category": "other",
+        "page_id": 72145,
+        "inserting_rev_ids": [
+          9120221
+        ],
+        "removing_rev_ids": [
+          9190426
+        ],
+        "description": "A bot-like account adds a copyright-check maintenance template.",
+        "why": "Excluded: not-substantive (c28). E92 (bot-like name) added only {{Tekijänoikeus_201009|diff=300}}, a copyright-check template; removed 15.4 days later by E48 ('Ei copyvioa, mallinne pois' = 'no copyright violation, template removed'). Bot would also apply; not-substantive comes first in the order.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "language-politics/n03",
+        "label": "not-incident",
+        "exclusion": "graffiti",
+        "category": "vandalism",
+        "page_id": 200797,
+        "inserting_rev_ids": [
+          10578436
+        ],
+        "removing_rev_ids": [
+          10578447
+        ],
+        "description": "Adds 'Meitsi hei tuntee tän axelin' ('hey, yours truly knows this Axel') after the Family heading.",
+        "why": "Excluded: graffiti (c29). A slang joke with no content, typed after the 'Perhe' (Family) heading by E44 (anonymous 88.114.x.x); rolled back by E45 after 5 min.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      },
+      {
+        "id": "language-politics/n04",
+        "label": "not-incident",
+        "exclusion": "self-removal",
+        "page_id": 200797,
+        "inserting_rev_ids": [
+          12066723
+        ],
+        "removing_rev_ids": [
+          12067400
+        ],
+        "description": "Large expansion of the biography; the same editor later dropped a subheading and reworded the paragraph on the Swedish Party and the SFP.",
+        "why": "Excluded: self-removal (c34). E43 expanded the article by 6,269 bytes (12066723) and 2.9 h later removed the subheading 'Ennen RP:tä' and reworded the paragraph on the Swedish Party and the SFP (12067400, 'Pois lähdeviitteen edestä lähteeseen perustumaton sisältö. Väliotsikot tässä melko tarpeettomat' = 'removed content in front of the citation that is not based on the source; subheadings fairly unnecessary here'); flag self_removal. The inserting revision was found by text search and its insertion_diff is truncated; the longest 'removed' paragraph was only re-capitalised and carries the <ref name=\"KB\"> citation that 12066723 introduced, so this is E43 reworking its own text.",
+        "human_verified": false,
+        "labelled_by": [
+          "claude:labeller"
+        ]
+      }
+    ],
+    "notes": "Freudenthal's views on Finns recur as a disputed theme in 2006 (i02, i03), 2010 (i06, i10), 2012 (i09) and 2013 (i07) with different texts and editors; kept as separate items because the texts are not the same content (no sha1 or similar_to links) and a sourced Rasismi section stood in the article in between. In the Suomalaisuuden liitto criticism section (n01) the persistent side is the removing one (2019, 2024); labelled kept. Some masked edit summaries in the pack still contain named-account usernames (c01, c14, c15, c21, c26, c30, c31); none are quoted here."
+  },
+  "item_sources": {
+    "language-politics/i01": [
+      "c13",
+      "c24",
+      "c27",
+      "c26"
+    ],
+    "language-politics/i02": [
+      "c21",
+      "c15",
+      "c22",
+      "c01",
+      "c02",
+      "c31"
+    ],
+    "language-politics/i03": [
+      "c35"
+    ],
+    "language-politics/i04": [
+      "c25"
+    ],
+    "language-politics/i05": [
+      "c17",
+      "c06",
+      "c07"
+    ],
+    "language-politics/i06": [
+      "c23",
+      "c16"
+    ],
+    "language-politics/i07": [
+      "c03"
+    ],
+    "language-politics/i08": [
+      "c08"
+    ],
+    "language-politics/i09": [
+      "c18",
+      "c19",
+      "c14",
+      "c20"
+    ],
+    "language-politics/i10": [
+      "c33"
+    ],
+    "language-politics/i11": [
+      "c30"
+    ],
+    "language-politics/n01": [
+      "c11",
+      "c09",
+      "c10",
+      "c12",
+      "c04",
+      "c05",
+      "c32"
+    ],
+    "language-politics/n02": [
+      "c28"
+    ],
+    "language-politics/n03": [
+      "c29"
+    ],
+    "language-politics/n04": [
+      "c34"
+    ]
+  },
+  "skipped": []
+}

@@ -47,6 +47,9 @@ BOT = re.compile(r"bot(\b|$)|^bot", re.I)
 TEMP = re.compile(r"^~\d{4}-\d+-\d+$")
 WIKILINK = re.compile(r"\[\[([^\[\]|]*)(?:\|([^\[\]]*))?\]\]")
 IPV4_IN_TEXT = re.compile(r"(?<!\d)(?<!\d\.)\d{1,3}(?:\.\d{1,3}){3}(?!\.?\d)")
+# names after "by user X" phrases, for accounts not in the page history (renamed, or mentioned from elsewhere)
+NAME_AFTER = re.compile(r"((?:[Kk]äyttäjä|[Uu]ser|[Kk]eskustelu käyttäjästä|[Uu]ser talk)\s*:\s*|"
+                        r"(?:jonka teki|käyttäjän|käyttäjä|tehnyt|tehneet|tekemään|by)\s+)([^\s|\]\[(),.:;]+)")
 IPV6_IN_TEXT = re.compile(r"(?<![0-9A-Za-z])(?<![0-9A-Fa-f]:)(?<!::)[0-9A-Fa-f:]*:[0-9A-Fa-f:]*(?![0-9A-Za-z:])")
 
 
@@ -111,8 +114,15 @@ class Editors:
             if u in text:
                 text = text.replace(u, self.of(u))
         text = IPV4_IN_TEXT.sub(lambda m: self._mask_ip(m.group(0)), text)
+        text = NAME_AFTER.sub(lambda m: m.group(0) if re.fullmatch(r"E\d+|\d[\d.]*|[0-9A-Fa-f:]+", m.group(2))
+                              else m.group(1) + "[editor]", text)
         text = IPV6_IN_TEXT.sub(lambda m: self._mask_ip(m.group(0)) if m.group(0).count(":") >= 2 else m.group(0), text)
         return text
+
+    def mask_ips(self, text: str) -> str:
+        """Article text (diffs) may carry signatures with IPs: mask them; names in article prose are content and stay."""
+        text = IPV4_IN_TEXT.sub(lambda m: self._mask_ip(m.group(0)), text)
+        return IPV6_IN_TEXT.sub(lambda m: self._mask_ip(m.group(0)) if m.group(0).count(":") >= 2 else m.group(0), text)
 
     def _mask_ip(self, s: str) -> str:
         try:
@@ -484,7 +494,7 @@ def build_pack(db: Corpus, topic: dict) -> dict:
     cands = []
     for r in picked:
         diff, added, removed = render_diff(db.text(r["page_id"], r["restored_rev_id"]), db.text(r["page_id"], r["edits"][-1]["rev_id"]))
-        r["diff"] = diff
+        r["diff"] = ed.mask_ips(diff)
         r["_fp"] = fingerprint(added)
         long_added = [x for x in added.splitlines() if len(x.strip()) >= 30]
         r["flags"]["added_text_in_latest_revision"] = bool(long_added) and all(x in latest.get(r["page_id"], "") for x in long_added[:3])
@@ -495,7 +505,7 @@ def build_pack(db: Corpus, topic: dict) -> dict:
         if sum(1 for c in cands if c.get("bucket") == "partial-removal") >= N_PARTIAL: break
         c = build_partial(db, p, ed)
         if c:
-            c["bucket"] = "partial-removal"; c["diff"] = c.pop("diff_of_removal"); c["_fp"] = fingerprint(c["diff"]); cands.append(c)
+            c["bucket"] = "partial-removal"; c["diff"] = ed.mask_ips(c.pop("diff_of_removal")); c["insertion_diff"] = ed.mask_ips(c["insertion_diff"]); c["_fp"] = fingerprint(c["diff"]); cands.append(c)
     for a in cands:
         sim = [b for b in cands if b is not a and jaccard(a["_fp"], b["_fp"]) >= 0.4]
         a["similar_to"] = [f"c{cands.index(b) + 1:02d}" for b in sim]

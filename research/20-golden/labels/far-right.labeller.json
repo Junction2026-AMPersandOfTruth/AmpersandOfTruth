@@ -1,0 +1,814 @@
+{
+ "topic": {
+  "id": "far-right",
+  "title": "Interwar fascism and today's nationalist movements",
+  "split": "test",
+  "kind": "topic",
+  "queries": [
+   {
+    "id": "far-right.en",
+    "style": "en",
+    "lang": "en",
+    "text": "Lapua movement and IKL fascism in Finland and today's nationalist parties"
+   },
+   {
+    "id": "far-right.fi",
+    "style": "fi",
+    "lang": "fi",
+    "text": "Lapuan liike ja IKL: fasismi Suomessa ja nykyiset kansallismieliset liikkeet"
+   },
+   {
+    "id": "far-right.broad",
+    "style": "broad",
+    "lang": "en",
+    "text": "far-right movements in Finland"
+   },
+   {
+    "id": "far-right.sv",
+    "style": "sv",
+    "lang": "sv",
+    "text": "Lapporörelsen och IKL: fascism i Finland och dagens nationalistiska rörelser"
+   }
+  ],
+  "articles": [
+   {
+    "page_id": 11477,
+    "grade": 2,
+    "title": "Lapuanliike"
+   },
+   {
+    "page_id": 11537,
+    "grade": 2,
+    "title": "Isänmaallinen kansanliike"
+   },
+   {
+    "page_id": 1072792,
+    "grade": 2,
+    "title": "Äärioikeisto Suomessa"
+   },
+   {
+    "page_id": 1487100,
+    "grade": 2,
+    "title": "Kansallissosialismi Suomessa"
+   },
+   {
+    "page_id": 1445320,
+    "grade": 2,
+    "title": "Suomen Kansa Ensin"
+   },
+   {
+    "page_id": 981456,
+    "grade": 2,
+    "title": "Suomen vastarintaliike"
+   },
+   {
+    "page_id": 1679936,
+    "grade": 2,
+    "title": "Sinimusta liike"
+   },
+   {
+    "page_id": 1395607,
+    "grade": 1,
+    "title": "Marco de Wit"
+   },
+   {
+    "page_id": 41622,
+    "grade": 1,
+    "title": "Timo Soini"
+   },
+   {
+    "page_id": 1105958,
+    "grade": 1,
+    "title": "Ano Turtiainen"
+   },
+   {
+    "page_id": 27100,
+    "grade": 1,
+    "title": "Mäntsälän kapina"
+   },
+   {
+    "page_id": 58914,
+    "grade": 1,
+    "title": "Talonpoikaismarssi"
+   },
+   {
+    "page_id": 17808,
+    "grade": 1,
+    "title": "Vihtori Kosola"
+   },
+   {
+    "page_id": 189431,
+    "grade": 1,
+    "title": "Hilja Riipinen"
+   },
+   {
+    "page_id": 1566754,
+    "grade": 1,
+    "title": "Mustapaidat (IKL)"
+   },
+   {
+    "page_id": 93295,
+    "grade": 1,
+    "title": "Sinimustat"
+   },
+   {
+    "page_id": 13733,
+    "grade": 1,
+    "title": "Isänmaallinen Kansanliike (1993)"
+   },
+   {
+    "page_id": 13184,
+    "grade": 1,
+    "title": "Suomi – Isänmaa"
+   },
+   {
+    "page_id": 1370905,
+    "grade": 1,
+    "title": "Suomi Ensin"
+   },
+   {
+    "page_id": 1324148,
+    "grade": 1,
+    "title": "Rajat kiinni!"
+   },
+   {
+    "page_id": 23606,
+    "grade": 1,
+    "title": "Suomen Kansan Järjestö"
+   },
+   {
+    "page_id": 1829442,
+    "grade": 1,
+    "title": "Isänmaallinen Kansanrintama"
+   },
+   {
+    "page_id": 1565761,
+    "grade": 1,
+    "title": "Lapuanliikkeen johto"
+   }
+  ],
+  "items": [
+   {
+    "id": "far-right/i01",
+    "label": "campaign",
+    "category": "pov_push",
+    "page_id": 1445320,
+    "other_page_ids": [
+     1395607
+    ],
+    "inserting_rev_ids": [
+     17685226,
+     17769622,
+     17769627
+    ],
+    "removing_rev_ids": [
+     17685568,
+     17769625,
+     17769831
+    ],
+    "description": "Adds that SKE's chair Marco de Wit has been convicted of an aggravated accounting offence and aggravated endangerment of traffic safety; the de Wit version also adds suspicions of two further offences for which it says he was acquitted.",
+    "why": "Level 3. Level 2 holds: a slanted claim about a living person. The de Wit version reads 'De Wit on tuomittu vankeuteen törkeästä kirjanpitorikoksesta ... sakkorangaistuksiin kahdesta törkeästä liikenneturvallisuuden vaarantamisesta' ('sentenced to prison for an aggravated accounting offence ... fined for two aggravated endangerments of traffic safety'), plus suspicions of two serious offences 'mutta näytön puuttuessa oikeus on todennut hänet syyttömäksi' ('but for lack of evidence the court found him not guilty'), tagged {{lähde}}. It was removed with 'Mahdollinen kunnianloukkaus. Ei voi lisätä lähteettömänä.' ('Possible defamation. Cannot be added without a source.', 17769625, c17) and 'Rikoksia ei voi lisätä lähteettöminä. Muilta osin POV.' ('Crimes cannot be added unsourced. Otherwise POV.', 17769831, c02). It was put back twice on 2018-12-11: 17769622 undoes an earlier removal 17769615 that is not in the pack, then 17769627. Level-3 signals: (1) articles: the same two convictions were added to Suomen Kansa Ensin on 2018-11-04 (17685226: 'Yhdistyksen puheenjohtaja on tuomittu rangaistuksiin muun muassa törkeästä kirjanpitorikosesta ja törkeästä liikenneturvallisuuden vaarantamisesta' = 'the association's chair has been sentenced for, among other things, an aggravated accounting offence and aggravated endangerment of traffic safety'; removed by a rollback 5.8 h later, c15) and to Marco de Wit. (2) accounts: two anonymous editors in different masked ranges (E539 88.115.x.x on SKE, E555 83.245.x.x on de Wit). (3) persistence: put back 2 times, 37 days between the first insertion (2018-11-04) and the last (2018-12-11). Treating the two articles as one claim is a judgement: the wording differs but the two convictions are the same. Without that merge, the de Wit part alone is level 2 (one editor, one article).",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i02",
+    "label": "contested",
+    "category": "pov_push",
+    "page_id": 1395607,
+    "inserting_rev_ids": [
+     17769628,
+     17769632,
+     17769633,
+     17769635,
+     17769637
+    ],
+    "removing_rev_ids": [
+     17769831
+    ],
+    "description": "Recasts de Wit's 'Laiton lehti?' publication as a 'vulgar nationalist blog' and adds that he became known for transporting corpses on a van floor (Yle MOT story, cited) and that his partner sits on the SKE board as treasurer.",
+    "why": "Level 2. A claim: loaded framing in the added text ('alatyylisen [[Kansallismielisyys|kansallismielisen]] blogin' = 'vulgar nationalist blog'; 'De Wit tuli tunnetuksi kuljetettuaan ruumita pakettiauton lattialla' = 'De Wit became known for transporting corpses on the floor of a van'). Community dispute: the run was removed after 107 min by a different account with 'Muilta osin POV' ('otherwise POV', 17769831, c02). Not level 3: there are two editors in different masked ranges (E555 83.245.x.x; E619 185.77.x.x changed 'verkkojulkaisun' to 'blogin', 'web publication' to 'blog', the same framing), but only one article, no put-back and no source change, so only one signal. Contains must-include rev 17769637, which adds 'alatyylisen' ('vulgar'). The convictions paragraph that was re-added in the same run is item far-right/i01.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i03",
+    "label": "contested",
+    "category": "pov_push",
+    "page_id": 1105958,
+    "inserting_rev_ids": [
+     21024113
+    ],
+    "removing_rev_ids": [
+     21024349
+    ],
+    "description": "Adds a 'Criticism' section saying Turtiainen's pro-Russia line would likely drop Finnish living standards to Russian levels (average wage 621 euros a month), cited to an article on Russian army pay.",
+    "why": "Level 2. A claim: unsourced evaluative framing ('Turtiaisen edustama Suomen lähentäminen poliittisesti ja integrointi taloudellisesti Venäjään todennäköisesti pudottaisi suomalaisen elintason samoihin lukemiin' = 'the political rapprochement and economic integration with Russia that Turtiainen represents would likely drop the Finnish standard of living to the same figures'), backed by a citation about Russian army salaries. Community dispute: a different account removed it after 85 min with a sourcing reason, 'lähteessä ei Turtiaisesta' ('the source says nothing about Turtiainen', c03). One anonymous editor (E667), one article, not put back: not level 3. Must-include rev 21024113.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i04",
+    "label": "contested",
+    "category": "content_dispute",
+    "page_id": 11537,
+    "inserting_rev_ids": [
+     2601735,
+     2601743,
+     2601748,
+     2658330,
+     2658341,
+     2659601
+    ],
+    "removing_rev_ids": [
+     2659257,
+     2659647
+    ],
+    "description": "Rewrites the IKL lead as a 'far-right fascist party that took many influences from German National Socialism and European fascism' and says its black-shirt uniform had a swastika armband 'like the Nazis'.",
+    "why": "Level 2. A claim: it changes how IKL is characterised. Rendered added text: 'äärioikeistolainen fasistipuolue, joka otti runsaasti vaikutteita saksalaisesta kansallissosialistisesta ja eurooppalaisesta fasistisesta liikkeestä' ('a far-right fascist party that took many influences from the German National Socialist and European fascist movement'); 'joissa oli natsien lailla hakaristihihamerkki' ('which, like the Nazis, had a swastika armband'). Community dispute: it was removed without a summary on 2007-04-12 (2659257, c05), put back by E15 (2659601, c18) and removed again 15 min later (2659647). That is one put-back and a back-and-forth (6 identity reverts in 3 days). Not level 3: two editors added parts of it (E15, named; E117, 213.216.x.x), but it is on one article, was put back only once and has no source change, so only one signal. Category content_dispute rather than pov_push because today's lead (pack snippet) also calls IKL far-right and fascist. The label is about the 2007 dispute, not about truth. The image E15 added in the same run (2659193), which E16 removed separately, is left out.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i05",
+    "label": "contested",
+    "category": "content_dispute",
+    "page_id": 1445320,
+    "inserting_rev_ids": [
+     18391571,
+     18391590,
+     18392074,
+     18480943
+    ],
+    "removing_rev_ids": [
+     18391755,
+     18392075,
+     18519639
+    ],
+    "description": "Replaces the SKE board in the infobox with the rival board elected in 2019 and adds a signed note that the PRH removed de Wit's signing rights; later adds that the Tampere district court backed the new board (YouTube source).",
+    "why": "Level 2. A claim that changes who leads the party during a leadership split. The infobox chair becomes the rival board's chair, and the added note reads '23.8.PRH poisti Marcolta nimenkirjoitusoikeudet. Hän ei ole enää puolueen puheenjohtaja, ei edes hallituksen jäsen.' ('On 23 Aug the PRH removed Marco's signing rights. He is no longer the party chair, not even a board member.'). Community dispute, step by step: (1) removed as 'lähteetön' ('unsourced', 18391755, c19); (2) put back the same day by another named account with 'Luotettavin käytettävissä oleva julkinen tieto on PRH:n rekisteri' ('the most reliable public information is the PRH register', 18392074); (3) that account then removed the signed note as wrong: 'PRH ei voi poistaa keneltäkään mitään oikeuksia' ('the PRH cannot remove anyone's rights', 18392075, c20); (4) after 61 days the whole change was removed again: 'ei minkäänlaisia luotettavia sekundäärilähteitä. joku muutaman sadan tilaajan youtube-kanava ei ole luotettava lähde' ('no reliable secondary sources at all; a YouTube channel with a few hundred subscribers is not a reliable source', 18519639, c07). Not level 3: three named accounts added or re-added it (E592, E540, E594), but it is on one article and was put back only once. The citation swaps visible in c07 (party site and rules reference changed to a new domain) cannot be tied to an edit in the pack, so the source signal is not counted. Other editors' edits in the run (18396968, a 'fix', a homepage-link update) are left out.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i06",
+    "label": "contested",
+    "category": "pov_push",
+    "page_id": 11477,
+    "inserting_rev_ids": [
+     1420030
+    ],
+    "removing_rev_ids": [
+     1956432
+    ],
+    "description": "Adds a paragraph saying the Lapua movement's first meetings were in Swedish-speaking parishes, that its Swedish-speaking support 'has been more or less hushed up', and that Swedish-speaking nobles in it looked down on Finnish.",
+    "why": "Level 2. A claim with narrative framing: 'Lapuan liikkeen ruotsinkielisestä kannattajakunnasta on aikojen saatossa enemmän tai vähemmän vaiettu' ('the movement's Swedish-speaking support has over time been more or less hushed up'), and 'Ironista kylläkin ... väheksyivät suomen kieltä' ('Ironically ... belittled the Finnish language'). Community dispute, two signals: a {{lähde}} (citation needed) tag was added to it during its 122.6 days; and the removal gives a sourcing and accuracy reason, 'poistan pitkään lähteettömänä olleen kappaleen ... Aiemman kappaleen lähteen mukaan kannattajakuntaa ei ole juuri tutkittu, eikä siinä puhuta sanaakaan ruotsinkielisistä' ('removing the long-unsourced paragraph ... according to the previous paragraph's source the support base has hardly been studied, and it says not a word about Swedish speakers', c37). The text-search inserting edit 1420030 does add this paragraph (insertion_diff). One editor, one article, not put back: not level 3.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i07",
+    "label": "contested",
+    "category": "content_dispute",
+    "page_id": 1445320,
+    "inserting_rev_ids": [
+     17685123,
+     17685197
+    ],
+    "removing_rev_ids": [
+     17685155,
+     17685568
+    ],
+    "description": "Changes the SKE infobox title of its secretary from 'party secretary' to 'secretary', on the grounds that SKE was not yet a registered party.",
+    "why": "Level 2, at the low end. A claim: a content dispute over SKE's status that can be quoted from the added text ('(sihteeri)' instead of '(puoluesihteeri)'; summary 'Ei voi olla puoluesihteeri, koska ei ole puolue!' = 'Cannot be a party secretary because it is not a party!'). Community dispute: (1) removed by a different account that says the change is wrong, 'Myös rekisteröimätön puolue on puolue' ('an unregistered party is a party too', 17685155, c24); (2) put back by another anonymous editor, 'Yhdistys on puolue vasta kun se on merkitty puoluerekisteriin' ('an association is a party only once it is in the party register', 17685197, first edit of c15); (3) removed again by rollback (17685568). So: put back once, in a back-and-forth. Not level 3: two masked ranges (E543 23.233.x.x, E539 88.115.x.x), but one article and one put-back give only one signal. The change is only 6 bytes, so a reviewer may prefer level 1.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i08",
+    "label": "reverted",
+    "category": "pov_push",
+    "page_id": 1445320,
+    "inserting_rev_ids": [
+     17685198,
+     17685218,
+     17685230,
+     17685237
+    ],
+    "removing_rev_ids": [
+     17685568
+    ],
+    "description": "Adds 'racism, homophobia' to SKE's ideology in the infobox, sentences that SKE publicly defended a man jailed for violent crimes and that a participant caused a police operation by threatening bystanders with a handgun (cited), and citation-needed tags on other text.",
+    "why": "Level 1. The added text frames the party ('Ideologia = ... [[rasismi]], [[homofobia]]'; 'SKE on puolustanut julkisuudessa lukuisista väkivaltarikoksista vankeuteen tuomittua ...' = 'SKE has publicly defended a man jailed for numerous violent crimes'), but these passages have no community-dispute signal. A different account removed them after 5.8 h with a rollback that gave no reason (17685568, c15); they were not put back; no dispute template was placed on them (the {{Lähde}} tags in the run were added by the same editor to other text). Two other edits from the same run are separate items: the convictions sentence 17685226 (far-right/i01) and the 'secretary' change 17685197 (far-right/i07).",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i09",
+    "label": "reverted",
+    "category": "pov_push",
+    "page_id": 11537,
+    "inserting_rev_ids": [
+     1514101
+    ],
+    "removing_rev_ids": [
+     1514244
+    ],
+    "description": "Adds that IKL 'can be said to have been an entirely fascist organisation', citing photos of Finnish blackshirts giving the Nazi salute.",
+    "why": "Level 1. The added text frames IKL ('Voidaankin sanoa liikkeen olleen täysin fasistinen järjestö' = 'It can thus be said that the movement was an entirely fascist organisation'), but there is no community-dispute signal. A different account removed it after 42 min with only 'rv' (c01); it was not put back; no dispute template. Must-include rev 1514101.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i10",
+    "label": "reverted",
+    "category": "other",
+    "page_id": 1395607,
+    "inserting_rev_ids": [
+     17685978,
+     17685995,
+     17686010,
+     17693227,
+     17694013,
+     17696230,
+     17703899,
+     17707148,
+     17718259,
+     17718272
+    ],
+    "removing_rev_ids": [
+     17685913,
+     17685989,
+     17685998,
+     17686015,
+     17693874,
+     17693876,
+     17696221,
+     17703752,
+     17703754,
+     17707135,
+     17712224,
+     17712228,
+     17712231,
+     17712238,
+     17729471
+    ],
+    "description": "Adds that de Wit founded the nationalist web publication 'Laiton lehti?' in October 2018, cited to Kansallisromantikko.fi, plus an external link to the publication.",
+    "why": "Level 1, capped by the content reading. The history signals are strong. It was put back 8 times between 2018-11-04 and 2018-11-19, once by a second named account (E240: 'jos juutuubi-videot kelpaavat artikkeliin niin miksei siten lehti' = 'if YouTube videos are acceptable in the article, why not the magazine'). Anonymous editors in one masked range (88.115.x.x) removed it each time, with promotion and sourcing reasons: 'Wikipedia ei ole tarkoitettu oman blogin mainostamiseen. Lähteesi ei ole luotettava.' ('Wikipedia is not for promoting your own blog. Your source is not reliable.') and 'Lähde ei täytä luotettavan lähteen määritelmää' ('the source does not meet the definition of a reliable source'). But the added sentence asserts no contested fact and has no slant. The dispute is about promotion, a self-published source and a link (P1.S9 'other': link spam, advertising), so it is not a claim and stays at level 1. A reviewer who reads this inclusion war as a content dispute would get level 2, and E240's single re-add plus persistence would then even meet two level-3 signals. The 'free speech activists' category from the same war is far-right/n06. The final removal (17729471) was undone, but the text is not in the latest revision.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i11",
+    "label": "reverted",
+    "category": "good_faith_error",
+    "page_id": 1445320,
+    "inserting_rev_ids": [
+     17701488,
+     17703898,
+     17713003
+    ],
+    "removing_rev_ids": [
+     17703759,
+     17707133,
+     17713255
+    ],
+    "description": "Adds that SKE filed its party-register application on 31 October 2018, cited to a video post on de Wit's own 'Laiton lehti?' site.",
+    "why": "Level 1, capped by the content reading. The history shows a dispute about the source, in this order: (1) removed with 'Alatyylinen rasistinen blogi, joka rikkoo toisten tekijänoikeuksia, ei edelleenkään kelpaa lähteeksi' ('a vulgar racist blog that infringes others' copyright is still not acceptable as a source', 17703759, c11); (2) put back (17703898, c22); (3) removed (17707133, c09); (4) put back by another named account as 'lähteistetty ja kontekstissaan olennainen tieto' ('sourced and relevant in context', 17707149, c23); (5) its citation was then replaced by {{lähde}}; (6) the blog citation was re-added (17713003) and (7) removed again (17713255, c16). But the sentence itself is a plain, plausible date with no slant, and nobody said it was wrong. The only recorded problem is the source, so it is a good-faith error, capped at level 1. (The same date later appears in the article with a different citation; see the context in c25's diff.)",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i12",
+    "label": "reverted",
+    "category": "good_faith_error",
+    "page_id": 1395607,
+    "inserting_rev_ids": [
+     17577450
+    ],
+    "removing_rev_ids": [
+     17610563
+    ],
+    "description": "Restores an unsourced 'YouTubing' section saying de Wit has streamed over a thousand hours of his activism, drawn millions of views and had channels banned.",
+    "why": "Level 1, capped by the content reading. Dispute signals exist. The section carries {{lähteetön}}. It was put back after an earlier removal (17577450 undoes 17576540) with 'Kyllä soveltuu ... video-tuotantohistoria on kohteen keskeinen wikimerkittävyysperuste' ('It is suitable ... his video production history is the subject's main notability criterion'). It was removed 14.5 days later as unsourced (c13). But the only recorded problem is the missing source, and the text is a plausible description with no contested fact or clear slant. So it is a good-faith error, capped at level 1.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i13",
+    "label": "reverted",
+    "category": "pov_push",
+    "page_id": 1445320,
+    "inserting_rev_ids": [
+     17902560,
+     17902563
+    ],
+    "removing_rev_ids": [
+     17903254
+    ],
+    "description": "Replaces the summary of SKE's goals with a 14 KB copy of the party programme (every line linked to the party rules PDF) and swaps the vice-chairs for the other faction's names.",
+    "why": "Level 1. The added text is claim-like: it changes names in a contested leadership and replaces a neutral summary with the party's own programme text ('Päivittänyt oikeat tiedot' = 'updated the correct information'). But there is no community-dispute signal: a different account rolled it back after 10.5 h with no reason (c14); it was not put back; no template.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i14",
+    "label": "reverted",
+    "category": "content_dispute",
+    "page_id": 1445320,
+    "inserting_rev_ids": [
+     18111771
+    ],
+    "removing_rev_ids": [
+     18111774
+    ],
+    "description": "Adds that on 27 April a spring meeting dismissed SKE's old board and elected a new one.",
+    "why": "Level 1. A claim about the contested leadership. A rollback with no reason removed it 72 s later (c25). The next revision (18111775) undid that removal, but the pack does not show who made it: the remover undoing its own over-wide rollback is as likely as a dispute. So this put-back is not counted (when in doubt, the lower level). The text is not in the latest revision. Another editor's +219-byte edit in the run (18111772) was removed inside the run and cannot be seen in the diff, so it is left out.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i15",
+    "label": "reverted",
+    "category": "content_dispute",
+    "page_id": 1445320,
+    "inserting_rev_ids": [
+     17769499
+    ],
+    "removing_rev_ids": [
+     17769504
+    ],
+    "description": "Adds a list of goals from SKE's programme (tax exemption for farmers, gold coins for all citizens, Swedish-speaking autonomous coastal regions, civil guards, a truth commission, firing Yle journalists and more).",
+    "why": "Level 1. There is no community-dispute signal: a different account rolled it back 6 min later with no reason (c26); it was not put back; no template. A reworded version of the same list appears in the article later (context in c14's diff; it cites the rules PDF accessed 11.12.2018, the same day).",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i16",
+    "label": "reverted",
+    "category": "content_dispute",
+    "page_id": 41622,
+    "inserting_rev_ids": [
+     22344223,
+     22344224
+    ],
+    "removing_rev_ids": [
+     22410446
+    ],
+    "description": "Adds Soini's comment to Demokraatti that Halla-aho took the Finns Party into the ID group after being humiliated in an ECR meeting (cited).",
+    "why": "Level 1. A sourced, attributed view, removed after 33.7 days as 'ei liene niin tarpeellista' ('probably not that necessary', c12). That is a relevance call, not a reason about accuracy, neutrality or sourcing, and the text was not put back. Another account's 0-byte tweak inside the run was rolled back separately and is not part of the item.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i17",
+    "label": "reverted",
+    "category": "good_faith_error",
+    "page_id": 1395607,
+    "inserting_rev_ids": [
+     18684781
+    ],
+    "removing_rev_ids": [
+     18685777
+    ],
+    "description": "Changes 'is' to 'was' for the involvement of de Wit's partner in SKE, with the summary that she had been expelled from the party.",
+    "why": "Level 1. A plausible status update ('on' to 'oli' mukana puolueen toiminnassa, 'is' to 'was' involved in the party's activity). A rollback swept it away; the rollback's reason was about another editor's link: 'on jo linkkinä artikkelissa' ('already linked in the article', c33). The rollback was later undone (18755095), but the text is not in the latest revision, so it was not kept. No slant: capped at level 1.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/i18",
+    "label": "reverted",
+    "category": "other",
+    "page_id": 11477,
+    "inserting_rev_ids": [
+     2826584
+    ],
+    "removing_rev_ids": [
+     4117373
+    ],
+    "description": "Long 2007 expansion of the Lapua movement's 1930 events (the peasant march, the kidnappings, the movement's own press statement denying fascism), later condensed by another editor.",
+    "why": "Level 1. A different account copy-edited the passage 248 days later. Summary: 'kh+ muilutusyksityiskohta lähteineen +vaalien 1930 osalta neutralisointia ja uutta asiaa lähteineen' ('copy-edit, kidnapping detail with sources, neutralising the part on the 1930 elections, new material with sources', c38). It rewrote most of 2826584's paragraphs in shorter form and dropped some text, for example the quoted press statement 'Kaikki puheet fascismista, hallitusmuodon muuttamisesta ja diktaattorista ovat vääristelyä' ('all talk of fascism, changing the form of government and a dictator is distortion'). The neutrality wording covers only the 1930 elections paragraph. That paragraph's visible citation (a TV programme aired 18 June 2007) is later than 2826584 (11 May 2007), so the neutrality reason is not shown to apply to this insertion. A rewrite, not a dispute over a claim: level 1.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/n01",
+    "label": "not-incident",
+    "exclusion": "graffiti",
+    "category": "vandalism",
+    "page_id": 1395607,
+    "inserting_rev_ids": [
+     17677119
+    ],
+    "removing_rev_ids": [
+     17677124
+    ],
+    "description": "Changes 'de Wit' to the vulgar pun 'de Wittu' throughout and adds 'Eli turha koulutus on.' ('So it is a useless education.') under the summary 'fixed a few typos'.",
+    "why": "Excluded: graffiti. Insulting wordplay on the subject's name and a mocking sentence. A different account removed it after 4 min (c28).",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/n02",
+    "label": "not-incident",
+    "exclusion": "self-removal",
+    "category": "other",
+    "page_id": 11537,
+    "inserting_rev_ids": [
+     1102989
+    ],
+    "removing_rev_ids": [
+     1102992
+    ],
+    "description": "Adds a criminal-law professor to IKL's list of known supporters.",
+    "why": "Excluded: self-removal. The same anonymous account removed it 75 s later (c29).",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/n03",
+    "label": "not-incident",
+    "exclusion": "self-removal",
+    "category": "vandalism",
+    "page_id": 41622,
+    "inserting_rev_ids": [
+     11266407
+    ],
+    "removing_rev_ids": [
+     11266408
+    ],
+    "description": "Adds 'Elopainoa soinilta löytyy 150 kiloa' ('Soini weighs 150 kilos') to the lead.",
+    "why": "Excluded: self-removal. The same anonymous account removed it 27 s later (c30). It would also be graffiti.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/n04",
+    "label": "not-incident",
+    "exclusion": "graffiti",
+    "category": "vandalism",
+    "page_id": 41622,
+    "inserting_rev_ids": [
+     18073559
+    ],
+    "removing_rev_ids": [
+     18073561
+    ],
+    "description": "Replaces Soini's name in the infobox with 'JYTKY JYTKY JYTKY!!!'.",
+    "why": "Excluded: graffiti. Removed after 34 s 'sotkemisena' ('as vandalism', c34). The removal was later undone (18082885), but the text is not in the latest revision, so it is not 'kept'.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/n05",
+    "label": "not-incident",
+    "exclusion": "graffiti",
+    "category": "vandalism",
+    "page_id": 41622,
+    "inserting_rev_ids": [
+     9466240
+    ],
+    "removing_rev_ids": [
+     9466245
+    ],
+    "description": "The 'inserting' edit is a rollback that removed the slogan '(Äänestä keskustaa!)' ('Vote Centre!') from Soini's name in the lead; the 'removal' put the slogan back.",
+    "why": "Excluded: graffiti. No content was added. The undone edit is the cleanup of a party slogan pasted into the subject's name. The removing edit restored the slogan and was itself undone right away (9466246) (c32).",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/n06",
+    "label": "not-incident",
+    "exclusion": "not-substantive",
+    "category": "other",
+    "page_id": 1445320,
+    "other_page_ids": [
+     1395607
+    ],
+    "inserting_rev_ids": [
+     17701500,
+     17701521
+    ],
+    "removing_rev_ids": [
+     17703751,
+     17703758
+    ],
+    "description": "Adds the category 'Sananvapausaktivistit' (free speech activists) to Suomen Kansa Ensin and to Marco de Wit.",
+    "why": "Excluded: not substantive (category only). The category was added to both articles on 2018-11-11 and removed by an anonymous editor the next day (17703758 c21, 17703751 c06). Its later re-additions came together with prose and are counted in far-right/i10 and far-right/i11. One removal on de Wit said 'Kyseinen henkilö ei ole sananvapausaktivisti yhdenkään luotettavan lähteen mukaan' ('no reliable source calls this person a free speech activist'), but the standard excludes category-only changes.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/n07",
+    "label": "not-incident",
+    "exclusion": "not-substantive",
+    "category": "other",
+    "page_id": 1395607,
+    "inserting_rev_ids": [
+     18684888
+    ],
+    "removing_rev_ids": [
+     18685777
+    ],
+    "description": "Adds an internal link to the SKE article under 'Aiheesta muualla' (external links) on de Wit's article.",
+    "why": "Excluded: not substantive (a link only). Removed as 'on jo linkkinä artikkelissa' ('already linked in the article', c33). The other edit in the same rollback is far-right/i17.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/n08",
+    "label": "not-incident",
+    "exclusion": "not-substantive",
+    "category": "other",
+    "page_id": 11477,
+    "inserting_rev_ids": [
+     374715
+    ],
+    "removing_rev_ids": [
+     531421
+    ],
+    "description": "Adds section headings to the Lapua movement article ('väliotsikointia jäsentelyksi' = 'subheadings for structure').",
+    "why": "Excluded: not substantive. The inserting edit found by text search (374715) only added headings over existing paragraphs (insertion_diff). The removal 87.7 days later took out 'omaa tutkimusta ja oikeasti turhaa ylenmääräistä väliotsikointia' ('original research and really unnecessary excessive subheadings', c36), but 374715 did not add the removed prose (for example the passage on Germanic race theories). One heading, 'Rasistitonta äärioikeistolaisuutta' ('far-right without racism'), carries framing, but it only summarises the existing paragraph under it.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   },
+   {
+    "id": "far-right/n09",
+    "label": "not-incident",
+    "exclusion": "blanking",
+    "category": "other",
+    "page_id": 11477,
+    "inserting_rev_ids": [
+     2981658
+    ],
+    "removing_rev_ids": [
+     18798824
+    ],
+    "description": "Adds material to the 'Leadership of the Lapua movement' section (rewrites, and the list of strike-squad organisers named by Juha Siltala).",
+    "why": "Excluded: blanking. After 12.8 years the whole unsourced section 'Lapuan liikkeen johto' was removed and replaced by a {{Pääartikkeli}} link to a new article. Summary: 'Poistin artikkelista täysin lähteettömän osio ... Siirsin sen omalla uudelle sivulleen Lapuanliikkeen johto' ('removed the completely unsourced section ... moved it to its own new page Lapuanliikkeen johto', c35). This is a section split, not a dispute over a claim. The text-search inserting edit 2981658 does add the Siltala list that was removed.",
+    "human_verified": false,
+    "labelled_by": [
+     "claude:labeller"
+    ]
+   }
+  ],
+  "notes": "Most candidates come from one November-December 2018 back-and-forth on Marco de Wit and Suomen Kansa Ensin, plus a 2019 dispute over who led SKE. Anonymous editors in one masked range (88.115.x.x) removed and added material there, and one named account re-added its own material many times. The level split follows the content reading: neutral text whose only problem was its source (the blog and the party-register sentence) is capped at level 1, and slanted additions with neutrality or sourcing removals are at level 2 or 3. The interwar seed pages (Lapuanliike, IKL) have few revert incidents; three of their items come from partial-removal candidates. Timo Soini and Ano Turtiainen are seeds but only loosely on topic; their candidates are mostly graffiti look-alikes."
+ },
+ "item_sources": {
+  "far-right/i01": [
+   "c15",
+   "c17",
+   "c02"
+  ],
+  "far-right/i02": [
+   "c02"
+  ],
+  "far-right/i03": [
+   "c03"
+  ],
+  "far-right/i04": [
+   "c05",
+   "c18"
+  ],
+  "far-right/i05": [
+   "c19",
+   "c20",
+   "c07"
+  ],
+  "far-right/i06": [
+   "c37"
+  ],
+  "far-right/i07": [
+   "c24",
+   "c15"
+  ],
+  "far-right/i08": [
+   "c15"
+  ],
+  "far-right/i09": [
+   "c01"
+  ],
+  "far-right/i10": [
+   "c04",
+   "c06",
+   "c08",
+   "c10",
+   "c27"
+  ],
+  "far-right/i11": [
+   "c11",
+   "c22",
+   "c09",
+   "c23",
+   "c16"
+  ],
+  "far-right/i12": [
+   "c13"
+  ],
+  "far-right/i13": [
+   "c14"
+  ],
+  "far-right/i14": [
+   "c25"
+  ],
+  "far-right/i15": [
+   "c26"
+  ],
+  "far-right/i16": [
+   "c12"
+  ],
+  "far-right/i17": [
+   "c33"
+  ],
+  "far-right/i18": [
+   "c38"
+  ],
+  "far-right/n01": [
+   "c28"
+  ],
+  "far-right/n02": [
+   "c29"
+  ],
+  "far-right/n03": [
+   "c30"
+  ],
+  "far-right/n04": [
+   "c34"
+  ],
+  "far-right/n05": [
+   "c32"
+  ],
+  "far-right/n06": [
+   "c21",
+   "c06"
+  ],
+  "far-right/n07": [
+   "c33"
+  ],
+  "far-right/n08": [
+   "c36"
+  ],
+  "far-right/n09": [
+   "c35"
+  ]
+ },
+ "skipped": [
+  {
+   "cid": "c31",
+   "reason": "Diff truncated before the added text: the 28-byte insertion 21101786 on Ano Turtiainen cannot be read from the pack, so graffiti and content cannot be told apart (removed after 23 s 'sotkemisena', 'as vandalism')."
+  }
+ ]
+}

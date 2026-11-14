@@ -48,33 +48,45 @@ def main() -> int:
             missing.append(s["id"]); continue
         t = lab["topic"]
         t["split"], t["kind"] = s["split"], s["kind"]
-        blind = load(LABELS / f"{s['id']}.blind.json")
         bmap = load(LABELS / f"{s['id']}.blind-map.json") or {}
-        by_item = {v: (blind or {}).get("labels", {}).get(k) for k, v in bmap.items()}
-        concerns = {bmap[k]: v for k, v in (blind or {}).get("rev_id_concerns", {}).items() if k in bmap}
+        blinds = [(tag, load(LABELS / f"{s['id']}.{suffix}.json")) for tag, suffix in
+                  (("claude:blind", "blind"), ("gemini:blind", "blind-gemini"))]
+        blinds = [(tag, b) for tag, b in blinds if b]
+        concerns: dict[str, str] = {}
+        for tag, b in blinds:
+            for k, v in b.get("rev_id_concerns", {}).items():
+                if k in bmap: concerns[bmap[k]] = (concerns.get(bmap[k], "") + f" [{tag}] {v}").strip()
         kept = []
         for it in t["items"]:
             it.pop("labelled_by", None)
-            b = by_item.get(it["id"])
+            xid = next((k for k, v in bmap.items() if v == it["id"]), None)
+            others = [(tag, b["labels"][xid]) for tag, b in blinds if xid and xid in b.get("labels", {})]
             lab_l, lab_e = it["label"], it.get("exclusion")
             entry = {"topic": t["id"], "item": it, "labeller": fmt(lab_l, lab_e), "labeller_why": it["why"],
                      "sources": lab.get("item_sources", {}).get(it["id"], [])}
-            by = ["claude:labeller"]
-            if b:
-                by.append("claude:blind")
-                entry.update(blind=fmt(b["label"], b.get("exclusion")), blind_why=b.get("why", ""),
+            by = ["claude:labeller"] + [tag for tag, _ in others]
+            disagree = False
+            if others:
+                entry.update(blind=" · ".join(f"{tag} {fmt(b['label'], b.get('exclusion'))}" for tag, b in others),
+                             blind_why=" ".join(f"[{tag}] {b.get('why', '')}" for tag, b in others),
                              concern=concerns.get(it["id"]))
-                if b["label"] == lab_l:
-                    stats["agree"] += 1
-                else:
-                    stats["disagree"] += 1
-                    if LEVEL[b["label"]] < LEVEL[lab_l]:
-                        it["label"] = b["label"]
-                        it["exclusion"] = b.get("exclusion") if b["label"] == "not-incident" else None
-                        if it["label"] != "not-incident":
+                disagree = any(b["label"] != lab_l for _, b in others)
+                stats["disagree" if disagree else "agree"] += 1
+                if disagree:
+                    low_tag, low = min(others, key=lambda o: LEVEL[o[1]["label"]])
+                    if LEVEL[low["label"]] < LEVEL[lab_l]:
+                        it["label"] = low["label"]
+                        if it["label"] == "not-incident":
+                            it["exclusion"] = low.get("exclusion")
+                        else:
                             it.pop("exclusion", None)
-                    it["notes"] = (f"Labellers disagree: labeller {fmt(lab_l, lab_e)}, blind {fmt(b['label'], b.get('exclusion'))}"
-                                   f" (blind: {b.get('why', '')}). Lower level kept until a human decides.")
+                    it["notes"] = ("Labellers disagree: labeller " + fmt(lab_l, lab_e) + "; " +
+                                   "; ".join(f"{tag} {fmt(b['label'], b.get('exclusion'))} ({b.get('why', '')})" for tag, b in others) +
+                                   ". Lowest level kept until a human decides.")
+                for tag, b in others:
+                    k = f"agree_{tag}"
+                    stats[k] = stats.get(k, 0) + (b["label"] == lab_l)
+                    stats[f"n_{tag}"] = stats.get(f"n_{tag}", 0) + 1
             else:
                 stats["no_blind"] += 1
             h = human.get(it["id"])
@@ -91,12 +103,12 @@ def main() -> int:
                 by.append(h.get("by", "human"))
                 if h.get("note"): it["notes"] = (it.get("notes", "") + " Human: " + h["note"]).strip()
                 if "Labellers disagree" in it.get("notes", "") and it["human_verified"]:
-                    it["notes"] = it["notes"].replace("Lower level kept until a human decides.", "Human decided.")
+                    it["notes"] = it["notes"].replace("Lowest level kept until a human decides.", "Human decided.")
             else:
                 it["human_verified"] = False
             it["labelled_by"] = by
             kept.append(it)
-            if b and b["label"] != lab_l and not h:
+            if disagree and not h:
                 review_a.append(entry)
             elif it["label"] in contract.STRICT_RELEVANT and not it["human_verified"]:
                 review_b.append(entry)
@@ -121,7 +133,7 @@ def block(e: dict) -> str:
     it = e["item"]
     ins = " ".join(f"[{r}]({DIFF.format(r)})" for r in it["inserting_rev_ids"])
     rem = " ".join(f"[{r}]({DIFF.format(r)})" for r in it["removing_rev_ids"])
-    lines = [f"#### `{it['id']}` · labeller **{e['labeller']}**" + (f" · blind **{e['blind']}**" if e.get("blind") else ""),
+    lines = [f"#### `{it['id']}` · labeller **{e['labeller']}**" + (f" · {e['blind']}" if e.get("blind") else ""),
              f"{it['description']}",
              f"- added: {ins}  ·  removed: {rem}  ·  page {it['page_id']}  ·  candidates {', '.join(e['sources'])}",
              f"- labeller: {e['labeller_why']}"]
