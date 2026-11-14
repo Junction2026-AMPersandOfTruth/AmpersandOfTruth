@@ -269,22 +269,31 @@ class GoldenIndex:
 
 
 def match(incidents: list[dict], index: GoldenIndex) -> list[dict]:
-    """Rank-ordered outcomes. Match state is per topic: an item is matched at most once, by the highest-ranked incident."""
-    matched: set[str] = set()
+    """Rank-ordered outcomes. Match state is per topic: an item is matched at most once, by the highest-ranked incident.
+    An incident is a `duplicate` when a higher-ranked one has the same incident key, or when every item it intersects
+    is already matched. `duplicate_of` is the rank it repeats."""
+    matched: dict[str, int] = {}          # item id → rank of the incident that matched it
+    first_by_key: dict[str, dict] = {}    # incident key → its first (highest-ranked) outcome
     outcomes = []
     for rank, inc in enumerate(incidents, 1):
+        key = incident_key(inc["inserting_rev_ids"])
         inserting = set(inc["inserting_rev_ids"])
         hits = {index.owner[r] for r in inserting if r in index.owner}
-        o: dict[str, Any] = {"rank": rank, "key": incident_key(inc["inserting_rev_ids"]), "page_id": inc["page_id"],
-                             "tier": inc["tier"], "outcome": "unlabelled", "item_id": None}
-        if hits:
+        o: dict[str, Any] = {"rank": rank, "key": key, "page_id": inc["page_id"], "tier": inc["tier"],
+                             "outcome": "unlabelled", "item_id": None}
+        if key in first_by_key:
+            first = first_by_key[key]
+            o.update(outcome="duplicate", item_id=first["item_id"], duplicate_of=first["rank"])
+        elif hits:
             free = [index.items[i] for i in hits if i not in matched]
             if free:
                 best = min(free, key=lambda it: (-LEVELS[it["label"]], -len(inserting & set(it["inserting_rev_ids"])), it["id"]))
-                matched.add(best["id"])
+                matched[best["id"]] = rank
                 o.update(outcome=best["label"], item_id=best["id"])
             else:
-                o.update(outcome="duplicate", item_id=min(hits, key=lambda i: (-LEVELS[index.items[i]["label"]], i)))
+                item = min(hits, key=lambda i: (-LEVELS[index.items[i]["label"]], i))
+                o.update(outcome="duplicate", item_id=item, duplicate_of=matched[item])
+        first_by_key.setdefault(key, o)
         outcomes.append(o)
     return outcomes
 
@@ -368,7 +377,9 @@ def signals_metrics(rows: list[dict], judged: bool) -> dict:
 def signals_examples(rows: list[dict], index: GoldenIndex, n: int = 5) -> tuple[list[dict], list[dict]]:
     """best = highest-ranked true positives. worst = missed contested/campaign items, then false positives,
     overclaims and duplicates by rank. Each item appears once."""
-    def item(i: str) -> dict:
+    def item(i: str | None) -> dict:
+        if i is None:   # a repeated incident that intersects no golden item
+            return {"item_id": None, "label": None, "exclusion": None, "page_id": None, "description": None}
         it = index.items[i]
         return {"item_id": i, "label": it["label"], "exclusion": it.get("exclusion"), "page_id": it["page_id"],
                 "description": it["description"]}
@@ -383,14 +394,16 @@ def signals_examples(rows: list[dict], index: GoldenIndex, n: int = 5) -> tuple[
               for u, o in shown if o["outcome"] == "not-incident"]
     worst += [{"kind": "overclaim", "unit": u, "rank": o["rank"], "tier": o["tier"], **item(o["item_id"])}
               for u, o in shown if o["outcome"] in LEVELS and o["outcome"] != "not-incident" and LEVELS[o["tier"]] > LEVELS[o["outcome"]]]
-    worst += [{"kind": "duplicate", "unit": u, "rank": o["rank"], "tier": o["tier"], **item(o["item_id"])}
+    worst += [{"kind": "duplicate", "unit": u, "rank": o["rank"], "tier": o["tier"], "key": o["key"],
+               "duplicate_of": o["duplicate_of"], **item(o["item_id"])}
               for u, o in shown if o["outcome"] == "duplicate"]
 
     def first(entries: list[dict]) -> list[dict]:
         seen, out = set(), []
         for e in entries:
-            if (e["kind"], e["item_id"]) not in seen:
-                seen.add((e["kind"], e["item_id"]))
+            ident = (e["kind"], e["item_id"] or e.get("key"))
+            if ident not in seen:
+                seen.add(ident)
                 out.append(e)
         return out[:n]
     return first(best), first(worst)
@@ -502,8 +515,8 @@ def comparable(card: dict, baseline: dict) -> str | None:
     kinds = {card["kind"], baseline.get("kind")}
     if len(kinds) > 1 and "pipeline" not in kinds:
         return f"the baseline is a {baseline.get('kind')} run"
-    for f in ("split", "golden_version"):
-        if baseline.get(f) != card[f]:
+    for f in ("split", "golden_version", "limit"):
+        if baseline.get(f) != card.get(f):
             return f"{f} differs ({baseline.get(f)} vs {card[f]})"
     if baseline.get("partial") or card["partial"]:
         return "one of the runs is partial (--topics)"
@@ -606,12 +619,14 @@ def _md_retrieval_examples(best: list[dict], worst: list[dict]) -> list[str]:
 
 
 def _md_worst(e: dict) -> str:
-    what = e["label"] + (f" ({e['exclusion']})" if e.get("exclusion") else "")
+    item = (f"`{e['item_id']}` {e['label']}" + (f" ({e['exclusion']})" if e.get("exclusion") else "")
+            + f": {_short(e['description'])}") if e["item_id"] else f"incident `{e['key']}`, no golden item"
     if e["kind"] == "missed":
-        return f"**missed** `{e['item_id']}` {what} on page {e['page_id']} (`{e['unit']}`): {_short(e['description'])}"
-    label = {"false_positive": "false positive", "overclaim": "overclaim", "duplicate": "duplicate"}[e["kind"]]
-    again = "already matched above: " if e["kind"] == "duplicate" else ""
-    return f"**{label}** `{e['unit']}` #{e['rank']} shown as {e['tier']} → {again}`{e['item_id']}` {what}: {_short(e['description'])}"
+        return f"**missed** {item} (page {e['page_id']}, `{e['unit']}`)"
+    if e["kind"] == "duplicate":
+        return f"**duplicate** `{e['unit']}` #{e['rank']} shown as {e['tier']} repeats #{e['duplicate_of']} → {item}"
+    label = {"false_positive": "false positive", "overclaim": "overclaim"}[e["kind"]]
+    return f"**{label}** `{e['unit']}` #{e['rank']} shown as {e['tier']} → {item}"
 
 
 # ── Files ────────────────────────────────────────────────────────────────────────────────────────────────────────────

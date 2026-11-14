@@ -106,6 +106,16 @@ class Matching(unittest.TestCase):
         card = score_signals({"alpha": [inc([51]), inc([61])]})
         self.assertEqual(["contested", "unlabelled"], [o["outcome"] for o in row(card, "alpha")["ranked"]])
 
+    def test_a_repeated_incident_key_is_a_duplicate_even_without_a_golden_item(self):   # #90
+        o = runner.match([inc([7]), inc([999]), inc([7])], self.index())
+        self.assertEqual(["unlabelled", "unlabelled", "duplicate"], [x["outcome"] for x in o])
+        self.assertEqual((None, 1), (o[2]["item_id"], o[2]["duplicate_of"]))
+
+    def test_a_repeated_incident_key_is_a_duplicate_even_when_another_item_is_free(self):  # #90
+        o = runner.match([inc([11, 21]), inc([21, 11])], self.index())   # same key; c1 is still free
+        self.assertEqual(["campaign", "duplicate"], [x["outcome"] for x in o])
+        self.assertEqual(("alpha/k1", 1), (o[1]["item_id"], o[1]["duplicate_of"]))
+
     def test_match_state_is_per_topic(self):
         doc = golden()
         doc["topics"][1]["articles"].append({"page_id": 101, "grade": 1, "title": "shared"})
@@ -181,6 +191,16 @@ class JudgedMetrics(unittest.TestCase):
         self.assertEqual(0.5, r["strict_p@10"])                           # unjudged metric unchanged: 11 vs 41
         self.assertEqual(["alpha/c1"], [c["item_id"] for c in card["challenges"]])
 
+    def test_a_repeated_unlabelled_incident_counts_once_for_the_judge(self):   # #90
+        card = score_signals({"alpha": [inc([801]), inc([801])]},
+                             judgements={"801": {"key": "801", "label": "contested"}}, reviews={})
+        r = row(card, "alpha")
+        self.assertEqual((0.5, 0.0, 1), (r["strict_p@10_judged"], r["strict_p@10"], r["unlabelled@10"]))
+        self.assertEqual(["801"], [line["key"] for line in card["unlabelled"]])
+        dup = next(e for e in card["worst"] if e["kind"] == "duplicate")
+        self.assertEqual((None, "801", 1), (dup["item_id"], dup["key"], dup["duplicate_of"]))
+        self.assertIn("repeats #1 → incident `801`, no golden item", runner._md_worst(dup))
+
     def test_judged_keys_only_appear_with_judgements(self):
         self.assertNotIn("strict_p@10_judged", score_signals({"alpha": [inc([11])]})["metrics"])
 
@@ -188,6 +208,13 @@ class JudgedMetrics(unittest.TestCase):
         card = score_signals({"alpha": [inc([11]), inc([902, 901], claim_en="x")]})
         self.assertEqual([{"key": "901+902", "topic_id": "alpha", "rank": 2, "page_id": 101, "inserting_rev_ids": [902, 901],
                            "removing_rev_ids": [9902], "tier": "reverted", "score": 1.0, "claim_en": "x"}], card["unlabelled"])
+
+
+class Baseline(unittest.TestCase):
+    def test_a_baseline_with_another_limit_is_not_compared(self):   # #90
+        card = {"kind": "signals", "split": "dev", "golden_version": "g1", "limit": 10, "partial": False}
+        self.assertIsNone(runner.comparable(card, dict(card)))
+        self.assertIn("limit differs", runner.comparable(card, dict(card, limit=50)))
 
 
 class RetrievalMetrics(unittest.TestCase):

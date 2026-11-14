@@ -211,7 +211,7 @@ experiment folder, not the log.
 - `--split test` is refused unless `EVAL_ALLOW_TEST=1`. Only local Claude sets that, and only in R6 and S11.
 - `replay` rescores saved responses without running the variant again. Use it after the E3 judge has written
   judgements for the unlabelled file. A request that changed since the run (the golden set was edited) is a failure.
-- `--baseline` adds a Δ column, and only when `split` and `golden_version` match and neither run is partial.
+- `--baseline` adds a Δ column, and only when `split`, `golden_version` and `limit` match and neither run is partial.
   `--topics` makes a partial run, which is for development only.
 - Requests run one at a time by default (`--jobs 1`), so `seconds_per_topic` measures one request alone. On a
   timeout the runner kills the variant's whole process group. Exit code: 0 = scored, 1 = every request failed,
@@ -235,8 +235,9 @@ The headline is the mean over queries of `topic` and `control-quiet` topics. `by
    same split are candidates. Among the intersecting items that are still unmatched, it takes the one with the
    highest level, then the largest overlap, then the smallest id.
 2. *Outcome.* One per incident: `campaign`, `contested`, `reverted` or `not-incident` (the label of the item it
-   matched); `duplicate` (every item it intersects was already matched by a higher-ranked incident); or
-   `unlabelled` (it intersects no golden item).
+   matched); `duplicate` (a higher-ranked incident has the same incident key, or every item it intersects was
+   already matched by a higher-ranked incident); or `unlabelled` (it intersects no golden item). A duplicate is
+   labelled, so it never goes to the judge, and it is a false positive in every precision, judged ones included.
 3. *Expected.* The golden `contested` and `campaign` items whose `page_id` or `other_page_ids` are among the
    topic's golden articles.
 
