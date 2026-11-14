@@ -1,0 +1,202 @@
+@page "/accounts/{Name}"
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations
+@inject IAccountCorpus Corpus
+
+<PageTitle>@PageTitleText</PageTitle>
+
+<div class="aot-page aot-stack" data-testid="account-page">
+    @if (_editor.IsAnonymous)
+    {
+        <EmptyState Title="We don't show pages for anonymous editors."
+                    Message="Only registered Wikipedia accounts have an activity page here." />
+    }
+    else if (_editor.Kind != EditorKind.Named)
+    {
+        <EmptyState Title="No edits by this account in our dataset."
+                    Message="@Methodology.AccountsCaveat" />
+    }
+    else
+    {
+        <h1 class="aot-h1" data-testid="account-heading">
+            <EditorTag Label="_editor" />
+        </h1>
+
+        <div class="aot-banner aot-banner--info" role="note" data-testid="account-caveat">
+            <svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="7" /><path d="M9 8v5M9 5.5v.5" /></svg>
+            <div class="aot-banner__body">@Methodology.AccountsCaveat</div>
+        </div>
+
+        @if (_error is not null)
+        {
+            <StatusBanner Kind="StatusKind.Error"
+                          Title="We can’t reach the Wikipedia data right now."
+                          Detail="@_error"
+                          OnRetry="LoadFactsAsync"
+                          TestId="status-banner" />
+        }
+        else if (_loading)
+        {
+            <p class="aot-small aot-muted" role="status" data-testid="account-loading">Loading account activity…</p>
+        }
+        else if (_facts is { Edits: 0 })
+        {
+            <EmptyState Title="No edits by this account in our dataset."
+                        Message="This account has not edited any of the 19,742 Finnish history articles in our dataset." />
+        }
+        else if (_facts is not null)
+        {
+            <p class="aot-small" data-testid="account-facts">@FormatFactsRow(_facts)</p>
+
+            @if (_facts.PerYear.Count > 0)
+            {
+                var chartWidth = 640.0;
+                var chartLeft = 8.0;
+                var chartRight = chartWidth - 8.0;
+                var chartTop = 8.0;
+                var barAreaHeight = 96.0;
+                var baselineY = chartTop + barAreaHeight;
+                var chartHeight = baselineY + 22.0;
+                var count = _facts.PerYear.Count;
+                var slotWidth = (chartRight - chartLeft) / count;
+                var barWidth = Math.Clamp(slotWidth * 0.72, 4.0, 44.0);
+                var maxEdits = Math.Max(1, _facts.PerYear.Max(y => y.Edits));
+                var labelStep = count <= 12 ? 1 : (int)Math.Ceiling(count / 10.0);
+
+                <section class="aot-panel" style="padding:12px 16px">
+                    <div class="aot-label" style="margin-bottom:8px">Edits per year</div>
+                    <svg class="aot-chart"
+                         viewBox="@($"0 0 {Fmt(chartWidth)} {Fmt(chartHeight)}")"
+                         role="img"
+                         aria-label="Edits per year in our dataset"
+                         data-testid="account-chart">
+                        <line class="grid"
+                              x1="@Fmt(chartLeft)"
+                              x2="@Fmt(chartRight)"
+                              y1="@Fmt(baselineY)"
+                              y2="@Fmt(baselineY)" />
+                        @for (var i = 0; i < count; i++)
+                        {
+                            var item = _facts.PerYear[i];
+                            var h = item.Edits <= 0 ? 0.0 : Math.Max(2.0, (double)item.Edits / maxEdits * barAreaHeight);
+                            var x = chartLeft + i * slotWidth + (slotWidth - barWidth) / 2.0;
+                            var y = baselineY - h;
+                            var cx = chartLeft + (i + 0.5) * slotWidth;
+                            <rect class="named"
+                                  style="fill:var(--chart-named, #3d4a5c)"
+                                  x="@Fmt(x)"
+                                  y="@Fmt(y)"
+                                  width="@Fmt(barWidth)"
+                                  height="@Fmt(h)"
+                                  data-testid="year-bar"
+                                  data-year="@item.Year">
+                                <title>@($"{item.Year}: {FormatInt(item.Edits)} {(item.Edits == 1 ? "edit" : "edits")}")</title>
+                            </rect>
+                            @if (i == 0 || i == count - 1 || i % labelStep == 0)
+                            {
+                                <g><text x="@Fmt(cx)" y="@Fmt(baselineY + 15.0)" text-anchor="middle">@item.Year</text></g>
+                            }
+                        }
+                    </svg>
+                </section>
+            }
+
+            @if (_facts.TopArticles.Count > 0)
+            {
+                <section class="aot-stack" style="gap:8px">
+                    <h2 class="aot-h2">Articles edited</h2>
+                    <table class="aot-wikitable" style="width:100%" data-testid="account-articles">
+                        <thead>
+                            <tr>
+                                <th scope="col">Article</th>
+                                <th scope="col">Edits</th>
+                                <th scope="col">Later removed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var article in _facts.TopArticles)
+                            {
+                                <tr @key="article.PageId" data-testid="account-article-row">
+                                    <td>
+                                        <a href="@($"/articles/{article.PageId.ToString(CultureInfo.InvariantCulture)}")" lang="fi">@article.Title</a>
+                                    </td>
+                                    <td class="aot-num">@FormatInt(article.Edits)</td>
+                                    <td class="aot-num">@FormatInt(article.RemovedEdits)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </section>
+            }
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public string Name { get; set; } = "";
+
+    private EditorLabel _editor = EditorDisplay.For(null);
+    private AccountFacts? _facts;
+    private string? _error;
+    private bool _loading;
+
+    private string PageTitleText =>
+        _editor.IsAnonymous || _editor.Kind != EditorKind.Named
+            ? "Anonymous editor · Ampersand of Truth"
+            : $"{_editor.DisplayName} · Ampersand of Truth";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _editor = EditorDisplay.For(Name);
+        _facts = null;
+        _error = null;
+
+        if (_editor.IsAnonymous || _editor.Kind != EditorKind.Named)
+            return;
+
+        await LoadFactsAsync();
+    }
+
+    private async Task LoadFactsAsync()
+    {
+        _loading = true;
+        _error = null;
+        try
+        {
+            _facts = await Corpus.FactsAsync(_editor.DisplayName);
+        }
+        catch (CorpusUnavailableException ex)
+        {
+            _error = ex.Message;
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private static string FormatFactsRow(AccountFacts facts)
+    {
+        var parts = new List<string>(5)
+        {
+            $"{FormatInt(facts.Edits)} {(facts.Edits == 1 ? "edit" : "edits")} in our dataset",
+            $"{FormatInt(facts.Articles)} {(facts.Articles == 1 ? "article" : "articles")}",
+            $"{FormatInt(facts.RemovedEdits)} later removed",
+        };
+
+        if (facts.First is { } first)
+            parts.Add($"first {FormatDate(first)}");
+
+        if (facts.Last is { } last)
+            parts.Add($"last {FormatDate(last)}");
+
+        return string.Join(" · ", parts);
+    }
+
+    private static string FormatInt(int value) => value.ToString("N0", CultureInfo.InvariantCulture);
+
+    private static string FormatDate(DateTime utc) => utc.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+
+    private static string Fmt(double value) => value.ToString("0.#", CultureInfo.InvariantCulture);
+}

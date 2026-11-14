@@ -1,0 +1,241 @@
+@implements IDisposable
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using Microsoft.Extensions.Options
+@inject IOptions<SearchOptions> Options
+@inject IScopeCheck ScopeCheck
+@inject RecentTopics Recent
+@inject NavigationManager Nav
+
+@if (Compact)
+{
+    <EditForm EditContext="_editContext"
+              OnSubmit="HandleSubmit"
+              FormName="topic-search-compact">
+        <div class="aot-search" style="padding:2px 2px 2px 12px">
+            <InputText @bind-Value="_model.Topic"
+                       placeholder="What topic do you want to investigate?"
+                       aria-label="Topic"
+                       data-testid="topic-input"
+                       style="font-size:14px;line-height:22px" />
+            <button type="submit" class="aot-btn aot-btn--primary aot-btn--sm" data-testid="topic-submit">Investigate</button>
+        </div>
+        <ValidationMessage For="() => _model.Topic" />
+    </EditForm>
+}
+else
+{
+    <div class="aot-stack">
+        <EditForm EditContext="_editContext"
+                  OnSubmit="HandleSubmit"
+                  FormName="topic-search">
+            <div class="aot-search">
+                <InputText @bind-Value="_model.Topic"
+                           placeholder="What topic do you want to investigate?"
+                           aria-label="Topic"
+                           data-testid="topic-input" />
+                <button type="submit" class="aot-btn aot-btn--primary" data-testid="topic-submit">Investigate</button>
+            </div>
+            <ValidationMessage For="() => _model.Topic" />
+        </EditForm>
+
+        <div class="aot-small aot-muted">Covers <b class="aot-num" style="color:var(--ink)">19,742</b> Finnish Wikipedia articles on the history of Finland, edits 2003–2026. Ask in any language.</div>
+
+        @if (Options.Value.SuggestedTopics.Count > 0)
+        {
+            <div class="aot-row">
+                <span class="aot-small aot-muted">Try:</span>
+                @foreach (var item in Options.Value.SuggestedTopics)
+                {
+                    <a class="aot-chip aot-chip--topic" href="@TopicSlug.Route(item.Topic)" data-testid="topic-chip">@item.Label</a>
+                }
+            </div>
+        }
+
+        <details class="aot-small" data-testid="filters-toggle">
+            <summary class="aot-muted" style="cursor:pointer">Filters: date range, minimum level</summary>
+            <div class="aot-row" style="margin-top:8px;gap:8px 16px">
+                <label class="aot-row" style="gap:6px">
+                    <span class="aot-muted">From</span>
+                    <input type="number"
+                           class="aot-select"
+                           style="width:88px;padding:4px 8px"
+                           min="2003"
+                           max="2026"
+                           placeholder="2003"
+                           aria-label="From year"
+                           data-testid="filter-from"
+                           @bind="_fromYear" />
+                </label>
+                <label class="aot-row" style="gap:6px">
+                    <span class="aot-muted">To</span>
+                    <input type="number"
+                           class="aot-select"
+                           style="width:88px;padding:4px 8px"
+                           min="2003"
+                           max="2026"
+                           placeholder="2026"
+                           aria-label="To year"
+                           data-testid="filter-to"
+                           @bind="_toYear" />
+                </label>
+                <div class="aot-row" role="group" aria-label="Minimum level" style="gap:6px">
+                    <span class="aot-muted">Minimum level</span>
+                    @foreach (var info in EvidenceTiers.All)
+                    {
+                        <button type="button"
+                                class="aot-chip"
+                                aria-pressed="@(_minTier == info.Tier ? "true" : "false")"
+                                data-testid="filter-min-level-@info.Level"
+                                @onclick="() => SetMinTier(info.Tier)">
+                            <TierBadge Tier="info.Tier" Short />
+                        </button>
+                    }
+                </div>
+            </div>
+        </details>
+    </div>
+}
+
+@code {
+    [Parameter] public bool Compact { get; set; }
+    [Parameter] public string? Initial { get; set; }
+    [Parameter] public EventCallback<OutOfScopeTopic> OnOutOfScope { get; set; }
+
+    private readonly SearchInputModel _model = new();
+    private EditContext _editContext = default!;
+    private ValidationMessageStore _validationMessages = default!;
+    private string? _lastInitial;
+
+    private int? _fromYear;
+    private int? _toYear;
+    private EvidenceTier _minTier = EvidenceTier.Reverted;
+
+    protected override void OnInitialized()
+    {
+        _editContext = new EditContext(_model);
+        _validationMessages = new ValidationMessageStore(_editContext);
+        _editContext.OnFieldChanged += OnFieldChanged;
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (!string.Equals(Initial, _lastInitial, StringComparison.Ordinal))
+        {
+            _lastInitial = Initial;
+            _model.Topic = Initial ?? "";
+            _validationMessages.Clear();
+            _editContext.NotifyValidationStateChanged();
+        }
+    }
+
+    private void OnFieldChanged(object? sender, FieldChangedEventArgs e)
+    {
+        _validationMessages.Clear();
+        _editContext.NotifyValidationStateChanged();
+    }
+
+    private void SetMinTier(EvidenceTier tier) => _minTier = tier;
+
+    private async Task HandleSubmit()
+    {
+        _validationMessages.Clear();
+        var trimmed = (_model.Topic ?? "").Trim();
+
+        if (trimmed.Length == 0)
+        {
+            _editContext.NotifyValidationStateChanged();
+            return;
+        }
+
+        var field = FieldIdentifier.Create(() => _model.Topic);
+
+        if (trimmed.Length < 2)
+        {
+            _validationMessages.Add(field, "Enter at least 2 characters.");
+            _editContext.NotifyValidationStateChanged();
+            return;
+        }
+
+        if (trimmed.Length > TopicSlug.MaxTopicLength)
+        {
+            _validationMessages.Add(field, $"Topic must be {TopicSlug.MaxTopicLength} characters or fewer.");
+            _editContext.NotifyValidationStateChanged();
+            return;
+        }
+
+        if (string.IsNullOrEmpty(TopicSlug.From(trimmed)))
+        {
+            _validationMessages.Add(field, "Include letters or numbers in the topic.");
+            _editContext.NotifyValidationStateChanged();
+            return;
+        }
+
+        _editContext.NotifyValidationStateChanged();
+
+        var scope = await ScopeCheck.CheckAsync(trimmed);
+        if (Compact)
+        {
+            if (scope.InScope)
+            {
+                await Recent.AddAsync(trimmed);
+            }
+            Nav.NavigateTo(TopicSlug.Route(trimmed));
+            return;
+        }
+
+        if (scope.InScope)
+        {
+            await Recent.AddAsync(trimmed);
+            Nav.NavigateTo(TopicSlug.Route(trimmed) + BuildFilterQuery());
+            return;
+        }
+
+        if (OnOutOfScope.HasDelegate)
+        {
+            await OnOutOfScope.InvokeAsync(new OutOfScopeTopic(trimmed, scope.Suggestions));
+        }
+        else
+        {
+            Nav.NavigateTo(TopicSlug.Route(trimmed) + BuildFilterQuery());
+        }
+    }
+
+    private string BuildFilterQuery()
+    {
+        var validFrom = _fromYear is >= 1 and <= 9999 ? _fromYear : null;
+        var validTo = _toYear is >= 1 and <= 9999 ? _toYear : null;
+        if (validFrom is { } f && validTo is { } t && f > t)
+        {
+            (validFrom, validTo) = (t, f);
+        }
+
+        var parts = new List<string>(3);
+        if (validFrom is { } fromVal)
+        {
+            parts.Add(string.Create(CultureInfo.InvariantCulture, $"from={fromVal}"));
+        }
+        if (validTo is { } toVal)
+        {
+            parts.Add(string.Create(CultureInfo.InvariantCulture, $"to={toVal}"));
+        }
+        if (_minTier == EvidenceTier.Contested)
+        {
+            parts.Add("tier=2,3");
+        }
+        else if (_minTier == EvidenceTier.Campaign)
+        {
+            parts.Add("tier=3");
+        }
+
+        return parts.Count == 0 ? "" : "?" + string.Join("&", parts);
+    }
+
+    public void Dispose() => _editContext.OnFieldChanged -= OnFieldChanged;
+
+    private sealed class SearchInputModel
+    {
+        public string? Topic { get; set; }
+    }
+}

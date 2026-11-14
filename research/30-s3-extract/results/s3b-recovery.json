@@ -1,0 +1,1043 @@
+{
+  "issue": 30,
+  "approach": "B (sentence-probe content-lifetime tracking)",
+  "split": "dev",
+  "parameters": {
+    "min_added_prose_chars": 40,
+    "min_probe_chars": 25,
+    "max_probes": 3,
+    "max_queries_per_candidate": 40,
+    "sample_size": 300,
+    "seed": "s3-lifetime-30"
+  },
+  "golden_candidates": {
+    "distinct_inserting_revs": 450,
+    "missing_s3_diff": 0,
+    "below_40_prose_chars": 165,
+    "eligible_ge40": 285,
+    "skipped_no_usable_probe": 57,
+    "tracked_in_table": 228
+  },
+  "recovery": {
+    "all_positive": {
+      "items": 144,
+      "trackable_items": 106,
+      "right_removal": 84,
+      "right_share_of_all_pct": 58.33,
+      "right_share_of_trackable_pct": 79.25,
+      "any_removal": 105,
+      "outcomes": {
+        "right_removal": 84,
+        "below_40_chars": 15,
+        "no_usable_probe": 23,
+        "other_removal_rev": 21,
+        "no_removal_found": 1
+      }
+    },
+    "s1_removal": {
+      "items": 124,
+      "trackable_items": 88,
+      "right_removal": 71,
+      "right_share_of_all_pct": 57.26,
+      "right_share_of_trackable_pct": 80.68,
+      "any_removal": 87,
+      "outcomes": {
+        "right_removal": 71,
+        "below_40_chars": 15,
+        "no_usable_probe": 21,
+        "other_removal_rev": 16,
+        "no_removal_found": 1
+      }
+    },
+    "non_s1_removal": {
+      "items": 20,
+      "trackable_items": 18,
+      "right_removal": 13,
+      "right_share_of_all_pct": 65.0,
+      "right_share_of_trackable_pct": 72.22,
+      "any_removal": 18,
+      "outcomes": {
+        "right_removal": 13,
+        "other_removal_rev": 5,
+        "no_usable_probe": 2
+      }
+    },
+    "non_s1_strict_not_in_s1_table": {
+      "items": 18,
+      "trackable_items": 17,
+      "right_removal": 13,
+      "right_share_of_all_pct": 72.22,
+      "right_share_of_trackable_pct": 76.47,
+      "any_removal": 17,
+      "outcomes": {
+        "right_removal": 13,
+        "other_removal_rev": 4,
+        "no_usable_probe": 1
+      }
+    },
+    "by_label": {
+      "reverted": {
+        "all": {
+          "items": 80,
+          "trackable_items": 51,
+          "right_removal": 39,
+          "right_share_of_all_pct": 48.75,
+          "right_share_of_trackable_pct": 76.47,
+          "any_removal": 50,
+          "outcomes": {
+            "no_usable_probe": 17,
+            "right_removal": 39,
+            "below_40_chars": 12,
+            "other_removal_rev": 11,
+            "no_removal_found": 1
+          }
+        },
+        "s1_removal": {
+          "items": 71,
+          "trackable_items": 44,
+          "right_removal": 35,
+          "right_share_of_all_pct": 49.3,
+          "right_share_of_trackable_pct": 79.55,
+          "any_removal": 43,
+          "outcomes": {
+            "no_usable_probe": 15,
+            "right_removal": 35,
+            "below_40_chars": 12,
+            "other_removal_rev": 8,
+            "no_removal_found": 1
+          }
+        },
+        "non_s1_removal": {
+          "items": 9,
+          "trackable_items": 7,
+          "right_removal": 4,
+          "right_share_of_all_pct": 44.44,
+          "right_share_of_trackable_pct": 57.14,
+          "any_removal": 7,
+          "outcomes": {
+            "other_removal_rev": 3,
+            "right_removal": 4,
+            "no_usable_probe": 2
+          }
+        }
+      },
+      "contested": {
+        "all": {
+          "items": 63,
+          "trackable_items": 54,
+          "right_removal": 44,
+          "right_share_of_all_pct": 69.84,
+          "right_share_of_trackable_pct": 81.48,
+          "any_removal": 54,
+          "outcomes": {
+            "right_removal": 44,
+            "below_40_chars": 3,
+            "no_usable_probe": 6,
+            "other_removal_rev": 10
+          }
+        },
+        "s1_removal": {
+          "items": 52,
+          "trackable_items": 43,
+          "right_removal": 35,
+          "right_share_of_all_pct": 67.31,
+          "right_share_of_trackable_pct": 81.4,
+          "any_removal": 43,
+          "outcomes": {
+            "right_removal": 35,
+            "below_40_chars": 3,
+            "no_usable_probe": 6,
+            "other_removal_rev": 8
+          }
+        },
+        "non_s1_removal": {
+          "items": 11,
+          "trackable_items": 11,
+          "right_removal": 9,
+          "right_share_of_all_pct": 81.82,
+          "right_share_of_trackable_pct": 81.82,
+          "any_removal": 11,
+          "outcomes": {
+            "right_removal": 9,
+            "other_removal_rev": 2
+          }
+        }
+      },
+      "campaign": {
+        "all": {
+          "items": 1,
+          "trackable_items": 1,
+          "right_removal": 1,
+          "right_share_of_all_pct": 100.0,
+          "right_share_of_trackable_pct": 100.0,
+          "any_removal": 1,
+          "outcomes": {
+            "right_removal": 1
+          }
+        },
+        "s1_removal": {
+          "items": 1,
+          "trackable_items": 1,
+          "right_removal": 1,
+          "right_share_of_all_pct": 100.0,
+          "right_share_of_trackable_pct": 100.0,
+          "any_removal": 1,
+          "outcomes": {
+            "right_removal": 1
+          }
+        },
+        "non_s1_removal": {
+          "items": 0,
+          "trackable_items": 0,
+          "right_removal": 0,
+          "right_share_of_all_pct": 0.0,
+          "right_share_of_trackable_pct": 0.0,
+          "any_removal": 0,
+          "outcomes": {}
+        }
+      }
+    },
+    "contested_and_campaign": {
+      "all": {
+        "items": 64,
+        "trackable_items": 55,
+        "right_removal": 45,
+        "right_share_of_all_pct": 70.31,
+        "right_share_of_trackable_pct": 81.82,
+        "any_removal": 55,
+        "outcomes": {
+          "right_removal": 45,
+          "below_40_chars": 3,
+          "no_usable_probe": 6,
+          "other_removal_rev": 10
+        }
+      },
+      "s1_removal": {
+        "items": 53,
+        "trackable_items": 44,
+        "right_removal": 36,
+        "right_share_of_all_pct": 67.92,
+        "right_share_of_trackable_pct": 81.82,
+        "any_removal": 44,
+        "outcomes": {
+          "right_removal": 36,
+          "below_40_chars": 3,
+          "no_usable_probe": 6,
+          "other_removal_rev": 8
+        }
+      },
+      "non_s1_removal": {
+        "items": 11,
+        "trackable_items": 11,
+        "right_removal": 9,
+        "right_share_of_all_pct": 81.82,
+        "right_share_of_trackable_pct": 81.82,
+        "any_removal": 11,
+        "outcomes": {
+          "right_removal": 9,
+          "other_removal_rev": 2
+        }
+      }
+    },
+    "non_s1_item_details": [
+      {
+        "id": "civil-war-1918/i08",
+        "label": "contested",
+        "page_id": 1150,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": true,
+        "any_removal": true,
+        "outcome": "right_removal",
+        "b_removing_rev_ids": [
+          4248096
+        ],
+        "golden_removing_rev_ids": [
+          4248096
+        ],
+        "golden_window_seconds": 29205,
+        "b_window_seconds": 29205,
+        "b_right_window_seconds": 29205
+      },
+      {
+        "id": "civil-war-1918/i19",
+        "label": "reverted",
+        "page_id": 1150,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": false,
+        "any_removal": true,
+        "outcome": "other_removal_rev",
+        "b_removing_rev_ids": [
+          377617
+        ],
+        "golden_removing_rev_ids": [
+          377522
+        ],
+        "golden_window_seconds": 410,
+        "b_window_seconds": 2909,
+        "b_right_window_seconds": null
+      },
+      {
+        "id": "civil-war-1918/i20",
+        "label": "reverted",
+        "page_id": 6021,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": true,
+        "any_removal": true,
+        "outcome": "right_removal",
+        "b_removing_rev_ids": [
+          15892014
+        ],
+        "golden_removing_rev_ids": [
+          15892014
+        ],
+        "golden_window_seconds": 151296637,
+        "b_window_seconds": 151296637,
+        "b_right_window_seconds": 151296637
+      },
+      {
+        "id": "continuation-war/i04",
+        "label": "contested",
+        "page_id": 440,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": true,
+        "any_removal": true,
+        "outcome": "right_removal",
+        "b_removing_rev_ids": [
+          1573135
+        ],
+        "golden_removing_rev_ids": [
+          1573135
+        ],
+        "golden_window_seconds": 1228953,
+        "b_window_seconds": 1228953,
+        "b_right_window_seconds": 1228953
+      },
+      {
+        "id": "winter-war/i18",
+        "label": "reverted",
+        "page_id": 24889,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": true,
+        "any_removal": true,
+        "outcome": "right_removal",
+        "b_removing_rev_ids": [
+          21563264
+        ],
+        "golden_removing_rev_ids": [
+          21563264
+        ],
+        "golden_window_seconds": 10113160,
+        "b_window_seconds": 10113160,
+        "b_right_window_seconds": 10113160
+      },
+      {
+        "id": "ceded-karelia/i04",
+        "label": "contested",
+        "page_id": 9895,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": false,
+        "any_removal": true,
+        "outcome": "other_removal_rev",
+        "b_removing_rev_ids": [
+          10353949
+        ],
+        "golden_removing_rev_ids": [
+          10488546
+        ],
+        "golden_window_seconds": 28874572,
+        "b_window_seconds": 25953764,
+        "b_right_window_seconds": null
+      },
+      {
+        "id": "nato-debate/i07",
+        "label": "reverted",
+        "page_id": 128998,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": true,
+        "inserting_count": 12,
+        "ge40_count": 7,
+        "probed_count": 4,
+        "tracked_count": 4,
+        "right_removal": false,
+        "any_removal": true,
+        "outcome": "other_removal_rev",
+        "b_removing_rev_ids": [
+          21072057
+        ],
+        "golden_removing_rev_ids": [
+          20434133
+        ],
+        "golden_window_seconds": 580855,
+        "b_window_seconds": 20326355,
+        "b_right_window_seconds": null
+      },
+      {
+        "id": "nato-debate/i08",
+        "label": "reverted",
+        "page_id": 128998,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": true,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 0,
+        "tracked_count": 0,
+        "right_removal": false,
+        "any_removal": false,
+        "outcome": "no_usable_probe",
+        "b_removing_rev_ids": [],
+        "golden_removing_rev_ids": [
+          20434133
+        ],
+        "golden_window_seconds": 269230,
+        "b_window_seconds": null,
+        "b_right_window_seconds": null
+      },
+      {
+        "id": "finlandization/i02",
+        "label": "contested",
+        "page_id": 5261,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": true,
+        "any_removal": true,
+        "outcome": "right_removal",
+        "b_removing_rev_ids": [
+          20302034
+        ],
+        "golden_removing_rev_ids": [
+          20302034
+        ],
+        "golden_window_seconds": 400369,
+        "b_window_seconds": 400369,
+        "b_right_window_seconds": 400369
+      },
+      {
+        "id": "finlandization/i05",
+        "label": "contested",
+        "page_id": 942,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": true,
+        "any_removal": true,
+        "outcome": "right_removal",
+        "b_removing_rev_ids": [
+          3543599
+        ],
+        "golden_removing_rev_ids": [
+          3543599
+        ],
+        "golden_window_seconds": 52630,
+        "b_window_seconds": 52630,
+        "b_right_window_seconds": 52630
+      },
+      {
+        "id": "finlandization/i07",
+        "label": "contested",
+        "page_id": 20742,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": true,
+        "any_removal": true,
+        "outcome": "right_removal",
+        "b_removing_rev_ids": [
+          22244059
+        ],
+        "golden_removing_rev_ids": [
+          22244059
+        ],
+        "golden_window_seconds": 2938262,
+        "b_window_seconds": 2938262,
+        "b_right_window_seconds": 2938262
+      },
+      {
+        "id": "austerity-politics/i21",
+        "label": "contested",
+        "page_id": 9059,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": true,
+        "any_removal": true,
+        "outcome": "right_removal",
+        "b_removing_rev_ids": [
+          21350277
+        ],
+        "golden_removing_rev_ids": [
+          21350277
+        ],
+        "golden_window_seconds": 22789886,
+        "b_window_seconds": 22789886,
+        "b_right_window_seconds": 22789886
+      },
+      {
+        "id": "austerity-politics/i22",
+        "label": "contested",
+        "page_id": 10858,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": true,
+        "any_removal": true,
+        "outcome": "right_removal",
+        "b_removing_rev_ids": [
+          8989383
+        ],
+        "golden_removing_rev_ids": [
+          8989383
+        ],
+        "golden_window_seconds": 1121214,
+        "b_window_seconds": 1121214,
+        "b_right_window_seconds": 1121214
+      },
+      {
+        "id": "austerity-politics/i23",
+        "label": "contested",
+        "page_id": 10858,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": false,
+        "any_removal": true,
+        "outcome": "other_removal_rev",
+        "b_removing_rev_ids": [
+          6905553
+        ],
+        "golden_removing_rev_ids": [
+          6887385
+        ],
+        "golden_window_seconds": 16322,
+        "b_window_seconds": 293836,
+        "b_right_window_seconds": null
+      },
+      {
+        "id": "covid-19-finland/i01",
+        "label": "contested",
+        "page_id": 1562418,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": true,
+        "any_removal": true,
+        "outcome": "right_removal",
+        "b_removing_rev_ids": [
+          18912236
+        ],
+        "golden_removing_rev_ids": [
+          18912236
+        ],
+        "golden_window_seconds": 715864,
+        "b_window_seconds": 715864,
+        "b_right_window_seconds": 715864
+      },
+      {
+        "id": "covid-19-finland/i04",
+        "label": "reverted",
+        "page_id": 1562418,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": true,
+        "any_removal": true,
+        "outcome": "right_removal",
+        "b_removing_rev_ids": [
+          18833004
+        ],
+        "golden_removing_rev_ids": [
+          18833004
+        ],
+        "golden_window_seconds": 1410,
+        "b_window_seconds": 1410,
+        "b_right_window_seconds": 1410
+      },
+      {
+        "id": "covid-19-finland/i06",
+        "label": "reverted",
+        "page_id": 1562418,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 0,
+        "tracked_count": 0,
+        "right_removal": false,
+        "any_removal": false,
+        "outcome": "no_usable_probe",
+        "b_removing_rev_ids": [],
+        "golden_removing_rev_ids": [
+          18790133
+        ],
+        "golden_window_seconds": 32643,
+        "b_window_seconds": null,
+        "b_right_window_seconds": null
+      },
+      {
+        "id": "russification-independence/i03",
+        "label": "contested",
+        "page_id": 10758,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": true,
+        "any_removal": true,
+        "outcome": "right_removal",
+        "b_removing_rev_ids": [
+          12322429
+        ],
+        "golden_removing_rev_ids": [
+          12322429
+        ],
+        "golden_window_seconds": 18930685,
+        "b_window_seconds": 18930685,
+        "b_right_window_seconds": 18930685
+      },
+      {
+        "id": "russification-independence/i12",
+        "label": "reverted",
+        "page_id": 32957,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": true,
+        "any_removal": true,
+        "outcome": "right_removal",
+        "b_removing_rev_ids": [
+          15711370
+        ],
+        "golden_removing_rev_ids": [
+          15711370
+        ],
+        "golden_window_seconds": 3367372,
+        "b_window_seconds": 3367372,
+        "b_right_window_seconds": 3367372
+      },
+      {
+        "id": "border-crisis-2023/i05",
+        "label": "reverted",
+        "page_id": 1781605,
+        "is_s1_removal": false,
+        "is_s1_including_excluded": false,
+        "inserting_count": 1,
+        "ge40_count": 1,
+        "probed_count": 1,
+        "tracked_count": 1,
+        "right_removal": false,
+        "any_removal": true,
+        "outcome": "other_removal_rev",
+        "b_removing_rev_ids": [
+          23138849
+        ],
+        "golden_removing_rev_ids": [
+          24241333
+        ],
+        "golden_window_seconds": 86067694,
+        "b_window_seconds": 39836930,
+        "b_right_window_seconds": null
+      }
+    ]
+  },
+  "exposure_windows": {
+    "all_removed_items": {
+      "count": 105,
+      "exact_match_count": 55,
+      "exact_match_pct": 52.38,
+      "within_60s_count": 55,
+      "within_60s_pct": 52.38,
+      "within_1h_count": 63,
+      "within_1h_pct": 60.0,
+      "golden_median_seconds": 30924,
+      "b_median_seconds": 66943,
+      "signed_diff_median_seconds": 0,
+      "abs_diff_median_seconds": 0,
+      "abs_diff_p90_seconds": 3106882.0
+    },
+    "right_removal_items": {
+      "count": 84,
+      "exact_match_count": 55,
+      "exact_match_pct": 65.48,
+      "within_60s_count": 55,
+      "within_60s_pct": 65.48,
+      "within_1h_count": 62,
+      "within_1h_pct": 73.81,
+      "golden_median_seconds": 37416.5,
+      "b_median_seconds": 62725.0,
+      "signed_diff_median_seconds": 0.0,
+      "abs_diff_median_seconds": 0.0,
+      "abs_diff_p90_seconds": 260527.0
+    }
+  },
+  "kept_items": {
+    "items": 3,
+    "trackable_items": 2,
+    "any_still_present_count": 2,
+    "all_tracked_still_present_count": 2,
+    "details": [
+      {
+        "id": "ceded-karelia/n01",
+        "page_id": 12374,
+        "inserting_rev_ids": [
+          21524938,
+          21525210,
+          21525215
+        ],
+        "tracked_rev_ids": [
+          21524938
+        ],
+        "still_present_rev_ids": [
+          21524938
+        ],
+        "reappeared_rev_ids": [],
+        "never_removed_rev_ids": [
+          21524938
+        ],
+        "any_still_present_latest": true,
+        "all_tracked_still_present_latest": true
+      },
+      {
+        "id": "nato-debate/n01",
+        "page_id": 1137,
+        "inserting_rev_ids": [
+          14445437,
+          14445443,
+          14461119,
+          14467635
+        ],
+        "tracked_rev_ids": [],
+        "still_present_rev_ids": [],
+        "reappeared_rev_ids": [],
+        "never_removed_rev_ids": [],
+        "any_still_present_latest": false,
+        "all_tracked_still_present_latest": false
+      },
+      {
+        "id": "russification-independence/n01",
+        "page_id": 96542,
+        "inserting_rev_ids": [
+          15377454,
+          15380636
+        ],
+        "tracked_rev_ids": [
+          15377454,
+          15380636
+        ],
+        "still_present_rev_ids": [
+          15377454,
+          15380636
+        ],
+        "reappeared_rev_ids": [
+          15377454,
+          15380636
+        ],
+        "never_removed_rev_ids": [],
+        "any_still_present_latest": true,
+        "all_tracked_still_present_latest": true
+      }
+    ]
+  },
+  "sample": {
+    "pool_ge40_non_golden": 2852,
+    "sampled_candidates": 300,
+    "skipped_no_probe": 85,
+    "tracked": 127,
+    "removed_total": 123,
+    "never_removed": 4,
+    "identity_revert_count": 93,
+    "partial_removal_count": 30,
+    "partial_share_of_tracked_pct": 23.62,
+    "partial_share_of_removed_pct": 24.39,
+    "partial_still_absent_latest_count": 29,
+    "examples": [
+      {
+        "page_id": 24094,
+        "article_title": "Suur-Suomi",
+        "inserting_rev_id": 393200,
+        "removing_rev_id": 393459,
+        "probe": "suomalaisten punaisten käsissä olleen työväenkommuunin kautta sulauttaa suomalaisiin: mm",
+        "probe_count": 3,
+        "exposure_seconds": 7105,
+        "reappeared": false,
+        "still_present_latest": false,
+        "removal_summary": "/* Suur-Suomi-aatteen motiivi */  neutraloitu, eikä tämä 1930-luvun kielikysymys varsinaisesti liity koko Suur-Suomeen, ennemmin Itä-Karjalan kysymys tms."
+      },
+      {
+        "page_id": 795,
+        "article_title": "Matti Vanhanen",
+        "inserting_rev_id": 677399,
+        "removing_rev_id": 677794,
+        "probe": "Anonyymisti kasvot peitetysti lehdissä esiintynyt \"Kaarina\" ei ole tullut julkisuuteen eikä väitteille ole esitetty pitäviä todisteita",
+        "probe_count": 3,
+        "exposure_seconds": 9327,
+        "reappeared": false,
+        "still_present_latest": false,
+        "removal_summary": "/* Henkilökohtainen elämä */"
+      },
+      {
+        "page_id": 1275,
+        "article_title": "Urho Kekkonen",
+        "inserting_rev_id": 3779559,
+        "removing_rev_id": 3859398,
+        "probe": "Kekkonen-Brežnev-Kosygin 1960-1980",
+        "probe_count": 1,
+        "exposure_seconds": 1358088,
+        "reappeared": false,
+        "still_present_latest": false,
+        "removal_summary": "huoltoa , typos fixed: Hrustsev → Hruštšov, 1958-1 → 1958–1 (2)  AWB"
+      },
+      {
+        "page_id": 10858,
+        "article_title": "Jyrki Katainen",
+        "inserting_rev_id": 8989383,
+        "removing_rev_id": 9803745,
+        "probe": "Tiedot osoittautuivat taloudelliden kokoluokan suhteen virheelliseksi",
+        "probe_count": 3,
+        "exposure_seconds": 14321758,
+        "reappeared": false,
+        "still_present_latest": false,
+        "removal_summary": ""
+      },
+      {
+        "page_id": 378293,
+        "article_title": "Eduskuntavaalit 2011",
+        "inserting_rev_id": 20414092,
+        "removing_rev_id": 20421915,
+        "probe": "Perussuomalaisten suurta menestystä pohjusti onnistunut ehdokashankinta, minkä ansiosta puolue sai kokoon täydet listat",
+        "probe_count": 1,
+        "exposure_seconds": 334806,
+        "reappeared": false,
+        "still_present_latest": false,
+        "removal_summary": ""
+      }
+    ]
+  },
+  "cost": {
+    "all_tracked": {
+      "candidates": 355,
+      "queries": {
+        "count": 355,
+        "mean": 9.445,
+        "median": 10.0,
+        "p90": 12.0,
+        "max": 13.0
+      },
+      "seconds": {
+        "count": 355,
+        "mean": 3.353,
+        "median": 2.621,
+        "p90": 6.072,
+        "max": 23.087
+      },
+      "total_queries": 3353,
+      "total_seconds": 1190.47
+    },
+    "golden_dev": {
+      "candidates_ge40": 285,
+      "skipped_no_probe": 57,
+      "tracked": 228,
+      "queries": {
+        "count": 228,
+        "mean": 9.421,
+        "median": 10.0,
+        "p90": 12.0,
+        "max": 13.0
+      },
+      "seconds": {
+        "count": 228,
+        "mean": 2.941,
+        "median": 2.371,
+        "p90": 5.163,
+        "max": 16.819
+      }
+    },
+    "sample": {
+      "candidates_ge40": 300,
+      "skipped_no_probe": 85,
+      "tracked": 127,
+      "queries": {
+        "count": 127,
+        "mean": 9.488,
+        "median": 10.0,
+        "p90": 12.0,
+        "max": 13.0
+      },
+      "seconds": {
+        "count": 127,
+        "mean": 4.094,
+        "median": 3.007,
+        "p90": 7.225,
+        "max": 23.087
+      }
+    },
+    "probe_yield_rate": 0.7167,
+    "topic_extrapolation": {
+      "mean_byte_delta_ge_200_per_topic": 1297.3,
+      "median_byte_delta_ge_200_per_topic": 1287,
+      "est_mean_topic_queries_all": 12309,
+      "est_mean_topic_seconds_all": 5311.1,
+      "est_mean_topic_queries_probed": 8821,
+      "est_mean_topic_seconds_probed": 3806.3,
+      "per_topic": [
+        {
+          "topic_id": "civil-war-1918",
+          "article_count": 19,
+          "non_null_revisions": 8498,
+          "byte_delta_ge_200_count": 1287,
+          "est_queries_if_all_tracked": 12211,
+          "est_seconds_if_all_tracked": 5269.0,
+          "est_probed_candidates": 922,
+          "est_queries_probed": 8748,
+          "est_seconds_probed": 3774.7
+        },
+        {
+          "topic_id": "continuation-war",
+          "article_count": 19,
+          "non_null_revisions": 6643,
+          "byte_delta_ge_200_count": 1062,
+          "est_queries_if_all_tracked": 10076,
+          "est_seconds_if_all_tracked": 4347.8,
+          "est_probed_candidates": 761,
+          "est_queries_probed": 7220,
+          "est_seconds_probed": 3115.5
+        },
+        {
+          "topic_id": "winter-war",
+          "article_count": 14,
+          "non_null_revisions": 4782,
+          "byte_delta_ge_200_count": 677,
+          "est_queries_if_all_tracked": 6423,
+          "est_seconds_if_all_tracked": 2771.6,
+          "est_probed_candidates": 485,
+          "est_queries_probed": 4602,
+          "est_seconds_probed": 1985.6
+        },
+        {
+          "topic_id": "ceded-karelia",
+          "article_count": 20,
+          "non_null_revisions": 5095,
+          "byte_delta_ge_200_count": 764,
+          "est_queries_if_all_tracked": 7249,
+          "est_seconds_if_all_tracked": 3127.8,
+          "est_probed_candidates": 548,
+          "est_queries_probed": 5199,
+          "est_seconds_probed": 2243.5
+        },
+        {
+          "topic_id": "nato-debate",
+          "article_count": 16,
+          "non_null_revisions": 8911,
+          "byte_delta_ge_200_count": 1613,
+          "est_queries_if_all_tracked": 15304,
+          "est_seconds_if_all_tracked": 6603.6,
+          "est_probed_candidates": 1156,
+          "est_queries_probed": 10968,
+          "est_seconds_probed": 4732.7
+        },
+        {
+          "topic_id": "finlandization",
+          "article_count": 22,
+          "non_null_revisions": 10523,
+          "byte_delta_ge_200_count": 1721,
+          "est_queries_if_all_tracked": 16329,
+          "est_seconds_if_all_tracked": 7045.8,
+          "est_probed_candidates": 1233,
+          "est_queries_probed": 11699,
+          "est_seconds_probed": 5047.9
+        },
+        {
+          "topic_id": "austerity-politics",
+          "article_count": 21,
+          "non_null_revisions": 10681,
+          "byte_delta_ge_200_count": 2034,
+          "est_queries_if_all_tracked": 19299,
+          "est_seconds_if_all_tracked": 8327.2,
+          "est_probed_candidates": 1458,
+          "est_queries_probed": 13834,
+          "est_seconds_probed": 5969.1
+        },
+        {
+          "topic_id": "covid-19-finland",
+          "article_count": 12,
+          "non_null_revisions": 4898,
+          "byte_delta_ge_200_count": 1548,
+          "est_queries_if_all_tracked": 14687,
+          "est_seconds_if_all_tracked": 6337.5,
+          "est_probed_candidates": 1109,
+          "est_queries_probed": 10522,
+          "est_seconds_probed": 4540.2
+        },
+        {
+          "topic_id": "russification-independence",
+          "article_count": 24,
+          "non_null_revisions": 5557,
+          "byte_delta_ge_200_count": 970,
+          "est_queries_if_all_tracked": 9203,
+          "est_seconds_if_all_tracked": 3971.2,
+          "est_probed_candidates": 695,
+          "est_queries_probed": 6594,
+          "est_seconds_probed": 2845.3
+        }
+      ]
+    }
+  }
+}

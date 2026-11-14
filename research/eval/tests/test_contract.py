@@ -168,6 +168,17 @@ class ResponseRules(unittest.TestCase):
         for missing in minimal:
             self.assertFalse(contract.validate("incident", {k: v for k, v in minimal.items() if k != missing}).ok, missing)
 
+    def test_assessment_is_optional_but_typed_and_signal_ids_are_an_open_set(self):
+        full = example("signals-response")["incidents"][0]
+        self.assertEqual({"tier_reason", "assessment", "cluster_id"}, {"tier_reason", "assessment", "cluster_id"} & set(full))
+        self.assertEqual([], contract.validate("incident", dict(full, assessment=None, tier_reason=None)).errors)
+        self.assertEqual([], contract.validate("incident", dict(full, signals=[{"kind": "my_new_signal", "label": "x"}])).errors)
+        for broken in ({"confidence": 6}, {"category": "propaganda"}, {"quotes": "one string"}, {"has_verified_quote": "yes"}):
+            self.assertFalse(contract.validate("incident", dict(full, assessment=dict(full["assessment"], **broken))).ok, broken)
+        self.assertFalse(contract.validate("incident", dict(full, assessment={"what_changed_en": "x"})).ok)
+        known = contract.load_schema("incident.schema.json")["properties"]["signals"]["items"]["properties"]["kind"]["examples"]
+        self.assertTrue({s["kind"] for s in full["signals"]} <= set(known))
+
     def test_tier_must_be_a_level_id(self):
         resp = example("signals-response")
         resp["incidents"][0]["tier"] = "not-incident"

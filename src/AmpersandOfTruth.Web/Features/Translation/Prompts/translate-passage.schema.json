@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "before_en": {
+      "type": "string",
+      "description": "Faithful, literal English translation of the 'before' passage, keeping every ⟦…⟧ marker pair around the corresponding English words."
+    },
+    "after_en": {
+      "type": "string",
+      "description": "Faithful, literal English translation of the 'after' passage, keeping every ⟦…⟧ marker pair around the corresponding English words."
+    }
+  },
+  "required": ["before_en", "after_en"],
+  "additionalProperties": false
+}

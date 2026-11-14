@@ -1,0 +1,91 @@
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+@inject ILogger<IncidentActions> Logger
+
+<section class="aot-panel" data-testid="incident-actions">
+    <div class="aot-row">
+        <button type="button" class="aot-btn aot-btn--sm" data-testid="copy-link" @onclick="CopyLinkAsync">
+            @(_copied ? "Copied" : "Copy link")
+        </button>
+        <button type="button"
+                class="aot-btn aot-btn--ghost aot-btn--sm"
+                data-testid="looks-wrong"
+                aria-expanded="@(_showFeedback ? "true" : "false")"
+                @onclick="ToggleFeedback">
+            This looks wrong
+        </button>
+    </div>
+
+    @if (_submitted)
+    {
+        <p class="aot-small aot-muted" style="margin:8px 0 0" role="status" data-testid="looks-wrong-thanks">Thanks — noted.</p>
+    }
+    else if (_showFeedback)
+    {
+        <div class="aot-stack" style="margin-top:8px;gap:8px" @onkeydown:stopPropagation>
+            <label class="aot-small aot-muted" for="looks-wrong-note">What looks wrong about this incident?</label>
+            <textarea id="looks-wrong-note"
+                      class="form-control"
+                      rows="3"
+                      @bind="_note"
+                      data-testid="looks-wrong-input"></textarea>
+            <div class="aot-row">
+                <button type="button" class="aot-btn aot-btn--primary aot-btn--sm" data-testid="looks-wrong-send" @onclick="SendFeedback">Send</button>
+            </div>
+        </div>
+    }
+</section>
+
+@code {
+    private (string Topic, string IncidentId) _key;
+    private bool _copied;
+    private bool _showFeedback;
+    private bool _submitted;
+    private string _note = "";
+
+    [Parameter] public string Topic { get; set; } = "";
+    [Parameter] public string IncidentId { get; set; } = "";
+
+    protected override void OnParametersSet()
+    {
+        var current = (Topic, IncidentId);
+        if (_key != current)
+        {
+            _key = current;
+            _copied = false;
+            _showFeedback = false;
+            _submitted = false;
+            _note = "";
+        }
+    }
+
+    private async Task CopyLinkAsync()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", Navigation.Uri);
+            _copied = true;
+        }
+        catch
+        {
+            // Clipboard API may be unavailable during prerender, insecure context, or disconnected circuit.
+        }
+    }
+
+    private void ToggleFeedback()
+    {
+        _submitted = false;
+        _showFeedback = !_showFeedback;
+    }
+
+    private void SendFeedback()
+    {
+        Logger.LogInformation(
+            "Incident feedback noted for {Topic}/{IncidentId}: {FeedbackNote}",
+            Topic,
+            IncidentId,
+            _note.Trim());
+        _submitted = true;
+        _showFeedback = false;
+    }
+}

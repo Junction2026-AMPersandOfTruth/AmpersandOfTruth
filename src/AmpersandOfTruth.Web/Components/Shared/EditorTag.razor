@@ -1,0 +1,35 @@
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
+@{
+    var resolved = Label ?? EditorDisplay.For(User);
+}
+<span class="aot-editor@(resolved.IsAnonymous ? " aot-editor--anon" : "")" data-testid="editor-label">
+    <span class="aot-editor__glyph" aria-hidden="true">@GetGlyph(resolved)</span>
+    @if (resolved.Kind == EditorKind.Named && resolved.ProfileUrl is not null)
+    {
+        <a class="aot-editor__name" href="@resolved.ProfileUrl.AbsoluteUri" target="_blank" rel="noopener">@resolved.DisplayName</a>
+    }
+    else
+    {
+        <span class="aot-editor__name">@resolved.DisplayName</span>
+    }
+    @if (!string.IsNullOrWhiteSpace(resolved.Qualifier))
+    {
+        <span class="aot-muted">(@resolved.Qualifier)</span>
+    }
+</span>
+
+@code {
+    [Parameter] public string? User { get; set; }
+    [Parameter] public EditorLabel? Label { get; set; }
+
+    private static string GetGlyph(EditorLabel label) => label.Kind switch
+    {
+        EditorKind.IPv4 or EditorKind.IPv6 => "IP",
+        EditorKind.Temporary => "~",
+        EditorKind.Hidden => "?",
+        _ when !string.IsNullOrWhiteSpace(label.DisplayName) =>
+            StringInfo.GetNextTextElement(label.DisplayName).ToUpperInvariant(),
+        _ => "?",
+    };
+}

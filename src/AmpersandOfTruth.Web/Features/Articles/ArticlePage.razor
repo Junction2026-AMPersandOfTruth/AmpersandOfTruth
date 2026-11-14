@@ -1,0 +1,542 @@
+@page "/articles/{PageId:long}"
+@implements IDisposable
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using Microsoft.Extensions.Options
+@inject ArticleTimelineService TimelineService
+@inject IIncidentSource IncidentSource
+@inject IOptions<InvestigationSourceOptions> SourceOptions
+@inject NavigationManager Nav
+
+<PageTitle>@(_aggregates is not null ? $"{_aggregates.TitleFi} · Ampersand of Truth" : "Article · Ampersand of Truth")</PageTitle>
+
+<div class="aot-page aot-stack">
+    @if (_loading)
+    {
+        <div class="aot-stack" data-testid="article-loading" role="status" aria-label="Loading article history">
+            <div class="aot-skel" style="width:280px;height:28px"></div>
+            <div class="aot-skel" style="width:180px;height:14px"></div>
+            <svg class="aot-chart" viewBox="0 0 900 180" width="100%" aria-hidden="true">
+                @for (var i = 0; i < 36; i++)
+                {
+                    var x = 36 + (i * 23.5);
+                    var h = 24 + ((i * 37) % 96);
+                    var y = 148 - h;
+                    <rect x="@x.ToString("0.#", CultureInfo.InvariantCulture)"
+                          y="@y.ToString("0.#", CultureInfo.InvariantCulture)"
+                          width="18"
+                          height="@h.ToString(CultureInfo.InvariantCulture)"
+                          style="fill:var(--surface-sunken,#e9ecef)" />
+                }
+            </svg>
+        </div>
+    }
+    else if (_hasError)
+    {
+        <StatusBanner Kind="StatusKind.Error"
+                      Title="The Wikipedia data is not reachable right now."
+                      Detail="@_errorDetail"
+                      OnRetry="RetryAsync"
+                      TestId="article-error" />
+    }
+    else if (_aggregates is null)
+    {
+        <EmptyState Title="We don't have this article."
+                    Message="Our dataset covers 19,742 Finnish Wikipedia articles on the history of Finland." />
+    }
+    else
+    {
+        <header class="aot-stack" data-testid="article-header">
+            <h1 class="aot-h1">
+                @if (!string.IsNullOrWhiteSpace(_aggregates.TitleEn) &&
+                     !string.Equals(_aggregates.TitleEn, _aggregates.TitleFi, StringComparison.Ordinal))
+                {
+                    <span>@_aggregates.TitleEn</span>
+                    <span class="aot-muted aot-small" style="margin-left:8px">
+                        FI <a href="@WikipediaLinks.Article(_aggregates.TitleFi).AbsoluteUri"
+                              target="_blank"
+                              rel="noopener"
+                              lang="fi"
+                              data-testid="wiki-article-link">@_aggregates.TitleFi ↗</a>
+                    </span>
+                }
+                else
+                {
+                    <span lang="fi">@_aggregates.TitleFi</span>
+                    <a href="@WikipediaLinks.Article(_aggregates.TitleFi).AbsoluteUri"
+                       target="_blank"
+                       rel="noopener"
+                       class="aot-small"
+                       style="margin-left:8px"
+                       data-testid="wiki-article-link">fi.wikipedia ↗</a>
+                }
+            </h1>
+            <div class="aot-row aot-small aot-muted">
+                <span class="aot-num" data-testid="article-revision-count">@FormatHeaderCounts(_aggregates)</span>
+            </div>
+        </header>
+
+        <section class="aot-stack" aria-label="Editing timeline">
+            @if (_marks.Count > 0 && SourceOptions.Value.IsSampleData)
+            {
+                <SampleDataBanner />
+            }
+            <ArticleTimeline Data="_aggregates"
+                             Range="_selectedRange"
+                             Marks="_marks"
+                             HighlightedIncidentId="@EffectiveIncident"
+                             OnRangeSelected="HandleRangeSelectedAsync" />
+            <p class="aot-small" data-testid="timeline-summary">@ArticleTimelineService.Summary(_aggregates)</p>
+        </section>
+
+        @if (_selectedRange is not null)
+        {
+            <section class="aot-stack" aria-label="Revisions in selected period">
+                <h2 class="aot-h2" data-testid="revisions-heading">Revisions @FormatRangeHeading(_selectedRange)</h2>
+
+                @if (_revisionsLoading)
+                {
+                    <div class="aot-small aot-muted" role="status">Loading edits…</div>
+                }
+                else if (_revisions.Count == 0)
+                {
+                    <EmptyState Title="No edits in this range."
+                                Message="Select another period on the timeline above to inspect its revisions." />
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="aot-wikitable w-100" data-testid="revisions-table">
+                            <thead>
+                                <tr>
+                                    <th>Time (UTC)</th>
+                                    <th>Editor</th>
+                                    <th>Edit summary</th>
+                                    <th>Size change</th>
+                                    <th>Status</th>
+                                    <th>Diff</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var rev in _revisions)
+                                {
+                                    var editor = EditorDisplay.For(rev.User);
+                                    var maskedComment = EditorDisplay.MaskComment(rev.Comment);
+                                    <tr data-testid="revision-row" @key="rev.RevId">
+                                        <td class="aot-num text-nowrap">@FormatTimestamp(rev.Ts)</td>
+                                        <td data-testid="revision-editor">
+                                            <EditorTag Label="@editor" />
+                                        </td>
+                                        <td lang="fi" data-testid="revision-summary">@maskedComment</td>
+                                        <td class="aot-num text-nowrap" data-testid="revision-delta">@FormatDeltaBytes(rev.DeltaBytes)</td>
+                                        <td>
+                                            @if (rev.WasRemoved)
+                                            {
+                                                <span class="aot-chip" data-testid="removed-badge">removed</span>
+                                            }
+                                        </td>
+                                        <td class="text-nowrap">
+                                            <a href="@WikipediaLinks.Diff(rev.RevId).AbsoluteUri"
+                                               target="_blank"
+                                               rel="noopener"
+                                               data-testid="wiki-diff-link">diff ↗</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </section>
+        }
+    }
+</div>
+
+@code {
+    private CancellationTokenSource? _cts;
+    private bool _interactive;
+    private bool _loading = true;
+    private bool _revisionsLoading;
+    private bool _hasError;
+    private string? _errorDetail;
+
+    private long? _loadedPageId;
+    private DateRange? _loadedRange;
+    private string? _loadedTopic;
+    private ArticleAggregates? _aggregates;
+    private DateRange? _selectedRange;
+    private IReadOnlyList<ArticleRevision> _revisions = [];
+    private IReadOnlyList<IncidentMark> _marks = [];
+
+    [Parameter]
+    public long PageId { get; set; }
+
+    [SupplyParameterFromQuery(Name = "from")]
+    public string? From { get; set; }
+
+    [SupplyParameterFromQuery(Name = "to")]
+    public string? To { get; set; }
+
+    [SupplyParameterFromQuery(Name = "topic")]
+    public string? Topic { get; set; }
+
+    [SupplyParameterFromQuery(Name = "incident")]
+    public string? Incident { get; set; }
+
+    private string? EffectiveIncident =>
+        !string.IsNullOrWhiteSpace(Incident) ? Incident : ReadQueryParam(Nav.Uri, "incident");
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (_interactive)
+        {
+            await SyncAsync(forceReload: false);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactive = true;
+            await SyncAsync(forceReload: true);
+            StateHasChanged();
+        }
+    }
+
+    private async Task SyncAsync(bool forceReload)
+    {
+        var pageChanged = forceReload || _loadedPageId != PageId;
+        var queryRange = ResolveQueryRange();
+        var topicSlug = ResolveTopicSlug();
+
+        if (!pageChanged && _aggregates is not null)
+        {
+            var desiredRange = queryRange ?? _selectedRange ?? DefaultRange(_aggregates);
+            var rangeChanged = _loadedRange != desiredRange;
+            var topicChanged = !string.Equals(_loadedTopic, topicSlug, StringComparison.Ordinal);
+
+            if (!rangeChanged && !topicChanged)
+            {
+                return;
+            }
+
+            if (rangeChanged)
+            {
+                await LoadRevisionsOnlyAsync(desiredRange, topicSlug, reloadMarks: topicChanged);
+            }
+            else if (topicChanged)
+            {
+                var ctTopic = ResetCancellation();
+                try
+                {
+                    _marks = await LoadMarksAsync(PageId, topicSlug, ctTopic);
+                    _loadedTopic = topicSlug;
+                }
+                catch (OperationCanceledException) when (ctTopic.IsCancellationRequested)
+                {
+                    return;
+                }
+            }
+
+            return;
+        }
+
+        var ct = ResetCancellation();
+        _loading = true;
+        _hasError = false;
+        _errorDetail = null;
+
+        try
+        {
+            var aggregates = await TimelineService.AggregatesAsync(PageId, ct);
+            _loadedPageId = PageId;
+            _aggregates = aggregates;
+
+            if (aggregates is null)
+            {
+                _selectedRange = null;
+                _loadedRange = null;
+                _loadedTopic = topicSlug;
+                _revisions = [];
+                _marks = [];
+                return;
+            }
+
+            var initialRange = queryRange ?? DefaultRange(aggregates);
+            _selectedRange = initialRange;
+            _revisions = await TimelineService.RevisionsAsync(PageId, initialRange, limit: 500, ct: ct);
+            _marks = await LoadMarksAsync(PageId, topicSlug, ct);
+            _loadedRange = initialRange;
+            _loadedTopic = topicSlug;
+        }
+        catch (CorpusUnavailableException ex)
+        {
+            _hasError = true;
+            _errorDetail = ex.Message;
+            _loadedPageId = null;
+            _loadedRange = null;
+            _loadedTopic = null;
+            _marks = [];
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        finally
+        {
+            if (!ct.IsCancellationRequested)
+            {
+                _loading = false;
+                _revisionsLoading = false;
+            }
+        }
+    }
+
+    private async Task LoadRevisionsOnlyAsync(DateRange range, string? topicSlug, bool reloadMarks)
+    {
+        var ct = ResetCancellation();
+        _selectedRange = range;
+        _revisionsLoading = true;
+        _hasError = false;
+        _errorDetail = null;
+
+        try
+        {
+            _revisions = await TimelineService.RevisionsAsync(PageId, range, limit: 500, ct: ct);
+            if (reloadMarks)
+            {
+                _marks = await LoadMarksAsync(PageId, topicSlug, ct);
+                _loadedTopic = topicSlug;
+            }
+
+            _loadedRange = range;
+        }
+        catch (CorpusUnavailableException ex)
+        {
+            _hasError = true;
+            _errorDetail = ex.Message;
+            _loadedRange = null;
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        finally
+        {
+            if (!ct.IsCancellationRequested)
+            {
+                _revisionsLoading = false;
+            }
+        }
+    }
+
+    private async Task<IReadOnlyList<IncidentMark>> LoadMarksAsync(long pageId, string? topicSlug, CancellationToken ct)
+    {
+        if (string.IsNullOrWhiteSpace(topicSlug))
+        {
+            return [];
+        }
+
+        try
+        {
+            var incidents = await IncidentSource.ForTopicAsync(topicSlug, ct);
+            if (incidents is null || incidents.Count == 0)
+            {
+                return [];
+            }
+
+            var escapedSlug = Uri.EscapeDataString(topicSlug);
+            var marks = new List<IncidentMark>();
+            foreach (var incident in incidents)
+            {
+                if (incident.Articles.Any(a => a.PageId == pageId))
+                {
+                    marks.Add(new IncidentMark(
+                        incident.FirstSeen.UtcDateTime,
+                        incident.Tier,
+                        incident.Id,
+                        $"/investigate/{escapedSlug}/incidents/{Uri.EscapeDataString(incident.Id)}"));
+                }
+            }
+
+            return marks;
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch
+        {
+            return [];
+        }
+    }
+
+    private async Task HandleRangeSelectedAsync(DateRange range)
+    {
+        var topicSlug = ResolveTopicSlug();
+        await LoadRevisionsOnlyAsync(range, topicSlug, reloadMarks: false);
+        Nav.NavigateTo(BuildUri(range, EffectiveIncident, topicSlug), replace: true);
+    }
+
+    private async Task RetryAsync()
+    {
+        await SyncAsync(forceReload: true);
+    }
+
+    private string? ResolveTopicSlug()
+    {
+        var raw = !string.IsNullOrWhiteSpace(Topic) ? Topic : ReadQueryParam(Nav.Uri, "topic");
+        if (string.IsNullOrWhiteSpace(raw))
+        {
+            return null;
+        }
+
+        var slug = TopicSlug.From(raw);
+        return slug.Length > 0 ? slug : null;
+    }
+
+    private DateRange? ResolveQueryRange()
+    {
+        var fromStr = !string.IsNullOrWhiteSpace(From) ? From : ReadQueryParam(Nav.Uri, "from");
+        var toStr = !string.IsNullOrWhiteSpace(To) ? To : ReadQueryParam(Nav.Uri, "to");
+        return TryParseRange(fromStr, toStr, out var parsed) ? parsed : null;
+    }
+
+    internal static DateRange DefaultRange(ArticleAggregates aggregates) =>
+        ArticleTimelineService.MostContested(aggregates)?.Range
+        ?? ArticleTimelineService.AllRange(aggregates);
+
+    internal static bool TryParseRange(string? fromStr, string? toStr, out DateRange range)
+    {
+        range = default!;
+        if (!TryParseMonthOrDate(fromStr, out var from) || !TryParseMonthOrDate(toStr, out var to))
+        {
+            return false;
+        }
+
+        if (to == from)
+        {
+            to = from.AddMonths(1);
+        }
+
+        if (to <= from)
+        {
+            return false;
+        }
+
+        range = new DateRange(from, to);
+        return true;
+    }
+
+    private static bool TryParseMonthOrDate(string? raw, out DateTime utc)
+    {
+        utc = default;
+        if (string.IsNullOrWhiteSpace(raw))
+        {
+            return false;
+        }
+
+        var trimmed = raw.Trim();
+        if (DateTime.TryParseExact(
+                trimmed,
+                ["yyyy-MM", "yyyy-MM-dd"],
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                out var parsed))
+        {
+            utc = DateTime.SpecifyKind(parsed, DateTimeKind.Utc);
+            return true;
+        }
+
+        return false;
+    }
+
+    private static string? ReadQueryParam(string uriString, string targetKey)
+    {
+        if (!Uri.TryCreate(uriString, UriKind.Absolute, out var uri) || string.IsNullOrEmpty(uri.Query))
+        {
+            return null;
+        }
+
+        foreach (var part in uri.Query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var eq = part.IndexOf('=');
+            if (eq <= 0) continue;
+            var key = Uri.UnescapeDataString(part[..eq]);
+            if (string.Equals(key, targetKey, StringComparison.OrdinalIgnoreCase))
+            {
+                return Uri.UnescapeDataString(part[(eq + 1)..]);
+            }
+        }
+
+        return null;
+    }
+
+    private string BuildUri(DateRange range, string? incident, string? topicSlug)
+    {
+        var from = range.From.ToString("yyyy-MM", CultureInfo.InvariantCulture);
+        var to = range.To.ToString("yyyy-MM", CultureInfo.InvariantCulture);
+        var uri = $"/articles/{PageId.ToString(CultureInfo.InvariantCulture)}?from={from}&to={to}";
+        if (!string.IsNullOrWhiteSpace(topicSlug))
+        {
+            uri += $"&topic={Uri.EscapeDataString(topicSlug)}";
+        }
+
+        if (!string.IsNullOrWhiteSpace(incident))
+        {
+            uri += $"&incident={Uri.EscapeDataString(incident)}";
+        }
+
+        return uri;
+    }
+
+    internal static string FormatHeaderCounts(ArticleAggregates a)
+    {
+        var revNoun = a.Revisions == 1 ? "revision" : "revisions";
+        var years = a.FirstEdit.Year == a.LastEdit.Year
+            ? a.FirstEdit.Year.ToString(CultureInfo.InvariantCulture)
+            : $"{a.FirstEdit.Year.ToString(CultureInfo.InvariantCulture)}\u2013{a.LastEdit.Year.ToString(CultureInfo.InvariantCulture)}";
+        return $"{a.Revisions.ToString("N0", CultureInfo.InvariantCulture)} {revNoun} {years}";
+    }
+
+    internal static string FormatRangeHeading(DateRange range)
+    {
+        var fromStr = range.From.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+        var inclusiveEnd = range.To.AddDays(-1);
+        if (inclusiveEnd < range.From)
+        {
+            inclusiveEnd = range.From;
+        }
+
+        var toStr = inclusiveEnd.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+        return $"{fromStr} \u2013 {toStr}";
+    }
+
+    internal static string FormatTimestamp(DateTime ts)
+    {
+        var utc = ts.Kind == DateTimeKind.Local ? ts.ToUniversalTime() : DateTime.SpecifyKind(ts, DateTimeKind.Utc);
+        return utc.ToString("d MMM yyyy, HH:mm 'UTC'", CultureInfo.InvariantCulture);
+    }
+
+    internal static string FormatDeltaBytes(int delta) =>
+        delta > 0
+            ? $"+{delta.ToString("N0", CultureInfo.InvariantCulture)}"
+            : delta.ToString("N0", CultureInfo.InvariantCulture);
+
+    private CancellationToken ResetCancellation()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = new CancellationTokenSource();
+        return _cts.Token;
+    }
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+}

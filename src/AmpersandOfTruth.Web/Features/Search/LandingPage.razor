@@ -1,0 +1,142 @@
+@page "/"
+@implements IDisposable
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using Microsoft.Extensions.Diagnostics.HealthChecks
+@using Microsoft.Extensions.Options
+@inject HealthCheckService HealthChecks
+@inject RecentTopics Recent
+@inject IOptions<SearchOptions> Options
+
+<PageTitle>Ampersand of Truth</PageTitle>
+<HeadContent>
+    <meta name="description" content="See what was pushed into Wikipedia, and what the community took out." />
+</HeadContent>
+
+<div style="max-width:880px;margin:0 auto;padding-top:24px">
+    @if (_searchLimited)
+    {
+        <div style="margin-bottom:20px">
+            <StatusBanner Kind="StatusKind.Warn" Title="Search is limited right now" Detail="@_healthDetail">
+                Suggested topic chips still open saved investigations.
+            </StatusBanner>
+        </div>
+    }
+
+    <h1 class="t-display">What was pushed into Wikipedia?</h1>
+    <p class="aot-muted" style="font-size:17px;line-height:26px;margin:12px 0 24px;max-width:640px">
+        Type a topic. We read 20 years of Finnish Wikipedia edit history and show what was added, what editors removed, and how sure we are that it matters.
+    </p>
+
+    <TopicSearch OnOutOfScope="HandleOutOfScope" />
+
+    @if (_outOfScope is not null)
+    {
+        <div data-testid="out-of-scope" style="margin-top:24px">
+            <EmptyState Title="@($"Our data covers the history of Finland. ‘{_outOfScope.Topic}’ is outside it.")"
+                        Message="Try one of the nearest topics in our dataset:">
+                <Actions>
+                    @foreach (var item in GetOutOfScopeSuggestions())
+                    {
+                        <a class="aot-chip aot-chip--topic" href="@TopicSlug.Route(item.Topic)" data-testid="suggestion-chip">@item.Label</a>
+                    }
+                </Actions>
+            </EmptyState>
+        </div>
+    }
+
+    <ol class="aot-steps" style="padding:24px 0 0;margin:48px 0 0;border-top:1px solid var(--line)">
+        <li><b>Find the articles</b>Search across 19,742 articles by meaning, in any language.</li>
+        <li><b>Read every edit</b>20 years of revisions: removals, re-insertions, deleted sources.</li>
+        <li><b>Show the evidence</b>What was pushed, who removed it, how long it stayed live, with links to Wikipedia.</li>
+    </ol>
+
+    @if (Recent.Items.Count > 0)
+    {
+        <div class="aot-small aot-muted" style="margin-top:32px" data-testid="recent-topics">
+            Recent in this browser:
+            @for (var i = 0; i < Recent.Items.Count; i++)
+            {
+                var item = Recent.Items[i];
+                if (i > 0)
+                {
+                    <text> · </text>
+                }
+                <a href="@TopicSlug.Route(item.Slug)" data-testid="recent-item">@item.Label</a>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private readonly CancellationTokenSource _cts = new();
+    private OutOfScopeTopic? _outOfScope;
+    private bool _searchLimited;
+    private string? _healthDetail;
+
+    protected override void OnInitialized() => Recent.Changed += OnRecentChanged;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+
+        await Recent.LoadAsync();
+        await CheckServiceHealthAsync();
+    }
+
+    private void HandleOutOfScope(OutOfScopeTopic topic) => _outOfScope = topic;
+
+    private IEnumerable<SuggestedTopic> GetOutOfScopeSuggestions()
+    {
+        if (_outOfScope is { Suggestions.Count: > 0 })
+        {
+            return _outOfScope.Suggestions
+                .Where(static s => !string.IsNullOrWhiteSpace(s))
+                .Select(static s => new SuggestedTopic(s.Trim(), s.Trim()));
+        }
+
+        return Options.Value.SuggestedTopics;
+    }
+
+    private async Task CheckServiceHealthAsync()
+    {
+        try
+        {
+            var report = await HealthChecks.CheckHealthAsync(
+                static reg => reg.Name is "corpus" or "embedding"
+                    || reg.Tags.Contains("corpus")
+                    || reg.Tags.Contains("embedding"),
+                _cts.Token);
+
+            var degraded = report.Entries
+                .Where(static e => e.Value.Status != HealthStatus.Healthy)
+                .ToList();
+
+            if (degraded.Count > 0)
+            {
+                _searchLimited = true;
+                _healthDetail = string.Join(
+                    Environment.NewLine,
+                    degraded.Select(static e => $"{e.Key}: {e.Value.Description ?? e.Value.Status.ToString()}"));
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+        catch (OperationCanceledException) when (_cts.IsCancellationRequested)
+        {
+        }
+        catch (Exception ex)
+        {
+            _searchLimited = true;
+            _healthDetail = ex.Message;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void OnRecentChanged() => _ = InvokeAsync(StateHasChanged);
+
+    public void Dispose()
+    {
+        Recent.Changed -= OnRecentChanged;
+        _cts.Cancel();
+        _cts.Dispose();
+    }
+}

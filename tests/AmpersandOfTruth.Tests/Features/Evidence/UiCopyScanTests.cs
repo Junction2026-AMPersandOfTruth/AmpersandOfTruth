@@ -109,9 +109,42 @@ public sealed class UiCopyScanTests
 
         Assert.NotEmpty(razorFiles);
 
+        var failures = ScanCopy(repoRoot, razorFiles);
+
+        Assert.True(
+            failures.Count == 0,
+            $"Found {failures.Count} copy violation(s) in Razor files:\n{string.Join("\n", failures)}");
+    }
+
+    /// <summary>
+    /// docs/design is the source of truth for the UI (its README §5): pages copy their sentences from the
+    /// previews, so a banned term in a mock-up is a banned term in the app one PR later.
+    /// Comments are skipped; attributes (title, placeholder, aria-label) and inline chart scripts are scanned.
+    /// Jargon is off, as for Razor, so class names such as aot-tier don't trip it.
+    /// </summary>
+    [Fact]
+    public void Design_preview_copy_scan_finds_no_violations()
+    {
+        var repoRoot = FindRepoRoot();
+        var componentsDir = Path.Combine(repoRoot, "docs", "design", "components");
+        Assert.True(Directory.Exists(componentsDir), $"Design components directory not found at: {componentsDir}");
+
+        var previews = Directory.EnumerateFiles(componentsDir, "preview.html", SearchOption.AllDirectories).ToList();
+
+        Assert.NotEmpty(previews);
+
+        var failures = ScanCopy(repoRoot, previews);
+
+        Assert.True(
+            failures.Count == 0,
+            $"Found {failures.Count} copy violation(s) in design previews:\n{string.Join("\n", failures)}");
+    }
+
+    private static List<string> ScanCopy(string repoRoot, IEnumerable<string> files)
+    {
         var failures = new List<string>();
 
-        foreach (var file in razorFiles)
+        foreach (var file in files)
         {
             var content = File.ReadAllText(file);
             var copy = ExtractCopy(content);
@@ -124,9 +157,7 @@ public sealed class UiCopyScanTests
             }
         }
 
-        Assert.True(
-            failures.Count == 0,
-            $"Found {failures.Count} copy violation(s) in Razor files:\n{string.Join("\n", failures)}");
+        return failures;
     }
 
     private static string FindRepoRoot()

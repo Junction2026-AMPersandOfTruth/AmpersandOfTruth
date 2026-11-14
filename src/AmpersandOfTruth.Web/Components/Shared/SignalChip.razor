@@ -1,0 +1,92 @@
+@using AmpersandOfTruth.Web.Features.Evidence
+@{
+    var canonicalId = string.IsNullOrWhiteSpace(Phrase.Id) ? "" : SignalCatalog.Normalize(Phrase.Id);
+    var tooltip = BuildTooltip(Phrase.Why, Evidence);
+}
+@if (OnClick.HasDelegate)
+{
+    <button type="button" class="aot-chip" aria-pressed="@(Selected ? "true" : "false")" title="@tooltip" data-testid="signal-chip" data-signal="@canonicalId" @onclick="OnClick">@RenderIcon(canonicalId)@Phrase.Chip</button>
+}
+else
+{
+    <span class="aot-chip" aria-pressed="@(Selected ? "true" : null)" title="@tooltip" data-testid="signal-chip" data-signal="@canonicalId">@RenderIcon(canonicalId)@Phrase.Chip</span>
+}
+
+@code {
+    [Parameter, EditorRequired] public SignalPhrase Phrase { get; set; } = default!;
+    [Parameter] public string? Evidence { get; set; }
+    [Parameter] public bool Selected { get; set; }
+    [Parameter] public EventCallback OnClick { get; set; }
+
+    private static string? BuildTooltip(string? why, string? evidence)
+    {
+        var hasWhy = !string.IsNullOrWhiteSpace(why);
+        var hasEvidence = !string.IsNullOrWhiteSpace(evidence);
+
+        return (hasWhy, hasEvidence) switch
+        {
+            (true, true) => $"{why!.Trim()} {evidence!.Trim()}",
+            (true, false) => why!.Trim(),
+            (false, true) => evidence!.Trim(),
+            (false, false) => null,
+        };
+    }
+
+    private static RenderFragment RenderIcon(string id) => builder =>
+    {
+        builder.OpenElement(0, "svg");
+        builder.AddAttribute(1, "viewBox", "0 0 12 12");
+        builder.AddAttribute(2, "aria-hidden", "true");
+
+        switch (id)
+        {
+            case "reinserted":
+            case "persistence":
+            case "edit_war":
+                builder.OpenElement(3, "path");
+                builder.AddAttribute(4, "d", "M2 6a4 4 0 1 0 1.2-2.8M2 1.5v2.5h2.5");
+                builder.CloseElement();
+                break;
+
+            case "citation_removed":
+            case "source_change":
+                builder.OpenElement(3, "path");
+                builder.AddAttribute(4, "d", "M2 3h8M2 6h5M2 9h3M8.5 7.5l2 2M10.5 7.5l-2 2");
+                builder.CloseElement();
+                break;
+
+            case "new_accounts":
+            case "multiple_editors":
+            case "anonymous":
+                builder.OpenElement(3, "circle");
+                builder.AddAttribute(4, "cx", "6");
+                builder.AddAttribute(5, "cy", "4");
+                builder.AddAttribute(6, "r", "2");
+                builder.CloseElement();
+                builder.OpenElement(7, "path");
+                builder.AddAttribute(8, "d", "M2 10.5c.5-2 2-3 4-3s3.5 1 4 3");
+                builder.CloseElement();
+                break;
+
+            case "multiple_articles":
+                builder.OpenElement(3, "path");
+                builder.AddAttribute(4, "d", "M2 2h5v7H2zM5 4h5v7H5");
+                builder.CloseElement();
+                break;
+
+            case "number_changed":
+                builder.OpenElement(3, "path");
+                builder.AddAttribute(4, "d", "M4 2 3 10M8 2l-1 8M2 4.5h8M2 7.5h8");
+                builder.CloseElement();
+                break;
+
+            default:
+                builder.OpenElement(3, "path");
+                builder.AddAttribute(4, "d", "M2 2.5h8v5.5H5L3 10V8H2z");
+                builder.CloseElement();
+                break;
+        }
+
+        builder.CloseElement();
+    };
+}

@@ -1,38 +1,5 @@
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Ampersand of Truth</a>
-    </div>
-</div>
-
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="notes">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Notes
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="analysis">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> LLM usage
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="investigate">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Investigate
-            </NavLink>
-        </div>
-
-        @* ── Add new feature links above this line ── *@
-    </nav>
-</div>
-
+<nav aria-label="Primary">
+    <NavLink href="/" Match="NavLinkMatch.All">Investigate</NavLink>
+    <NavLink href="/methodology">Methodology</NavLink>
+    @* ── Add new feature links above this line ── *@
+</nav>

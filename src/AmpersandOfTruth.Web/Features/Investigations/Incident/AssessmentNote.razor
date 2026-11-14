@@ -1,0 +1,61 @@
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations.View
+
+<section class="aot-panel aot-assess" data-testid="assessment">
+    <div class="aot-label">@Attribution.AutomatedAssessmentLabel</div>
+    @if (Assessment is null)
+    {
+        <p class="aot-small aot-muted" style="margin:8px 0 0">Assessment unavailable. The automated assessment could not be run for this incident. The removal history above still stands.</p>
+    }
+    else
+    {
+        var (steps, word) = MapConfidence(Assessment.Confidence);
+        <p style="margin:8px 0 0"><b>Category:</b> @MapCategory(Assessment.Category)</p>
+        @if (!string.IsNullOrWhiteSpace(Assessment.Reasoning))
+        {
+            <p style="margin:8px 0 0">@Assessment.Reasoning</p>
+        }
+        @foreach (var quote in Assessment.Quotes.Where(static q => !string.IsNullOrWhiteSpace(q)))
+        {
+            <blockquote><q class="aot-ev" data-testid="assessment-quote">@quote</q></blockquote>
+        }
+        <div class="aot-small" style="margin-top:8px" data-testid="assessment-confidence">
+            Confidence <span class="aot-meter" aria-label="@word">@for (var i = 1; i <= 3; i++) { <i class="@(i <= steps ? "on" : null)"></i> }</span> @word
+        </div>
+        <p class="aot-small aot-muted" style="margin:8px 0 0">@FormatUncertainty(Assessment.Uncertainty)</p>
+    }
+</section>
+
+@code {
+    [Parameter] public AssessmentView? Assessment { get; set; }
+
+    private static string MapCategory(ContentCategory category) => category switch
+    {
+        ContentCategory.ContentDispute => "a content dispute",
+        ContentCategory.PovPush => "one-sided wording",
+        ContentCategory.FalseFactualClaim => "a false factual claim",
+        ContentCategory.SourceManipulation => "a change of sources",
+        ContentCategory.GoodFaithError => "a good-faith error",
+        _ => "other",
+    };
+
+    private static (int Steps, string Word) MapConfidence(int confidence) => confidence switch
+    {
+        <= 2 => (1, "low"),
+        3 => (2, "medium"),
+        _ => (3, "high"),
+    };
+
+    private static string FormatUncertainty(string? uncertainty)
+    {
+        if (string.IsNullOrWhiteSpace(uncertainty))
+        {
+            return "Uncertainty: automated from the diff above; it can be wrong.";
+        }
+
+        var trimmed = uncertainty.Trim();
+        return trimmed.StartsWith("Uncertainty:", StringComparison.OrdinalIgnoreCase)
+            ? trimmed
+            : $"Uncertainty: {trimmed}";
+    }
+}

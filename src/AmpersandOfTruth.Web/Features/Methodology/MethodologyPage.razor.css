@@ -1,0 +1,47 @@
+.methodology-page {
+    max-width: 880px;
+    gap: var(--space-8, 32px);
+    overflow-wrap: anywhere;
+}
+
+.methodology-section {
+    gap: var(--space-3, 12px);
+}
+
+.methodology-section p {
+    margin: 0;
+}
+
+.methodology-levels {
+    gap: var(--space-3, 12px);
+}
+
+.methodology-level {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2, 8px);
+}
+
+.methodology-level__head {
+    gap: var(--space-2, 8px);
+}
+
+.methodology-level__meaning {
+    margin: 0;
+}
+
+.methodology-list {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1, 4px);
+}
+
+.methodology-facts {
+    margin: 0;
+}
+
+.methodology-note {
+    margin: 0;
+}

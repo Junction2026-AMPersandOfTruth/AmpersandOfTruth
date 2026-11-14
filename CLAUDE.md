@@ -13,7 +13,7 @@ Query embeddings: **Ollama `bge-m3`** (local, else the VPS through the tunnel) b
 | Green gate (build + missing-migration check + all tests) — run before saying "done" | `scripts/verify.sh` |
 | Boot real app + curl routes | `scripts/smoke.sh [/route ...]` |
 | Hot-reload dev server → http://localhost:5172 | `scripts/dev.sh` (run in background; it never exits) |
-| Single test class | `dotnet test --filter "FullyQualifiedName~NotesPageTests"` |
+| Single test class | `dotnet test --filter "FullyQualifiedName~IncidentMapperTests"` |
 | Add NuGet package | `dotnet add src/AmpersandOfTruth.Web package <Name> --version 10.*` (latest is 11.x = .NET 11, won't install) |
 | Add EF migration | `dotnet ef migrations add <Name> --project src/AmpersandOfTruth.Web --output-dir Data/Migrations` |
 | Reset local DB | `rm src/AmpersandOfTruth.Web/app.db` (recreated on next start) |
@@ -26,6 +26,8 @@ Query embeddings: **Ollama `bge-m3`** (local, else the VPS through the tunnel) b
 | Run the app's investigation pipeline from the shell (same services, config, caches as the app) | `scripts/investigate.sh run "Talvisota" [--refresh] [--events]` · `variant < request.json` (eval contract §2) · `clear-runs` |
 | Warm caches before a demo + measure the #40 latency budget (Markdown table) | `scripts/warm.sh [topics-file] [--cold]` (default `scripts/demo-topics.txt`) |
 | Live Gemini tests (opt-in, real API calls) | `GEMINI_TESTS=1 dotnet test --filter Category=Gemini` |
+| Deploy the web app to the VPS (needs root ssh) → https://asot.tech | `scripts/app-deploy.sh` (publishes the current checkout) · `--logs` · compose in `deploy/app/`, secrets only in `/opt/junction/app/.env` on the VPS |
+| Review walk: demo flow in system Chrome at 1280×720 + 390 px, screenshots + report.md | `scripts/walk.sh [--url http://localhost:PORT] [--out DIR]` (boots the app if no `--url`) |
 | Check a golden set / variant / judgement file against the eval contract (stdlib Python, no corpus) | `python3 research/eval/validate.py golden` · `variant retrieval\|signals -- <cmd>` · tests: `python3 -m unittest discover -s research/eval/tests` |
 | Score a variant on the golden set (P1.E2 runner; Markdown scorecard on stdout) | `research/eval/run signals --name <name> --out research/<issue>-<slug>/results -- <cmd>` · `replay <…responses.jsonl> --judgements j.jsonl` · `--baseline <scorecard.json>` |
 
@@ -43,7 +45,8 @@ src/AmpersandOfTruth.Web/
     App.razor, Routes.razor   # shell; rarely touched
     Layout/                   # MainLayout, NavMenu (add nav links above the marker comment)
     Pages/                    # Home, Error, NotFound only
-    Shared/                   # reusable UI bits (EmptyState, …) — used by 2+ features
+    Shared/                   # reusable UI bits used by 2+ features: TierBadge, SignalChip, EditorTag, MtLabel, StatusBanner,
+                              #   SampleDataBanner, EmptyState, IncidentCard, ArticleTimeline
   Features/<Feature>/         # ⭐ all real work goes here — vertical slices
     <Feature>Page.razor       # @page route(s)
     <Feature>Feature.cs       # AddXFeature(IServiceCollection) extension — DI registrations
@@ -61,12 +64,12 @@ docs/design/                  # ⭐ UI design system: brand book, plan, tokens, 
 docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, editor display, golden-set TP definition
 ```
 
-`Features/Notes` is the **reference slice** — copy its shape. Delete it once real features exist (remove its `AddNotesFeature()` line, nav link, tests, smoke route).
+`Features/Articles` is the **reference slice** (page + corpus interface/fake + cached service + bUnit/`[CorpusFact]` tests) — copy its shape.
 
 ## Conventions
 
 - **One feature = one folder.** Parallel agents should only collide on `Program.cs` (one line) and `NavMenu.razor` (one block). Keep it that way.
-- Namespaces follow folders (`AmpersandOfTruth.Web.Features.Notes`). File-scoped namespaces, primary constructors, records for data.
+- Namespaces follow folders (`AmpersandOfTruth.Web.Features.Articles`). File-scoped namespaces, primary constructors, records for data.
 - Services: interface only if there are 2+ implementations or you need to fake an external API. Otherwise inject the concrete class.
 - Singleton state is shared by **every user/circuit** → must be thread-safe. Per-user state → `AddScoped` (scope = one browser tab's circuit).
 - When a service raises events consumed by components, update UI via `InvokeAsync(StateHasChanged)` and unsubscribe in `Dispose`.
@@ -76,7 +79,7 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
 - Put `data-testid="..."` on elements tests interact with; tests select by it, not by CSS classes.
 - **Evidence wording is decided, not improvised** (`docs/evidence-standard.md`, code in `Features/Evidence`): tier labels come from
   `EvidenceTiers`, levels from `TierRules`, editor names/IPs from `EditorDisplay` (IPs masked), license/methodology text from
-  `Attribution`/`Methodology`. Never label an account (propagandist, troll, …) or claim certainty ("proven"); `CopyRules` tests scan every `.razor` file.
+  `Attribution`/`Methodology`. Never label an account (propagandist, troll, …) or claim certainty ("proven"); `CopyRules` tests scan every `.razor` file and every `docs/design` preview.
 - Secrets (API keys): `dotnet user-secrets set "Key" "value" --project src/AmpersandOfTruth.Web`, read via `IConfiguration`. Never commit keys; never put them in `appsettings*.json`.
 
 ## Persistence (EF Core + SQLite)
@@ -141,6 +144,23 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   their output changes. Score the pipeline: `research/eval/run pipeline --name p1-app -- scripts/investigate.sh variant`.
 - Tests: `PipelineKit` = the real stages over fakes (`FakeInvestigationCorpus`, `FakeRevisionStore`, `FakeAnalysisModel`, `FakeQueryEmbedder`).
 
+## P2 UI (issue #98)
+
+- Pages bind to the **read model** `Features/Investigations/View/IncidentView` (never to `IncidentRecord`). `IncidentMapper` builds it and
+  derives what P1 doesn't supply: diff passage (`WikitextDiff` of the first inserting rev vs its parent), incident kind, fi/en titles
+  (`wikidata_id`), masked editors. It degrades field by field when the corpus is down.
+- `Investigations:Source = Fixtures | Pipeline` (default **Fixtures** until #39 is done): picks `IInvestigationRunner` (`HybridFixtureRunner`:
+  stages 1–2 real, sample incidents replayed vs `CachingInvestigationRunner` → `InvestigationPipeline`) and `IIncidentSource` (samples vs
+  `RecentRuns`). Screens don't change. The `/investigate` debug page follows the switch too (it shows the sample banner in Fixtures mode):
+  to see the real pipeline locally, `dotnet user-secrets set "Investigations:Source" "Pipeline" --project src/AmpersandOfTruth.Web`.
+- Sample incidents: `Features/Investigations/Fixtures/<slug>.json` (contract JSON on real revisions; check with
+  `python3 research/98-samples/check.py`). **Every page that shows incidents renders `<SampleDataBanner />`** — it shows only in Fixtures mode.
+- Signal ids and wording: only `Evidence/SignalCatalog` (canonical = `TierReasonKind` snake_case + 4 extras; old ids are aliases). Show with `SignalChip`.
+- Editor names: `<EditorTag User=… />` (the design calls it EditorLabel; renamed because `Evidence.EditorLabel` is the record). Translations:
+  `IEvidenceTranslator` (cached via the analysis cache) + `<MtLabel>`; per-browser EN/FI in `LanguagePreference` (`aot.lang`).
+- Routes: `/` (Search), `/investigate/{topic}` (overview), `/investigate/{topic}/incidents/{id}`, `/articles/{pageId}`, `/accounts/{name}`
+  (named accounts only), `/methodology`. `/investigate` (no topic) is the pipeline debug page, linked from the footer. Topic ↔ slug: `TopicSlug`.
+
 ## LLM analysis (Gemini, `Features/Analysis`, issue #16)
 
 - **Every product LLM call** goes through `IAnalysisModel.RunAsync<T>(new AnalysisRequest("<prompt-id>", vars) { Scope = investigationId })`.
@@ -164,6 +184,7 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   stdout, logs on stderr), the golden-set file, judge/review files, metric definitions. Field names live in `research/eval/schemas/`.
 - An incident is matched on its **inserting rev ids** only; `tier` ids are the `EvidenceTiers` ids. Required incident fields
   (`page_id, inserting_rev_ids, removing_rev_ids, tier, score`) are frozen; the rest of `incident.schema.json` is the #37 draft.
+  Known `signals[].kind` ids = the `examples` of `kind` in that schema (an open set; the first ten are `TierReasonKind`). New id → add it there.
 - Experiments: folder `research/<issue>-<slug>/`, scratch tables `research.<issue>_*`, corpus access from env
   (`CORPUS_HOST/PORT/USER/PW/DB`). The test split is sealed (`EVAL_ALLOW_TEST=1`, decision issues only).
 - Changing a frozen shape = schema + example + CONTRACT.md in one commit; `research/eval/tests` must pass (not part of `verify.sh`).
@@ -174,6 +195,7 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
 ## Testing
 
 - DB tests: `using var db = new TestDb();` gives a real in-memory SQLite DB with migrations applied. `db.Factory` for services, `db.AddTo(Services)` for bUnit.
+  Every context opens its own connection, as in the app, so code that queries from parallel tasks is safe (#106: never share one `SqliteConnection` between contexts).
 - bUnit 2.x API: test class inherits `BunitContext`; use `Render<T>()`, `Services.Add...`, `cut.Find(...)`, `.Change()`, `.Click()`, `.Submit()`.
 - Async data loading → use `cut.WaitForElement(...)` / `cut.WaitForAssertion(...)`, not immediate `Find`.
 - Every new page: add its route to `AppSmokeTests` `InlineData` — this catches DI and routing breakage cheaply.
@@ -207,6 +229,14 @@ Worker-only rules are in `GEMINI.md`. API key: `~/.gemini/.env` (outside the rep
 **Known limitation:** inside the macOS seatbelt sandbox `dotnet` can't start (CoreCLR needs `sysctl` reads the profile denies), so
 workers write code without compiling; `run.sh`'s own `verify.sh` (outside the sandbox) is the real check — review its log, and expect
 a feedback round for compile errors. Workers also can't run `dotnet ef`/`dotnet sln` (they may hand-write the output — re-generate to confirm).
+**Research workers (Python under `research/`):** they *can* reach the corpus (`:3307`) and run Python + `research/eval/run` in the
+sandbox, but not `scripts/wikidiff.sh` / `scripts/analyze.sh` (dotnet). So: diffs come precomputed from `research.s3_diff`
+(`research/30-s3-extract/diffcache.py`, all golden pages); LLM batches are run by the orchestrator with
+`research/22-judge/analyze.sh` (= `analyze.sh` + the workers' key + `research/eval/prompts`; add `Gemini__PromptDirectory=` for other prompt dirs).
+Export `CORPUS_PW` (+ `CORPUS_*`) before `run.sh`; `GEMINI_MODEL=gemini-4-carbon` works in the CLI and beats "auto" (flash) for research.
+Seen 2026-11-14: rounds that end with an empty summary before README/tests (send a short feedback round), file writes that turn
+`"\n"` escapes into raw line breaks (`python3 -m py_compile` everything before landing), and web fetches failing inside the
+sandbox (put API shapes in the spec instead of asking the worker to read docs).
 
 ## Gotchas
 
