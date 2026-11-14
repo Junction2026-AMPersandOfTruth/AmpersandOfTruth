@@ -94,6 +94,6 @@
         "historical_note_en": { "type": ["string", "null"] }
       }
     },
-    "cluster_id": { "type": ["string", "null"], "description": "Claim cluster (P1.S7, #34): incidents with the same id repeat one claim. null until S7 exists." }
+    "cluster_id": { "type": ["string", "null"], "description": "Claim cluster (P1.S7, #34): incidents with the same id repeat one claim. Always a string: write a numeric research.s7_cluster id as a string. null = not clustered." }
   }
 }
