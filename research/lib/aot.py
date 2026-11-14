@@ -5,6 +5,7 @@
 
 Corpus access goes through the `mariadb` CLI (no pip installs), configured by the contract env vars:
 CORPUS_HOST (127.0.0.1), CORPUS_PORT (3307 = scripts/corpus-tunnel.sh), CORPUS_USER (corpus_ro), CORPUS_PW, CORPUS_DB.
+Set CORPUS_SLICE=1 to target the local golden slice container at 127.0.0.1:3308 instead (research/slice/).
 If CORPUS_PW is unset, MYSQL_PWD is used. Embeddings: OLLAMA_URL (default :11434), then :11435 (VPS via the tunnel).
 Everything logs to stderr; nothing here prints to stdout.
 """
@@ -45,8 +46,11 @@ def sql(query: str, timeout: int = 110) -> list[dict]:
     """
     env = dict(os.environ)
     env["MYSQL_PWD"] = os.environ.get("CORPUS_PW") or os.environ.get("MYSQL_PWD", "")
+    use_slice = os.environ.get("CORPUS_SLICE") == "1"
+    host = "127.0.0.1" if use_slice else os.environ.get("CORPUS_HOST", "127.0.0.1")
+    port = "3308" if use_slice else os.environ.get("CORPUS_PORT", "3307")
     cmd = ["mariadb", "--batch", "--default-character-set=utf8mb4",
-           "-h", os.environ.get("CORPUS_HOST", "127.0.0.1"), "-P", os.environ.get("CORPUS_PORT", "3307"),
+           "-h", host, "-P", port,
            "-u", os.environ.get("CORPUS_USER", "corpus_ro"), os.environ.get("CORPUS_DB", "corpus")]
     t0 = time.monotonic()
     for attempt in range(4):  # the tunnel/VPS drops connections under load (ERROR 2002/2003/2013/2026): retry those only
