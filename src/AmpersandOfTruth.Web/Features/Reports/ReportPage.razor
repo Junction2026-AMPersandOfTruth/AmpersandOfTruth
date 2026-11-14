@@ -1,0 +1,156 @@
+@page "/library/{Id:guid}/report"
+@implements IDisposable
+@using Microsoft.AspNetCore.WebUtilities
+@inject ReportBuilder Builder
+@inject NavigationManager Nav
+
+<PageTitle>@PageTitleText</PageTitle>
+
+<HeadContent>
+    <style>
+        @@media print {
+            .aot-appbar,
+            .aot-footer {
+                display: none !important;
+            }
+
+            main.aot-page {
+                max-width: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                font-family: var(--font-serif) !important;
+            }
+        }
+    </style>
+</HeadContent>
+
+@if (_loading)
+{
+    <div class="aot-stack report-shell" aria-busy="true">
+        <div class="aot-card aot-card--skeleton" aria-label="Loading report…">
+            <span class="aot-skel" style="width:280px;height:20px"></span>
+            <span class="aot-skel" style="width:65%;height:14px;margin-top:10px"></span>
+        </div>
+    </div>
+}
+else if (_report is null)
+{
+    <div class="report-shell" data-testid="report-not-found">
+        <EmptyState Title="Saved investigation not found"
+                    Message="This saved investigation does not exist or may have been deleted.">
+            <Actions>
+                <a class="aot-btn aot-btn--primary" href="/library">Back to library</a>
+            </Actions>
+        </EmptyState>
+    </div>
+}
+else
+{
+    <ReportView Report="_report" ReadOnly="false" OnTogglePinned="TogglePinnedAsync" />
+}
+
+@code {
+    private CancellationTokenSource? _cts;
+    private bool _disposed;
+    private bool _loading = true;
+    private bool _pinnedOnly;
+    private Guid _loadedId;
+    private bool _loadedPinnedOnly;
+    private bool _hasLoaded;
+    private InvestigationReport? _report;
+
+    [Parameter] public Guid Id { get; set; }
+
+    [SupplyParameterFromQuery(Name = "pinned")]
+    public string? PinnedQuery { get; set; }
+
+    private string PageTitleText =>
+        _report is null ? "Investigation report · Ampersand of Truth" : $"{_report.Title} · Report · Ampersand of Truth";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var desiredPinned = ResolvePinnedFromParametersOrUri();
+        if (!_hasLoaded || _loadedId != Id || _loadedPinnedOnly != desiredPinned)
+        {
+            _pinnedOnly = desiredPinned;
+            await LoadReportAsync(Id, _pinnedOnly);
+        }
+    }
+
+    private async Task LoadReportAsync(Guid id, bool pinnedOnly)
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+        _cts = new CancellationTokenSource();
+        var ct = _cts.Token;
+
+        _loading = true;
+        try
+        {
+            var built = await Builder.BuildAsync(id, new ReportOptions(PinnedOnly: pinnedOnly, IncludeSummary: true), ct);
+            if (!ct.IsCancellationRequested)
+            {
+                _report = built;
+                _loadedId = id;
+                _loadedPinnedOnly = pinnedOnly;
+                _hasLoaded = true;
+            }
+        }
+        catch (OperationCanceledException) when (_disposed || ct.IsCancellationRequested)
+        {
+            return;
+        }
+        finally
+        {
+            if (!ct.IsCancellationRequested)
+            {
+                _loading = false;
+            }
+        }
+    }
+
+    private async Task TogglePinnedAsync()
+    {
+        var next = !_pinnedOnly;
+        _pinnedOnly = next;
+
+        var nextUrl = next ? $"/library/{Id}/report?pinned=1" : $"/library/{Id}/report";
+        Nav.NavigateTo(nextUrl, replace: true);
+
+        if (!_hasLoaded || _loadedPinnedOnly != next || _loadedId != Id)
+        {
+            await LoadReportAsync(Id, next);
+        }
+    }
+
+    private bool ResolvePinnedFromParametersOrUri()
+    {
+        if (PinnedQuery is not null)
+        {
+            return ReportsFeature.IsPinnedQuery(PinnedQuery);
+        }
+
+        if (Uri.TryCreate(Nav.Uri, UriKind.Absolute, out var abs) && !string.IsNullOrEmpty(abs.Query))
+        {
+            var query = QueryHelpers.ParseQuery(abs.Query);
+            if (query.TryGetValue("pinned", out var raw))
+            {
+                return ReportsFeature.IsPinnedQuery(raw.ToString());
+            }
+        }
+
+        return false;
+    }
+
+    public void Dispose()
+    {
+        _disposed = true;
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+}

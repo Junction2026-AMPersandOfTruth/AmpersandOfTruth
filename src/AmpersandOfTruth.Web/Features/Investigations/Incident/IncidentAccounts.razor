@@ -1,0 +1,203 @@
+@implements IDisposable
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Accounts
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@inject IServiceProvider Services
+
+@{
+    var added = BuildGroup(Incident.Edits, isAdded: true);
+    var removed = BuildGroup(Incident.Edits, isAdded: false);
+}
+
+<section class="aot-panel aot-stack" style="gap:var(--space-3)" data-testid="incident-accounts">
+    <h3 class="aot-h3">Accounts involved</h3>
+    @if (added.Count > 0)
+    {
+        <div class="aot-stack" style="gap:var(--space-2)" data-testid="accounts-added">
+            <div class="aot-label">Added it</div>
+            @foreach (var row in added)
+            {
+                <div class="aot-stack" style="gap:2px" data-testid="account-row" @key="@($"add:{row.Editor.GroupingKey}")">
+                    <div class="aot-row aot-small" style="gap:4px var(--space-2)">
+                        <EditorTag Label="@row.Editor" />
+                        <span class="aot-muted">@FormatHereCount(row.Count)</span>
+                        @if (row.Editor.Kind == EditorKind.Named)
+                        {
+                            <a href="@AccountHref(row.Editor.DisplayName)" data-testid="account-link">Account page</a>
+                        }
+                    </div>
+                    @if (row.Editor.Kind == EditorKind.Named
+                         && _factsByUser.TryGetValue(row.Editor.DisplayName, out var facts)
+                         && facts.Edits > 0)
+                    {
+                        <div class="aot-small aot-muted" data-testid="account-facts-line">@FormatFactsLine(facts)</div>
+                    }
+                </div>
+            }
+        </div>
+    }
+    @if (removed.Count > 0)
+    {
+        <div class="aot-stack" style="gap:var(--space-2)" data-testid="accounts-removed">
+            <div class="aot-label">Removed it</div>
+            @foreach (var row in removed)
+            {
+                <div class="aot-stack" style="gap:2px" data-testid="account-row" @key="@($"rem:{row.Editor.GroupingKey}")">
+                    <div class="aot-row aot-small" style="gap:4px var(--space-2)">
+                        <EditorTag Label="@row.Editor" />
+                        <span class="aot-muted">@FormatHereCount(row.Count)</span>
+                        @if (row.Editor.Kind == EditorKind.Named)
+                        {
+                            <a href="@AccountHref(row.Editor.DisplayName)" data-testid="account-link">Account page</a>
+                        }
+                    </div>
+                    @if (row.Editor.Kind == EditorKind.Named
+                         && _factsByUser.TryGetValue(row.Editor.DisplayName, out var facts)
+                         && facts.Edits > 0)
+                    {
+                        <div class="aot-small aot-muted" data-testid="account-facts-line">@FormatFactsLine(facts)</div>
+                    }
+                </div>
+            }
+        </div>
+    }
+</section>
+
+@code {
+    private readonly Dictionary<string, AccountFacts> _factsByUser = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _attemptedUsers = new(StringComparer.Ordinal);
+    private CancellationTokenSource? _cts;
+    private string? _loadedSignature;
+
+    [Parameter, EditorRequired] public IncidentView Incident { get; set; } = default!;
+
+    protected override void OnParametersSet()
+    {
+        var signature = BuildSignature();
+        if (!string.Equals(_loadedSignature, signature, StringComparison.Ordinal))
+        {
+            _cts?.Cancel();
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var signature = BuildSignature();
+        if (string.Equals(_loadedSignature, signature, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        _loadedSignature = signature;
+
+        var corpus = Services.GetService<IAccountCorpus>();
+        if (corpus is null)
+        {
+            return;
+        }
+
+        var pending = Incident.Edits
+            .Where(static e => e.Editor.Kind == EditorKind.Named && !string.IsNullOrWhiteSpace(e.Editor.DisplayName))
+            .Select(static e => e.Editor.DisplayName)
+            .Where(name => !_attemptedUsers.Contains(name))
+            .Distinct(StringComparer.Ordinal)
+            .ToList();
+
+        if (pending.Count == 0)
+        {
+            return;
+        }
+
+        _cts?.Cancel();
+        _cts?.Dispose();
+        var run = _cts = new CancellationTokenSource();
+        var ct = run.Token;
+
+        var tasks = new Task<(string Name, AccountFacts? Facts)>[pending.Count];
+        for (var i = 0; i < pending.Count; i++)
+        {
+            tasks[i] = FetchOneAsync(corpus, pending[i], ct);
+        }
+
+        var results = await Task.WhenAll(tasks);
+        if (ct.IsCancellationRequested || !ReferenceEquals(run, _cts))
+        {
+            return;
+        }
+
+        var updated = false;
+        foreach (var (name, facts) in results)
+        {
+            _attemptedUsers.Add(name);
+            if (facts is not null)
+            {
+                _factsByUser[name] = facts;
+                updated = true;
+            }
+        }
+
+        if (updated)
+        {
+            StateHasChanged();
+        }
+    }
+
+    private static async Task<(string Name, AccountFacts? Facts)> FetchOneAsync(
+        IAccountCorpus corpus,
+        string name,
+        CancellationToken ct)
+    {
+        try
+        {
+            var facts = await corpus.FactsAsync(name, ct);
+            return (name, facts);
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return (name, null);
+        }
+        catch
+        {
+            return (name, null);
+        }
+    }
+
+    private string BuildSignature() =>
+        $"{Incident.Id}:{string.Join('|', Incident.Edits.Select(static e => e.RevId.ToString(CultureInfo.InvariantCulture)))}";
+
+    private static IReadOnlyList<AccountGroupRow> BuildGroup(IReadOnlyList<EditView> edits, bool isAdded)
+    {
+        if (edits.Count == 0)
+        {
+            return [];
+        }
+
+        var filtered = isAdded
+            ? edits.Where(static e => e.Action is EditAction.Inserted or EditAction.Reinserted)
+            : edits.Where(static e => e.Action == EditAction.Removed);
+
+        return filtered
+            .GroupBy(static e => e.Editor.GroupingKey, StringComparer.Ordinal)
+            .Select(static g => new AccountGroupRow(g.First().Editor, g.Count()))
+            .ToList();
+    }
+
+    private static string AccountHref(string name) => $"/accounts/{Uri.EscapeDataString(name)}";
+
+    private static string FormatHereCount(int count) =>
+        string.Create(CultureInfo.InvariantCulture, $"{count:N0} {(count == 1 ? "edit" : "edits")} here");
+
+    private static string FormatFactsLine(AccountFacts facts) =>
+        string.Create(
+            CultureInfo.InvariantCulture,
+            $"{facts.Edits:N0} {(facts.Edits == 1 ? "edit" : "edits")} in our dataset \u00B7 {facts.Articles:N0} {(facts.Articles == 1 ? "article" : "articles")} \u00B7 {facts.RemovedEdits:N0} later removed");
+
+    public void Dispose()
+    {
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+
+    private sealed record AccountGroupRow(EditorLabel Editor, int Count);
+}

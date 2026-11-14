@@ -320,6 +320,214 @@ public sealed class ArticlePageTests : BunitContext
         });
     }
 
+    [Fact]
+    public void State_article_loading()
+    {
+        var pending = new PendingArticleCorpus();
+        using var ctx = new BunitContext();
+        ctx.Services.AddSingleton<IArticleCorpus>(pending);
+        ctx.Services.AddSingleton<ArticleTimelineService>();
+        ctx.Services.AddSingleton<IIncidentSource>(_incidentSource);
+        ctx.Services.AddSingleton(Options.Create(_sourceOptions));
+
+        var cut = ctx.Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        var loading = cut.Find("[data-testid=article-loading]");
+        Assert.Equal("status", loading.GetAttribute("role"));
+        Assert.Equal(36, loading.QuerySelectorAll("rect").Length);
+    }
+
+    [Fact]
+    public void Skeleton_shows_known_article_title_immediately_when_referenced_by_sample_incident()
+    {
+        var pending = new PendingArticleCorpus();
+        var sampleIncident = new IncidentRecord
+        {
+            Id = "cw18-01",
+            PageId = 1150,
+            InsertingRevIds = [10],
+            RemovingRevIds = [11],
+            Tier = EvidenceTier.Campaign,
+            Score = 0.96,
+            Articles = [new IncidentArticle(1150, "Suomen sisällissota", "Finnish Civil War")],
+        };
+        var samples = AmpersandOfTruth.Web.Features.Investigations.Fixtures.SampleIncidents.From(
+            new AmpersandOfTruth.Web.Features.Investigations.Fixtures.SampleTopic("civil-war-1918", "Civil War 1918", [], [sampleIncident]));
+
+        using var ctx = new BunitContext();
+        ctx.Services.AddSingleton<IArticleCorpus>(pending);
+        ctx.Services.AddSingleton<ArticleTimelineService>();
+        ctx.Services.AddSingleton(samples);
+        ctx.Services.AddSingleton<IIncidentSource>(_incidentSource);
+        ctx.Services.AddSingleton(Options.Create(_sourceOptions));
+
+        var cut = ctx.Render<ArticlePage>(p => p.Add(x => x.PageId, 1150));
+
+        var loadingHeader = cut.Find("[data-testid=article-loading-header]");
+        Assert.Contains("Finnish Civil War", loadingHeader.TextContent);
+        Assert.Contains("Suomen sisällissota", loadingHeader.TextContent);
+        Assert.Equal(36, cut.Find("[data-testid=article-loading]").QuerySelectorAll("rect").Length);
+    }
+
+    [Fact]
+    public async Task Warm_aggregates_and_revisions_render_header_timeline_and_revisions_with_zero_corpus_calls()
+    {
+        var corpus = new FakeArticleCorpus();
+        corpus.Articles[1256] = new ArticleAggregates(
+            PageId: 1256,
+            TitleFi: "Talvisota",
+            TitleEn: "Winter War",
+            Revisions: 3104,
+            FirstEdit: new DateTime(2003, 5, 12, 0, 0, 0, DateTimeKind.Utc),
+            LastEdit: new DateTime(2026, 9, 28, 0, 0, 0, DateTimeKind.Utc),
+            Months: [new MonthBucket(2015, 3, NamedEdits: 30, AnonEdits: 12, Removals: 22, MaxBytes: 64_000)]);
+        corpus.Revisions[1256] =
+        [
+            new ArticleRevision(1, null, new DateTime(2015, 3, 10, 12, 0, 0, DateTimeKind.Utc), "Editor", false, "summary", 1000, 100, false),
+        ];
+
+        using var ctx = new BunitContext();
+        var timeline = new ArticleTimelineService(corpus);
+        var agg = await timeline.AggregatesAsync(1256);
+        await timeline.RevisionsAsync(1256, ArticlePage.DefaultRange(agg!));
+        Assert.Equal(1, corpus.AggregatesCalls);
+        Assert.Equal(1, corpus.RevisionsCalls);
+
+        ctx.Services.AddSingleton<IArticleCorpus>(corpus);
+        ctx.Services.AddSingleton(timeline);
+        ctx.Services.AddSingleton<IIncidentSource>(_incidentSource);
+        ctx.Services.AddSingleton(Options.Create(_sourceOptions));
+
+        var cut = ctx.Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        Assert.Empty(cut.FindAll("[data-testid=article-loading]"));
+        Assert.Contains("Winter War", cut.Find("[data-testid=article-header]").TextContent);
+        Assert.NotNull(cut.Find("[data-testid=article-timeline]"));
+        Assert.Single(cut.FindAll("[data-testid=revision-row]"));
+        Assert.Equal(1, corpus.AggregatesCalls);
+        Assert.Equal(1, corpus.RevisionsCalls);
+    }
+
+    [Fact]
+    public void State_article_empty()
+    {
+        var cut = Render<ArticlePage>(p => p.Add(x => x.PageId, 404404));
+
+        cut.WaitForAssertion(() =>
+        {
+            var empty = cut.Find("[data-testid=empty-state]");
+            Assert.Contains("We don't have this article.", empty.TextContent);
+        });
+    }
+
+    [Fact]
+    public void State_article_corpus_down()
+    {
+        _corpus.Unavailable = true;
+
+        var cut = Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        cut.WaitForAssertion(() =>
+        {
+            var error = cut.Find("[data-testid=article-error]");
+            Assert.Contains("aot-banner--error", error.ClassList);
+            Assert.Contains("The Wikipedia data is not reachable right now.", error.TextContent);
+            Assert.NotNull(cut.Find("[data-testid=status-retry]"));
+        });
+    }
+
+    [Fact]
+    public void State_article_embedder_down()
+    {
+        SeedSampleArticle();
+        Services.AddSingleton<AmpersandOfTruth.Web.Features.Embedding.IQueryEmbedder>(
+            new AmpersandOfTruth.Tests.Features.Embedding.FakeQueryEmbedder { Unavailable = true });
+
+        var cut = Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.NotNull(cut.Find("[data-testid=article-header]"));
+            Assert.Empty(cut.FindAll("[data-testid=article-error]"));
+        });
+    }
+
+    [Fact]
+    public void State_article_llm_down()
+    {
+        SeedSampleArticle();
+        Services.AddSingleton<AmpersandOfTruth.Web.Features.Analysis.IAnalysisModel>(
+            new AmpersandOfTruth.Tests.Infrastructure.FakeAnalysisModel());
+
+        var cut = Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.NotNull(cut.Find("[data-testid=article-header]"));
+            Assert.Empty(cut.FindAll("[data-testid=article-error]"));
+        });
+    }
+
+    [Fact]
+    public void State_article_slow()
+    {
+        var clock = new Microsoft.Extensions.Time.Testing.FakeTimeProvider();
+        var pending = new PendingArticleCorpus();
+        using var ctx = new BunitContext();
+        ctx.Services.AddSingleton<TimeProvider>(clock);
+        ctx.Services.AddSingleton<IArticleCorpus>(pending);
+        ctx.Services.AddSingleton<ArticleTimelineService>();
+        ctx.Services.AddSingleton<IIncidentSource>(_incidentSource);
+        ctx.Services.AddSingleton(Options.Create(_sourceOptions));
+
+        var cut = ctx.Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+        Assert.DoesNotContain("Still loading", cut.Find("[data-testid=article-loading]").TextContent);
+
+        clock.Advance(TimeSpan.FromSeconds(21));
+
+        cut.WaitForAssertion(() =>
+            Assert.Contains("Still loading article history…", cut.Find("[data-testid=article-loading]").TextContent));
+    }
+
+    [Fact]
+    public void State_article_run_failed()
+    {
+        var throwing = new PendingArticleCorpus { Fault = new InvalidOperationException("unexpected query error") };
+        using var ctx = new BunitContext();
+        ctx.Services.AddSingleton<IArticleCorpus>(throwing);
+        ctx.Services.AddSingleton<ArticleTimelineService>();
+        ctx.Services.AddSingleton<IIncidentSource>(_incidentSource);
+        ctx.Services.AddSingleton(Options.Create(_sourceOptions));
+
+        var cut = ctx.Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        cut.WaitForAssertion(() =>
+        {
+            var error = cut.Find("[data-testid=article-error]");
+            Assert.Contains("aot-banner--error", error.ClassList);
+            Assert.Contains("Something went wrong loading this article.", error.TextContent);
+            Assert.NotNull(cut.Find("[data-testid=status-retry]"));
+        });
+    }
+
+    private sealed class PendingArticleCorpus : IArticleCorpus
+    {
+        private readonly TaskCompletionSource<ArticleAggregates?> _tcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Exception? Fault { get; init; }
+
+        public Task<ArticleAggregates?> AggregatesAsync(long pageId, CancellationToken ct = default) =>
+            Fault is not null
+                ? Task.FromException<ArticleAggregates?>(Fault)
+                : _tcs.Task.WaitAsync(ct);
+
+        public Task<IReadOnlyList<ArticleRevision>> RevisionsAsync(
+            long pageId, DateRange range, int limit = 500, CancellationToken ct = default) =>
+            Fault is not null
+                ? Task.FromException<IReadOnlyList<ArticleRevision>>(Fault)
+                : Task.FromResult<IReadOnlyList<ArticleRevision>>([]);
+    }
+
     private sealed class TestIncidentSource : IIncidentSource
     {
         private readonly Dictionary<string, IReadOnlyList<IncidentView>?> _byTopic =
@@ -343,6 +551,102 @@ public sealed class ArticlePageTests : BunitContext
             }
 
             return Task.FromResult(_byTopic.TryGetValue(topicSlug, out var list) ? list : null);
+        }
+    }
+
+    [Fact]
+    public void Conflict_episodes_render_bands_legend_and_busiest_edit_war_summary()
+    {
+        SeedSampleArticle();
+        var fakeEpisodes = new FakeConflictEpisodes();
+        fakeEpisodes.WithPage(1256,
+        [
+            new ConflictEpisode(
+                EpisodeId: 10,
+                PageId: 1256,
+                Kind: "edit_war",
+                StartTs: new DateTime(2014, 3, 3, 0, 0, 0, DateTimeKind.Utc),
+                EndTs: new DateTime(2014, 3, 19, 0, 0, 0, DateTimeKind.Utc),
+                RevertCount: 14,
+                NamedParticipants: 3,
+                AnonParticipants: 2,
+                EditCount: 25,
+                ProtectionHint: false,
+                Score: 8.4),
+            new ConflictEpisode(
+                EpisodeId: 11,
+                PageId: 1256,
+                Kind: "burst",
+                StartTs: new DateTime(2015, 3, 7, 0, 0, 0, DateTimeKind.Utc),
+                EndTs: new DateTime(2015, 3, 8, 0, 0, 0, DateTimeKind.Utc),
+                RevertCount: 2,
+                NamedParticipants: 4,
+                AnonParticipants: 0,
+                EditCount: 16,
+                ProtectionHint: false,
+                Score: 4.1),
+        ]);
+        Services.AddSingleton<IConflictEpisodes>(fakeEpisodes);
+
+        var cut = Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        cut.WaitForAssertion(() =>
+        {
+            var bands = cut.FindAll("[data-testid=timeline-band]");
+            Assert.Equal(2, bands.Count);
+            Assert.Equal(
+                "Back-and-forth edits \u00b7 3\u201319 Mar 2014 \u00b7 14 removals \u00b7 3 named and 2 anonymous accounts",
+                bands[0].QuerySelector("title")?.TextContent);
+            Assert.Equal("4", bands[1].GetAttribute("height"));
+
+            Assert.Contains("Back-and-forth edits", cut.Find(".aot-legend").TextContent);
+            Assert.Equal(
+                "Most contested period: Mar 2014 (back-and-forth edits, 14 removals).",
+                cut.Find("[data-testid=timeline-summary]").TextContent.Trim());
+        });
+    }
+
+    [Fact]
+    public void Conflict_episodes_lookup_throwing_leaves_article_page_unchanged()
+    {
+        SeedSampleArticle();
+        Services.AddSingleton<IConflictEpisodes>(new FakeConflictEpisodes
+        {
+            Failure = new InvalidOperationException("research.s4_episode missing"),
+        });
+
+        var cut = Render<ArticlePage>(p => p.Add(x => x.PageId, 1256));
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Empty(cut.FindAll("[data-testid=article-error]"));
+            Assert.Empty(cut.FindAll("[data-testid=timeline-band]"));
+            Assert.Contains("Most contested", cut.Find(".aot-legend").TextContent);
+            Assert.Equal(
+                "Most contested period: Nov 2014 \u2013 Mar 2015 (37 removals).",
+                cut.Find("[data-testid=timeline-summary]").TextContent.Trim());
+            Assert.Equal(2, cut.FindAll("[data-testid=revision-row]").Count);
+        });
+    }
+
+    private sealed class FakeConflictEpisodes : IConflictEpisodes
+    {
+        private readonly Dictionary<long, IReadOnlyList<ConflictEpisode>> _byPage = [];
+
+        public Exception? Failure { get; set; }
+
+        public void WithPage(long pageId, IReadOnlyList<ConflictEpisode> episodes) =>
+            _byPage[pageId] = episodes;
+
+        public Task<IReadOnlyList<ConflictEpisode>> ForPageAsync(long pageId, CancellationToken ct = default)
+        {
+            ct.ThrowIfCancellationRequested();
+            if (Failure is not null)
+            {
+                return Task.FromException<IReadOnlyList<ConflictEpisode>>(Failure);
+            }
+
+            return Task.FromResult(_byPage.TryGetValue(pageId, out var list) ? list : []);
         }
     }
 }

@@ -1,17 +1,18 @@
 @page "/investigate"
 @implements IDisposable
+@using System.Globalization
 @using AmpersandOfTruth.Web.Features.Evidence
 @using AmpersandOfTruth.Web.Features.Investigations.Pipeline
 @inject IInvestigationRunner Runner
 
-<PageTitle>Investigate · Ampersand of Truth</PageTitle>
+<PageTitle>Pipeline debug · Ampersand of Truth</PageTitle>
 
 <SampleDataBanner />
 
-<h1>Investigate a topic</h1>
+<h1>Pipeline debug</h1>
 <p class="text-muted">
-    Topic → nearest Wikipedia articles (bge-m3) → edits other editors removed from the Finnish ones → what each edit
-    changed and an automated assessment → incidents by level of evidence. Placeholder stages until the P1 experiments land (#39).
+    Runs the investigation pipeline step by step: matches related Finnish Wikipedia articles by meaning, scans their edit
+    history for removed edits, runs automated assessments, and lists the assembled incidents and raw removals below.
 </p>
 
 <EditForm Model="_input" OnValidSubmit="Run" FormName="investigate" class="d-flex gap-2 mb-3">
@@ -41,10 +42,12 @@ else
 
     @if (_failure is not null)
     {
-        <div class="alert alert-warning" role="alert" data-testid="investigate-unavailable">
-            <strong>@FailureTitle(_failure)</strong> @FailureHint(_failure)
-            <div class="small text-muted mt-1">@_failure.Error</div>
-        </div>
+        <StatusBanner Kind="StatusKind.Warn"
+                      Title="@FailureTitle(_failure)"
+                      Detail="@FailureDetail(_failure)"
+                      TestId="investigate-unavailable">
+            @FailureHint(_failure)
+        </StatusBanner>
     }
 
     @if (_incidents.Count > 0)
@@ -54,14 +57,18 @@ else
             @foreach (var incident in _incidents)
             {
                 var first = incident.Edits.FirstOrDefault();
+                var titleFi = incident.Articles.FirstOrDefault()?.TitleFi;
                 <li class="border rounded p-2 mb-2" data-testid="incident" @key="incident.Id">
                     <div class="fw-semibold" data-testid="incident-reason">@incident.TierReason</div>
                     <div data-testid="incident-claim">@(incident.ClaimEn ?? incident.SummaryEn ?? "No automated assessment for this edit.")</div>
                     <div class="small text-muted">
-                        @incident.Articles.FirstOrDefault()?.TitleFi
+                        @if (!string.IsNullOrWhiteSpace(titleFi))
+                        {
+                            <span lang="fi">@titleFi</span><text> (Finnish Wikipedia)</text>
+                        }
                         @if (first?.Timestamp is { } ts)
                         {
-                            <text> · added @ts.ToString("yyyy-MM-dd")</text>
+                            <text> · added @FormatTimestampOffset(ts)</text>
                         }
                         @if (first?.DiffRef is { } diff)
                         {
@@ -77,6 +84,11 @@ else
         <EmptyState Message="No incidents found for this topic." />
     }
 
+    @if (_scope is { InScope: false })
+    {
+        <StatusBanner Kind="StatusKind.Warn" TestId="scope-warning" Title="This topic may be outside the corpus.">@_scope.Reason</StatusBanner>
+    }
+
     @if (_articles is { Count: 0 })
     {
         <EmptyState Message="No articles found." />
@@ -90,8 +102,8 @@ else
             <section class="mb-4" data-testid="investigate-article" @key="(a.Lang, a.PageId)">
                 <h3 class="h5">
                     <span class="badge text-bg-secondary text-uppercase">@a.Lang</span>
-                    <a href="@a.Url" target="_blank" rel="noopener">@a.Title</a>
-                    <small class="text-muted">distance @a.Distance.ToString("0.000")</small>
+                    <a href="@a.Url" target="_blank" rel="noopener" lang="@a.Lang">@a.Title</a>
+                    <small class="text-muted">distance @a.Distance.ToString("0.000", CultureInfo.InvariantCulture)@(a.TitleMatch ? " · title match" : "")</small>
                 </h3>
 
                 @if (!a.HasHistory)
@@ -113,7 +125,7 @@ else
                             <tr>
                                 <th>Removed (UTC)</th>
                                 <th>Removed by</th>
-                                <th>Comment</th>
+                                <th>Comment (Finnish)</th>
                                 <th>Undid</th>
                                 <th>Last undone edit by</th>
                             </tr>
@@ -123,12 +135,12 @@ else
                             {
                                 <tr data-testid="revert-row" @key="r.RevId">
                                     <td class="text-nowrap" data-testid="revert-when">
-                                        <a href="@r.DiffUrl.AbsoluteUri" target="_blank" rel="noopener">@r.Timestamp.ToString("yyyy-MM-dd HH:mm")</a>
+                                        <a href="@r.DiffUrl.AbsoluteUri" target="_blank" rel="noopener">@FormatTimestamp(r.Timestamp)</a>
                                     </td>
                                     <td data-testid="revert-user">
                                         @EditorCell(r.User)
                                     </td>
-                                    <td class="small" data-testid="revert-comment">@EditorDisplay.MaskComment(r.Comment)</td>
+                                    <td class="small" lang="fi" data-testid="revert-comment">@EditorDisplay.MaskComment(r.Comment)</td>
                                     <td class="text-nowrap" data-testid="revert-undid">
                                         <a href="@r.RevertedDiffUrl.AbsoluteUri" target="_blank" rel="noopener">@r.RevertedCount edit@(r.RevertedCount == 1 ? "" : "s")</a>
                                     </td>
@@ -152,6 +164,7 @@ else
 
     private string? _topic;
     private IReadOnlyList<TopicArticle>? _articles;
+    private TopicScope? _scope;
     private int? _revisions;
     private IReadOnlyList<RemovedEdit>? _candidates;
     private int _scored;
@@ -173,6 +186,7 @@ else
 
         _topic = refresh && _topic is not null ? _topic : _input.Topic!.Trim();
         _articles = null;
+        _scope = null;
         _revisions = null;
         _candidates = null;
         _scored = 0;
@@ -206,6 +220,7 @@ else
         {
             case ArticlesFound a:
                 _articles = a.Items;
+                _scope = a.Scope;
                 break;
             case RevisionsScanned s:
                 _revisions = s.Count;
@@ -235,12 +250,12 @@ else
     private string ProgressText()
     {
         if (_articles is null) return _failure is null ? $"Finding articles for “{_topic}”…" : "Stopped.";
-        var parts = new List<string> { $"{_articles.Count} article{(_articles.Count == 1 ? "" : "s")}" };
-        if (_revisions is { } n) parts.Add($"{n:N0} revisions scanned");
+        var parts = new List<string> { $"{_articles.Count.ToString("N0", CultureInfo.InvariantCulture)} article{(_articles.Count == 1 ? "" : "s")}" };
+        if (_revisions is { } n) parts.Add($"{n.ToString("N0", CultureInfo.InvariantCulture)} revisions scanned");
         if (_candidates is { } c) parts.Add($"{_scored}/{c.Count} removed edits read");
-        parts.Add($"{_incidents.Count} incident{(_incidents.Count == 1 ? "" : "s")}");
-        var status = _completed is { FromCache: true } ? $"loaded from a previous analysis ({_completed.AnalysedAt:yyyy-MM-dd HH:mm} UTC)"
-            : _completed is not null ? $"done in {_completed.Elapsed.TotalSeconds:0.0} s"
+        parts.Add($"{_incidents.Count.ToString("N0", CultureInfo.InvariantCulture)} incident{(_incidents.Count == 1 ? "" : "s")}");
+        var status = _completed is { FromCache: true } ? $"loaded from a previous analysis ({FormatTimestampOffset(_completed.AnalysedAt)})"
+            : _completed is not null ? $"done in {_completed.Elapsed.TotalSeconds.ToString("0.0", CultureInfo.InvariantCulture)} s"
                 + (_completed.Degraded > 0 ? $" · automated assessment unavailable for {_completed.Degraded}" : "")
             : _cancelled ? "cancelled"
             : _failure is not null ? "stopped"
@@ -249,21 +264,43 @@ else
         return $"{string.Join(" · ", parts)} — {status}";
     }
 
+    private static string FormatTimestamp(DateTime ts) =>
+        DateTime.SpecifyKind(ts, DateTimeKind.Utc).ToString("d MMM yyyy, HH:mm 'UTC'", CultureInfo.InvariantCulture);
+
+    private static string FormatTimestampOffset(DateTimeOffset ts) =>
+        ts.UtcDateTime.ToString("d MMM yyyy, HH:mm 'UTC'", CultureInfo.InvariantCulture);
+
     private static string FailureTitle(StageFailed f) => f.Kind switch
     {
-        StageFailureKind.CorpusUnavailable => "Corpus not available.",
-        StageFailureKind.EmbeddingUnavailable => "Topic search not available.",
+        StageFailureKind.CorpusUnavailable => "Wikipedia data is not available right now.",
+        StageFailureKind.EmbeddingUnavailable => "Topic search is not available right now.",
         _ => "Investigation stopped.",
     };
 
     private static string FailureHint(StageFailed f) => f.Kind switch
     {
         StageFailureKind.CorpusUnavailable =>
-            " The Wikipedia corpus (MariaDB) can't be reached — is scripts/corpus-tunnel.sh running and Corpus:Password set?",
+            "The article and revision database could not be reached. Please try again shortly.",
         StageFailureKind.EmbeddingUnavailable =>
-            " The bge-m3 embedder (Ollama) can't be reached and this topic isn't cached yet.",
-        _ => " Something went wrong while analysing this topic.",
+            "New topic searches cannot be matched right now, and this topic is not in the cache yet.",
+        _ => "Something went wrong while running this topic.",
     };
+
+    private static string FailureDetail(StageFailed f)
+    {
+        var devNote = f.Kind switch
+        {
+            StageFailureKind.CorpusUnavailable =>
+                "Check that scripts/corpus-tunnel.sh is running and Corpus:Password is configured.",
+            StageFailureKind.EmbeddingUnavailable =>
+                "Check that the bge-m3 Ollama endpoint is reachable.",
+            _ => null,
+        };
+
+        return string.IsNullOrWhiteSpace(devNote)
+            ? $"Stage: {f.Stage}\n{f.Error}"
+            : $"Stage: {f.Stage}\n{devNote}\n{f.Error}";
+    }
 
     public void Dispose()
     {

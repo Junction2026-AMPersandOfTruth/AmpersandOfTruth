@@ -6,6 +6,9 @@ namespace AmpersandOfTruth.Tests.Infrastructure;
 /// <summary>Boots the real app against a throwaway SQLite file (migrations run on startup as in prod).</summary>
 public sealed class AppFactory : WebApplicationFactory<Program>
 {
+    static AppFactory() =>
+        Environment.SetEnvironmentVariable("DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE", "false");
+
     private readonly string _dbPath = Path.Combine(Path.GetTempPath(), $"junction-test-{Guid.NewGuid():N}.db");
 
     protected override void ConfigureWebHost(IWebHostBuilder builder) =>

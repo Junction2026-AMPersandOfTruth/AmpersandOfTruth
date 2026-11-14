@@ -39,6 +39,9 @@ public sealed class RunProgress
 
     public StageFailed? Failure { get; private set; }
 
+    /// <summary>The topic search's scope verdict (R6 #27); <c>InScope == false</c> → the page warns but still shows results.</summary>
+    public TopicScope? Scope { get; private set; }
+
     public bool IsRunning { get; private set; }
 
     public bool IsComplete { get; private set; }
@@ -48,6 +51,24 @@ public sealed class RunProgress
     public bool FromCache { get; private set; }
 
     public int? QueuedPosition { get; private set; }
+
+    public bool HasAssessmentUnavailable { get; private set; }
+
+    public InvestigationStage? ActiveStage
+    {
+        get
+        {
+            for (var i = 0; i < _states.Length; i++)
+            {
+                if (_states[i] == StageState.Active)
+                {
+                    return (InvestigationStage)i;
+                }
+            }
+
+            return null;
+        }
+    }
 
     public TimeSpan Elapsed => _finalElapsed
         ?? (_startedAt is { } started ? _time.GetElapsedTime(started) : TimeSpan.Zero);
@@ -65,16 +86,36 @@ public sealed class RunProgress
         Scored = 0;
         Of = 0;
         Failure = null;
+        Scope = null;
         IsComplete = false;
         IsCancelled = false;
         FromCache = false;
         QueuedPosition = null;
+        HasAssessmentUnavailable = false;
         _finalElapsed = null;
 
         var now = _time.GetTimestamp();
         _startedAt = now;
         IsRunning = true;
         Activate(InvestigationStage.FindArticles, now);
+    }
+
+    public void MarkCachedFallback(IReadOnlyList<IncidentRecord> cachedRecords)
+    {
+        ArgumentNullException.ThrowIfNull(cachedRecords);
+        _incidents.Clear();
+        _incidents.AddRange(cachedRecords);
+        Failure = null;
+        IsRunning = false;
+        IsComplete = true;
+        IsCancelled = false;
+        FromCache = true;
+        _finalElapsed ??= _startedAt is { } start ? _time.GetElapsedTime(start) : TimeSpan.Zero;
+        for (var i = 0; i < _states.Length; i++)
+        {
+            _states[i] = StageState.Done;
+            _activatedAt[i] = null;
+        }
     }
 
     public void Cancel()
@@ -117,6 +158,7 @@ public sealed class RunProgress
             case ArticlesFound a:
                 _articles = a.Items;
                 _articlesCount = a.Count;
+                Scope = a.Scope;
                 MarkDone(InvestigationStage.FindArticles);
                 Activate(InvestigationStage.ScanHistory, now);
                 break;
@@ -143,6 +185,11 @@ public sealed class RunProgress
                 _readStarted = true;
                 Scored = c.Index;
                 Of = c.Of;
+                if (c.AssessmentUnavailable)
+                {
+                    HasAssessmentUnavailable = true;
+                }
+
                 if (c.Incident is not null)
                 {
                     _incidents.Add(c.Incident);

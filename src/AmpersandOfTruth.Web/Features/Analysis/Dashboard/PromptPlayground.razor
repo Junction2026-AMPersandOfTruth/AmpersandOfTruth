@@ -97,7 +97,7 @@
 
         @if (_result is not null)
         {
-            <div class="mt-3 border rounded p-3 bg-light" data-testid="pg-result">
+            <div class="mt-3 border rounded p-3 bg-body-tertiary" data-testid="pg-result">
                 <div class="d-flex flex-wrap align-items-center gap-2 small">
                     <OutcomeBadge Outcome="_result.Outcome" TestId="pg-outcome" />
                     @if (_result.Info.FromCache)
@@ -125,7 +125,7 @@
                     <div class="alert alert-danger py-2 px-3 mt-2 mb-0 small">@_result.Error</div>
                 }
 
-                <pre class="mb-0 mt-2 p-2 bg-white border rounded small font-monospace" data-testid="pg-json">@_outputText</pre>
+                <pre class="mb-0 mt-2 p-2 bg-body border rounded small font-monospace" data-testid="pg-json">@_outputText</pre>
             </div>
         }
     </div>

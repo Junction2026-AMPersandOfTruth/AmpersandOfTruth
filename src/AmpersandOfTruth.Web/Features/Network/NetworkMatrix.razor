@@ -1,0 +1,228 @@
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
+
+<section class="aot-stack network-matrix-wrap" data-testid="network-matrix">
+    <div class="network-matrix-meta">
+        <div class="aot-legend" aria-label="Cell legend">
+            <span class="aot-legend__item">
+                <span class="network-swatch network-swatch--ins" aria-hidden="true">+</span>
+                Inserted
+            </span>
+            <span class="aot-legend__item">
+                <span class="network-swatch network-swatch--reins" aria-hidden="true">↻</span>
+                Re-inserted
+            </span>
+            <span class="aot-legend__item">
+                <span class="network-swatch network-swatch--rem" aria-hidden="true">−</span>
+                Removed
+            </span>
+        </div>
+
+        @if (Graph.OmittedAccounts > 0 || Graph.OmittedArticles > 0)
+        {
+            <div class="aot-small aot-muted" data-testid="network-cap-note">
+                @BuildCapNote(Graph)
+            </div>
+        }
+    </div>
+
+    <div class="network-scroll">
+        <table class="network-table">
+            <thead>
+                <tr>
+                    <th scope="col" class="network-corner aot-small aot-muted">
+                        Account \ Article
+                    </th>
+                    @foreach (var article in Graph.Articles)
+                    {
+                        <th scope="col" class="network-col-head" @key="article.PageId">
+                            <div class="network-col-head__inner">
+                                <a class="network-col-head__link"
+                                   href="@($"/articles/{article.PageId.ToString(CultureInfo.InvariantCulture)}")"
+                                   title="@FormatArticleTitle(article)">
+                                    @if (article.HasDistinctEnglishTitle)
+                                    {
+                                        <span>@article.TitleEn</span>
+                                        <span class="aot-muted network-col-head__sub" lang="fi">@article.TitleFi</span>
+                                    }
+                                    else
+                                    {
+                                        <span lang="fi">@article.TitleFi</span>
+                                    }
+                                </a>
+                            </div>
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var account in Graph.Accounts)
+                {
+                    <tr class="network-row" data-testid="network-row" data-account="@account.Key" @key="account.Key">
+                        <th scope="row" class="network-row-head">
+                            <span class="aot-editor@(account.Anonymous ? " aot-editor--anon" : "")">
+                                <span class="aot-editor__glyph" aria-hidden="true">@GetEditorGlyph(account.Label)</span>
+                                @if (account.Label.Kind == EditorKind.Named && !account.Anonymous)
+                                {
+                                    <a class="aot-editor__name"
+                                       href="@($"/accounts/{Uri.EscapeDataString(account.Label.DisplayName)}")">@account.Label.DisplayName</a>
+                                }
+                                else
+                                {
+                                    <span class="aot-editor__name">@account.Label.DisplayName</span>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(account.Label.Qualifier))
+                                {
+                                    <span class="aot-muted">(@account.Label.Qualifier)</span>
+                                }
+                            </span>
+                        </th>
+
+                        @foreach (var article in Graph.Articles)
+                        {
+                            if (_cellLookup.TryGetValue((account.Key, article.PageId), out var cell))
+                            {
+                                var tooltip = BuildCellTooltip(account, article, cell);
+                                <td class="network-slot" @key="article.PageId">
+                                    <a class="network-cell @GetRoleModifier(cell)"
+                                       data-testid="network-cell"
+                                       data-account="@account.Key"
+                                       data-page-id="@article.PageId"
+                                       data-role="@GetRoleId(cell.PrimaryRole)"
+                                       href="@BuildIncidentHref(cell)"
+                                       title="@tooltip"
+                                       aria-label="@tooltip">
+                                        <span class="network-cell__glyphs" aria-hidden="true">@FormatGlyphs(cell)</span>
+                                        @if (cell.TotalEdits > 1)
+                                        {
+                                            <span class="network-cell__count aot-num" aria-hidden="true">@cell.TotalEdits.ToString(CultureInfo.InvariantCulture)</span>
+                                        }
+                                    </a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="network-slot network-slot--empty" @key="article.PageId"></td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+@code {
+    private Dictionary<(string AccountKey, long PageId), MatrixCell> _cellLookup = [];
+
+    [Parameter, EditorRequired] public NetworkGraph Graph { get; set; } = default!;
+    [Parameter, EditorRequired] public string Slug { get; set; } = "";
+    [Parameter] public Guid? SavedId { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        var lookup = new Dictionary<(string AccountKey, long PageId), MatrixCell>(Graph.Cells.Count);
+        foreach (var cell in Graph.Cells)
+        {
+            lookup[(cell.AccountKey, cell.PageId)] = cell;
+        }
+        _cellLookup = lookup;
+    }
+
+    private string BuildIncidentHref(MatrixCell cell)
+    {
+        var firstIncidentId = cell.Edits[0].IncidentId;
+        var baseHref = $"/investigate/{Uri.EscapeDataString(Slug)}/incidents/{Uri.EscapeDataString(firstIncidentId)}";
+        return SavedId is { } savedId ? $"{baseHref}?saved={savedId}" : baseHref;
+    }
+
+    internal static string FormatGlyphs(MatrixCell cell)
+    {
+        var glyphs = string.Concat(
+            cell.Inserted > 0 ? "+" : "",
+            cell.Reinserted > 0 ? "↻" : "",
+            cell.Removed > 0 ? "−" : "");
+        return glyphs.Length > 0 ? glyphs : "+";
+    }
+
+    internal static string BuildCellTooltip(AccountNode account, ArticleNode article, MatrixCell cell)
+    {
+        var parts = new List<string>(3);
+        if (cell.Inserted > 0)
+        {
+            parts.Add($"{cell.Inserted.ToString(CultureInfo.InvariantCulture)} inserted");
+        }
+        if (cell.Reinserted > 0)
+        {
+            parts.Add($"{cell.Reinserted.ToString(CultureInfo.InvariantCulture)} re-inserted");
+        }
+        if (cell.Removed > 0)
+        {
+            parts.Add($"{cell.Removed.ToString(CultureInfo.InvariantCulture)} removed");
+        }
+
+        var articleTitle = article.HasDistinctEnglishTitle
+            ? $"{article.TitleEn} ({article.TitleFi})"
+            : article.TitleFi;
+        var summary = $"{account.Label.PlainText} · {articleTitle}: {string.Join(", ", parts)}";
+        if (cell.ClusterIds.Count > 0)
+        {
+            var noun = cell.ClusterIds.Count == 1 ? "cluster" : "clusters";
+            summary += $" · {cell.ClusterIds.Count.ToString(CultureInfo.InvariantCulture)} {noun}";
+        }
+
+        return summary;
+    }
+
+    private static string FormatArticleTitle(ArticleNode article) =>
+        article.HasDistinctEnglishTitle
+            ? $"{article.TitleEn} ({article.TitleFi})"
+            : article.TitleFi;
+
+    private static string GetRoleModifier(MatrixCell cell) => cell.PrimaryRole switch
+    {
+        EdgeRole.Reinserted => "network-cell--reins",
+        EdgeRole.Removed => "network-cell--rem",
+        _ => "network-cell--ins",
+    };
+
+    private static string GetRoleId(EdgeRole role) => role switch
+    {
+        EdgeRole.Reinserted => "reinserted",
+        EdgeRole.Removed => "removed",
+        _ => "inserted",
+    };
+
+    private static string BuildCapNote(NetworkGraph graph)
+    {
+        if (graph.OmittedAccounts > 0 && graph.OmittedArticles > 0)
+        {
+            return $"Showing top {graph.Accounts.Count.ToString(CultureInfo.InvariantCulture)} accounts and " +
+                   $"{graph.Articles.Count.ToString(CultureInfo.InvariantCulture)} articles " +
+                   $"({FormatCount(graph.OmittedAccounts, "account", "accounts")} and " +
+                   $"{FormatCount(graph.OmittedArticles, "article", "articles")} left out).";
+        }
+
+        if (graph.OmittedAccounts > 0)
+        {
+            return $"Showing top {graph.Accounts.Count.ToString(CultureInfo.InvariantCulture)} accounts " +
+                   $"({FormatCount(graph.OmittedAccounts, "account", "accounts")} left out).";
+        }
+
+        return $"Showing top {graph.Articles.Count.ToString(CultureInfo.InvariantCulture)} articles " +
+               $"({FormatCount(graph.OmittedArticles, "article", "articles")} left out).";
+    }
+
+    private static string FormatCount(int n, string singular, string plural) =>
+        $"{n.ToString(CultureInfo.InvariantCulture)} {(n == 1 ? singular : plural)}";
+
+    private static string GetEditorGlyph(EditorLabel label) => label.Kind switch
+    {
+        EditorKind.IPv4 or EditorKind.IPv6 => "IP",
+        EditorKind.Temporary => "~",
+        EditorKind.Hidden => "?",
+        _ when !string.IsNullOrWhiteSpace(label.DisplayName) =>
+            StringInfo.GetNextTextElement(label.DisplayName).ToUpperInvariant(),
+        _ => "?",
+    };
+}

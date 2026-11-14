@@ -1,5 +1,6 @@
 using System.Globalization;
 using AmpersandOfTruth.Web.Features.Corpus;
+using AmpersandOfTruth.Web.Features.Evidence;
 using MySqlConnector;
 
 namespace AmpersandOfTruth.Web.Features.Investigations.Pipeline;
@@ -63,6 +64,25 @@ public static class EditWars
             .ThenByDescending(e => e.UndoCount)
             .ThenBy(e => e.EpisodeId)
             .FirstOrDefault();
+    }
+
+    /// <summary>
+    /// The frozen contract's edit war (CONTRACT.md §3, P1.S10 #37 <c>--edit-war-source passage</c>): the claim's own content
+    /// was removed at least twice (the revert + <see cref="EditReading.ReRemovals"/>) and put back at least once, and the two
+    /// camps differ — some re-inserter is not among the removers and some remover is not among the re-inserters (masked
+    /// display names; hidden editors don't count). Replaces the page-level S4 episode as the tier input, which fired in all
+    /// 17 level-2+ over-claims on golden dev.
+    /// </summary>
+    public static bool Passage(EditReading reading)
+    {
+        if (reading.ReRemovals.Count + 1 < 2 || reading.Reinsertions.Count < 1) return false;
+
+        static HashSet<string> Camp(IEnumerable<string?> users) =>
+            [.. users.Where(u => !string.IsNullOrWhiteSpace(u)).Select(u => EditorDisplay.For(u).PlainText)];
+
+        var removers = Camp(reading.ReRemovals.Select(r => r.User).Prepend(reading.Edit.Revert.User));
+        var reinserters = Camp(reading.Reinsertions.Select(r => r.User));
+        return reinserters.Except(removers).Any() && removers.Except(reinserters).Any();
     }
 
     /// <summary>The episode in plain words, for the signal's evidence: counts and dates only, no editor.</summary>

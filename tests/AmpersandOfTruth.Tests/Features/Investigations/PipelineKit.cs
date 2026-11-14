@@ -58,6 +58,14 @@ public sealed class FakeRevisionStore : IRevisionStore
         return Task.FromResult<IReadOnlyList<RevisionRow>>(result.Take(limit).ToList());
     }
 
+    public Task<IReadOnlyList<RevisionRow>> ReturnsToAsync(
+        long pageId, DateTime afterTs, long afterRevId, long stateRevId, int limit, CancellationToken ct = default)
+    {
+        ThrowIfDown();
+        var state = Rows.FirstOrDefault(r => r.PageId == pageId && r.RevId == stateRevId)?.Sha1;
+        return state is null ? Task.FromResult<IReadOnlyList<RevisionRow>>([]) : RestoresAsync(pageId, afterTs, afterRevId, [state], limit, ct);
+    }
+
     public static readonly DateTime T0 = new(2024, 1, 1, 12, 0, 0, DateTimeKind.Utc);
 
     public static string Sha1(string text) =>
@@ -135,6 +143,9 @@ public sealed class PipelineKit
     public FakeAnalysisModel Model { get; } = new FakeAnalysisModel().Returns("classify-edit", ClassificationJson());
     public InvestigationPipelineOptions Options { get; } = new();
 
+    /// <summary>P1.S10 topic relevance for the within-tier ranking; null (default) = relevance 1, as with no embedder.</summary>
+    public TopicRelevance? Relevance { get; set; }
+
     public static string ClassificationJson(string category = "false_factual_claim", int confidence = 4, string quote = "kun Suomi hyökkäsi ensin") => $$"""
         {"what_changed_en": "Rewrote who started the war.", "evidence": ["{{quote}}"],
          "claim_en": "{{ClaimEn}}", "claim_fi": "Suomi hyökkäsi ensin.", "narrative_en": "Soviet justification of the Winter War",
@@ -143,15 +154,37 @@ public sealed class PipelineKit
 
     public GeminiOptions Gemini { get; } = new();
 
-    public InvestigationPipeline Build(IEditReader? reader = null)
+    /// <summary>Stage 1 = R3-D (<see cref="ExpandedTopicSearch"/>, the app's default) instead of plain R1. Script its
+    /// <c>expand-topic</c> reply on <see cref="Model"/> (<see cref="ExpansionJson"/>); unscripted, it falls back to R1.</summary>
+    public bool ExpandedSearch { get; set; }
+
+    public static string ExpansionJson(bool inScope = true, string titles = "\"Talvisota\"", string reason = "Finnish history.") => $$"""
+        {"in_scope": {{(inScope ? "true" : "false")}}, "scope_reason": "{{reason}}", "topic_fi": "Talvisota",
+         "reformulations": ["Talvisodan syyt", "Winter War causes", "Mainilan laukaukset"], "hyde_fi": "Talvisota oli sota.",
+         "title_guesses": [{{titles}}], "keywords_fi": ["talviso*"], "angle": "general"}
+        """;
+
+    public ITopicSearch Search()
+    {
+        var o = Microsoft.Extensions.Options.Options.Create(Options);
+        var r1 = new VectorTopicSearch(Embedder, Corpus, o);
+        if (!ExpandedSearch) return r1;
+        var gemini = Microsoft.Extensions.Options.Options.Create(Gemini);
+        return new ExpandedTopicSearch(Model, r1, Embedder, Corpus, new PromptLibrary(gemini, NullLogger<PromptLibrary>.Instance),
+            gemini, o, NullLogger<ExpandedTopicSearch>.Instance);
+    }
+
+    public InvestigationPipeline Build(IEditReader? reader = null) => Build(Search(), reader);
+
+    private InvestigationPipeline Build(ITopicSearch search, IEditReader? reader)
     {
         var o = Microsoft.Extensions.Options.Options.Create(Options);
         return new InvestigationPipeline(
-            new VectorTopicSearch(Embedder, Corpus, o),
+            search,
             new RevertCandidateSource(Corpus, Revisions, o),
             reader ?? new CorpusEditReader(Revisions, o, Conflicts),
             new GeminiEditClassifier(Model, o, NullLogger<GeminiEditClassifier>.Instance),
-            o, TimeProvider.System, NullLogger<InvestigationPipeline>.Instance);
+            o, TimeProvider.System, NullLogger<InvestigationPipeline>.Instance, Relevance);
     }
 
     /// <summary>The app's composition: run cache + reading cache on <paramref name="db"/> around the real pipeline.</summary>
@@ -161,9 +194,10 @@ public sealed class PipelineKit
         var reader = new CachedEditReader(new CorpusEditReader(Revisions, o, Conflicts), o, db.Factory, TimeProvider.System,
             NullLogger<CachedEditReader>.Instance);
         var gemini = Microsoft.Extensions.Options.Options.Create(Gemini);
-        var fingerprint = new PipelineFingerprint(o, gemini, new PromptLibrary(gemini, NullLogger<PromptLibrary>.Instance));
+        var search = Search();
+        var fingerprint = new PipelineFingerprint(o, gemini, new PromptLibrary(gemini, NullLogger<PromptLibrary>.Instance), search);
         var cache = new InvestigationRunCache(db.Factory, fingerprint, TimeProvider.System, NullLogger<InvestigationRunCache>.Instance);
-        return new CachingInvestigationRunner(Build(reader), cache, TimeProvider.System);
+        return new CachingInvestigationRunner(Build(search, reader), cache, TimeProvider.System);
     }
 
     public void AddTo(IServiceCollection services) => services.AddSingleton<IInvestigationRunner>(Build());

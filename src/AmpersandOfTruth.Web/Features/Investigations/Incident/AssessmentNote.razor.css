@@ -1,0 +1,27 @@
+.aot-assess__reasoning {
+    font-size: 14px;
+    line-height: 20px;
+    margin: 6px 0 0;
+    overflow-wrap: anywhere;
+}
+
+.aot-assess__quotes {
+    overflow-wrap: anywhere;
+}
+
+.aot-assess__quote + .aot-assess__quote {
+    margin-top: 6px;
+}
+
+.aot-assess__confidence {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    margin-top: 8px;
+}
+
+.aot-assess__quotes + .aot-assess__confidence {
+    margin-top: 0;
+}

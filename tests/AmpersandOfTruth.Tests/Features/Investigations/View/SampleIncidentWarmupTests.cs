@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using AmpersandOfTruth.Web.Features.Articles;
 using System.Collections.Concurrent;
 using AmpersandOfTruth.Web.Features.Evidence;
 using AmpersandOfTruth.Web.Features.Investigations;
@@ -338,6 +340,9 @@ public class SampleIncidentWarmupTests
         public Task<IReadOnlyList<RevisionRow>> RestoresAsync(
             long pageId, DateTime afterTs, long afterRevId, IReadOnlyCollection<string> sha1s, int limit, CancellationToken ct = default) =>
             Task.FromResult<IReadOnlyList<RevisionRow>>([]);
+        public Task<IReadOnlyList<RevisionRow>> ReturnsToAsync(
+            long pageId, DateTime afterTs, long afterRevId, long stateRevId, int limit, CancellationToken ct = default) =>
+            Task.FromResult<IReadOnlyList<RevisionRow>>([]);
         public bool Unavailable { get; set; }
         public Exception? Fault { get; set; }
         public int TotalTextCalls => Volatile.Read(ref _totalTextCalls);
@@ -403,5 +408,172 @@ public class SampleIncidentWarmupTests
             Exception? exception,
             Func<TState, Exception?, string> formatter) =>
             Entries.Enqueue(new LogEntry(logLevel, formatter(state, exception), exception));
+    }
+
+
+    [Fact]
+    public async Task Warmup_warms_article_aggregates_sequentially_after_incidents_for_all_referenced_pages()
+    {
+        var (corpus, revisions, records) = BuildSixIncidentFixture(TimeSpan.Zero);
+        var inc1 = records[0] with
+        {
+            PageId = 1256,
+            OtherPageIds = [2048],
+            Articles =
+            [
+                new IncidentArticle(1256, "Talvisota", "Winter War"),
+                new IncidentArticle(2048, "Mainilan laukaukset", "Shelling of Mainila"),
+            ],
+        };
+        var inc2 = records[1] with
+        {
+            Edits =
+            [
+                new IncidentEdit(9001, 9000, 3099, "UserA", false, DateTimeOffset.UtcNow, IncidentEditRole.Inserted, "added", null, []),
+            ],
+        };
+        corpus.Articles[2048] = new ArticleRef(2048, "Mainilan laukaukset", "Shelling of Mainila");
+
+        var samples = SampleIncidents.From(new SampleTopic("winter-war", "Winter War", [], [inc1, inc2]));
+        var events = new ConcurrentQueue<string>();
+        var trackingSource = new EventRecordingIncidentSource(
+            new FixtureIncidentSource(samples, new IncidentMapper(corpus, revisions)),
+            events);
+        var articleCorpus = new TrackingArticleCorpus(events);
+        var clock = new SignalingTimeProvider();
+        var timeline = new ArticleTimelineService(articleCorpus, clock);
+        var logger = new CapturingLogger<SampleIncidentWarmup>();
+
+        using var warmup = new SampleIncidentWarmup(
+            samples,
+            trackingSource,
+            Options.Create(new InvestigationSourceOptions { Source = IncidentSourceKind.Fixtures }),
+            BuildConfig(),
+            clock,
+            logger,
+            timeline);
+
+        await warmup.StartAsync(CancellationToken.None);
+        await clock.TimerCreated.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        Assert.NotNull(warmup.ExecuteTask);
+        clock.Advance(TimeSpan.FromMilliseconds(2100));
+        await warmup.ExecuteTask.WaitAsync(TimeSpan.FromSeconds(5));
+        await warmup.StopAsync(CancellationToken.None);
+
+        // Incident warm-up ran first, followed sequentially by distinct page IDs [1256, 2048, 3099].
+        Assert.Equal(["topic:winter-war", "page:1256", "page:2048", "page:3099"], events.ToArray());
+        Assert.Equal(1, articleCorpus.MaxConcurrent);
+        Assert.True(timeline.TryGetCachedAggregates(1256, out var cached1256) && cached1256 is not null);
+        Assert.True(timeline.TryGetCachedAggregates(2048, out var cached2048) && cached2048 is not null);
+        Assert.True(timeline.TryGetCachedAggregates(3099, out var cached3099) && cached3099 is not null);
+
+        // Subsequent calls are served from ArticleTimelineService cache with 0 extra corpus queries.
+        await timeline.AggregatesAsync(1256);
+        Assert.Equal(3, articleCorpus.Calls);
+        Assert.Equal(2, logger.Entries.Count);
+        Assert.All(logger.Entries, e => Assert.Equal(LogLevel.Information, e.Level));
+    }
+
+    [Fact]
+    public async Task Warmup_logs_article_aggregate_failures_once_across_all_sample_pages()
+    {
+        var (corpus, revisions, records) = BuildSixIncidentFixture(TimeSpan.Zero);
+        var inc1 = records[0] with { PageId = 1256, OtherPageIds = [2048, 3099] };
+        var samples = SampleIncidents.From(new SampleTopic("winter-war", "Winter War", [], [inc1]));
+        var source = new FixtureIncidentSource(samples, new IncidentMapper(corpus, revisions));
+        var articleCorpus = new TrackingArticleCorpus(new ConcurrentQueue<string>())
+        {
+            Fault = new CorpusUnavailableException("corpus offline"),
+        };
+        var clock = new SignalingTimeProvider();
+        var timeline = new ArticleTimelineService(articleCorpus, clock);
+        var logger = new CapturingLogger<SampleIncidentWarmup>();
+
+        using var warmup = new SampleIncidentWarmup(
+            samples,
+            source,
+            Options.Create(new InvestigationSourceOptions { Source = IncidentSourceKind.Fixtures }),
+            BuildConfig(),
+            clock,
+            logger,
+            timeline);
+
+        await warmup.StartAsync(CancellationToken.None);
+        await clock.TimerCreated.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        Assert.NotNull(warmup.ExecuteTask);
+        clock.Advance(TimeSpan.FromMilliseconds(2100));
+        await warmup.ExecuteTask.WaitAsync(TimeSpan.FromSeconds(5));
+        await warmup.StopAsync(CancellationToken.None);
+
+        Assert.Equal(3, articleCorpus.Calls);
+        var entries = logger.Entries.ToList();
+        // 1 info for topic incident warm-up + strictly 1 warning summarizing all 3 failed article pages.
+        Assert.Equal(2, entries.Count);
+        Assert.Equal(LogLevel.Information, entries[0].Level);
+        Assert.Equal(LogLevel.Warning, entries[1].Level);
+        Assert.IsType<CorpusUnavailableException>(entries[1].Exception);
+        Assert.Contains("3/3", entries[1].Message, StringComparison.Ordinal);
+    }
+
+    private sealed class EventRecordingIncidentSource(IIncidentSource inner, ConcurrentQueue<string> events) : IIncidentSource
+    {
+        public async Task<IReadOnlyList<IncidentView>?> ForTopicAsync(string topicSlug, CancellationToken ct = default)
+        {
+            var res = await inner.ForTopicAsync(topicSlug, ct);
+            events.Enqueue($"topic:{topicSlug}");
+            return res;
+        }
+    }
+
+    private sealed class TrackingArticleCorpus(ConcurrentQueue<string> events) : IArticleCorpus
+    {
+        private int _calls;
+        private int _inFlight;
+        private int _maxConcurrent;
+
+        public Exception? Fault { get; init; }
+        public int Calls => Volatile.Read(ref _calls);
+        public int MaxConcurrent => Volatile.Read(ref _maxConcurrent);
+
+        public async Task<ArticleAggregates?> AggregatesAsync(long pageId, CancellationToken ct = default)
+        {
+            Interlocked.Increment(ref _calls);
+            var current = Interlocked.Increment(ref _inFlight);
+            while (true)
+            {
+                var snap = Volatile.Read(ref _maxConcurrent);
+                if (current <= snap || Interlocked.CompareExchange(ref _maxConcurrent, current, snap) == snap)
+                {
+                    break;
+                }
+            }
+
+            try
+            {
+                await Task.Yield();
+                events.Enqueue($"page:{pageId}");
+                if (Fault is not null)
+                {
+                    throw Fault;
+                }
+
+                return new ArticleAggregates(
+                    pageId,
+                    $"Artikkeli {pageId}",
+                    $"Article {pageId}",
+                    Revisions: 10,
+                    FirstEdit: new DateTime(2010, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                    LastEdit: new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                    Months: [new MonthBucket(2020, 1, 5, 1, 1, 1_000)]);
+            }
+            finally
+            {
+                Interlocked.Decrement(ref _inFlight);
+            }
+        }
+
+        public Task<IReadOnlyList<ArticleRevision>> RevisionsAsync(
+            long pageId, DateRange range, int limit = 500, CancellationToken ct = default) =>
+            Task.FromResult<IReadOnlyList<ArticleRevision>>([]);
     }
 }

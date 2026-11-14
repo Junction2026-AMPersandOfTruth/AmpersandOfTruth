@@ -2,6 +2,17 @@ namespace AmpersandOfTruth.Web.Features.Search;
 
 public sealed record SuggestedTopic(string Label, string Topic);
 
+public sealed class ScopeOptions
+{
+    public const double DefaultMaxTopDistance = 0.495;
+    public const double DefaultMaxMeanDistance = 0.515;
+    public const int DefaultMaxSuggestions = 4;
+
+    public double MaxTopDistance { get; set; } = DefaultMaxTopDistance;
+    public double MaxMeanDistance { get; set; } = DefaultMaxMeanDistance;
+    public int MaxSuggestions { get; set; } = DefaultMaxSuggestions;
+}
+
 /// <summary>Bound from the <c>Search</c> config section.</summary>
 public sealed class SearchOptions
 {
@@ -17,6 +28,8 @@ public sealed class SearchOptions
         new("Ceded Karelia", "Ceded Karelia"),
         new("Finlandization", "Finlandization"),
     ];
+
+    public ScopeOptions Scope { get; set; } = new();
 
     public List<SuggestedTopic> SuggestedTopics { get; set; } = [.. DefaultSuggestedTopics];
 }

@@ -10,6 +10,7 @@
 @using AmpersandOfTruth.Web.Features.Investigations.View
 @using AmpersandOfTruth.Web.Features.Library
 @using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.Extensions.Diagnostics.HealthChecks
 @using Microsoft.Extensions.Options
 @inject IInvestigationRunner Runner
 @inject IncidentMapper Mapper
@@ -43,6 +44,7 @@
         <div class="aot-row" style="justify-content:space-between">
             <h1 class="aot-h1" data-testid="topic-title">@TopicText</h1>
             <div class="aot-row" style="gap:6px">
+                <a class="aot-btn aot-btn--sm" href="@NetworkHref" data-testid="network-link">Accounts × articles</a>
                 <SaveInvestigationButton Topic="@TopicText"
                                          Articles="@_progress.Articles"
                                          Incidents="@_completedIncidents"
@@ -99,6 +101,32 @@
         <StageTracker Progress="_progress"
                       OnCancel="CancelRun"
                       OnRerun="@(IsSafeMode ? default : EventCallback.Factory.Create(this, RerunAsync))" />
+    }
+
+    @if (_progress.Scope is { InScope: false } scope)
+    {
+        <StatusBanner Kind="StatusKind.Warn" TestId="scope-warning" Title="This topic may be outside the corpus.">
+            The corpus covers Finnish history, politics and society, so the articles below may be only loosely related.
+            <span class="aot-muted">@scope.Reason</span>
+        </StatusBanner>
+    }
+    @if (!_hasRendered && _prerenderFailureKind is { } prerenderFailure)
+    {
+        <StatusBanner Kind="StatusKind.Error"
+                      Title="@StageTracker.FailureSentence(prerenderFailure)"
+                      Detail="@_prerenderFailureDetail" />
+    }
+    else if (_cachedFallbackDetail is not null)
+    {
+        <StatusBanner Kind="StatusKind.Info"
+                      Title="Showing saved analysis — the Wikipedia data is not reachable right now."
+                      Detail="@_cachedFallbackDetail"
+                      OnRetry="RerunAsync" />
+    }
+    else if (_progress.HasAssessmentUnavailable && _progress.Failure is null)
+    {
+        <StatusBanner Kind="StatusKind.Warn"
+                      Title="Automated assessment unavailable — showing edit and removal history only." />
     }
 
     @if (_incidents.Count > 0)
@@ -278,7 +306,7 @@
 
             @if (unflagged.Count > 0)
             {
-                <UnflaggedList Items="unflagged" />
+                <UnflaggedList Items="unflagged" Classes="_removalClasses" />
             }
         </section>
 
@@ -296,6 +324,7 @@
                                          IncidentCount="@CountIncidentsForArticle(article.PageId)"
                                          Selected="@(_filter.ArticleId == article.PageId)"
                                          TimelineData="@TryGetTimeline(article.PageId)"
+                                         Contest="@TryGetContest(article.PageId)"
                                          OnSelectArticle="@(() => ToggleArticleFilter(article.PageId))"
                                          @key="(article.Lang, article.PageId)" />
                     }
@@ -334,6 +363,9 @@
     private readonly Dictionary<string, IncidentView> _mappedById = new(StringComparer.Ordinal);
     private readonly Dictionary<long, string> _articleTitlesEn = [];
     private readonly Dictionary<long, ArticleAggregates> _sparklines = [];
+    private IReadOnlyDictionary<long, PageContest> _pageContests = new Dictionary<long, PageContest>();
+    private IReadOnlyDictionary<(long PageId, long RevertingRevId), string> _removalClasses =
+        new Dictionary<(long PageId, long RevertingRevId), string>();
 
     private RunProgress _progress = default!;
     private OverviewFilter _filter = OverviewFilter.Default;
@@ -352,6 +384,9 @@
     private string? _activeSlug;
     private Guid? _activeSavedId;
     private string? _hotId;
+    private StageFailureKind? _prerenderFailureKind;
+    private string? _prerenderFailureDetail;
+    private string? _cachedFallbackDetail;
 
     private long _lastRenderTicks;
     private bool _dirty;
@@ -384,6 +419,10 @@
         }
     }
 
+    private string NetworkHref => EffectiveSavedId is { } savedId
+        ? $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}/network?saved={savedId}"
+        : $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}/network";
+
     private IEnumerable<TopicArticle> OrderedArticles =>
         _progress.Articles.OrderByDescending(static a => a.HasHistory);
 
@@ -392,6 +431,46 @@
         Services.GetService<ClientIdentity>()?.Capture();
         _progress = new RunProgress(Time);
         Nav.LocationChanged += HandleLocationChanged;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (_hasRendered) return;
+
+        var healthChecks = Services.GetService<HealthCheckService>();
+        if (healthChecks is null || RecentRuns.TryGet(EffectiveSlug) is { Count: > 0 })
+        {
+            return;
+        }
+
+        try
+        {
+            var report = await healthChecks.CheckHealthAsync(
+                static reg => reg.Name is "corpus" or "embedding"
+                    || reg.Tags.Contains("corpus")
+                    || reg.Tags.Contains("embedding"));
+
+            var degraded = report.Entries
+                .Where(static e => e.Value.Status != HealthStatus.Healthy)
+                .ToList();
+
+            if (degraded.Count > 0)
+            {
+                var corpusDown = degraded.Any(static e =>
+                    string.Equals(e.Key, "corpus", StringComparison.OrdinalIgnoreCase));
+                _prerenderFailureKind = corpusDown
+                    ? StageFailureKind.CorpusUnavailable
+                    : StageFailureKind.EmbeddingUnavailable;
+                _prerenderFailureDetail = string.Join(
+                    Environment.NewLine,
+                    degraded.Select(static e => $"{e.Key}: {e.Value.Description ?? e.Value.Status.ToString()}"));
+            }
+        }
+        catch (Exception ex)
+        {
+            _prerenderFailureKind = StageFailureKind.Error;
+            _prerenderFailureDetail = ex.Message;
+        }
     }
 
     protected override void OnParametersSet()
@@ -484,9 +563,12 @@
         _mappedById.Clear();
         _articleTitlesEn.Clear();
         _sparklines.Clear();
+        _pageContests = new Dictionary<long, PageContest>();
+        _removalClasses = new Dictionary<(long PageId, long RevertingRevId), string>();
         _hotId = null;
         _wasSlow = false;
         _dirty = false;
+        _cachedFallbackDetail = null;
 
         var limiter = Services.GetService<StartLimiter>();
         if (limiter is not null && (savedId is null || refresh))
@@ -529,12 +611,23 @@
                 switch (evt)
                 {
                     case RunQueued:
-                    case ArticlesFound:
-                    case RevisionsScanned:
+                        await RenderNowAsync();
+                        break;
+
+                    case ArticlesFound found:
+                        _wasSlow = false;
+                        _ = LoadPageContestsAsync(found.Items, runCts, ct);
+                        await RenderNowAsync();
+                        break;
+
+                    case RevisionsScanned scanned:
+                        _wasSlow = false;
+                        _ = LoadRemovalClassesAsync(scanned.Candidates, runCts, ct);
                         await RenderNowAsync();
                         break;
 
                     case CandidateScored { Incident: { } scoredRecord }:
+                        _wasSlow = false;
                         var mapped = await MapAndCacheAsync(scoredRecord, rank: 1, ct);
                         if (!ReferenceEquals(runCts, _cts) || _disposed) return;
                         AddAndRankIncident(mapped);
@@ -542,11 +635,21 @@
                         break;
 
                     case CandidateScored:
+                        _wasSlow = false;
                         await RequestThrottledRenderAsync(ct);
                         break;
 
-                    case StageFailed:
+                    case StageFailed failed:
                         StopSlowMonitor();
+                        if (failed.Kind == StageFailureKind.CorpusUnavailable
+                            && _incidents.Count == 0
+                            && RecentRuns.TryGet(slug) is { Count: > 0 } cachedRecords)
+                        {
+                            _progress.MarkCachedFallback(cachedRecords);
+                            _cachedFallbackDetail = failed.Error;
+                            await SyncFinalIncidentsAsync(cachedRecords, ct);
+                            if (!ReferenceEquals(runCts, _cts) || _disposed) return;
+                        }
                         await RenderNowAsync();
                         break;
 
@@ -575,6 +678,37 @@
             {
                 StopSlowMonitor();
                 _progress.Cancel();
+                if (!_disposed)
+                {
+                    await RenderNowAsync();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            if (ReferenceEquals(runCts, _cts))
+            {
+                StopSlowMonitor();
+                var kind = ex switch
+                {
+                    AmpersandOfTruth.Web.Features.Embedding.EmbeddingUnavailableException => StageFailureKind.EmbeddingUnavailable,
+                    CorpusUnavailableException => StageFailureKind.CorpusUnavailable,
+                    _ => StageFailureKind.Error,
+                };
+                var stage = _progress.ActiveStage ?? InvestigationStage.FindArticles;
+                if (kind == StageFailureKind.CorpusUnavailable
+                    && _incidents.Count == 0
+                    && RecentRuns.TryGet(slug) is { Count: > 0 } cachedRecords)
+                {
+                    _progress.MarkCachedFallback(cachedRecords);
+                    _cachedFallbackDetail = ex.Message;
+                    await SyncFinalIncidentsAsync(cachedRecords, CancellationToken.None);
+                }
+                else
+                {
+                    _progress.Apply(new StageFailed(stage, kind, ex.Message));
+                }
+
                 if (!_disposed)
                 {
                     await RenderNowAsync();
@@ -694,6 +828,12 @@
                 var aggregates = await timelineService.AggregatesAsync(article.PageId, ct);
                 if (ct.IsCancellationRequested || _disposed || !ReferenceEquals(ownerCts, _cts)) return;
 
+                if (!string.IsNullOrWhiteSpace(aggregates?.TitleEn) && !_articleTitlesEn.ContainsKey(article.PageId))
+                {
+                    _articleTitlesEn[article.PageId] = aggregates.TitleEn;
+                    loadedAny = true;
+                }
+
                 if (aggregates is { Months.Count: > 0 })
                 {
                     _sparklines[article.PageId] = aggregates;
@@ -713,6 +853,80 @@
         if (loadedAny && !ct.IsCancellationRequested && !_disposed && ReferenceEquals(ownerCts, _cts))
         {
             await RenderNowAsync();
+        }
+    }
+
+    private async Task LoadPageContestsAsync(
+        IReadOnlyList<TopicArticle> articles,
+        CancellationTokenSource ownerCts,
+        CancellationToken ct)
+    {
+        if (articles.Count == 0 || _disposed) return;
+
+        var signals = Services.GetService<IContestSignals>();
+        if (signals is null) return;
+
+        var fiPageIds = articles
+            .Where(static a => a.HasHistory)
+            .Select(static a => a.PageId)
+            .Distinct()
+            .ToList();
+        if (fiPageIds.Count == 0) return;
+
+        try
+        {
+            var contests = await signals.PageContestsAsync(fiPageIds, ct);
+            if (ct.IsCancellationRequested || _disposed || !ReferenceEquals(ownerCts, _cts)) return;
+
+            if (contests.Count > 0)
+            {
+                _pageContests = contests;
+                await RenderNowAsync();
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        catch
+        {
+            // Optional S4 layer: failures leave the page unchanged.
+        }
+    }
+
+    private async Task LoadRemovalClassesAsync(
+        IReadOnlyList<RemovedEdit> candidates,
+        CancellationTokenSource ownerCts,
+        CancellationToken ct)
+    {
+        if (candidates.Count == 0 || _disposed) return;
+
+        var signals = Services.GetService<IContestSignals>();
+        if (signals is null) return;
+
+        var keys = candidates
+            .Select(static c => (c.Revert.PageId, c.Revert.RevId))
+            .Distinct()
+            .ToList();
+
+        try
+        {
+            var classes = await signals.RevertClassesAsync(keys, ct);
+            if (ct.IsCancellationRequested || _disposed || !ReferenceEquals(ownerCts, _cts)) return;
+
+            if (classes.Count > 0)
+            {
+                _removalClasses = classes;
+                await RenderNowAsync();
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        catch
+        {
+            // Optional S1 layer: failures leave the page unchanged.
         }
     }
 
@@ -941,6 +1155,9 @@
 
     private ArticleAggregates? TryGetTimeline(long pageId) =>
         _sparklines.GetValueOrDefault(pageId);
+
+    private PageContest? TryGetContest(long pageId) =>
+        _pageContests.GetValueOrDefault(pageId);
 
     private int CountIncidentsForArticle(long pageId) =>
         _incidents.Count(i => i.Articles.Any(a => a.PageId == pageId));

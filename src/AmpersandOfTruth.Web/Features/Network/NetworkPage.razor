@@ -1,0 +1,494 @@
+@page "/investigate/{Topic}/network"
+@implements IDisposable
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations.Fixtures
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using AmpersandOfTruth.Web.Features.Library
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.Extensions.DependencyInjection
+@inject IIncidentSource Source
+@inject NavigationManager Nav
+@inject IServiceProvider Services
+
+<PageTitle>Accounts × articles · @TopicLabel · Ampersand of Truth</PageTitle>
+
+@{
+    var graph = _incidents is { Count: > 0 }
+        ? NetworkGraphBuilder.Build(_incidents, _filter)
+        : new NetworkGraph([], [], []);
+    var showAnonCaveat = graph.HasAnonymousAccounts || HasAnyAnonymousEditor(_incidents);
+}
+
+<div class="aot-stack network-page" data-testid="network-page">
+    <SampleDataBanner />
+
+    <nav class="aot-crumbs" aria-label="Breadcrumb" data-testid="network-breadcrumbs">
+        <a href="@OverviewHref" data-testid="breadcrumb-topic">@TopicLabel</a>
+        <span aria-hidden="true">›</span>
+        <span>Accounts × articles</span>
+    </nav>
+
+    <header class="aot-stack" style="gap:4px">
+        <h1 class="aot-h1">Accounts × articles</h1>
+        <p class="aot-small aot-muted" style="margin:0">
+            Accounts and articles involved in flagged incidents for <strong>@TopicLabel</strong>.
+        </p>
+    </header>
+
+    <div class="aot-banner aot-banner--info" role="note" data-testid="network-caveat">
+        <svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="7" /><path d="M9 8v5M9 5.5v.5" /></svg>
+        <div class="aot-banner__body">
+            Accounts that appear together here edited the same articles. That is a prompt to read the edits, not a finding about the accounts.
+            @if (showAnonCaveat)
+            {
+                <text> </text><span data-testid="network-anon-caveat">Anonymous addresses are grouped by masked prefix; one prefix can be many people.</span>
+            }
+        </div>
+    </div>
+
+    @if (!_loading && (_incidents is { Count: > 0 } || !_filter.IsDefault))
+    {
+        <div class="aot-toolbar">
+            <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:6px">
+                Minimum level
+                <select class="aot-select"
+                        aria-label="Minimum level"
+                        data-testid="network-filter-tier"
+                        value="@FormatTierOptionValue(_filter.MinTier)"
+                        @onchange="HandleTierChange">
+                    <option value="">All levels</option>
+                    <option value="1">Level 1+ · @EvidenceTiers.Reverted.ShortLabel</option>
+                    <option value="2">Level 2+ · @EvidenceTiers.Contested.ShortLabel</option>
+                    <option value="3">Level 3 · @EvidenceTiers.Campaign.ShortLabel</option>
+                </select>
+            </label>
+
+            <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:4px">
+                Years
+                <input type="number"
+                       class="aot-select"
+                       style="width:76px;padding:4px 6px"
+                       min="2003"
+                       max="2026"
+                       placeholder="2003"
+                       aria-label="From year"
+                       data-testid="network-from-year"
+                       value="@(_filter.FromYear?.ToString(CultureInfo.InvariantCulture) ?? "")"
+                       @onchange="HandleFromYearChange" />
+                <span aria-hidden="true">–</span>
+                <input type="number"
+                       class="aot-select"
+                       style="width:76px;padding:4px 6px"
+                       min="2003"
+                       max="2026"
+                       placeholder="2026"
+                       aria-label="To year"
+                       data-testid="network-to-year"
+                       value="@(_filter.ToYear?.ToString(CultureInfo.InvariantCulture) ?? "")"
+                       @onchange="HandleToYearChange" />
+            </label>
+
+            <button type="button"
+                    class="aot-chip"
+                    aria-pressed="@(_filter.IncludeRemovers ? "true" : "false")"
+                    data-testid="network-filter-removers"
+                    @onclick="ToggleRemovers">
+                Show removers
+            </button>
+
+            @if (!_filter.IsDefault)
+            {
+                <button type="button"
+                        class="aot-btn aot-btn--ghost aot-btn--sm"
+                        data-testid="network-clear-filters"
+                        @onclick="@(() => ApplyFilter(NetworkFilter.Default))">
+                    Clear filters
+                </button>
+            }
+        </div>
+    }
+
+    @if (_loading)
+    {
+        <div class="aot-stack" role="status" aria-busy="true" aria-label="Loading accounts and articles" data-testid="network-loading">
+            <div class="aot-skel" style="width:100%;height:48px"></div>
+            <div class="aot-skel" style="width:100%;height:220px"></div>
+        </div>
+    }
+    else if (_incidents is null)
+    {
+        <div data-testid="network-empty">
+            <EmptyState Title="This investigation isn't loaded yet.">
+                <Actions>
+                    <a class="aot-btn aot-btn--primary" href="@OverviewHref" data-testid="open-investigation">Open investigation</a>
+                </Actions>
+            </EmptyState>
+        </div>
+    }
+    else if (_incidents.Count == 0)
+    {
+        <div data-testid="network-empty">
+            <EmptyState Title="No disputed insertions found for this topic.">
+                <Actions>
+                    <a class="aot-btn" href="@OverviewHref" data-testid="open-investigation">Open investigation</a>
+                </Actions>
+            </EmptyState>
+        </div>
+    }
+    else if (graph.Accounts.Count == 0)
+    {
+        <div data-testid="network-empty">
+            <EmptyState Title="No matching edits"
+                        Message="None of the edits match the active filters.">
+                <Actions>
+                    <button type="button"
+                            class="aot-btn aot-btn--sm"
+                            @onclick="@(() => ApplyFilter(NetworkFilter.Default))">
+                        Clear filters
+                    </button>
+                </Actions>
+            </EmptyState>
+        </div>
+    }
+    else if (graph.TooSmall)
+    {
+        var articleById = graph.Articles.ToDictionary(static a => a.PageId);
+        <section class="aot-stack" style="gap:12px" data-testid="network-list">
+            <p class="aot-small aot-muted" style="margin:0">
+                Fewer than 4 accounts appear in these incidents, so their edits are listed directly instead of as a matrix.
+            </p>
+            <ul class="network-list">
+                @foreach (var account in graph.Accounts)
+                {
+                    var accountCells = graph.Cells.Where(c => string.Equals(c.AccountKey, account.Key, StringComparison.Ordinal)).ToList();
+                    <li class="aot-panel network-list__item" data-account="@account.Key" @key="account.Key">
+                        <div class="network-list__account">
+                            <span class="aot-editor@(account.Anonymous ? " aot-editor--anon" : "")">
+                                <span class="aot-editor__glyph" aria-hidden="true">@GetEditorGlyph(account.Label)</span>
+                                @if (account.Label.Kind == EditorKind.Named && !account.Anonymous)
+                                {
+                                    <a class="aot-editor__name"
+                                       href="@($"/accounts/{Uri.EscapeDataString(account.Label.DisplayName)}")">@account.Label.DisplayName</a>
+                                }
+                                else
+                                {
+                                    <span class="aot-editor__name">@account.Label.DisplayName</span>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(account.Label.Qualifier))
+                                {
+                                    <span class="aot-muted">(@account.Label.Qualifier)</span>
+                                }
+                            </span>
+                        </div>
+                        <ul class="network-list__edits">
+                            @foreach (var cell in accountCells)
+                            {
+                                var art = articleById[cell.PageId];
+                                <li class="network-list__edit" @key="cell.PageId">
+                                    <a href="@($"/articles/{art.PageId.ToString(CultureInfo.InvariantCulture)}")" lang="fi">@art.TitleFi</a>
+                                    @if (art.HasDistinctEnglishTitle)
+                                    {
+                                        <span class="aot-muted">(@art.TitleEn)</span>
+                                    }
+                                    <span aria-hidden="true">·</span>
+                                    <a href="@BuildIncidentHref(cell)">@FormatCellSummary(cell)</a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </section>
+    }
+    else
+    {
+        <NetworkMatrix Graph="graph"
+                       Slug="@EffectiveSlug"
+                       SavedId="@EffectiveSavedId" />
+    }
+</div>
+
+@code {
+    private CancellationTokenSource? _cts;
+    private (string Slug, Guid? SavedId)? _loadedKey;
+    private IReadOnlyList<IncidentView>? _incidents;
+    private string? _savedTopic;
+    private NetworkFilter _filter = NetworkFilter.Default;
+    private bool _loading = true;
+    private bool _disposed;
+
+    [Parameter] public string Topic { get; set; } = "";
+
+    [SupplyParameterFromQuery(Name = "saved")] public Guid? SavedQuery { get; set; }
+    [SupplyParameterFromQuery(Name = "tier")] public string? TierQuery { get; set; }
+    [SupplyParameterFromQuery(Name = "from")] public int? FromQuery { get; set; }
+    [SupplyParameterFromQuery(Name = "to")] public int? ToQuery { get; set; }
+    [SupplyParameterFromQuery(Name = "removers")] public string? RemoversQuery { get; set; }
+
+    private Guid? EffectiveSavedId => SavedQuery ?? TryParseSavedFromUri(Nav.Uri);
+
+    private string EffectiveSlug
+    {
+        get
+        {
+            var slug = TopicSlug.From(Topic ?? "");
+            return slug.Length > 0 ? slug : (Topic ?? "").Trim();
+        }
+    }
+
+    private string TopicLabel
+    {
+        get
+        {
+            if (!string.IsNullOrWhiteSpace(_savedTopic))
+            {
+                return _savedTopic;
+            }
+
+            var sampleTitle = Services.GetService<SampleIncidents>()?.Match(Topic ?? "")?.Title;
+            if (!string.IsNullOrWhiteSpace(sampleTitle))
+            {
+                return sampleTitle;
+            }
+
+            if (string.IsNullOrWhiteSpace(Topic))
+            {
+                return "Investigation";
+            }
+
+            var query = TopicSlug.ToQuery(Topic);
+            return query.Length > 0
+                ? char.ToUpper(query[0], CultureInfo.InvariantCulture) + query[1..]
+                : Topic.Trim();
+        }
+    }
+
+    private string OverviewHref => EffectiveSavedId is { } savedId
+        ? $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}?saved={savedId}"
+        : $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _filter = ResolveFilterFromParametersOrUri();
+
+        var slug = EffectiveSlug;
+        var savedId = EffectiveSavedId;
+        var key = (slug, savedId);
+        if (_loadedKey == key)
+        {
+            return;
+        }
+
+        _cts?.Cancel();
+        _cts?.Dispose();
+        var run = _cts = new CancellationTokenSource();
+        var ct = run.Token;
+
+        _loading = true;
+
+        try
+        {
+            var (incidents, savedTopic) = await LoadIncidentsAsync(slug, savedId, ct);
+            if (_disposed || ct.IsCancellationRequested || !ReferenceEquals(run, _cts))
+            {
+                return;
+            }
+
+            _loadedKey = key;
+            _incidents = incidents;
+            _savedTopic = savedTopic;
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        finally
+        {
+            if (ReferenceEquals(run, _cts))
+            {
+                _loading = false;
+            }
+        }
+    }
+
+    private async Task<(IReadOnlyList<IncidentView>? Incidents, string? SavedTopic)> LoadIncidentsAsync(
+        string slug,
+        Guid? savedId,
+        CancellationToken ct)
+    {
+        if (savedId is { } id)
+        {
+            var store = Services.GetService<LibraryStore>();
+            var mapper = Services.GetService<IncidentMapper>();
+            if (store is null || mapper is null)
+            {
+                return (null, null);
+            }
+
+            var found = await store.GetAsync(id, ct);
+            if (found is not { } saved)
+            {
+                return (null, null);
+            }
+
+            var ordered = saved.Snapshot.Incidents
+                .OrderByDescending(static i => i.Score)
+                .ToList();
+
+            var views = new List<IncidentView>(ordered.Count);
+            for (var i = 0; i < ordered.Count; i++)
+            {
+                views.Add(await mapper.MapAsync(ordered[i], i + 1, ct));
+            }
+
+            return (views, saved.Summary.Topic);
+        }
+
+        var list = await Source.ForTopicAsync(Topic ?? "", ct);
+        if (list is null && !string.Equals(Topic ?? "", slug, StringComparison.Ordinal))
+        {
+            list = await Source.ForTopicAsync(slug, ct);
+        }
+
+        return (list, null);
+    }
+
+    private NetworkFilter ResolveFilterFromParametersOrUri()
+    {
+        if (TierQuery is not null
+            || FromQuery is not null
+            || ToQuery is not null
+            || RemoversQuery is not null)
+        {
+            return NetworkFilter.Parse(TierQuery, FromQuery, ToQuery, RemoversQuery);
+        }
+
+        if (Uri.TryCreate(Nav.Uri, UriKind.Absolute, out var absUri) && !string.IsNullOrEmpty(absUri.Query))
+        {
+            var q = QueryHelpers.ParseQuery(absUri.Query);
+            int? from = q.TryGetValue("from", out var fv) && int.TryParse(fv.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsedFrom)
+                ? parsedFrom
+                : null;
+            int? to = q.TryGetValue("to", out var tv) && int.TryParse(tv.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsedTo)
+                ? parsedTo
+                : null;
+            return NetworkFilter.Parse(
+                q.TryGetValue("tier", out var trv) ? trv.ToString() : null,
+                from,
+                to,
+                q.TryGetValue("removers", out var rmv) ? rmv.ToString() : null);
+        }
+
+        return NetworkFilter.Default;
+    }
+
+    private void ApplyFilter(NetworkFilter next)
+    {
+        _filter = next;
+        var filterQuery = next.ToQueryString();
+        string uri;
+        if (EffectiveSavedId is { } savedId)
+        {
+            var suffix = string.IsNullOrEmpty(filterQuery) ? "" : "&" + filterQuery.TrimStart('?');
+            uri = $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}/network?saved={savedId}{suffix}";
+        }
+        else
+        {
+            uri = $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}/network{filterQuery}";
+        }
+
+        Nav.NavigateTo(uri, replace: true);
+    }
+
+    private void HandleTierChange(ChangeEventArgs e)
+    {
+        var parsed = NetworkFilter.Parse(e.Value?.ToString(), null, null, null).MinTier;
+        ApplyFilter(_filter.WithMinTier(parsed));
+    }
+
+    private void HandleFromYearChange(ChangeEventArgs e)
+    {
+        int? year = int.TryParse(e.Value?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var y)
+            ? y
+            : null;
+        ApplyFilter(_filter.WithYears(year, _filter.ToYear));
+    }
+
+    private void HandleToYearChange(ChangeEventArgs e)
+    {
+        int? year = int.TryParse(e.Value?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var y)
+            ? y
+            : null;
+        ApplyFilter(_filter.WithYears(_filter.FromYear, year));
+    }
+
+    private void ToggleRemovers() =>
+        ApplyFilter(_filter.WithIncludeRemovers(!_filter.IncludeRemovers));
+
+    private string BuildIncidentHref(MatrixCell cell)
+    {
+        var firstIncidentId = cell.Edits[0].IncidentId;
+        var baseHref = $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}/incidents/{Uri.EscapeDataString(firstIncidentId)}";
+        return EffectiveSavedId is { } savedId ? $"{baseHref}?saved={savedId}" : baseHref;
+    }
+
+    private static string FormatTierOptionValue(EvidenceTier? minTier) => minTier switch
+    {
+        EvidenceTier.Reverted => "1",
+        EvidenceTier.Contested => "2",
+        EvidenceTier.Campaign => "3",
+        _ => "",
+    };
+
+    private static string FormatCellSummary(MatrixCell cell)
+    {
+        var parts = new List<string>(3);
+        if (cell.Inserted > 0)
+        {
+            parts.Add($"+ {cell.Inserted.ToString(CultureInfo.InvariantCulture)} inserted");
+        }
+        if (cell.Reinserted > 0)
+        {
+            parts.Add($"↻ {cell.Reinserted.ToString(CultureInfo.InvariantCulture)} re-inserted");
+        }
+        if (cell.Removed > 0)
+        {
+            parts.Add($"− {cell.Removed.ToString(CultureInfo.InvariantCulture)} removed");
+        }
+        return string.Join(", ", parts);
+    }
+
+    private static bool HasAnyAnonymousEditor(IReadOnlyList<IncidentView>? incidents) =>
+        incidents is not null && incidents.Any(static i => i.Edits.Any(static e => e.Editor.IsAnonymous));
+
+    private static string GetEditorGlyph(EditorLabel label) => label.Kind switch
+    {
+        EditorKind.IPv4 or EditorKind.IPv6 => "IP",
+        EditorKind.Temporary => "~",
+        EditorKind.Hidden => "?",
+        _ when !string.IsNullOrWhiteSpace(label.DisplayName) =>
+            StringInfo.GetNextTextElement(label.DisplayName).ToUpperInvariant(),
+        _ => "?",
+    };
+
+    private static Guid? TryParseSavedFromUri(string uri)
+    {
+        if (!Uri.TryCreate(uri, UriKind.Absolute, out var abs) || string.IsNullOrEmpty(abs.Query))
+        {
+            return null;
+        }
+
+        var query = QueryHelpers.ParseQuery(abs.Query);
+        return query.TryGetValue("saved", out var raw) && Guid.TryParse(raw.ToString(), out var id)
+            ? id
+            : null;
+    }
+
+    public void Dispose()
+    {
+        _disposed = true;
+        _cts?.Cancel();
+        _cts?.Dispose();
+    }
+}

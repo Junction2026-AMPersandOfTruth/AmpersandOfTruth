@@ -1,10 +1,12 @@
 @page "/investigate/{Topic}/incidents/{IncidentId}"
 @implements IDisposable
 @using System.Globalization
+@using AmpersandOfTruth.Web.Features.Annotations
 @using AmpersandOfTruth.Web.Features.Evidence
 @using AmpersandOfTruth.Web.Features.Investigations.Fixtures
 @using AmpersandOfTruth.Web.Features.Investigations.Overview
 @using AmpersandOfTruth.Web.Features.Investigations.View
+@using AmpersandOfTruth.Web.Features.Library
 @using AmpersandOfTruth.Web.Features.Translation
 @using Microsoft.Extensions.DependencyInjection
 @inject IIncidentSource Source
@@ -13,6 +15,9 @@
 @inject IServiceProvider Services
 
 <PageTitle>@BuildPageTitle() · Ampersand of Truth</PageTitle>
+<HeadContent>
+    <style>main.aot-page:has(> .aot-incident-wrap) { max-width: calc(1216px + 2 * var(--space-8)); }</style>
+</HeadContent>
 
 <div class="aot-stack aot-incident-wrap" style="gap:var(--space-6)" tabindex="-1" @ref="_wrapper" @onkeydown="HandleKeyDown" data-testid="incident-page">
     <SampleDataBanner />
@@ -33,7 +38,7 @@
                 <span class="aot-skel" style="width:55%;height:16px"></span>
                 <span class="aot-skel" style="width:45%;height:14px;margin-top:14px"></span>
             </div>
-            <div class="aot-diff aot-card--skeleton" style="padding:var(--space-4)" aria-label="Loading diff…">
+            <div class="aot-diff aot-card--skeleton" style="padding:var(--space-4)" aria-label="Loading passage…">
                 <span class="aot-skel" style="width:220px;height:18px"></span>
                 <span class="aot-skel" style="width:95%;height:16px;margin-top:16px"></span>
                 <span class="aot-skel" style="width:90%;height:16px"></span>
@@ -59,22 +64,22 @@
     }
     else
     {
-        <div class="aot-row" style="justify-content:space-between">
+        <div class="aot-incident-topbar">
             <nav class="aot-crumbs" aria-label="Breadcrumb" data-testid="incident-breadcrumbs">
-                <a href="@OverviewHref" data-testid="breadcrumb-topic">@TopicLabel</a>
+                <a class="aot-incident-crumb-topic" href="@OverviewHref" data-testid="breadcrumb-topic">@TopicLabel</a>
                 <span aria-hidden="true">›</span>
                 <span>Incidents</span>
                 <span aria-hidden="true">›</span>
                 <span data-testid="incident-rank">@_rank of @_incidents.Count</span>
             </nav>
-            <div class="aot-row">
+            <div class="aot-incident-pager">
                 @if (_prevIncident is not null)
                 {
                     <a class="aot-btn aot-btn--sm" href="@IncidentHref(_prevIncident.Id)" data-testid="prev-incident">◀ Prev</a>
                 }
                 else
                 {
-                    <span class="aot-btn aot-btn--sm" aria-disabled="true" style="opacity:.5;pointer-events:none" data-testid="prev-incident">◀ Prev</span>
+                    <button type="button" class="aot-btn aot-btn--sm" disabled style="opacity:.5" data-testid="prev-incident">◀ Prev</button>
                 }
                 @if (_nextIncident is not null)
                 {
@@ -82,18 +87,24 @@
                 }
                 else
                 {
-                    <span class="aot-btn aot-btn--sm" aria-disabled="true" style="opacity:.5;pointer-events:none" data-testid="next-incident">Next ▶</span>
+                    <button type="button" class="aot-btn aot-btn--sm" disabled style="opacity:.5" data-testid="next-incident">Next ▶</button>
                 }
             </div>
         </div>
 
         <header data-testid="incident-header">
-            <TierBadge Tier="_incident.Tier" ShowWhy="true" WhyHref="#why" />
+            <div class="aot-row">
+                <TierBadge Tier="_incident.Tier" ShowWhy="true" WhyHref="#why" />
+                @if (_annotation?.Verdict is { } verdict)
+                {
+                    <VerdictChip Verdict="verdict" DismissReason="_annotation.DismissReason" Note="@_annotation.Note" />
+                }
+            </div>
             <h1 class="aot-serif t-claim-lg" data-testid="incident-claim">@FormatHeadline(_incident)</h1>
             @if (!string.IsNullOrWhiteSpace(_incident.ClaimOriginal))
             {
                 <div class="aot-row">
-                    <div class="aot-original" lang="@EffectiveLang(_incident.Lang)" style="font-size:14px" data-testid="claim-original">@_incident.ClaimOriginal</div>
+                    <div class="aot-original" lang="@EffectiveLang(_incident.Lang)" style="font-size:14px;margin-top:0" data-testid="claim-original">@_incident.ClaimOriginal</div>
                     @if (!string.IsNullOrWhiteSpace(_incident.ClaimEn))
                     {
                         <span class="aot-mt">
@@ -102,40 +113,53 @@
                     }
                 </div>
             }
-            <p class="aot-small aot-muted" style="margin:12px 0 0" data-testid="incident-facts">
-                First inserted @FormatDate(_incident.FirstSeen) · Live @OverviewState.Duration(_incident.TotalLive) total · @FormatCount(_incident.AccountCount, "account", "accounts") · @FormatCount(_incident.Articles.Count, "article", "articles")
-            </p>
-            @if (_incident.Articles.Count > 0)
-            {
-                <div class="aot-row aot-small" style="margin-top:4px" data-testid="incident-articles">
-                    @for (var i = 0; i < _incident.Articles.Count; i++)
-                    {
-                        var article = _incident.Articles[i];
-                        <span class="aot-row" style="gap:var(--space-1)">
-                            <a href="@string.Create(CultureInfo.InvariantCulture, $"/articles/{article.PageId}")" lang="fi">@article.TitleFi</a>@if (!string.IsNullOrWhiteSpace(article.TitleEn))
-                            {
-                                @if (!string.Equals(article.TitleEn, article.TitleFi, StringComparison.OrdinalIgnoreCase))
-                                {
-                                    <span class="aot-muted">(@article.TitleEn)</span>
-                                }
-                            }
-                            else if (_titleTranslations.TryGetValue(article.TitleFi, out var translatedTitle) && !string.IsNullOrWhiteSpace(translatedTitle))
-                            {
-                                <MtLabel Text="@translatedTitle" Original="@article.TitleFi" />
-                            }
-                            @if (i < _incident.Articles.Count - 1)
-                            {
-                                <span aria-hidden="true">,</span>
-                            }
-                        </span>
-                    }
+            <dl class="aot-facts aot-incident-facts" data-testid="incident-facts">
+                <div>
+                    <dt>First seen</dt>
+                    <dd>@FormatDate(_incident.FirstSeen)</dd>
                 </div>
-            }
+                <div>
+                    <dt>Last removed</dt>
+                    <dd>@(_incident.LastRemoved is { } lastRemoved ? FormatDate(lastRemoved) : "\u2014")</dd>
+                </div>
+                <div>
+                    <dt>Live in total</dt>
+                    <dd>@OverviewState.Duration(_incident.TotalLive)</dd>
+                </div>
+                <div>
+                    <dt>Accounts</dt>
+                    <dd>@FormatAccounts(_incident)</dd>
+                </div>
+                @if (_incident.Articles.Count > 0)
+                {
+                    <div>
+                        <dt>Articles</dt>
+                        <dd data-testid="incident-articles">@for (var i = 0; i < _incident.Articles.Count; i++)
+                            {
+                                var article = _incident.Articles[i];
+                                if (i > 0)
+                                {
+                                    @(", ")
+                                }
+                                <a href="@string.Create(CultureInfo.InvariantCulture, $"/articles/{article.PageId}")" lang="fi">@article.TitleFi</a>@if (!string.IsNullOrWhiteSpace(article.TitleEn))
+                                {
+                                    if (!string.Equals(article.TitleEn, article.TitleFi, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        @(" ")<span class="aot-muted aot-incident-article-en">(@article.TitleEn)</span>
+                                    }
+                                }
+                                else if (_titleTranslations.TryGetValue(article.TitleFi, out var translatedTitle) && !string.IsNullOrWhiteSpace(translatedTitle))
+                                {
+                                    @(" ")<MtLabel Text="@translatedTitle" Original="@article.TitleFi" />
+                                }
+                            }</dd>
+                    </div>
+                }
+            </dl>
         </header>
 
         <div class="aot-incident-grid">
-            <section class="aot-incident-diff">
-                <h2 class="aot-h2" style="margin-bottom:var(--space-3)">What changed</h2>
+            <div class="aot-incident-diff">
                 <DiffViewer Passage="_incident.Passage"
                             Mode="CurrentDiffMode"
                             Text="CurrentTextMode"
@@ -143,18 +167,29 @@
                             EvidenceQuotes="@(_incident.Assessment?.Quotes ?? [])"
                             OnModeChanged="HandleDiffModeChangedAsync"
                             Scope="@ScopeKey" />
-            </section>
+            </div>
 
             <section class="aot-incident-seq">
-                <h2 class="aot-h2" style="margin-bottom:var(--space-3)">Sequence of events</h2>
+                <h2 class="aot-h2" style="margin-bottom:var(--space-4)">Sequence of events</h2>
                 <EditSequence Edits="_incident.Edits" Scope="@ScopeKey" />
             </section>
 
             <aside class="aot-incident-side aot-stack" style="gap:var(--space-4)">
+                @if (EffectiveSavedId is { } savedId)
+                {
+                    <IncidentAnnotationPanel InvestigationId="savedId"
+                                             IncidentId="@_incident.Id"
+                                             Annotation="_annotation"
+                                             OnChanged="ReloadAnnotationAsync" />
+                }
                 <WhyFlagged Incident="_incident" />
+                <IncidentAccounts Incident="_incident" />
                 <AssessmentNote Assessment="_incident.Assessment" />
                 <RelatedIncidents Current="_incident" Incidents="_incidents" Topic="@Topic" Query="@OverviewQuery" />
-                <IncidentActions Topic="@Topic" IncidentId="@_incident.Id" />
+                <IncidentActions Topic="@Topic"
+                                 IncidentId="@_incident.Id"
+                                 SavedId="EffectiveSavedId"
+                                 OnAnnotationSaved="ReloadAnnotationAsync" />
             </aside>
         </div>
     }
@@ -166,7 +201,7 @@
     private LanguagePreference? _langPreference;
     private CancellationTokenSource? _cts;
     private CancellationTokenSource? _titleCts;
-    private (string Topic, string IncidentId)? _loadedKey;
+    private (string Topic, string IncidentId, Guid? SavedId)? _loadedKey;
     private (string Topic, string IncidentId)? _translatedIncidentKey;
     private bool _loading = true;
     private bool _hasNavigated;
@@ -175,14 +210,19 @@
     private IncidentView? _incident;
     private IncidentView? _prevIncident;
     private IncidentView? _nextIncident;
+    private IncidentAnnotation? _annotation;
     private int _rank;
 
     [Parameter] public string Topic { get; set; } = "";
     [Parameter] public string IncidentId { get; set; } = "";
 
+    [SupplyParameterFromQuery(Name = "saved")] public Guid? SavedQuery { get; set; }
     [SupplyParameterFromQuery(Name = "view")] public string? ViewQuery { get; set; }
     [SupplyParameterFromQuery(Name = "text")] public string? TextQuery { get; set; }
     [SupplyParameterFromQuery(Name = "lang")] public string? LangQuery { get; set; }
+
+    private Guid? EffectiveSavedId =>
+        SavedQuery ?? (Guid.TryParse(ReadQueryValue("saved"), out var parsed) ? parsed : null);
 
     private LanguagePreference LangPreference =>
         _langPreference ??= Services.GetService<LanguagePreference>() ?? new LanguagePreference();
@@ -253,7 +293,7 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        var key = (Topic ?? "", IncidentId ?? "");
+        var key = (Topic: Topic ?? "", IncidentId: IncidentId ?? "", SavedId: EffectiveSavedId);
         if (_loadedKey == key)
         {
             return;
@@ -270,10 +310,11 @@
         var ct = run.Token;
 
         _loading = true;
+        _annotation = null;
 
         try
         {
-            var list = await Source.ForTopicAsync(Topic ?? "", ct);
+            var list = await ResolveIncidentListAsync(key.SavedId, ct);
             if (ct.IsCancellationRequested || !ReferenceEquals(run, _cts))
             {
                 return;
@@ -282,6 +323,7 @@
             _loadedKey = key;
             _incidents = list;
             ResolveCurrentIncident(list, IncidentId ?? "");
+            await LoadAnnotationForCurrentAsync(key.SavedId, ct);
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
         {
@@ -296,13 +338,52 @@
         }
     }
 
+    private async Task<IReadOnlyList<IncidentView>?> ResolveIncidentListAsync(Guid? savedId, CancellationToken ct)
+    {
+        if (savedId is { } id
+            && Services.GetService<LibraryStore>() is { } libraryStore
+            && Services.GetService<IncidentMapper>() is { } mapper
+            && await libraryStore.GetAsync(id, ct) is { } saved)
+        {
+            var mapped = new List<IncidentView>(saved.Snapshot.Incidents.Count);
+            for (var i = 0; i < saved.Snapshot.Incidents.Count; i++)
+            {
+                mapped.Add(await mapper.MapAsync(saved.Snapshot.Incidents[i], i + 1, ct));
+            }
+
+            return mapped;
+        }
+
+        return await Source.ForTopicAsync(Topic ?? "", ct);
+    }
+
+    private async Task LoadAnnotationForCurrentAsync(Guid? savedId, CancellationToken ct = default)
+    {
+        if (savedId is not { } id
+            || _incident is null
+            || Services.GetService<AnnotationStore>() is not { } store)
+        {
+            _annotation = null;
+            return;
+        }
+
+        var map = await store.ForInvestigationAsync(id, ct);
+        map.TryGetValue(_incident.Id, out _annotation);
+    }
+
+    private async Task ReloadAnnotationAsync()
+    {
+        await LoadAnnotationForCurrentAsync(EffectiveSavedId);
+        StateHasChanged();
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             try
             {
-                await _wrapper.FocusAsync();
+                await _wrapper.FocusAsync(preventScroll: true);
             }
             catch
             {
@@ -354,11 +435,12 @@
 
     private async Task TranslateUntitledArticlesIfNeededAsync()
     {
-        if (_disposed || _loading || _incident is null || _loadedKey is not { } key)
+        if (_disposed || _loading || _incident is null || _loadedKey is not { } loaded)
         {
             return;
         }
 
+        var key = (loaded.Topic, loaded.IncidentId);
         if (_translatedIncidentKey == key)
         {
             return;
@@ -572,10 +654,19 @@
     private static string FormatDate(DateTimeOffset date) =>
         date.ToUniversalTime().ToString("d MMM yyyy", CultureInfo.InvariantCulture);
 
-    private static string FormatCount(int count, string singular, string plural) =>
-        count == 1
-            ? $"1 {singular}"
-            : string.Create(CultureInfo.InvariantCulture, $"{count:N0} {plural}");
+    private static string FormatAccounts(IncidentView incident)
+    {
+        var total = Math.Max(1, incident.AccountCount);
+        var anonCount = incident.Edits
+            .Where(static e => e.Action is EditAction.Inserted or EditAction.Reinserted && e.Editor.IsAnonymous)
+            .Select(static e => e.Editor.GroupingKey)
+            .Distinct(StringComparer.Ordinal)
+            .Count();
+
+        return anonCount > 0
+            ? string.Create(CultureInfo.InvariantCulture, $"{total:N0} ({anonCount:N0} anonymous)")
+            : total.ToString("N0", CultureInfo.InvariantCulture);
+    }
 
     private string ExtractQuery(bool excludeDiffMode)
     {

@@ -220,7 +220,7 @@ public sealed class DiffViewerTests : BunitContext
             Assert.Empty(mt.QuerySelectorAll("del"));
             Assert.Contains("The Winter War began when Finland shelled Mainila in November 1939.", mt.TextContent);
             Assert.Equal(
-                "Markers lost in translation; showing the plain translation.",
+                "Highlighting couldn't be aligned in the translation; showing it unaligned.",
                 cut.Find("[data-testid=diff-mt-note]").TextContent);
         });
     }

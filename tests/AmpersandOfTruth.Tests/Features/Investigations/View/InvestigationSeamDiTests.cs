@@ -1,11 +1,17 @@
 using AmpersandOfTruth.Tests.Infrastructure;
+using AmpersandOfTruth.Web.Data;
+using AmpersandOfTruth.Web.Features.Analysis;
+using AmpersandOfTruth.Web.Features.Analysis.Prompts;
 using AmpersandOfTruth.Web.Features.Evidence;
 using AmpersandOfTruth.Web.Features.Investigations;
+using AmpersandOfTruth.Web.Features.Investigations.Cache;
 using AmpersandOfTruth.Web.Features.Investigations.Fixtures;
 using AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 using AmpersandOfTruth.Web.Features.Investigations.View;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 
 namespace AmpersandOfTruth.Tests.Features.Investigations.View;
@@ -31,7 +37,8 @@ public class InvestigationSeamDiTests(AppFactory app) : IClassFixture<AppFactory
     public async Task Pipeline_configuration_resolves_InvestigationPipeline_and_omits_SampleIncidentWarmup()
     {
         await using var pipelineApp = app.WithWebHostBuilder(b =>
-            b.UseSetting("Investigations:Source", "Pipeline"));
+            b.UseSetting("Investigations:Source", "Pipeline")
+             .UseSetting("ConnectionStrings:Corpus", "Server=127.0.0.1;Port=1;Database=corpus;User ID=x;Connection Timeout=1"));
 
         var runner = pipelineApp.Services.GetRequiredService<IInvestigationRunner>();
         var source = pipelineApp.Services.GetRequiredService<IIncidentSource>();
@@ -43,6 +50,12 @@ public class InvestigationSeamDiTests(AppFactory app) : IClassFixture<AppFactory
         Assert.Empty(hosted.OfType<SampleIncidentWarmup>());
         Assert.Equal(IncidentSourceKind.Pipeline, opts.Source);
         Assert.False(opts.IsSampleData);
+
+        var runCache = pipelineApp.Services.GetRequiredService<InvestigationRunCache>();
+        await runCache.StoreAsync(TopicSlug.ToQuery("di-cached-topic"), Snapshot([Record(30, 31, EvidenceTier.Contested, 10, "di-1")]));
+        var diViews = await source.ForTopicAsync("di-cached-topic");
+        Assert.NotNull(diViews);
+        Assert.Equal("di-1", Assert.Single(diViews).Id);
     }
 
     [Fact]
@@ -102,6 +115,84 @@ public class InvestigationSeamDiTests(AppFactory app) : IClassFixture<AppFactory
 
         Assert.NotNull(await source.ForTopicAsync("topic-6"));
         Assert.Null(await source.ForTopicAsync("topic-7"));
+    }
+
+    [Fact]
+    public async Task RecentRunIncidentSource_reads_cached_snapshot_in_rank_order_warms_RecentRuns_and_returns_null_on_miss_or_throw()
+    {
+        using var db = new TestDb();
+        var cache = CreateRunCache(db.Factory);
+        var corpus = new FakeIncidentCorpus { Unavailable = true };
+        var revisions = new FakeRevisionStore { Unavailable = true };
+        var mapper = new IncidentMapper(corpus, revisions);
+
+        var low = Record(10, 11, EvidenceTier.Reverted, 5.0, "low");
+        var high = Record(20, 21, EvidenceTier.Contested, 25.0, "high");
+        await cache.StoreAsync(
+            TopicSlug.ToQuery("winter-war"),
+            Snapshot([low, high]));
+
+        var recent = new RecentRuns();
+        var source = new RecentRunIncidentSource(recent, mapper, cache);
+
+        // 1. Empty RecentRuns + cached snapshot -> incidents returned in rank order and recorded into RecentRuns.
+        Assert.Null(recent.TryGet("winter-war"));
+        var views = await source.ForTopicAsync("winter-war");
+        Assert.NotNull(views);
+        Assert.Equal([("high", 1), ("low", 2)], views.Select(v => (v.Id, v.Rank)));
+        Assert.NotNull(recent.TryGet("winter-war"));
+
+        // Clearing SQLite proves RecentRuns now serves subsequent reads directly.
+        await cache.ClearAsync();
+        var warmViews = await source.ForTopicAsync("winter-war");
+        Assert.NotNull(warmViews);
+        Assert.Equal([("high", 1), ("low", 2)], warmViews.Select(v => (v.Id, v.Rank)));
+
+        // 2. Cache miss -> null.
+        Assert.Null(await source.ForTopicAsync("unknown-topic"));
+        Assert.Null(recent.TryGet("unknown-topic"));
+
+        // 3. Cache throws (dropped table / broken factory) -> null.
+        await using (var ctx = db.CreateContext())
+        {
+            await ctx.Database.ExecuteSqlRawAsync("DROP TABLE InvestigationRuns");
+        }
+
+        var emptyRecent = new RecentRuns();
+        var brokenSqlSource = new RecentRunIncidentSource(emptyRecent, mapper, cache);
+        Assert.Null(await brokenSqlSource.ForTopicAsync("winter-war"));
+
+        var throwingCache = CreateRunCache(new ThrowingDbContextFactory());
+        var throwingSource = new RecentRunIncidentSource(new RecentRuns(), mapper, throwingCache);
+        Assert.Null(await throwingSource.ForTopicAsync("winter-war"));
+    }
+
+    private static InvestigationRunCache CreateRunCache(IDbContextFactory<AppDbContext> dbFactory)
+    {
+        var pipeline = Options.Create(new InvestigationPipelineOptions());
+        var gemini = Options.Create(new GeminiOptions());
+        var fingerprint = new PipelineFingerprint(pipeline, gemini, new PromptLibrary(gemini, NullLogger<PromptLibrary>.Instance));
+        return new InvestigationRunCache(dbFactory, fingerprint, TimeProvider.System, NullLogger<InvestigationRunCache>.Instance);
+    }
+
+    private static RunSnapshot Snapshot(IReadOnlyList<IncidentRecord> incidents) =>
+        new(
+            Articles: [],
+            RevisionsScanned: 10,
+            Candidates: [],
+            Scored: [],
+            Incidents: incidents,
+            AnalysedAt: new DateTimeOffset(2026, 11, 14, 12, 0, 0, TimeSpan.Zero),
+            ElapsedMs: 100,
+            StageMs: new Dictionary<InvestigationStage, double>(),
+            FirstIncidentMs: 50);
+
+    private sealed class ThrowingDbContextFactory : IDbContextFactory<AppDbContext>
+    {
+        public AppDbContext CreateDbContext() => throw new IOException("simulated storage failure");
+
+        public Task<AppDbContext> CreateDbContextAsync(CancellationToken cancellationToken = default) =>
+            Task.FromException<AppDbContext>(new IOException("simulated storage failure"));
     }
 
     private static IncidentRecord Record(long ins, long rem, EvidenceTier tier, double score, string? id = null) =>

@@ -334,6 +334,24 @@ public sealed class TierRulesTests
         Assert.Equal(EvidenceTier.Contested, result.Tier);
     }
 
+    /// <summary>The pre-S10 campaign threshold. The rule's mechanics (which pairs count, which must be about accounts or
+    /// articles) are tested at 2; the default is 3 since P1.S10 (#37).</summary>
+    private static readonly TierThresholds TwoSignals = new() { MinCoordinationSignals = 2 };
+
+    [Fact]
+    public void Default_campaign_needs_three_coordination_signals()
+    {
+        Assert.Equal(3, TierThresholds.Default.MinCoordinationSignals);
+
+        var twoSignals = CreateContestedEvidence() with { DistinctInsertingEditors = 2, DistinctArticles = 2 };
+        Assert.Equal(EvidenceTier.Contested, TierRules.Assess(twoSignals).Tier);
+
+        var threeSignals = twoSignals with { ReinsertionCount = 2, InsertionSpan = TimeSpan.FromDays(7) };
+        var result = TierRules.Assess(threeSignals);
+        Assert.Equal(EvidenceTier.Campaign, result.Tier);
+        Assert.Contains(result.Reasons, r => r.Kind == TierReasonKind.Persistence);
+    }
+
     [Fact]
     public void Assess_two_editors_plus_two_articles_is_campaign()
     {
@@ -343,7 +361,7 @@ public sealed class TierRulesTests
             DistinctArticles = 2,
         };
 
-        var result = TierRules.Assess(evidence);
+        var result = TierRules.Assess(evidence, TwoSignals);
 
         Assert.Equal(EvidenceTier.Campaign, result.Tier);
     }
@@ -359,7 +377,7 @@ public sealed class TierRulesTests
             InsertionSpan = TimeSpan.FromDays(7),
         };
 
-        var result = TierRules.Assess(evidence);
+        var result = TierRules.Assess(evidence, TwoSignals);
 
         Assert.Equal(EvidenceTier.Campaign, result.Tier);
     }
@@ -374,7 +392,7 @@ public sealed class TierRulesTests
             SourceManipulation = true,
         };
 
-        var result = TierRules.Assess(evidence);
+        var result = TierRules.Assess(evidence, TwoSignals);
 
         Assert.Equal(EvidenceTier.Campaign, result.Tier);
     }
@@ -530,7 +548,7 @@ public sealed class TierRulesTests
             RemovalReason = RemovalReason.None,
         };
 
-        var result = TierRules.Assess(evidence);
+        var result = TierRules.Assess(evidence, TwoSignals);
 
         Assert.Equal(EvidenceTier.Campaign, result.Tier);
         Assert.Contains("put back once after removal", result.BecauseSentence);

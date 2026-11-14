@@ -1,0 +1,6 @@
+.report-shell {
+    max-width: 880px;
+    margin: 0 auto;
+    gap: var(--space-6, 24px);
+    overflow-wrap: anywhere;
+}
