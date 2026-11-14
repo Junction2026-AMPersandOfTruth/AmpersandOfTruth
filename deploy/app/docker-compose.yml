@@ -1,4 +1,4 @@
-# The web app on the team VPS (#98): https://ampersand.srv2158939.hstgr.cloud
+# The web app on the team VPS (#98): https://asot.tech (www.asot.tech redirects; ampersand.srv2158939.hstgr.cloud also works)
 # Deployed by scripts/app-deploy.sh (publish on the laptop → rsync ./publish → compose up). Secrets in .env (root-only, VPS only).
 name: aot-app
 services:
@@ -26,10 +26,14 @@ services:
     labels:
       traefik.enable: "true"
       traefik.docker.network: corpus_default
-      traefik.http.routers.aot.rule: Host(`ampersand.srv2158939.hstgr.cloud`)
+      traefik.http.routers.aot.rule: Host(`asot.tech`) || Host(`www.asot.tech`) || Host(`ampersand.srv2158939.hstgr.cloud`)
+      traefik.http.routers.aot.middlewares: aot-www-to-apex
       traefik.http.routers.aot.entrypoints: websecure
       traefik.http.routers.aot.tls.certresolver: letsencrypt
       traefik.http.services.aot.loadbalancer.server.port: "8080"
+      traefik.http.middlewares.aot-www-to-apex.redirectregex.regex: "^https://www\\.asot\\.tech/(.*)"
+      traefik.http.middlewares.aot-www-to-apex.redirectregex.replacement: "https://asot.tech/$${1}"
+      traefik.http.middlewares.aot-www-to-apex.redirectregex.permanent: "true"
 
 volumes:
   aot-data:

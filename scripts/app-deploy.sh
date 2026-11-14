@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Deploy the web app to the team VPS (needs ROOT ssh, like corpus-deploy.sh): https://ampersand.srv2158939.hstgr.cloud
+# Deploy the web app to the team VPS (needs ROOT ssh, like corpus-deploy.sh): https://asot.tech
 #   scripts/app-deploy.sh            publish the current checkout and (re)start the container
 #   scripts/app-deploy.sh --logs     tail the container logs
 # Secrets live only in /opt/junction/app/.env on the VPS (root-only). Created on first deploy from
@@ -37,8 +37,8 @@ fi
 "${SSH[@]}" "$HOST" "cd $DIR && docker compose up -d --force-recreate --remove-orphans >/dev/null && sleep 8 && \
   docker exec aot-web sh -c 'cat /app/REVISION' && docker compose ps --format '{{.Name}} {{.Status}}'"
 for i in $(seq 1 30); do
-  code=$(curl -s -o /dev/null -w '%{http_code}' https://ampersand.srv2158939.hstgr.cloud/health || true)
-  [ "$code" = "200" ] && { echo "✅ https://ampersand.srv2158939.hstgr.cloud is up"; exit 0; }
+  code=$(curl -s -o /dev/null -w '%{http_code}' https://asot.tech/health || true)
+  [ "$code" = "200" ] && { echo "✅ https://asot.tech is up"; exit 0; }
   sleep 2
 done
 echo "❌ /health did not return 200 (last: $code) — scripts/app-deploy.sh --logs"; exit 1

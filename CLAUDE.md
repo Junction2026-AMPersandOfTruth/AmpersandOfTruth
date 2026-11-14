@@ -26,7 +26,7 @@ Query embeddings: **Ollama `bge-m3`** (local, else the VPS through the tunnel) b
 | Run the app's investigation pipeline from the shell (same services, config, caches as the app) | `scripts/investigate.sh run "Talvisota" [--refresh] [--events]` · `variant < request.json` (eval contract §2) · `clear-runs` |
 | Warm caches before a demo + measure the #40 latency budget (Markdown table) | `scripts/warm.sh [topics-file] [--cold]` (default `scripts/demo-topics.txt`) |
 | Live Gemini tests (opt-in, real API calls) | `GEMINI_TESTS=1 dotnet test --filter Category=Gemini` |
-| Deploy the web app to the VPS (needs root ssh) → https://ampersand.srv2158939.hstgr.cloud | `scripts/app-deploy.sh` (publishes the current checkout) · `--logs` · compose in `deploy/app/`, secrets only in `/opt/junction/app/.env` on the VPS |
+| Deploy the web app to the VPS (needs root ssh) → https://asot.tech | `scripts/app-deploy.sh` (publishes the current checkout) · `--logs` · compose in `deploy/app/`, secrets only in `/opt/junction/app/.env` on the VPS |
 | Review walk: demo flow in system Chrome at 1280×720 + 390 px, screenshots + report.md | `scripts/walk.sh [--url http://localhost:PORT] [--out DIR]` (boots the app if no `--url`) |
 | Check a golden set / variant / judgement file against the eval contract (stdlib Python, no corpus) | `python3 research/eval/validate.py golden` · `variant retrieval\|signals -- <cmd>` · tests: `python3 -m unittest discover -s research/eval/tests` |
 | Score a variant on the golden set (P1.E2 runner; Markdown scorecard on stdout) | `research/eval/run signals --name <name> --out research/<issue>-<slug>/results -- <cmd>` · `replay <…responses.jsonl> --judgements j.jsonl` · `--baseline <scorecard.json>` |
