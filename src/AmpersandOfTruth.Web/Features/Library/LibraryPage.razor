@@ -1,0 +1,223 @@
+@page "/library"
+@using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@inject LibraryStore Store
+@inject OwnerKey OwnerKey
+
+<PageTitle>Saved investigations · Ampersand of Truth</PageTitle>
+
+<div class="aot-stack" style="gap:20px" data-testid="library-page">
+    <header>
+        <h1 class="aot-h1">Saved investigations</h1>
+    </header>
+
+    @if (_loading)
+    {
+        <div class="aot-stack" aria-busy="true">
+            <div class="aot-card aot-card--skeleton" aria-label="Loading saved investigations…">
+                <span class="aot-skel" style="width:240px;height:18px"></span>
+                <span class="aot-skel" style="width:70%;height:14px;margin-top:10px"></span>
+            </div>
+        </div>
+    }
+    else if (_items.Count == 0)
+    {
+        <div data-testid="library-empty">
+            <EmptyState Title="No saved investigations yet"
+                        Message="Save a completed investigation to reopen its snapshot here at any time.">
+                <Actions>
+                    <a class="aot-btn aot-btn--primary" href="/">Start an investigation</a>
+                </Actions>
+            </EmptyState>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="aot-wikitable w-100">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Topic</th>
+                        <th>Incidents</th>
+                        <th>Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in _items)
+                    {
+                        var openHref = OpenHref(item);
+                        <tr data-testid="library-item" data-id="@item.Id" @key="item.Id">
+                            <td>
+                                @if (_renamingId == item.Id)
+                                {
+                                    <form class="aot-row" style="gap:6px" @onsubmit="@(() => SaveRenameAsync(item.Id))" @onsubmit:preventDefault>
+                                        <input type="text"
+                                               class="aot-select"
+                                               style="padding:3px 8px;min-width:180px"
+                                               maxlength="200"
+                                               aria-label="Investigation title"
+                                               data-testid="saved-title-input"
+                                               @bind="_renameTitle"
+                                               @bind:event="oninput" />
+                                        <button type="submit"
+                                                class="aot-btn aot-btn--primary aot-btn--sm"
+                                                data-testid="library-rename">
+                                            Save
+                                        </button>
+                                        <button type="button"
+                                                class="aot-btn aot-btn--ghost aot-btn--sm"
+                                                @onclick="CancelRename">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span class="fw-semibold">@item.Title</span>
+                                }
+                            </td>
+                            <td>@item.Topic</td>
+                            <td>
+                                <div class="aot-row" style="gap:6px 10px">
+                                    <TierBadge Tier="EvidenceTier.Campaign" Short="true" />
+                                    <span class="aot-num">@TierCount(item, EvidenceTier.Campaign).ToString("N0", CultureInfo.InvariantCulture)</span>
+                                    <TierBadge Tier="EvidenceTier.Contested" Short="true" />
+                                    <span class="aot-num">@TierCount(item, EvidenceTier.Contested).ToString("N0", CultureInfo.InvariantCulture)</span>
+                                    <TierBadge Tier="EvidenceTier.Reverted" Short="true" />
+                                    <span class="aot-num">@TierCount(item, EvidenceTier.Reverted).ToString("N0", CultureInfo.InvariantCulture)</span>
+                                </div>
+                            </td>
+                            <td class="aot-num text-nowrap">@FormatDate(item.UpdatedAt)</td>
+                            <td class="text-nowrap">
+                                <div class="aot-row" style="gap:6px">
+                                    <a class="aot-btn aot-btn--sm" href="@openHref" data-testid="library-open">Open</a>
+                                    @if (_renamingId != item.Id)
+                                    {
+                                        <button type="button"
+                                                class="aot-btn aot-btn--sm"
+                                                data-testid="library-rename"
+                                                @onclick="@(() => BeginRename(item))">
+                                            Rename
+                                        </button>
+                                    }
+                                    @if (_confirmDeleteId == item.Id)
+                                    {
+                                        <button type="button"
+                                                class="aot-btn aot-btn--primary aot-btn--sm"
+                                                data-testid="library-delete-confirm"
+                                                @onclick="@(() => ConfirmDeleteAsync(item.Id))">
+                                            Confirm delete
+                                        </button>
+                                        <button type="button"
+                                                class="aot-btn aot-btn--ghost aot-btn--sm"
+                                                @onclick="CancelDelete">
+                                            Cancel
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button"
+                                                class="aot-btn aot-btn--sm"
+                                                data-testid="library-delete"
+                                                @onclick="@(() => BeginDelete(item.Id))">
+                                            Delete
+                                        </button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    private bool _loading = true;
+    private string? _owner;
+    private IReadOnlyList<SavedSummary> _items = [];
+    private Guid? _renamingId;
+    private string _renameTitle = "";
+    private Guid? _confirmDeleteId;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _owner = await OwnerKey.GetOrCreateAsync();
+            _items = await Store.ListAsync(_owner);
+            _loading = false;
+            StateHasChanged();
+        }
+    }
+
+    private void BeginRename(SavedSummary item)
+    {
+        _confirmDeleteId = null;
+        _renamingId = item.Id;
+        _renameTitle = item.Title;
+    }
+
+    private void CancelRename()
+    {
+        _renamingId = null;
+        _renameTitle = "";
+    }
+
+    private async Task SaveRenameAsync(Guid id)
+    {
+        var owner = _owner ?? await OwnerKey.GetOrCreateAsync();
+        _owner = owner;
+        if (!string.IsNullOrWhiteSpace(_renameTitle))
+        {
+            await Store.RenameAsync(id, owner, _renameTitle);
+        }
+
+        _renamingId = null;
+        _renameTitle = "";
+        _items = await Store.ListAsync(owner);
+    }
+
+    private void BeginDelete(Guid id)
+    {
+        _renamingId = null;
+        _confirmDeleteId = id;
+    }
+
+    private void CancelDelete()
+    {
+        _confirmDeleteId = null;
+    }
+
+    private async Task ConfirmDeleteAsync(Guid id)
+    {
+        var owner = _owner ?? await OwnerKey.GetOrCreateAsync();
+        _owner = owner;
+        await Store.DeleteAsync(id, owner);
+        _confirmDeleteId = null;
+        _items = await Store.ListAsync(owner);
+    }
+
+    private static string OpenHref(SavedSummary item)
+    {
+        var slug = !string.IsNullOrWhiteSpace(item.TopicSlug)
+            ? item.TopicSlug
+            : TopicSlug.From(item.Topic);
+        if (slug.Length == 0)
+        {
+            slug = "investigation";
+        }
+
+        return $"/investigate/{Uri.EscapeDataString(slug)}?saved={item.Id}";
+    }
+
+    private static int TierCount(SavedSummary item, EvidenceTier tier) =>
+        item.TierCounts.TryGetValue(tier, out var count) ? count : 0;
+
+    private static string FormatDate(DateTimeOffset date) =>
+        date.UtcDateTime.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+}

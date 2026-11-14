@@ -1,0 +1,114 @@
+@using AmpersandOfTruth.Web.Features.Investigations.View
+@using Microsoft.Extensions.DependencyInjection
+@inject IServiceProvider Services
+
+@{
+    var pinned = Incidents.Where(i => _pinnedIds.Contains(i.Id)).ToList();
+    var unpinned = Incidents.Where(i => !_pinnedIds.Contains(i.Id)).ToList();
+}
+
+@if (pinned.Count > 0)
+{
+    <div class="aot-stack" style="gap:16px" data-testid="pinned-list">
+        <div class="aot-label">Pinned (@pinned.Count)</div>
+        @foreach (var incident in pinned)
+        {
+            <div class="aot-stack" style="gap:4px" @key="@($"pin-{incident.Id}")">
+                <div class="aot-row" style="justify-content:flex-end">
+                    <button type="button"
+                            class="aot-chip"
+                            aria-pressed="true"
+                            data-testid="pin-incident"
+                            data-incident="@incident.Id"
+                            @onclick="@(() => TogglePinAsync(incident.Id))">
+                        Pinned
+                    </button>
+                </div>
+                <IncidentCard Incident="incident"
+                              Topic="@Topic"
+                              Query="@Query"
+                              Highlighted="@string.Equals(HotId, incident.Id, StringComparison.Ordinal)"
+                              OnHover="OnHover" />
+            </div>
+        }
+    </div>
+}
+
+@foreach (var incident in unpinned)
+{
+    <div class="aot-stack" style="gap:4px" @key="incident.Id">
+        <div class="aot-row" style="justify-content:flex-end">
+            <button type="button"
+                    class="aot-chip"
+                    aria-pressed="false"
+                    data-testid="pin-incident"
+                    data-incident="@incident.Id"
+                    @onclick="@(() => TogglePinAsync(incident.Id))">
+                Pin
+            </button>
+        </div>
+        <IncidentCard Incident="incident"
+                      Topic="@Topic"
+                      Query="@Query"
+                      Highlighted="@string.Equals(HotId, incident.Id, StringComparison.Ordinal)"
+                      OnHover="OnHover" />
+    </div>
+}
+
+@code {
+    private Guid? _loadedSavedId;
+    private HashSet<string> _pinnedIds = new(StringComparer.Ordinal);
+
+    [Parameter, EditorRequired] public Guid SavedId { get; set; }
+    [Parameter, EditorRequired] public IReadOnlyList<IncidentView> Incidents { get; set; } = [];
+    [Parameter, EditorRequired] public string Topic { get; set; } = "";
+    [Parameter] public string? Query { get; set; }
+    [Parameter] public string? HotId { get; set; }
+    [Parameter] public EventCallback<string?> OnHover { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (_loadedSavedId == SavedId)
+        {
+            return;
+        }
+
+        _loadedSavedId = SavedId;
+        await ReloadPinsAsync();
+    }
+
+    private async Task ReloadPinsAsync()
+    {
+        var store = Services.GetService<LibraryStore>();
+        if (store is null)
+        {
+            _pinnedIds = new HashSet<string>(StringComparer.Ordinal);
+            return;
+        }
+
+        var pins = await store.PinsAsync(SavedId);
+        _pinnedIds = pins.Select(static p => p.IncidentId).ToHashSet(StringComparer.Ordinal);
+    }
+
+    private async Task TogglePinAsync(string incidentId)
+    {
+        var store = Services.GetService<LibraryStore>();
+        var ownerKey = Services.GetService<OwnerKey>();
+        if (store is null || ownerKey is null)
+        {
+            return;
+        }
+
+        var owner = await ownerKey.GetOrCreateAsync();
+        if (_pinnedIds.Contains(incidentId))
+        {
+            await store.UnpinAsync(SavedId, owner, incidentId);
+        }
+        else
+        {
+            await store.PinAsync(SavedId, owner, incidentId, note: null);
+        }
+
+        await ReloadPinsAsync();
+    }
+}
