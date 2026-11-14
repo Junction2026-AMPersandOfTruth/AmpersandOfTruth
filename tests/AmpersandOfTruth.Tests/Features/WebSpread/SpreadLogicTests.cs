@@ -114,7 +114,7 @@ public sealed class SpreadLogicTests
             [S(SpreadBucket.Before), S(SpreadBucket.During, reuse: true), S(SpreadBucket.AfterRemoval), S(SpreadBucket.During, Stance.Refutes)],
             12, ["fi", "en"]);
 
-        Assert.Equal("Found on 1 site before the Wikipedia edit and 2 sites after it; 1 of the later ones reuse Wikipedia's wording or credit it. One site argues against it.", headline);
+        Assert.Equal("Found on 1 site before the Wikipedia edit and 2 sites after it; 1 of the later ones reuses Wikipedia's wording or credits it. One site argues against it.", headline);
         Assert.Equal("No page carrying this claim was found (12 searches in Finnish and English).", SpreadClassifier.Headline([], 12, ["fi", "en"]));
         Assert.Equal("Found on 1 site after the Wikipedia edit. One site argues against it.",
             SpreadClassifier.Headline([S(SpreadBucket.AfterRemoval), S(SpreadBucket.During, Stance.Refutes)], 6, ["fi", "en"]));

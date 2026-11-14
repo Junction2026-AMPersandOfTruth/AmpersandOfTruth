@@ -59,7 +59,9 @@ public static class SpreadClassifier
         if (after > 0) parts.Add(before > 0 ? $"{Sites(after)} after it" : $"{Sites(after)} after the Wikipedia edit");
         if (undated > 0) parts.Add($"{Sites(undated)} without a reliable date");
         var sentence = "Found on " + Join(parts);
-        if (reuse > 0) sentence += $"; {reuse} of the later ones reuse Wikipedia's wording or credit it";
+        if (reuse > 0) sentence += reuse == 1
+            ? "; 1 of the later ones reuses Wikipedia's wording or credits it"
+            : $"; {reuse} of the later ones reuse Wikipedia's wording or credit it";
         if (refuting > 0) sentence += $". {Sites(refuting, capital: true)} {Verb(refuting)} against it";
         return sentence + ".";
     }

@@ -155,7 +155,7 @@ public sealed class WebSpreadTracerTests
         Assert.True(check.IsRefutation);
         Assert.Equal(SpreadBucket.During, check.Bucket);
 
-        Assert.Equal("Found on 1 site before the Wikipedia edit and 1 site after it; 1 of the later ones reuse Wikipedia's wording or credit it. One site argues against it.",
+        Assert.Equal("Found on 1 site before the Wikipedia edit and 1 site after it; 1 of the later ones reuses Wikipedia's wording or credits it. One site argues against it.",
             result.Headline);
         Assert.Contains("Timing shows sequence, not causation.", result.Notes);
     }
