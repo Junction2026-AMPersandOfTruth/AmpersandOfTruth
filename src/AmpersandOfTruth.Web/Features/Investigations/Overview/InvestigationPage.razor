@@ -3,12 +3,14 @@
 @using System.Diagnostics
 @using System.Globalization
 @using AmpersandOfTruth.Web.Features.Articles
+@using AmpersandOfTruth.Web.Features.Demo
 @using AmpersandOfTruth.Web.Features.Evidence
 @using AmpersandOfTruth.Web.Features.Investigations
 @using AmpersandOfTruth.Web.Features.Investigations.Pipeline
 @using AmpersandOfTruth.Web.Features.Investigations.View
 @using AmpersandOfTruth.Web.Features.Library
 @using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.Extensions.Diagnostics.HealthChecks
 @using Microsoft.Extensions.Options
 @inject IInvestigationRunner Runner
 @inject IncidentMapper Mapper
@@ -24,6 +26,14 @@
     var tierCounts = OverviewState.TierCounts(_incidents);
     var visibleIncidents = OverviewState.Apply(_incidents, _filter);
     var signalOptions = BuildSignalOptions();
+    var selectedSignalPhrases = signalOptions
+        .Where(p => _filter.Signals.Any(s => SignalCatalog.Normalize(s) == p.Id))
+        .ToList();
+    var activeFilterCount = _filter.Tiers.Count
+        + selectedSignalPhrases.Count
+        + (_filter.ArticleId is not null ? 1 : 0)
+        + (_filter.FromYear is not null || _filter.ToYear is not null ? 1 : 0)
+        + (_filter.Sort != IncidentSort.Relevance ? 1 : 0);
     var queryString = _filter.ToQueryString();
     var unflagged = _progress.Unflagged();
 }
@@ -34,7 +44,7 @@
     @if (EffectiveSavedId is not null && _progress.Failure is null && _completedAnalysedAt is { } savedAnalysedAt)
     {
         <SavedInvestigationBanner AnalysedAt="savedAnalysedAt"
-                                  Running="_progress.IsRunning"
+                                  Running="@(_progress.IsRunning || IsSafeMode)"
                                   OnRerunLatest="RerunAsync" />
     }
 
@@ -42,11 +52,12 @@
         <div class="aot-row" style="justify-content:space-between">
             <h1 class="aot-h1" data-testid="topic-title">@TopicText</h1>
             <div class="aot-row" style="gap:6px">
+                <a class="aot-btn aot-btn--sm" href="@NetworkHref" data-testid="network-link">Accounts × articles</a>
                 <SaveInvestigationButton Topic="@TopicText"
                                          Articles="@_progress.Articles"
                                          Incidents="@_completedIncidents"
                                          AnalysedAt="@_completedAnalysedAt"
-                                         SavedId="@EffectiveSavedId"
+                                         SavedId="@(_isDemoSaved ? null : EffectiveSavedId)"
                                          OnSaved="HandleSaved" />
                 <button type="button" class="aot-btn aot-btn--sm" data-testid="copy-link" @onclick="CopyLinkAsync">
                     @(_copied ? "Copied" : "Copy link")
@@ -76,18 +87,29 @@
                 <span><b class="aot-num">@_incidents.Count.ToString("N0", CultureInfo.InvariantCulture)</b> @(_incidents.Count == 1 ? "incident" : "incidents")@(_incidents.Count > 0 ? ":" : "")</span>
                 @if (_incidents.Count > 0)
                 {
-                    <TierBadge Tier="EvidenceTier.Campaign" Short="true" />
+                    <TierBadge Tier="EvidenceTier.Campaign" />
                     <span class="aot-num">@tierCounts[EvidenceTier.Campaign].ToString("N0", CultureInfo.InvariantCulture)</span>
-                    <TierBadge Tier="EvidenceTier.Contested" Short="true" />
+                    <TierBadge Tier="EvidenceTier.Contested" />
                     <span class="aot-num">@tierCounts[EvidenceTier.Contested].ToString("N0", CultureInfo.InvariantCulture)</span>
-                    <TierBadge Tier="EvidenceTier.Reverted" Short="true" />
+                    <TierBadge Tier="EvidenceTier.Reverted" />
                     <span class="aot-num">@tierCounts[EvidenceTier.Reverted].ToString("N0", CultureInfo.InvariantCulture)</span>
                 }
             }
         </div>
     </div>
 
-    <StageTracker Progress="_progress" OnCancel="CancelRun" OnRerun="RerunAsync" />
+    @if (_rateLimited)
+    {
+        <StatusBanner Kind="StatusKind.Warn"
+                      Title="@StartLimiter.RateLimitedMessage"
+                      TestId="rate-limited" />
+    }
+    else
+    {
+        <StageTracker Progress="_progress"
+                      OnCancel="CancelRun"
+                      OnRerun="@(IsSafeMode ? default : EventCallback.Factory.Create(this, RerunAsync))" />
+    }
 
     @if (_progress.Scope is { InScope: false } scope)
     {
@@ -95,6 +117,24 @@
             The corpus covers Finnish history, politics and society, so the articles below may be only loosely related.
             <span class="aot-muted">@scope.Reason</span>
         </StatusBanner>
+    }
+    @if (!_hasRendered && _prerenderFailureKind is { } prerenderFailure)
+    {
+        <StatusBanner Kind="StatusKind.Error"
+                      Title="@StageTracker.FailureSentence(prerenderFailure)"
+                      Detail="@_prerenderFailureDetail" />
+    }
+    else if (_cachedFallbackDetail is not null)
+    {
+        <StatusBanner Kind="StatusKind.Info"
+                      Title="Showing saved analysis — the Wikipedia data is not reachable right now."
+                      Detail="@_cachedFallbackDetail"
+                      OnRetry="RerunAsync" />
+    }
+    else if (_progress.HasAssessmentUnavailable && _progress.Failure is null)
+    {
+        <StatusBanner Kind="StatusKind.Warn"
+                      Title="Automated assessment unavailable — showing edit and removal history only." />
     }
 
     @if (_incidents.Count > 0)
@@ -114,73 +154,99 @@
             @if (_incidents.Count > 0 || !_filter.IsDefault)
             {
                 <div class="aot-stack" style="gap:8px">
-                    <div class="aot-toolbar">
-                        <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:6px">
-                            Sort
-                            <select class="aot-select"
-                                    data-testid="sort-select"
-                                    @bind="_sortValue"
-                                    @bind:after="OnSortAfterBind">
-                                <option value="relevance">Relevance</option>
-                                <option value="recent">Most recent</option>
-                                <option value="longest-live">Longest live</option>
-                            </select>
-                        </label>
+                    <details class="aot-filter-disclosure" data-testid="filters-disclosure" @ref="_filtersDetailsRef">
+                        <summary data-testid="filters-summary">
+                            Filters@(activeFilterCount > 0 ? $" ({activeFilterCount.ToString("N0", CultureInfo.InvariantCulture)})" : "")
+                        </summary>
+                        <div class="aot-toolbar">
+                            <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:6px">
+                                Sort
+                                <select class="aot-select"
+                                        data-testid="sort-select"
+                                        @bind="_sortValue"
+                                        @bind:after="OnSortAfterBind">
+                                    <option value="relevance">Relevance</option>
+                                    <option value="recent">Most recent</option>
+                                    <option value="longest-live">Longest live</option>
+                                </select>
+                            </label>
 
-                        <span class="aot-small aot-muted" style="margin-left:8px">Level</span>
-                        @foreach (var level in FilterLevels)
-                        {
-                            var pressed = _filter.Tiers.Contains(level);
-                            <button type="button"
-                                    class="aot-chip"
-                                    style="padding:1px 4px"
-                                    aria-pressed="@(pressed ? "true" : "false")"
-                                    data-testid="tier-filter"
-                                    data-tier="@EvidenceTiers.Get(level).Id"
-                                    @onclick="@(() => ApplyFilter(_filter.ToggleTier(level)))">
-                                <TierBadge Tier="level" Short="true" />
-                            </button>
-                        }
+                            <span class="aot-small aot-muted" style="margin-left:8px">Level</span>
+                            @foreach (var level in FilterLevels)
+                            {
+                                var levelInfo = EvidenceTiers.Get(level);
+                                var pressed = _filter.Tiers.Contains(level);
+                                <button type="button"
+                                        class="aot-chip"
+                                        style="padding:1px 4px"
+                                        aria-pressed="@(pressed ? "true" : "false")"
+                                        title="@($"{levelInfo.Label} — {levelInfo.Meaning}")"
+                                        aria-label="@($"Filter by level: {levelInfo.Label}")"
+                                        data-testid="tier-filter"
+                                        data-tier="@levelInfo.Id"
+                                        @onclick="@(() => ApplyFilter(_filter.ToggleTier(level)))">
+                                    <TierBadge Tier="level" Short="true" />
+                                </button>
+                            }
 
-                        <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:4px;margin-left:auto">
-                            Years
-                            <input type="number"
-                                   class="aot-select"
-                                   style="width:76px;padding:4px 6px"
-                                   min="2003"
-                                   max="2026"
-                                   placeholder="2003"
-                                   aria-label="From year"
-                                   data-testid="from-year-input"
-                                   value="@(_filter.FromYear?.ToString(CultureInfo.InvariantCulture) ?? "")"
-                                   @onchange="HandleFromYearChange" />
-                            <span aria-hidden="true">–</span>
-                            <input type="number"
-                                   class="aot-select"
-                                   style="width:76px;padding:4px 6px"
-                                   min="2003"
-                                   max="2026"
-                                   placeholder="2026"
-                                   aria-label="To year"
-                                   data-testid="to-year-input"
-                                   value="@(_filter.ToYear?.ToString(CultureInfo.InvariantCulture) ?? "")"
-                                   @onchange="HandleToYearChange" />
-                        </label>
+                            @if (signalOptions.Count > 0)
+                            {
+                                <details class="aot-signal-menu" data-testid="signal-menu">
+                                    <summary class="aot-select" data-testid="signal-menu-toggle">
+                                        Signal@(selectedSignalPhrases.Count > 0 ? $" ({selectedSignalPhrases.Count.ToString("N0", CultureInfo.InvariantCulture)})" : "")
+                                    </summary>
+                                    <div class="aot-signal-menu__popover" data-testid="signal-filters">
+                                        @foreach (var phrase in signalOptions)
+                                        {
+                                            var selected = _filter.Signals.Any(s => SignalCatalog.Normalize(s) == phrase.Id);
+                                            <SignalChip Phrase="phrase"
+                                                        Selected="selected"
+                                                        OnClick="@(() => ApplyFilter(_filter.ToggleSignal(phrase.Id)))" />
+                                        }
+                                    </div>
+                                </details>
+                            }
 
-                        @if (!_filter.IsDefault)
-                        {
-                            <button type="button"
-                                    class="aot-btn aot-btn--ghost aot-btn--sm"
-                                    data-testid="clear-filters"
-                                    @onclick="@(() => ApplyFilter(OverviewFilter.Default))">
-                                Clear filters
-                            </button>
-                        }
-                    </div>
+                            <label class="aot-small aot-muted" style="display:inline-flex;align-items:center;gap:4px;margin-left:auto">
+                                Years
+                                <input type="number"
+                                       class="aot-select"
+                                       style="width:76px;padding:4px 6px"
+                                       min="2003"
+                                       max="2026"
+                                       placeholder="2003"
+                                       aria-label="From year"
+                                       data-testid="from-year-input"
+                                       value="@(_filter.FromYear?.ToString(CultureInfo.InvariantCulture) ?? "")"
+                                       @onchange="HandleFromYearChange" />
+                                <span aria-hidden="true">–</span>
+                                <input type="number"
+                                       class="aot-select"
+                                       style="width:76px;padding:4px 6px"
+                                       min="2003"
+                                       max="2026"
+                                       placeholder="2026"
+                                       aria-label="To year"
+                                       data-testid="to-year-input"
+                                       value="@(_filter.ToYear?.ToString(CultureInfo.InvariantCulture) ?? "")"
+                                       @onchange="HandleToYearChange" />
+                            </label>
 
-                    @if (signalOptions.Count > 0 || _filter.ArticleId is not null)
+                            @if (!_filter.IsDefault)
+                            {
+                                <button type="button"
+                                        class="aot-btn aot-btn--ghost aot-btn--sm"
+                                        data-testid="clear-filters"
+                                        @onclick="@(() => ApplyFilter(OverviewFilter.Default))">
+                                    Clear filters
+                                </button>
+                            }
+                        </div>
+                    </details>
+
+                    @if (_filter.ArticleId is not null || selectedSignalPhrases.Count > 0)
                     {
-                        <div class="aot-row" data-testid="signal-filters">
+                        <div class="aot-row" data-testid="active-filters">
                             @if (_filter.ArticleId is { } activeArticleId)
                             {
                                 <button type="button"
@@ -188,16 +254,21 @@
                                         aria-pressed="true"
                                         data-testid="active-article-filter"
                                         @onclick="@(() => ApplyFilter(_filter.WithArticle(null)))">
-                                    Article: @ResolveArticleLabel(activeArticleId) ×
+                                    Article: @ResolveArticleLabel(activeArticleId) <span aria-hidden="true">×</span>
                                 </button>
                             }
 
-                            @foreach (var phrase in signalOptions)
+                            @foreach (var phrase in selectedSignalPhrases)
                             {
-                                var selected = _filter.Signals.Any(s => SignalCatalog.Normalize(s) == phrase.Id);
-                                <SignalChip Phrase="phrase"
-                                            Selected="selected"
-                                            OnClick="@(() => ApplyFilter(_filter.ToggleSignal(phrase.Id)))" />
+                                <button type="button"
+                                        class="aot-chip"
+                                        aria-pressed="true"
+                                        title="@phrase.Why"
+                                        data-testid="active-signal-filter"
+                                        data-signal="@phrase.Id"
+                                        @onclick="@(() => ApplyFilter(_filter.ToggleSignal(phrase.Id)))">
+                                    @phrase.Chip <span aria-hidden="true">×</span>
+                                </button>
                             }
                         </div>
                     }
@@ -208,7 +279,7 @@
             {
                 @if (visibleIncidents.Count > 0)
                 {
-                    @if (EffectiveSavedId is { } savedId)
+                    @if (EffectiveSavedId is { } savedId && !_isDemoSaved)
                     {
                         <SavedIncidentList SavedId="savedId"
                                            Incidents="visibleIncidents"
@@ -274,26 +345,47 @@
 
             @if (unflagged.Count > 0)
             {
-                <UnflaggedList Items="unflagged" />
+                <UnflaggedList Items="unflagged" Classes="_removalClasses" />
             }
         </section>
 
-        <aside class="aot-panel order-first order-lg-last" style="padding:12px 16px 8px">
+        <aside class="aot-panel aot-rail-panel order-first order-lg-last">
             @if (_progress.Articles.Count > 0)
             {
-                <details open class="w-100" data-testid="article-rail">
-                    <summary class="aot-label" style="margin-bottom:8px">
+                var (visibleArticles, zeroArticles) = PartitionRailArticles();
+                <details class="w-100 aot-rail-details" data-testid="article-rail" @ref="_railDetailsRef">
+                    <summary class="aot-label">
                         Articles (@_progress.Articles.Count.ToString("N0", CultureInfo.InvariantCulture))
                     </summary>
-                    @foreach (var article in OrderedArticles)
+                    @foreach (var article in visibleArticles)
                     {
                         <ArticleRailItem Article="article"
                                          TitleEn="@TryGetTitleEn(article.PageId)"
                                          IncidentCount="@CountIncidentsForArticle(article.PageId)"
                                          Selected="@(_filter.ArticleId == article.PageId)"
                                          TimelineData="@TryGetTimeline(article.PageId)"
+                                         Contest="@TryGetContest(article.PageId)"
                                          OnSelectArticle="@(() => ToggleArticleFilter(article.PageId))"
                                          @key="(article.Lang, article.PageId)" />
+                    }
+                    @if (zeroArticles.Count > 0)
+                    {
+                        <details class="aot-rail-more" data-testid="rail-more-articles">
+                            <summary data-testid="rail-more-summary">
+                                Show @zeroArticles.Count.ToString("N0", CultureInfo.InvariantCulture) more @(zeroArticles.Count == 1 ? "article" : "articles")
+                            </summary>
+                            @foreach (var article in zeroArticles)
+                            {
+                                <ArticleRailItem Article="article"
+                                                 TitleEn="@TryGetTitleEn(article.PageId)"
+                                                 IncidentCount="0"
+                                                 Selected="@(_filter.ArticleId == article.PageId)"
+                                                 TimelineData="@TryGetTimeline(article.PageId)"
+                                                 Contest="@TryGetContest(article.PageId)"
+                                                 OnSelectArticle="@(() => ToggleArticleFilter(article.PageId))"
+                                                 @key="(article.Lang, article.PageId)" />
+                            }
+                        </details>
                     }
                 </details>
             }
@@ -330,6 +422,9 @@
     private readonly Dictionary<string, IncidentView> _mappedById = new(StringComparer.Ordinal);
     private readonly Dictionary<long, string> _articleTitlesEn = [];
     private readonly Dictionary<long, ArticleAggregates> _sparklines = [];
+    private IReadOnlyDictionary<long, PageContest> _pageContests = new Dictionary<long, PageContest>();
+    private IReadOnlyDictionary<(long PageId, long RevertingRevId), string> _removalClasses =
+        new Dictionary<(long PageId, long RevertingRevId), string>();
 
     private RunProgress _progress = default!;
     private OverviewFilter _filter = OverviewFilter.Default;
@@ -343,9 +438,20 @@
     private bool _disposed;
     private bool _wasSlow;
     private bool _copied;
+    private bool _rateLimited;
+    private bool _isDemoSaved;
     private string? _activeSlug;
     private Guid? _activeSavedId;
     private string? _hotId;
+    private StageFailureKind? _prerenderFailureKind;
+    private string? _prerenderFailureDetail;
+    private string? _cachedFallbackDetail;
+
+    private ElementReference _railDetailsRef;
+    private ElementReference _filtersDetailsRef;
+    private bool _syncedRailRef;
+    private bool _syncedFiltersRef;
+    private IJSObjectReference? _jsModule;
 
     private long _lastRenderTicks;
     private bool _dirty;
@@ -363,6 +469,9 @@
 
     private Guid? EffectiveSavedId => SavedQuery ?? TryParseSavedFromUri(Nav.Uri);
 
+    private bool IsSafeMode =>
+        Services.GetService<IOptionsMonitor<DemoOptions>>()?.CurrentValue.SafeMode == true;
+
     private string TopicText => Services.GetService<AmpersandOfTruth.Web.Features.Investigations.Fixtures.SampleIncidents>()?.Match(Topic ?? "")?.Title
         ?? (TopicSlug.ToQuery(Topic ?? "") is { Length: > 0 } q ? char.ToUpperInvariant(q[0]) + q[1..] : "");
 
@@ -375,13 +484,86 @@
         }
     }
 
+    private string NetworkHref => EffectiveSavedId is { } savedId
+        ? $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}/network?saved={savedId}"
+        : $"/investigate/{Uri.EscapeDataString(EffectiveSlug)}/network";
+
     private IEnumerable<TopicArticle> OrderedArticles =>
-        _progress.Articles.OrderByDescending(static a => a.HasHistory);
+        _progress.Articles
+            .OrderByDescending(a => CountIncidentsForArticle(a.PageId) > 0 || _filter.ArticleId == a.PageId)
+            .ThenByDescending(a => CountIncidentsForArticle(a.PageId))
+            .ThenByDescending(static a => a.HasHistory);
+
+    private (IReadOnlyList<TopicArticle> Visible, IReadOnlyList<TopicArticle> HiddenZero) PartitionRailArticles()
+    {
+        var ordered = OrderedArticles.ToList();
+        if (!_progress.IsComplete && _incidents.Count == 0)
+        {
+            return (ordered, []);
+        }
+
+        var visible = new List<TopicArticle>();
+        var zero = new List<TopicArticle>();
+        foreach (var article in ordered)
+        {
+            if (CountIncidentsForArticle(article.PageId) > 0 || _filter.ArticleId == article.PageId)
+            {
+                visible.Add(article);
+            }
+            else
+            {
+                zero.Add(article);
+            }
+        }
+
+        return (visible, zero);
+    }
 
     protected override void OnInitialized()
     {
+        Services.GetService<ClientIdentity>()?.Capture();
         _progress = new RunProgress(Time);
         Nav.LocationChanged += HandleLocationChanged;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (_hasRendered) return;
+
+        var healthChecks = Services.GetService<HealthCheckService>();
+        if (healthChecks is null || RecentRuns.TryGet(EffectiveSlug) is { Count: > 0 })
+        {
+            return;
+        }
+
+        try
+        {
+            var report = await healthChecks.CheckHealthAsync(
+                static reg => reg.Name is "corpus" or "embedding"
+                    || reg.Tags.Contains("corpus")
+                    || reg.Tags.Contains("embedding"));
+
+            var degraded = report.Entries
+                .Where(static e => e.Value.Status != HealthStatus.Healthy)
+                .ToList();
+
+            if (degraded.Count > 0)
+            {
+                var corpusDown = degraded.Any(static e =>
+                    string.Equals(e.Key, "corpus", StringComparison.OrdinalIgnoreCase));
+                _prerenderFailureKind = corpusDown
+                    ? StageFailureKind.CorpusUnavailable
+                    : StageFailureKind.EmbeddingUnavailable;
+                _prerenderFailureDetail = string.Join(
+                    Environment.NewLine,
+                    degraded.Select(static e => $"{e.Key}: {e.Value.Description ?? e.Value.Status.ToString()}"));
+            }
+        }
+        catch (Exception ex)
+        {
+            _prerenderFailureKind = StageFailureKind.Error;
+            _prerenderFailureDetail = ex.Message;
+        }
     }
 
     protected override void OnParametersSet()
@@ -449,12 +631,55 @@
             _ = StartRunAsync();
         }
 
+        _ = SyncDisclosuresAsync();
         return Task.CompletedTask;
+    }
+
+    private async Task SyncDisclosuresAsync()
+    {
+        var hasRail = _progress.Articles.Count > 0;
+        var hasFilters = _incidents.Count > 0 || !_filter.IsDefault;
+
+        if (!hasRail) _syncedRailRef = false;
+        if (!hasFilters) _syncedFiltersRef = false;
+
+        var needRail = hasRail && !_syncedRailRef;
+        var needFilters = hasFilters && !_syncedFiltersRef;
+        if (!needRail && !needFilters) return;
+
+        if (needRail) _syncedRailRef = true;
+        if (needFilters) _syncedFiltersRef = true;
+
+        var js = Services.GetService<IJSRuntime>();
+        if (js is null) return;
+
+        try
+        {
+            _jsModule ??= await js.InvokeAsync<IJSObjectReference>(
+                "import",
+                "./Features/Investigations/Overview/InvestigationPage.razor.js");
+            if (_disposed || _jsModule is null) return;
+
+            if (needRail && _progress.Articles.Count > 0)
+            {
+                await _jsModule.InvokeVoidAsync("syncDisclosure", _railDetailsRef);
+            }
+
+            if (needFilters && (_incidents.Count > 0 || !_filter.IsDefault))
+            {
+                await _jsModule.InvokeVoidAsync("syncDisclosure", _filtersDetailsRef);
+            }
+        }
+        catch
+        {
+            // Ignore in headless/prerender/test environments without JS module support.
+        }
     }
 
     private async Task StartRunAsync(bool refresh = false)
     {
         if (_disposed) return;
+        if (refresh && IsSafeMode) return;
 
         CancelCurrentRunTokens();
 
@@ -463,6 +688,7 @@
 
         var savedId = EffectiveSavedId;
 
+        _rateLimited = false;
         _incidents = [];
         _completedIncidents = null;
         if (!refresh || savedId is null)
@@ -472,9 +698,33 @@
         _mappedById.Clear();
         _articleTitlesEn.Clear();
         _sparklines.Clear();
+        _pageContests = new Dictionary<long, PageContest>();
+        _removalClasses = new Dictionary<(long PageId, long RevertingRevId), string>();
         _hotId = null;
         _wasSlow = false;
         _dirty = false;
+        _cachedFallbackDetail = null;
+        _syncedRailRef = false;
+        _syncedFiltersRef = false;
+
+        var limiter = Services.GetService<StartLimiter>();
+        if (limiter is not null && (savedId is null || refresh))
+        {
+            var clientIdentity = Services.GetService<ClientIdentity>();
+            clientIdentity?.Capture();
+            var clientKey = clientIdentity?.EffectiveKey ?? "unknown";
+            if (!limiter.TryAcquire(clientKey))
+            {
+                _progress = new RunProgress(Time);
+                _rateLimited = true;
+                await RenderNowAsync();
+                return;
+            }
+        }
+
+        var libraryStore = savedId is not null ? Services.GetService<LibraryStore>() : null;
+        _isDemoSaved = savedId is { } checkId && libraryStore is not null && await libraryStore.IsDemoAsync(checkId, ct);
+        if (!ReferenceEquals(runCts, _cts) || _disposed) return;
 
         _progress.Start();
         StartSlowMonitor();
@@ -497,12 +747,25 @@
 
                 switch (evt)
                 {
-                    case ArticlesFound:
-                    case RevisionsScanned:
+                    case RunQueued:
+                        await RenderNowAsync();
+                        break;
+
+                    case ArticlesFound found:
+                        _wasSlow = false;
+                        _ = LoadArticleTitlesAsync(found.Items, runCts, ct);
+                        _ = LoadPageContestsAsync(found.Items, runCts, ct);
+                        await RenderNowAsync();
+                        break;
+
+                    case RevisionsScanned scanned:
+                        _wasSlow = false;
+                        _ = LoadRemovalClassesAsync(scanned.Candidates, runCts, ct);
                         await RenderNowAsync();
                         break;
 
                     case CandidateScored { Incident: { } scoredRecord }:
+                        _wasSlow = false;
                         var mapped = await MapAndCacheAsync(scoredRecord, rank: 1, ct);
                         if (!ReferenceEquals(runCts, _cts) || _disposed) return;
                         AddAndRankIncident(mapped);
@@ -510,11 +773,21 @@
                         break;
 
                     case CandidateScored:
+                        _wasSlow = false;
                         await RequestThrottledRenderAsync(ct);
                         break;
 
-                    case StageFailed:
+                    case StageFailed failed:
                         StopSlowMonitor();
+                        if (failed.Kind == StageFailureKind.CorpusUnavailable
+                            && _incidents.Count == 0
+                            && RecentRuns.TryGet(slug) is { Count: > 0 } cachedRecords)
+                        {
+                            _progress.MarkCachedFallback(cachedRecords);
+                            _cachedFallbackDetail = failed.Error;
+                            await SyncFinalIncidentsAsync(cachedRecords, ct);
+                            if (!ReferenceEquals(runCts, _cts) || _disposed) return;
+                        }
                         await RenderNowAsync();
                         break;
 
@@ -532,7 +805,7 @@
                             if (!ReferenceEquals(runCts, _cts) || _disposed) return;
                         }
                         await RenderNowAsync();
-                        _ = LoadSparklinesAsync(_progress.Articles, runCts, ct);
+                        _ = LoadSparklinesAsync(OrderedArticles.ToList(), runCts, ct);
                         break;
                 }
             }
@@ -543,6 +816,37 @@
             {
                 StopSlowMonitor();
                 _progress.Cancel();
+                if (!_disposed)
+                {
+                    await RenderNowAsync();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            if (ReferenceEquals(runCts, _cts))
+            {
+                StopSlowMonitor();
+                var kind = ex switch
+                {
+                    AmpersandOfTruth.Web.Features.Embedding.EmbeddingUnavailableException => StageFailureKind.EmbeddingUnavailable,
+                    CorpusUnavailableException => StageFailureKind.CorpusUnavailable,
+                    _ => StageFailureKind.Error,
+                };
+                var stage = _progress.ActiveStage ?? InvestigationStage.FindArticles;
+                if (kind == StageFailureKind.CorpusUnavailable
+                    && _incidents.Count == 0
+                    && RecentRuns.TryGet(slug) is { Count: > 0 } cachedRecords)
+                {
+                    _progress.MarkCachedFallback(cachedRecords);
+                    _cachedFallbackDetail = ex.Message;
+                    await SyncFinalIncidentsAsync(cachedRecords, CancellationToken.None);
+                }
+                else
+                {
+                    _progress.Apply(new StageFailed(stage, kind, ex.Message));
+                }
+
                 if (!_disposed)
                 {
                     await RenderNowAsync();
@@ -641,6 +945,53 @@
         }
     }
 
+    private async Task LoadArticleTitlesAsync(
+        IReadOnlyList<TopicArticle> articles,
+        CancellationTokenSource ownerCts,
+        CancellationToken ct)
+    {
+        if (articles.Count == 0 || _disposed) return;
+
+        var incidentCorpus = Services.GetService<IIncidentCorpus>();
+        if (incidentCorpus is null) return;
+
+        var fiPageIds = articles
+            .Where(static a => a.HasHistory)
+            .Select(static a => a.PageId)
+            .Distinct()
+            .ToList();
+        if (fiPageIds.Count == 0) return;
+
+        try
+        {
+            var refs = await incidentCorpus.ArticlesAsync(fiPageIds, ct);
+            if (ct.IsCancellationRequested || _disposed || !ReferenceEquals(ownerCts, _cts)) return;
+
+            var loadedAny = false;
+            foreach (var (pageId, articleRef) in refs)
+            {
+                if (!string.IsNullOrWhiteSpace(articleRef.TitleEn) && !_articleTitlesEn.ContainsKey(pageId))
+                {
+                    _articleTitlesEn[pageId] = articleRef.TitleEn;
+                    loadedAny = true;
+                }
+            }
+
+            if (loadedAny)
+            {
+                await RenderNowAsync();
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        catch
+        {
+            // Corpus unavailable: rail falls back to Finnish title and "Finnish Wikipedia" tag.
+        }
+    }
+
     private async Task LoadSparklinesAsync(
         IReadOnlyList<TopicArticle> articles,
         CancellationTokenSource ownerCts,
@@ -662,6 +1013,12 @@
                 var aggregates = await timelineService.AggregatesAsync(article.PageId, ct);
                 if (ct.IsCancellationRequested || _disposed || !ReferenceEquals(ownerCts, _cts)) return;
 
+                if (!string.IsNullOrWhiteSpace(aggregates?.TitleEn) && !_articleTitlesEn.ContainsKey(article.PageId))
+                {
+                    _articleTitlesEn[article.PageId] = aggregates.TitleEn;
+                    loadedAny = true;
+                }
+
                 if (aggregates is { Months.Count: > 0 })
                 {
                     _sparklines[article.PageId] = aggregates;
@@ -681,6 +1038,80 @@
         if (loadedAny && !ct.IsCancellationRequested && !_disposed && ReferenceEquals(ownerCts, _cts))
         {
             await RenderNowAsync();
+        }
+    }
+
+    private async Task LoadPageContestsAsync(
+        IReadOnlyList<TopicArticle> articles,
+        CancellationTokenSource ownerCts,
+        CancellationToken ct)
+    {
+        if (articles.Count == 0 || _disposed) return;
+
+        var signals = Services.GetService<IContestSignals>();
+        if (signals is null) return;
+
+        var fiPageIds = articles
+            .Where(static a => a.HasHistory)
+            .Select(static a => a.PageId)
+            .Distinct()
+            .ToList();
+        if (fiPageIds.Count == 0) return;
+
+        try
+        {
+            var contests = await signals.PageContestsAsync(fiPageIds, ct);
+            if (ct.IsCancellationRequested || _disposed || !ReferenceEquals(ownerCts, _cts)) return;
+
+            if (contests.Count > 0)
+            {
+                _pageContests = contests;
+                await RenderNowAsync();
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        catch
+        {
+            // Optional S4 layer: failures leave the page unchanged.
+        }
+    }
+
+    private async Task LoadRemovalClassesAsync(
+        IReadOnlyList<RemovedEdit> candidates,
+        CancellationTokenSource ownerCts,
+        CancellationToken ct)
+    {
+        if (candidates.Count == 0 || _disposed) return;
+
+        var signals = Services.GetService<IContestSignals>();
+        if (signals is null) return;
+
+        var keys = candidates
+            .Select(static c => (c.Revert.PageId, c.Revert.RevId))
+            .Distinct()
+            .ToList();
+
+        try
+        {
+            var classes = await signals.RevertClassesAsync(keys, ct);
+            if (ct.IsCancellationRequested || _disposed || !ReferenceEquals(ownerCts, _cts)) return;
+
+            if (classes.Count > 0)
+            {
+                _removalClasses = classes;
+                await RenderNowAsync();
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        catch
+        {
+            // Optional S1 layer: failures leave the page unchanged.
         }
     }
 
@@ -910,6 +1341,9 @@
     private ArticleAggregates? TryGetTimeline(long pageId) =>
         _sparklines.GetValueOrDefault(pageId);
 
+    private PageContest? TryGetContest(long pageId) =>
+        _pageContests.GetValueOrDefault(pageId);
+
     private int CountIncidentsForArticle(long pageId) =>
         _incidents.Count(i => i.Articles.Any(a => a.PageId == pageId));
 
@@ -1002,5 +1436,22 @@
         _disposed = true;
         Nav.LocationChanged -= HandleLocationChanged;
         CancelCurrentRunTokens();
+        if (_jsModule is { } jsModule)
+        {
+            _jsModule = null;
+            _ = DisposeJsModuleAsync(jsModule);
+        }
+    }
+
+    private static async Task DisposeJsModuleAsync(IJSObjectReference jsModule)
+    {
+        try
+        {
+            await jsModule.DisposeAsync();
+        }
+        catch
+        {
+            // Ignore disconnected circuit disposal errors.
+        }
     }
 }

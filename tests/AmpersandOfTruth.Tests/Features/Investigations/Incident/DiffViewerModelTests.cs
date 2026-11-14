@@ -44,8 +44,22 @@ public sealed class DiffViewerModelTests
         Assert.Equal("Toinen kappale kuvaa sodan alkua marraskuussa 1939.", changed.BeforeText);
         Assert.Equal("Toinen kappale kuvaa sodan alkua marraskuussa 1939. Suomi hyökkäsi Mainilaan.", changed.AfterText);
 
-        // 3 blocks where the middle one changed: both neighbours are within 1 context block, so nothing folds.
-        Assert.All(model.Items, item => Assert.IsType<DiffBlockItem>(item));
+        // Prose mode keeps at most 1 sentence of context on each side: block 1 already has 1 sentence before the addition,
+        // so block 0 folds while single-sentence block 2 provides the 1 sentence of right context.
+        Assert.Collection(
+            model.Items,
+            item0 =>
+            {
+                var fold = Assert.IsType<DiffFoldItem>(item0);
+                Assert.Equal(1, fold.Count);
+                Assert.Equal("⋯ 1 unchanged line", fold.Label);
+            },
+            item1 => Assert.True(Assert.IsType<DiffBlockItem>(item1).Block.IsChanged),
+            item2 => Assert.False(Assert.IsType<DiffBlockItem>(item2).Block.IsChanged));
+
+        // Wikitext mode still keeps 1 surrounding block on each side.
+        var wikitextModel = DiffModel.Build(MakePassage(before, after), DiffTextMode.Wikitext);
+        Assert.All(wikitextModel.Items, item => Assert.IsType<DiffBlockItem>(item));
     }
 
     [Fact]
@@ -99,13 +113,33 @@ public sealed class DiffViewerModelTests
         newParas[5] = "Kappale 5 tekstiä. Lisätty väite tähän.";
 
         var passage = MakePassage(string.Join(ParagraphBreak, oldParas), string.Join(ParagraphBreak, newParas));
-        var model = DiffModel.Build(passage, DiffTextMode.Prose);
+        var proseModel = DiffModel.Build(passage, DiffTextMode.Prose);
+        var wikiModel = DiffModel.Build(passage, DiffTextMode.Wikitext);
 
-        Assert.Equal(9, model.Blocks.Count);
+        Assert.Equal(9, proseModel.Blocks.Count);
 
-        // Expected items: Fold(0..3 = 4), Block(4 context), Block(5 changed), Block(6 context), Fold(7..8 = 2).
+        // Prose mode: block 5 already starts with 1 unchanged sentence ("Kappale 5 tekstiä."), so blocks 0..4 all fold (5),
+        // while single-sentence block 6 provides the 1 sentence after the addition and blocks 7..8 fold (2).
         Assert.Collection(
-            model.Items,
+            proseModel.Items,
+            item0 =>
+            {
+                var fold = Assert.IsType<DiffFoldItem>(item0);
+                Assert.Equal(5, fold.Count);
+                Assert.Equal("⋯ 5 unchanged lines", fold.Label);
+            },
+            item1 => Assert.True(Assert.IsType<DiffBlockItem>(item1).Block.IsChanged),
+            item2 => Assert.False(Assert.IsType<DiffBlockItem>(item2).Block.IsChanged),
+            item3 =>
+            {
+                var fold = Assert.IsType<DiffFoldItem>(item3);
+                Assert.Equal(2, fold.Count);
+                Assert.Equal("⋯ 2 unchanged lines", fold.Label);
+            });
+
+        // Wikitext mode keeps 1 block of context on each side: Fold(0..3 = 4), Block(4), Block(5), Block(6), Fold(7..8 = 2).
+        Assert.Collection(
+            wikiModel.Items,
             item0 =>
             {
                 var fold = Assert.IsType<DiffFoldItem>(item0);
@@ -121,6 +155,81 @@ public sealed class DiffViewerModelTests
                 Assert.Equal(2, fold.Count);
                 Assert.Equal("⋯ 2 unchanged lines", fold.Label);
             });
+    }
+
+    [Fact]
+    public void Prose_mode_folds_sentences_inside_long_changed_paragraph_and_folds_untouched_neighbour_paragraphs()
+    {
+        const string before = """
+            Johdannon ensimmäinen lause. Johdannon toinen lause.
+
+            Ensimmäinen taustalause. Toinen taustalause 30. marraskuuta 1939. C. G. E. Mannerheim johti joukkoja. Neljäs lause sodan jälkeen. Viides lause lopussa.
+
+            Punaisen ja valkoisen terrorin keskeisiä toteuttajia tutkittiin pitkään. Toinen pitkä lause tässä kappaleessa. Kolmas pitkä lause samassa kappaleessa.
+            """;
+
+        const string after = """
+            Johdannon ensimmäinen lause. Johdannon toinen lause.
+
+            Ensimmäinen taustalause. Toinen taustalause 30. marraskuuta 1939. C. G. E. Mannerheim johti joukkoja. Leninin kirja sisälsi suoran kehotuksen. Neljäs lause sodan jälkeen. Viides lause lopussa.
+
+            Punaisen ja valkoisen terrorin keskeisiä toteuttajia tutkittiin pitkään. Toinen pitkä lause tässä kappaleessa. Kolmas pitkä lause samassa kappaleessa.
+            """;
+
+        var model = DiffModel.Build(MakePassage(before, after), DiffTextMode.Prose);
+
+        // Items: Fold(para0 + 2 earlier sentences = 3), Block(1 sentence before + Added + 1 sentence after), Fold(1 trailing sentence + para2 = 2).
+        Assert.Collection(
+            model.Items,
+            item0 =>
+            {
+                var fold = Assert.IsType<DiffFoldItem>(item0);
+                Assert.Equal(3, fold.Count);
+                Assert.Equal("⋯ 3 unchanged lines", fold.Label);
+            },
+            item1 =>
+            {
+                var block = Assert.IsType<DiffBlockItem>(item1).Block;
+                Assert.True(block.IsChanged);
+                Assert.Contains("C. G. E. Mannerheim johti joukkoja.", block.AfterText);
+                Assert.Contains("Leninin kirja sisälsi suoran kehotuksen.", block.AfterText);
+                Assert.Contains("Neljäs lause sodan jälkeen.", block.AfterText);
+                Assert.DoesNotContain("Ensimmäinen taustalause.", block.AfterText);
+                Assert.DoesNotContain("Toinen taustalause", block.AfterText);
+                Assert.DoesNotContain("Viides lause lopussa.", block.AfterText);
+            },
+            item2 =>
+            {
+                var fold = Assert.IsType<DiffFoldItem>(item2);
+                Assert.Equal(2, fold.Count);
+                Assert.Equal("⋯ 2 unchanged lines", fold.Label);
+                Assert.DoesNotContain(
+                    model.Items.OfType<DiffBlockItem>(),
+                    b => b.Block.AfterText.Contains("Punaisen ja valkoisen terrorin"));
+            });
+
+        // ChangedOnlyItems (used while EN is loading) folds even the 1-sentence context so only the changed span shows.
+        var changedOnlyBlock = Assert.Single(model.ChangedOnlyItems.OfType<DiffBlockItem>()).Block;
+        Assert.Equal("Leninin kirja sisälsi suoran kehotuksen.", changedOnlyBlock.AfterText);
+    }
+
+    [Fact]
+    public void CleanProse_decodes_html_entities_and_strips_wiki_and_infobox_markup_while_preserving_literal_script_tags()
+    {
+        Assert.Equal("b", DiffModel.CleanProse("[[a|b]]"));
+        Assert.Equal("a", DiffModel.CleanProse("[[a]]"));
+        Assert.Equal(
+            "Leninin Helsingissä kirjoittama kirja \"Valtio ja vallankumous\"",
+            DiffModel.CleanProse("Leninin Helsingissä kirjoittama kirja \"[[Valtio ja vallankumous]]\""));
+        Assert.Equal(
+            "Lihavoitu ja kursivoitu teksti",
+            DiffModel.CleanProse("'''Lihavoitu''' ja ''kursivoitu'' teksti"));
+        Assert.Equal(
+            "1 000–1 500 & lähteet",
+            DiffModel.CleanProse("| tappiot2 = 1&nbsp;000–1&nbsp;500 &amp; [[Lähde|lähteet]]"));
+        Assert.Equal(
+            "<script>alert('xss')</script>",
+            DiffModel.CleanProse("<script>alert('xss')</script>"));
     }
 
     [Fact]

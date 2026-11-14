@@ -34,9 +34,9 @@
       ],
       "tier": "campaign",
       "score": 0.96,
-      "claim_en": "Asserts Lenin's book State and Revolution, written in Helsinki, contained a direct incitement to political terror in 1918.",
+      "claim_en": "Lenin's book State and Revolution, written in Helsinki, contained a direct incitement to political terror.",
       "claim_fi": "Leninin Helsingissä kirjoittama kirja \"[[Valtio ja vallankumous]]\"",
-      "summary_en": "Inserted seven times across eleven days from two distinct IPv6 ranges into the Political Terror section of the Finnish Civil War article, and removed seven times by four named editors who noted that the work was not translated into Finnish until 1920 and lacked secondary sources.",
+      "summary_en": "Inserted seven times across eleven days from two distinct IPv6 ranges into the Political Terror section of Suomen sisällissota ('Finnish Civil War'), and removed seven times by four named editors who noted that the work was not translated into Finnish until 1920 and lacked secondary sources.",
       "narrative": "Attribution of 1918 Red terror directly to Lenin's writings",
       "category": "pov_push",
       "articles": [
@@ -223,38 +223,38 @@
       "signals": [
         {
           "kind": "removed_by_others",
-          "label": "Removed by another editor",
-          "evidence": "Removed seven times by four named community editors (Risukarhi, Uusimies, Pihamies, and Mikko Paananen)."
+          "label": "Taken out by another editor",
+          "evidence": "Removed seven times by four named editors (Risukarhi, Uusimies, Pihamies, and Mikko Paananen)."
         },
         {
           "kind": "removal_reason",
           "label": "Removal gave a reason",
-          "evidence": "Removal summaries noted the book was not published in Finnish until 1920, did not contain the word 'terrori', and represented personal interpretation."
+          "evidence": "Removal summaries noted the book was not published in Finnish until 1920, did not contain the word 'terrori' ('terror'), and lacked scholarly sources."
         },
         {
           "kind": "reinserted",
-          "label": "Re-inserted after removal",
-          "evidence": "Put back 6 times after community removals between 31 January and 11 February 2019."
+          "label": "Put back after removal",
+          "evidence": "Put back 6 times after removals between 31 January and 11 February 2019."
         },
         {
           "kind": "edit_war",
-          "label": "Edit-war pattern",
+          "label": "Back-and-forth removals",
           "evidence": "Back-and-forth sequence of seven insertions and seven removals on the Political Terror section."
         },
         {
           "kind": "multiple_editors",
-          "label": "Multiple accounts",
-          "evidence": "Inserted from two separate IPv6 /32 network prefixes (2A03:E581:… and 2001:2060:…)."
+          "label": "Added by multiple editors",
+          "evidence": "Added from two separate masked IPv6 prefixes (2A03:E581:… and 2001:2060:…)."
         },
         {
           "kind": "persistence",
-          "label": "Returned over weeks",
+          "label": "Put back over 7+ days",
           "evidence": "Re-insertions spanned 11 days from initial addition on 31 January to final removal on 11 February 2019."
         },
         {
           "kind": "claim_content",
           "label": "Substantive claim",
-          "evidence": "Makes an interpretive causal claim attributing 1918 political terror directly to Lenin's theoretical text."
+          "evidence": "Makes an unsourced causal claim linking 1918 political terror directly to Lenin's theoretical pamphlet."
         },
         {
           "kind": "anonymous",
@@ -262,20 +262,20 @@
           "evidence": "All seven inserting edits came from unregistered IPv6 addresses."
         }
       ],
-      "tier_reason": "Pattern consistent with a coordinated attempt — because: removal summary questioned accuracy, neutrality or sourcing, put back 6 times after removal, repeated back-and-forth removals, added by 2 different editors, re-inserted across 10 days, substantive factual or framing claim.",
+      "tier_reason": "Pattern consistent with a coordinated attempt — because: removed for lack of a reliable source, put back 6 times after removal, part of a back-and-forth over this passage, automated assessment: a factual or narrative claim, added by 2 different editors, put back 6 times over 10 days.",
       "assessment": {
         "category": "pov_push",
         "confidence": 5,
-        "what_changed_en": "Inserted a sentence into a sourced paragraph on Red and White terror claiming that Lenin's 1917 pamphlet State and Revolution, drafted partly in Helsinki, directly incited political terror in Finland.",
+        "what_changed_en": "Inserted a sentence into a sourced paragraph on Red and White terror stating that Lenin's 1917 pamphlet State and Revolution, drafted partly in Helsinki, contained a direct incitement to political terror in Finland.",
         "quotes": [
           "Leninin Helsingissä kirjoittama kirja \"[[Valtio ja vallankumous]]\"",
           "sisältää suoran kehoituksen poliittiseen terroriin."
         ],
         "has_verified_quote": true,
         "uncertainty_note": "Whether the two IPv6 network ranges belonged to one person on different connections or two people cannot be determined from public logs.",
-        "historical_note_en": "Lenin wrote parts of State and Revolution while hiding in Finland in August–September 1917, but Finnish historians explain 1918 terror primarily through wartime breakdown of authority and local radicalisation rather than a direct reading of that Russian-language text."
+        "historical_note_en": "Lenin wrote parts of State and Revolution while hiding in Finland in August–September 1917, whereas Finnish historians explain 1918 terror primarily through wartime breakdown of authority and local radicalisation rather than a direct reading of that Russian-language text."
       },
-      "confidence_note": "High confidence in sustained dispute: four independent named editors explained why the unsourced causal link did not belong in the section."
+      "confidence_note": "Four independent named editors removed the unsourced causal link across an 11-day span involving two distinct IPv6 prefixes."
     },
     {
       "id": "cw18-02",
@@ -291,9 +291,9 @@
       ],
       "tier": "contested",
       "score": 0.9,
-      "claim_en": "Replaces scholarly lead citation with Mannerheim's Order of the Day, renaming the Whites 'forces of the Republic' and Reds 'rebels'.",
+      "claim_en": "The 1918 war was won by the government's forces of the Republic of Finland over Red rebels.",
       "claim_fi": "Hallituksen alaisten Suomen tasavallan joukkojen, valkoisten voitto.",
-      "summary_en": "Replaced the lead's academic reference (Upton 1981; Jussila et al. 2006) and its paragraph on Imperial Germany's sphere of influence with a primary-source link to Mannerheim's February 1918 Order of the Day, reframing the belligerents as Republic forces versus rebels; put back once before removal.",
+      "summary_en": "Replaced the opening section's academic citation (Upton 1981; Jussila et al. 2006) and its paragraph on Imperial Germany's sphere of influence with a primary-source link to Mannerheim's February 1918 Order of the Day, describing the sides as Republic forces versus rebels; put back once before removal.",
       "narrative": "Official state-army vs. rebel framing of 1918 belligerents",
       "category": "source_manipulation",
       "articles": [
@@ -360,33 +360,33 @@
       "signals": [
         {
           "kind": "removed_by_others",
-          "label": "Removed by another editor",
-          "evidence": "Undone twice within 35 minutes by named editor Lauriv~fiwiki."
+          "label": "Taken out by another editor",
+          "evidence": "Removed twice within 35 minutes by named editor Lauriv~fiwiki."
         },
         {
           "kind": "removal_reason",
           "label": "Removal gave a reason",
-          "evidence": "Second removal summary asked 'lähde?' ('source?') regarding the reframed lead claims."
+          "evidence": "Second removal summary asked 'lähde?' ('source?') regarding the rewritten opening claims."
         },
         {
           "kind": "reinserted",
-          "label": "Re-inserted after removal",
-          "evidence": "Put back 1 time 29 minutes after the initial removal."
+          "label": "Put back after removal",
+          "evidence": "Put back once 29 minutes after the initial removal."
         },
         {
           "kind": "source_change",
-          "label": "Citation changed",
-          "evidence": "Removed <ref>Upton 1981, Jussila et al. 2006</ref> and inserted <ref name=\"päiväkäsky\"> pointing to Mannerheim's Order of the Day No. 1."
+          "label": "Sources changed",
+          "evidence": "Replaced the footnote citing historians Upton (1981) and Jussila et al. (2006) with a link to Mannerheim's Order of the Day No. 1."
         },
         {
           "kind": "citation_removed",
           "label": "Citation removed",
-          "evidence": "Deleted the cited concluding lead paragraph on Imperial German hegemony and Finland's 1918 monarchy project."
+          "evidence": "Deleted the cited concluding paragraph of the opening section on Imperial German influence and Finland's 1918 monarchy plan."
         },
         {
           "kind": "claim_content",
           "label": "Substantive claim",
-          "evidence": "Reframes both belligerents in the lead and infobox around one side's wartime proclamation."
+          "evidence": "Rewrites the description of both sides in the opening section and summary box around one side's wartime proclamation."
         },
         {
           "kind": "anonymous",
@@ -394,20 +394,20 @@
           "evidence": "Both inserting edits were made from masked IPv4 range 85.76.x.x."
         }
       ],
-      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, put back 1 time after removal, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removed for lack of a reliable source, put back once after removal, automated assessment: a factual or narrative claim.",
       "assessment": {
         "category": "source_manipulation",
         "confidence": 5,
-        "what_changed_en": "Swapped out secondary historiography at the end of the lead for a primary military order from mannerheim.fi while relabelling the White Senate's troops as 'forces of the Republic of Finland' and the Red side as 'rebels'.",
+        "what_changed_en": "Replaced secondary historical scholarship at the end of the opening section with a primary military order from mannerheim.fi while relabelling the White Senate's troops as 'forces of the Republic of Finland' and the Red side as 'rebels'.",
         "quotes": [
           "Hallituksen alaisten Suomen tasavallan joukkojen, valkoisten voitto.",
           "<ref name=\"päiväkäsky\">[http://www.mannerheim.fi/pkaskyt/pk1_18.gif Päiväkäsky N:o 1 (2.2.1918)] Päiväkäskykokoelma 1918-1944, Kuva- ja dokumenttiarkistot, Erikoisaiheet, Mannerheim</ref>"
         ],
         "has_verified_quote": true,
-        "uncertainty_note": "Mannerheim's proclamation did use the phrase 'forces of the Republic of Finland', so the primary quote is real even though using it to replace modern scholarly synthesis alters neutrality.",
+        "uncertainty_note": "Mannerheim's proclamation did use the phrase 'forces of the Republic of Finland', so the primary quote is authentic even though using it to replace modern scholarly synthesis departs from neutral framing.",
         "historical_note_en": "Finnish historiography distinguishes between the Vaasa Senate's legal claim to represent the state government and neutral analytical terms ('Whites' and 'Reds') used to describe a divided society."
       },
-      "confidence_note": "Citation replacement and full lead paragraph deletion are directly visible in the revision diff."
+      "confidence_note": "Single anonymous IP range re-inserting within 35 minutes on one article stays at Level 2."
     },
     {
       "id": "cw18-03",
@@ -421,9 +421,9 @@
       ],
       "tier": "contested",
       "score": 0.84,
-      "claim_en": "Rewrites the lead so the war starts from the Reds' overreaction at Lenin's instigation and lowers German troop strength to 9,000.",
+      "claim_en": "The 1918 war began with an armed coup instigated by Lenin and a Red overreaction, with roughly 9,000 German troops in Finland.",
       "claim_fi": "punaisten ylireagoinnin (jälkeenpäin voitaisiin kutsua jopa vahingoksi) ja Leninin yllyttämänä aloitettuun aseelliseen vallankaappaukseen.",
-      "summary_en": "Altered the opening summary of Suomen sisällissota to attribute the outbreak of war to a Red 'overreaction (which could afterwards even be called an accident)' instigated by Lenin, while reducing the stated German force in Finland from 13,000 to roughly 9,000 soldiers; live for 41.5 hours before removal.",
+      "summary_en": "Changed the opening summary of Suomen sisällissota ('Finnish Civil War') to attribute the outbreak of war to a Red 'overreaction (which could afterwards even be called an accident)' instigated by Lenin, while lowering the stated German force in Finland from 13,000 to roughly 9,000 soldiers; live for 41 hours 30 minutes before removal.",
       "narrative": "Outbreak responsibility and foreign troop strength in 1918",
       "category": "pov_push",
       "articles": [
@@ -466,39 +466,39 @@
       "signals": [
         {
           "kind": "removed_by_others",
-          "label": "Removed by another editor",
-          "evidence": "Removed after 41.5 hours by named editor Jmk."
+          "label": "Taken out by another editor",
+          "evidence": "Removed after 41 hours 30 minutes by named editor Uusimies."
         },
         {
           "kind": "removal_reason",
           "label": "Removal gave a reason",
-          "evidence": "Removal summary noted missing source citations and editorialising commentary ('Lähdemerkinnät puuttuvat ja omia kommentteja')."
+          "evidence": "Removal summary noted missing source citations and personal commentary ('Lähdemerkinnät puuttuvat ja omia kommentteja')."
         },
         {
           "kind": "number_changed",
-          "label": "Figures changed",
-          "evidence": "Reduced the stated Imperial German expeditionary troop figure in the lead from 13,000 to approximately 9,000 ('n. 9.000')."
+          "label": "Numbers changed",
+          "evidence": "Lowered the stated Imperial German troop figure in the opening section from 13,000 to roughly 9,000 ('n. 9.000')."
         },
         {
           "kind": "claim_content",
           "label": "Substantive claim",
-          "evidence": "Inserts editorial judgement into the lead on how the January 1918 uprising began and alters troop numbers."
+          "evidence": "Adds unsourced commentary to the opening section on how the January 1918 uprising began and changes troop numbers."
         }
       ],
-      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removed for lack of a reliable source, automated assessment: a factual or narrative claim.",
       "assessment": {
         "category": "pov_push",
         "confidence": 5,
-        "what_changed_en": "Replaced the neutral description of escalating January 1918 clashes with a parenthetical commentary calling the Red seizure of power an overreaction or 'accident' instigated by Lenin, and cut the German Baltic Sea Division troop total from 13,000 to ~9,000.",
+        "what_changed_en": "Replaced the neutral description of escalating January 1918 clashes with parenthetical commentary calling the Red seizure of power an overreaction or 'accident' instigated by Lenin, and lowered the German troop total from 13,000 to roughly 9,000.",
         "quotes": [
           "punaisten ylireagoinnin (jälkeenpäin voitaisiin kutsua jopa vahingoksi) ja Leninin yllyttämänä aloitettuun aseelliseen vallankaappaukseen.",
           "Saksan armeijan n. 9.000 sotilaan vahvuiset joukot."
         ],
         "has_verified_quote": true,
-        "uncertainty_note": "The ~9,000 figure roughly matches Rüdiger von der Goltz's Hanko landing force alone, omitting Otto von Brandenstein's ~3,000–4,000 troops landed at Loviisa.",
+        "uncertainty_note": "The roughly 9,000 figure matches Rüdiger von der Goltz's Hanko landing force alone, omitting Otto von Brandenstein's 3,000–4,000 troops landed at Loviisa.",
         "historical_note_en": "Combined German forces operating in southern Finland in April–May 1918 totalled roughly 12,000–14,000 men across the Baltic Sea Division and Detachment Brandenstein."
       },
-      "confidence_note": "Verified against golden-set item civil-war-1918/i01 and explicit sourcing/commentary removal summary."
+      "confidence_note": "Single named-account edit removed with an explicit sourcing and neutrality summary; stays at Level 2."
     },
     {
       "id": "cw18-04",
@@ -512,10 +512,10 @@
       ],
       "tier": "contested",
       "score": 0.78,
-      "claim_en": "Prepends a statement that 1918 was not a civil war but the War of Liberation, and that the Whites defended Finnish freedom.",
+      "claim_en": "The 1918 conflict was the War of Liberation, not a civil war; Bolshevik-minded Reds sought to join Finland to the Soviet Union.",
       "claim_fi": "Ei se mikään sisällissota ollut vaan Vapaussota. Bolsevikkimieliset punaiset valtasivat Helsingin ja halusivat liittää Suomen Neuvostoliittoon.",
-      "summary_en": "Placed a four-sentence commentary at the very top of Suomen sisällissota declaring that the conflict was the War of Liberation rather than a civil war and that Bolshevik-minded Reds sought to join Finland to the Soviet Union; removed 41 minutes later for non-neutrality.",
-      "narrative": "Naming of the 1918 war: Vapaussota vs. sisällissota",
+      "summary_en": "Placed a four-sentence commentary at the very top of Suomen sisällissota ('Finnish Civil War') stating that the conflict was the War of Liberation rather than a civil war and that Bolshevik-minded Reds sought to join Finland to the Soviet Union; removed 41 minutes later as personal opinion.",
+      "narrative": "Naming of the 1918 war: War of Liberation (Vapaussota) vs. Civil War (sisällissota)",
       "category": "pov_push",
       "articles": [
         {
@@ -557,39 +557,39 @@
       "signals": [
         {
           "kind": "removed_by_others",
-          "label": "Removed by another editor",
-          "evidence": "Removed after 41 minutes by named editor Lentokonefani."
+          "label": "Taken out by another editor",
+          "evidence": "Removed after 41 minutes by named editor Risukarhi."
         },
         {
           "kind": "removal_reason",
           "label": "Removal gave a reason",
-          "evidence": "Removal summary cited pushing personal opinion into the top of the article ('kumottu artikkelin alkuun tungettu muokkaajan oma mielipide')."
+          "evidence": "Removal summary noted personal opinion added to the top of the article ('kumottu artikkelin alkuun tungettu muokkaajan oma mielipide')."
         },
         {
           "kind": "claim_content",
           "label": "Substantive claim",
-          "evidence": "Directly contests the encyclopedic title and neutrality of the article in first-person plural ('vapauttamme')."
+          "evidence": "Contests the neutral title of the article in first-person plural ('vapauttamme', 'our freedom')."
         },
         {
           "kind": "anonymous",
           "label": "Anonymous edits",
-          "evidence": "Inserted from a temporary unregistered account (~2025-12016-2)."
+          "evidence": "Inserted from masked IPv6 prefix 2001:999:…."
         }
       ],
-      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removed as not neutral, automated assessment: a factual or narrative claim.",
       "assessment": {
         "category": "pov_push",
         "confidence": 5,
-        "what_changed_en": "Inserted first-person opinion text inside the top hatnote template rejecting the term 'civil war' in favour of 'War of Liberation' and asserting the Reds aimed to annex Finland to the Soviet Union (which was founded only in 1922).",
+        "what_changed_en": "Inserted first-person opinion text at the very top of the article rejecting the term 'civil war' in favour of 'War of Liberation' and stating the Reds aimed to join Finland to the Soviet Union (which was founded only in 1922).",
         "quotes": [
           "Ei se mikään sisällissota ollut vaan Vapaussota.",
           "Valkoiset lähtivät puolustamaan vapauttamme ja onnistuivat siinä."
         ],
         "has_verified_quote": true,
-        "uncertainty_note": "Syntax broke the opening hatnote template, though the prose itself is a coherent ideological statement rather than random graffiti.",
+        "uncertainty_note": "The edit broke the opening navigation notice at the top of the page, though the text itself states a coherent political viewpoint rather than random test text.",
         "historical_note_en": "What to call the 1918 conflict—War of Liberation, Class War, Red Rebellion, or Civil War—was one of twentieth-century Finland's sharpest memory divides; modern scholarship predominantly uses 'Finnish Civil War' (Suomen sisällissota)."
       },
-      "confidence_note": "Verified against golden-set item civil-war-1918/i02; temporary-account format (~2025-…) is preserved."
+      "confidence_note": "Single anonymous edit removed as non-neutral opinion; stays at Level 2."
     },
     {
       "id": "cw18-05",
@@ -603,10 +603,10 @@
       ],
       "tier": "contested",
       "score": 0.71,
-      "claim_en": "Argues the name 'Red Rebellion' (punakapina) is justified because part of the working class sought violent seizure of power.",
+      "claim_en": "The name 'Red Rebellion' is justified because part of the working class sought to seize power violently from a functioning democracy.",
       "claim_fi": "Punakapina termin käyttö on toisaalta perusteltua siinä mielessä, että tietty osa ns. työväestöstä pyrki kaappaamaan vallan väkivaltaisesti toimivasta demokratiasta huolimatta.",
-      "summary_en": "Added an unsourced sentence to Suomen sisällissodan nimet ('Names of the Finnish Civil War') arguing in Wikipedia's voice that the partisan label punakapina is justified; remained live for 38 days before a named editor removed it as biased.",
-      "narrative": "Naming of the 1918 war: Vapaussota vs. sisällissota",
+      "summary_en": "Added an unsourced sentence to Suomen sisällissodan nimet ('Names of the Finnish Civil War') stating in Wikipedia's voice that the partisan label punakapina ('Red Rebellion') is justified; remained live for 38 days before a named editor removed it as biased.",
+      "narrative": "Naming of the 1918 war: War of Liberation (Vapaussota) vs. Civil War (sisällissota)",
       "category": "pov_push",
       "articles": [
         {
@@ -648,18 +648,18 @@
       "signals": [
         {
           "kind": "removed_by_others",
-          "label": "Removed by another editor",
+          "label": "Taken out by another editor",
           "evidence": "Removed after 38 days by named editor Risukarhi."
         },
         {
           "kind": "removal_reason",
           "label": "Removal gave a reason",
-          "evidence": "Removal summary flagged the sentence as biased and vague ('Asenteellinen ja epämääräinen kommentti')."
+          "evidence": "Removal summary described the sentence as biased and vague ('Asenteellinen ja epämääräinen kommentti')."
         },
         {
           "kind": "claim_content",
           "label": "Substantive claim",
-          "evidence": "Endorses one partisan historical label in encyclopedic voice while questioning whether the Red constituency counted as 'so-called' workers."
+          "evidence": "Endorses one partisan historical label in Wikipedia's voice while referring to the Red constituency as 'so-called' workers."
         },
         {
           "kind": "anonymous",
@@ -667,19 +667,19 @@
           "evidence": "Inserted from masked IPv4 range 87.93.x.x."
         }
       ],
-      "tier_reason": "Disputed and removed — because: removal summary questioned accuracy, neutrality or sourcing, substantive factual or framing claim.",
+      "tier_reason": "Disputed and removed — because: removed as not neutral, automated assessment: a factual or narrative claim.",
       "assessment": {
         "category": "pov_push",
         "confidence": 4,
-        "what_changed_en": "Appended an unattributed argument to the section on the term 'punakapina' stating the label is justified because part of the 'so-called working class' sought to seize power violently despite a functioning democracy.",
+        "what_changed_en": "Appended an unattributed argument to the section on the term punakapina ('Red Rebellion') stating the label is justified because part of the 'so-called working class' sought to seize power violently despite a functioning democracy.",
         "quotes": [
           "Punakapina termin käyttö on toisaalta perusteltua siinä mielessä, että tietty osa ns. työväestöstä pyrki kaappaamaan vallan väkivaltaisesti toimivasta demokratiasta huolimatta."
         ],
         "has_verified_quote": true,
-        "uncertainty_note": "Describing the argument behind a historical term would be encyclopedic if attributed to named historians, but here it was stated unattributed in Wikipedia's own voice.",
+        "uncertainty_note": "Describing the argument behind a historical term would be encyclopedic if attributed to named historians, whereas here it was stated unattributed in Wikipedia's own voice.",
         "historical_note_en": "In autumn 1917 Finland's parliamentary and municipal institutions were themselves contested after the dissolution of the Socialist-majority Parliament and the absence of local universal suffrage."
       },
-      "confidence_note": "Verified against golden-set item civil-war-1918/i03; illustrates long survival (38 days) on a secondary sub-article."
+      "confidence_note": "Remained live for 38 days on a sub-article before removal for non-neutrality; stays at Level 2."
     },
     {
       "id": "cw18-06",
@@ -693,9 +693,9 @@
       ],
       "tier": "reverted",
       "score": 0.54,
-      "claim_en": "Changes the infobox strength of Swedish volunteers on the White side from 500 to 550 men without citing a source.",
+      "claim_en": "550 Swedish volunteers fought on the White side in the Finnish Civil War.",
       "claim_fi": "550 ruotsalaista vapaaehtoista",
-      "summary_en": "Altered the infobox troop-strength figure for Swedish volunteers in Suomen sisällissota from 500 to 550; undone 3.4 hours later via standard rollback with no dispute escalation.",
+      "summary_en": "Changed the summary box troop-strength figure for Swedish volunteers in Suomen sisällissota ('Finnish Civil War') from 500 to 550; removed 1 hour 16 minutes later without a dispute summary.",
       "narrative": null,
       "category": "good_faith_error",
       "articles": [
@@ -738,33 +738,33 @@
       "signals": [
         {
           "kind": "removed_by_others",
-          "label": "Removed by another editor",
-          "evidence": "Removed after 3 hours 26 minutes by named editor Zxc."
+          "label": "Taken out by another editor",
+          "evidence": "Removed after 1 hour 16 minutes by named editor Les."
         },
         {
           "kind": "number_changed",
-          "label": "Figures changed",
-          "evidence": "Changed the infobox count of Swedish volunteers ('ruotsalaista vapaaehtoista') from 500 to 550."
+          "label": "Numbers changed",
+          "evidence": "Changed the summary box count of Swedish volunteers ('ruotsalaista vapaaehtoista') from 500 to 550."
         },
         {
           "kind": "anonymous",
           "label": "Anonymous edits",
-          "evidence": "Inserted from masked IPv4 range 88.114.x.x."
+          "evidence": "Inserted from masked IPv4 range 91.152.x.x."
         }
       ],
       "tier_reason": "Removed by Wikipedia editors — because: taken out by another editor.",
       "assessment": {
         "category": "good_faith_error",
         "confidence": 4,
-        "what_changed_en": "Changed a single numeral in the infobox belligerent strength field from 500 Swedish volunteers to 550 without adding a reference or edit summary.",
+        "what_changed_en": "Changed a single numeral in the summary box troop-strength field from 500 Swedish volunteers to 550 without adding a source or edit summary.",
         "quotes": [
           "550 ruotsalaista vapaaehtoista"
         ],
         "has_verified_quote": true,
-        "uncertainty_note": "Published estimates for the Swedish Brigade and Swedish officers serving directly in the White Army vary between roughly 400 and 1,000 depending on who is counted, so 550 may reflect a different source rather than fabrication.",
+        "uncertainty_note": "Published estimates for the Swedish Brigade and Swedish officers serving directly in the White Army vary between roughly 400 and 1,000 depending on who is counted, so 550 may reflect a different source.",
         "historical_note_en": "The Swedish Brigade (Svenska brigaden) numbered roughly 400–550 men at Tampere, alongside several hundred Swedish volunteer officers and specialists in Mannerheim's headquarters and artillery."
       },
-      "confidence_note": "Capped at base evidence level: single unsourced figure adjustment removed by standard rollback without re-insertion or dispute commentary."
+      "confidence_note": "Kept at Level 1: single unsourced figure change removed without re-insertion or a dispute summary."
     }
   ]
 }

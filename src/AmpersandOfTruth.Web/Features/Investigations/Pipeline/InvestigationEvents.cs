@@ -17,6 +17,9 @@ public enum StageFailureKind { EmbeddingUnavailable, CorpusUnavailable, Error }
 /// </summary>
 public abstract record InvestigationEvent;
 
+/// <summary>Emitted before a cold run while waiting on <c>ColdRunGate</c> (<paramref name="Position"/> is 1-based).</summary>
+public sealed record RunQueued(int Position) : InvestigationEvent;
+
 /// <summary>Stage 1 done: articles closest to the topic, closest first. The real pipeline returns fi articles only (en/sv hits
 /// folded onto them); other runners may include other languages, which have no edit history.</summary>
 public sealed record ArticlesFound(int Count, IReadOnlyList<TopicArticle> Items) : InvestigationEvent
@@ -65,6 +68,9 @@ public sealed record Completed(bool FromCache, IReadOnlyList<IncidentRecord> Inc
 
     /// <summary>Candidates that could not be read or whose assessment was unavailable. A run with any is never cached.</summary>
     public int Degraded { get; init; }
+
+    /// <summary>Incidents ranked without topic relevance because the embedder was unavailable (P1.S10); such a run is not cached.</summary>
+    public int Unranked { get; init; }
 
     /// <summary>Wall clock per stage of the run that did the work (#40 latency budget).</summary>
     public IReadOnlyDictionary<InvestigationStage, TimeSpan> StageTimings { get; init; } = new Dictionary<InvestigationStage, TimeSpan>();

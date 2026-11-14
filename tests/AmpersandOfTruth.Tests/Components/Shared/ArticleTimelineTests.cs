@@ -182,5 +182,82 @@ public sealed class ArticleTimelineTests : BunitContext
             fired[2]);
     }
 
+    [Fact]
+    public void Bands_render_shaded_rects_behind_bars_burst_ticks_titles_and_legend()
+    {
+        var data = SampleAggregates();
+        IReadOnlyList<ConflictBand> bands =
+        [
+            new ConflictBand(
+                new DateTime(2014, 3, 3, 0, 0, 0, DateTimeKind.Utc),
+                new DateTime(2014, 3, 19, 0, 0, 0, DateTimeKind.Utc),
+                "edit_war",
+                "Back-and-forth edits \u00b7 3\u201319 Mar 2014 \u00b7 14 removals \u00b7 3 named and 2 anonymous accounts"),
+            new ConflictBand(
+                new DateTime(2014, 6, 1, 0, 0, 0, DateTimeKind.Utc),
+                new DateTime(2014, 6, 8, 0, 0, 0, DateTimeKind.Utc),
+                "ping_pong",
+                "Back-and-forth edits \u00b7 1\u20138 Jun 2014 \u00b7 4 removals \u00b7 2 named accounts"),
+            new ConflictBand(
+                new DateTime(2020, 6, 5, 0, 0, 0, DateTimeKind.Utc),
+                new DateTime(2020, 6, 6, 0, 0, 0, DateTimeKind.Utc),
+                "burst",
+                "Burst of edits \u00b7 5\u20136 Jun 2020 \u00b7 0 removals \u00b7 4 named accounts"),
+        ];
+
+        var cut = Render<ArticleTimeline>(p => p
+            .Add(x => x.Data, data)
+            .Add(x => x.Bands, bands));
+
+        var renderedBands = cut.FindAll("[data-testid=timeline-band]");
+        Assert.Equal(3, renderedBands.Count);
+
+        Assert.Equal("edit_war", renderedBands[0].GetAttribute("data-kind"));
+        Assert.Equal("140", renderedBands[0].GetAttribute("height"));
+        Assert.Equal(
+            "Back-and-forth edits \u00b7 3\u201319 Mar 2014 \u00b7 14 removals \u00b7 3 named and 2 anonymous accounts",
+            renderedBands[0].QuerySelector("title")?.TextContent);
+
+        Assert.Equal("ping_pong", renderedBands[1].GetAttribute("data-kind"));
+        Assert.Equal("140", renderedBands[1].GetAttribute("height"));
+
+        Assert.Equal("burst", renderedBands[2].GetAttribute("data-kind"));
+        Assert.Equal("4", renderedBands[2].GetAttribute("height"));
+        Assert.Equal(
+            "Burst of edits \u00b7 5\u20136 Jun 2020 \u00b7 0 removals \u00b7 4 named accounts",
+            renderedBands[2].QuerySelector("title")?.TextContent);
+
+        // Bands render behind bars in SVG source order
+        var bandPos = cut.Markup.IndexOf("data-testid=\"timeline-band\"", StringComparison.Ordinal);
+        var barPos = cut.Markup.IndexOf("data-testid=\"timeline-bar\"", StringComparison.Ordinal);
+        Assert.True(bandPos >= 0 && bandPos < barPos);
+
+        var legend = cut.Find(".aot-legend").TextContent;
+        Assert.Contains("Back-and-forth edits", legend);
+        Assert.DoesNotContain("Most contested", legend);
+    }
+
+    [Fact]
+    public void Spark_mode_renders_no_bands_even_when_Bands_supplied()
+    {
+        var data = SampleAggregates();
+        IReadOnlyList<ConflictBand> bands =
+        [
+            new ConflictBand(
+                new DateTime(2014, 3, 3, 0, 0, 0, DateTimeKind.Utc),
+                new DateTime(2014, 3, 19, 0, 0, 0, DateTimeKind.Utc),
+                "edit_war",
+                "Back-and-forth edits \u00b7 3\u201319 Mar 2014 \u00b7 14 removals \u00b7 3 named and 2 anonymous accounts"),
+        ];
+
+        var cut = Render<ArticleTimeline>(p => p
+            .Add(x => x.Data, data)
+            .Add(x => x.Spark, true)
+            .Add(x => x.Bands, bands));
+
+        Assert.Empty(cut.FindAll("[data-testid=timeline-band]"));
+        Assert.Empty(cut.FindAll("rect.band"));
+    }
+
     private static double ParseDouble(string s) => double.Parse(s, CultureInfo.InvariantCulture);
 }

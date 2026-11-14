@@ -1,0 +1,566 @@
+{
+  "slug": "finlandization",
+  "title": "Finlandization",
+  "aliases": [
+    "suomettuminen",
+    "finlandisation",
+    "yya-sopimus",
+    "suomettumisen aika"
+  ],
+  "incidents": [
+    {
+      "id": "fin-01",
+      "page_id": 942,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        21539843,
+        21540288,
+        21540390
+      ],
+      "removing_rev_ids": [
+        21540061,
+        21540573
+      ],
+      "tier": "contested",
+      "score": 0.9,
+      "claim_en": "Former PM Paavo Lipponen humiliated professor Veli-Pekka Tynkkynen in Parliament in 2018 for warning against Nord Stream.",
+      "claim_fi": "Venäjän ympäristöpolitiikan professori Veli-Pekka Tynkkystä, kun he molemmat olivat asiantuntijan roolissa [[Suuri valiokunta|suuren valiokunnan]] kuultavina.",
+      "summary_en": "An account added and expanded a passage accusing Nord Stream consultant Paavo Lipponen of humiliating researcher Veli-Pekka Tynkkynen before Parliament's Grand Committee; two editors removed the wording.",
+      "narrative": "Post-Cold War Russian energy ties and Nord Stream",
+      "category": "pov_push",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 942,
+          "title_fi": "Paavo Lipponen",
+          "title_en": "Paavo Lipponen"
+        }
+      ],
+      "first_inserted_at": "2023-05-09T00:40:03Z",
+      "last_removed_at": "2023-05-09T10:41:34Z",
+      "total_exposure_seconds": 27806,
+      "reinsertion_count": 2,
+      "edits": [
+        {
+          "rev_id": 21539843,
+          "parent_rev_id": 21539701,
+          "page_id": 942,
+          "user_display": "Tomas Tomatfarm",
+          "is_anonymous": false,
+          "timestamp": "2023-05-09T00:40:03Z",
+          "role": "inserted",
+          "summary": "/* Konsulttiyhtiö Cosmopolis */ Lisätty tietoa Lipposen toimintatavoista Nord Stream -hankkeen lobbaamisessa.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=21539843",
+          "flags": []
+        },
+        {
+          "rev_id": 21540061,
+          "parent_rev_id": 21539843,
+          "page_id": 942,
+          "user_display": "Matthäus Gehägeberg",
+          "is_anonymous": false,
+          "timestamp": "2023-05-09T05:35:04Z",
+          "role": "removed",
+          "summary": "Kumottu muokkaus 21539843, jonka teki Tomas Tomatfarm (keskustelu) Epämääräinen nöyryyttämisväite ei ole tietosanakirjamerkittävä.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=21540061",
+          "flags": []
+        },
+        {
+          "rev_id": 21540288,
+          "parent_rev_id": 21540061,
+          "page_id": 942,
+          "user_display": "Tomas Tomatfarm",
+          "is_anonymous": false,
+          "timestamp": "2023-05-09T07:53:09Z",
+          "role": "reinserted",
+          "summary": "Kumottu muokkaus 21540061, jonka teki Matthäus Gehägeberg (keskustelu) Asia on nähtävä kontekstissaan: Venäjän strategiseksi tekijäksi osoittautunut Nord Stream -hanke ja sen raivokas puolustaminen.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=21540288",
+          "flags": []
+        },
+        {
+          "rev_id": 21540390,
+          "parent_rev_id": 21540288,
+          "page_id": 942,
+          "user_display": "Tomas Tomatfarm",
+          "is_anonymous": false,
+          "timestamp": "2023-05-09T09:00:24Z",
+          "role": "reinserted",
+          "summary": "/* Konsulttiyhtiö Cosmopolis */ Kirjoitettu ja muotoiltu Tynkkysen sättimisestä ja sen taustoista hieman laajemmin.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=21540390",
+          "flags": []
+        },
+        {
+          "rev_id": 21540573,
+          "parent_rev_id": 21540390,
+          "page_id": 942,
+          "user_display": "Uusimies",
+          "is_anonymous": false,
+          "timestamp": "2023-05-09T10:41:34Z",
+          "role": "removed",
+          "summary": "rv, ei kuulu tietosanakirjaan",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=21540573",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'Epämääräinen nöyryyttämisväite ei ole tietosanakirjamerkittävä' ('Vague humiliation claim is not encyclopaedically notable')."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Restored and expanded two hours after the first removal, citing Nord Stream's strategic role."
+        },
+        {
+          "kind": "edit_war",
+          "label": "Back-and-forth edits",
+          "evidence": "Three insertions and two removals within ten hours on 9 May 2023."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Adopts tabloid headline language ('humiliated') in Wikipedia's voice to characterise a parliamentary hearing."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed as not neutral, put back 2 times after removal, part of a back-and-forth over this passage, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 4,
+        "what_changed_en": "Adds a paragraph to the Cosmopolis consultancy section stating that Lipponen humiliated professor Veli-Pekka Tynkkynen during a 2018 Grand Committee hearing on Nord Stream risks.",
+        "quotes": [
+          "Venäjän ympäristöpolitiikan professori Veli-Pekka Tynkkystä, kun he molemmat olivat asiantuntijan roolissa [[Suuri valiokunta|suuren valiokunnan]] kuultavina.",
+          "Nyt puhuu kaasuputkesta varoittanut professori, jota Paavo Lipponen nöyryytti kansanedustajien edessä"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "The incident was reported in Iltalehti based on Tynkkynen's interview, so the dispute centres on encyclopaedic tone and weight rather than fabrication.",
+        "historical_note_en": "Former prime minister Paavo Lipponen worked as a consultant for the Nord Stream gas pipeline projects from 2008, a role widely revisited in Finnish debate after 2022."
+      },
+      "confidence_note": "Single named account editing one article on a single day stays at Level 2."
+    },
+    {
+      "id": "fin-02",
+      "page_id": 1187,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        10928732,
+        10928739,
+        10928767
+      ],
+      "removing_rev_ids": [
+        10928777
+      ],
+      "tier": "contested",
+      "score": 0.85,
+      "claim_en": "President Tarja Halonen's activist leadership shaped her appointments and weakened Finnish defence by banning landmines.",
+      "claim_fi": "Tarja Halonen toimi SETA:n puheenjohtajana 1980-1981. Puheenjohtajuus on näkynyt monella tavalla mm.henkilövalinnoissa.",
+      "summary_en": "Three sequential edits by one account added unsourced claims linking Tarja Halonen's past organisation chairmanships to biased public appointments and alleging the Ottawa landmine treaty harmed Finnish defence; removed within three minutes.",
+      "narrative": "Assessments of Tarja Halonen's presidency and security policy",
+      "category": "pov_push",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 1187,
+          "title_fi": "Tarja Halonen",
+          "title_en": "Tarja Halonen"
+        }
+      ],
+      "first_inserted_at": "2011-11-17T18:48:23Z",
+      "last_removed_at": "2011-11-17T19:00:53Z",
+      "total_exposure_seconds": 750,
+      "reinsertion_count": 2,
+      "edits": [
+        {
+          "rev_id": 10928732,
+          "parent_rev_id": 10928058,
+          "page_id": 1187,
+          "user_display": "Pappala8",
+          "is_anonymous": false,
+          "timestamp": "2011-11-17T18:48:23Z",
+          "role": "inserted",
+          "summary": "/* Ennen poliittista uraa */",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=10928732",
+          "flags": []
+        },
+        {
+          "rev_id": 10928739,
+          "parent_rev_id": 10928732,
+          "page_id": 1187,
+          "user_display": "Pappala8",
+          "is_anonymous": false,
+          "timestamp": "2011-11-17T18:50:55Z",
+          "role": "reinserted",
+          "summary": "/* Virkanimitykset */",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=10928739",
+          "flags": []
+        },
+        {
+          "rev_id": 10928767,
+          "parent_rev_id": 10928739,
+          "page_id": 1187,
+          "user_display": "Pappala8",
+          "is_anonymous": false,
+          "timestamp": "2011-11-17T18:57:44Z",
+          "role": "reinserted",
+          "summary": "/* Toiminta presidenttinä */",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=10928767",
+          "flags": []
+        },
+        {
+          "rev_id": 10928777,
+          "parent_rev_id": 10928767,
+          "page_id": 1187,
+          "user_display": "Ochs",
+          "is_anonymous": false,
+          "timestamp": "2011-11-17T19:00:53Z",
+          "role": "removed",
+          "summary": "rv, lähteetöntä ja epäneutraalilta haiskahtavaa",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=10928777",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'rv, lähteetöntä ja epäneutraalilta haiskahtavaa' ('unsourced and smells non-neutral')."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Asserts without sources that Halonen's appointments favoured particular groups and deprived the army of irreplaceable landmines."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed as not neutral, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 4,
+        "what_changed_en": "Inserts unsourced commentary across three sections claiming Halonen's 1980–1981 SETA chairmanship shaped her appointments, that her appointments favoured women, and that joining the Ottawa landmine ban weakened Finland's defence.",
+        "quotes": [
+          "Tarja Halonen toimi SETA:n puheenjohtajana 1980-1981. Puheenjohtajuus on näkynyt monella tavalla mm.henkilövalinnoissa."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": null,
+        "historical_note_en": "Halonen chaired Seta in 1980–1981, and Parliament approved Finland's accession to the Ottawa Anti-Personnel Mine Ban Convention in 2011 (from which Finland later voted to withdraw in 2025)."
+      },
+      "confidence_note": "Three consecutive edits in one ten-minute session by a single account without re-insertion after removal stay at Level 2."
+    },
+    {
+      "id": "fin-03",
+      "page_id": 5261,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        20291337
+      ],
+      "removing_rev_ids": [
+        20302034
+      ],
+      "tier": "contested",
+      "score": 0.8,
+      "claim_en": "In the 2000s, the Kremlin has successfully placed pro-Russian figures into top leadership across EU and North American states.",
+      "claim_fi": "Autoritäärisen valtakauden vaiheissaan Kreml pyrkii vahvistamaan vaikutusvaltaansa muiden valtioiden sisällä itselleen edullisen henkilövaikuttamisen, 'suomettamisen' keinoin.",
+      "summary_en": "A named editor added a three-paragraph unsourced essay section titled 'Suomettaminen 2000-luvulla' arguing that Moscow installs compliant leaders in EU and North American governments through unrest and election meddling; removed after four days.",
+      "narrative": "Modern usage of the term Finlandization",
+      "category": "pov_push",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 5261,
+          "title_fi": "Suomettuminen",
+          "title_en": "Finlandization"
+        }
+      ],
+      "first_inserted_at": "2022-02-12T05:59:47Z",
+      "last_removed_at": "2022-02-16T21:12:36Z",
+      "total_exposure_seconds": 400369,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 20291337,
+          "parent_rev_id": 20266204,
+          "page_id": 5261,
+          "user_display": "OH7HJ",
+          "is_anonymous": false,
+          "timestamp": "2022-02-12T05:59:47Z",
+          "role": "inserted",
+          "summary": "Suomettaminen 2000-luvulla",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=20291337",
+          "flags": []
+        },
+        {
+          "rev_id": 20302034,
+          "parent_rev_id": 20297223,
+          "page_id": 5261,
+          "user_display": "Xstoe",
+          "is_anonymous": false,
+          "timestamp": "2022-02-16T21:12:36Z",
+          "role": "removed",
+          "summary": "rv, lähteetöntä",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=20302034",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'rv, lähteetöntä' ('unsourced')."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Adds an unsourced three-paragraph thesis claiming Kremlin personnel recruitment succeeded across EU and North American leadership."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed for lack of a reliable source, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 5,
+        "what_changed_en": "Appends a new section ('Suomettaminen 2000-luvulla') asserting without citations that Moscow foments unrest and interferes in elections to install compliant leaders in EU and North American states.",
+        "quotes": [
+          "Autoritäärisen valtakauden vaiheissaan Kreml pyrkii vahvistamaan vaikutusvaltaansa muiden valtioiden sisällä itselleen edullisen henkilövaikuttamisen, 'suomettamisen' keinoin.",
+          "Nämä 2000-luvulle ominaiset suomettamismenetelmät näyttävät olleen erikoisen menestyksellisiä EU-maissa, sekä keskeisissä Pohjois-Amerikan maissa."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": null,
+        "historical_note_en": "In political science, 'Finlandization' refers to a smaller state's foreign- and domestic-policy accommodation toward a neighbouring great power, coined in West German debate over Cold War Finland."
+      },
+      "confidence_note": "Single insertion on one article removed for lacking sources; no coordination signals."
+    },
+    {
+      "id": "fin-04",
+      "page_id": 942,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        3540937
+      ],
+      "removing_rev_ids": [
+        3543599
+      ],
+      "tier": "contested",
+      "score": 0.75,
+      "claim_en": "In 1971, Paavo Lipponen co-wrote an SDP memo urging that the YYA Treaty's military articles be read like Warsaw Pact treaties.",
+      "claim_fi": "Suomen [[YYA-sopimus]]sta Neuvostoliiton kanssa tulisi tulkita sotilaallisilta artikloiltaan niin kuin niitä ystävyys-, yhteistyö- ja avunantosopimuksia, jotka Neuvostoliitto oli tehnyt [[Varsovan liitto|Varsovan liiton]] kanssa.",
+      "summary_en": "An anonymous edit added an unsourced bullet alleging that in 1971 Paavo Lipponen and Jaakko Blomberg proposed interpreting the Finno-Soviet YYA Treaty's military clauses on the model of Warsaw Pact treaties; removed 15 hours later.",
+      "narrative": "Cold War YYA Treaty interpretations",
+      "category": "pov_push",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 942,
+          "title_fi": "Paavo Lipponen",
+          "title_en": "Paavo Lipponen"
+        }
+      ],
+      "first_inserted_at": "2007-09-26T23:29:30Z",
+      "last_removed_at": "2007-09-27T14:06:40Z",
+      "total_exposure_seconds": 52630,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 3540937,
+          "parent_rev_id": 3516754,
+          "page_id": 942,
+          "user_display": "80.223.x.x",
+          "is_anonymous": true,
+          "timestamp": "2007-09-26T23:29:30Z",
+          "role": "inserted",
+          "summary": "/* Arvostelua herättäneitä asioita poliittisella uralla */",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=3540937",
+          "flags": []
+        },
+        {
+          "rev_id": 3543599,
+          "parent_rev_id": 3540963,
+          "page_id": 942,
+          "user_display": "Kalamies",
+          "is_anonymous": false,
+          "timestamp": "2007-09-27T14:06:40Z",
+          "role": "removed",
+          "summary": "Poistettu lähteettömiä väitteitä",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=3543599",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'Poistettu lähteettömiä väitteitä' ('Removed unsourced claims')."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Attributes a Warsaw Pact-style military interpretation of the 1948 YYA Treaty to Lipponen and Blomberg without a citation."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edit",
+          "evidence": "Inserted from unregistered IPv4 address 80.223.x.x."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed for lack of a reliable source, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "pov_push",
+        "confidence": 4,
+        "what_changed_en": "Adds an unsourced entry to the controversies list alleging a 1971 Lipponen–Blomberg memo advocated interpreting the YYA Treaty's military clauses like Soviet treaties with Warsaw Pact states, invoking Keijo Korhonen as critic.",
+        "quotes": [
+          "Suomen [[YYA-sopimus]]sta Neuvostoliiton kanssa tulisi tulkita sotilaallisilta artikloiltaan niin kuin niitä ystävyys-, yhteistyö- ja avunantosopimuksia, jotka Neuvostoliitto oli tehnyt [[Varsovan liitto|Varsovan liiton]] kanssa."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "Keijo Korhonen did criticise younger social democrats' Cold War foreign-policy memos in memoirs, but the added Warsaw Pact comparison carried no source.",
+        "historical_note_en": "Finland's 1948 Finno-Soviet Treaty (YYA) differed explicitly from Eastern-bloc mutual-assistance pacts by restricting military co-operation to defending Finnish territory and requiring mutual consultation."
+      },
+      "confidence_note": "Single anonymous edit removed for lacking sources stays at Level 2."
+    },
+    {
+      "id": "fin-05",
+      "page_id": 20742,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        22159468
+      ],
+      "removing_rev_ids": [
+        22244059
+      ],
+      "tier": "contested",
+      "score": 0.69,
+      "claim_en": "Academic research has not problematised anti-Russianness or russophobia or examined the concept's possible narrative nature.",
+      "claim_fi": "Käsitetasolla venäläisvastaisuutta tai russofobiaa ei ole tieteellisessä keskustelussa problematisoitu.",
+      "summary_en": "A named account added an unsourced lead paragraph arguing that scholarship has failed to define the causal relation between anti-Russian sentiment and russophobia or study its 'narrativity'; removed after 34 days.",
+      "narrative": "Framing of anti-Russian sentiment and russophobia",
+      "category": "content_dispute",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 20742,
+          "title_fi": "Venäläisvastaisuus",
+          "title_en": "Anti-Russian sentiment"
+        }
+      ],
+      "first_inserted_at": "2024-02-02T22:20:35Z",
+      "last_removed_at": "2024-03-07T22:31:37Z",
+      "total_exposure_seconds": 2938262,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 22159468,
+          "parent_rev_id": 21953163,
+          "page_id": 20742,
+          "user_display": "Sammalsuo",
+          "is_anonymous": false,
+          "timestamp": "2024-02-02T22:20:35Z",
+          "role": "inserted",
+          "summary": "Tieteenfilosofian ja semantiikan näkökulmien pohdiskelua koskien tietoartikkelin perusolettamuksia pohtimatta käsitteen mahdollista narratiivista ulottuvuutta.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=22159468",
+          "flags": []
+        },
+        {
+          "rev_id": 22244059,
+          "parent_rev_id": 22244018,
+          "page_id": 20742,
+          "user_display": "Paranaja",
+          "is_anonymous": false,
+          "timestamp": "2024-03-07T22:31:37Z",
+          "role": "removed",
+          "summary": "lähteetöntä, määritelmävirkkeen perusteella venäläisvastaisuus ja russofobia ovat synonyymejä",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=22244059",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'lähteetöntä, määritelmävirkkeen perusteella venäläisvastaisuus ja russofobia ovat synonyymejä'."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Asserts in the lead that academic literature lacks conceptual analysis and research on russophobia."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed for lack of a reliable source, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "content_dispute",
+        "confidence": 4,
+        "what_changed_en": "Appends an unsourced paragraph to the lead of Venäläisvastaisuus claiming that scholarship has not problematised the concept or researched its semantics and 'possible narrativity'.",
+        "quotes": [
+          "Käsitetasolla venäläisvastaisuutta tai russofobiaa ei ole tieteellisessä keskustelussa problematisoitu.",
+          "Käsitteen semantiikasta ja mahdollisesta  narratiivisuudesta ei ole saatavilla riittävästi tutkimustietoa."
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": null,
+        "historical_note_en": "Both Finnish historians (such as Karemaa and Vihavainen) and international scholars have published extensive research on historical anti-Russian sentiment in Finland and modern political uses of the term 'russophobia'."
+      },
+      "confidence_note": "One unsourced lead addition by a single account, removed after 34 days without re-insertion."
+    },
+    {
+      "id": "fin-06",
+      "page_id": 1275,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        8236664
+      ],
+      "removing_rev_ids": [
+        8236681
+      ],
+      "tier": "reverted",
+      "score": 0.48,
+      "claim_en": "President Urho Kekkonen appeared as a space character in an Itse valtiaat satirical musical.",
+      "claim_fi": "Urho Kekkonen esiintyi itse valtiaat -avaruusmusikaalissa avaruushahmona.",
+      "summary_en": "A short unsourced pop-culture subsection on Urho Kekkonen's animated caricature in an Itse valtiaat TV special was removed within three minutes as unencyclopaedic at that point in the biography.",
+      "narrative": "Biographical trivia on Urho Kekkonen",
+      "category": null,
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 1275,
+          "title_fi": "Urho Kekkonen",
+          "title_en": "Urho Kekkonen"
+        }
+      ],
+      "first_inserted_at": "2010-03-26T18:37:11Z",
+      "last_removed_at": "2010-03-26T18:40:01Z",
+      "total_exposure_seconds": 170,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 8236664,
+          "parent_rev_id": 8164382,
+          "page_id": 1275,
+          "user_display": "Lito",
+          "is_anonymous": false,
+          "timestamp": "2010-03-26T18:37:11Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8236664",
+          "flags": []
+        },
+        {
+          "rev_id": 8236681,
+          "parent_rev_id": 8236664,
+          "page_id": 1275,
+          "user_display": "Urjanhai",
+          "is_anonymous": false,
+          "timestamp": "2010-03-26T18:40:01Z",
+          "role": "removed",
+          "summary": "Kumottu muokkaus 8236664, jonka teki Lito (keskustelu) - ei merkittävä tieto, tai ei ainakaan tuossa kohdassa",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=8236681",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed within three minutes by named editor Urjanhai as minor trivia."
+        }
+      ],
+      "tier_reason": "Removed by Wikipedia editors — because: taken out by another editor.",
+      "assessment": null,
+      "confidence_note": "Automated assessment was unavailable and the removal concerned trivia placement rather than a factual or neutrality dispute, leaving this at Level 1."
+    }
+  ]
+}

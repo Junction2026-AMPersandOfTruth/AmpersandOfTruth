@@ -220,7 +220,7 @@ public sealed class DiffViewerTests : BunitContext
             Assert.Empty(mt.QuerySelectorAll("del"));
             Assert.Contains("The Winter War began when Finland shelled Mainila in November 1939.", mt.TextContent);
             Assert.Equal(
-                "Markers lost in translation; showing the plain translation.",
+                "Highlighting couldn't be aligned in the translation; showing it unaligned.",
                 cut.Find("[data-testid=diff-mt-note]").TextContent);
         });
     }
@@ -249,5 +249,85 @@ public sealed class DiffViewerTests : BunitContext
         Assert.Contains("Talvisota alkoi 30. marraskuuta 1939.", fiBody.TextContent);
         var fiIns = Assert.Single(fiBody.QuerySelectorAll("ins.aot-diff__add"));
         Assert.Contains("Suomi aloitti sodan.", fiIns.TextContent);
+    }
+
+    [Fact]
+    public async Task Lang_en_while_pending_folds_context_blocks_and_shows_Translating_status_before_resolving()
+    {
+        var pending = new PendingEvidenceTranslator();
+        Services.AddSingleton<IEvidenceTranslator>(pending);
+
+        const string before = """
+            Ensimmäinen koskematon kappale kertoo taustasta.
+
+            Toinen taustalause. Kolmas taustalause ennen muokkausta.
+
+            Neljäs koskematon kappale sodan jälkeen.
+            """;
+
+        const string after = """
+            Ensimmäinen koskematon kappale kertoo taustasta.
+
+            Toinen taustalause. Kolmas taustalause ennen muokkausta. Suomi aloitti talvisodan.
+
+            Neljäs koskematon kappale sodan jälkeen.
+            """;
+
+        var passage = MakePassage(before, after);
+        var cut = Render<DiffViewer>(p => p
+            .Add(x => x.Passage, passage)
+            .Add(x => x.Lang, "en")
+            .Add(x => x.Scope, "winter-war"));
+
+        // While translation is in flight: clear "Translating…" status, context folded, only the changed sentence visible.
+        var loading = cut.Find("[data-testid=diff-mt-loading]");
+        Assert.Equal("Translating…", loading.TextContent.Trim());
+        Assert.Equal("true", loading.GetAttribute("aria-busy"));
+
+        var fiBodyWhileLoading = cut.Find("[data-testid=diff-body-fi]");
+        Assert.Contains("Suomi aloitti talvisodan.", fiBodyWhileLoading.TextContent);
+        Assert.DoesNotContain("Ensimmäinen koskematon kappale", fiBodyWhileLoading.TextContent);
+        Assert.DoesNotContain("Toinen taustalause.", fiBodyWhileLoading.TextContent);
+        Assert.DoesNotContain("Kolmas taustalause ennen muokkausta.", fiBodyWhileLoading.TextContent);
+        Assert.DoesNotContain("Neljäs koskematon kappale", fiBodyWhileLoading.TextContent);
+        Assert.Equal(2, cut.FindAll("[data-testid=diff-fold]").Count);
+
+        pending.Tcs.SetResult(new AlignedTranslation(
+            BeforeEn: "Third background sentence before edit.",
+            AfterEn: "Third background sentence before edit. Finland started the Winter War.",
+            ChangedInAfterEn: [(39, 31)],
+            ChangedInBeforeEn: [],
+            Aligned: true,
+            Ok: true));
+
+        await cut.InvokeAsync(() => Task.CompletedTask);
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Empty(cut.FindAll("[data-testid=diff-mt-loading]"));
+            var ins = Assert.Single(cut.FindAll("[data-testid=diff-mt] ins.aot-diff__add"));
+            Assert.Equal("Finland started the Winter War.", ins.TextContent);
+            // Once translation arrives, 1 sentence of context around the change becomes visible.
+            Assert.Contains("Kolmas taustalause ennen muokkausta.", cut.Find("[data-testid=diff-body-fi]").TextContent);
+        });
+    }
+
+    private sealed class PendingEvidenceTranslator : IEvidenceTranslator
+    {
+        public TaskCompletionSource<AlignedTranslation> Tcs { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public Task<TranslationResult> TranslateAsync(string text, string sourceLang = "fi", string? scope = null, CancellationToken ct = default) =>
+            Task.FromResult(new TranslationResult(text, $"[EN] {text}", Ok: true));
+
+        public Task<IReadOnlyList<TranslationResult>> TranslateManyAsync(IReadOnlyList<string> texts, string sourceLang = "fi", string? scope = null, CancellationToken ct = default) =>
+            Task.FromResult<IReadOnlyList<TranslationResult>>(texts.Select(t => new TranslationResult(t, $"[EN] {t}", Ok: true)).ToArray());
+
+        public Task<AlignedTranslation> TranslatePassageAsync(
+            string before,
+            string after,
+            IReadOnlyList<(int Start, int Length)> changedInAfter,
+            IReadOnlyList<(int Start, int Length)> changedInBefore,
+            string sourceLang = "fi",
+            string? scope = null,
+            CancellationToken ct = default) => Tcs.Task;
     }
 }

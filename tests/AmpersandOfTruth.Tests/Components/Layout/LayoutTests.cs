@@ -1,9 +1,14 @@
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using AmpersandOfTruth.Web.Components.Layout;
+using AmpersandOfTruth.Web.Components.Pages;
 using AmpersandOfTruth.Web.Features.Evidence;
 using AmpersandOfTruth.Web.Features.Search;
 using Bunit;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 
 namespace AmpersandOfTruth.Tests.Components.Layout;
 
@@ -36,6 +41,11 @@ public sealed class LayoutTests : BunitContext
 
         Assert.Contains(aotCss, appCss, StringComparison.Ordinal);
 
+        Assert.Contains("--bs-code-color: var(--ink);", tokensCss, StringComparison.Ordinal);
+        Assert.Contains(".aot-num, .t-data", aotCss, StringComparison.Ordinal);
+        Assert.Contains("@media (max-width: 599.98px)", aotCss, StringComparison.Ordinal);
+        Assert.Contains(".aot-steps { grid-template-columns: 1fr; }", aotCss, StringComparison.Ordinal);
+
         Assert.Contains("#blazor-error-ui", appCss, StringComparison.Ordinal);
         Assert.Contains(".valid.modified", appCss, StringComparison.Ordinal);
         Assert.Contains(".invalid", appCss, StringComparison.Ordinal);
@@ -47,6 +57,8 @@ public sealed class LayoutTests : BunitContext
     [Fact]
     public void MainLayout_renders_wordmark_nav_links_search_slot_and_attribution_footer()
     {
+        Services.AddSingleton<IWebHostEnvironment>(new StubWebHostEnvironment { EnvironmentName = Environments.Development });
+
         var cut = Render<MainLayout>(parameters => parameters.Add(
             p => p.Body,
             builder => builder.AddMarkupContent(0, """<p data-testid="body-probe">Page body</p>""")));
@@ -65,11 +77,14 @@ public sealed class LayoutTests : BunitContext
         Assert.Equal("/", navLinks[0].GetAttribute("href"));
         Assert.Equal("Investigate", navLinks[0].TextContent.Trim());
         Assert.Equal("/methodology", navLinks[1].GetAttribute("href"));
-        Assert.Equal("Methodology", navLinks[1].TextContent.Trim());
+        Assert.Equal("How this works", navLinks[1].TextContent.Trim());
         Assert.Equal("/library", navLinks[2].GetAttribute("href"));
         Assert.Equal("Library", navLinks[2].TextContent.Trim());
         Assert.Equal("/hotspots", navLinks[3].GetAttribute("href"));
         Assert.Equal("Hot spots", navLinks[3].TextContent.Trim());
+
+        var themeToggle = cut.Find("header.aot-appbar [data-testid=theme-toggle]");
+        Assert.Equal("Theme: System", themeToggle.GetAttribute("aria-label"));
 
         Assert.Equal("Page body", cut.Find("main.aot-page [data-testid=body-probe]").TextContent);
 
@@ -91,6 +106,46 @@ public sealed class LayoutTests : BunitContext
             footer.QuerySelectorAll("a"),
             a => a.GetAttribute("href") == "/investigate");
         Assert.Equal("Pipeline debug", debugLink.TextContent.Trim());
+    }
+
+    [Fact]
+    public void Footer_hides_pipeline_debug_link_in_production()
+    {
+        Services.AddSingleton<IWebHostEnvironment>(new StubWebHostEnvironment { EnvironmentName = Environments.Production });
+
+        var cut = Render<Footer>();
+
+        var footer = cut.Find("[data-testid=site-footer]");
+        Assert.Empty(footer.QuerySelectorAll("a[href='/investigate']"));
+        Assert.Single(footer.QuerySelectorAll("a[href='/analysis']"));
+    }
+
+    [Fact]
+    public void NotFound_renders_calm_copy_and_link_to_root()
+    {
+        var cut = Render<NotFound>();
+
+        var empty = cut.Find("[data-testid=empty-state]");
+        Assert.Contains("We can't find this page.", empty.TextContent);
+        var homeLink = cut.Find("a[href='/']");
+        Assert.NotNull(homeLink);
+        Assert.Empty(CopyRules.FindViolations(empty.TextContent, includeJargon: true));
+    }
+
+    [Fact]
+    public void Error_renders_calm_copy_link_to_root_and_request_id()
+    {
+        using var activity = new Activity("test-error").Start();
+
+        var cut = Render<Error>();
+
+        var page = cut.Find("[data-testid=error-page]");
+        Assert.Contains("Something went wrong loading this page.", page.TextContent);
+        Assert.DoesNotContain("ASPNETCORE_ENVIRONMENT", page.TextContent, StringComparison.Ordinal);
+        Assert.DoesNotContain("Development Mode", page.TextContent, StringComparison.Ordinal);
+        Assert.NotNull(cut.Find("a[href='/']"));
+        Assert.Contains(activity.Id!, cut.Find("[data-testid=error-request-id]").TextContent);
+        Assert.Empty(CopyRules.FindViolations(page.TextContent, includeJargon: true));
     }
 
     [Fact]
@@ -140,11 +195,18 @@ public sealed class LayoutTests : BunitContext
 
         var appRazor = File.ReadAllText(Path.Combine(webDir, "Components", "App.razor"));
         Assert.Contains(
+            """<meta name="color-scheme" content="light dark" />""",
+            appRazor,
+            StringComparison.Ordinal);
+        Assert.Contains("aot.theme", appRazor, StringComparison.Ordinal);
+        Assert.Contains("data-bs-theme", appRazor, StringComparison.Ordinal);
+        Assert.Contains(
             """<meta name="description" content="See what was pushed into Wikipedia, and what the community took out." />""",
             appRazor,
             StringComparison.Ordinal);
         Assert.Contains("""href="favicon.svg" """, appRazor, StringComparison.Ordinal);
         Assert.Contains("""href="favicon.png" """, appRazor, StringComparison.Ordinal);
+        Assert.True(File.Exists(Path.Combine(webDir, "wwwroot", "js", "theme.js")), "wwwroot/js/theme.js should exist.");
 
         var faviconSvgPath = Path.Combine(webDir, "wwwroot", "favicon.svg");
         Assert.True(File.Exists(faviconSvgPath), "wwwroot/favicon.svg should exist.");
@@ -162,5 +224,15 @@ public sealed class LayoutTests : BunitContext
         }
 
         return dir?.FullName ?? throw new InvalidOperationException("Could not find repository root containing AmpersandOfTruth.sln");
+    }
+
+    private sealed class StubWebHostEnvironment : IWebHostEnvironment
+    {
+        public string EnvironmentName { get; set; } = Environments.Production;
+        public string ApplicationName { get; set; } = "AmpersandOfTruth.Web";
+        public string WebRootPath { get; set; } = string.Empty;
+        public IFileProvider WebRootFileProvider { get; set; } = new NullFileProvider();
+        public string ContentRootPath { get; set; } = string.Empty;
+        public IFileProvider ContentRootFileProvider { get; set; } = new NullFileProvider();
     }
 }

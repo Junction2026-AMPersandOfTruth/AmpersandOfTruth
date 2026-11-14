@@ -1,60 +1,89 @@
 @using System.Globalization
+@using AmpersandOfTruth.Web.Features.Evidence
 @using AmpersandOfTruth.Web.Features.Investigations.Overview
 @using AmpersandOfTruth.Web.Features.Investigations.View
 
-<a class="aot-card@(Highlighted ? " is-highlighted" : "")"
-   id="incident-@Incident.Id"
-   href="@Href"
-   data-testid="incident-card"
-   data-incident="@Incident.Id"
-   @onmouseenter="HandleMouseEnterAsync"
-   @onmouseleave="HandleMouseLeaveAsync">
-    <div class="aot-card__top">
-        <TierBadge Tier="Incident.Tier" />
-        <span class="aot-small aot-muted">
-            <span lang="fi">@Incident.PrimaryArticle.TitleFi</span>@if (HasDistinctEnglishTitle(Incident.PrimaryArticle))
-            {
-                <text> (@Incident.PrimaryArticle.TitleEn)</text>
-            }
-        </span>
-    </div>
+@{
+    var cardClass = "aot-card" + (Compact ? " aot-card--compact" : "") + (Highlighted ? " is-highlighted" : "");
+    var mainLinkClass = "aot-card__main" + (Highlighted ? " is-highlighted" : "");
+}
 
-    <p class="aot-card__claim" data-testid="incident-claim">@FormatHeadline(Incident)</p>
+<article class="@cardClass"
+         id="incident-@Incident.Id"
+         @onmouseenter="HandleMouseEnterAsync"
+         @onmouseleave="HandleMouseLeaveAsync">
+    <a class="@mainLinkClass"
+       href="@Href"
+       data-testid="incident-card"
+       data-incident="@Incident.Id"
+       @onmouseenter="HandleMouseEnterAsync"
+       @onmouseleave="HandleMouseLeaveAsync">
+        <div class="aot-card__top">
+            <TierBadge Tier="Incident.Tier" />
+            <span class="aot-small aot-muted">
+                <span lang="fi">@Incident.PrimaryArticle.TitleFi</span>@if (HasDistinctEnglishTitle(Incident.PrimaryArticle))
+                {
+                    <text> (@Incident.PrimaryArticle.TitleEn)</text>
+                }
+                else if (string.IsNullOrWhiteSpace(Incident.PrimaryArticle.TitleEn))
+                {
+                    <text> (Finnish Wikipedia)</text>
+                }
+            </span>
+        </div>
 
-    @if (!string.IsNullOrWhiteSpace(Incident.ClaimOriginal))
-    {
-        <div class="aot-original" lang="@EffectiveLang" data-testid="incident-original">@Incident.ClaimOriginal</div>
-    }
+        <p class="aot-card__claim" data-testid="incident-claim">@FormatHeadline(Incident)</p>
 
-    <p class="aot-card__what" data-testid="incident-what">@OverviewState.WhatHappened(Incident)</p>
+        @if (!string.IsNullOrWhiteSpace(Incident.ClaimOriginal))
+        {
+            <div class="aot-original" lang="@EffectiveLang" data-testid="incident-original">@Incident.ClaimOriginal</div>
+        }
+
+        <p class="aot-card__what" data-testid="incident-what">@OverviewState.WhatHappened(Incident)</p>
+
+        @if (!Compact)
+        {
+            var factsClass = FirstInsertingRevId is not null ? "aot-facts aot-facts--with-wiki" : "aot-facts";
+            <dl class="@factsClass" data-testid="incident-facts">
+                <div>
+                    <dt>First seen</dt>
+                    <dd>@FormatDate(Incident.FirstSeen)</dd>
+                </div>
+                @if (Incident.LastRemoved is { } lastRemoved)
+                {
+                    <div>
+                        <dt>Last removed</dt>
+                        <dd>@FormatDate(lastRemoved)</dd>
+                    </div>
+                }
+                <div>
+                    <dt>Live</dt>
+                    <dd>@OverviewState.Duration(Incident.TotalLive)</dd>
+                </div>
+                <div>
+                    <dt>Accounts</dt>
+                    <dd>@Incident.AccountCount.ToString("N0", CultureInfo.InvariantCulture)</dd>
+                </div>
+                <div>
+                    <dt>Articles</dt>
+                    <dd>@Incident.Articles.Count.ToString("N0", CultureInfo.InvariantCulture)</dd>
+                </div>
+            </dl>
+        }
+    </a>
 
     @if (!Compact)
     {
-        <dl class="aot-facts">
-            <div>
-                <dt>First seen</dt>
-                <dd>@FormatDate(Incident.FirstSeen)</dd>
+        @if (FirstInsertingRevId is { } diffRevId)
+        {
+            <div class="aot-card__wiki-row">
+                <a class="aot-card__wiki"
+                   href="@WikipediaLinks.Diff(diffRevId).AbsoluteUri"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   data-testid="incident-wiki-diff">View on Wikipedia &#x2197;</a>
             </div>
-            @if (Incident.LastRemoved is { } lastRemoved)
-            {
-                <div>
-                    <dt>Last removed</dt>
-                    <dd>@FormatDate(lastRemoved)</dd>
-                </div>
-            }
-            <div>
-                <dt>Live</dt>
-                <dd>@OverviewState.Duration(Incident.TotalLive)</dd>
-            </div>
-            <div>
-                <dt>Accounts</dt>
-                <dd>@Incident.AccountCount.ToString("N0", CultureInfo.InvariantCulture)</dd>
-            </div>
-            <div>
-                <dt>Articles</dt>
-                <dd>@Incident.Articles.Count.ToString("N0", CultureInfo.InvariantCulture)</dd>
-            </div>
-        </dl>
+        }
 
         @if (Incident.Signals.Count > 0)
         {
@@ -70,7 +99,7 @@
             </div>
         }
     }
-</a>
+</article>
 
 @code {
     private const int MaxVisibleSignals = 4;
@@ -92,7 +121,7 @@
         builder.AddAttribute(1, "class", "aot-card aot-card--skeleton");
         builder.AddAttribute(2, "data-testid", "incident-skeleton");
         builder.AddAttribute(3, "aria-busy", "true");
-        builder.AddAttribute(4, "aria-label", "Scoring incident…");
+        builder.AddAttribute(4, "aria-label", "Loading incident…");
 
         builder.OpenElement(5, "span");
         builder.AddAttribute(6, "class", "aot-skel");
@@ -118,6 +147,20 @@
     };
 
     private string EffectiveLang => string.IsNullOrWhiteSpace(Incident.Lang) ? "fi" : Incident.Lang;
+
+    private long? FirstInsertingRevId
+    {
+        get
+        {
+            if (Incident.Source.InsertingRevIds is { Count: > 0 } revIds && revIds[0] > 0)
+            {
+                return revIds[0];
+            }
+
+            var firstEdit = Incident.Edits.FirstOrDefault(static e => e.Action is EditAction.Inserted or EditAction.Reinserted);
+            return firstEdit is { RevId: > 0 } ? firstEdit.RevId : null;
+        }
+    }
 
     private string Href
     {
@@ -155,7 +198,8 @@
         }
 
         var trimmed = incident.ClaimEn.Trim();
-        if (incident.Kind == IncidentKind.Deletion)
+        if (incident.Kind == IncidentKind.Deletion
+            || trimmed.StartsWith("Removed:", StringComparison.OrdinalIgnoreCase))
         {
             return trimmed.StartsWith("Removed:", StringComparison.OrdinalIgnoreCase)
                 ? trimmed

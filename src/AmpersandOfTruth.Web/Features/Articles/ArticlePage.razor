@@ -3,22 +3,54 @@
 @using System.Globalization
 @using AmpersandOfTruth.Web.Features.Evidence
 @using AmpersandOfTruth.Web.Features.Investigations
+@using AmpersandOfTruth.Web.Features.Investigations.Fixtures
 @using AmpersandOfTruth.Web.Features.Investigations.View
 @using Microsoft.Extensions.Options
 @inject ArticleTimelineService TimelineService
 @inject IIncidentSource IncidentSource
 @inject IOptions<InvestigationSourceOptions> SourceOptions
 @inject NavigationManager Nav
+@inject IServiceProvider Services
 
-<PageTitle>@(_aggregates is not null ? $"{_aggregates.TitleFi} · Ampersand of Truth" : "Article · Ampersand of Truth")</PageTitle>
+<PageTitle>@FormatPageTitle(_aggregates, _knownTitle)</PageTitle>
 
-<div class="aot-page aot-stack">
+<div class="aot-page aot-stack" data-testid="article-page">
     @if (_loading)
     {
         <div class="aot-stack" data-testid="article-loading" role="status" aria-label="Loading article history">
-            <div class="aot-skel" style="width:280px;height:28px"></div>
+            @if (_knownTitle is { } known)
+            {
+                <header class="aot-stack" data-testid="article-loading-header">
+                    <h1 class="aot-h1">
+                        @if (!string.IsNullOrWhiteSpace(known.TitleEn) &&
+                             !string.Equals(known.TitleEn, known.TitleFi, StringComparison.Ordinal))
+                        {
+                            <span>@known.TitleEn</span>
+                            <span class="aot-muted aot-small" style="margin-left:8px">
+                                FI <a href="@WikipediaLinks.Article(known.TitleFi).AbsoluteUri"
+                                      target="_blank"
+                                      rel="noopener"
+                                      lang="fi">@known.TitleFi ↗</a>
+                            </span>
+                        }
+                        else
+                        {
+                            <span lang="fi">@known.TitleFi</span>
+                            <a href="@WikipediaLinks.Article(known.TitleFi).AbsoluteUri"
+                               target="_blank"
+                               rel="noopener"
+                               class="aot-small"
+                               style="margin-left:8px">Finnish Wikipedia ↗</a>
+                        }
+                    </h1>
+                </header>
+            }
+            else
+            {
+                <div class="aot-skel" style="width:280px;height:28px"></div>
+            }
             <div class="aot-skel" style="width:180px;height:14px"></div>
-            <svg class="aot-chart" viewBox="0 0 900 180" width="100%" aria-hidden="true">
+            <svg style="display:block;width:100%;height:auto" viewBox="0 0 900 180" width="100%" aria-hidden="true">
                 @for (var i = 0; i < 36; i++)
                 {
                     var x = 36 + (i * 23.5);
@@ -28,15 +60,19 @@
                           y="@y.ToString("0.#", CultureInfo.InvariantCulture)"
                           width="18"
                           height="@h.ToString(CultureInfo.InvariantCulture)"
-                          style="fill:var(--surface-sunken,#e9ecef)" />
+                          style="fill:var(--surface-sunken)" />
                 }
             </svg>
+            @if (_isSlow)
+            {
+                <p class="aot-small aot-muted">Still loading article history…</p>
+            }
         </div>
     }
     else if (_hasError)
     {
         <StatusBanner Kind="StatusKind.Error"
-                      Title="The Wikipedia data is not reachable right now."
+                      Title="@_errorTitle"
                       Detail="@_errorDetail"
                       OnRetry="RetryAsync"
                       TestId="article-error" />
@@ -70,7 +106,7 @@
                        rel="noopener"
                        class="aot-small"
                        style="margin-left:8px"
-                       data-testid="wiki-article-link">fi.wikipedia ↗</a>
+                       data-testid="wiki-article-link">Finnish Wikipedia ↗</a>
                 }
             </h1>
             <div class="aot-row aot-small aot-muted" style="justify-content:space-between">
@@ -88,9 +124,10 @@
             <ArticleTimeline Data="_aggregates"
                              Range="_selectedRange"
                              Marks="_marks"
+                             Bands="_bands"
                              HighlightedIncidentId="@EffectiveIncident"
                              OnRangeSelected="HandleRangeSelectedAsync" />
-            <p class="aot-small" data-testid="timeline-summary">@ArticleTimelineService.Summary(_aggregates)</p>
+            <p class="aot-small" data-testid="timeline-summary">@(ConflictEpisodes.TryFormatBusiestSummary(_episodes) ?? ArticleTimelineService.Summary(_aggregates))</p>
         </section>
 
         @if (_selectedRange is not null)
@@ -115,10 +152,10 @@
                                 <tr>
                                     <th>Time (UTC)</th>
                                     <th>Editor</th>
-                                    <th>Edit summary</th>
-                                    <th>Size change</th>
+                                    <th>Edit summary (Finnish)</th>
+                                    <th>Bytes changed</th>
                                     <th>Status</th>
-                                    <th>Diff</th>
+                                    <th>On Wikipedia</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -143,13 +180,14 @@
                                             <a href="@WikipediaLinks.Diff(rev.RevId).AbsoluteUri"
                                                target="_blank"
                                                rel="noopener"
-                                               data-testid="wiki-diff-link">diff ↗</a>
+                                               data-testid="wiki-diff-link">View change ↗</a>
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
                     </div>
+                    <p class="aot-small aot-muted" style="margin:4px 0 0">Edit summaries above are shown in their original Finnish from Wikipedia.</p>
                 }
             </section>
         }
@@ -157,20 +195,30 @@
 </div>
 
 @code {
+    private static readonly TimeSpan SlowThreshold = TimeSpan.FromSeconds(20);
+
     private CancellationTokenSource? _cts;
-    private bool _interactive;
+    private ITimer? _slowTimer;
+    private bool _disposed;
     private bool _loading = true;
+    private bool _isSlow;
     private bool _revisionsLoading;
     private bool _hasError;
+    private string _errorTitle = "The Wikipedia data is not reachable right now.";
     private string? _errorDetail;
 
     private long? _loadedPageId;
     private DateRange? _loadedRange;
     private string? _loadedTopic;
+    private KnownArticleTitle? _knownTitle;
     private ArticleAggregates? _aggregates;
     private DateRange? _selectedRange;
     private IReadOnlyList<ArticleRevision> _revisions = [];
     private IReadOnlyList<IncidentMark> _marks = [];
+    private IReadOnlyList<ConflictEpisode> _episodes = [];
+    private IReadOnlyList<ConflictBand> _bands = [];
+
+    private sealed record KnownArticleTitle(string TitleFi, string? TitleEn);
 
     [Parameter]
     public long PageId { get; set; }
@@ -190,23 +238,7 @@
     private string? EffectiveIncident =>
         !string.IsNullOrWhiteSpace(Incident) ? Incident : ReadQueryParam(Nav.Uri, "incident");
 
-    protected override async Task OnParametersSetAsync()
-    {
-        if (_interactive)
-        {
-            await SyncAsync(forceReload: false);
-        }
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            _interactive = true;
-            await SyncAsync(forceReload: true);
-            StateHasChanged();
-        }
-    }
+    protected override Task OnParametersSetAsync() => SyncAsync(forceReload: false);
 
     private async Task SyncAsync(bool forceReload)
     {
@@ -248,11 +280,18 @@
 
         var ct = ResetCancellation();
         _loading = true;
+        _revisionsLoading = false;
+        _isSlow = false;
         _hasError = false;
+        _errorTitle = "The Wikipedia data is not reachable right now.";
         _errorDetail = null;
+        _knownTitle = ResolveCheapTitle(PageId);
+        StartSlowTimer();
 
         try
         {
+            var marksTask = LoadMarksAsync(PageId, topicSlug, ct);
+            var episodesTask = LoadEpisodesAsync(PageId, ct);
             var aggregates = await TimelineService.AggregatesAsync(PageId, ct);
             _loadedPageId = PageId;
             _aggregates = aggregates;
@@ -264,31 +303,52 @@
                 _loadedTopic = topicSlug;
                 _revisions = [];
                 _marks = [];
+                _episodes = [];
+                _bands = [];
                 return;
             }
 
+            _knownTitle = new KnownArticleTitle(aggregates.TitleFi, aggregates.TitleEn);
             var initialRange = queryRange ?? DefaultRange(aggregates);
             _selectedRange = initialRange;
-            _revisions = await TimelineService.RevisionsAsync(PageId, initialRange, limit: 500, ct: ct);
-            _marks = await LoadMarksAsync(PageId, topicSlug, ct);
+            var revisionsTask = TimelineService.RevisionsAsync(PageId, initialRange, limit: 500, ct: ct);
+
+            _marks = await marksTask;
+            _episodes = await episodesTask;
+            _bands = ConflictEpisodes.ToBands(_episodes);
+            _revisions = await revisionsTask;
             _loadedRange = initialRange;
             _loadedTopic = topicSlug;
         }
         catch (CorpusUnavailableException ex)
         {
             _hasError = true;
+            _errorTitle = "The Wikipedia data is not reachable right now.";
+            _errorDetail = ex.Message;
+            _loadedPageId = null;
+            _loadedRange = null;
+            _loadedTopic = null;
+            _marks = [];
+            _episodes = [];
+            _bands = [];
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            return;
+        }
+        catch (Exception ex)
+        {
+            _hasError = true;
+            _errorTitle = "Something went wrong loading this article.";
             _errorDetail = ex.Message;
             _loadedPageId = null;
             _loadedRange = null;
             _loadedTopic = null;
             _marks = [];
         }
-        catch (OperationCanceledException) when (ct.IsCancellationRequested)
-        {
-            return;
-        }
         finally
         {
+            StopSlowTimer();
             if (!ct.IsCancellationRequested)
             {
                 _loading = false;
@@ -303,6 +363,7 @@
         _selectedRange = range;
         _revisionsLoading = true;
         _hasError = false;
+        _errorTitle = "The Wikipedia data is not reachable right now.";
         _errorDetail = null;
 
         try
@@ -319,12 +380,20 @@
         catch (CorpusUnavailableException ex)
         {
             _hasError = true;
+            _errorTitle = "The Wikipedia data is not reachable right now.";
             _errorDetail = ex.Message;
             _loadedRange = null;
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
         {
             return;
+        }
+        catch (Exception ex)
+        {
+            _hasError = true;
+            _errorTitle = "Something went wrong loading this article.";
+            _errorDetail = ex.Message;
+            _loadedRange = null;
         }
         finally
         {
@@ -352,10 +421,17 @@
 
             var escapedSlug = Uri.EscapeDataString(topicSlug);
             var marks = new List<IncidentMark>();
+            KnownArticleTitle? discoveredTitle = null;
             foreach (var incident in incidents)
             {
-                if (incident.Articles.Any(a => a.PageId == pageId))
+                var matchingArticle = incident.Articles.FirstOrDefault(a => a.PageId == pageId);
+                if (matchingArticle is not null)
                 {
+                    if (discoveredTitle is null && !string.IsNullOrWhiteSpace(matchingArticle.TitleFi))
+                    {
+                        discoveredTitle = new KnownArticleTitle(matchingArticle.TitleFi, matchingArticle.TitleEn);
+                    }
+
                     marks.Add(new IncidentMark(
                         incident.FirstSeen.UtcDateTime,
                         incident.Tier,
@@ -364,7 +440,35 @@
                 }
             }
 
+            if (_knownTitle is null && discoveredTitle is not null && _loading && !ct.IsCancellationRequested)
+            {
+                _knownTitle = discoveredTitle;
+                StateHasChanged();
+            }
+
             return marks;
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch
+        {
+            return [];
+        }
+    }
+
+    private async Task<IReadOnlyList<ConflictEpisode>> LoadEpisodesAsync(long pageId, CancellationToken ct)
+    {
+        var source = Services.GetService<IConflictEpisodes>();
+        if (source is null)
+        {
+            return [];
+        }
+
+        try
+        {
+            return await source.ForPageAsync(pageId, ct);
         }
         catch (OperationCanceledException) when (ct.IsCancellationRequested)
         {
@@ -495,6 +599,52 @@
         return uri;
     }
 
+    private KnownArticleTitle? ResolveCheapTitle(long pageId)
+    {
+        if (pageId <= 0)
+        {
+            return null;
+        }
+
+        if (TimelineService.TryGetCachedAggregates(pageId, out var cached) && cached is not null)
+        {
+            return new KnownArticleTitle(cached.TitleFi, cached.TitleEn);
+        }
+
+        var samples = Services.GetService<SampleIncidents>();
+        if (samples is not null)
+        {
+            foreach (var topic in samples.Topics)
+            {
+                foreach (var incident in topic.Incidents)
+                {
+                    foreach (var article in incident.Articles)
+                    {
+                        if (article.PageId == pageId && !string.IsNullOrWhiteSpace(article.TitleFi))
+                        {
+                            return new KnownArticleTitle(article.TitleFi, article.TitleEn);
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    internal static string FormatPageTitle(ArticleAggregates? a) =>
+        FormatPageTitle(a, known: null);
+
+    private static string FormatPageTitle(ArticleAggregates? a, KnownArticleTitle? known) =>
+        (a?.TitleFi ?? known?.TitleFi, a?.TitleEn ?? known?.TitleEn) switch
+        {
+            (null, _) => "Article · Ampersand of Truth",
+            (var fi, { Length: > 0 } en) when !string.Equals(en, fi, StringComparison.Ordinal) =>
+                $"{en} ({fi}) · Ampersand of Truth",
+            (_, { Length: > 0 } en) => $"{en} · Ampersand of Truth",
+            (var fi, _) => $"{fi} (Finnish Wikipedia) · Ampersand of Truth",
+        };
+
     internal static string FormatHeaderCounts(ArticleAggregates a)
     {
         var revNoun = a.Revisions == 1 ? "revision" : "revisions";
@@ -528,6 +678,36 @@
             ? $"+{delta.ToString("N0", CultureInfo.InvariantCulture)}"
             : delta.ToString("N0", CultureInfo.InvariantCulture);
 
+    private void StartSlowTimer()
+    {
+        StopSlowTimer();
+        var time = Services.GetService<TimeProvider>() ?? TimeProvider.System;
+        _slowTimer = time.CreateTimer(
+            static state => ((ArticlePage)state!).MarkSlow(),
+            this,
+            SlowThreshold + TimeSpan.FromMilliseconds(1),
+            Timeout.InfiniteTimeSpan);
+    }
+
+    private void StopSlowTimer()
+    {
+        _slowTimer?.Dispose();
+        _slowTimer = null;
+    }
+
+    private void MarkSlow()
+    {
+        if (_disposed || !_loading || _isSlow) return;
+        _isSlow = true;
+        _ = InvokeAsync(() =>
+        {
+            if (!_disposed && _loading)
+            {
+                StateHasChanged();
+            }
+        });
+    }
+
     private CancellationToken ResetCancellation()
     {
         _cts?.Cancel();
@@ -538,6 +718,8 @@
 
     public void Dispose()
     {
+        _disposed = true;
+        StopSlowTimer();
         _cts?.Cancel();
         _cts?.Dispose();
     }

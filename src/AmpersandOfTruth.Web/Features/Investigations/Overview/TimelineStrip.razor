@@ -3,18 +3,25 @@
 @using AmpersandOfTruth.Web.Features.Investigations.View
 
 @{
-    var lanes = BuildLanes(Incidents);
+    var lanes = BuildLanes(Incidents, MaxArticleLanes);
     var laneCount = Math.Max(1, lanes.Count);
     var axisY = TopPad + (laneCount * LaneHeight) + 6.0;
     var svgHeight = axisY + 22.0;
+
+    var phoneLanes = BuildLanes(Incidents, PhoneMaxArticleLanes);
+    var phoneLaneCount = Math.Max(1, phoneLanes.Count);
+    var phoneAxisY = PhoneTopPad + (phoneLaneCount * PhoneLaneHeight) + 4.0;
+    var phoneSvgHeight = phoneAxisY + 22.0;
+
     var activeBrush = ResolveBrushRange();
 }
 
 <div class="aot-stack" style="gap:8px" data-testid="timeline-strip">
-    <svg class="aot-chart"
+    <svg class="aot-chart aot-strip__desktop"
          viewBox="0 0 @F(SvgWidth) @F(svgHeight)"
          role="img"
-         aria-label="Incidents over time by article">
+         aria-label="Incidents over time by article"
+         data-testid="timeline-svg">
         @for (var yr = StartYear; yr <= EndYear; yr++)
         {
             var yearValue = yr;
@@ -79,7 +86,12 @@
         {
             var lane = lanes[i];
             var cy = TopPad + (i * LaneHeight) + (LaneHeight / 2.0);
-            @foreach (var incident in lane.Items)
+            @* Overlapping marks: SVG paints in document order, so draw the lowest level first and the highest last
+               (and the hovered mark on top of everything) — the strongest evidence stays visible. *@
+            @foreach (var incident in lane.Items
+                          .OrderBy(i => string.Equals(i.Id, HotId, StringComparison.Ordinal))
+                          .ThenBy(i => (int)i.Tier)
+                          .ThenByDescending(i => i.Rank))
             {
                 var cx = YearX(YearFraction(incident.FirstSeen));
                 var isHot = string.Equals(HotId, incident.Id, StringComparison.Ordinal);
@@ -87,9 +99,15 @@
                 <g class="@(isHot ? "aot-mark is-hot" : "aot-mark")"
                    data-testid="timeline-mark"
                    data-incident="@incident.Id"
+                   tabindex="0"
+                   role="button"
+                   aria-label="@($"Incident {incident.Rank}: {incident.FirstSeen.UtcDateTime.ToString("d MMM yyyy", CultureInfo.InvariantCulture)}")"
                    style="cursor:pointer"
                    @onclick="@(() => HandleMarkClickAsync(incident.Id))"
                    @onclick:stopPropagation="true"
+                   @onkeydown="@(e => HandleMarkKeyDownAsync(e, incident.Id))"
+                   @onfocus="@(() => HandleHoverAsync(incident.Id))"
+                   @onblur="@(() => HandleHoverAsync(null))"
                    @onmouseenter="@(() => HandleHoverAsync(incident.Id))"
                    @onmouseleave="@(() => HandleHoverAsync(null))">
                     <title>@incident.FirstSeen.UtcDateTime.ToString("d MMM yyyy", CultureInfo.InvariantCulture)</title>
@@ -120,6 +138,123 @@
         }
     </svg>
 
+    <svg class="aot-chart aot-strip__phone"
+         viewBox="0 0 @F(PhoneSvgWidth) @F(phoneSvgHeight)"
+         role="img"
+         aria-label="Incidents over time by article"
+         data-testid="timeline-svg-phone">
+        @for (var yr = StartYear; yr <= EndYear; yr++)
+        {
+            var yearValue = yr;
+            var x1 = PhoneYearX(yearValue);
+            var x2 = PhoneYearX(yearValue + 1.0);
+            <rect x="@F(x1)"
+                  y="@F(PhoneTopPad)"
+                  width="@F(Math.Max(1.0, x2 - x1))"
+                  height="@F(phoneAxisY - PhoneTopPad + 18.0)"
+                  fill="transparent"
+                  style="cursor:crosshair"
+                  data-testid="timeline-year-phone"
+                  data-year="@yearValue"
+                  @onpointerdown="@(() => HandleYearPointerDown(yearValue))"
+                  @onpointerenter="@(() => HandleYearPointerEnter(yearValue))"
+                  @onpointerup="@(() => HandleYearPointerUpAsync(yearValue))"
+                  @onclick="@(() => HandleYearClickAsync(yearValue))" />
+        }
+
+        @for (var i = 0; i < phoneLanes.Count; i++)
+        {
+            var lane = phoneLanes[i];
+            var y = PhoneTopPad + (i * PhoneLaneHeight);
+            <g>
+                <text x="@F(PhoneLeftPad)"
+                      y="@F(y + 12)"
+                      font-size="12">@TruncatePhoneLabel(lane.Label)</text>
+                <rect class="lane"
+                      x="@F(PhoneLeftPad)"
+                      y="@F(y + 17)"
+                      width="@F(PhoneRightEdge - PhoneLeftPad)"
+                      height="18"
+                      rx="2"
+                      style="pointer-events:none" />
+            </g>
+        }
+
+        @if (activeBrush is { } phoneBrush)
+        {
+            var bx1 = PhoneYearX(phoneBrush.From);
+            var bx2 = PhoneYearX(phoneBrush.To + 1.0);
+            <rect class="brush"
+                  x="@F(bx1)"
+                  y="@F(PhoneTopPad)"
+                  width="@F(Math.Max(2.0, bx2 - bx1))"
+                  height="@F(phoneAxisY - PhoneTopPad)"
+                  style="pointer-events:none"
+                  data-testid="timeline-brush-phone" />
+        }
+
+        <line class="grid" x1="@F(PhoneLeftPad)" y1="@F(phoneAxisY)" x2="@F(PhoneRightEdge)" y2="@F(phoneAxisY)" />
+        @foreach (var tickYear in PhoneAxisTicks)
+        {
+            var gx = PhoneYearX(tickYear);
+            <g>
+                <line class="grid" x1="@F(gx)" y1="@F(phoneAxisY)" x2="@F(gx)" y2="@F(phoneAxisY + 4)" />
+                <text x="@F(gx)" y="@F(phoneAxisY + 17)" font-size="12" text-anchor="middle">@tickYear.ToString(CultureInfo.InvariantCulture)</text>
+            </g>
+        }
+
+        @for (var i = 0; i < phoneLanes.Count; i++)
+        {
+            var lane = phoneLanes[i];
+            var cy = PhoneTopPad + (i * PhoneLaneHeight) + 26.0;
+            @foreach (var incident in lane.Items)
+            {
+                var cx = PhoneYearX(YearFraction(incident.FirstSeen));
+                var isHot = string.Equals(HotId, incident.Id, StringComparison.Ordinal);
+                var shapeHot = isHot ? " is-hot" : "";
+                <g class="@(isHot ? "aot-mark is-hot" : "aot-mark")"
+                   data-testid="timeline-mark-phone"
+                   data-incident="@incident.Id"
+                   tabindex="0"
+                   role="button"
+                   aria-label="@($"Incident {incident.Rank}: {incident.FirstSeen.UtcDateTime.ToString("d MMM yyyy", CultureInfo.InvariantCulture)}")"
+                   style="cursor:pointer"
+                   @onclick="@(() => HandleMarkClickAsync(incident.Id))"
+                   @onclick:stopPropagation="true"
+                   @onkeydown="@(e => HandleMarkKeyDownAsync(e, incident.Id))"
+                   @onfocus="@(() => HandleHoverAsync(incident.Id))"
+                   @onblur="@(() => HandleHoverAsync(null))"
+                   @onmouseenter="@(() => HandleHoverAsync(incident.Id))"
+                   @onmouseleave="@(() => HandleHoverAsync(null))">
+                    <title>@incident.FirstSeen.UtcDateTime.ToString("d MMM yyyy", CultureInfo.InvariantCulture)</title>
+                    <circle cx="@F(cx)" cy="@F(cy)" r="16" fill="transparent" />
+                    @if (incident.Tier == EvidenceTier.Reverted)
+                    {
+                        <circle class="aot-mk aot-mk--reverted@(shapeHot)" cx="@F(cx)" cy="@F(cy)" r="5.5" />
+                    }
+                    else if (incident.Tier == EvidenceTier.Contested)
+                    {
+                        <rect class="aot-mk aot-mk--contested@(shapeHot)"
+                              x="@F(cx - 5.5)"
+                              y="@F(cy - 5.5)"
+                              width="11"
+                              height="11"
+                              transform="rotate(45 @F(cx) @F(cy))" />
+                    }
+                    else
+                    {
+                        <rect class="aot-mk aot-mk--campaign@(shapeHot)"
+                              x="@F(cx - 6)"
+                              y="@F(cy - 6)"
+                              width="12"
+                              height="12"
+                              rx="1" />
+                    }
+                </g>
+            }
+        }
+    </svg>
+
     <div class="aot-legend">
         <span>
             <svg viewBox="0 0 12 12" aria-hidden="true"><circle class="aot-mk aot-mk--reverted" cx="6" cy="6" r="4.5" /></svg>
@@ -142,12 +277,21 @@
     private const double RightEdge = 888.0;
     private const double TopPad = 6.0;
     private const double LaneHeight = 22.0;
+
+    private const double PhoneSvgWidth = 320.0;
+    private const double PhoneLeftPad = 16.0;
+    private const double PhoneRightEdge = 304.0;
+    private const double PhoneTopPad = 4.0;
+    private const double PhoneLaneHeight = 38.0;
+
     private const int StartYear = 2003;
     private const int EndYear = 2026;
     private const double AxisEnd = 2027.0;
     private const int MaxArticleLanes = 5;
+    private const int PhoneMaxArticleLanes = 3;
 
     private static readonly int[] AxisTicks = [2003, 2006, 2009, 2012, 2015, 2018, 2021, 2024, 2026];
+    private static readonly int[] PhoneAxisTicks = [2003, 2009, 2015, 2021, 2026];
 
     private int? _dragStartYear;
     private int? _dragCurrentYear;
@@ -211,6 +355,9 @@
     private Task HandleMarkClickAsync(string id) =>
         OnMarkClick.HasDelegate ? OnMarkClick.InvokeAsync(id) : Task.CompletedTask;
 
+    private Task HandleMarkKeyDownAsync(KeyboardEventArgs e, string id) =>
+        e.Key is "Enter" or " " or "Spacebar" ? HandleMarkClickAsync(id) : Task.CompletedTask;
+
     private Task HandleHoverAsync(string? id) =>
         OnHover.HasDelegate ? OnHover.InvokeAsync(id) : Task.CompletedTask;
 
@@ -231,7 +378,7 @@
         return null;
     }
 
-    private static List<StripLane> BuildLanes(IReadOnlyList<IncidentView> incidents)
+    private static List<StripLane> BuildLanes(IReadOnlyList<IncidentView> incidents, int maxArticleLanes)
     {
         if (incidents.Count == 0)
         {
@@ -245,17 +392,17 @@
             .ThenBy(static g => g.Key)
             .ToList();
 
-        var lanes = new List<StripLane>(Math.Min(MaxArticleLanes + 1, groups.Count));
-        foreach (var group in groups.Take(MaxArticleLanes))
+        var lanes = new List<StripLane>(Math.Min(maxArticleLanes + 1, groups.Count));
+        foreach (var group in groups.Take(maxArticleLanes))
         {
             var primary = group.First().PrimaryArticle;
             var label = string.IsNullOrWhiteSpace(primary.TitleEn) ? primary.TitleFi : primary.TitleEn;
             lanes.Add(new StripLane(label, group.ToList()));
         }
 
-        if (groups.Count > MaxArticleLanes)
+        if (groups.Count > maxArticleLanes)
         {
-            var others = groups.Skip(MaxArticleLanes).SelectMany(static g => g).ToList();
+            var others = groups.Skip(maxArticleLanes).SelectMany(static g => g).ToList();
             lanes.Add(new StripLane("other", others));
         }
 
@@ -273,8 +420,14 @@
     private static double YearX(double year) =>
         LeftPad + ((Math.Clamp(year, StartYear, AxisEnd) - StartYear) / (AxisEnd - StartYear) * (RightEdge - LeftPad));
 
+    private static double PhoneYearX(double year) =>
+        PhoneLeftPad + ((Math.Clamp(year, StartYear, AxisEnd) - StartYear) / (AxisEnd - StartYear) * (PhoneRightEdge - PhoneLeftPad));
+
     private static string TruncateLabel(string label) =>
         label.Length <= 22 ? label : string.Concat(label.AsSpan(0, 21), "…");
+
+    private static string TruncatePhoneLabel(string label) =>
+        label.Length <= 34 ? label : string.Concat(label.AsSpan(0, 33), "…");
 
     private static string F(double value) =>
         value.ToString("0.##", CultureInfo.InvariantCulture);

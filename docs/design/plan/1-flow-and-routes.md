@@ -53,7 +53,7 @@ Filters update the URL with `NavigationManager.NavigateTo(uri, replace: true)` s
 | Overview layout | **A, incident-first:** a ranked card list with an article rail on the right and a compact cross-article timeline strip on top. B (article-first) is reachable per article through the rail. C (timeline-first) survives only as the strip. | Answers “what was attempted?” in one glance, and the strip still gives the striking time picture. |
 | Incident detail | **Full page** with prev/next and ← → keys, not a drawer | Shareable URL, room for a side-by-side diff, and judges can be sent a link. |
 | Article view | Full page | The chart needs the width. |
-| Theme | Light only for the demo | Dark tokens exist for later. |
+| Theme | **System default + Light / Dark / System toggle** in the app bar (`localStorage['aot.theme']`) | Follows `prefers-color-scheme` by default (including without JS) and remembers an explicit choice per browser without flashing on load. |
 | Charts | Inline SVG rendered by Razor, re-rendered for zoom | No JS interop, bUnit-testable, works with Interactive Server. |
 
 ## Responsive

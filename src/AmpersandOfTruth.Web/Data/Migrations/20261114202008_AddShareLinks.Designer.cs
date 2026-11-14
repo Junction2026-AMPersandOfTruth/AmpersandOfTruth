@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmpersandOfTruth.Web.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20261114201833_WebSpreadCache")]
-    partial class WebSpreadCache
+    [Migration("20261114202008_AddShareLinks")]
+    partial class AddShareLinks
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,6 +147,39 @@ namespace AmpersandOfTruth.Web.Data.Migrations
                     b.HasIndex("Scope");
 
                     b.ToTable("AnalysisCalls", (string)null);
+                });
+
+            modelBuilder.Entity("AmpersandOfTruth.Web.Features.Annotations.IncidentAnnotation", b =>
+                {
+                    b.Property<Guid>("InvestigationId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IncidentId")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DismissReason")
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(4000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Source")
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("UpdatedAt")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Verdict")
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("InvestigationId", "IncidentId");
+
+                    b.ToTable("IncidentAnnotations", (string)null);
                 });
 
             modelBuilder.Entity("AmpersandOfTruth.Web.Features.Embedding.QueryEmbedding", b =>
@@ -302,87 +335,50 @@ namespace AmpersandOfTruth.Web.Data.Migrations
                     b.ToTable("SavedInvestigations", (string)null);
                 });
 
-            modelBuilder.Entity("AmpersandOfTruth.Web.Features.WebSpread.Store.WebCacheEntry", b =>
+            modelBuilder.Entity("AmpersandOfTruth.Web.Features.Sharing.ShareLink", b =>
                 {
-                    b.Property<string>("Key")
+                    b.Property<string>("TokenHash")
                         .HasMaxLength(64)
                         .HasColumnType("TEXT");
 
                     b.Property<long>("CreatedAt")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Kind")
-                        .IsRequired()
-                        .HasMaxLength(10)
+                    b.Property<long?>("ExpiresAt")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("InvestigationId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Request")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("TEXT");
+                    b.Property<long?>("RevokedAt")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("ResponseJson")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.HasKey("TokenHash");
 
-                    b.HasKey("Key");
+                    b.HasIndex("InvestigationId");
 
-                    b.HasIndex("Kind");
-
-                    b.ToTable("WebSpreadCache", (string)null);
+                    b.ToTable("ShareLinks", (string)null);
                 });
 
-            modelBuilder.Entity("AmpersandOfTruth.Web.Features.WebSpread.Store.WebCallRecord", b =>
+            modelBuilder.Entity("AmpersandOfTruth.Web.Features.Annotations.IncidentAnnotation", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<long>("At")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Error")
-                        .HasMaxLength(1000)
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("FromCache")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Kind")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("TEXT");
-
-                    b.Property<long>("LatencyMs")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Live")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Outcome")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Request")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Scope")
-                        .HasMaxLength(200)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("At");
-
-                    b.HasIndex("Scope");
-
-                    b.ToTable("WebSpreadCalls", (string)null);
+                    b.HasOne("AmpersandOfTruth.Web.Features.Library.SavedInvestigation", null)
+                        .WithMany()
+                        .HasForeignKey("InvestigationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("AmpersandOfTruth.Web.Features.Library.PinnedIncident", b =>
+                {
+                    b.HasOne("AmpersandOfTruth.Web.Features.Library.SavedInvestigation", null)
+                        .WithMany()
+                        .HasForeignKey("InvestigationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AmpersandOfTruth.Web.Features.Sharing.ShareLink", b =>
                 {
                     b.HasOne("AmpersandOfTruth.Web.Features.Library.SavedInvestigation", null)
                         .WithMany()

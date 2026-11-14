@@ -4,13 +4,14 @@
 
 @if (Article.HasHistory)
 {
-    var hasDistinctEn = !string.IsNullOrWhiteSpace(TitleEn)
-        && !string.Equals(TitleEn, Article.Title, StringComparison.OrdinalIgnoreCase);
+    var effectiveTitleEn = !string.IsNullOrWhiteSpace(TitleEn) ? TitleEn : TimelineData?.TitleEn;
+    var hasKnownEn = !string.IsNullOrWhiteSpace(effectiveTitleEn);
+    var contestLine = ContestSignals.FormatRailLine(Contest);
 
     <div class="aot-art" data-testid="article-rail-item" data-page-id="@Article.PageId">
-        @if (hasDistinctEn)
+        @if (hasKnownEn)
         {
-            <a class="aot-art__title" href="/articles/@Article.PageId">@TitleEn</a>
+            <a class="aot-art__title" href="/articles/@Article.PageId">@effectiveTitleEn</a>
         }
         else
         {
@@ -28,16 +29,22 @@
         </button>
 
         <div class="aot-art__why">
-            @if (hasDistinctEn)
+            @if (hasKnownEn)
             {
                 <span lang="fi">@Article.Title</span>
                 <text> · @EffectiveMatchReason</text>
             }
             else
             {
-                @EffectiveMatchReason
+                <span class="aot-muted" data-testid="rail-fi-tag">Finnish Wikipedia</span>
+                <text> · @EffectiveMatchReason</text>
             }
         </div>
+
+        @if (contestLine is not null)
+        {
+            <div class="aot-art__why" data-testid="rail-contest">@contestLine</div>
+        }
 
         @if (TimelineData is { Months.Count: > 0 })
         {
@@ -61,6 +68,7 @@ else
     [Parameter] public int IncidentCount { get; set; }
     [Parameter] public bool Selected { get; set; }
     [Parameter] public ArticleAggregates? TimelineData { get; set; }
+    [Parameter] public PageContest? Contest { get; set; }
     [Parameter] public EventCallback OnSelectArticle { get; set; }
 
     private string EffectiveMatchReason =>

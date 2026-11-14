@@ -65,6 +65,7 @@ research/<issue>/             # experiment scripts, small samples, results and r
 research/eval/                # ⭐ P1 eval contract: CONTRACT.md, schemas/, validate.py, run (runner.py), examples/ (golden.json lands here)
 docs/design/                  # ⭐ UI design system: brand book, plan, tokens, .aot-* CSS, component + page previews
 docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, editor display, golden-set TP definition
+docs/known-limitations.md     # P1.P3 (#41): what the app cannot tell a user, with measured numbers — source for the methodology page (P2.10)
 ```
 
 `Features/Articles` is the **reference slice** (page + corpus interface/fake + cached service + bUnit/`[CorpusFact]` tests) — copy its shape.
@@ -140,10 +141,20 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   `ITopicSearch` (R6), `ICandidateSource` (S1/S4), `IEditReader` (S2/S3), `IEditClassifier` (S9), `IncidentAssembler` (S10, static).
   Today's implementations are placeholders from P0.8 + `wikidiff` + `classify-edit` v1. Dispute signals wired: removal reason
   (S5 lexicon ported as `RevertReasons`; `Fixtures/s5-parity.jsonl` + `s5_parity.py` keep it identical to the Python) and
-  re-insertion (S1 identity restores). Not yet: dispute templates, kept-in-latest, and edit war (S4) + source change (S8),
-  which are computed on every reading (next bullet but one) but not yet copied into `IncidentEvidence`: that is two lines in
-  `IncidentAssembler` (`InEditWar = reading.EditWar is not null`, `SourceManipulation = reading.SourceChanges.Count > 0`),
-  left for S10 (#37) because it rewrites assembly around S7 clusters. Bump `InvestigationPipeline.Version` with it.
+  re-insertion (S1 identity restores), and since S10 (#37) the passage-level edit war (`EditWars.Passage`: removed ≥ 2× — the
+  revert + `EditReading.ReRemovals`, later returns to the pre-edit sha1 that follow a re-insertion — and put back ≥ 1×, by
+  different camps; the page-level S4 episode is **not** a tier input any more) and source change (S8 citations, or an S9
+  `source_manipulation` assessment). `TierThresholds.MinCoordinationSignals` = 3 (S10; recorded in `docs/evidence-standard.md`).
+  One removed edit = one incident: re-insertions are exact restores, so counting is claim-side without S7 clusters.
+  Ranking = S10 mode B+rel: `score` = 100 × tier + `IncidentAssembler.ScoreA` (exact port of `score_variant_a`, parity values in
+  `S10RankingTests`) × `TopicRelevance` (max(0, cos) of bge-m3(topic) and bge-m3(claim_en, else added prose)[:500]); the
+  embedder down → relevance 1 and `Completed.Unranked` > 0, never cached. `Investigations:Pipeline:TopicRelevance=false` =
+  ScoreA only. Not yet: dispute templates, kept-in-latest, multiple articles (needs S7 clusters), S10's per-article cap of 5.
+- Stage 2 (`RevertCandidateSource`) ranks **every** identity revert of the found articles by `CandidateRanking.Score` = P1.S3's
+  formula 3 (`f3_dispute_gated`) on the revert row — undone byte delta, time live, `Reappearances` (span put back), S5 reasons,
+  named vs anonymous inserter — across the whole topic, drops row-decidable S1 exclusions (bot, lone self-revert), and reads
+  the top `MaxCandidates` = 60 (S10/S11). The old newest-first round-robin filled the budget with graffiti (#120 review:
+  app dev recall 0.03 vs S10's 0.60). The row inputs come from `RevertsSql` (`undone_bytes`, `first_undone_ts`, `reappeared`).
 - Edits the evidence standard excludes without an assessment are never sent to the LLM. Limits: `Investigations:Pipeline` options.
 - Per-edit signals ported ahead of the S11 decision (#38) sit on `EditReading`, computed in stage 3a (`CorpusEditReader`), so they
   hold whatever the incident unit becomes (S10): `Conflicts` / `EditWar` = P1.S4 (`IConflictEpisodes` reads the precomputed
@@ -163,7 +174,7 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
   candidate (LLM down/over budget) are never cached. Bump `InvestigationPipeline.Version` / `CorpusEditReader.Version` when
   their output changes. Score the pipeline: `research/eval/run pipeline --name p1-app -- scripts/investigate.sh variant`.
 - Latency (#40): `Parallelism` = 20 candidates in flight (4 left a 40-candidate topic at ~50 s cold; 40 is slower again — VPS
-  contention). Cold-run variance comes from the corpus link (tunnel + 2-vCPU VPS), not Gemini (~5 s per classify call either way);
+  contention; `MaxCandidates` is 60 since the stage-2 ranking, so re-time cold runs). Cold-run variance comes from the corpus link (tunnel + 2-vCPU VPS), not Gemini (~5 s per classify call either way);
   the corpus `Connection Timeout=15` makes a slow connect delay a read instead of degrading it. Demo topics must be warmed
   (`scripts/warm.sh`, needs `Gemini:ApiKey` — without it every candidate is degraded and nothing is cached); warm replays are instant.
 - Tests: `PipelineKit` = the real stages over fakes (`FakeInvestigationCorpus`, `FakeRevisionStore`, `FakeAnalysisModel`, `FakeQueryEmbedder`).
@@ -262,6 +273,19 @@ docs/evidence-standard.md     # P0.7 decision: evidence levels, wording rules, e
 4. For parallel work, use a git worktree per agent/feature branch; merge to `main` frequently (hours, not days).
 5. If you add a dependency, a convention, or a gotcha, update this file in the same commit.
 6. Don't leave `dotnet watch` / `dotnet run` processes running when you finish.
+
+## Demo safety (`Demo:*` in appsettings, `Features/Demo`, #69)
+
+- `Demo:SafeMode` (default `false`, reloadable): serve only cached runs — a topic with no cached run fails with "This topic
+  hasn't been analysed for the demo…"; Re-run, timings and the footer's debug links are hidden. Turn on for judging.
+- `Demo:MaxConcurrentColdRuns` (default 2): cold pipeline runs beyond this wait in `ColdRunGate` and the page shows
+  "Queued" (`RunQueued` event). Cached replays never wait.
+- `Demo:StartsPerClientPerMinute` (default 6, `0` = off): per client IP (via forwarded headers behind the proxy), else per circuit.
+- `Demo:SeedLibrary` + `Demo:SeedTopics`: at startup, already-warmed topics become read-only "Examples" in `/library`
+  (owner `"demo"`); never runs the pipeline.
+- **Warm in the page's form:** the run cache keeps case (it follows the query embedding) and the page runs the topic
+  rebuilt from its URL slug (`/investigate/talvisota` → `"talvisota"`). `scripts/warm.sh` does the same conversion — anything
+  else that pre-warms must too, or safe mode will miss.
 
 ## Gemini usage: anything goes
 

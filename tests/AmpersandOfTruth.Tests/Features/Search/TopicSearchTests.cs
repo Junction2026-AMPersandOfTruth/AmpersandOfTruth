@@ -138,6 +138,29 @@ public sealed class TopicSearchTests : BunitContext
         Assert.Equal("http://localhost/investigate/mannerheim", nav.Uri);
     }
 
+    [Fact]
+    public void Typing_without_blur_submits_on_Enter_and_Disabled_blocks_submit()
+    {
+        var nav = Services.GetRequiredService<NavigationManager>();
+        var cut = Render<TopicSearch>();
+
+        // Browsers fire change before an Enter submit; the value syncs on change, never per keystroke (per-keystroke round-trips raced typing)
+        cut.Find("[data-testid=topic-input]").Change("Mannerheim");
+        cut.Find("form").Submit();
+
+        Assert.Equal("http://localhost/investigate/mannerheim", nav.Uri);
+
+        // Disabled mode disables both input and button and ignores form submit
+        nav.NavigateTo("/");
+        var disabledCut = Render<TopicSearch>(p => p.Add(x => x.Disabled, true));
+        Assert.True(disabledCut.Find("[data-testid=topic-input]").HasAttribute("disabled"));
+        Assert.True(disabledCut.Find("[data-testid=topic-submit]").HasAttribute("disabled"));
+
+        disabledCut.Find("[data-testid=topic-input]").Change("Winter War");
+        disabledCut.Find("form").Submit();
+        Assert.Equal("http://localhost/", nav.Uri);
+    }
+
     private sealed class FakeScopeCheck(bool inScope, IReadOnlyList<string> suggestions) : IScopeCheck
     {
         public Task<ScopeResult> CheckAsync(string topic, CancellationToken ct = default) =>

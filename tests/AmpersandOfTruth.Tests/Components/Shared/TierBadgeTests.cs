@@ -43,6 +43,9 @@ public sealed class TierBadgeTests : BunitContext
 
         var badge = cut.Find("[data-testid=tier-badge]");
         Assert.Equal(info.ShortLabel, badge.TextContent);
+        Assert.Equal(info.Label, badge.GetAttribute("aria-label"));
+        Assert.Equal($"{info.Label} — {info.Meaning}", badge.GetAttribute("title"));
+        Assert.Empty(CopyRules.FindViolations(badge.GetAttribute("title")!, includeJargon: true));
     }
 
     [Fact]

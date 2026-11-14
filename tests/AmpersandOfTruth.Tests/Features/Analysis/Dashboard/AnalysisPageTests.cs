@@ -81,13 +81,19 @@ public sealed class AnalysisPageTests : BunitContext
         var cut = Render<AnalysisPage>();
 
         var empty = cut.WaitForElement("[data-testid=empty-state]");
-        Assert.Equal("No LLM calls yet.", empty.TextContent.Trim());
+        Assert.Equal("No assessment calls yet.", empty.TextContent.Trim());
+        Assert.Equal("Automated assessment usage", cut.Find("h1").TextContent.Trim());
+        Assert.Contains("Assessment jobs", cut.Markup);
         Assert.Equal("0 / 20,000", cut.Find("[data-testid=today-calls]").TextContent.Trim());
         Assert.Equal("$0.00 / $150.00", cut.Find("[data-testid=today-cost]").TextContent.Trim());
         Assert.Equal("0", cut.Find("[data-testid=today-cache-hits]").TextContent.Trim());
         Assert.Equal(
             "ok 0 · blocked 0 · invalid 0 · truncated 0 · failed 0 · budget 0",
             cut.Find("[data-testid=today-outcomes]").TextContent.Trim());
+
+        var badge = Render<AmpersandOfTruth.Web.Features.Analysis.Dashboard.OutcomeBadge>(
+            p => p.Add(x => x.Outcome, AnalysisOutcome.BudgetExceeded));
+        Assert.Equal("budget exceeded", badge.Find("span").TextContent.Trim());
     }
 
     [Fact]

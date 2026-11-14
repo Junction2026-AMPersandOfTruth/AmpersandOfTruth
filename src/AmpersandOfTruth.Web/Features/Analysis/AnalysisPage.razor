@@ -10,7 +10,7 @@
 @inject IOptionsMonitor<GeminiOptions> Options
 @inject TimeProvider Time
 
-<PageTitle>LLM usage · Ampersand of Truth</PageTitle>
+<PageTitle>Automated assessment usage · Ampersand of Truth</PageTitle>
 
 @{
     var opts = Options.CurrentValue;
@@ -26,7 +26,7 @@
 }
 
 <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
-    <h1 class="mb-0">LLM usage</h1>
+    <h1 class="mb-0">Automated assessment usage</h1>
     @if (!string.IsNullOrWhiteSpace(opts.ApiKey))
     {
         <span class="badge bg-success" data-testid="gemini-key-ok">Gemini key configured</span>
@@ -42,7 +42,7 @@
 }
 
 <section class="mb-4">
-    <h2 class="h5 mb-2">Model jobs</h2>
+    <h2 class="h5 mb-2">Assessment jobs</h2>
     <div class="table-responsive">
         <table class="table table-sm align-middle mb-0" data-testid="jobs-table">
             <thead>
@@ -134,10 +134,10 @@
 </section>
 
 <section class="mb-4" data-testid="by-model">
-    <h2 class="h5 mb-2">By model today</h2>
+    <h2 class="h5 mb-2">Usage by model today</h2>
     @if (_byModel.Count == 0)
     {
-        <p class="text-muted small mb-0">No live model calls today.</p>
+        <p class="text-muted small mb-0">No live assessment calls today.</p>
     }
     else
     {
@@ -177,7 +177,7 @@
     <h2 class="h5 mb-2">Recent calls</h2>
     @if (_recent.Count == 0)
     {
-        <EmptyState Message="No LLM calls yet." />
+        <EmptyState Message="No assessment calls yet." />
     }
     else
     {

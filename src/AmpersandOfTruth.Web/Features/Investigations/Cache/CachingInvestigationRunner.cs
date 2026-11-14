@@ -5,6 +5,7 @@ using System.Text.Json;
 using AmpersandOfTruth.Web.Data;
 using AmpersandOfTruth.Web.Features.Analysis;
 using AmpersandOfTruth.Web.Features.Analysis.Prompts;
+using AmpersandOfTruth.Web.Features.Demo;
 using AmpersandOfTruth.Web.Features.Embedding;
 using AmpersandOfTruth.Web.Features.Evidence;
 using AmpersandOfTruth.Web.Features.Investigations.Pipeline;
@@ -35,6 +36,7 @@ public sealed class PipelineFingerprint(
                $"prompt={prompts.Get(ClassifyEditPrompt.Id).FullVersion};model={model};" +
                $"limits={o.ArticleLimit},{o.RevertsPerArticle},{o.MaxCandidates},{o.MaxSpanRevisions},{o.MaxPromptChars};" +
                $"signals={(o.EditWarSignal ? "edit_war" : "")},{(o.SourceChangeSignal ? "source_change" : "")};" +
+               $"rank={(o.TopicRelevance ? "b+rel" : "b")};" +
                $"tiers={TierThresholds.Default}";
     }
 
@@ -65,6 +67,34 @@ public sealed record ScoredSnapshot(string CandidateKey, string? IncidentId, str
 public sealed class InvestigationRunCache(
     IDbContextFactory<AppDbContext> dbFactory, PipelineFingerprint fingerprint, TimeProvider clock, ILogger<InvestigationRunCache> log)
 {
+    public const int MaxTopics = 50;
+
+    public async Task<IReadOnlyList<string>> TopicsAsync(int limit = MaxTopics, CancellationToken ct = default)
+    {
+        if (limit <= 0)
+        {
+            return [];
+        }
+
+        var cap = Math.Min(limit, MaxTopics);
+        try
+        {
+            await using var db = await dbFactory.CreateDbContextAsync(ct);
+            return await db.Set<InvestigationRunRow>().AsNoTracking()
+                .Where(r => r.Fingerprint == fingerprint.Value)
+                .OrderByDescending(r => r.CreatedAt)
+                .ThenBy(r => r.Topic)
+                .Take(cap)
+                .Select(r => r.Topic)
+                .ToListAsync(ct);
+        }
+        catch (Exception ex) when (ex is DbUpdateException or InvalidOperationException or Microsoft.Data.Sqlite.SqliteException)
+        {
+            log.LogWarning(ex, "Could not list cached investigation topics");
+            return [];
+        }
+    }
+
     public async Task<RunSnapshot?> TryGetAsync(string topic, CancellationToken ct = default)
     {
         var key = CachedQueryEmbedder.Normalize(topic);
@@ -120,7 +150,12 @@ public sealed class InvestigationRunCache(
 /// is replayed from SQLite at once (<c>Completed.FromCache</c>); otherwise <see cref="InvestigationPipeline"/> runs and a
 /// clean result (no degraded candidates, no topic-search fallback, no failure, not cancelled) is stored. <c>refresh</c> skips the lookup.
 /// </summary>
-public sealed class CachingInvestigationRunner(InvestigationPipeline inner, InvestigationRunCache cache, TimeProvider time)
+public sealed class CachingInvestigationRunner(
+    InvestigationPipeline inner,
+    InvestigationRunCache cache,
+    TimeProvider time,
+    ColdRunGate? gate = null,
+    IOptionsMonitor<DemoOptions>? demo = null)
     : IInvestigationRunner
 {
     public async IAsyncEnumerable<InvestigationEvent> RunAsync(
@@ -129,7 +164,8 @@ public sealed class CachingInvestigationRunner(InvestigationPipeline inner, Inve
         ArgumentException.ThrowIfNullOrWhiteSpace(topic);
         topic = topic.Trim();
 
-        if (!refresh && await cache.TryGetAsync(topic, ct) is { } snapshot)
+        var safeMode = demo?.CurrentValue.SafeMode == true;
+        if ((!refresh || safeMode) && await cache.TryGetAsync(topic, ct) is { } snapshot)
         {
             foreach (var e in Replay(snapshot, time.GetTimestamp()))
             {
@@ -137,6 +173,26 @@ public sealed class CachingInvestigationRunner(InvestigationPipeline inner, Inve
                 yield return e;
             }
             yield break;
+        }
+
+        if (safeMode)
+        {
+            yield return new StageFailed(
+                InvestigationStage.FindArticles,
+                StageFailureKind.Error,
+                DemoOptions.SafeModeMissMessage);
+            yield break;
+        }
+
+        using var lease = gate?.Enter(ct);
+        if (lease is { QueuedPosition: > 0 })
+        {
+            yield return new RunQueued(lease.QueuedPosition);
+        }
+
+        if (lease is not null)
+        {
+            await lease.WaitAsync();
         }
 
         TopicArticle[] articles = [];
@@ -151,7 +207,7 @@ public sealed class CachingInvestigationRunner(InvestigationPipeline inner, Inve
                 case ArticlesFound a: (articles, scope, searchFallback) = ([.. a.Items], a.Scope, a.SearchFallback); break;
                 case RevisionsScanned s: scan = s; break;
                 case CandidateScored c: scored.Add(c); break;
-                case Completed { Degraded: 0 } done when scan is not null && !searchFallback:
+                case Completed { Degraded: 0, Unranked: 0 } done when scan is not null && !searchFallback:
                     await cache.StoreAsync(topic, new RunSnapshot(
                         articles, scan.Count, scan.Candidates,
                         [.. scored.Select(c => new ScoredSnapshot(c.Candidate.Key, c.Incident?.Id, c.Exclusion))],

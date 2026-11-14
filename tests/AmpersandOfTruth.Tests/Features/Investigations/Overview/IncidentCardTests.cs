@@ -76,6 +76,21 @@ public sealed class IncidentCardTests : BunitContext
 
         Assert.Equal("Removed: casualty figures from the opening paragraph", cutDel.Find("[data-testid=incident-claim]").TextContent);
         Assert.Empty(cutDel.FindAll("[data-testid=incident-original]"));
+
+        var insertionWithRemovedPrefix = MakeView(
+            id: "inc-rem-prefix",
+            tier: EvidenceTier.Contested,
+            kind: IncidentKind.Insertion,
+            claimEn: "Removed: Finland's defeat from the summary box.",
+            claimOriginal: null)
+            with { Articles = [new ArticleRef(250972, "Suomen sisällissodan nimet", null)] };
+
+        var cutRemPrefix = Render<IncidentCard>(p => p
+            .Add(x => x.Incident, insertionWithRemovedPrefix)
+            .Add(x => x.Topic, "civil-war-1918"));
+
+        Assert.Equal("Removed: Finland's defeat from the summary box.", cutRemPrefix.Find("[data-testid=incident-claim]").TextContent);
+        Assert.Contains("Suomen sisällissodan nimet (Finnish Wikipedia)", cutRemPrefix.Find("[data-testid=incident-card]").TextContent);
     }
 
     [Fact]
@@ -107,6 +122,57 @@ public sealed class IncidentCardTests : BunitContext
 
         card.MouseLeave();
         Assert.Null(hovered);
+    }
+
+    [Fact]
+    public void Renders_wikipedia_diff_link_for_first_inserting_revision_outside_main_link_without_nested_anchors()
+    {
+        var incident = MakeView(
+            id: "inc-wiki",
+            tier: EvidenceTier.Contested,
+            kind: IncidentKind.Insertion,
+            claimEn: "Disputed statement.",
+            claimOriginal: "Kiistanalainen väite.");
+
+        var cut = Render<IncidentCard>(p => p
+            .Add(x => x.Incident, incident)
+            .Add(x => x.Topic, "winter-war"));
+
+        Assert.Empty(cut.FindAll("a a"));
+
+        var mainLink = cut.Find("[data-testid=incident-card]");
+        Assert.Null(mainLink.QuerySelector("[data-testid=incident-wiki-diff]"));
+
+        var wikiLink = cut.Find("[data-testid=incident-wiki-diff]");
+        Assert.Equal("View on Wikipedia \u2197", wikiLink.TextContent.Trim());
+        Assert.Equal(WikipediaLinks.Diff(1001).AbsoluteUri, wikiLink.GetAttribute("href"));
+        Assert.Equal("_blank", wikiLink.GetAttribute("target"));
+        Assert.Equal("noopener noreferrer", wikiLink.GetAttribute("rel"));
+        Assert.Empty(CopyRules.FindViolations(wikiLink.TextContent, includeJargon: true));
+    }
+
+    [Fact]
+    public void Compact_mode_adds_compact_class_and_omits_facts_and_wikipedia_diff_link()
+    {
+        var incident = MakeView(
+            id: "inc-compact",
+            tier: EvidenceTier.Campaign,
+            kind: IncidentKind.Insertion,
+            claimEn: "Compact claim.",
+            claimOriginal: "Tiivis väite.",
+            signals: ["removed_by_others", "multiple_editors"]);
+
+        var cut = Render<IncidentCard>(p => p
+            .Add(x => x.Incident, incident)
+            .Add(x => x.Topic, "winter-war")
+            .Add(x => x.Compact, true));
+
+        var articleEl = cut.Find("article.aot-card");
+        Assert.Contains("aot-card--compact", articleEl.ClassList);
+        Assert.Equal("/investigate/winter-war/incidents/inc-compact", cut.Find("[data-testid=incident-card]").GetAttribute("href"));
+        Assert.Empty(cut.FindAll("[data-testid=incident-facts]"));
+        Assert.Empty(cut.FindAll("[data-testid=incident-wiki-diff]"));
+        Assert.Empty(cut.FindAll("[data-testid=signal-chip]"));
     }
 
     private static IncidentView MakeView(

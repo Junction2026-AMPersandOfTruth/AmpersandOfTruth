@@ -35,7 +35,7 @@ public sealed class OverviewComponentsTests : BunitContext
         Assert.Contains("Finding articles", cut.Find("[data-testid=stage-1]").TextContent);
         Assert.Contains("Still working…", cut.Find("[data-testid=stage-1]").TextContent);
         Assert.Contains("Scanning edit history", cut.Find("[data-testid=stage-2]").TextContent);
-        Assert.Contains("Reading suspicious edits", cut.Find("[data-testid=stage-3]").TextContent);
+        Assert.Contains("Reading removed edits", cut.Find("[data-testid=stage-3]").TextContent);
         Assert.Contains("Assembling incidents", cut.Find("[data-testid=stage-4]").TextContent);
 
         cut.Find("[data-testid=cancel-run]").Click();
@@ -134,6 +134,12 @@ public sealed class OverviewComponentsTests : BunitContext
         hotMark.Click();
         Assert.Equal("inc-2", clickedId);
 
+        var firstMark = cut.Find("[data-testid=timeline-mark][data-incident=inc-1]");
+        Assert.Equal("0", firstMark.GetAttribute("tabindex"));
+        Assert.Equal("button", firstMark.GetAttribute("role"));
+        firstMark.KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "Enter" });
+        Assert.Equal("inc-1", clickedId);
+
         cut.Find("[data-testid=timeline-year][data-year='2014']").Click();
         Assert.Equal((2014, 2014), selectedRange);
     }
@@ -167,6 +173,178 @@ public sealed class OverviewComponentsTests : BunitContext
         Assert.Contains("7 Mar 2015", cut.Markup);
         Assert.NotNull(cut.Find("a[href='/articles/1150']"));
         Assert.NotNull(cut.Find("a[href='https://fi.wikipedia.org/w/index.php?diff=prev&oldid=5001']"));
+    }
+
+    [Fact]
+    public void ArticleRailItem_renders_contest_line_only_when_fi_article_has_episodes()
+    {
+        var fiArticle = new TopicArticle("fi", 1150, "Suomen sisällissota", 0.04);
+        var contested = new PageContest(1150, EditWarEpisodes: 2, PingPongEpisodes: 3, BurstEpisodes: 4, ContestedScore: 28.1, PeakMonth: "2014-03");
+
+        var withContest = Render<ArticleRailItem>(p => p
+            .Add(x => x.Article, fiArticle)
+            .Add(x => x.Contest, contested));
+        Assert.Equal(
+            "Contested: 5 periods of back-and-forth edits \u00b7 peak Mar 2014",
+            withContest.Find("[data-testid=rail-contest]").TextContent.Trim());
+
+        var zeroEpisodes = Render<ArticleRailItem>(p => p
+            .Add(x => x.Article, fiArticle)
+            .Add(x => x.Contest, new PageContest(1150, 0, 0, 0, 1.2, "2014-03")));
+        Assert.Empty(zeroEpisodes.FindAll("[data-testid=rail-contest]"));
+
+        var enArticle = new TopicArticle("en", 9999, "Finnish Civil War", 0.04);
+        var nonFi = Render<ArticleRailItem>(p => p
+            .Add(x => x.Article, enArticle)
+            .Add(x => x.Contest, contested));
+        Assert.Empty(nonFi.FindAll("[data-testid=rail-contest]"));
+    }
+
+    [Fact]
+    public void ArticleRailItem_uses_aggregates_TitleEn_fallback_and_renders_finnish_wikipedia_tag_when_unknown()
+    {
+        var fiArticle = new TopicArticle("fi", 1150, "Talvisota", 0.04);
+        var aggregates = new ArticleAggregates(
+            PageId: 1150,
+            TitleFi: "Talvisota",
+            TitleEn: "Winter War",
+            Revisions: 100,
+            FirstEdit: new DateTime(2004, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            LastEdit: new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            Months: [new MonthBucket(2014, 3, NamedEdits: 10, AnonEdits: 2, Removals: 3, MaxBytes: 12000)]);
+
+        var withAggEn = Render<ArticleRailItem>(p => p
+            .Add(x => x.Article, fiArticle)
+            .Add(x => x.TimelineData, aggregates));
+        Assert.Equal("Winter War", withAggEn.Find(".aot-art__title").TextContent);
+        Assert.Equal("Talvisota", withAggEn.Find(".aot-art__why span[lang=fi]").TextContent);
+        Assert.Empty(withAggEn.FindAll("[data-testid=rail-fi-tag]"));
+
+        var withoutEn = Render<ArticleRailItem>(p => p.Add(x => x.Article, fiArticle));
+        Assert.Equal("Talvisota", withoutEn.Find(".aot-art__title").TextContent);
+        Assert.Equal("fi", withoutEn.Find(".aot-art__title").GetAttribute("lang"));
+        Assert.Equal("Finnish Wikipedia", withoutEn.Find("[data-testid=rail-fi-tag]").TextContent);
+    }
+
+    [Fact]
+    public void TimelineStrip_renders_phone_svg_with_stacked_lanes_fewer_ticks_and_12px_text_and_full_legend_aria()
+    {
+        var incidents = Enumerable.Range(1, 5)
+            .Select(idx => MakeIncident(
+                id: $"inc-{idx}",
+                rank: idx,
+                pageId: 2000 + idx,
+                titleFi: $"Artikkeli {idx}",
+                titleEn: $"Article {idx}",
+                tier: idx == 1 ? EvidenceTier.Campaign : idx == 2 ? EvidenceTier.Contested : EvidenceTier.Reverted,
+                year: 2012 + idx))
+            .ToList();
+
+        string? clickedId = null;
+        (int From, int To)? selectedRange = null;
+
+        var cut = Render<TimelineStrip>(p => p
+            .Add(x => x.Incidents, incidents)
+            .Add(x => x.HotId, "inc-1")
+            .Add(x => x.OnMarkClick, id => clickedId = id)
+            .Add(x => x.OnRangeSelected, r => selectedRange = r));
+
+        var phoneSvg = cut.Find("[data-testid=timeline-svg-phone]");
+        Assert.StartsWith("0 0 320 ", phoneSvg.GetAttribute("viewBox"), StringComparison.Ordinal);
+
+        var phoneTexts = phoneSvg.QuerySelectorAll("text");
+        Assert.NotEmpty(phoneTexts);
+        Assert.All(phoneTexts, t => Assert.Equal("12", t.GetAttribute("font-size")));
+
+        var textValues = phoneTexts.Select(static t => t.TextContent).ToList();
+        Assert.Contains("2003", textValues);
+        Assert.Contains("2009", textValues);
+        Assert.Contains("2015", textValues);
+        Assert.Contains("2021", textValues);
+        Assert.Contains("2026", textValues);
+        Assert.DoesNotContain("2006", textValues);
+        Assert.Contains("Article 1", textValues);
+        Assert.Contains("Article 3", textValues);
+        Assert.Contains("other", textValues);
+        Assert.DoesNotContain("Article 4", textValues);
+
+        var phoneMarks = cut.FindAll("[data-testid=timeline-mark-phone]");
+        Assert.Equal(5, phoneMarks.Count);
+        var hotPhoneMark = cut.Find("[data-testid=timeline-mark-phone][data-incident=inc-1]");
+        Assert.Contains("is-hot", hotPhoneMark.ClassList);
+        Assert.Equal("16", hotPhoneMark.QuerySelector("circle[fill=transparent]")?.GetAttribute("r"));
+
+        hotPhoneMark.Click();
+        Assert.Equal("inc-1", clickedId);
+
+        cut.Find("[data-testid=timeline-year-phone][data-year='2015']").Click();
+        Assert.Equal((2015, 2015), selectedRange);
+
+        var legendBadges = cut.FindAll(".aot-legend [data-testid=tier-badge]");
+        Assert.Equal(
+            [
+                EvidenceTiers.Reverted.Label,
+                EvidenceTiers.Contested.Label,
+                EvidenceTiers.Campaign.Label,
+            ],
+            legendBadges.Select(static b => b.GetAttribute("aria-label") ?? "").ToArray());
+    }
+
+    [Fact]
+    public void UnflaggedList_renders_quiet_reason_tags_and_omits_other_and_excluded()
+    {
+        var article = new TopicArticle("fi", 1150, "Talvisota", 0.05);
+        RemovedEdit MakeItem(long revertRevId, string? comment = "Kumottu") =>
+            new(
+                article,
+                new RevertEvent(
+                    PageId: 1150,
+                    RevId: revertRevId,
+                    Timestamp: new DateTime(2015, 3, 7, 14, 2, 0, DateTimeKind.Utc),
+                    User: "Reviewer",
+                    Comment: comment,
+                    RestoredRevId: revertRevId - 2,
+                    RevertedCount: 1,
+                    RevertedRevId: revertRevId - 1,
+                    RevertedUser: "EditorA"));
+
+        IReadOnlyList<RemovedEdit> items =
+        [
+            MakeItem(1001),
+            MakeItem(1002),
+            MakeItem(1003),
+            MakeItem(1004),
+            MakeItem(1005),
+            MakeItem(1006),
+            MakeItem(1007),
+        ];
+
+        var classes = new Dictionary<(long PageId, long RevertingRevId), string>
+        {
+            [(1150, 1001)] = "graffiti_cleanup",
+            [(1150, 1002)] = "self_revert",
+            [(1150, 1003)] = "bot",
+            [(1150, 1004)] = "dispute",
+            [(1150, 1005)] = "edit_war",
+            [(1150, 1006)] = "other",
+            [(1150, 1007)] = "excluded",
+        };
+
+        var cut = Render<UnflaggedList>(p => p
+            .Add(x => x.Items, items)
+            .Add(x => x.Classes, classes)
+            .Add(x => x.Open, true));
+
+        var rows = cut.FindAll("[data-testid=unflagged-row]");
+        Assert.Equal(7, rows.Count);
+
+        Assert.Equal("vandalism cleanup", rows[0].QuerySelector("[data-testid=unflagged-reason]")?.TextContent);
+        Assert.Equal("undone by the same account", rows[1].QuerySelector("[data-testid=unflagged-reason]")?.TextContent);
+        Assert.Equal("bot", rows[2].QuerySelector("[data-testid=unflagged-reason]")?.TextContent);
+        Assert.Equal("disputed content", rows[3].QuerySelector("[data-testid=unflagged-reason]")?.TextContent);
+        Assert.Equal("back-and-forth edits", rows[4].QuerySelector("[data-testid=unflagged-reason]")?.TextContent);
+        Assert.Null(rows[5].QuerySelector("[data-testid=unflagged-reason]"));
+        Assert.Null(rows[6].QuerySelector("[data-testid=unflagged-reason]"));
     }
 
     private static IncidentView MakeIncident(

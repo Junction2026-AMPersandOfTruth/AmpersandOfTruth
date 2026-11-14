@@ -4,6 +4,7 @@
 @using Microsoft.Extensions.Diagnostics.HealthChecks
 @using Microsoft.Extensions.Options
 @inject HealthCheckService HealthChecks
+@inject IServiceProvider Services
 @inject RecentTopics Recent
 @inject IOptions<SearchOptions> Options
 
@@ -16,7 +17,7 @@
     @if (_searchLimited)
     {
         <div style="margin-bottom:20px">
-            <StatusBanner Kind="StatusKind.Warn" Title="Search is limited right now" Detail="@_healthDetail">
+            <StatusBanner Kind="_bannerKind" Title="Search is limited right now" Detail="@_healthDetail">
                 Suggested topic chips still open saved investigations.
             </StatusBanner>
         </div>
@@ -24,10 +25,10 @@
 
     <h1 class="t-display">What was pushed into Wikipedia?</h1>
     <p class="aot-muted" style="font-size:17px;line-height:26px;margin:12px 0 24px;max-width:640px">
-        Type a topic. We read 20 years of Finnish Wikipedia edit history and show what was added, what editors removed, and how sure we are that it matters.
+        Type a topic. We read 20 years of Finnish Wikipedia edit history and show what was added, what other editors removed, and how sure we are that it matters.
     </p>
 
-    <TopicSearch OnOutOfScope="HandleOutOfScope" />
+    <TopicSearch Disabled="_searchLimited" OnOutOfScope="HandleOutOfScope" />
 
     @if (_outOfScope is not null)
     {
@@ -45,9 +46,9 @@
     }
 
     <ol class="aot-steps" style="padding:24px 0 0;margin:48px 0 0;border-top:1px solid var(--line)">
-        <li><b>Find the articles</b>Search across 19,742 articles by meaning, in any language.</li>
+        <li><b>Find the articles</b>Search across <span class="aot-num">19,742</span> articles by meaning, in any language.</li>
         <li><b>Read every edit</b>20 years of revisions: removals, re-insertions, deleted sources.</li>
-        <li><b>Show the evidence</b>What was pushed, who removed it, how long it stayed live, with links to Wikipedia.</li>
+        <li><b>Show the evidence</b>What was added, who removed it, how long it stayed live, with links to Wikipedia.</li>
     </ol>
 
     @if (Recent.Items.Count > 0)
@@ -71,16 +72,18 @@
     private readonly CancellationTokenSource _cts = new();
     private OutOfScopeTopic? _outOfScope;
     private bool _searchLimited;
+    private StatusKind _bannerKind = StatusKind.Warn;
     private string? _healthDetail;
 
     protected override void OnInitialized() => Recent.Changed += OnRecentChanged;
+
+    protected override Task OnInitializedAsync() => CheckServiceHealthAsync();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender) return;
 
         await Recent.LoadAsync();
-        await CheckServiceHealthAsync();
     }
 
     private void HandleOutOfScope(OutOfScopeTopic topic) => _outOfScope = topic;
@@ -101,11 +104,9 @@
     {
         try
         {
-            var report = await HealthChecks.CheckHealthAsync(
-                static reg => reg.Name is "corpus" or "embedding"
-                    || reg.Tags.Contains("corpus")
-                    || reg.Tags.Contains("embedding"),
-                _cts.Token);
+            // Cached for 30 s (SearchServiceStatus) so the landing page never waits on a DB/Ollama ping per load.
+            var status = Services.GetService<SearchServiceStatus>() ?? new SearchServiceStatus(HealthChecks, TimeProvider.System);
+            var report = await status.GetAsync(_cts.Token);
 
             var degraded = report.Entries
                 .Where(static e => e.Value.Status != HealthStatus.Healthy)
@@ -114,10 +115,12 @@
             if (degraded.Count > 0)
             {
                 _searchLimited = true;
+                _bannerKind = degraded.Any(static e => e.Value.Status == HealthStatus.Unhealthy)
+                    ? StatusKind.Error
+                    : StatusKind.Warn;
                 _healthDetail = string.Join(
                     Environment.NewLine,
                     degraded.Select(static e => $"{e.Key}: {e.Value.Description ?? e.Value.Status.ToString()}"));
-                await InvokeAsync(StateHasChanged);
             }
         }
         catch (OperationCanceledException) when (_cts.IsCancellationRequested)
@@ -126,8 +129,8 @@
         catch (Exception ex)
         {
             _searchLimited = true;
+            _bannerKind = StatusKind.Error;
             _healthDetail = ex.Message;
-            await InvokeAsync(StateHasChanged);
         }
     }
 

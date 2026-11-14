@@ -1,7 +1,19 @@
+@using AmpersandOfTruth.Web.Features.Demo
 @using AmpersandOfTruth.Web.Features.Evidence
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.DependencyInjection
+@using Microsoft.Extensions.Hosting
+@using Microsoft.Extensions.Options
+@inject IServiceProvider Services
 
 <footer class="aot-footer" data-testid="site-footer">
     @Attribution.FooterText <a href="@Attribution.MethodologyRoute">@Attribution.FooterLinkText</a>
-    <span aria-hidden="true"> · </span><a href="/analysis">Assessment usage</a>
-    <span aria-hidden="true"> · </span><a href="/investigate">Pipeline debug</a>
+    @if (Services.GetService<IOptionsMonitor<DemoOptions>>()?.CurrentValue.SafeMode != true)
+    {
+        <span aria-hidden="true"> · </span><a href="/analysis">Assessment usage</a>
+        @if (Services.GetService<IWebHostEnvironment>()?.IsDevelopment() == true)
+        {
+            <span aria-hidden="true"> · </span><a href="/investigate">Pipeline debug</a>
+        }
+    }
 </footer>

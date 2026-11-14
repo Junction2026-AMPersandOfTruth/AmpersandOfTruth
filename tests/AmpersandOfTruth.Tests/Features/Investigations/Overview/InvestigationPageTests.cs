@@ -465,6 +465,187 @@ public sealed class InvestigationPageTests : BunitContext
         _revisionStore.Texts[(pageId, removeRev)] = before;
     }
 
+    [Fact]
+    public void State_overview_loading()
+    {
+        _runner.EnqueueChannelRun();
+
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.NotNull(cut.Find("[data-testid=stage-tracker]"));
+            Assert.NotNull(cut.Find("[data-testid=cancel-run]"));
+            Assert.Equal(3, cut.FindAll("[data-testid=incident-skeleton]").Count);
+        });
+    }
+
+    [Fact]
+    public async Task State_overview_empty()
+    {
+        var session = _runner.EnqueueChannelRun();
+        var article = new TopicArticle("fi", 1150, "Talvisota", 0.05);
+        var candidate = MakeCandidate(article, revId: 902, revertedRevId: 901, user: "Editor", comment: "Kumottu");
+
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+        cut.WaitForAssertion(() => Assert.Equal("winter war", session.Topic));
+
+        await session.WriteAsync(new ArticlesFound(2, [article]));
+        await session.WriteAsync(new RevisionsScanned(1420, [candidate]));
+        await session.WriteAsync(new CandidateScored(1, 1, candidate, null, Exclusion: "typo"));
+        await session.WriteAsync(new Completed(false, [], TimeSpan.FromSeconds(2)));
+        session.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            var empty = cut.Find("[data-testid=empty-state]");
+            Assert.Contains("No disputed insertions found for this topic", empty.TextContent);
+            Assert.Contains("2 articles", empty.TextContent);
+            Assert.Contains("1,420 revisions", empty.TextContent);
+            Assert.Contains("1 removed edit", empty.TextContent);
+        });
+    }
+
+    [Fact]
+    public async Task State_overview_corpus_down()
+    {
+        // 1. Without a cached run -> StatusBanner error + Retry
+        var coldFail = _runner.EnqueueChannelRun();
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+        cut.WaitForAssertion(() => Assert.Equal("winter war", coldFail.Topic));
+
+        await coldFail.WriteAsync(new StageFailed(
+            InvestigationStage.ScanHistory,
+            StageFailureKind.CorpusUnavailable,
+            "Corpus 127.0.0.1:1 not available"));
+        coldFail.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            var banner = cut.Find("[data-testid=status-banner]");
+            Assert.Contains("aot-banner--error", banner.ClassList);
+            Assert.Contains("The Wikipedia data is not reachable right now.", banner.TextContent);
+            Assert.NotNull(cut.Find("[data-testid=status-retry]"));
+        });
+
+        // 2. With a cached run in RecentRuns -> StatusBanner info + cached incidents rendered
+        SeedCorpusAndRevisions();
+        var cachedRecord = MakeRecord("ww-01", 1150, 1001, 1002, EvidenceTier.Contested, 85, "Saved claim");
+        _recentRuns.Record("winter-war", [cachedRecord]);
+
+        var warmFail = _runner.EnqueueChannelRun();
+        cut.Find("[data-testid=status-retry]").Click();
+        cut.WaitForAssertion(() => Assert.Equal("winter war", warmFail.Topic));
+
+        await warmFail.WriteAsync(new StageFailed(
+            InvestigationStage.FindArticles,
+            StageFailureKind.CorpusUnavailable,
+            "Corpus 127.0.0.1:1 not available"));
+        warmFail.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            var infoBanner = cut.Find("[data-testid=status-banner]");
+            Assert.Contains("aot-banner--info", infoBanner.ClassList);
+            Assert.Contains("Showing saved analysis", infoBanner.TextContent);
+            Assert.Single(cut.FindAll("[data-testid=incident-card]"));
+        });
+    }
+
+    [Fact]
+    public async Task State_overview_embedder_down()
+    {
+        var session = _runner.EnqueueChannelRun();
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+        cut.WaitForAssertion(() => Assert.Equal("winter war", session.Topic));
+
+        await session.WriteAsync(new StageFailed(
+            InvestigationStage.FindArticles,
+            StageFailureKind.EmbeddingUnavailable,
+            "no Ollama with 'bge-m3'"));
+        session.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            var banner = cut.Find("[data-testid=status-banner]");
+            Assert.Contains("aot-banner--error", banner.ClassList);
+            Assert.Contains("Topic search is not available right now.", banner.TextContent);
+            Assert.NotNull(cut.Find("[data-testid=status-retry]"));
+        });
+    }
+
+    [Fact]
+    public async Task State_overview_llm_down()
+    {
+        SeedCorpusAndRevisions();
+        var article = new TopicArticle("fi", 1150, "Talvisota", 0.05);
+        var candidate = MakeCandidate(article, revId: 1002, revertedRevId: 1001, user: "Editor", comment: "Kumottu");
+        var unassessed = MakeRecord("ww-llm", 1150, 1001, 1002, EvidenceTier.Reverted, 40, claimEn: null);
+
+        var session = _runner.EnqueueChannelRun();
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+        cut.WaitForAssertion(() => Assert.Equal("winter war", session.Topic));
+
+        await session.WriteAsync(new ArticlesFound(1, [article]));
+        await session.WriteAsync(new RevisionsScanned(500, [candidate]));
+        await session.WriteAsync(new CandidateScored(1, 1, candidate, unassessed) { AssessmentUnavailable = true });
+        await session.WriteAsync(new Completed(false, [unassessed], TimeSpan.FromSeconds(1)) { Degraded = 1 });
+        session.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            var banner = cut.Find("[data-testid=status-banner]");
+            Assert.Contains("aot-banner--warn", banner.ClassList);
+            Assert.Contains("Automated assessment unavailable — showing edit and removal history only.", banner.TextContent);
+
+            var card = cut.Find("[data-testid=incident-card]");
+            Assert.Equal("reverted", card.QuerySelector("[data-testid=tier-badge]")?.GetAttribute("data-tier"));
+        });
+    }
+
+    [Fact]
+    public async Task State_overview_slow()
+    {
+        var session = _runner.EnqueueChannelRun();
+        var article = new TopicArticle("fi", 1150, "Talvisota", 0.05);
+
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+        cut.WaitForAssertion(() => Assert.Equal("winter war", session.Topic));
+
+        await session.WriteAsync(new ArticlesFound(1, [article]));
+        cut.WaitForAssertion(() =>
+            Assert.Equal("active", cut.Find("[data-testid=stage-2]").GetAttribute("data-state")));
+
+        _clock.Advance(TimeSpan.FromSeconds(21));
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Contains("Still working…", cut.Find("[data-testid=stage-2]").TextContent);
+            Assert.NotNull(cut.Find("[data-testid=cancel-run]"));
+        });
+    }
+
+    [Fact]
+    public void State_overview_run_failed()
+    {
+        _runner.EnqueueFault(new InvalidOperationException("unexpected pipeline boom"));
+        var retrySession = _runner.EnqueueChannelRun();
+
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+
+        cut.WaitForAssertion(() =>
+        {
+            var banner = cut.Find("[data-testid=status-banner]");
+            Assert.Contains("aot-banner--error", banner.ClassList);
+            Assert.Contains("Something went wrong in this step.", banner.TextContent);
+            Assert.Empty(cut.FindAll("[data-testid=incident-skeleton]"));
+            Assert.NotNull(cut.Find("[data-testid=status-retry]"));
+        });
+
+        cut.Find("[data-testid=status-retry]").Click();
+        cut.WaitForAssertion(() => Assert.Equal("winter war", retrySession.Topic));
+    }
+
     private static RemovedEdit MakeCandidate(TopicArticle article, long revId, long revertedRevId, string user, string comment) =>
         new(article, new RevertEvent(
             PageId: article.PageId,
@@ -499,9 +680,246 @@ public sealed class InvestigationPageTests : BunitContext
             ClaimFi = "Lisätty kiistanalainen väite.",
         };
 
+    [Fact]
+    public async Task Contest_signals_load_once_per_run_and_render_rail_contest_and_unflagged_reasons()
+    {
+        var fakeSignals = new FakeContestSignals();
+        fakeSignals.Contests[1256] = new PageContest(1256, EditWarEpisodes: 2, PingPongEpisodes: 3, BurstEpisodes: 1, ContestedScore: 15.0, PeakMonth: "2014-03");
+        fakeSignals.Contests[8295] = new PageContest(8295, EditWarEpisodes: 0, PingPongEpisodes: 0, BurstEpisodes: 0, ContestedScore: 0.0, PeakMonth: null);
+        fakeSignals.Classes[(1256, 5002)] = "graffiti_cleanup";
+        fakeSignals.Classes[(8295, 6002)] = "other";
+        Services.AddSingleton<IContestSignals>(fakeSignals);
+
+        var session = _runner.EnqueueChannelRun();
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+
+        var fiTalvisota = new TopicArticle("fi", 1256, "Talvisota", 0.02);
+        var fiMainila = new TopicArticle("fi", 8295, "Mainilan laukaukset", 0.05);
+        var enArticle = new TopicArticle("en", 9999, "Winter War", 0.03);
+
+        var candFlagged = new RemovedEdit(
+            fiTalvisota,
+            new RevertEvent(1256, 1002, new DateTime(2014, 3, 4, 12, 0, 0, DateTimeKind.Utc), "Reviewer", "Kumottu", 1000, 1, 1001, "Editor1"));
+        var candGraffiti = new RemovedEdit(
+            fiTalvisota,
+            new RevertEvent(1256, 5002, new DateTime(2015, 5, 1, 12, 0, 0, DateTimeKind.Utc), "Reviewer", "Sotkua", 5000, 1, 5001, "85.76.123.45"));
+        var candOther = new RemovedEdit(
+            fiMainila,
+            new RevertEvent(8295, 6002, new DateTime(2016, 6, 1, 12, 0, 0, DateTimeKind.Utc), "Reviewer", "Korjaus", 6000, 1, 6001, "Editor2"));
+
+        await session.WriteAsync(new ArticlesFound(3, [fiTalvisota, fiMainila, enArticle]));
+        await session.WriteAsync(new RevisionsScanned(420, [candFlagged, candGraffiti, candOther]));
+
+        var incident = MakeRecord("inc-1", pageId: 1256, insertRev: 1001, removeRev: 1002, EvidenceTier.Contested, 85.0, "Disputed claim");
+        await session.WriteAsync(new CandidateScored(1, 3, candFlagged, incident));
+        await session.WriteAsync(new CandidateScored(2, 3, candGraffiti, null));
+        await session.WriteAsync(new CandidateScored(3, 3, candOther, null));
+        await session.WriteAsync(new Completed(FromCache: false, [incident], TimeSpan.FromSeconds(4)));
+        session.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Equal(1, fakeSignals.PageContestsCalls);
+            Assert.Equal([1256L, 8295L], fakeSignals.LastPageIds);
+            Assert.Equal(1, fakeSignals.RevertClassesCalls);
+            Assert.Equal(3, fakeSignals.LastRevertKeys.Count);
+
+            var railItems = cut.FindAll("[data-testid=article-rail-item]");
+            Assert.Equal(3, railItems.Count);
+            Assert.Single(cut.FindAll("[data-testid=rail-contest]"));
+            Assert.Equal(
+                "Contested: 5 periods of back-and-forth edits \u00b7 peak Mar 2014",
+                cut.Find("[data-testid=rail-contest]").TextContent.Trim());
+
+            var unflaggedRows = cut.FindAll("[data-testid=unflagged-row]");
+            Assert.Equal(2, unflaggedRows.Count);
+            Assert.Equal("vandalism cleanup", unflaggedRows[0].QuerySelector("[data-testid=unflagged-reason]")?.TextContent);
+            Assert.Null(unflaggedRows[1].QuerySelector("[data-testid=unflagged-reason]"));
+        });
+    }
+
+    [Fact]
+    public async Task Contest_signals_throwing_leaves_investigation_page_unchanged()
+    {
+        Services.AddSingleton<IContestSignals>(new FakeContestSignals
+        {
+            Failure = new InvalidOperationException("research schema unavailable"),
+        });
+
+        var session = _runner.EnqueueChannelRun();
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+
+        var fiTalvisota = new TopicArticle("fi", 1256, "Talvisota", 0.02);
+        var unflaggedEdit = new RemovedEdit(
+            fiTalvisota,
+            new RevertEvent(1256, 5002, new DateTime(2015, 5, 1, 12, 0, 0, DateTimeKind.Utc), "Reviewer", "Kumottu", 5000, 1, 5001, "Editor2"));
+        var incident = MakeRecord("inc-1", pageId: 1256, insertRev: 1001, removeRev: 1002, EvidenceTier.Contested, 85.0, "Disputed claim");
+
+        await session.WriteAsync(new ArticlesFound(1, [fiTalvisota]));
+        await session.WriteAsync(new RevisionsScanned(200, [unflaggedEdit]));
+        await session.WriteAsync(new CandidateScored(1, 1, unflaggedEdit, incident));
+        await session.WriteAsync(new Completed(FromCache: false, [incident], TimeSpan.FromSeconds(3)));
+        session.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Single(cut.FindAll("[data-testid=incident-card]"));
+            Assert.Single(cut.FindAll("[data-testid=article-rail-item]"));
+            Assert.Single(cut.FindAll("[data-testid=unflagged-row]"));
+            Assert.Empty(cut.FindAll("[data-testid=status-banner]"));
+            Assert.Empty(cut.FindAll("[data-testid=rail-contest]"));
+            Assert.Empty(cut.FindAll("[data-testid=unflagged-reason]"));
+        });
+    }
+
+    [Fact]
+    public async Task Overview_collapses_phone_disclosures_folds_zero_incident_rail_entries_loads_sibling_titles_and_uses_signal_menu()
+    {
+        _incidentCorpus.Articles[1150] = new ArticleRef(1150, "Talvisota", "Winter War");
+        _incidentCorpus.Articles[1200] = new ArticleRef(1200, "Mainilan laukaukset", "Shelling of Mainila");
+        _incidentCorpus.Articles[1300] = new ArticleRef(1300, "Paikallinen artikkeli", null);
+
+        var session = _runner.EnqueueChannelRun();
+        var cut = Render<InvestigationPage>(p => p.Add(x => x.Topic, "winter-war"));
+
+        var fiMain = new TopicArticle("fi", 1150, "Talvisota", 0.02);
+        var fiZeroWithEn = new TopicArticle("fi", 1200, "Mainilan laukaukset", 0.05);
+        var fiZeroNoEn = new TopicArticle("fi", 1300, "Paikallinen artikkeli", 0.08);
+        var inc = MakeRecord(
+            "inc-1",
+            pageId: 1150,
+            insertRev: 1001,
+            removeRev: 1002,
+            EvidenceTier.Campaign,
+            90.0,
+            "Coordinated claim",
+            signals: ["multiple_editors", "removed_as_unsourced"]);
+
+        var candidate = MakeCandidate(fiMain, 1002, 1001, "Editor1", "Kumottu");
+        await session.WriteAsync(new ArticlesFound(3, [fiZeroNoEn, fiZeroWithEn, fiMain]));
+        await session.WriteAsync(new RevisionsScanned(300, [candidate]));
+        await session.WriteAsync(new CandidateScored(1, 1, candidate, inc));
+        await session.WriteAsync(new Completed(FromCache: false, [inc], TimeSpan.FromSeconds(2)));
+        session.Complete();
+
+        cut.WaitForAssertion(() =>
+        {
+            // R1-05: rail and filter disclosures render without `open` so <992px phone starts collapsed
+            var railDetails = cut.Find("[data-testid=article-rail]");
+            Assert.False(railDetails.HasAttribute("open"));
+            Assert.Contains("Articles (3)", railDetails.QuerySelector("summary")!.TextContent);
+
+            var filterDetails = cut.Find("[data-testid=filters-disclosure]");
+            Assert.False(filterDetails.HasAttribute("open"));
+            Assert.Equal("Filters", cut.Find("[data-testid=filters-summary]").TextContent.Trim());
+
+            // R1-08: 0-incident rail entries are tucked behind collapsed "Show 2 more articles",
+            // and English sibling titles from IIncidentCorpus are shown with Finnish under them
+            var moreDetails = cut.Find("[data-testid=rail-more-articles]");
+            Assert.False(moreDetails.HasAttribute("open"));
+            Assert.Equal("Show 2 more articles", cut.Find("[data-testid=rail-more-summary]").TextContent.Trim());
+
+            var directRailItems = railDetails.Children.Where(static el => el.GetAttribute("data-testid") == "article-rail-item").ToList();
+            var visibleItem = Assert.Single(directRailItems);
+            Assert.Equal("1150", visibleItem.GetAttribute("data-page-id"));
+            Assert.Equal("Winter War", visibleItem.QuerySelector(".aot-art__title")?.TextContent);
+
+            var hiddenEnItem = moreDetails.QuerySelector("[data-testid=article-rail-item][data-page-id='1200']")!;
+            Assert.Equal("Shelling of Mainila", hiddenEnItem.QuerySelector(".aot-art__title")?.TextContent);
+            Assert.Contains("Mainilan laukaukset", hiddenEnItem.TextContent);
+
+            var hiddenFiOnlyItem = moreDetails.QuerySelector("[data-testid=article-rail-item][data-page-id='1300']")!;
+            Assert.Equal("Paikallinen artikkeli", hiddenFiOnlyItem.QuerySelector(".aot-art__title")?.TextContent);
+            Assert.Contains("Finnish Wikipedia", hiddenFiOnlyItem.TextContent);
+
+            // R1-12: summary header shows full EvidenceTiers labels; filter chips expose full labels in aria/title
+            var summaryHeader = cut.Find("[data-testid=summary-header]");
+            Assert.Contains(EvidenceTiers.Campaign.Label, summaryHeader.TextContent);
+            Assert.Contains(EvidenceTiers.Contested.Label, summaryHeader.TextContent);
+            Assert.Contains(EvidenceTiers.Reverted.Label, summaryHeader.TextContent);
+
+            var campaignFilter = cut.Find("[data-testid=tier-filter][data-tier=campaign]");
+            Assert.Equal($"Filter by level: {EvidenceTiers.Campaign.Label}", campaignFilter.GetAttribute("aria-label"));
+            Assert.Contains(EvidenceTiers.Campaign.Label, campaignFilter.GetAttribute("title"));
+
+            // R1-06: compact Signal ▾ menu is closed by default and no removable chips show until selected
+            var signalMenu = cut.Find("[data-testid=signal-menu]");
+            Assert.False(signalMenu.HasAttribute("open"));
+            Assert.Equal("Signal", cut.Find("[data-testid=signal-menu-toggle]").TextContent.Trim());
+            Assert.Empty(cut.FindAll("[data-testid=active-filters]"));
+        });
+
+        // Select a signal -> Signal (1), Filters (1), and removable active-signal-filter chip
+        cut.Find("[data-testid=signal-filters] [data-testid=signal-chip][data-signal=multiple_editors]").Click();
+
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Equal("Signal (1)", cut.Find("[data-testid=signal-menu-toggle]").TextContent.Trim());
+            Assert.Equal("Filters (1)", cut.Find("[data-testid=filters-summary]").TextContent.Trim());
+            var removable = Assert.Single(cut.FindAll("[data-testid=active-signal-filter]"));
+            Assert.Equal("multiple_editors", removable.GetAttribute("data-signal"));
+            Assert.Contains("×", removable.TextContent);
+        });
+
+        // Clicking removable chip clears the signal filter
+        cut.Find("[data-testid=active-signal-filter][data-signal=multiple_editors]").Click();
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Equal("Signal", cut.Find("[data-testid=signal-menu-toggle]").TextContent.Trim());
+            Assert.Empty(cut.FindAll("[data-testid=active-signal-filter]"));
+        });
+    }
+
+    private sealed class FakeContestSignals : IContestSignals
+    {
+        public Dictionary<long, PageContest> Contests { get; } = [];
+        public Dictionary<(long PageId, long RevertingRevId), string> Classes { get; } = [];
+        public Exception? Failure { get; set; }
+        public int PageContestsCalls { get; private set; }
+        public int RevertClassesCalls { get; private set; }
+        public IReadOnlyList<long> LastPageIds { get; private set; } = [];
+        public IReadOnlyList<(long PageId, long RevertingRevId)> LastRevertKeys { get; private set; } = [];
+
+        public Task<IReadOnlyDictionary<long, PageContest>> PageContestsAsync(
+            IReadOnlyList<long> pageIds,
+            CancellationToken ct = default)
+        {
+            ct.ThrowIfCancellationRequested();
+            PageContestsCalls++;
+            LastPageIds = pageIds.ToList();
+            if (Failure is not null)
+            {
+                return Task.FromException<IReadOnlyDictionary<long, PageContest>>(Failure);
+            }
+
+            var result = pageIds
+                .Where(Contests.ContainsKey)
+                .ToDictionary(id => id, id => Contests[id]);
+            return Task.FromResult<IReadOnlyDictionary<long, PageContest>>(result);
+        }
+
+        public Task<IReadOnlyDictionary<(long PageId, long RevertingRevId), string>> RevertClassesAsync(
+            IReadOnlyList<(long PageId, long RevertingRevId)> reverts,
+            CancellationToken ct = default)
+        {
+            ct.ThrowIfCancellationRequested();
+            RevertClassesCalls++;
+            LastRevertKeys = reverts.ToList();
+            if (Failure is not null)
+            {
+                return Task.FromException<IReadOnlyDictionary<(long PageId, long RevertingRevId), string>>(Failure);
+            }
+
+            var result = reverts
+                .Where(Classes.ContainsKey)
+                .ToDictionary(k => k, k => Classes[k]);
+            return Task.FromResult<IReadOnlyDictionary<(long PageId, long RevertingRevId), string>>(result);
+        }
+    }
+
     private sealed class ScriptedInvestigationRunner : IInvestigationRunner
     {
-        private readonly Queue<ChannelRunSession> _sessions = new();
+        private readonly Queue<object> _sessions = new();
 
         public int RunCount { get; private set; }
 
@@ -512,12 +930,21 @@ public sealed class InvestigationPageTests : BunitContext
             return session;
         }
 
+        public void EnqueueFault(Exception exception) => _sessions.Enqueue(exception);
+
         public async IAsyncEnumerable<InvestigationEvent> RunAsync(
             string topic, bool refresh,
             [EnumeratorCancellation] CancellationToken ct = default)
         {
             RunCount++;
-            var session = _sessions.Count > 0 ? _sessions.Dequeue() : new ChannelRunSession(completeImmediately: true);
+            var next = _sessions.Count > 0 ? _sessions.Dequeue() : new ChannelRunSession(completeImmediately: true);
+            if (next is Exception ex)
+            {
+                await Task.Yield();
+                throw ex;
+            }
+
+            var session = (ChannelRunSession)next;
             session.Attach(topic, ct);
 
             await foreach (var evt in session.Reader.ReadAllAsync(ct))

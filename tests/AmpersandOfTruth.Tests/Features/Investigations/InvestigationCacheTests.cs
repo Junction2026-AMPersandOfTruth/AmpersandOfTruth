@@ -140,4 +140,44 @@ public class InvestigationCacheTests : IDisposable
         Assert.Equal(fresh.Span, cached.Span);
         Assert.Equal((fresh.InsertedText, fresh.RemovedText, fresh.Context), (cached.InsertedText, cached.RemovedText, cached.Context));
     }
+
+    [Fact]
+    public async Task Topics_lists_at_most_50_for_current_fingerprint_newest_first()
+    {
+        var clock = new Microsoft.Extensions.Time.Testing.FakeTimeProvider(new DateTimeOffset(2026, 11, 14, 12, 0, 0, TimeSpan.Zero));
+        var o = Microsoft.Extensions.Options.Options.Create(_kit.Options);
+        var gemini = Microsoft.Extensions.Options.Options.Create(_kit.Gemini);
+        var prompts = new AmpersandOfTruth.Web.Features.Analysis.Prompts.PromptLibrary(
+            gemini, Microsoft.Extensions.Logging.Abstractions.NullLogger<AmpersandOfTruth.Web.Features.Analysis.Prompts.PromptLibrary>.Instance);
+        var cache = new InvestigationRunCache(
+            _db.Factory,
+            new PipelineFingerprint(o, gemini, prompts),
+            clock,
+            Microsoft.Extensions.Logging.Abstractions.NullLogger<InvestigationRunCache>.Instance);
+
+        var snapshot = new RunSnapshot([], 0, [], [], [], clock.GetUtcNow(), 10, new Dictionary<InvestigationStage, double>(), null);
+        for (var i = 1; i <= 55; i++)
+        {
+            clock.Advance(TimeSpan.FromMinutes(1));
+            await cache.StoreAsync($"topic {i}", snapshot);
+        }
+
+        var topics = await cache.TopicsAsync();
+        Assert.Equal(50, topics.Count);
+        Assert.Equal("topic 55", topics[0]);
+        Assert.Equal("topic 6", topics[^1]);
+
+        _kit.Gemini.Models["Classify"] = "another-model";
+        var otherCache = new InvestigationRunCache(
+            _db.Factory,
+            new PipelineFingerprint(o, gemini, prompts),
+            clock,
+            Microsoft.Extensions.Logging.Abstractions.NullLogger<InvestigationRunCache>.Instance);
+        Assert.Empty(await otherCache.TopicsAsync());
+
+        await using (var db = _db.CreateContext())
+            await db.Database.ExecuteSqlRawAsync("DROP TABLE InvestigationRuns");
+
+        Assert.Empty(await cache.TopicsAsync());
+    }
 }

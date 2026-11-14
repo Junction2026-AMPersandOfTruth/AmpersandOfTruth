@@ -1,0 +1,247 @@
+@using AmpersandOfTruth.Web.Features.Library
+@using Microsoft.Extensions.DependencyInjection
+@inject IServiceProvider Services
+
+<section class="aot-panel aot-stack" style="gap:var(--space-2)" data-testid="annotation-panel" @onkeydown:stopPropagation>
+    <div class="aot-label">Analyst annotation</div>
+
+    <div class="aot-stack" style="gap:4px">
+        <label class="aot-small aot-muted" for="verdict-select-input">Verdict</label>
+        <select id="verdict-select-input"
+                class="aot-select"
+                data-testid="verdict-select"
+                value="@FormatVerdict(_verdict)"
+                @onchange="HandleVerdictChange">
+            <option value="">No verdict</option>
+            <option value="Confirmed">Analyst: confirmed</option>
+            <option value="Plausible">Analyst: plausible</option>
+            <option value="NotAnIncident">Analyst: not an incident</option>
+            <option value="NeedsMoreEvidence">Analyst: needs more evidence</option>
+        </select>
+    </div>
+
+    <div class="aot-stack" style="gap:4px">
+        <label class="aot-small aot-muted" for="dismiss-select-input">Dismiss reason</label>
+        <select id="dismiss-select-input"
+                class="aot-select"
+                data-testid="dismiss-select"
+                value="@FormatDismiss(_dismissReason)"
+                @onchange="HandleDismissChange">
+            <option value="">None</option>
+            <option value="OrdinaryVandalism">Ordinary vandalism</option>
+            <option value="LegitimateDispute">Legitimate dispute</option>
+            <option value="WrongTranslation">Wrong translation</option>
+            <option value="WrongGrouping">Wrong grouping</option>
+            <option value="Other">Other</option>
+        </select>
+    </div>
+
+    <div class="aot-stack" style="gap:4px">
+        <label class="aot-small aot-muted" for="annotation-note-input">Notes</label>
+        <textarea id="annotation-note-input"
+                  class="form-control"
+                  rows="3"
+                  maxlength="4000"
+                  value="@_note"
+                  @oninput="HandleNoteInput"
+                  @onchange="HandleNoteInput"
+                  data-testid="annotation-note"></textarea>
+    </div>
+
+    <div class="aot-row">
+        <button type="button"
+                class="aot-btn aot-btn--primary aot-btn--sm"
+                data-testid="annotation-save"
+                @onclick="SaveAsync">
+            Save
+        </button>
+        <button type="button"
+                class="aot-btn aot-btn--ghost aot-btn--sm"
+                data-testid="annotation-clear"
+                @onclick="ClearAsync">
+            Clear
+        </button>
+    </div>
+
+    @if (!string.IsNullOrEmpty(_statusMessage))
+    {
+        <p class="aot-small aot-muted" style="margin:0" role="status">@_statusMessage</p>
+    }
+</section>
+
+@code {
+    private (Guid InvestigationId, string IncidentId)? _loadedKey;
+    private DateTimeOffset? _syncedUpdatedAt;
+    private AnalystVerdict? _verdict;
+    private DismissReason? _dismissReason;
+    private string _note = "";
+    private string? _statusMessage;
+
+    [Parameter, EditorRequired] public Guid InvestigationId { get; set; }
+    [Parameter, EditorRequired] public string IncidentId { get; set; } = "";
+    [Parameter] public IncidentAnnotation? Annotation { get; set; }
+    [Parameter] public EventCallback OnChanged { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var key = (InvestigationId, IncidentId ?? "");
+        if (_loadedKey != key)
+        {
+            _loadedKey = key;
+            _statusMessage = null;
+            await LoadFromStoreOrParameterAsync();
+            return;
+        }
+
+        if (Annotation is not null && _syncedUpdatedAt != Annotation.UpdatedAt)
+        {
+            ApplyAnnotation(Annotation);
+        }
+    }
+
+    private async Task LoadFromStoreOrParameterAsync()
+    {
+        if (Annotation is not null)
+        {
+            ApplyAnnotation(Annotation);
+            return;
+        }
+
+        var store = Services.GetService<AnnotationStore>();
+        if (store is null || string.IsNullOrWhiteSpace(IncidentId))
+        {
+            ApplyAnnotation(null);
+            return;
+        }
+
+        var map = await store.ForInvestigationAsync(InvestigationId);
+        map.TryGetValue(IncidentId, out var existing);
+        ApplyAnnotation(existing);
+    }
+
+    private void ApplyAnnotation(IncidentAnnotation? existing)
+    {
+        _syncedUpdatedAt = existing?.UpdatedAt;
+        _verdict = existing?.Verdict;
+        _dismissReason = existing?.DismissReason;
+        _note = existing?.Note ?? "";
+    }
+
+    private void HandleVerdictChange(ChangeEventArgs e)
+    {
+        _statusMessage = null;
+        _verdict = ParseVerdict(e.Value?.ToString());
+        if (_verdict != AnalystVerdict.NotAnIncident)
+        {
+            _dismissReason = null;
+        }
+    }
+
+    private void HandleDismissChange(ChangeEventArgs e)
+    {
+        _statusMessage = null;
+        _dismissReason = ParseDismiss(e.Value?.ToString());
+        if (_dismissReason is not null && _verdict is null)
+        {
+            _verdict = AnalystVerdict.NotAnIncident;
+        }
+    }
+
+    private void HandleNoteInput(ChangeEventArgs e)
+    {
+        _statusMessage = null;
+        _note = e.Value?.ToString() ?? "";
+    }
+
+    private async Task SaveAsync()
+    {
+        var store = Services.GetService<AnnotationStore>();
+        var ownerKey = Services.GetService<OwnerKey>();
+        if (store is null || ownerKey is null || string.IsNullOrWhiteSpace(IncidentId))
+        {
+            return;
+        }
+
+        var owner = await ownerKey.GetOrCreateAsync();
+        var dismiss = _verdict == AnalystVerdict.NotAnIncident ? _dismissReason : null;
+        var saved = await store.UpsertAsync(
+            InvestigationId,
+            owner,
+            IncidentId,
+            _verdict,
+            dismiss,
+            _note,
+            source: "analyst");
+
+        if (!saved)
+        {
+            _statusMessage = "Only the browser that saved this investigation can update annotations.";
+            return;
+        }
+
+        var map = await store.ForInvestigationAsync(InvestigationId);
+        map.TryGetValue(IncidentId, out var updated);
+        ApplyAnnotation(updated);
+        _statusMessage = "Saved.";
+
+        if (OnChanged.HasDelegate)
+        {
+            await OnChanged.InvokeAsync();
+        }
+    }
+
+    private async Task ClearAsync()
+    {
+        var store = Services.GetService<AnnotationStore>();
+        var ownerKey = Services.GetService<OwnerKey>();
+        if (store is null || ownerKey is null || string.IsNullOrWhiteSpace(IncidentId))
+        {
+            return;
+        }
+
+        var owner = await ownerKey.GetOrCreateAsync();
+        var map = await store.ForInvestigationAsync(InvestigationId);
+        var hadExisting = map.ContainsKey(IncidentId);
+
+        var cleared = await store.ClearAsync(InvestigationId, owner, IncidentId);
+        if (hadExisting && !cleared)
+        {
+            _statusMessage = "Only the browser that saved this investigation can clear annotations.";
+            return;
+        }
+
+        ApplyAnnotation(null);
+        _statusMessage = null;
+
+        if (OnChanged.HasDelegate)
+        {
+            await OnChanged.InvokeAsync();
+        }
+    }
+
+    private static string FormatVerdict(AnalystVerdict? verdict) => verdict?.ToString() ?? "";
+
+    private static string FormatDismiss(DismissReason? reason) => reason?.ToString() ?? "";
+
+    private static AnalystVerdict? ParseVerdict(string? raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+        {
+            return null;
+        }
+
+        var normalized = raw.Trim().Replace("_", "", StringComparison.Ordinal).Replace("-", "", StringComparison.Ordinal);
+        return Enum.TryParse<AnalystVerdict>(normalized, ignoreCase: true, out var parsed) ? parsed : null;
+    }
+
+    private static DismissReason? ParseDismiss(string? raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+        {
+            return null;
+        }
+
+        var normalized = raw.Trim().Replace("_", "", StringComparison.Ordinal).Replace("-", "", StringComparison.Ordinal);
+        return Enum.TryParse<DismissReason>(normalized, ignoreCase: true, out var parsed) ? parsed : null;
+    }
+}

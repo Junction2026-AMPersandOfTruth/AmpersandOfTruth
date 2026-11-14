@@ -1,0 +1,641 @@
+{
+  "slug": "mannerheim",
+  "title": "Mannerheim",
+  "aliases": [
+    "c. g. e. mannerheim",
+    "carl gustaf emil mannerheim",
+    "gustaf mannerheim",
+    "marsalkka mannerheim"
+  ],
+  "incidents": [
+    {
+      "id": "man-01",
+      "page_id": 6021,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        13635606,
+        13635652,
+        13639312,
+        13639924,
+        13640415
+      ],
+      "removing_rev_ids": [
+        13636805,
+        13640041,
+        13640416,
+        13640442
+      ],
+      "tier": "contested",
+      "score": 0.88,
+      "claim_en": "Mannerheim's term as President ended on 11 March 1946 rather than on his 4 March 1946 resignation date.",
+      "claim_fi": "| virassa       = [[4. elokuuta|4.8.]][[1944]]–[[11. maaliskuuta|11.3.]][[1946]]",
+      "summary_en": "An anonymous editor repeatedly changed Mannerheim's presidency end date from 4 March to 11 March 1946 and his regency end date from 25 July to 26 July 1919 across five edits; four editors restored 4 March as the documented resignation date.",
+      "narrative": "Constitutional end dates of Mannerheim's regency and presidency",
+      "category": "content_dispute",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 6021,
+          "title_fi": "Carl Gustaf Emil Mannerheim",
+          "title_en": "Carl Gustaf Emil Mannerheim"
+        }
+      ],
+      "first_inserted_at": "2013-11-03T16:00:55Z",
+      "last_removed_at": "2013-11-05T13:57:54Z",
+      "total_exposure_seconds": 77196,
+      "reinsertion_count": 4,
+      "edits": [
+        {
+          "rev_id": 13635606,
+          "parent_rev_id": 13634451,
+          "page_id": 6021,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2013-11-03T16:00:55Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13635606",
+          "flags": []
+        },
+        {
+          "rev_id": 13635652,
+          "parent_rev_id": 13635606,
+          "page_id": 6021,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2013-11-03T16:12:37Z",
+          "role": "reinserted",
+          "summary": "Valtionhoitajan toimi päättyi 26. heinäkuuta 1919 tasavallan presidentin annettua juhlallisen vakuutuksen eduskunnassa.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13635652",
+          "flags": []
+        },
+        {
+          "rev_id": 13636805,
+          "parent_rev_id": 13635652,
+          "page_id": 6021,
+          "user_display": "Pxos",
+          "is_anonymous": false,
+          "timestamp": "2013-11-04T02:55:51Z",
+          "role": "removed",
+          "summary": "Käyttäjän 85.76.x.x (keskustelu) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän Abc10 tekemään versioon.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13636805",
+          "flags": []
+        },
+        {
+          "rev_id": 13639312,
+          "parent_rev_id": 13636805,
+          "page_id": 6021,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2013-11-05T00:46:54Z",
+          "role": "reinserted",
+          "summary": "Valtionhoitajan toimi päättyi 26.7.1919 tasavallan presidentin annettua juhlallisen vakuutuksen eduskunnassa; Suomessa tasavallan presidenttiys on ollut katkeamaton alusta 1919 saakka: Mannerheim jätti eroilm. 4.3.1946, mutta ero astui voimaan 11.3.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13639312",
+          "flags": []
+        },
+        {
+          "rev_id": 13639924,
+          "parent_rev_id": 13639312,
+          "page_id": 6021,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2013-11-05T10:10:20Z",
+          "role": "reinserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13639924",
+          "flags": []
+        },
+        {
+          "rev_id": 13640041,
+          "parent_rev_id": 13639924,
+          "page_id": 6021,
+          "user_display": "Zache",
+          "is_anonymous": false,
+          "timestamp": "2013-11-05T11:17:41Z",
+          "role": "removed",
+          "summary": "palautettu 4.3.1946 mannerheimin eroksi, koska se on ainakin varma päivämäärä eroilmoitukselle. 11.3.1946. -päivän saa lisätä lähteistettynä (google ei auttanut minua tässä)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13640041",
+          "flags": []
+        },
+        {
+          "rev_id": 13640415,
+          "parent_rev_id": 13640041,
+          "page_id": 6021,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2013-11-05T13:46:13Z",
+          "role": "reinserted",
+          "summary": "Eroilmoitus 4.3.1946, mutta ero tuli voimaan 11.3.1946 seuraajan toimikauden alettua.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13640415",
+          "flags": []
+        },
+        {
+          "rev_id": 13640416,
+          "parent_rev_id": 13640415,
+          "page_id": 6021,
+          "user_display": "Lauriv~fiwiki",
+          "is_anonymous": false,
+          "timestamp": "2013-11-05T13:47:06Z",
+          "role": "removed",
+          "summary": "Käyttäjän 85.76.x.x (keskustelu) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän Zache tekemään versioon.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13640416",
+          "flags": []
+        },
+        {
+          "rev_id": 13640442,
+          "parent_rev_id": 13640416,
+          "page_id": 6021,
+          "user_display": "Otrfan",
+          "is_anonymous": false,
+          "timestamp": "2013-11-05T13:57:54Z",
+          "role": "removed",
+          "summary": "rv, WPK:n muokkauksia",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=13640442",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removal_reason",
+          "label": "Removed with a dispute summary",
+          "evidence": "Removed with 'palautettu 4.3.1946 mannerheimin eroksi, koska se on ainakin varma päivämäärä eroilmoitukselle. 11.3.1946. -päivän saa lisätä lähteistettynä'."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Re-applied across five edits over two days after removals by Pxos and Zache."
+        },
+        {
+          "kind": "edit_war",
+          "label": "Back-and-forth edits",
+          "evidence": "Nine alternating edits over the infobox term dates between 3 and 5 November 2013."
+        },
+        {
+          "kind": "number_changed",
+          "label": "Figures changed without a source",
+          "evidence": "Altered the infobox end date from 4.3.1946 to 11.3.1946 without a citation supporting the presidential handover date."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Redates the end of Mannerheim's presidential term from his resignation letter (4 March) to Paasikivi's inauguration (11 March)."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edit",
+          "evidence": "All five insertions came from unregistered IPv4 range 85.76.x.x."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: removed for lack of a reliable source, put back 2 times after removal, part of a back-and-forth over this passage, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "content_dispute",
+        "confidence": 4,
+        "what_changed_en": "Changes Mannerheim's presidential term end date in the infobox from 4 March 1946 to 11 March 1946 (and in follow-up edits changes the 1919 regency end date from 25 July to 26 July).",
+        "quotes": [
+          "| virassa       = [[4. elokuuta|4.8.]][[1944]]–[[11. maaliskuuta|11.3.]][[1946]]"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "Mannerheim submitted his resignation on 4 March 1946 and J. K. Paasikivi took office on 11 March 1946; reference works differ on which date marks the end of the term.",
+        "historical_note_en": "Following Mannerheim's resignation letter of 4 March 1946, Prime Minister Paasikivi discharged presidential duties until Parliament elected Paasikivi president on 9 March and he took office on 11 March 1946."
+      },
+      "confidence_note": "Single anonymous range on one article over 46 hours stays at Level 2."
+    },
+    {
+      "id": "man-02",
+      "page_id": 6021,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        15215091,
+        15216032,
+        15216036,
+        15217932
+      ],
+      "removing_rev_ids": [
+        15216508,
+        15217943
+      ],
+      "tier": "contested",
+      "score": 0.82,
+      "claim_en": "Official library and presidential pages date the end of Mannerheim's presidency to 11 March 1946 and regency to 26 July 1919.",
+      "claim_fi": "| virassa       = [[4. elokuuta|4.8.]][[1944]]–[[11. maaliskuuta|11.3.]][[1946]]<ref>[http://www.kysy.fi/kysymys/yhteiskunta-politiikka-tasavallan-presidenttien-toimikausien-virallinen-alku-ja-loppu Tasavallan presidenttien toimikausien virallinen alku ja loppu?]",
+      "summary_en": "Nearly two years after the 2013 dispute, a named account and an IPv6 address re-applied the 11 March 1946 presidency end date and 26 July 1919 regency end date with kysy.fi and presidentti.fi citations; two editors removed both rounds.",
+      "narrative": "Constitutional end dates of Mannerheim's regency and presidency",
+      "category": "content_dispute",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 6021,
+          "title_fi": "Carl Gustaf Emil Mannerheim",
+          "title_en": "Carl Gustaf Emil Mannerheim"
+        }
+      ],
+      "first_inserted_at": "2015-09-15T14:40:45Z",
+      "last_removed_at": "2015-09-16T23:12:34Z",
+      "total_exposure_seconds": 67594,
+      "reinsertion_count": 3,
+      "edits": [
+        {
+          "rev_id": 15215091,
+          "parent_rev_id": 15204512,
+          "page_id": 6021,
+          "user_display": "FiCiW",
+          "is_anonymous": false,
+          "timestamp": "2015-09-15T14:40:45Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15215091",
+          "flags": []
+        },
+        {
+          "rev_id": 15216032,
+          "parent_rev_id": 15215091,
+          "page_id": 6021,
+          "user_display": "FiCiW",
+          "is_anonymous": false,
+          "timestamp": "2015-09-15T22:11:01Z",
+          "role": "reinserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15216032",
+          "flags": []
+        },
+        {
+          "rev_id": 15216036,
+          "parent_rev_id": 15216032,
+          "page_id": 6021,
+          "user_display": "FiCiW",
+          "is_anonymous": false,
+          "timestamp": "2015-09-15T22:16:56Z",
+          "role": "reinserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15216036",
+          "flags": []
+        },
+        {
+          "rev_id": 15216508,
+          "parent_rev_id": 15216036,
+          "page_id": 6021,
+          "user_display": "Ppntori",
+          "is_anonymous": false,
+          "timestamp": "2015-09-16T09:23:46Z",
+          "role": "removed",
+          "summary": "Käyttäjän FiCiW (keskustelu) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän Pxos tekemään versioon.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15216508",
+          "flags": []
+        },
+        {
+          "rev_id": 15217932,
+          "parent_rev_id": 15216508,
+          "page_id": 6021,
+          "user_display": "2001:999:…",
+          "is_anonymous": true,
+          "timestamp": "2015-09-16T23:09:01Z",
+          "role": "reinserted",
+          "summary": "Kumottu muokkaus 15216508, jonka teki Ppntori (keskustelu)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15217932",
+          "flags": []
+        },
+        {
+          "rev_id": 15217943,
+          "parent_rev_id": 15217932,
+          "page_id": 6021,
+          "user_display": "Anr",
+          "is_anonymous": false,
+          "timestamp": "2015-09-16T23:12:34Z",
+          "role": "removed",
+          "summary": "Käyttäjän 2001:999:… (keskustelu) muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän [[U...",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15217943",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Restored by 2001:999:… fourteen hours after Ppntori removed FiCiW's three-edit sequence."
+        },
+        {
+          "kind": "multiple_editors",
+          "label": "Multiple editors",
+          "evidence": "Inserted by named account FiCiW and restored by IPv6 editor 2001:999:…."
+        },
+        {
+          "kind": "source_change",
+          "label": "Sources changed alongside the claim",
+          "evidence": "Added kysy.fi and presidentti.fi citations ahead of the existing Yle Elävä arkisto reference to support the changed dates."
+        },
+        {
+          "kind": "claim_content",
+          "label": "Substantive claim",
+          "evidence": "Shifts both the 1946 presidency end date and 1919 regency end date by citing general institutional web pages."
+        }
+      ],
+      "tier_reason": "Disputed and removed — because: put back once after removal, automated assessment: a factual or narrative claim.",
+      "assessment": {
+        "category": "content_dispute",
+        "confidence": 4,
+        "what_changed_en": "Changes Mannerheim's presidency end date to 11 March 1946 and regency end date to 26 July 1919 in the infobox, adding kysy.fi and presidentti.fi links alongside the Yle reference.",
+        "quotes": [
+          "| virassa       = [[4. elokuuta|4.8.]][[1944]]–[[11. maaliskuuta|11.3.]][[1946]]<ref>[http://www.kysy.fi/kysymys/yhteiskunta-politiikka-tasavallan-presidenttien-toimikausien-virallinen-alku-ja-loppu Tasavallan presidenttien toimikausien virallinen alku ja loppu?]"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "Both 4 March 1946 (resignation notice) and 11 March 1946 (successor's inauguration) appear in institutional summaries.",
+        "historical_note_en": "The same 2015 date-standardisation edits were simultaneously applied to Risto Ryti's biography on Finnish Wikipedia."
+      },
+      "confidence_note": "Kept at Level 2 on this single article: although two editor keys participated and added citations, neither removal stated an explicit policy or accuracy summary."
+    },
+    {
+      "id": "man-03",
+      "page_id": 6021,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        10867051
+      ],
+      "removing_rev_ids": [
+        15892014
+      ],
+      "tier": "reverted",
+      "score": 0.62,
+      "claim_en": "Erkki Hautamäki's two self-published volumes on Mannerheim's alleged secret 'S-32' files belong in the article's bibliography.",
+      "claim_fi": "''Suomi myrskyn silmässä (osa 1) – marsalkka C.G.E. Mannerheimin kansionS-32 salaiset asiakirjat vuosilta 1932-1949'' (Erkki Hautamäki, 2010, ISBN 9789529189847)",
+      "summary_en": "A named editor restored two self-published books by Erkki Hautamäki claiming to present secret Mannerheim 'S-32' files; the entries remained in the bibliography for nearly five years until removed as unreferenced self-published works.",
+      "narrative": "Reliability of fringe literature on Mannerheim's wartime archives",
+      "category": "good_faith_error",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 6021,
+          "title_fi": "Carl Gustaf Emil Mannerheim",
+          "title_en": "Carl Gustaf Emil Mannerheim"
+        }
+      ],
+      "first_inserted_at": "2011-10-31T17:46:00Z",
+      "last_removed_at": "2016-08-16T20:36:37Z",
+      "total_exposure_seconds": 151296637,
+      "reinsertion_count": 0,
+      "edits": [
+        {
+          "rev_id": 10867051,
+          "parent_rev_id": 10866531,
+          "page_id": 6021,
+          "user_display": "Mirgon",
+          "is_anonymous": false,
+          "timestamp": "2011-10-31T17:46:00Z",
+          "role": "inserted",
+          "summary": "Kumottu muokkaus 10866531, jonka teki 88.112.x.x (keskustelu) palautetaan varmuuden vuoksi",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=10867051",
+          "flags": []
+        },
+        {
+          "rev_id": 15892014,
+          "parent_rev_id": 15892005,
+          "page_id": 6021,
+          "user_display": "Kuohatti",
+          "is_anonymous": false,
+          "timestamp": "2016-08-16T20:36:37Z",
+          "role": "removed",
+          "summary": "Hautamäen kirjat pois lähde- ja kirjallisuusluetteloista. Omakustanteita, joihin ei lähdeviitteitä.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=15892014",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed in August 2016 with 'Hautamäen kirjat pois lähde- ja kirjallisuusluetteloista. Omakustanteita, joihin ei lähdeviitteitä'."
+        }
+      ],
+      "tier_reason": "Removed by Wikipedia editors — because: taken out by another editor.",
+      "assessment": {
+        "category": "good_faith_error",
+        "confidence": 4,
+        "what_changed_en": "Restores four bibliography lines listing parts 1 and 2 of Erkki Hautamäki's self-published Suomi myrskyn silmässä ('Mannerheim's folder S-32 secret documents 1932–1949').",
+        "quotes": [
+          "''Suomi myrskyn silmässä (osa 1) – marsalkka C.G.E. Mannerheimin kansionS-32 salaiset asiakirjat vuosilta 1932-1949'' (Erkki Hautamäki, 2010, ISBN 9789529189847)"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "The restoring editor's summary ('palautetaan varmuuden vuoksi', 'restoring just in case') indicates routine caution after an unexplained anonymous deletion rather than endorsement of the books.",
+        "historical_note_en": "Finnish historians have rejected the 'S-32 file' claims in Hautamäki's self-published volumes for lacking verifiable archival originals."
+      },
+      "confidence_note": "Classified as a good-faith cautious restore of bibliography entries rather than a substantive article claim, so TierRules keeps this at Level 1."
+    },
+    {
+      "id": "man-04",
+      "page_id": 6021,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        19293190,
+        19294680,
+        19301904
+      ],
+      "removing_rev_ids": [
+        19293193,
+        19298606,
+        19302182
+      ],
+      "tier": "reverted",
+      "score": 0.56,
+      "claim_en": "Mannerheim held a separate office as Commander of the Defence Forces from October 1939 to January 1945 alongside Commander-in-Chief.",
+      "claim_fi": "Lokakuussa 1939 Mannerheim nimitettiin [[puolustusvoimain komentaja]]ksi, jolle [[talvisota|talvisodan]] syttyessä 30. marraskuuta luovutettiin puolustusvoimien ylipäällikkyys",
+      "summary_en": "Across three anonymous edits in November 2020, an editor restructured Mannerheim's infobox offices to add 'Commander of the Defence Forces' (1939–1945), extend his Defence Council chairmanship to 1940, and change his presidency end date to 11.3.1946.",
+      "narrative": "Titles and dates of Mannerheim's wartime military offices",
+      "category": "good_faith_error",
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 6021,
+          "title_fi": "Carl Gustaf Emil Mannerheim",
+          "title_en": "Carl Gustaf Emil Mannerheim"
+        }
+      ],
+      "first_inserted_at": "2020-11-05T19:54:16Z",
+      "last_removed_at": "2020-11-06T14:38:57Z",
+      "total_exposure_seconds": 26258,
+      "reinsertion_count": 2,
+      "edits": [
+        {
+          "rev_id": 19293190,
+          "parent_rev_id": 19292515,
+          "page_id": 6021,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2020-11-05T19:54:16Z",
+          "role": "inserted",
+          "summary": null,
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19293190",
+          "flags": []
+        },
+        {
+          "rev_id": 19293193,
+          "parent_rev_id": 19293190,
+          "page_id": 6021,
+          "user_display": "Zache",
+          "is_anonymous": false,
+          "timestamp": "2020-11-05T19:56:27Z",
+          "role": "removed",
+          "summary": "rv, selittämättömät päivämäärämuutokset",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19293193",
+          "flags": []
+        },
+        {
+          "rev_id": 19294680,
+          "parent_rev_id": 19293193,
+          "page_id": 6021,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2020-11-05T22:24:19Z",
+          "role": "reinserted",
+          "summary": "Kumottu muokkaus 19293193, jonka teki Zache (keskustelu): Kausi puolustusneuvoston pj:na päättyi 1940: oli myös puolustusvoimain komentaja (1939-1945)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19294680",
+          "flags": []
+        },
+        {
+          "rev_id": 19298606,
+          "parent_rev_id": 19294680,
+          "page_id": 6021,
+          "user_display": "Rdt404",
+          "is_anonymous": false,
+          "timestamp": "2020-11-06T05:15:15Z",
+          "role": "removed",
+          "summary": "rv, eston kiertoa (WPK)",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19298606",
+          "flags": []
+        },
+        {
+          "rev_id": 19301904,
+          "parent_rev_id": 19298606,
+          "page_id": 6021,
+          "user_display": "85.76.x.x",
+          "is_anonymous": true,
+          "timestamp": "2020-11-06T14:14:26Z",
+          "role": "reinserted",
+          "summary": "Mannerheim oli myös puolustusvoimain komentaja.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19301904",
+          "flags": []
+        },
+        {
+          "rev_id": 19302182,
+          "parent_rev_id": 19301904,
+          "page_id": 6021,
+          "user_display": "Anr",
+          "is_anonymous": false,
+          "timestamp": "2020-11-06T14:38:57Z",
+          "role": "removed",
+          "summary": "Käyttäjän 85.76.x.x muokkaukset kumottiin ja sivu palautettiin viimeisimpään käyttäjän Rdt404 tekemään versioon.",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=19302182",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed three times by named editors Zache, Rdt404, and Anr."
+        },
+        {
+          "kind": "reinserted",
+          "label": "Re-inserted after removal",
+          "evidence": "Put back twice within 19 hours with summaries arguing Mannerheim also served as Defence Forces commander."
+        },
+        {
+          "kind": "anonymous",
+          "label": "Anonymous edit",
+          "evidence": "All three insertions came from unregistered IPv4 range 85.76.x.x."
+        }
+      ],
+      "tier_reason": "Removed by Wikipedia editors — because: taken out by another editor.",
+      "assessment": {
+        "category": "good_faith_error",
+        "confidence": 4,
+        "what_changed_en": "Reorders the infobox office list, adds a separate Puolustusvoimain komentaja (17.10.1939–12.1.1945) entry, extends Defence Council chair to 1940, sets presidency end to 11.3.1946, and rewrites the October 1939 appointment sentence.",
+        "quotes": [
+          "Lokakuussa 1939 Mannerheim nimitettiin [[puolustusvoimain komentaja]]ksi, jolle [[talvisota|talvisodan]] syttyessä 30. marraskuuta luovutettiin puolustusvoimien ylipäällikkyys",
+          "| arvo4            = [[Puolustusvoimain komentaja]]"
+        ],
+        "has_verified_quote": true,
+        "uncertainty_note": "President Kallio appointed Mannerheim commander of Finland's armed forces in October 1939 before ceding wartime supreme command on 30 November 1939; the edits bundled office-title restructuring with unexplained date shifts.",
+        "historical_note_en": "Finnish constitutional practice distinguished peacetime Defence Forces command from the President's supreme command (*ylipäällikkyys*), which Kallio transferred to Mannerheim when the Winter War began."
+      },
+      "confidence_note": "Assessed as a good-faith infobox terminology and date formatting edit removed on procedural grounds, keeping it at Level 1."
+    },
+    {
+      "id": "man-05",
+      "page_id": 6021,
+      "other_page_ids": [],
+      "inserting_rev_ids": [
+        17589055,
+        17589491
+      ],
+      "removing_rev_ids": [
+        17593183
+      ],
+      "tier": "reverted",
+      "score": 0.47,
+      "claim_en": "Russian President Vladimir Putin gifted roughly 170 Mannerheim family documents and photos to President Sauli Niinistö in 2018.",
+      "claim_fi": "Mannerheim-suvun asiapapereita siirtyi Suomeen, kun Venäjän presidentti [[Vladimir Putin]] lahjoitti niitä vuonna 2018 syntymäpäivälahjakasi presidentti [[Sauli Niinistö]]lle",
+      "summary_en": "Two edits added Yle-sourced sentences about 19th-century Mannerheim family papers gifted by Vladimir Putin to Sauli Niinistö in 2018; another editor moved the passage two days later to the Mannerheim family article.",
+      "narrative": "Scope of the biographical article versus Mannerheim family history",
+      "category": null,
+      "cluster_id": null,
+      "articles": [
+        {
+          "page_id": 6021,
+          "title_fi": "Carl Gustaf Emil Mannerheim",
+          "title_en": "Carl Gustaf Emil Mannerheim"
+        }
+      ],
+      "first_inserted_at": "2018-09-21T13:35:02Z",
+      "last_removed_at": "2018-09-23T14:41:02Z",
+      "total_exposure_seconds": 176760,
+      "reinsertion_count": 1,
+      "edits": [
+        {
+          "rev_id": 17589055,
+          "parent_rev_id": 17519404,
+          "page_id": 6021,
+          "user_display": "Abc10",
+          "is_anonymous": false,
+          "timestamp": "2018-09-21T13:35:02Z",
+          "role": "inserted",
+          "summary": "asiakirjoja Venäjältä",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=17589055",
+          "flags": []
+        },
+        {
+          "rev_id": 17589491,
+          "parent_rev_id": 17589055,
+          "page_id": 6021,
+          "user_display": "Abc10",
+          "is_anonymous": false,
+          "timestamp": "2018-09-21T19:08:00Z",
+          "role": "reinserted",
+          "summary": "lisää lahjoituksesta",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=17589491",
+          "flags": []
+        },
+        {
+          "rev_id": 17593183,
+          "parent_rev_id": 17589491,
+          "page_id": 6021,
+          "user_display": "Jevvej",
+          "is_anonymous": false,
+          "timestamp": "2018-09-23T14:41:02Z",
+          "role": "removed",
+          "summary": "Siirrän tiedon asiakirjoista artikkeliin Mannerheim (suku).",
+          "diff_ref": "https://fi.wikipedia.org/w/index.php?diff=prev&oldid=17593183",
+          "flags": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "removed_by_others",
+          "label": "Removed by another editor",
+          "evidence": "Removed two days later with 'Siirrän tiedon asiakirjoista artikkeliin Mannerheim (suku)' ('Moving the document info to the Mannerheim family article')."
+        }
+      ],
+      "tier_reason": "Removed by Wikipedia editors — because: taken out by another editor.",
+      "assessment": null,
+      "confidence_note": "Automated assessment was unavailable and the passage was relocated to the family article rather than disputed as inaccurate, keeping this at Level 1."
+    }
+  ]
+}

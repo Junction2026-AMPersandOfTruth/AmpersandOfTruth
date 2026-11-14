@@ -28,11 +28,16 @@
             </div>
         </div>
 
+        var key = KeyOf(Passage);
+        var hasTranslation = _translationCache.TryGetValue(key, out var translation);
+        var isTranslating = IsEnglish && !hasTranslation;
+        var activeItems = isTranslating ? _model.ChangedOnlyItems : _model.Items;
+
         @if (Mode == DiffMode.Split)
         {
             <div class="aot-diff__body" lang="fi" style="overflow-wrap:anywhere" data-testid="diff-body-fi">
                 <div class="aot-diff__col" data-testid="diff-col-before">
-                    @foreach (var item in _model.Items)
+                    @foreach (var item in activeItems)
                     {
                         @if (item is DiffFoldItem fold && !_expandedFolds.Contains(fold.Id))
                         {
@@ -52,7 +57,7 @@
                     }
                 </div>
                 <div class="aot-diff__col" data-testid="diff-col-after">
-                    @foreach (var item in _model.Items)
+                    @foreach (var item in activeItems)
                     {
                         @if (item is DiffFoldItem fold && !_expandedFolds.Contains(fold.Id))
                         {
@@ -76,7 +81,7 @@
         else
         {
             <div class="aot-diff__body" lang="fi" style="overflow-wrap:anywhere" data-testid="diff-body-fi">
-                @foreach (var item in _model.Items)
+                @foreach (var item in activeItems)
                 {
                     @if (item is DiffFoldItem fold && !_expandedFolds.Contains(fold.Id))
                     {
@@ -95,16 +100,19 @@
 
         @if (IsEnglish)
         {
-            var key = KeyOf(Passage);
             <div class="aot-diff__mt" lang="en" style="overflow-wrap:anywhere" data-testid="diff-mt">
                 <div class="aot-mt" data-testid="mt-label">
                     <span class="aot-label">EN</span>
                     <span aria-hidden="true">·</span>
                     <span class="aot-mt__tag" title="@Attribution.MachineTranslationNotice">Machine translation</span>
                 </div>
-                @if (!_translationCache.TryGetValue(key, out var translation))
+                @if (!hasTranslation || translation is null)
                 {
-                    <p class="aot-small aot-muted" data-testid="diff-mt-loading">Loading translation…</p>
+                    <div class="aot-diff__translating" role="status" aria-live="polite" aria-busy="true" data-testid="diff-mt-loading">
+                        <span class="aot-diff__spinner" aria-hidden="true"></span>
+                        <span class="aot-small aot-muted">Translating…</span>
+                    </div>
+                    <div class="aot-skel" style="height:16px;width:82%;margin-top:8px" aria-hidden="true"></div>
                 }
                 else if (!translation.Ok)
                 {
@@ -123,7 +131,7 @@
                     {
                         <p>@paragraph</p>
                     }
-                    <p class="aot-small aot-muted" data-testid="diff-mt-note">Markers lost in translation; showing the plain translation.</p>
+                    <p class="aot-small aot-muted" data-testid="diff-mt-note">Highlighting couldn't be aligned in the translation; showing it unaligned.</p>
                 }
             </div>
         }

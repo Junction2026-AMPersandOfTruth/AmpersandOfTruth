@@ -8,7 +8,10 @@
         <h3 class="aot-h3">Related</h3>
         @foreach (var item in related)
         {
-            <IncidentCard Incident="item" Topic="@Topic" Query="@Query" Compact="true" @key="item.Id" />
+            var cleaned = string.IsNullOrWhiteSpace(item.ClaimOriginal)
+                ? item
+                : item with { ClaimOriginal = DiffModel.CleanProse(item.ClaimOriginal) };
+            <IncidentCard Incident="cleaned" Topic="@Topic" Query="@Query" Compact="true" @key="item.Id" />
         }
     </section>
 }
@@ -33,9 +36,23 @@
             .ToHashSet(StringComparer.Ordinal);
 
         var matches = new List<IncidentView>(3);
+
+        // Same claim cluster (P1.S7/S10 cluster_id) first, then shared article or editor.
+        if (!string.IsNullOrWhiteSpace(Current.ClusterId))
+        {
+            matches.AddRange(Incidents
+                .Where(c => !string.Equals(c.Id, Current.Id, StringComparison.Ordinal)
+                    && string.Equals(c.ClusterId, Current.ClusterId, StringComparison.Ordinal))
+                .Take(3));
+            if (matches.Count == 3)
+            {
+                return matches;
+            }
+        }
+
         foreach (var candidate in Incidents)
         {
-            if (string.Equals(candidate.Id, Current.Id, StringComparison.Ordinal))
+            if (string.Equals(candidate.Id, Current.Id, StringComparison.Ordinal) || matches.Contains(candidate))
             {
                 continue;
             }

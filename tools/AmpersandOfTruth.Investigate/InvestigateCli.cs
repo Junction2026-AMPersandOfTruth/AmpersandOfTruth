@@ -9,6 +9,7 @@ using AmpersandOfTruth.Web.Features.Embedding;
 using AmpersandOfTruth.Web.Features.Investigations;
 using AmpersandOfTruth.Web.Features.Investigations.Cache;
 using AmpersandOfTruth.Web.Features.Investigations.Pipeline;
+using AmpersandOfTruth.Web.Features.Investigations.View;
 using AmpersandOfTruth.Web.Features.WebSpread;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -163,9 +164,12 @@ public static partial class InvestigateCli
         var failures = 0;
         foreach (var topic in topics)
         {
-            Console.Error.WriteLine($"── {topic}");
-            var first = await PassAsync(runner, topic, ct);
-            var second = await PassAsync(runner, topic, ct);
+            // Run the topic exactly as the investigation page will: /investigate/{slug} → TopicSlug.ToQuery(slug). The run
+            // cache keeps case (it follows the query embedding), so warming "Talvisota" would not warm "talvisota".
+            var query = TopicSlug.ToQuery(TopicSlug.From(topic));
+            Console.Error.WriteLine($"── {topic} (as \"{query}\")");
+            var first = await PassAsync(runner, query, ct);
+            var second = await PassAsync(runner, query, ct);
             if (first.Error is not null) failures++;
             rows.Add((topic, first, second));
         }
