@@ -1,0 +1,852 @@
+{
+  "golden_version": "2026-11-14.1",
+  "dataset": "m-2026-10",
+  "split": "dev",
+  "dev_items": 238,
+  "runs": [
+    {
+      "prompt": "classify-edit-facts",
+      "model": "gemini-4-carbon",
+      "items_total": 238,
+      "outcomes": {
+        "ok": 238
+      },
+      "category_accuracy": {
+        "labelled_items": 235,
+        "ok_labelled_items": 235,
+        "exact_hits": 159,
+        "accuracy_all": 0.676595744680851,
+        "accuracy_ok": 0.676595744680851,
+        "coarse_3way_accuracy_all": 0.902127659574468,
+        "incidents_labelled": 144,
+        "incidents_accuracy": 0.6805555555555556,
+        "contested_campaign_labelled": 64,
+        "contested_campaign_accuracy": 0.796875,
+        "non_incidents_labelled": 91,
+        "non_incidents_accuracy": 0.6703296703296703
+      },
+      "per_category": {
+        "vandalism": {
+          "support": 39,
+          "predicted": 40,
+          "tp": 36,
+          "precision": 0.9,
+          "recall": 0.9230769230769231
+        },
+        "test_or_nonsense": {
+          "support": 10,
+          "predicted": 7,
+          "tp": 6,
+          "precision": 0.8571428571428571,
+          "recall": 0.6
+        },
+        "good_faith_error": {
+          "support": 47,
+          "predicted": 68,
+          "tp": 35,
+          "precision": 0.5147058823529411,
+          "recall": 0.7446808510638298
+        },
+        "content_dispute": {
+          "support": 28,
+          "predicted": 38,
+          "tp": 18,
+          "precision": 0.47368421052631576,
+          "recall": 0.6428571428571429
+        },
+        "pov_push": {
+          "support": 40,
+          "predicted": 49,
+          "tp": 37,
+          "precision": 0.7551020408163265,
+          "recall": 0.925
+        },
+        "false_factual_claim": {
+          "support": 8,
+          "predicted": 7,
+          "tp": 5,
+          "precision": 0.7142857142857143,
+          "recall": 0.625
+        },
+        "source_manipulation": {
+          "support": 1,
+          "predicted": 2,
+          "tp": 1,
+          "precision": 0.5,
+          "recall": 1.0
+        },
+        "other": {
+          "support": 62,
+          "predicted": 24,
+          "tp": 21,
+          "precision": 0.875,
+          "recall": 0.3387096774193548
+        }
+      },
+      "confusion": {
+        "vandalism": {
+          "vandalism": 36,
+          "test_or_nonsense": 0,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 1,
+          "false_factual_claim": 1,
+          "source_manipulation": 0,
+          "other": 1,
+          "non_ok": 0
+        },
+        "test_or_nonsense": {
+          "vandalism": 3,
+          "test_or_nonsense": 6,
+          "good_faith_error": 1,
+          "content_dispute": 0,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "good_faith_error": {
+          "vandalism": 0,
+          "test_or_nonsense": 1,
+          "good_faith_error": 35,
+          "content_dispute": 7,
+          "pov_push": 1,
+          "false_factual_claim": 1,
+          "source_manipulation": 0,
+          "other": 2,
+          "non_ok": 0
+        },
+        "content_dispute": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 5,
+          "content_dispute": 18,
+          "pov_push": 5,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "pov_push": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 1,
+          "content_dispute": 2,
+          "pov_push": 37,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "false_factual_claim": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 2,
+          "content_dispute": 0,
+          "pov_push": 1,
+          "false_factual_claim": 5,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "source_manipulation": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 1,
+          "other": 0,
+          "non_ok": 0
+        },
+        "other": {
+          "vandalism": 1,
+          "test_or_nonsense": 0,
+          "good_faith_error": 24,
+          "content_dispute": 11,
+          "pov_push": 4,
+          "false_factual_claim": 0,
+          "source_manipulation": 1,
+          "other": 21,
+          "non_ok": 0
+        }
+      },
+      "graffiti_filter": {
+        "rule": "category in {vandalism, test_or_nonsense} and confidence >= 4",
+        "total_filtered": 46,
+        "total_filtered_share": 0.19327731092436976,
+        "graffiti_not_incidents_total": 29,
+        "graffiti_not_incidents_filtered": 27,
+        "graffiti_not_incidents_filtered_share": 0.9310344827586207,
+        "contested_campaign_total": 64,
+        "contested_campaign_wrongly_filtered": 0,
+        "contested_campaign_wrongly_filtered_ids": [],
+        "reverted_filtered": 3
+      },
+      "evidence_verbatim": {
+        "inputs_checked": true,
+        "ok_items_checked": 238,
+        "spans_total": 746,
+        "spans_exact": 745,
+        "spans_exact_rate": 0.9986595174262735,
+        "spans_normalised": 745,
+        "spans_normalised_rate": 0.9986595174262735,
+        "items_all_spans_exact_rate": 0.9957983193277311
+      },
+      "efficiency": {
+        "total_calls": 238.0,
+        "cache_hits": 0,
+        "mean_calls_per_item": 1.0,
+        "mean_latency_ms_per_item": 11807.96218487395,
+        "median_latency_ms_per_item": 9767.0,
+        "mean_input_tokens_per_item": 2762.731092436975,
+        "mean_output_tokens_per_item": 360.70588235294116,
+        "mean_thought_tokens_per_item": 0.0,
+        "mean_total_tokens_per_item": 3123.436974789916,
+        "mean_cost_usd_per_item": 0.009132521008403359,
+        "total_cost_usd": 2.1735399999999996,
+        "topics_with_items": 10,
+        "mean_calls_per_topic": 23.8,
+        "mean_tokens_per_topic": 74337.8,
+        "mean_latency_ms_per_topic": 281029.5,
+        "mean_cost_usd_per_topic": 0.21735399999999996
+      },
+      "variant_meta": {}
+    },
+    {
+      "prompt": "classify-edit-facts",
+      "model": "gemini-4-hydrogen",
+      "items_total": 238,
+      "outcomes": {
+        "ok": 238
+      },
+      "category_accuracy": {
+        "labelled_items": 235,
+        "ok_labelled_items": 235,
+        "exact_hits": 155,
+        "accuracy_all": 0.6595744680851063,
+        "accuracy_ok": 0.6595744680851063,
+        "coarse_3way_accuracy_all": 0.9191489361702128,
+        "incidents_labelled": 144,
+        "incidents_accuracy": 0.6736111111111112,
+        "contested_campaign_labelled": 64,
+        "contested_campaign_accuracy": 0.765625,
+        "non_incidents_labelled": 91,
+        "non_incidents_accuracy": 0.6373626373626373
+      },
+      "per_category": {
+        "vandalism": {
+          "support": 39,
+          "predicted": 40,
+          "tp": 35,
+          "precision": 0.875,
+          "recall": 0.8974358974358975
+        },
+        "test_or_nonsense": {
+          "support": 10,
+          "predicted": 7,
+          "tp": 6,
+          "precision": 0.8571428571428571,
+          "recall": 0.6
+        },
+        "good_faith_error": {
+          "support": 47,
+          "predicted": 73,
+          "tp": 38,
+          "precision": 0.5205479452054794,
+          "recall": 0.8085106382978723
+        },
+        "content_dispute": {
+          "support": 28,
+          "predicted": 45,
+          "tp": 20,
+          "precision": 0.4444444444444444,
+          "recall": 0.7142857142857143
+        },
+        "pov_push": {
+          "support": 40,
+          "predicted": 39,
+          "tp": 33,
+          "precision": 0.8461538461538461,
+          "recall": 0.825
+        },
+        "false_factual_claim": {
+          "support": 8,
+          "predicted": 8,
+          "tp": 5,
+          "precision": 0.625,
+          "recall": 0.625
+        },
+        "source_manipulation": {
+          "support": 1,
+          "predicted": 1,
+          "tp": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "other": {
+          "support": 62,
+          "predicted": 22,
+          "tp": 18,
+          "precision": 0.8181818181818182,
+          "recall": 0.2903225806451613
+        }
+      },
+      "confusion": {
+        "vandalism": {
+          "vandalism": 35,
+          "test_or_nonsense": 0,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 1,
+          "false_factual_claim": 1,
+          "source_manipulation": 0,
+          "other": 2,
+          "non_ok": 0
+        },
+        "test_or_nonsense": {
+          "vandalism": 3,
+          "test_or_nonsense": 6,
+          "good_faith_error": 1,
+          "content_dispute": 0,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "good_faith_error": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 38,
+          "content_dispute": 7,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 2,
+          "non_ok": 0
+        },
+        "content_dispute": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 7,
+          "content_dispute": 20,
+          "pov_push": 0,
+          "false_factual_claim": 1,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "pov_push": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 2,
+          "content_dispute": 4,
+          "pov_push": 33,
+          "false_factual_claim": 1,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "false_factual_claim": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 1,
+          "content_dispute": 0,
+          "pov_push": 1,
+          "false_factual_claim": 5,
+          "source_manipulation": 1,
+          "other": 0,
+          "non_ok": 0
+        },
+        "source_manipulation": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 1,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "other": {
+          "vandalism": 2,
+          "test_or_nonsense": 1,
+          "good_faith_error": 24,
+          "content_dispute": 14,
+          "pov_push": 3,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 18,
+          "non_ok": 0
+        }
+      },
+      "graffiti_filter": {
+        "rule": "category in {vandalism, test_or_nonsense} and confidence >= 4",
+        "total_filtered": 44,
+        "total_filtered_share": 0.18487394957983194,
+        "graffiti_not_incidents_total": 29,
+        "graffiti_not_incidents_filtered": 26,
+        "graffiti_not_incidents_filtered_share": 0.896551724137931,
+        "contested_campaign_total": 64,
+        "contested_campaign_wrongly_filtered": 0,
+        "contested_campaign_wrongly_filtered_ids": [],
+        "reverted_filtered": 2
+      },
+      "evidence_verbatim": {
+        "inputs_checked": true,
+        "ok_items_checked": 238,
+        "spans_total": 667,
+        "spans_exact": 666,
+        "spans_exact_rate": 0.9985007496251874,
+        "spans_normalised": 666,
+        "spans_normalised_rate": 0.9985007496251874,
+        "items_all_spans_exact_rate": 0.9957983193277311
+      },
+      "efficiency": {
+        "total_calls": 238.0,
+        "cache_hits": 0,
+        "mean_calls_per_item": 1.0,
+        "mean_latency_ms_per_item": 6038.752100840336,
+        "median_latency_ms_per_item": 6004.0,
+        "mean_input_tokens_per_item": 2762.731092436975,
+        "mean_output_tokens_per_item": 274.25210084033614,
+        "mean_thought_tokens_per_item": 698.8067226890756,
+        "mean_total_tokens_per_item": 3735.7899159663866,
+        "mean_cost_usd_per_item": 0.011442037815126052,
+        "total_cost_usd": 2.7232050000000005,
+        "topics_with_items": 10,
+        "mean_calls_per_topic": 23.8,
+        "mean_tokens_per_topic": 88911.8,
+        "mean_latency_ms_per_topic": 143722.3,
+        "mean_cost_usd_per_topic": 0.2723205000000001
+      },
+      "variant_meta": {}
+    },
+    {
+      "prompt": "classify-edit-batch",
+      "model": "gemini-4-carbon",
+      "items_total": 238,
+      "outcomes": {
+        "ok": 238
+      },
+      "category_accuracy": {
+        "labelled_items": 235,
+        "ok_labelled_items": 235,
+        "exact_hits": 150,
+        "accuracy_all": 0.6382978723404256,
+        "accuracy_ok": 0.6382978723404256,
+        "coarse_3way_accuracy_all": 0.8595744680851064,
+        "incidents_labelled": 144,
+        "incidents_accuracy": 0.6319444444444444,
+        "contested_campaign_labelled": 64,
+        "contested_campaign_accuracy": 0.703125,
+        "non_incidents_labelled": 91,
+        "non_incidents_accuracy": 0.6483516483516484
+      },
+      "per_category": {
+        "vandalism": {
+          "support": 39,
+          "predicted": 43,
+          "tp": 36,
+          "precision": 0.8372093023255814,
+          "recall": 0.9230769230769231
+        },
+        "test_or_nonsense": {
+          "support": 10,
+          "predicted": 7,
+          "tp": 5,
+          "precision": 0.7142857142857143,
+          "recall": 0.5
+        },
+        "good_faith_error": {
+          "support": 47,
+          "predicted": 62,
+          "tp": 33,
+          "precision": 0.532258064516129,
+          "recall": 0.7021276595744681
+        },
+        "content_dispute": {
+          "support": 28,
+          "predicted": 33,
+          "tp": 12,
+          "precision": 0.36363636363636365,
+          "recall": 0.42857142857142855
+        },
+        "pov_push": {
+          "support": 40,
+          "predicted": 49,
+          "tp": 36,
+          "precision": 0.7346938775510204,
+          "recall": 0.9
+        },
+        "false_factual_claim": {
+          "support": 8,
+          "predicted": 11,
+          "tp": 5,
+          "precision": 0.45454545454545453,
+          "recall": 0.625
+        },
+        "source_manipulation": {
+          "support": 1,
+          "predicted": 7,
+          "tp": 1,
+          "precision": 0.14285714285714285,
+          "recall": 1.0
+        },
+        "other": {
+          "support": 62,
+          "predicted": 23,
+          "tp": 22,
+          "precision": 0.9565217391304348,
+          "recall": 0.3548387096774194
+        }
+      },
+      "confusion": {
+        "vandalism": {
+          "vandalism": 36,
+          "test_or_nonsense": 0,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 1,
+          "false_factual_claim": 1,
+          "source_manipulation": 0,
+          "other": 1,
+          "non_ok": 0
+        },
+        "test_or_nonsense": {
+          "vandalism": 4,
+          "test_or_nonsense": 5,
+          "good_faith_error": 1,
+          "content_dispute": 0,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "good_faith_error": {
+          "vandalism": 0,
+          "test_or_nonsense": 1,
+          "good_faith_error": 33,
+          "content_dispute": 8,
+          "pov_push": 1,
+          "false_factual_claim": 2,
+          "source_manipulation": 2,
+          "other": 0,
+          "non_ok": 0
+        },
+        "content_dispute": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 5,
+          "content_dispute": 12,
+          "pov_push": 7,
+          "false_factual_claim": 3,
+          "source_manipulation": 1,
+          "other": 0,
+          "non_ok": 0
+        },
+        "pov_push": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 1,
+          "content_dispute": 2,
+          "pov_push": 36,
+          "false_factual_claim": 0,
+          "source_manipulation": 1,
+          "other": 0,
+          "non_ok": 0
+        },
+        "false_factual_claim": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 1,
+          "content_dispute": 0,
+          "pov_push": 1,
+          "false_factual_claim": 5,
+          "source_manipulation": 1,
+          "other": 0,
+          "non_ok": 0
+        },
+        "source_manipulation": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 1,
+          "other": 0,
+          "non_ok": 0
+        },
+        "other": {
+          "vandalism": 3,
+          "test_or_nonsense": 1,
+          "good_faith_error": 21,
+          "content_dispute": 11,
+          "pov_push": 3,
+          "false_factual_claim": 0,
+          "source_manipulation": 1,
+          "other": 22,
+          "non_ok": 0
+        }
+      },
+      "graffiti_filter": {
+        "rule": "category in {vandalism, test_or_nonsense} and confidence >= 4",
+        "total_filtered": 48,
+        "total_filtered_share": 0.20168067226890757,
+        "graffiti_not_incidents_total": 29,
+        "graffiti_not_incidents_filtered": 27,
+        "graffiti_not_incidents_filtered_share": 0.9310344827586207,
+        "contested_campaign_total": 64,
+        "contested_campaign_wrongly_filtered": 0,
+        "contested_campaign_wrongly_filtered_ids": [],
+        "reverted_filtered": 3
+      },
+      "evidence_verbatim": {
+        "inputs_checked": true,
+        "ok_items_checked": 238,
+        "spans_total": 687,
+        "spans_exact": 686,
+        "spans_exact_rate": 0.9985443959243085,
+        "spans_normalised": 687,
+        "spans_normalised_rate": 1.0,
+        "items_all_spans_exact_rate": 0.9957983193277311
+      },
+      "efficiency": {
+        "total_calls": 66.0,
+        "cache_hits": 0,
+        "mean_calls_per_item": 0.2773109243697474,
+        "mean_latency_ms_per_item": 5499.40756302521,
+        "median_latency_ms_per_item": 4930.333333333333,
+        "mean_input_tokens_per_item": 1425.2815126050425,
+        "mean_output_tokens_per_item": 338.24369747899186,
+        "mean_thought_tokens_per_item": 0.0,
+        "mean_total_tokens_per_item": 1763.5252100840344,
+        "mean_cost_usd_per_item": 0.006232999999999997,
+        "total_cost_usd": 1.4834539999999994,
+        "topics_with_items": 10,
+        "mean_calls_per_topic": 6.599999999999989,
+        "mean_tokens_per_topic": 41971.900000000016,
+        "mean_latency_ms_per_topic": 130885.89999999995,
+        "mean_cost_usd_per_topic": 0.14834539999999993
+      },
+      "variant_meta": {}
+    },
+    {
+      "prompt": "classify-edit-batch",
+      "model": "gemini-4-hydrogen",
+      "items_total": 238,
+      "outcomes": {
+        "ok": 238
+      },
+      "category_accuracy": {
+        "labelled_items": 235,
+        "ok_labelled_items": 235,
+        "exact_hits": 158,
+        "accuracy_all": 0.6723404255319149,
+        "accuracy_ok": 0.6723404255319149,
+        "coarse_3way_accuracy_all": 0.902127659574468,
+        "incidents_labelled": 144,
+        "incidents_accuracy": 0.6875,
+        "contested_campaign_labelled": 64,
+        "contested_campaign_accuracy": 0.75,
+        "non_incidents_labelled": 91,
+        "non_incidents_accuracy": 0.6483516483516484
+      },
+      "per_category": {
+        "vandalism": {
+          "support": 39,
+          "predicted": 43,
+          "tp": 36,
+          "precision": 0.8372093023255814,
+          "recall": 0.9230769230769231
+        },
+        "test_or_nonsense": {
+          "support": 10,
+          "predicted": 5,
+          "tp": 4,
+          "precision": 0.8,
+          "recall": 0.4
+        },
+        "good_faith_error": {
+          "support": 47,
+          "predicted": 80,
+          "tp": 40,
+          "precision": 0.5,
+          "recall": 0.851063829787234
+        },
+        "content_dispute": {
+          "support": 28,
+          "predicted": 31,
+          "tp": 16,
+          "precision": 0.5161290322580645,
+          "recall": 0.5714285714285714
+        },
+        "pov_push": {
+          "support": 40,
+          "predicted": 44,
+          "tp": 34,
+          "precision": 0.7727272727272727,
+          "recall": 0.85
+        },
+        "false_factual_claim": {
+          "support": 8,
+          "predicted": 5,
+          "tp": 5,
+          "precision": 1.0,
+          "recall": 0.625
+        },
+        "source_manipulation": {
+          "support": 1,
+          "predicted": 3,
+          "tp": 1,
+          "precision": 0.3333333333333333,
+          "recall": 1.0
+        },
+        "other": {
+          "support": 62,
+          "predicted": 24,
+          "tp": 22,
+          "precision": 0.9166666666666666,
+          "recall": 0.3548387096774194
+        }
+      },
+      "confusion": {
+        "vandalism": {
+          "vandalism": 36,
+          "test_or_nonsense": 0,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 1,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 2,
+          "non_ok": 0
+        },
+        "test_or_nonsense": {
+          "vandalism": 4,
+          "test_or_nonsense": 4,
+          "good_faith_error": 2,
+          "content_dispute": 0,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "good_faith_error": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 40,
+          "content_dispute": 5,
+          "pov_push": 2,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "content_dispute": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 8,
+          "content_dispute": 16,
+          "pov_push": 4,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "pov_push": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 3,
+          "content_dispute": 2,
+          "pov_push": 34,
+          "false_factual_claim": 0,
+          "source_manipulation": 1,
+          "other": 0,
+          "non_ok": 0
+        },
+        "false_factual_claim": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 1,
+          "content_dispute": 0,
+          "pov_push": 1,
+          "false_factual_claim": 5,
+          "source_manipulation": 1,
+          "other": 0,
+          "non_ok": 0
+        },
+        "source_manipulation": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 1,
+          "other": 0,
+          "non_ok": 0
+        },
+        "other": {
+          "vandalism": 3,
+          "test_or_nonsense": 1,
+          "good_faith_error": 26,
+          "content_dispute": 8,
+          "pov_push": 2,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 22,
+          "non_ok": 0
+        }
+      },
+      "graffiti_filter": {
+        "rule": "category in {vandalism, test_or_nonsense} and confidence >= 4",
+        "total_filtered": 45,
+        "total_filtered_share": 0.18907563025210083,
+        "graffiti_not_incidents_total": 29,
+        "graffiti_not_incidents_filtered": 26,
+        "graffiti_not_incidents_filtered_share": 0.896551724137931,
+        "contested_campaign_total": 64,
+        "contested_campaign_wrongly_filtered": 0,
+        "contested_campaign_wrongly_filtered_ids": [],
+        "reverted_filtered": 2
+      },
+      "evidence_verbatim": {
+        "inputs_checked": true,
+        "ok_items_checked": 238,
+        "spans_total": 567,
+        "spans_exact": 566,
+        "spans_exact_rate": 0.9982363315696648,
+        "spans_normalised": 566,
+        "spans_normalised_rate": 0.9982363315696648,
+        "items_all_spans_exact_rate": 0.9957983193277311
+      },
+      "efficiency": {
+        "total_calls": 66.0,
+        "cache_hits": 0,
+        "mean_calls_per_item": 0.2773109243697474,
+        "mean_latency_ms_per_item": 3016.373949579832,
+        "median_latency_ms_per_item": 2751.5,
+        "mean_input_tokens_per_item": 1424.0924369747897,
+        "mean_output_tokens_per_item": 269.029411764706,
+        "mean_thought_tokens_per_item": 317.1260504201679,
+        "mean_total_tokens_per_item": 2010.2478991596638,
+        "mean_cost_usd_per_item": 0.006532304621848731,
+        "total_cost_usd": 1.5546884999999981,
+        "topics_with_items": 10,
+        "mean_calls_per_topic": 6.599999999999989,
+        "mean_tokens_per_topic": 47843.9,
+        "mean_latency_ms_per_topic": 71789.70000000006,
+        "mean_cost_usd_per_topic": 0.15546884999999983
+      },
+      "variant_meta": {}
+    }
+  ]
+}

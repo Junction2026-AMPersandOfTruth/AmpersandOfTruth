@@ -1,0 +1,224 @@
+{
+  "golden_version": "2026-11-14.1",
+  "dataset": "m-2026-10",
+  "split": "dev",
+  "dev_items": 238,
+  "runs": [
+    {
+      "prompt": "classify-edit+refute",
+      "model": "gemini-4-carbon + gemini-4-carbon",
+      "items_total": 238,
+      "outcomes": {
+        "ok": 238
+      },
+      "category_accuracy": {
+        "labelled_items": 235,
+        "ok_labelled_items": 235,
+        "exact_hits": 157,
+        "accuracy_all": 0.6680851063829787,
+        "accuracy_ok": 0.6680851063829787,
+        "coarse_3way_accuracy_all": 0.9148936170212766,
+        "incidents_labelled": 144,
+        "incidents_accuracy": 0.6666666666666666,
+        "contested_campaign_labelled": 64,
+        "contested_campaign_accuracy": 0.765625,
+        "non_incidents_labelled": 91,
+        "non_incidents_accuracy": 0.6703296703296703
+      },
+      "per_category": {
+        "vandalism": {
+          "support": 39,
+          "predicted": 43,
+          "tp": 36,
+          "precision": 0.8372093023255814,
+          "recall": 0.9230769230769231
+        },
+        "test_or_nonsense": {
+          "support": 10,
+          "predicted": 7,
+          "tp": 6,
+          "precision": 0.8571428571428571,
+          "recall": 0.6
+        },
+        "good_faith_error": {
+          "support": 47,
+          "predicted": 75,
+          "tp": 37,
+          "precision": 0.49333333333333335,
+          "recall": 0.7872340425531915
+        },
+        "content_dispute": {
+          "support": 28,
+          "predicted": 41,
+          "tp": 18,
+          "precision": 0.43902439024390244,
+          "recall": 0.6428571428571429
+        },
+        "pov_push": {
+          "support": 40,
+          "predicted": 40,
+          "tp": 34,
+          "precision": 0.85,
+          "recall": 0.85
+        },
+        "false_factual_claim": {
+          "support": 8,
+          "predicted": 5,
+          "tp": 4,
+          "precision": 0.8,
+          "recall": 0.5
+        },
+        "source_manipulation": {
+          "support": 1,
+          "predicted": 1,
+          "tp": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "other": {
+          "support": 62,
+          "predicted": 23,
+          "tp": 21,
+          "precision": 0.9130434782608695,
+          "recall": 0.3387096774193548
+        }
+      },
+      "confusion": {
+        "vandalism": {
+          "vandalism": 36,
+          "test_or_nonsense": 0,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 1,
+          "false_factual_claim": 1,
+          "source_manipulation": 0,
+          "other": 1,
+          "non_ok": 0
+        },
+        "test_or_nonsense": {
+          "vandalism": 4,
+          "test_or_nonsense": 6,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "good_faith_error": {
+          "vandalism": 0,
+          "test_or_nonsense": 1,
+          "good_faith_error": 37,
+          "content_dispute": 8,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 1,
+          "non_ok": 0
+        },
+        "content_dispute": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 8,
+          "content_dispute": 18,
+          "pov_push": 2,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "pov_push": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 4,
+          "content_dispute": 2,
+          "pov_push": 34,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "false_factual_claim": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 3,
+          "content_dispute": 0,
+          "pov_push": 1,
+          "false_factual_claim": 4,
+          "source_manipulation": 0,
+          "other": 0,
+          "non_ok": 0
+        },
+        "source_manipulation": {
+          "vandalism": 0,
+          "test_or_nonsense": 0,
+          "good_faith_error": 0,
+          "content_dispute": 0,
+          "pov_push": 0,
+          "false_factual_claim": 0,
+          "source_manipulation": 1,
+          "other": 0,
+          "non_ok": 0
+        },
+        "other": {
+          "vandalism": 3,
+          "test_or_nonsense": 0,
+          "good_faith_error": 23,
+          "content_dispute": 13,
+          "pov_push": 2,
+          "false_factual_claim": 0,
+          "source_manipulation": 0,
+          "other": 21,
+          "non_ok": 0
+        }
+      },
+      "graffiti_filter": {
+        "rule": "category in {vandalism, test_or_nonsense} and confidence >= 4",
+        "total_filtered": 48,
+        "total_filtered_share": 0.20168067226890757,
+        "graffiti_not_incidents_total": 29,
+        "graffiti_not_incidents_filtered": 28,
+        "graffiti_not_incidents_filtered_share": 0.9655172413793104,
+        "contested_campaign_total": 64,
+        "contested_campaign_wrongly_filtered": 0,
+        "contested_campaign_wrongly_filtered_ids": [],
+        "reverted_filtered": 3
+      },
+      "evidence_verbatim": {
+        "inputs_checked": true,
+        "ok_items_checked": 238,
+        "spans_total": 740,
+        "spans_exact": 740,
+        "spans_exact_rate": 1.0,
+        "spans_normalised": 740,
+        "spans_normalised_rate": 1.0,
+        "items_all_spans_exact_rate": 1.0
+      },
+      "efficiency": {
+        "total_calls": 301.0,
+        "cache_hits": 0,
+        "mean_calls_per_item": 1.2647058823529411,
+        "mean_latency_ms_per_item": 14477.752100840336,
+        "median_latency_ms_per_item": 10661.5,
+        "mean_input_tokens_per_item": 3128.785714285714,
+        "mean_output_tokens_per_item": 442.19747899159665,
+        "mean_thought_tokens_per_item": 3.668067226890756,
+        "mean_total_tokens_per_item": 3574.6512605042017,
+        "mean_cost_usd_per_item": 0.010716226890756297,
+        "total_cost_usd": 2.5504619999999987,
+        "topics_with_items": 10,
+        "mean_calls_per_topic": 30.1,
+        "mean_tokens_per_topic": 85076.7,
+        "mean_latency_ms_per_topic": 344570.5,
+        "mean_cost_usd_per_topic": 0.2550461999999999
+      },
+      "variant_meta": {
+        "refute_checked": 63,
+        "refute_upheld": 46,
+        "refute_downgraded": 17,
+        "refute_non_ok": 0
+      }
+    }
+  ]
+}
