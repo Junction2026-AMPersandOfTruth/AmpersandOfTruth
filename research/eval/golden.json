@@ -1002,6 +1002,7 @@
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
+      "gemini:blind",
       "human:key44:spot-check"
      ]
     },
@@ -1030,6 +1031,7 @@
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
+      "gemini:blind",
       "human:key44:spot-check"
      ]
     },
@@ -1051,6 +1053,7 @@
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
+      "gemini:blind",
       "human:key44:spot-check"
      ]
     },
@@ -1072,6 +1075,7 @@
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
+      "gemini:blind",
       "human:key44:spot-check"
      ]
     },
@@ -1094,6 +1098,7 @@
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
+      "gemini:blind",
       "human:key44:spot-check"
      ]
     },
@@ -1113,12 +1118,12 @@
      ],
      "description": "Changes the end of Ryti's presidency from 1 to 4 August 1944 with two added references, rewrites his resignation (handed duties to Linkomies for 'three' instead of 'four' days) and reorders the lead.",
      "why": "Level 2. Claim: changes a date and a number about how Ryti's presidency ended (infobox '1.8.' -> '4.8.' 1944; 'kunnes virallisesti ero astui voimaan 4. elokuuta' = 'until the resignation officially took effect on 4 August'; 'neljäksi' -> 'kolmeksi' päiväksi = 'four' -> 'three' days), a disagreement over content rather than a typo. Community dispute: added by E340 (named, 15 Sep 2015), rolled back after 18.8 h by a named account without a reason (15216511), put back by a different, anonymous account E341 (15217931, undo of the rollback), rolled back again after 4 min by another named account (15217941): put back once after a removal (c12, c20 are one sha1 chain). Two inserting accounts (named + anonymous) are one level-3 signal; there is no second (one article, one put-back, the existing reference was kept): level 2. Low end of level 2: no visible slant toward either side of the topic.",
-     "human_verified": true,
-     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
+     "human_verified": false,
+     "notes": "Labellers disagree: labeller contested; claude:blind contested (Level 2: edit changed resignation wording and numbers, e.g. 'kolmeksi päiväksi' ('for three days', was 'neljäksi') and 'käytännössä jätti' ('in practice left') the presidential duties. Removed, put back by another account, removed again: a back-and-forth over the passage. Only one signal for campaign (the two inserters are different account kinds but no second signal).); gemini:blind campaign (Level 3: Changed Risto Ryti's term end date from \"1. elokuuta\" (\"1 August\") to \"4. elokuuta\" (\"4 August\") 1944 and changed \"kansalaissodan\" (\"Citizen War\") to \"sisällissodan\" (\"Civil War\"). Disputed via removal and re-insertion by a second distinct editor (a named account and an anonymous range), and sources were added/altered alongside the date change.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "human:key44:spot-check"
+      "gemini:blind"
      ]
     },
     {
@@ -1140,6 +1145,7 @@
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
+      "gemini:blind",
       "human:key44:spot-check"
      ]
     },
@@ -1165,9 +1171,11 @@
      "description": "Large expansion: infobox result changed to a Soviet 'Pyrrhic victory', territorial changes and more Soviet commanders, a new section on pre-war Finnish-German military arrangements, a POW section, and a {{Korjattava/Suomi}} template.",
      "why": "Level 1, capped. It is a claim: infobox 'lopputulos = Neuvostoliiton \"[[Pyrrhos|Pyrrhoksen]] voitto\"' ('result = Soviet \"Pyrrhic victory\"'), with the summary 'Miksi NL voittoa ei mainittu' ('why was the Soviet victory not mentioned'), plus the section on pre-war cooperation with Germany. But no community-dispute signal counts: the removal after 12.4 h says only 'Rv. Katso keskustelu' ('Rv. See talk'), a talk-page pointer that does not count on its own; the {{Korjattava}} template the pack flags came from the inserting account's own run (all nine undone edits are E192's; the restored version lacks it), so it is not the community disputing the text; no put-back of this content in the pack. When in doubt, the lower level.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; claude:blind reverted (Level 1: one account added a long expansion (Barbarossa section, prisoners of war, infobox outcome 'Neuvostoliiton Pyrrhoksen voitto', a Soviet Pyrrhic victory, with a cited book). Removal summary 'Rv. Katso keskustelu' ('See talk') is only a talk pointer; the {{Korjattava}} template appears in the inserter's own diff, so no community dispute signal is clear. Doubt resolved to the lower level.); gemini:blind contested (Level 2: Changed the infobox outcome to \"Neuvostoliiton \\\"[[Pyrrhos|Pyrrhoksen]] voitto\\\"\" (\"Soviet Union's 'Pyrrhic victory'\") and added sections on Operation Barbarossa and prisoners of war, alongside a \"{{Korjattava/Suomi}}\" (\"Needs correction/Finland\") dispute template in the episode, before being removed.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -1185,9 +1193,11 @@
      "description": "Adds a paragraph on how far the 1941 Finnish advance reached (Koromyslovo in Ošta district, 'almost 300 km' from the border) plus infobox, wording and link changes.",
      "why": "Level 1: substantive prose and numbers ('melkein 300 km [[Suomen ja Venäjän raja|raja]]sta' = 'almost 300 km from the border') removed after 31 days by a different, anonymous account with 'rv, eston kiertoa ([blocked account])' ('rv, block evasion'). A block-evasion rollback of ordinary prose: no accuracy, neutrality or sourcing reason, not put back in the pack, so no dispute signal. Inserting revs are E205's two edits only; three small edits by E85 that the rollback swept away (one removing an older unsourced troop figure) are left out.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; claude:blind reverted (Level 1: mixed infobox and text changes by two accounts, removed after 31 days with 'eston kiertoa' ('block evasion'), a reason about the account, not the content. One in-chain edit mentions a number as 'väärä' (wrong) but that is not the removal reason; no quotable claim tied to the removal.); gemini:blind contested (Level 2: Changed \"natsi-Saksa\" (\"Nazi Germany\") to \"kansallissosialistinen Saksa\" (\"National Socialist Germany\"), removed an unsourced troop figure (\"runsaat 40 000\", \"over 40,000\"), and added a paragraph on the Red Army halting the Finnish advance at Koromyslovo in Oshta; another editor removed part of the text saying \"lukuhan on väärä\" (\"the figure is wrong\") before the entire run was reverted for block evasion.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -1222,9 +1232,11 @@
      "description": "Adds paragraphs on camp commander Emil Pekkanen's 1943 report on killings of prisoners and falsified records, the release of an accused officer and the generals who kept the report back (sourced to a Seura magazine article).",
      "why": "Level 1, capped: the dispute was about copying, not about the claim. Added three times by one anonymous account (E429) on 12-13 Jun 2019 and removed three times by three named accounts: 18213915 'tekijänoikeusrikkomus, kopiointia ainakin seura.fi-sivulta hylkään kaikki' ('copyright violation, copied at least from the seura.fi page, rejecting all'), 18214598 (after another account tagged it {{Kopio}} = 'copied'), 18216258 'varmuuden vuoksi vielä veks' ('out again, to be safe'). The put-backs make an edit war, but over copyright; like an edit war over formatting, that is not a disputed claim (evidence standard §1, asymmetry). No removal questions accuracy, neutrality or sourcing. One account, one article. Inserting revs are E429's edits in all three runs (incl. tag removals and section reorders); the other account's {{Kopio}} tag 18214590 is left out. Must-include 18214740 is E429's same-length section reorder ('Osiot syytä olla aikajärjestyksessä' = 'sections should be in chronological order').",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; claude:blind reverted (Level 1: added passages about a camp commander and shootings of prisoners; removal says 'tekijänoikeusrikkomus, kopiointia ainakin seura.fi-sivulta' ('copyright violation, copied from a news site'). Put back, removed again, but the dispute is about copying, not accuracy or neutrality of a claim. A {{Kopio}} template was added, but no claim dispute is quoted.); gemini:blind contested (Level 2: Repeatedly removed sourced casualty figures (\"Leirin vangeista kuoli kaikkiaan 2 813...\", \"Of the camp's prisoners, 2,813 died in total...\") and \"{{Lähde}}\" (\"Source needed\") tags while inserting text about camp abuses and Eero Nero copied/adapted from a magazine article; disputed across multiple removals and re-insertions by one anonymous range over two days.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -1243,7 +1255,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -1260,9 +1273,11 @@
      "description": "Adds a sourced paragraph saying the 1941 offensive was halted before the Germans' first setback at Moscow and that more soldiers fell in 1941 than in the whole Winter War.",
      "why": "Level 1. Text with two YLE references: 'Hyökkäys pysäytettiin Leningradiin tunkeutumatta ja Karjalassa ennen kuin saksalaiset olivat kokeneet ensimmäisen vastoinkäymisensä Moskovan taistelussa' ('the offensive was halted without entering Leningrad, and in Karelia, before the Germans had suffered their first setback at the Battle of Moscow'). Rejected 3 min later by a named reviewer with no reason (FlaggedRevs 'Hylättiin viimeisin tekstimuutos' = 'rejected the latest text change'). The rejection was undone by rev 15519361, whose author the pack does not give (it may be the reviewer withdrawing its own rejection), and the text is not in the latest revision. Both the claim (sourced, mild framing) and the dispute signal are doubtful: the lower level.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; claude:blind reverted (Level 1: sourced sentences (two YLE links) about 1941 casualties exceeding the Winter War, removed after 3 min with a generic rollback summary. The removal was undone once, but no accuracy or neutrality objection is recorded and the text has no slant.); gemini:blind contested (Level 2: Added sourced claims about 1941 casualties, \"Vuonna 1941 kaatui sotilaita enemmän kuin koko talvisodassa ja enemmän kuin vuoden 1944 suurhyökkäyksessä\" (\"In 1941 more soldiers fell than in the entire Winter War and more than in the 1944 major offensive\"), which was removed and then put back (removal_was_itself_undone).). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -1281,7 +1296,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -1300,7 +1316,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -1319,7 +1336,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -1336,10 +1354,11 @@
      "description": "Adds an image captioned 'Keskitysleiri Petroskoissa' ('Concentration camp in Petrozavodsk').",
      "why": "Level 1: image with a caption naming the place, added by E402 (Dec 2007) and removed 277 days later without a summary by an anonymous account (E403). The removal was undone (rev 5402893), but the image is not in the latest revision, so 'kept' does not apply. A captioned image carries no quotable claim, so it is capped at level 1. The other four undone edits are other accounts' small undo and tool edits (E326 took the image out and put it back 23 min later for a file-search tool) and are left out.",
      "human_verified": true,
-     "notes": "Labellers disagree: labeller reverted; claude:blind not-incident/not-substantive (Only an image link with a caption ('Keskitysleiri Petroskoissa', Concentration camp in Petrozavodsk) was added and removed by several accounts; no prose, number or citation.). Human decided. Human: Sided with the labeller: substantive (image with a new caption), removed by another account, no dispute signal.",
+     "notes": "Labellers disagree: labeller reverted; claude:blind not-incident/not-substantive (Only an image link with a caption ('Keskitysleiri Petroskoissa', Concentration camp in Petrozavodsk) was added and removed by several accounts; no prose, number or citation.); gemini:blind reverted (Level 1: Added an image thumbnail \"[[Kuva:Keskitysleiri Petroskoissa.jpg|thumb|Keskitysleiri Petroskoissa]]\" (\"Concentration camp in Petrozavodsk\") which was later removed without an edit summary; adding an image caption without a factual or narrative claim in prose is capped at Level 1.). Human decided. Human: Sided with the labeller: substantive (image with a new caption), removed by another account, no dispute signal.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
+      "gemini:blind",
       "human:key44"
      ]
     },
@@ -1361,7 +1380,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -1393,7 +1413,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -1413,7 +1434,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -1434,7 +1456,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -1454,7 +1477,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -1474,7 +1498,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     }
    ],
@@ -2288,9 +2313,12 @@
      ],
      "description": "Replaces 'ceded' (luovutettu) with 'occupied' (miehitetty) throughout the Karelia question article, renames the debate 'Karjala takaisin' ('Karelia back') and adds that Finland took no position on the border in 1990 'for some completely incomprehensible reason'.",
      "why": "Level 2. Claim, quoted from the added text: 'Miehitetty Karjala' ('Occupied Karelia'), 'miehitettyjen alueiden palautuskeskustelu' ('debate on returning the occupied areas'), 'Karjala takaisin-kysymykseksi' ('the Karelia-back question') and 'jostain täysin käsittämättömästä syystä' ('for some completely incomprehensible reason'): it reframes the ceded areas as occupied throughout the lead and history, and adds an external link (kavkaz.fi). Community dispute: the removal summary objects to the term, 'termin \"miehitetyt alueet\" voi esitellä artikkelissa, mutta ei joka tilanteessa' ('the term \"occupied areas\" can be presented in the article, but not in every context'), i.e. neutrality of wording. Ten edits by one anonymous editor (E1, 81.197.x.x) on 2005-09-26 22:42-22:57 UTC, removed by a different account (E12) about 10 h later. Candidate c01 (contains must-include 445526). Not level 3: one editor, one article, never put back, no citation changed.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -2308,9 +2336,12 @@
      ],
      "description": "Adds, after a quoted Russian statement calling organisers of Karelia-return opinion polls 'provocateurs', that opponents of the occupation of the Baltic states were also once branded provocateurs, footnoted to a 1985 newspaper article hosted on kavkaz.fi.",
      "why": "Level 2. Claim, quoted: 'Toisaalta myös Baltian maiden miehityksen vastustajat pyrittiin aikanaan leimaamaan provokaattoreiksi' ('On the other hand, opponents of the occupation of the Baltic states were also once branded provocateurs'), an analogy that frames the return debate, with a footnote to a 1985 Suomenmaa article via kavkaz.fi. Community dispute: put back once after a removal, and the second removal is about sourcing: '\"lähde\" ja väite eivät täsmää' ('the \"source\" and the claim do not match'). Added by E20 on 2006-04-15 (1017438), rolled back by E21 after 5.8 h with no reason (1018667), put back the next morning by E22 (1019509; summary 'Poistot kannattaa perustella, ettei tule palautuksia', 'removals should be justified, so that they do not get restored') and removed 8 min later by E8 (1019516). Candidates c15, c28 (identical text). Not level 3: E20 and E22 are both 83.102.x.x (one editor), one article, one re-insertion within a day; the source mismatch could count as the sources signal, but level 3 also needs an editors or articles signal.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -2328,7 +2359,8 @@
      "why": "Level 1. Substantive text by an anonymous editor (E17, 80.221.x.x) taken out by a different account (E10) after 4 min with a plain rollback summary. Content: 'Suomen yhteyteen voitaisiin liittää myös Itä-Karjala, jolloin muodostuisi Suur-Suomi' ('East Karelia could also be joined to Finland, which would form Greater Finland') adds an irredentist option, but there is no dispute signal: no reason given, never put back, no edit war, no template. Candidate c33.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -2344,9 +2376,12 @@
      ],
      "description": "Adds that Finland handed the ceded areas' property register to the Soviet Union and that, as the Soviet Union did not nationalise that property, it still belongs to the original owners and their heirs (with a quote of the 1947 Paris peace treaty).",
      "why": "Level 2. Claim, quoted: 'Kun Neuvostoliitto ei kansallistanut tätä omaisuutta, se kuuluu edelleen alkuperäisille omistajille ja heidän perijöilleen' ('As the Soviet Union did not nationalise this property, it still belongs to the original owners and their heirs'), a legal claim about property in ceded Karelia. Community dispute: a citation-needed template was attached to it the same day ('{{lähde|kaksi ed. lausetta, 30.8.2010}}', 'source needed: the two previous sentences') and the removal summary is about sourcing: 'Erittäin radikaali väite ilman lähdettä. Ei pidä huolia artikkeliin jollei kelvollista lähdettä löydy' ('A very radical claim without a source. Should not be accepted in the article unless a valid source is found'). Added by E308 (91.156.x.x) on 2010-08-30, removed by E309 (83.148.x.x) on 2011-07-30, about 334 days later. The same removal also took out an older paragraph (a lawsuit and a law professor's view) that this edit did not add. Candidate c42 (partial-removal; the edit's sentences appear in the removed text verbatim or lightly reworded). Not level 3: one editor, one article, never put back.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -2364,7 +2399,8 @@
      "why": "Level 1. Substantive text by E51 taken out by a different account (E53) after 3 min with a plain undo summary. Most of it is a copy of another article's lead (misplaced duplicate; it says Finland 'pakkoluovutti' ('was forced to cede') 13 % of its land). The one change to this article's own text, 'valloittikin pienen osan alueesta uudestaan' ('reconquered a small part of the area'), shrinks the 1944 Soviet reconquest, but there is no dispute signal: no reason given, never put back, no template. Candidate c02 (must-include 7493076).",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -2383,8 +2419,10 @@
      "description": "Rewords the municipality lists from parts 'left to Finland' (Suomelle jääneet) to parts that 'stayed in Finland' (Suomessa pysyneet / Suomen alueena säilyneet), reflows the lists, adds a map of ceded Karelia and, in the last version, rewrites which areas the evacuees came from.",
      "why": "Level 1, capped. Taken out twice by a different account (E60), no exclusion applies. It is one side of a back-and-forth on 2013-02-15 to 03-21 (E56/E58 in 212.226.x.x and E62/E63 in 85.76.x.x against E57/E60; the page was partly protected for a month, 12702015 to 12896678). Not a claim in the §1 sense: the disputed change is phrasing that changes no fact, number, date or name ('Suomelle jääneet osat' vs 'Suomessa pysyneet osat'; the inserter's summary: 'kun jonkun kunnan osaa ei luovutettu, osa ei \"jäänyt\" Suomeen, vaan jatkoi olemassaoloaan eli pysyi Suomessa', 'when part of a municipality was not ceded, it did not \"remain\" in Finland but went on existing, i.e. stayed in Finland'), plus list layout and a map. No removal says this side is wrong: 'rv E57n muokkaukseen asti' ('rv back to E57's edit') and a rollback; the earlier revert by E57 said only 'aiempi versio oli sanonnaltaan onnistuneempi' ('the earlier version was better worded'). An edit war over wording is not a disputed claim, so it stays at level 1. The last version (12930962, E63) also rewrote the evacuee areas (summary calls the old text 'satuilu', 'fabrication'); that passage was rolled back after 2 min without a reason and never put back. Re-insertions 12701319 and 12925503 appear in the pack only as removals of the other side (c16, c29), so they cannot be listed as inserting revisions. Candidates c39, c30 (this side) and c16, c29 (the other side). E59's +3 edit (12702005) is dropped.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; gemini:blind campaign (Level 3: framing dispute replacing 'Suomelle jääneet osat' ('parts that remained to Finland') with 'Suomen alueena säilyneet osat' / 'Suomessa pysyneet osat' ('parts preserved as Finnish territory / stayed in Finland') and redefining ceded Karelia subregions ('koillisimmasta ja itäisimmästä osasta pohjoista Karjalaa' — 'from the northeasternmost and easternmost part of northern Karelia'). Pushed by 2 distinct anonymous IP ranges (212.226.x.x and 85.76.x.x) across >7 days (2013-02-15 to 2013-03-21) with multiple re-insertions during an edit war that led to page protection.). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -2410,9 +2448,12 @@
      ],
      "description": "Restructures the Karelia lead around two coats of arms and defines 'Russian Karelia, i.e. East Karelia' as the Republic of Karelia's districts mapped onto Aunus, Ladoga, Puutoinen and Viena Karelia, so that the ceded Ladoga Karelia is counted as East Karelia.",
      "why": "Level 2. Claim, quoted from the added text: 'Venäjän Karjala eli Itä-Karjala käsittää Karjalan tasavallan 11 eteläistä piiriä (Aunuksen Karjala), 2 lounaisinta piiriä (Laatokan Karjala), itäisimmän piirin (Puutoisten Karjala) ja 5 pohjoista piiriä (Vienan Karjala)' ('Russian Karelia, i.e. East Karelia, comprises the Republic of Karelia's 11 southern districts (Aunus Karelia), the 2 south-westernmost (Ladoga Karelia), the easternmost (Puutoinen Karelia) and 5 northern ones (Viena Karelia)'); the inserter's summaries state 'Itä-Karjala = Karjalan Tasavalta = Venäjän Karjala' and 'Laatokan Karjala on toki Itä-Karjalaa' ('Ladoga Karelia is of course East Karelia'). The 2008-05-14/15 version also drops two {{lähde}} (citation needed) tags. Community dispute: an edit war from 2008-05-08 to 05-20 (5-7 identity reverts on the page within 3 days) with removal summaries on neutrality, accuracy and sourcing: 'määrätietoista POV-pushausta' ('determined POV-pushing', E150), 'Jo lause \"Karjalan alueella on kaksi Karjalaa\" on täysin järjetön' ('already the sentence \"in the Karelia area there are two Karelias\" is completely absurd', E8), 'vandalistista POV-pushausta' ('vandalistic POV-pushing', E151), 'nykyiset Karjalan tasavallan piirit eivät mene noin yksi yhteen historiallisten alueiden kanssa ... ei ole Puutoisen Karjalaa' ('the Republic's current districts do not map one-to-one onto the historical regions ... there is no Puutoinen Karelia', E140), 'tällaiselle väitteelle tarvitaan lähteet' ('such a claim needs sources', E149). Put back at least 7 times by one named account (E137); the first insertion 4750215 and the re-insertions 4752344, 4757069, 4757086 appear in the pack only as the other side's restored/removing revisions (c11, c04, c17), so they cannot be listed here. Not level 3: one account adds the claim on one article; persistence (put back 2+ times over 12 days) is one signal; dropped citation-needed tags are not a citation removed or replaced. Left out: 4787255 by E148 ('palautus parempaan versioon + vaakunat', 'restored to the better version + coats of arms'), which rewrote the passage without the 'eli Itä-Karjala' district mapping, so E148 is not counted as a second editor of this claim. Candidates c18, c05, c19 (this side) and c11, c04, c17 (the same war seen from the other side). See i08 for a similar district mapping added by another account five months later.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -2434,9 +2475,12 @@
      ],
      "description": "Adds a map of 'Finnish and Russian Karelia' whose legend maps the Republic of Karelia's districts onto Aunus (10), Ladoga (2), Puutoinen (1) and Viena (5) Karelia, drops a citation-needed tag, and in later versions changes 'luovutti' (ceded) to 'pakkoluovutti' (was forced to cede).",
      "why": "Level 2. Claim, quoted from the added legend: 'Venäjän Karjala eli Karjalan tasavalta: Aunuksen Karjala, nykyään 10 piiriä; Laatokan Karjala, nyk. 2 piiriä; ... Vienan Karjala, nyk. 5 piiriä' ('Russian Karelia, i.e. the Republic of Karelia: Aunus Karelia, today 10 districts; Ladoga Karelia, today 2 districts; ... Viena Karelia, today 5 districts'); versions 2-4 also change 'luovutti' to 'pakkoluovutti' ('ceded' to 'was forced to cede'), and every version drops '{{Lähde||15. syyskuuta 2008}}' from the sentence on what Karelia means in Russia. Community dispute: removal summaries on accuracy, 'virheellinen kartta pois, katso tarkemmin keskustelusivu' ('erroneous map removed, see the talk page', E140) and 'Käsitteellä \"Aunuksen Karjala\" ei ole mitään tekemistä Karjalan tasavallan kanssa' ('the concept \"Aunus Karelia\" has nothing to do with the Republic of Karelia', E148); put back 3 times. One named account (E156), 2008-10-14 to 10-18, removed 4 times by three accounts (E140, E148 twice, E8); each version stayed 3 min to 19 h. Candidates c12, c08, c25, c26 (same map each time). Not level 3 within this item: one account, one article, all insertions within 4 days, the dropped tag is not a citation. For review: the district mapping is close to the one E137 added in May 2008 (i07). If both are treated as one claim, accounts (E137, E156) plus persistence (May to October) would meet level 3; kept at level 2 because the texts differ (prose vs map legend), the pack does not link them, and in doubt the lower level applies.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -2462,9 +2506,12 @@
      ],
      "description": "Adds to the first sentence, before its Kotus reference, that Karelia lies between the Gulf of Finland, Saimaa, Ladoga, Onega and the White Sea.",
      "why": "Level 2. Claim, quoted: 'maantieteellinen alue Suomenlahden, Saimaan, Laatokan, Äänisen ja Vienanmeren välillä, valtaosin Fennoskandian itäosassa' ('a geographic area between the Gulf of Finland, Saimaa, Ladoga, Onega and the White Sea, mostly in eastern Fennoscandia'): it sets the extent of Karelia inside the sentence footnoted to the Kotus publication 'Mistä puhutaan, kun puhutaan Karjalasta?', and a removal says the source does not support it: 'ei sisälly lähteeseen, vääristää ajatusta' ('not in the source, distorts the idea'). Community dispute: the same text was added 6 times on 2012-06-12 to 06-15 and removed 6 times by four accounts (E121 three times, E8, E39, E57); the last removal was undone once more (11772377, outside the pack). Inserting editors: E182, E183, E184 (all 193.64.x.x, one editor) and E185 (212.226.x.x), i.e. two editors; their summaries include 'Lisätty Karjalan alueen \"reunavesistöt\"' ('added the \"border waters\" of the Karelia area') and 'Miksi Karjalan suuria \"reunavesistöjä\" ei saisi luetella?' ('why may Karelia's large \"border waters\" not be listed?'). Candidates c20, c21, c22, c23, c24, c06 (identical text). Not level 3: two editors is one signal; one article, all insertions within about 3 days (persistence needs 7), and no citation was added, removed or replaced (the text went in front of an existing reference).",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -2482,9 +2529,12 @@
      ],
      "description": "Adds a 'motive of Greater Finland' passage: supporters wanted to save kindred peoples from ethnic cleansing or assimilation by the ruling state, Stalin wanted them liquidated, and because Greater Finland was not realised only the elderly still speak Karelian, Finnish and Vepsian in the Republic of Karelia.",
      "why": "Level 2. Claim, quoted from the first version: 'Suur-Suomen kannattajilla oli usein motiivina sukulaiskielisten alueiden pelastaminen hallitsevan valtion harjoittamalta etnisiltä puhdistuksilta' ('Greater Finland's supporters often had as their motive saving kindred-language areas from ethnic cleansing by the ruling state') and 'Suur-Suomen toteuttamatta jättäminen altisti nämä kansat tilaan, josta syystä nykyään karjalan, suomen ja vepsän kielen osaaminen Karjalan tasavallassa on vain vanhusten taitona' ('not realising Greater Finland exposed these peoples to a situation because of which today only the elderly know Karelian, Finnish and Vepsian in the Republic of Karelia'): a one-sided framing of the irredentist programme. Community dispute: removed with 'puppua poistettu, tämä ei ole pamflettisivusto' ('nonsense removed, this is not a pamphlet site'); put back 23 days later in a reworded version together with the {{kiistanalainen}} (disputed) template (392859; summary 'alkuperäinen sivu palautettava keskustelun ajaksi', 'the original page must be restored for the duration of the discussion') and removed 91 s later. Both insertions by E74 (130.233.x.x). The 392859 summary says it restores a version of 25 August, so the passage was also back in between, outside the pack. Candidates c09 (first version; the critique section in the same run is i11, and E76's -219 edit only shortened text) and c31. Not level 3: one editor, one article, one re-insertion visible in the pack.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -2501,9 +2551,12 @@
      ],
      "description": "Adds a section criticising the 'noble' motive of Greater Finland: Finland's Sami languages and culture were Finnicised much as the Finnic peoples beyond the eastern border were Russified.",
      "why": "Level 2. Claim, quoted: 'Saamelaisten kieli, elinkeinot ja kulttuuri ovat suomalaistuneet aika samalla tavalla kuin itärajan takaiset suomensukuisia kieliä puhuvat ovat venäläistyneet. Tämä seikka saattaa ylläolevan jalon motiivin hieman arveluttavaan valoon.' ('The Sami language, livelihoods and culture have been Finnicised in much the same way as the Finnic-speaking peoples beyond the eastern border have been Russified. This puts the noble motive above in a somewhat dubious light.'): an argument written as a reply to i10 (summary 'vastine motiivikysymykseen', 'a reply on the motive question'). Community dispute: the removal summary is about neutrality, 'puppua poistettu, tämä ei ole pamflettisivusto' ('nonsense removed, this is not a pamphlet site'). Added by E75 (194.157.x.x) on 2005-08-04, removed together with i10 by E8 about 16 h later. E76's edit in between (351774, 130.232.x.x, 'etninen puhdistus hieman kohtuuton termi', 'ethnic cleansing a somewhat excessive term') only shortened the section and is not an insertion. Candidate c09. Not level 3: one editor, one article, never put back. Weakest level-2 item in this topic: the only dispute signal is that shared removal summary.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -2519,9 +2572,12 @@
      ],
      "description": "Restores a reworded version of the Greater Finland article that adds a paragraph on what was fatal to the Karelian language, replaces the sentence on Finnish Reds assimilating Karelians and Vepsians into Finns with 'disagreements over the official language', and softens how East Karelians saw the Finns as occupiers.",
      "why": "Level 2. Claim, quoted: '1930-luvulla oli erimielisyyksiä Neuvosto-Karjalan virallisesta kielestä' ('in the 1930s there were disagreements over Soviet Karelia's official language') in place of 'karjalaiset ja vepsäläiset haluttiin suomalaisten punaisten käsissä olleen työväenkommuunin kautta sulauttaa suomalaisiin' ('Karelians and Vepsians were to be assimilated into Finns through the workers' commune held by Finnish Reds'), and 'suhtautuivat jopa paikoin suomalaisiin kuin miehittäjiin' ('in places even regarded the Finns as occupiers') in place of '... pikemminkin kuin miehittäjiin' ('... rather as occupiers'): it changes who is said to have assimilated whom and how East Karelians saw the Finnish occupation. Community dispute: the edit took the {{kiistanalainen}} (disputed) template off the article during an edit war (22 identity reverts on the page within 3 days), and the removal restored the template: 'palautus, kiistanalaisuustagin laiton jälkeen tehty perusteeton palautus ja laaja muutos' ('revert: an unfounded restoration and broad change made after the dispute tag was added'); the removal was itself undone once (393866), and the text is not in the latest revision. Added by E74 (130.233.x.x, summary 'palautettu neutraloituun näkökulmaan', 'restored to a neutralised point of view') on 2005-08-27, removed by E8 11.8 h later. E83's three small edits and E12's two see-also edits in the same run are dropped. Candidate c14. Not level 3: one editor, one article.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -2542,9 +2598,12 @@
      ],
      "description": "Adds that Finland gave little help to East Karelia partly because of Finland's internal fragmentation after the White Terror, later citing the front page of the Finnish president's website, and drops 'radical' from the lead's definition of the Greater Finland idea.",
      "why": "Level 2. Claim, quoted: 'Syy siihen, miksi Suomesta ei saatu laajaa apua johtuu osittain Suomen sisäisestä fragmentoitumisesta Valkoisen Terrorin jälkeen' ('The reason why no broad help came from Finland is partly Finland's internal fragmentation after the White Terror'), re-added with a reference to presidentti.fi titled 'Etusivu' ('front page'); the same run deletes 'radikaali' from 'heimoaatteen radikaali muoto' ('the radical form of the kinship ideology') and changes 'mahdollisesti' ('possibly') to 'harvemmin' ('less often') for Norwegian and Swedish areas. Community dispute: both removals are about sourcing, 'Lähteetöntä' ('unsourced', E42) and 'ei vastaa lähdettä' ('does not match the source', E126); put back once, 55 days after the first removal (summary 'Tämä on faktaa. Ken ei historiaa tunne voi ottaa selvää', 'This is fact. Whoever does not know history can look it up'). One named account (E129) on 2026-01-30 and 2026-03-26; versions stayed 24 min and 7.1 h. Candidates c27, c10. Not level 3: one account, one article, put back only once; the unrelated citation is the sources signal, but level 3 also needs an editors or articles signal.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -2562,7 +2621,8 @@
      "why": "Level 1. Substantive changes of country, region, wording and a date by an anonymous editor (E288, 84.250.x.x) on 2023-04-15, taken out by a different account (E42) on 2023-05-23, 38 days later, with no summary. Coherent and consistent in one direction ('Laatokan rantakaupunki entisellä Suomen alueella', 'jouduttiin luovuttamaan Suomelle', 'a Ladoga shore town on former Finnish territory', 'had to be ceded to Finland'), so judged as content, not graffiti; it contradicts the rest of the article, which places the city in Russia. No dispute signal: no removal reason, never put back, no template. The other edits in the run (21524938 by E289, 21525210 and 21525215 by E259) add an unrelated image and are item n01. Candidate c03.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -2581,8 +2641,10 @@
      "description": "Reformats the city's names in other languages in the lead (Karelian and Russian name templates) and adds its Russian names by period: Кексгольм 1611-1918 and 1940-1948, Кякисалми 1918-1940.",
      "why": "Level 1, capped. Substantive (names and dates), taken out twice by a different account (E137) and put back once by E21 (3161128, a rollback to E286's version). Not a claim: the added name forms and periods carry no slant and no removal says they are wrong; the removal summaries are about conduct, 'Toivon, että käyttäjä ... ei ole aloittamassa palautussotaa' ('I hope the user is not starting a revert war'), and a link to the 'be bold' guideline. A formatting dispute does not reach level 2. Added by E286 on 2007-07-13 (summary 'nimet muilla kielillä', 'names in other languages'). Candidates c13, c07.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; gemini:blind contested (Level 2: dispute over the lead naming of Käkisalmi, changing '{{k-ru|Кексгольм}} eli ... vuodesta 1948 Приозерск' to foreground '{{k-ru|Приозерск|Priozersk}}' as the current Russian name and list historical Russian names with periods ('vuosina 1611–1918 ja 1940–1948 Кексгольм, Keksgolm, vuosina 1918–1940 Кякисалми, Kjakisalmi'). Removed once warning against an edit war ('Toivon, että käyttäjä ... ei ole aloittamassa palautussota' — 'I hope user ... is not starting a revert war'), put back by another editor, and removed again.). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -2599,8 +2661,10 @@
      "description": "Adds a section 'Käkisalmi is nowadays Priozersk' quoting a Russian source on the 1948 renaming, and changes the Russian-name history in the lead to '1611-1948 Кексгольм'.",
      "why": "Level 1, capped. Substantive (sourced text and dates), taken out after 6 min by a different account (E12) with '...jota itse sinne tunget' ('...which you yourself keep putting there'); the edit was itself a re-insertion and the removal was undone again (1621449), so the section went back and forth. Not counted as a claim: the 1948 renaming is already in the lead and is sourced here; the dispute is about emphasis, and no removal says the text is wrong or not neutral. The lead change drops the 1918-1940 period from the Russian-name history, a minor change. Added by E285 (summary 'Nimenmuutoksen toteaminen samoin kuin Primorskin (ent. Koivisto) artikkelissa', 'stating the renaming as in the Primorsk (formerly Koivisto) article'). Candidate c32.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; gemini:blind contested (Level 2: changed historical Russian name dates in the lead of Käkisalmi (removing 'vuosina 1918–1940 Кякисалми') and added section '== Käkisalmi on nykyään Priozersk ==' ('Käkisalmi is nowadays Priozersk') with Russian quote on the 1948 renaming. Part of an edit war: first undone edit was itself a revert, removed with '...jota itse sinne tunget' ('...which you yourself are shoving in there'), and removal was undone again in rev 1621449.). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -2620,8 +2684,10 @@
      "description": "Adds a mid-19th-century image of Käkisalmi from Topelius's 'Finland framställdt i teckningar' to the article, with two small follow-up edits.",
      "why": "Excluded: kept. The image line went out only because E42 reverted the article to its state before E288's edit (i14); the same line is in the latest revision (flag added_text_in_latest_revision), so the community kept it. Note: the removal was not undone by an identity revert (flag removal_was_itself_undone is not set); a later edit restored the line. E259's two small edits (+23 and -4 bytes, 2 h after E289's) are not visible separately in the pack; by timing and size they are taken as tweaks to the same image entry. Candidate c03 (contains must-include 21525215).",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller not-incident/kept; gemini:blind reverted (Level 1: changed Käkisalmi's country and map from Russia/Leningrad Oblast to '[[Suomi]]' ('Finland') and 'entisellä [[Suonen alue|Suomen alue]]ella' ('in the former territory of Finland'), and changed 'luovuttamaan Neuvostoliitolle' ('cede to the Soviet Union') to 'luovuttamaan Suomelle' ('cede to Finland'). Removed without edit summary or re-insertion (only the unrelated image added in 21524938 remained in the latest revision).). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -2640,7 +2706,8 @@
      "why": "Excluded: self-removal. The same anonymous editor (E180) undid it 59 s later. It would also be graffiti, but self-removal comes first in the exclusion order. Candidate c34.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -2659,7 +2726,8 @@
      "why": "Excluded: blanking (-9,409 bytes; the page content was replaced with 'lol'), undone by a different account after 48 s. Candidate c37.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -2677,8 +2745,10 @@
      "description": "Adds a see-also link to 'Karjalan ihannointi' ('idealisation of Karelia'), a page that apparently does not exist.",
      "why": "Excluded: not substantive. The edit adds one internal link to the see-also list and no prose, number, date, name or citation; removed after 5 min with 'ei pidä kehottaa katsomaan, kun ei ole mitä katsoa' ('readers should not be told to see something when there is nothing to see'). Candidate c38.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller not-incident/not-substantive; gemini:blind reverted (Level 1: added redlink '* [[Karjalan ihannointi]]' ('Idealization of Karelia') to See also section, removed 5 minutes later because the target article did not exist ('ei pidä kehottaa katsomaan, kun ei ole mitä katsoa' — 'should not tell to see when there is nothing to see').). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -2697,7 +2767,8 @@
      "why": "Excluded: not substantive (every changed line differs only in spaces). It is also a self-removal: the same account (E277) put its own version back and took it out again within 45 s. Candidate c35.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -2716,7 +2787,8 @@
      "why": "Excluded: not substantive (a template only). Added by a bot-like account (E104) and removed after the check ('ok') 20 days later; not-substantive comes before bot in the exclusion order. Candidate c36.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -2734,8 +2806,10 @@
      "description": "The undone edit deletes an external-links subsection with two blogs supporting the Greater Finland idea; the 'removal' puts the links back.",
      "why": "Excluded: not substantive. The undone edit (394261, -174 bytes) adds nothing; it only deletes two external links, and the 'removal' (394272, E83) restores them, arguing that the links belong to the subject. Nothing was added and later taken out in this run. The links were deleted again afterwards (394281). Candidate c40.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller not-incident/not-substantive; gemini:blind contested (Level 2: edit war over external blogspot links under '===Suur-Suomi -aate nykyaikana===' ('Greater Finland idea in modern times'). Removed in rev 394261 as 'linkit ... roskasivuihin edelleen pois' ('links to ... trash pages still out'), put back in 394272 citing neutrality ('neutraalius'), and undone again in 394281.). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -2754,7 +2828,8 @@
      "why": "Excluded: not substantive. The undone edit (414455, a rollback by E5, -67 bytes) adds no text; it only deletes the joke sentence 'Toisessa mailmansodassa saksa lupasi antaa suomelle Belgian Kongon' ('in the Second World War Germany promised to give Finland the Belgian Congo'), which E85 (62.183.x.x) put back 4 s later (414456) and a later edit removed again (414465). The joke sentence itself would be graffiti; its insertions are not inserting edits in the pack. Candidate c41.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     }
    ],
@@ -3575,10 +3650,11 @@
      "description": "Puts back a paragraph saying Finland interpreted free speech 'moderately' in the national interest, that this principle 'still has fairly strong support', with PM Matti Vanhanen's stance on the Jyllands-Posten cartoons as the example.",
      "why": "Level 2. Claim: it ties Finlandization-era self-censorship to present-day politics: 'Maltillisen sananvapauden tulkitsemisen periaatteella on Suomessa edelleen varsin vahvaa kannatusta' ('the principle of moderate interpretation of free speech still has fairly strong support in Finland'), with Vanhanen's cartoon-row stance as the example. Community dispute: E2 removed it at 772340 (2006-02-05 13:28) with 'liian epämääräinen yhteys (muutenkin koko kappale kaipaa lähteitä)' ('too vague a connection; the whole paragraph needs sources anyway'), E8 put it back 3 min later (772360, c01 is that revert), and E2 removed it again 39 min later (772549, c02: 'palautus; ks. keskustelu', 'restoration; see talk'). So: a removal reason about accuracy/sourcing plus one put-back. The original insertion predates the pack; only E8's re-insertion is listed. One known editor, one article, so not level 3.",
      "human_verified": false,
-     "notes": "Labellers disagree: labeller contested; claude:blind reverted (Level 1: added that 'Maltillisen sananvapauden tulkitsemisen periaatteella on Suomessa edelleen varsin vahvaa kannatusta' and that PM Vanhanen recommended a moderate reading of free speech in the cartoon dispute. Earlier removal said the link is 'liian epämääräinen' and the section needs sources; the text was put back once, then removed with 'ks. keskustelu'. Claim and slant are arguable; kept at the lower level.). Lowest level kept until a human decides.",
+     "notes": "Labellers disagree: labeller contested; claude:blind reverted (Level 1: added that 'Maltillisen sananvapauden tulkitsemisen periaatteella on Suomessa edelleen varsin vahvaa kannatusta' and that PM Vanhanen recommended a moderate reading of free speech in the cartoon dispute. Earlier removal said the link is 'liian epämääräinen' and the section needs sources; the text was put back once, then removed with 'ks. keskustelu'. Claim and slant are arguable; kept at the lower level.); gemini:blind contested (Level 2 — because: re-inserted a passage linking Finlandization self-censorship to Prime Minister Matti Vanhanen's stance on the Jyllands-Posten cartoon controversy ('Mm. pääministeri Matti Vanhanen suositteli malitillista sananvapauden tulkintaa...' / 'Among others, Prime Minister Matti Vanhanen recommended a moderate interpretation of freedom of speech...') right after it had been removed for 'liian epämääräinen yhteys (muutenkin koko kappale kaipaa lähteitä)' ('too vague a connection (the whole paragraph needs sources anyway)'), before being reverted again.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3595,10 +3671,11 @@
      "description": "Adds an unsourced section 'Suomettaminen 2000-luvulla' saying the Kremlin 'finlandizes' other countries by placing pro-Russian people in power, stirring unrest and influencing elections, with these methods 'especially successful' in EU and North American countries.",
      "why": "Level 2. Claim: sweeping, unsourced political assertions, e.g. 'Nämä 2000-luvulle ominaiset suomettamismenetelmät näyttävät olleen erikoisen menestyksellisiä EU-maissa, sekä keskeisissä Pohjois-Amerikan maissa' ('these 21st-century finlandization methods appear to have been especially successful in EU countries and in key North American countries'). Community dispute: removed by E593 after 4.6 days with 'rv, lähteetöntä' ('rv, unsourced'), a sourcing reason. Partial removal (c31): the insertion diff confirms 20291337 added the section; the removal also took out a follow-on subsection ('Henkilövaikuttaminen', about supporting anti-immigration views) whose inserting revision is not in the pack. One editor (E35), one article, never put back: not level 3.",
      "human_verified": false,
-     "notes": "Labellers disagree: labeller contested; claude:blind reverted (Level 1: section 'Suomettaminen 2000-luvulla' says the Kremlin aims to strengthen influence by promoting pro-Russian representatives. Removed 'rv, lähteetöntä' (unsourced) once, not put back. Interpretive but sourcing is the only recorded problem, so capped at Level 1.). Lowest level kept until a human decides.",
+     "notes": "Labellers disagree: labeller contested; claude:blind reverted (Level 1: section 'Suomettaminen 2000-luvulla' says the Kremlin aims to strengthen influence by promoting pro-Russian representatives. Removed 'rv, lähteetöntä' (unsourced) once, not put back. Interpretive but sourcing is the only recorded problem, so capped at Level 1.); gemini:blind contested (Level 2 — because: added an unsourced essayistic section 'Suomettaminen 2000-luvulla' ('Finlandization in the 2000s') claiming the Kremlin places pro-Russian figures into leadership and backs anti-immigration views in EU and North American states, which was removed by another editor for lacking sources ('rv, lähteetöntä').). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3621,6 +3698,7 @@
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
+      "gemini:blind",
       "human:key44:spot-check"
      ]
     },
@@ -3645,6 +3723,7 @@
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
+      "gemini:blind",
       "human:key44:spot-check"
      ]
     },
@@ -3666,6 +3745,7 @@
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
+      "gemini:blind",
       "human:key44:spot-check"
      ]
     },
@@ -3685,10 +3765,11 @@
      "description": "Puts back an external link to a personal homepage titled 'Toisenlainen näkökulma ryssävihaan' ('A different perspective on hatred of Russians').",
      "why": "Level 2, low confidence on the claim test. Claim: a content dispute over including a non-expert viewpoint page; the quoted text is the link label 'Toisenlainen näkökulma ryssävihaan'. Community dispute: an edit war. E200 put the link back at 350580 (2005-08-04; summary says it goes 'back' until the earlier remover justifies the removals), E14 removed it after 17.9 h saying the viewpoint 'ei ole tieteellinen tai asiantuntijan' ('is not scientific or an expert's'), an anonymous editor (80.220.x.x) put it back at 354247 (c18, an identical re-insertion), and E14 removed it again after 39.8 h ('palautus, perustelut aiemmin', 'restoration, reasons given earlier', saying nobody had justified the link). Put back at least twice, removal reason about the source's reliability. Level 3 not met: two inserting editors is one signal, but one article, the known insertions are 2 days apart (the first insertion predates the pack), and no source manipulation. Could be capped at level 1 if a bare link is not read as a claim.",
      "human_verified": false,
-     "notes": "Labellers disagree: labeller contested; claude:blind reverted (Level 1: an external link 'Toisenlainen näkökulma ryssävihaan' (Another perspective on Russophobia) was added twice by two ranges and taken out twice, once with 'näkökulma ei ole tieteellinen' (the viewpoint is not scholarly). It is a link, not a quotable factual claim, so it stays at Level 1.). Lowest level kept until a human decides.",
+     "notes": "Labellers disagree: labeller contested; claude:blind reverted (Level 1: an external link 'Toisenlainen näkökulma ryssävihaan' (Another perspective on Russophobia) was added twice by two ranges and taken out twice, once with 'näkökulma ei ole tieteellinen' (the viewpoint is not scholarly). It is a link, not a quotable factual claim, so it stays at Level 1.); gemini:blind contested (Level 2 — because: external link 'Toisenlainen näkökulma ryssävihaan' ('Another perspective on anti-Russian sentiment') was added by two distinct editors, removed with a summary disputing its reliability and neutrality ('perspective is not scientific or an expert's, but of an anti-Russian hothead'), and put back once after removal; span is under 7 days so it remains Level 2.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3705,10 +3786,11 @@
      "description": "Adds an unsourced paragraph saying anti-Russianness/russophobia has not been problematised in research, that it is undefined which derives from which, and that the concept's 'possible narrativity' is unresearched.",
      "why": "Level 2, moderate confidence. Claim about the state of research on a contested concept: 'Käsitetasolla venäläisvastaisuutta tai russofobiaa ei ole tieteellisessä keskustelussa problematisoitu' ('at the conceptual level, anti-Russianness or russophobia has not been problematised in scholarly discussion') and 'Käsitteen semantiikasta ja mahdollisesta narratiivisuudesta ei ole saatavilla riittävästi tutkimustietoa' ('not enough research is available on the semantics and possible narrativity of the concept'). Community dispute: removed after 34 days by E539 with 'lähteetöntä, määritelmävirkkeen perusteella venäläisvastaisuus ja russofobia ovat synonyymejä' ('unsourced; per the definition sentence anti-Russianness and russophobia are synonyms'), a sourcing reason that also says the premise is wrong. Partial removal (c34); the insertion diff confirms 22159468 added the paragraph. One editor, one article, not put back.",
      "human_verified": false,
-     "notes": "Labellers disagree: labeller contested; claude:blind reverted (Level 1: paragraph says the concept of Russophobia 'ei ole tieteellisessä keskustelussa problematisoitu' and little research exists. Removed 'lähteetöntä' (unsourced) since the definition treats the terms as synonyms. Plausible text, sourcing the only recorded problem, no slant.). Lowest level kept until a human decides.",
+     "notes": "Labellers disagree: labeller contested; claude:blind reverted (Level 1: paragraph says the concept of Russophobia 'ei ole tieteellisessä keskustelussa problematisoitu' and little research exists. Removed 'lähteetöntä' (unsourced) since the definition treats the terms as synonyms. Plausible text, sourcing the only recorded problem, no slant.); gemini:blind contested (Level 2 — because: added an unsourced claim on 'Venäläisvastaisuus' asserting that 'Käsitetasolla venäläisvastaisuutta tai russofobiaa ei ole tieteellisessä keskustelussa problematisoitu' ('At the conceptual level, anti-Russian sentiment or Russophobia has not been problematized in scientific discussion'), which was removed for being unsourced and contradicting the lead definition ('lähteetöntä, määritelmävirkkeen perusteella venäläisvastaisuus ja russofobia ovat synonyymejä').). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3728,9 +3810,11 @@
      "description": "Adds that in 1932 Germany Kekkonen wrote home about his aversion to Jews ('ei koskaan jutin luo, jos saa kristittyjen parissa olla'), sourced to Seppo Papunen, Kanava 4/2017.",
      "why": "Level 1. Substantive, sourced text taken out by a different account after 23 days; the final removal by E655 says 'Siirto elämäkertaan' ('moved to the biography'), i.e. relocated, not disputed. Earlier the same day E658 cut 281 bytes asking 'Mikähän tämä on?' ('what is this?') and E241 put 282 bytes back 8 min later as 'viite-fix' ('reference fix'); the byte counts suggest the same passage, but neither summary disputes accuracy or neutrality. The text cites a published source and no removal says it is wrong, so it is not read as a disputed claim: capped at level 1 (c14). 22501749 is E366's own 5-byte tweak; 22501787 is listed as the put-back.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; claude:blind reverted (Level 1: added, with a source (Kanava 4/2017), a passage that Kekkonen wrote of aversion towards Jews while lodging with a Jewish family in Germany. Removed as 'Siirto elämäkertaan' (moved to the biography article), not as a dispute.); gemini:blind contested (Level 2 — because: added a sourced claim about Urho Kekkonen's 1932 remarks on Jewish hosts in Germany ('kirjoittamaan kotimaahan vastenmielisyydestään juutalaisia kohtaan' / 'writing home about his aversion toward Jews'), which was removed with 'Mikähän tämä on?' ('Wonder what this is?'), put back by a second editor, and later removed with 'Siirto elämäkertaan' ('Move to biography').). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3749,7 +3833,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3769,7 +3854,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3789,7 +3875,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3815,9 +3902,11 @@
      "description": "Restores the full Suomi–Neuvostoliitto-Seura article each time it was turned into a redirect to Suomi–Venäjä-Seura (2008-2010).",
      "why": "Excluded: blanking. Every removal replaced the whole article with '#OHJAUS [[Suomi–Venäjä-Seura]]' (a redirect), i.e. emptied the page: E343 at 5779927, 5789513, 5790612 and 9092459 ('Ohjaus tynkään Suomi-Venäjä-Seura', 'redirect to the stub'; 'same society, founded 16.10.1944'), and E78's merge at 9060933. The dispute was whether the society gets its own article, not any claim in the text: c07 shows merge and deletion templates and E27 undoing the merge 'äänestys on kesken' ('vote in progress'). Every removal was undone (flags), and the article exists in the latest revision with nearly the same lead, so it was also kept in substance. Inserting revisions are the restorations by E5 (c10, c12, c13), E182 and E27 (c07); edits by others inside c07's 682-day run are tweaks.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller not-incident/blanking; claude:blind not-incident/blanking (The full article was replaced by a redirect ('#OHJAUS [[Suomi–Venäjä-Seura]]') several times in a merge dispute; the removal is a page-level redirect (page emptied), not a dispute about a claim. Removals were undone each time.); gemini:blind campaign (Level 3 — because: substantive dispute over whether 'Suomi–Neuvostoliitto-Seura' ('Finland–Soviet Union Society') should stand as an independent historical article detailing its 1944 founding and political role or be replaced with a redirect to 'Suomi–Venäjä-Seura' ('Finland–Russia Society'), restored by at least 3 distinct named editors and put back more than 2 times across nearly two years (2008–2010).). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3837,10 +3926,11 @@
      "description": "Restores the full Kekkonen article text (2004), which two removals reverted to a near-empty early version.",
      "why": "Excluded: blanking. Both removals restored a version that contains none of the article's paragraphs (every paragraph, image and interwiki line shows as added in the diffs): E48 at 9809 restored 6973 (c11, no summary, undone by 9810), and an anonymous editor at 154919 restored 9812 (c08, no summary), wiping 400 days of routine edits by many editors; undone by 160401. 7627 and 9814 are E41's restorations of the same text (same chain). Not an editorial removal of content.",
      "human_verified": false,
-     "notes": "Labellers disagree: labeller not-incident/blanking; claude:blind reverted (Level 1: a long rewritten biography lead and sections (education, sports, pseudonyms) was taken out by anonymous editors with no summary, and each time put back within minutes. No quotable disputed claim and no dispute reason.). Lowest level kept until a human decides.",
+     "notes": "Labellers disagree: labeller not-incident/blanking; claude:blind reverted (Level 1: a long rewritten biography lead and sections (education, sports, pseudonyms) was taken out by anonymous editors with no summary, and each time put back within minutes. No quotable disputed claim and no dispute reason.); gemini:blind not-incident/blanking (Excluded (blanking) — because: both removals (revs 9809 and 154919) wiped out the entire Urho Kekkonen article text that had been restored and expanded over a year, and those blankings were immediately undone.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3860,7 +3950,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3878,10 +3969,11 @@
      "description": "Adds an internal link to the article 'Tarja Halosen vuodet' in the external-links list.",
      "why": "Excluded: not substantive. The edit only adds a navigation link '[[Tarja Halosen vuodet|Wikipedia: Vuosi vuodelta - Tarja Halonen]]'; no prose, number, date, name or citation. Rolled back 5 min later (c19).",
      "human_verified": false,
-     "notes": "Labellers disagree: labeller not-incident/not-substantive; claude:blind reverted (Level 1: added an internal link '[[Tarja Halosen vuodet|Wikipedia: Vuosi vuodelta - Tarja Halonen]]' under further reading; removed within 5 minutes by a different account, no dispute reason.). Lowest level kept until a human decides.",
+     "notes": "Labellers disagree: labeller not-incident/not-substantive; claude:blind reverted (Level 1: added an internal link '[[Tarja Halosen vuodet|Wikipedia: Vuosi vuodelta - Tarja Halonen]]' under further reading; removed within 5 minutes by a different account, no dispute reason.); gemini:blind reverted (Level 1 — because: added an internal see-also link '* [[Tarja Halosen vuodet|Wikipedia: Vuosi vuodelta - Tarja Halonen]]' ('Tarja Halonen's years | Wikipedia: Year by year - Tarja Halonen') which was reverted without a dispute summary or re-insertion.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3901,7 +3993,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3921,7 +4014,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3941,7 +4035,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3962,7 +4057,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -3982,7 +4078,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -4002,7 +4099,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -4022,7 +4120,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -4042,7 +4141,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -4060,9 +4160,11 @@
      "description": "A revert that removed an anonymous editor's sentence about the punk band 'Kuolleet Kekkoset'; it added no text.",
      "why": "Excluded: not substantive. The undone edit 7728715 only deleted a sentence (-169 bytes) and added no prose, number, date, name or citation, so the c29 'removal' (7728717, the sentence's author putting it back) took nothing out. The band trivia itself (added by 7728711, removed again by 7728721) has no inserting edit in the pack.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller not-incident/not-substantive; claude:blind not-incident/not-substantive (Inserting rev 7728715 is itself a revert that removes the band-trivia sentence (-169 bytes); it adds no prose. The other side put the sentence back.); gemini:blind reverted (Level 1 — because: rev 7728715 reverted an unsourced pop-culture mention of the punk band 'Kuolleet Kekkoset' ('Dead Kekkonens') and was undone 33 seconds later without an accuracy or neutrality dispute summary; the underlying trivia is not a slanted or contested claim.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -4080,9 +4182,11 @@
      "description": "A rollback, summarised as block evasion, of infobox changes listing Kekkonen's foreign-minister posts; it added no text.",
      "why": "Excluded: not substantive. The undone edit 23358930 (E647: 'rv, eston kiertoa', 'rv, block evasion') removed infobox rows (-480 bytes) and only renumbered template fields; the c30 'removal' by an anonymous IPv6 editor put the infobox rows back and was itself undone (23359110). No added prose, number, date, name or citation to label.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller not-incident/not-substantive; claude:blind not-incident/not-substantive (The inserting edit renumbers infobox parameters and relabels a link text ('Suomen sisäasiainministeri'); no prose, number or date is added. Treated as markup only. Revert was itself undone.); gemini:blind reverted (Level 1 — because: rev 23358930 removed infobox entries for Urho Kekkonen's Foreign Minister terms as a block-evasion rollback ('rv, eston kiertoa' / 'rv, block evasion'), and was undone by another editor without a content-accuracy or neutrality dispute summary.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -4102,7 +4206,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     }
    ],
@@ -5357,9 +5462,12 @@
      ],
      "description": "Adds that SKE's chair Marco de Wit has been convicted of an aggravated accounting offence and aggravated endangerment of traffic safety; the de Wit version also adds suspicions of two further offences for which it says he was acquitted.",
      "why": "Level 3. Level 2 holds: a slanted claim about a living person. The de Wit version reads 'De Wit on tuomittu vankeuteen törkeästä kirjanpitorikoksesta ... sakkorangaistuksiin kahdesta törkeästä liikenneturvallisuuden vaarantamisesta' ('sentenced to prison for an aggravated accounting offence ... fined for two aggravated endangerments of traffic safety'), plus suspicions of two serious offences 'mutta näytön puuttuessa oikeus on todennut hänet syyttömäksi' ('but for lack of evidence the court found him not guilty'), tagged {{lähde}}. It was removed with 'Mahdollinen kunnianloukkaus. Ei voi lisätä lähteettömänä.' ('Possible defamation. Cannot be added without a source.', 17769625, c17) and 'Rikoksia ei voi lisätä lähteettöminä. Muilta osin POV.' ('Crimes cannot be added unsourced. Otherwise POV.', 17769831, c02). It was put back twice on 2018-12-11: 17769622 undoes an earlier removal 17769615 that is not in the pack, then 17769627. Level-3 signals: (1) articles: the same two convictions were added to Suomen Kansa Ensin on 2018-11-04 (17685226: 'Yhdistyksen puheenjohtaja on tuomittu rangaistuksiin muun muassa törkeästä kirjanpitorikosesta ja törkeästä liikenneturvallisuuden vaarantamisesta' = 'the association's chair has been sentenced for, among other things, an aggravated accounting offence and aggravated endangerment of traffic safety'; removed by a rollback 5.8 h later, c15) and to Marco de Wit. (2) accounts: two anonymous editors in different masked ranges (E539 88.115.x.x on SKE, E555 83.245.x.x on de Wit). (3) persistence: put back 2 times, 37 days between the first insertion (2018-11-04) and the last (2018-12-11). Treating the two articles as one claim is a judgement: the wording differs but the two convictions are the same. Without that merge, the de Wit part alone is level 2 (one editor, one article).",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -5379,9 +5487,12 @@
      ],
      "description": "Recasts de Wit's 'Laiton lehti?' publication as a 'vulgar nationalist blog' and adds that he became known for transporting corpses on a van floor (Yle MOT story, cited) and that his partner sits on the SKE board as treasurer.",
      "why": "Level 2. A claim: loaded framing in the added text ('alatyylisen [[Kansallismielisyys|kansallismielisen]] blogin' = 'vulgar nationalist blog'; 'De Wit tuli tunnetuksi kuljetettuaan ruumita pakettiauton lattialla' = 'De Wit became known for transporting corpses on the floor of a van'). Community dispute: the run was removed after 107 min by a different account with 'Muilta osin POV' ('otherwise POV', 17769831, c02). Not level 3: there are two editors in different masked ranges (E555 83.245.x.x; E619 185.77.x.x changed 'verkkojulkaisun' to 'blogin', 'web publication' to 'blog', the same framing), but only one article, no put-back and no source change, so only one signal. Contains must-include rev 17769637, which adds 'alatyylisen' ('vulgar'). The convictions paragraph that was re-added in the same run is item far-right/i01.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -5397,9 +5508,12 @@
      ],
      "description": "Adds a 'Criticism' section saying Turtiainen's pro-Russia line would likely drop Finnish living standards to Russian levels (average wage 621 euros a month), cited to an article on Russian army pay.",
      "why": "Level 2. A claim: unsourced evaluative framing ('Turtiaisen edustama Suomen lähentäminen poliittisesti ja integrointi taloudellisesti Venäjään todennäköisesti pudottaisi suomalaisen elintason samoihin lukemiin' = 'the political rapprochement and economic integration with Russia that Turtiainen represents would likely drop the Finnish standard of living to the same figures'), backed by a citation about Russian army salaries. Community dispute: a different account removed it after 85 min with a sourcing reason, 'lähteessä ei Turtiaisesta' ('the source says nothing about Turtiainen', c03). One anonymous editor (E667), one article, not put back: not level 3. Must-include rev 21024113.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -5422,8 +5536,10 @@
      "description": "Rewrites the IKL lead as a 'far-right fascist party that took many influences from German National Socialism and European fascism' and says its black-shirt uniform had a swastika armband 'like the Nazis'.",
      "why": "Level 2. A claim: it changes how IKL is characterised. Rendered added text: 'äärioikeistolainen fasistipuolue, joka otti runsaasti vaikutteita saksalaisesta kansallissosialistisesta ja eurooppalaisesta fasistisesta liikkeestä' ('a far-right fascist party that took many influences from the German National Socialist and European fascist movement'); 'joissa oli natsien lailla hakaristihihamerkki' ('which, like the Nazis, had a swastika armband'). Community dispute: it was removed without a summary on 2007-04-12 (2659257, c05), put back by E15 (2659601, c18) and removed again 15 min later (2659647). That is one put-back and a back-and-forth (6 identity reverts in 3 days). Not level 3: two editors added parts of it (E15, named; E117, 213.216.x.x), but it is on one article, was put back only once and has no source change, so only one signal. Category content_dispute rather than pov_push because today's lead (pack snippet) also calls IKL far-right and fascist. The label is about the 2007 dispute, not about truth. The image E15 added in the same run (2659193), which E16 removed separately, is left out.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller contested; gemini:blind campaign (Level 3: Added claims characterizing IKL as a far-right fascist party heavily influenced by German National Socialism and stating its uniform featured a swastika armband like the Nazis ('äärioikeistolainen fasistipuolue, joka otti runsaasti vaikutteita saksalaisesta kansallissosialistisesta ja eurooppalaisesta fasistisesta liikkeestä' / 'far-right fascist party that took extensive influences from the German National Socialist and European fascist movement', and 'joissa oli natsien lailla hakaristihihamerkki' / 'which like the Nazis had a swastika armband'); added by two distinct editors (one named, one anonymous), engaged in an edit war with re-insertion after removal, and spanning over 11 days from first to last insertion (2007-04-01 to 2007-04-12).). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5445,8 +5561,10 @@
      "description": "Replaces the SKE board in the infobox with the rival board elected in 2019 and adds a signed note that the PRH removed de Wit's signing rights; later adds that the Tampere district court backed the new board (YouTube source).",
      "why": "Level 2. A claim that changes who leads the party during a leadership split. The infobox chair becomes the rival board's chair, and the added note reads '23.8.PRH poisti Marcolta nimenkirjoitusoikeudet. Hän ei ole enää puolueen puheenjohtaja, ei edes hallituksen jäsen.' ('On 23 Aug the PRH removed Marco's signing rights. He is no longer the party chair, not even a board member.'). Community dispute, step by step: (1) removed as 'lähteetön' ('unsourced', 18391755, c19); (2) put back the same day by another named account with 'Luotettavin käytettävissä oleva julkinen tieto on PRH:n rekisteri' ('the most reliable public information is the PRH register', 18392074); (3) that account then removed the signed note as wrong: 'PRH ei voi poistaa keneltäkään mitään oikeuksia' ('the PRH cannot remove anyone's rights', 18392075, c20); (4) after 61 days the whole change was removed again: 'ei minkäänlaisia luotettavia sekundäärilähteitä. joku muutaman sadan tilaajan youtube-kanava ei ole luotettava lähde' ('no reliable secondary sources at all; a YouTube channel with a few hundred subscribers is not a reliable source', 18519639, c07). Not level 3: three named accounts added or re-added it (E592, E540, E594), but it is on one article and was put back only once. The citation swaps visible in c07 (party site and rules reference changed to a new domain) cannot be tied to an edit in the pack, so the source signal is not counted. Other editors' edits in the run (18396968, a 'fix', a homepage-link update) are left out.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller contested; gemini:blind campaign (Level 3: Disputed claims over Suomen Kansa Ensin's legitimate board, leadership infobox, website, and court ruling ('23.8.PRH poisti Marcolta nimenkirjoitusoikeudet. Hän ei ole enää puolueen puheenjohtaja...' / '23.8. PRH removed signing rights... No longer party chair...', and 'Yhdistyksen hallitus on nyt Tampereen käräjäoikeuden vahvistamana...' / 'The association's board is now confirmed by Tampere District Court...'), pushed by three distinct named accounts and put back multiple times over 43 days (2019-09-06 to 2019-10-19), and removed multiple times for lacking reliable secondary sources ('ei minkäänlaisia luotettavia sekundäärilähteitä').). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5462,9 +5580,12 @@
      ],
      "description": "Adds a paragraph saying the Lapua movement's first meetings were in Swedish-speaking parishes, that its Swedish-speaking support 'has been more or less hushed up', and that Swedish-speaking nobles in it looked down on Finnish.",
      "why": "Level 2. A claim with narrative framing: 'Lapuan liikkeen ruotsinkielisestä kannattajakunnasta on aikojen saatossa enemmän tai vähemmän vaiettu' ('the movement's Swedish-speaking support has over time been more or less hushed up'), and 'Ironista kylläkin ... väheksyivät suomen kieltä' ('Ironically ... belittled the Finnish language'). Community dispute, two signals: a {{lähde}} (citation needed) tag was added to it during its 122.6 days; and the removal gives a sourcing and accuracy reason, 'poistan pitkään lähteettömänä olleen kappaleen ... Aiemman kappaleen lähteen mukaan kannattajakuntaa ei ole juuri tutkittu, eikä siinä puhuta sanaakaan ruotsinkielisistä' ('removing the long-unsourced paragraph ... according to the previous paragraph's source the support base has hardly been studied, and it says not a word about Swedish speakers', c37). The text-search inserting edit 1420030 does add this paragraph (insertion_diff). One editor, one article, not put back: not level 3.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -5482,9 +5603,12 @@
      ],
      "description": "Changes the SKE infobox title of its secretary from 'party secretary' to 'secretary', on the grounds that SKE was not yet a registered party.",
      "why": "Level 2, at the low end. A claim: a content dispute over SKE's status that can be quoted from the added text ('(sihteeri)' instead of '(puoluesihteeri)'; summary 'Ei voi olla puoluesihteeri, koska ei ole puolue!' = 'Cannot be a party secretary because it is not a party!'). Community dispute: (1) removed by a different account that says the change is wrong, 'Myös rekisteröimätön puolue on puolue' ('an unregistered party is a party too', 17685155, c24); (2) put back by another anonymous editor, 'Yhdistys on puolue vasta kun se on merkitty puoluerekisteriin' ('an association is a party only once it is in the party register', 17685197, first edit of c15); (3) removed again by rollback (17685568). So: put back once, in a back-and-forth. Not level 3: two masked ranges (E543 23.233.x.x, E539 88.115.x.x), but one article and one put-back give only one signal. The change is only 6 bytes, so a reviewer may prefer level 1.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -5504,8 +5628,10 @@
      "description": "Adds 'racism, homophobia' to SKE's ideology in the infobox, sentences that SKE publicly defended a man jailed for violent crimes and that a participant caused a police operation by threatening bystanders with a handgun (cited), and citation-needed tags on other text.",
      "why": "Level 1. The added text frames the party ('Ideologia = ... [[rasismi]], [[homofobia]]'; 'SKE on puolustanut julkisuudessa lukuisista väkivaltarikoksista vankeuteen tuomittua ...' = 'SKE has publicly defended a man jailed for numerous violent crimes'), but these passages have no community-dispute signal. A different account removed them after 5.8 h with a rollback that gave no reason (17685568, c15); they were not put back; no dispute template was placed on them (the {{Lähde}} tags in the run were added by the same editor to other text). Two other edits from the same run are separate items: the convictions sentence 17685226 (far-right/i01) and the 'secretary' change 17685197 (far-right/i07).",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; gemini:blind contested (Level 2: Added 'rasismi, homofobia' ('racism, homophobia') to the ideology infobox, citation-needed tags, and negative claims about Suomen Kansa Ensin defending a convicted violent offender and an armed police incident ('SKE on puolustanut julkisuudessa lukuisista väkivaltarikoksista vankeuteen tuomittua...' / 'SKE has publicly defended... convicted to prison for numerous violent crimes'), added during an active back-and-forth episode withcitation/dispute templates and removed by another editor.). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5523,7 +5649,8 @@
      "why": "Level 1. The added text frames IKL ('Voidaankin sanoa liikkeen olleen täysin fasistinen järjestö' = 'It can thus be said that the movement was an entirely fascist organisation'), but there is no community-dispute signal. A different account removed it after 42 min with only 'rv' (c01); it was not put back; no dispute template. Must-include rev 1514101.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5563,8 +5690,10 @@
      "description": "Adds that de Wit founded the nationalist web publication 'Laiton lehti?' in October 2018, cited to Kansallisromantikko.fi, plus an external link to the publication.",
      "why": "Level 1, capped by the content reading. The history signals are strong. It was put back 8 times between 2018-11-04 and 2018-11-19, once by a second named account (E240: 'jos juutuubi-videot kelpaavat artikkeliin niin miksei siten lehti' = 'if YouTube videos are acceptable in the article, why not the magazine'). Anonymous editors in one masked range (88.115.x.x) removed it each time, with promotion and sourcing reasons: 'Wikipedia ei ole tarkoitettu oman blogin mainostamiseen. Lähteesi ei ole luotettava.' ('Wikipedia is not for promoting your own blog. Your source is not reliable.') and 'Lähde ei täytä luotettavan lähteen määritelmää' ('the source does not meet the definition of a reliable source'). But the added sentence asserts no contested fact and has no slant. The dispute is about promotion, a self-published source and a link (P1.S9 'other': link spam, advertising), so it is not a claim and stays at level 1. A reviewer who reads this inclusion war as a content dispute would get level 2, and E240's single re-add plus persistence would then even meet two level-3 signals. The 'free speech activists' category from the same war is far-right/n06. The final removal (17729471) was undone, but the text is not in the latest revision.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; gemini:blind campaign (Level 3: Claim and external link about the founding of the online publication 'Laiton lehti?' ('Lokakuussa 2018 Marco de Wit perusti Laiton lehti? -nimisen kansallismielisen verkkojulkaisun' / 'In October 2018 [the subject] founded a nationalist online publication called Laiton lehti?'), repeatedly removed as spam, unreliable sourcing, and copyright infringement, and put back over 15 days (2018-11-04 to 2018-11-19) by two distinct named accounts.). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5585,8 +5714,10 @@
      "description": "Adds that SKE filed its party-register application on 31 October 2018, cited to a video post on de Wit's own 'Laiton lehti?' site.",
      "why": "Level 1, capped by the content reading. The history shows a dispute about the source, in this order: (1) removed with 'Alatyylinen rasistinen blogi, joka rikkoo toisten tekijänoikeuksia, ei edelleenkään kelpaa lähteeksi' ('a vulgar racist blog that infringes others' copyright is still not acceptable as a source', 17703759, c11); (2) put back (17703898, c22); (3) removed (17707133, c09); (4) put back by another named account as 'lähteistetty ja kontekstissaan olennainen tieto' ('sourced and relevant in context', 17707149, c23); (5) its citation was then replaced by {{lähde}}; (6) the blog citation was re-added (17713003) and (7) removed again (17713255, c16). But the sentence itself is a plain, plausible date with no slant, and nobody said it was wrong. The only recorded problem is the source, so it is a good-faith error, capped at level 1. (The same date later appears in the article with a different citation; see the context in c25's diff.)",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; gemini:blind contested (Level 2: Repeatedly inserted a citation to 'Laiton lehti?' for Suomen Kansa Ensin's party registry application ('31. lokakuuta 2018 yhdistys jätti hakemuksen Suomen Kansa Ensin ry:n merkitsemiseksi puoluerekisteriin.' / 'On 31 October 2018 the association submitted an application to enter Suomen Kansa Ensin ry into the party register.'), disputed in edit war and removed as an unacceptable blog source ('Alatyylinen rasistinen blogi, joka rikkoo toisten tekijänoikeuksia, ei edelleenkään kelpaa lähteeksi' / 'A vulgar racist blog that violates others' copyrights still does not qualify as a source'). Note: E240 also restored it in rev 17707149 (not listed in inserting_rev_ids), though total span from 2018-11-11 to 2018-11-16 is 5.4 days (< 7 days) on a single article, so only one Level 3 signal (accounts) would be met even if E240 is counted.). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5603,8 +5734,10 @@
      "description": "Restores an unsourced 'YouTubing' section saying de Wit has streamed over a thousand hours of his activism, drawn millions of views and had channels banned.",
      "why": "Level 1, capped by the content reading. Dispute signals exist. The section carries {{lähteetön}}. It was put back after an earlier removal (17577450 undoes 17576540) with 'Kyllä soveltuu ... video-tuotantohistoria on kohteen keskeinen wikimerkittävyysperuste' ('It is suitable ... his video production history is the subject's main notability criterion'). It was removed 14.5 days later as unsourced (c13). But the only recorded problem is the missing source, and the text is a plausible description with no contested fact or clear slant. So it is a good-faith error, capped at level 1.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; gemini:blind contested (Level 2: Re-inserted an unsourced promotional section on YouTube streaming ('De Wit on innokas suorien videolähetysten tekijä, joka on dokumentoinut katu- ja muuta poliittista aktivismiaan YouTube-palveluun toista tuhatta tuntia. Hänen videolähetyksensä ovat vuosien aikana saaneet yhteensä miljoonia katselukertoja toimien siten myös eräänlaisena kansallismielisen kentän tiedotuskanavana.' / '[The subject] is an avid creator of live video broadcasts who has documented street and other political activism on YouTube for over a thousand hours... serving as a kind of information channel for the nationalist field.'), tagged with '{{lähteetön}}' ('unsourced') and removed two weeks later for lacking any sources.). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5623,7 +5756,8 @@
      "why": "Level 1. The added text is claim-like: it changes names in a contested leadership and replaces a neutral summary with the party's own programme text ('Päivittänyt oikeat tiedot' = 'updated the correct information'). But there is no community-dispute signal: a different account rolled it back after 10.5 h with no reason (c14); it was not put back; no template.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5641,7 +5775,8 @@
      "why": "Level 1. A claim about the contested leadership. A rollback with no reason removed it 72 s later (c25). The next revision (18111775) undid that removal, but the pack does not show who made it: the remover undoing its own over-wide rollback is as likely as a dispute. So this put-back is not counted (when in doubt, the lower level). The text is not in the latest revision. Another editor's +219-byte edit in the run (18111772) was removed inside the run and cannot be seen in the diff, so it is left out.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5659,7 +5794,8 @@
      "why": "Level 1. There is no community-dispute signal: a different account rolled it back 6 min later with no reason (c26); it was not put back; no template. A reworded version of the same list appears in the article later (context in c14's diff; it cites the rules PDF accessed 11.12.2018, the same day).",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5678,7 +5814,8 @@
      "why": "Level 1. A sourced, attributed view, removed after 33.7 days as 'ei liene niin tarpeellista' ('probably not that necessary', c12). That is a relevance call, not a reason about accuracy, neutrality or sourcing, and the text was not put back. Another account's 0-byte tweak inside the run was rolled back separately and is not part of the item.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5696,7 +5833,8 @@
      "why": "Level 1. A plausible status update ('on' to 'oli' mukana puolueen toiminnassa, 'is' to 'was' involved in the party's activity). A rollback swept it away; the rollback's reason was about another editor's link: 'on jo linkkinä artikkelissa' ('already linked in the article', c33). The rollback was later undone (18755095), but the text is not in the latest revision, so it was not kept. No slant: capped at level 1.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5713,8 +5851,10 @@
      "description": "Long 2007 expansion of the Lapua movement's 1930 events (the peasant march, the kidnappings, the movement's own press statement denying fascism), later condensed by another editor.",
      "why": "Level 1. A different account copy-edited the passage 248 days later. Summary: 'kh+ muilutusyksityiskohta lähteineen +vaalien 1930 osalta neutralisointia ja uutta asiaa lähteineen' ('copy-edit, kidnapping detail with sources, neutralising the part on the 1930 elections, new material with sources', c38). It rewrote most of 2826584's paragraphs in shorter form and dropped some text, for example the quoted press statement 'Kaikki puheet fascismista, hallitusmuodon muuttamisesta ja diktaattorista ovat vääristelyä' ('all talk of fascism, changing the form of government and a dictator is distortion'). The neutrality wording covers only the 1930 elections paragraph. That paragraph's visible citation (a TV programme aired 18 June 2007) is later than 2826584 (11 May 2007), so the neutrality reason is not shown to apply to this insertion. A rewrite, not a dispute over a claim: level 1.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; gemini:blind contested (Level 2: Inserted sympathetic/framed narrative about the Lapua Movement's 1930 campaign ('Kansanliike saavutti tavoitteensa juuri tähän aikaan ja se onnistui murskaamaan kommunistien toiminnan käytännössä täysin' / 'The popular movement achieved its goals right at this time and succeeded in crushing communist activity practically completely', and 'Mieli oli tärkeämpi kuin kieli, kuten Kosola asian ilmaisi' / 'Mind was more important than language, as Kosola put it') while removing details about violence in forced rides; later rewritten and trimmed by another editor with summary citing neutralization ('vaalien 1930 osalta neutralisointia ja uutta asiaa lähteineen' / 'neutralization regarding the 1930 elections and new sourced material').). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5733,7 +5873,8 @@
      "why": "Excluded: graffiti. Insulting wordplay on the subject's name and a mocking sentence. A different account removed it after 4 min (c28).",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5752,7 +5893,8 @@
      "why": "Excluded: self-removal. The same anonymous account removed it 75 s later (c29).",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5771,7 +5913,8 @@
      "why": "Excluded: self-removal. The same anonymous account removed it 27 s later (c30). It would also be graffiti.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5790,7 +5933,8 @@
      "why": "Excluded: graffiti. Removed after 34 s 'sotkemisena' ('as vandalism', c34). The removal was later undone (18082885), but the text is not in the latest revision, so it is not 'kept'.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5809,7 +5953,8 @@
      "why": "Excluded: graffiti. No content was added. The undone edit is the cleanup of a party slogan pasted into the subject's name. The removing edit restored the slogan and was itself undone right away (9466246) (c32).",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5833,7 +5978,8 @@
      "why": "Excluded: not substantive (category only). The category was added to both articles on 2018-11-11 and removed by an anonymous editor the next day (17703758 c21, 17703751 c06). Its later re-additions came together with prose and are counted in far-right/i10 and far-right/i11. One removal on de Wit said 'Kyseinen henkilö ei ole sananvapausaktivisti yhdenkään luotettavan lähteen mukaan' ('no reliable source calls this person a free speech activist'), but the standard excludes category-only changes.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5851,8 +5997,10 @@
      "description": "Adds an internal link to the SKE article under 'Aiheesta muualla' (external links) on de Wit's article.",
      "why": "Excluded: not substantive (a link only). Removed as 'on jo linkkinä artikkelissa' ('already linked in the article', c33). The other edit in the same rollback is far-right/i17.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller not-incident/not-substantive; gemini:blind reverted (Level 1: Added '*[[Suomen Kansa Ensin|Suomen Kansa Ensin - suomalainen kansallismielinen puolue]]' ('Suomen Kansa Ensin - Finnish nationalist party') to the See Also / External links section, removed because the article already linked to it ('on jo linkkinä artikkelissa').). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5870,8 +6018,10 @@
      "description": "Adds section headings to the Lapua movement article ('väliotsikointia jäsentelyksi' = 'subheadings for structure').",
      "why": "Excluded: not substantive. The inserting edit found by text search (374715) only added headings over existing paragraphs (insertion_diff). The removal 87.7 days later took out 'omaa tutkimusta ja oikeasti turhaa ylenmääräistä väliotsikointia' ('original research and really unnecessary excessive subheadings', c36), but 374715 did not add the removed prose (for example the passage on Germanic race theories). One heading, 'Rasistitonta äärioikeistolaisuutta' ('far-right without racism'), carries framing, but it only summarises the existing paragraph under it.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller not-incident/not-substantive; gemini:blind reverted (Level 1: Insertion rev 374715 added opinionated section headings to Lapuanliike such as 'Rasistitonta äärioikeistolaisuutta' ('Racism-free far-rightism') and 'Aktivismia pakkokyydityksillä - muilutuksilla' ('Activism through forced rides - muilutus'), later removed in a partial cleanup with summary 'poistettu omaa tutkimusta ja oikeasti turhaa ylenmääräistä väliotsikointia' ('removed original research and really unnecessary excessive subheadings'). Because the inserting edit only added subheadings while the prose removed in rev 531421 came from other edits, this is capped at Level 1.). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -5889,8 +6039,10 @@
      "description": "Adds material to the 'Leadership of the Lapua movement' section (rewrites, and the list of strike-squad organisers named by Juha Siltala).",
      "why": "Excluded: blanking. After 12.8 years the whole unsourced section 'Lapuan liikkeen johto' was removed and replaced by a {{Pääartikkeli}} link to a new article. Summary: 'Poistin artikkelista täysin lähteettömän osio ... Siirsin sen omalla uudelle sivulleen Lapuanliikkeen johto' ('removed the completely unsourced section ... moved it to its own new page Lapuanliikkeen johto', c35). This is a section split, not a dispute over a claim. The text-search inserting edit 2981658 does add the Siltala list that was removed.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller not-incident/blanking; gemini:blind reverted (Level 1: Long-standing unsourced historical section on the leadership of the Lapua Movement ('Lapuan liikkeen epämääräisesti ja satunnaisesti kokoontunut johto ei tehnyt kuin muutaman linjaa vetävän päätöksen...' / 'The vaguely and sporadically convened leadership of the Lapua Movement made only a few policy-setting decisions...'), split out to a separate sub-article after 12 years with '{{Pääartikkeli|[[Lapuanliikkeen johto]]}}' because it was unsourced ('Poistin artikkelista täysin lähteettömän osio Lapuan liikkeen johto. Siirsin sen omalla uudelle sivulleen...'). Plausible historical prose removed/relocated solely for lacking citations.). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     }
    ],
@@ -6048,9 +6200,12 @@
      ],
      "description": "Adds to Stubb's private-life section that his social-media use has annoyed citizens and that under his government the economy has only sunk deeper while resources go to 'patronising citizens and inventing bans' instead of employment.",
      "why": "Level 2. Claim: unsourced, loaded framing of the Stubb government's record ('Stubbin hallituksen aikana talous onkin mennyt vain syvemmälle' = 'under Stubb's government the economy has only gone deeper'; 'kansalaisten holhoamiseen ja erilaisten kieltojen keksimiseen' = 'patronising citizens and inventing all kinds of bans'). Community: removed 2 min later by a different, named account with 'rv, aika vahvoja väitteitä ja mielipiteitä jotka vaatisivat lähteet tuekseen' ('rather strong claims and opinions that would need sources to back them'), a sourcing/neutrality reason. One anonymous editor (85.76.x.x), one article, never put back: no level-3 signal. c01 (must-include).",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -6066,9 +6221,12 @@
      ],
      "description": "Adds that Katainen's record as finance minister 2007-2011 caused the Finns Party's 2011 'jytky', voters signalling that he is unwanted in politics, and that this mattered more than Kiviniemi's premiership.",
      "why": "Level 2. Claim: an unsourced causal claim about the 2011 election ('Kataisen toiminta valtiovarainministerinä 2007–2011 johti Perussuomalaiset-puolueen vuoden 2011 \"jytkyyn\"' = 'Katainen's conduct as finance minister 2007-2011 led to the Finns Party's 2011 jytky'). Community: undone after 42 min by a named account with 'Lähteetöntä spekulointia' ('unsourced speculation'), a sourcing/accuracy reason. One anonymous editor (2001:14BA:…), one article, not put back: no level-3 signal. c02 (must-include).",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -6086,7 +6244,8 @@
      "why": "Level 1. Substantive, removed after 85 min by a different, named account, no exclusion. The text is a one-sided political quote ('Nuorten toimeentulotuen leikkaaminen jopa 40 prosentilla kulkee nimillä Lex Soininvaara' = 'cutting youth income support by up to 40 percent goes by the name Lex Soininvaara'), added 11 days before the 2011 election, but there is no community-dispute signal: the removal is a standard rollback with no reason, it was never put back and no dispute template appears. Level 2 needs both, so level 1. c03 (must-include).",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6104,9 +6263,12 @@
      ],
      "description": "Adds to the 2021 Marin breakfast-allowance controversy that former PM Jyrki Katainen has said he used a similar service while living at Kesäranta (Ilta-Sanomat source).",
      "why": "Level 2. Claim: frames the controversy with a precedent ('Ainakin entinen pääministeri Jyrki Katainen on kertonut käyttäneensä vastaavaa palvelua' = 'at least former PM Jyrki Katainen has said he used a similar service'), and a remover called it untrue. Community: removed 63 min after insertion by a named account, 'Poistin pari kohtaa jotka eivät pidä paikkaansa' ('removed a couple of points that are not true'); put back 5 h later by another named account ('Molemmat tiedot oli lähteistetty' = 'both pieces of information were sourced'); removed again 6.6 days later in a wider revert by a third account ('Kataisen aamiaiset Katainen artikkeliin' = 'Katainen's breakfasts belong in the Katainen article'). Two inserting accounts (anonymous 87.95.x.x and a named restorer), but one article, one put-back and no source manipulation: one level-3 signal only. Other edits in the c05 run are item i05 or dropped (a link, a deletion tag undone within the run).",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -6124,7 +6286,8 @@
      "why": "Level 1. Sourced and substantive; removed 10 h later by a different named account in a 7-edit revert: 'tapahtumakohtaisia yksittäisiä lausuntoja. Voi lisätä artikkeliin SDP:stä tai kuntavaaleista 2021' ('event-specific single statements; can be added to the SDP or 2021 municipal elections article'). The objection is placement, not accuracy or neutrality; no slant in the text; never put back. Misplaced good-faith content, capped at level 1. c05.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6144,7 +6307,8 @@
      "why": "Level 1. Plausible, unsourced, unslanted biographical detail. Undone 3 min after the first insertion with no reason (c17), put back the next day by the same named account (first edit of c06), then removed 4.6 days later by another named account with 'rv. lähteettömiä lisäyksiä' ('unsourced additions'). The put-back is a history signal, but the only recorded problem is a missing source and nothing is framed or changed, so it is a good-faith addition capped at level 1.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6162,7 +6326,8 @@
      "why": "Level 1. Unsourced, neutral biographical sentence (summary 'Säätiö lisätty' = 'foundation added'), removed after 4.6 days by a different named account with 'rv. lähteettömiä lisäyksiä' ('unsourced additions'); never put back. Missing source only, no slant: good-faith, level 1. A 119-byte anonymous edit inside the same run was already undone within 2 min and is not part of this item. c06.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6181,8 +6346,10 @@
      "description": "Changes the end of Sipilä's term as PM in the infobox to 8 March 2019, citing a news story that he was asking for the government's resignation.",
      "why": "Level 1. The new end date reads the cited news ('Juha Sipilä pyytää hallituksen eroa' = 'Sipilä asks for the government's resignation') as the end of the term; the pack's own article lead for Sipilän hallitus gives its term as 29.5.2015-6.6.2019, continuing after the break-up. A sincere misreading with no slant. Undone after 2.9 days with no reason (c07), put back the same day by the same anonymous editor (185.89.x.x) with 'erosi oikeasti!!! tää ei oo vitsi' ('really resigned!!! this is no joke'), removed again 4 min later (c18). One put-back, but a good-faith error is capped at level 1.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; gemini:blind contested (Level 2: Added end date '8.3.2019' to Juha Sipilä's prime ministerial term ('virassa = Sipilän hallitus 29.5.2015–8.3.2019') citing his request for government resignation (though he continued in a caretaker capacity), and put it back once after removal ('erosi oikeasti!!!' / 'really resigned!!!').). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6198,9 +6365,12 @@
      ],
      "description": "Adds that Marin attended the Bilderberg meeting in 2022 and 2023, that the meeting is suspected of planning a 'new world order' (linked to the conspiracy-theory article), and that her 2023 visit cost the state over 24,000 euros.",
      "why": "Level 2. Claim: frames the attendance with a conspiracy-theory suspicion ('sen epäillään suunnittelevan \"uutta maailmanjärjestystä\"' = 'it is suspected of planning a \"new world order\"') and attaches a cost figure to the trip. Community: removed after 2.5 days by a named account whose summary disputes the accuracy point by point ('salaliittoteoria on lähteessä kumottu …, Arhinmäen kysymys on jo vuodelta 2010, ja matkakustannuksiin sisältyi paljon muutakin kuin lisäyksessä mainittu matka' = 'the conspiracy theory is refuted in the source …, Arhinmäki's question dates from 2010, and the travel costs covered much more than the trip mentioned'). One named account, one article, not put back: level 2. c08.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -6218,7 +6388,8 @@
      "why": "Level 1. Sourced, substantive content by a temporary account, removed 6.7 days later by a named account in a revert ('Rv sotkua' = 'rv mess') aimed at a later edit by a different temporary account that defaced the lead name (item n02). No claim, no dispute signal: a collateral removal, level 1. c09.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6234,9 +6405,12 @@
      ],
      "description": "Adds that in November 2015 Stubb told parliamentary question time that 90% of expert statements on the nominee register were positive although the real share was 10%, and pushed the register although party leaders had judged it unlikely to advance (Yle source).",
      "why": "Level 2, borderline. Claim: a critical statement on a contested political episode ('vaikka todellinen luku on kymmenen prosenttia' = 'although the actual figure is ten percent'). Community: 20 min after insertion a named account trimmed its wording ('emme ole syyttäjiä emmekä tuomareita, faktat riittävät' = 'we are not prosecutors or judges, the facts are enough'); after 2.6 days another named account removed it ('resentismiä … ei wikipediaan tarvitse kirjoittaa ihmisistä tällaisia negatiivisia asioita' = 'recentism … Wikipedia need not write such negative things about people'), and that removal was undone (rev 15375382): put back once. The text is not in the latest revision, so not 'kept'. One anonymous inserter (37.136.x.x), one article: not level 3. Small edits by other anonymous ranges inside the run, each undone within it, are dropped. c10.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -6254,9 +6428,12 @@
      ],
      "description": "Adds a section 'Statement on nuclear power' saying that in Soininvaara's view nuclear power fights the greenhouse effect the way a drink fights a hangover (cited to a 2004 anthology).",
      "why": "Level 2, borderline. Claim: an attributed stance on a contested policy, set apart in its own section, and the editors disagree over its weight ('Osmo Soininvaaran mielestä ydinvoima torjuu kasvihuoneilmiötä kuin viinaryyppy krapulaa' = 'in Soininvaara's view nuclear power fights the greenhouse effect like a shot of liquor fights a hangover'). Community: a back-and-forth over the passage: removed after 15.5 h ('rv, ei oleellista' = 'not relevant', c11), put back two days later by the same named account ('ks keskustelu' = 'see talk'), removed again 2.8 h later by the same remover ('rv, katso keskustelu', c19). The talk pointers alone would not count; the put-back does. One account, one article: level 2.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -6273,8 +6450,10 @@
      "description": "Adds to a citation in the gene-register section a long direct quote from Soininvaara's blog calling a proposed immigrants-only DNA register 'a mere bluff'.",
      "why": "Level 1. The added text is a verbatim quote of the source already cited, placed in the footnote; it changes no fact. Removed after 2.4 days by a different named account: 'Turhaa pointtausta. Ei muistakaan kirjoituksista ole lainauksia.' ('Needless point-making. The other writings are not quoted either.'), a style/consistency objection; the inserter's summary is about style too ('viitteessä voi hyvin olla suora lainaus' = 'a reference may well contain a direct quote'). The removal was undone (rev 6328971) but the text is not in the latest revision, so not 'kept'. Read as a citation-style dispute rather than a claim: capped at level 1. c12.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; gemini:blind contested (Level 2: Added an extended quote from Soininvaara's blog into a reference ('Tuo esitys vain maahanmuuttajille tarkoitetusta geneettisen sormenjäljen rekisteristä oli tietysti pelkkä bluffi...' / 'That proposal for a genetic fingerprint register meant only for immigrants was of course a mere bluff...'). Removed with 'Turhaa pointtausta. Ei muistakaan kirjoituksista ole lainauksia' ('Pointless emphasis/POINT. Other writings don't have quotes either'), and the removal was itself undone.). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6292,8 +6471,10 @@
      "description": "Restores, after another editor had removed it, a sourced sentence that Sipilä is Christian in his worldview (Kaleva article on his relation to Laestadianism).",
      "why": "Level 1. The insertion is a named account's rollback restoring text an earlier edit had removed (plus the same account's trim of the section a minute later). A different named account removed the sentence 5.5 days later with 'Valtio ja kirkko erotettu' ('state and church separated'); that removal was itself undone (rev 15613699). Not in the latest revision, so not 'kept'. The sentence is neutral and sourced, and no accuracy, neutrality or sourcing reason was given: not a claim, level 1. c13.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; gemini:blind contested (Level 2: Added a sourced claim 'Sipilä on elämänkatsomukseltaan kristillinen' ('Sipilä has a Christian worldview'), put back in a back-and-forth revert chain (rev 15602069 undid a previous edit, and removal 15612785 with summary 'Valtio ja kirkko erotettu' / 'State and church separated' was itself undone).). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6312,8 +6493,10 @@
      "description": "Adds that Centre Party honorary chairman Paavo Väyrynen says the party is ruled by followers of the preacher Lars Levi Laestadius allied with the far right, plus a line quoting Sipilä that despair has turned into hope.",
      "why": "Level 2. Claim: a loaded allegation about who controls the party ('puoluetta hallitsevat äärioikeiston kanssa liittoutuneet saarnamies Lars Levi Laestadiuksen kannattajat' = 'the party is ruled by followers of the preacher Laestadius allied with the far right'), cited only vaguely (a book with no year or page; 'puheenvuoroja eri tilaisuuksissa' = 'speeches at various events'); the edit summary is a personal remark addressed to Sipilä. Community: rolled back after 10.9 h by a named account (no reason), put back 14 days later by a different named account (c20's undone edit), rolled back again 55 s later. Level-3 signals: two inserting accounts (yes); one article; put back only once; the citations are vague but the pack does not show them to be made up. One signal only, so level 2.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller contested; gemini:blind campaign (Level 3: Added claim citing Paavo Väyrynen ('puoluetta hallitsevat äärioikeiston kanssa liittoutuneet saarnamies Lars Levi Laestadiuksen kannattajat' / 'the party is controlled by supporters of preacher Lars Levi Laestadius allied with the far right', with hostile edit summary). Removed in rev 15904616, then restored 14 days later on 2016-09-05 in rev 15933764 by a second distinct named account (E1242, after E1238) and removed again. Wait: let's check Level 3 signals carefully! Signals: (1) >=2 distinct editors (E1238 and E1242, both named) -> YES. (2) >=2 articles -> NO (only page 926229). (3) Persistence: put back >=2 times over >=7 days -> NO, it was put back only 1 time (rev 15933764 is 1 re-insertion after initial insertion 15903090; 15904344 just appended other text before first removal). (4) Source manipulation alongside -> citations are incomplete/vague ('puheenvuoroja eri tilaisuuksissa vuosina 2015-2016' / 'speeches at various events'), not clear removal/replacement/fabrication of a source. Wait—only 1 Level 3 signal holds! Let me label this 'contested', not 'campaign'!). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6332,7 +6515,8 @@
      "why": "Level 1. A neutral, sourced statement by a second named account, swept out by the same rollback as i15 after 10.9 h (no reason) and again on 5 September 2016 after the put-back that restored both passages. No claim and no slant: level 1. The shared put-back (rev 15933764) is listed under i15, because an inserting revision belongs to one item only. c14, c20.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6351,7 +6535,8 @@
      "why": "Level 1. Substantive (a spending rule, numbers, an attribution), unsourced, by one anonymous editor (143.51.x.x); rolled back after 12.3 days by a named account with no reason, never put back, no dispute template. Mild framing ('Ilta-Sanomien mukaan tämä ja 60:40 -menosääntö … on kokoomuslainen' = 'according to Ilta-Sanomat this and the 60:40 spending rule … is Kokoomus-like') but no community-dispute signal, so level 1. c15.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6367,9 +6552,12 @@
      ],
      "description": "Adds a 'Language questions' section saying Stubb did not arrange German interpretation at the start of the EU presidency and that Germany therefore boycotted a ministerial meeting in Finland in June 2006, cited to Stubb's 2009 book.",
      "why": "Level 2. Claim: attributes a diplomatic boycott to Stubb's own decision ('EU puheenjohtajuuden alussa Stubb ei järjestänyt tulkkausta saksaksi. Sen vuoksi Saksa boikotoi ministerikokousta' = 'at the start of the EU presidency Stubb did not arrange German interpretation; because of that Germany boycotted the ministerial meeting'). Community: undone after 47.8 h by a named account with 'teksti ei vastaa lähdettä' ('the text does not match the source'), an accuracy/sourcing reason. One named account, one article, not put back; a source that reportedly does not support the text is at most one level-3 signal: level 2. c16.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -6387,12 +6575,13 @@
      "why": "Level 1. Adds a number and a citation, so substantive; removed 2 min later by a different named account as 'epäolennaista' ('irrelevant'). The citation points to a commercial betting site (link-spam-like); no claim about the topic and no dispute signal: level 1. c21.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
      "id": "austerity-politics/i20",
-     "label": "reverted",
+     "label": "not-incident",
      "category": "vandalism",
      "page_id": 926229,
      "inserting_rev_ids": [
@@ -6404,8 +6593,11 @@
      "description": "Adds to the lead sentence that Sipilä is nicknamed 'Kusitolppa' (crude: 'piss post'), with an Iltalehti URL as the source.",
      "why": "Level 1, borderline graffiti. A crude nickname in bold in the lead reads as mockery, but it carries a news citation that the pack cannot check, so it is not clearly graffiti and is judged as content. It is mockery rather than a claim on the topic, so it is capped at level 1 even though the insertion itself undid an earlier edit and the rollback 2 min later (named account, no reason) was undone (rev 14661204). Not in the latest revision. One anonymous range (88.112.x.x). c22.",
      "human_verified": false,
+     "exclusion": "graffiti",
+     "notes": "Labellers disagree: labeller reverted; gemini:blind not-incident/graffiti (Excluded (graffiti): Inserted derogatory nickname 'lempinimeltään Kusitolppa' ('nicknamed Piss-post') into the lead sentence of Juha Sipilä's biography.). Lowest level kept until a human decides.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6421,9 +6613,12 @@
      ],
      "description": "Adds that during the 2007 Tehy nurses' strike Soininvaara wrote that if someone had to die because of the strike he hoped it would be a relative of the strike's defenders, and that Jussi Halla-aho had used a similar argument in 2006.",
      "why": "Level 2. Claim: a paraphrase of a 2007 blog post plus a comparison to a 2006 Halla-aho text that frames the subject ('toivottavasti tämä on joku lakon puolustajien omaisista' = 'hopefully it is one of the relatives of the strike's defenders'; 'Vastaavaa argumenttia oli käyttänyt Jussi Halla-aho' = 'Jussi Halla-aho had used a similar argument'). Community: removed after 263.8 days by an anonymous editor (78.27.x.x) with 'Harhaanjohtava & Jussi Halla-aho ei liity aiheeseen' ('misleading & Jussi Halla-aho is unrelated to the subject'), an accuracy reason. One named inserting account, one article, not put back: level 2. Partial-removal candidate; the insertion diff confirms this edit added the removed paragraph. c33.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -6439,9 +6634,12 @@
      ],
      "description": "Expands the August 2010 'Russia is not a great power' controversy with an IMF comparison of the Russian and Dutch economies, an expert saying Katainen's figures were 10-15 years old, the PM distancing herself and a Duma committee chair's reply.",
      "why": "Level 2, borderline. Claim: an editor-built numeric rebuttal of Katainen's statement ('IMF:n tilastojen mukaan Venäjän talous (1 500 miljardia US-dollaria) on kaksi kertaa Hollannin kokoinen' = 'according to IMF statistics Russia's economy (1,500 billion US dollars) is twice the size of the Netherlands'') plus a run of critical reactions. Community: after 13 days a different named account replaced the passage with a shorter version, summary 'omaa tutkimusta pois + olennainen' ('original research out + the essentials [kept]'), a sourcing reason. Otherwise sourced news; one account, one article, not put back: level 2. Partial-removal candidate; the insertion diff confirms the edit. c34.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -6457,9 +6655,12 @@
      ],
      "description": "Rewrites several sections of Katainen's article: drops sourced critical passages (his tax-free expense allowance, nurses' account of a promised 500-euro raise, the 'forced labour law' label, an assessment that he moved the party to the centre), adds his own favourable quotes on structural reforms and municipal mergers, and moves an analysnorden.org citation to a different sentence.",
      "why": "Level 2. Claim: a one-sided rewrite by selection: sourced critical text removed and the subject's own statements added ('Toimimalla oikein nyt, vältämme lähitulevaisuudessa vielä paljon raskaammat toimet' = 'by acting right now we will avoid much heavier measures in the near future'), with a citation moved from the sentence it supported to another one. Community: reverted 4.5 h later by a named account, 'perustelemattomia poistoja, joilla on sotkettu lähteet, esim. analysnorden.org:sta otettu tieto on poistettu ja lähde siirretty toiseen paikkaan' ('unexplained removals that muddled the sources, e.g. the information from analysnorden.org was removed and the source moved elsewhere'), a sourcing reason. The moved citation is the 'sources' signal, but one account and one article give no second signal: level 2. Partial-removal candidate; the insertion diff confirms the edit. c35.",
-     "human_verified": false,
+     "human_verified": true,
+     "notes": "Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind",
+      "human:key44:spot-check"
      ]
     },
     {
@@ -6478,7 +6679,8 @@
      "why": "Excluded: graffiti. An 11-byte insult added to the lead by an anonymous editor (93.174.x.x) under an unrelated edit summary, removed 10 min later in a revert 'sotkemisena' ('as messing'). That revert also swept away earlier sourced additions by a named account (2024 presidential-candidacy speculation, languages) and a category; the revert was itself undone right afterwards (rev 20498553), so those additions are not itemised. c04.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6497,7 +6699,8 @@
      "why": "Excluded: graffiti (name mockery, no content; 0-byte change by a temporary account), reverted 2 min later ('Rv sotkua' = 'rv mess'). The same revert also removed an earlier, sourced table row (item i10). c09.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6516,7 +6719,8 @@
      "why": "Excluded: graffiti (repeated nonsense word), anonymous (213.139.x.x), rolled back after 42 s. c24.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6534,7 +6738,8 @@
      "why": "Excluded: self-removal. The same temporary account undid its own addition 32 min later. c25.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6553,7 +6758,8 @@
      "why": "Excluded: self-removal. The same named account removed it 4 min later ('jaa, kärrmes ehti ensin' = roughly 'oh, someone got there first'). c26.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6572,7 +6778,8 @@
      "why": "Excluded: blanking. The removal is an anonymous page blanking (auto-summary 'Ak: Sivu tyhjennettiin' = 'page was blanked'); because the empty page equals an older blank revision, the run spans 152 edits back to a January 2006 restore (rev 703640). The removal was itself undone (rev 2185101). The bot flag comes from bot accounts that only added interwiki links, not the content, so 'bot' does not apply. c27.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6591,7 +6798,8 @@
      "why": "Excluded: blanking (the first applicable exclusion; it is also graffiti). An anonymous editor (194.197.x.x) removed 23 KB and left one insulting sentence, summary 'faktaa' ('facts'); rolled back 18 s later. c28.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6610,7 +6818,8 @@
      "why": "Excluded: not substantive (only a file link in the infobox changed, -10 bytes, anonymous); undone 29 s later. c29.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6629,7 +6838,8 @@
      "why": "Excluded: graffiti (one obscene word, anonymous 212.83.x.x), undone 31 s later. c30.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6648,7 +6858,8 @@
      "why": "Excluded: not substantive. The 'insertion' only removed a redirect markup line (-32 bytes) and added nothing; another anonymous editor undid it 81 s later, putting the redirect line back, and that was undone in turn (rev 4571594). The redirect line itself is graffiti; this candidate is the clean-up side of that exchange. c31.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     },
     {
@@ -6667,7 +6878,8 @@
      "why": "Excluded: not substantive. The undone run added no text (net -118): a named account removed the joke sentence, and a 98-byte addition by the sentence's author inside the run was removed 2 min later by another account. The author then undid the removal 51 min later, putting the sentence back, and that was undone in turn (rev 20698588). The sentence's own insertions are not in the pack; it would be graffiti. c32.",
      "human_verified": false,
      "labelled_by": [
-      "claude:labeller"
+      "claude:labeller",
+      "gemini:blind"
      ]
     }
    ],
@@ -7328,6 +7540,7 @@
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
+      "gemini:blind",
       "human:key44:spot-check"
      ]
     },
@@ -7346,12 +7559,12 @@
      ],
      "description": "Puts back the section 'Legality of the Jäger movement under Finland's constitutional laws', which reads the treason chapter of the 1734 law as making the Jägers, and the Finns who helped them, guilty of treason punishable by death.",
      "why": "Level 2. Claim (legal/narrative interpretation cited only to the law text): 'Saksan puolella taisteleminen voidaan katsoa erityisen raskauttavaksi asianhaaraksi' (fighting on Germany's side can be regarded as an especially aggravating circumstance); 'suomalaiset, jotka auttoivat jääkäreitä siirtymään Saksaan, olivat myös syyllisiä samaan perustuslain vastaiseen toimintaan' (Finns who helped the Jägers move to Germany were also guilty of the same unconstitutional activity). Community dispute: edit war 13-15 Nov 2012. E57 took the section out (parent of 12331497), E58 put it back (12331497); E59 took it out (12336776, 'Tarpeeton osio - kaikki vapaustaistelijat ovat miehittäjän näkökulmasta laittomia' = unnecessary section, all freedom fighters are illegal from the occupier's view, c29); E60 put it back (12337379); E43 removed it (12337677) with 'lähde vertautuu primäärilähteeseen. Tulkintoja voidaan esittää vain sekundäärilähteiden perusteella' (the source is comparable to a primary source; interpretations only from secondary sources = sourcing reason). Not in the latest revision. Level 3 checked, not assigned: two distinct inserting accounts (E58, E60) is one signal; one article; the two put-backs in the pack are 2 days apart. The core paragraph already stood in the 23 March 2012 version (c31's restored side), so a first-to-last span over 7 days is arguable, but that original insertion is outside the pack and E58 put back its own reworded version; when in doubt, the lower level.",
-     "human_verified": true,
-     "notes": "Reviewer: borderline level 3 (accounts E58+E60; persistence only if the pre-March-2012 original insertion counts). Both put-backs used the FlaggedRevs reject function ('Hylättiin viimeisin tekstimuutos'). Accepted on a human spot check (2026-11-14): all labellers agreed on this contested/campaign label; not every diff was read.",
+     "human_verified": false,
+     "notes": "Labellers disagree: labeller contested; claude:blind contested (Level 2: section 'Jääkäriliikkeen laillisuus Suomen perustuslakien mukaan' says the 1734 law 'voidaan tulkita siten, että suomalaiset, jotka auttoivat jääkäreitä ... olivat myös syyllisiä' (can be read as those who helped Jägers also being guilty). Removed as 'lähde vertautuu primäärilähteeseen. Tulkintoja voidaan esittää vain sekundäärilähteiden perusteella' (primary source; interpretations only from secondary sources); removed and restored several times in 3 days. One article, under 7 days: not campaign.); gemini:blind campaign (Level 3 — because: added an interpretive legal section \"Jääkäriliikkeen laillisuus Suomen perustuslakien mukaan\" ('Legality of the Jäger movement under the constitutional laws of Finland') arguing from the 1734 law code that Jägers and anyone aiding them were traitors punishable by death (\"Tätä lainkohtaa voidaan tulkita siten, että suomalaiset, jotka auttoivat jääkäreitä siirtymään Saksaan, olivat myös syyllisiä samaan perustuslain vastaiseen toimintaan\", 'This legal provision can be interpreted such that Finns who helped Jägers move to Germany were also guilty of the same unconstitutional activity'); disputed via edit war, re-insertion, and removal reason citing improper synthesis from a primary source (\"Poisto: lähde vertautuu primäärilähteeseen. Tulkintoja voidaan esittää vain sekundäärilähteiden perusteella\", 'Removal: the source is comparable to a primary source. Interpretations can only be presented based on secondary sources'); and added/restored by 2 distinct named accounts (plus improper use of a primary legal source to advance an original-research claim).). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
-      "human:key44:spot-check"
+      "gemini:blind"
      ]
     },
     {
@@ -7372,6 +7585,7 @@
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
+      "gemini:blind",
       "human:key44:spot-check"
      ]
     },
@@ -7394,6 +7608,7 @@
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
+      "gemini:blind",
       "human:key44:spot-check"
      ]
     },
@@ -7416,6 +7631,7 @@
      "labelled_by": [
       "claude:labeller",
       "claude:blind",
+      "gemini:blind",
       "human:key44:spot-check"
      ]
     },
@@ -7439,10 +7655,11 @@
      "description": "Replaces the German historical place names (Libau, Misse, Schmarden, Eckau, Aa) with modern Latvian ones (Liepāja, Misa, Smārdes, Iecava, Lielupe) and reorders the battalion's official Finnish name to 'Preussin kuninkaallinen jääkäripataljoona 27'.",
      "why": "Level 1. Substantive (place names and the unit's name in prose), removed four times by other accounts, each with 'rv, eston kiertoa (E93)' (revert, block evasion); put back on 12, 13 and 21 Aug 2019 by IPs that all fall in one masked range (2001:999:…, one editor for counting). Not level 2: the change is a naming convention for the same places and unit, with no claim about a contested fact, and the removals cite block evasion, not accuracy or neutrality; an edit war over naming alone is not a disputed claim. Category other, capped at level 1. Two further put-backs (18341274, 18343307) appear only as removal_undone_by_rev_id and cannot be listed.",
      "human_verified": false,
-     "notes": "Same chain (sha1) across c06-c09. The removers are anonymous IPs from four different ranges using a block-evasion summary, which is unusual.",
+     "notes": "Labellers disagree: labeller reverted; claude:blind reverted (Level 1: repeated edits from one masked range reordering the battalion name ('Preussin kuninkaallinen jääkäripataljoona', summary on Finnish word order) and Libau/Liepāja wording; removed as 'rv, eston kiertoa' (block evasion). Naming/style, an edit war over wording is not a disputed claim.); gemini:blind contested (Level 2 — because: repeatedly changed the official Finnish name of the unit to \"Preussin kuninkaallinen jääkäripataljoona 27\" ('Royal Prussian Jäger Battalion 27') and German exonyms like \"Libau\" to Latvian names like \"Liepāja (ent. saks. Libau)\" ('Liepāja (former German Libau)'). Put back 3 times over 10 days (persistence signal met), but all inserting edits came from a single masked IPv6 range (2001:999:…) on a single article with no source manipulation, so it lacks the account or article signal required for Level 3.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7463,7 +7680,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7485,7 +7703,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7502,9 +7721,11 @@
      "description": "Adds that Svinhufvud also represented opponents of Russian rule and had a personal motive for anti-Russian feeling because of his exile to Siberia.",
      "why": "Level 1. Removed after 2.1 days by E84: 'Lähteetön lisäys ja pääosin toistaa edellisen tekstikappaleen asioita' (unsourced addition that mostly repeats the previous paragraph). Plausible interpretive text whose recorded problems are a missing source and redundancy; no changed fact, the remover does not call it wrong: good-faith error, capped at level 1. Not put back.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; claude:blind reverted (Level 1: added that Svinhufvud also represented opponents of Russian rule and that exile to Siberia gave him a personal motive for anti-Russian feeling. Removed as 'Lähteetön lisäys ja pääosin toistaa edellisen' (unsourced and mostly repeats the previous paragraph). Plausible, mild framing, only a missing source.); gemini:blind contested (Level 2 — because: added an unsourced claim attributing personal motive to Svinhufvud (\"Siperiaan karkoituksen takia hänellä oli Venäjän vastaisuuteen henkilökohtainen motiivi\", 'Because of his exile to Siberia he had a personal motive for opposition to Russia'), and removed with a sourcing reason (\"Lähteetön lisäys ja pääosin toistaa edellisen tekstikappaleen asioita\", 'Unsourced addition and mainly repeats things from the previous paragraph').). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7521,9 +7742,11 @@
      "description": "Changes 'the Bolshevik government granted Finland independence' to 'also recognised' it, and adds that Finland correspondingly recognised the new Soviet Russian government.",
      "why": "Level 1. Removed after 14.3 h by E195: 'Hyvä lisäys. Lähde pitäisi vain lisätä myös.' (good addition; a source should just be added too). The wording change touches a framing point (granted vs recognised), but the only recorded problem is the missing source and the remover endorsed the content, so there is no community dispute of the claim: good-faith error, capped at level 1. Not put back.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; claude:blind reverted (Level 1: added 'Vastaavasti Suomi tunnusti Neuvosto-Venäjän uuden hallinnon' (Correspondingly Finland recognised the new Soviet-Russian regime). Remover wrote 'Hyvä lisäys. Lähde pitäisi vain lisätä myös' (good addition, a source should be added). Only problem is a missing source.); gemini:blind contested (Level 2 — because: added the factual claim \"Vastaavasti Suomi tunnusti Neuvosto-Venäjän uuden hallinnon\" ('Correspondingly, Finland recognized the new administration of Soviet Russia'), and removed with a sourcing reason (\"Lähde pitäisi vain lisätä myös\", 'A source should just be added too').). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7540,10 +7763,11 @@
      "description": "Puts back the name forms 'Jääkäriliikkeen keskuskomitea', 'Preussin kuninkaallinen jääkäripataljoona nro 27' and 'Liepāja' over an edit that had changed them to 'Itsenäisyysliikkeen keskuskomitea', 'Kuninkaallinen Preussin Jääkäripataljoona 27' and 'Libau'.",
      "why": "Level 1. Substantive (names in prose and in a quoted source note), an undo of another editor's change, removed after 31.9 h by a different account with 'RV sittenkin' (revert after all). Naming-convention change with no claim about a contested fact and no accuracy/neutrality reason: category other, level 1. Not put back.",
      "human_verified": false,
-     "notes": "Part of the same 2015-2019 naming disagreement as i06 and n01 (Libau/Liepāja, word order of the battalion's name).",
+     "notes": "Labellers disagree: labeller reverted; claude:blind reverted (Level 1: a revert-type edit (summary 'Kumottu muokkaus ... ') changed names and links, e.g. 'Itsenäisyysliikkeen keskuskomitea' to 'Jääkäriliikkeen keskuskomitea' and the battalion name form. Removed next day with 'RV sittenkin' (reverted after all). Naming/wording only, no dispute signal about a claim.); gemini:blind contested (Level 2 — because: part of a back-and-forth revert sequence over the Finnish translation of the battalion's official name (\"Preussin kuninkaallinen jääkäripataljoona nro 27\" vs. \"Kuninkaallinen Preussin Jääkäripataljoona 27\", 'Royal Prussian Jäger Battalion No. 27') and place name Liepāja vs. Libau.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7560,9 +7784,11 @@
      "description": "Adds an unsourced observation that between the Power Act and the declaration of independence power had shifted left-to-right in Finland and right-to-left in Russia, with Russian troops present at both decisions.",
      "why": "Level 1. Removed after 39 days by E348: 'lähteetön pätkä pois, ei muutenkaan kuulu tähän' (unsourced snippet out, does not belong here anyway). Editorial juxtaposition ('Näyttää merkittävältä' = it seems significant) with no changed number, date, name or attribution; the inserting summary argued it was basic knowledge needing no source. No slant beyond the editorialising: capped at level 1. Not put back. Partial removal; insertion checked in insertion_diff.",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller reverted; claude:blind reverted (Level 1: added 'Näyttää merkittävältä ... että näiden välissä valta oli vaihtunut Suomessa vasemmalta oikealle, Venäjällä oikealta vasemmalle' (It seems significant that power had shifted in Finland left to right, in Russia right to left, and that Russian troops were in Finland). Removed after 39 days as 'lähteetön pätkä pois, ei muutenkaan kuulu tähän' (unsourced bit, does not belong here). Own-observation commentary but no changed fact or dispute signal.); gemini:blind contested (Level 2 — because: added an interpretive claim \"Näyttää merkittävältä suhteessa valtalakiin ja itsenäisyysjulistukseen, että näiden välissä valta oli vaihtunut Suomessa vasemmalta oikealle, Venäjällä oikealta vasemmalle\" ('It appears significant in relation to the Power Act and the Declaration of Independence that between them power had shifted in Finland from left to right, in Russia from right to left'), and removed as unsourced (\"lähteetön pätkä pois, ei muutenkaan kuulu tähän\", 'unsourced snippet out, does not belong here anyway').). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7585,7 +7811,8 @@
      "notes": "The other side of this Dec 2015 edit war (E74 and E78, one masked range 85.76.x.x, then E322 in 2001:999:…; 'vapaussota' -> 'sisällissota', Libau -> Liepāja, 'Viroon ja Venäjän Karjalaan') would be its own item, but its revisions appear in the pack only as removing_rev_ids, so it cannot be built here.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7606,7 +7833,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7627,7 +7855,8 @@
      "notes": "The pack's diff text contains the full unmasked IPv4 address; it is not repeated here.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7645,9 +7874,11 @@
      "description": "Replaces flag templates in the table of countries recognising Finland with {{lippukuvake}} templates and links to period-specific state articles.",
      "why": "Excluded: not-substantive. Only templates and link targets changed; the country names shown stay the same. Removed after 6.1 h by E92 as block evasion ('rv, eston kiertoa').",
      "human_verified": false,
+     "notes": "Labellers disagree: labeller not-incident/not-substantive; claude:blind not-incident/not-substantive (Exclusion not-substantive: table of recognising countries reformatted with flag templates ({{lippukuvake|...}}) and links; no new prose or facts. Removal summary 'rv, eston kiertoa' (block evasion).); gemini:blind reverted (Level 1 — updated flag templates and historical state links in a recognition table (e.g. changing {{Ranska}} to link to 'French Third Republic'), removed solely for block evasion (\"eston kiertoa\") without a content dispute signal.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7665,10 +7896,11 @@
      "description": "Adds a bold line that Bobrikov had also lived in a present-day residential area, naming the house's current resident.",
      "why": "Excluded: graffiti. A prank line naming a private present-day person, rolled back in 15 s.",
      "human_verified": false,
-     "notes": "Labellers disagree: labeller not-incident/graffiti; claude:blind reverted (Level 1: added a line that Bobrikov had also lived in a named house and who the present resident is (a private person). Trivia, removed in 15 s by a different account. Coherent, so not graffiti; no dispute signal.). Lowest level kept until a human decides.",
+     "notes": "Labellers disagree: labeller not-incident/graffiti; claude:blind reverted (Level 1: added a line that Bobrikov had also lived in a named house and who the present resident is (a private person). Trivia, removed in 15 s by a different account. Coherent, so not graffiti; no dispute signal.); gemini:blind not-incident/graffiti (Not an incident (graffiti) — added joke vandalism claiming Governor-General Bobrikov lived in the modern suburb of Pähkinärinne and naming a contemporary resident.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7688,7 +7920,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7708,7 +7941,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7728,7 +7962,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7749,7 +7984,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7769,7 +8005,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7789,7 +8026,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7809,7 +8047,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7827,10 +8066,11 @@
      "description": "E75's 2005 section on the Pfadfinder course (training, weapons, course length), which the text search matched to a paragraph 'removed' in 2007.",
      "why": "Excluded: not-substantive. The removing revision (E346, '{{ref}} -> <ref> + {{viitteet|fontti|sarakkeet}} + kirjallisuutta -> Lähteet') only converted footnote markup; the matched paragraph reappears verbatim in the same diff with an inline <ref>, so no prose was taken out. The partial-removal text search matched a paragraph that was not taken out.",
      "human_verified": false,
-     "notes": "Labellers disagree: labeller not-incident/not-substantive; claude:blind reverted (Level 1: a 2005 edit added sourced sections on the Pfadfinder training course (text with citations, e.g. Lauerma 1966). It disappeared 570 days later in an edit whose summary only names reference-format cleanup; no claim or dispute signal. Possible mismatch between insertion and removal edits.). Lowest level kept until a human decides.",
+     "notes": "Labellers disagree: labeller not-incident/not-substantive; claude:blind reverted (Level 1: a 2005 edit added sourced sections on the Pfadfinder training course (text with citations, e.g. Lauerma 1966). It disappeared 570 days later in an edit whose summary only names reference-format cleanup; no claim or dispute signal. Possible mismatch between insertion and removal edits.); gemini:blind not-incident/not-substantive (Not an incident (not-substantive) — the removing edit 3159633 only converted legacy {{ref}} citation templates into <ref> tags across the article without removing substantive content.). Lowest level kept until a human decides.",
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     },
     {
@@ -7850,7 +8090,8 @@
      "human_verified": false,
      "labelled_by": [
       "claude:labeller",
-      "claude:blind"
+      "claude:blind",
+      "gemini:blind"
      ]
     }
    ],
