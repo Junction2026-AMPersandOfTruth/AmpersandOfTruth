@@ -8,8 +8,9 @@ namespace AmpersandOfTruth.Web.Features.Investigations.Pipeline;
 /// <summary>
 /// Stage 4 placeholder: one removed edit (+ its LLM reading, if any) → <see cref="IncidentEvidence"/> →
 /// <see cref="TierRules.Assess"/> → <see cref="IncidentRecord"/>, or null when the evidence standard excludes it.
-/// One edit = one incident: its re-insertions are exact restores of its own content, so everything counted is on the
-/// claim's side (the frozen contract's claim-side counting, CONTRACT.md §3) without S7 clusters.
+/// One edit = one incident here: its re-insertions are exact restores of its own content, so everything counted is on the
+/// claim's side (the frozen contract's claim-side counting, CONTRACT.md §3) without S7 clusters. A re-insertion chain
+/// reverted several times gives one incident per revert; <see cref="IncidentMerger"/> folds them into one after stage 4.
 /// Wired: removal reason (S5, <see cref="RevertReasons"/>), re-insertion (S1 identity restores), distinct editors, passage-level
 /// edit war (S10, <see cref="EditWars.Passage"/>), source change (S8 citations removed/swapped, or an assessment of source
 /// manipulation, as S10). Not yet (left at their "no evidence" default): dispute template, multiple articles, kept-in-latest.
