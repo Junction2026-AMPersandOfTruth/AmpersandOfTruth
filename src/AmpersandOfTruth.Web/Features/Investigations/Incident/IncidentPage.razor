@@ -5,9 +5,11 @@
 @using AmpersandOfTruth.Web.Features.Investigations.Fixtures
 @using AmpersandOfTruth.Web.Features.Investigations.Overview
 @using AmpersandOfTruth.Web.Features.Investigations.View
+@using AmpersandOfTruth.Web.Features.Translation
 @using Microsoft.Extensions.DependencyInjection
 @inject IIncidentSource Source
 @inject NavigationManager Navigation
+@inject IJSRuntime JS
 @inject IServiceProvider Services
 
 <PageTitle>@BuildPageTitle() · Ampersand of Truth</PageTitle>
@@ -105,15 +107,27 @@
             </p>
             @if (_incident.Articles.Count > 0)
             {
-                <div class="aot-small" style="margin-top:4px" data-testid="incident-articles">
+                <div class="aot-row aot-small" style="margin-top:4px" data-testid="incident-articles">
                     @for (var i = 0; i < _incident.Articles.Count; i++)
                     {
                         var article = _incident.Articles[i];
-                        @if (i > 0)
-                        {
-                            <text>, </text>
-                        }
-                        <a href="@string.Create(CultureInfo.InvariantCulture, $"/articles/{article.PageId}")" lang="fi">@article.TitleFi</a>@if (!string.IsNullOrWhiteSpace(article.TitleEn) && !string.Equals(article.TitleEn, article.TitleFi, StringComparison.OrdinalIgnoreCase)) { <text> </text><span class="aot-muted">(@article.TitleEn)</span> }
+                        <span class="aot-row" style="gap:var(--space-1)">
+                            <a href="@string.Create(CultureInfo.InvariantCulture, $"/articles/{article.PageId}")" lang="fi">@article.TitleFi</a>@if (!string.IsNullOrWhiteSpace(article.TitleEn))
+                            {
+                                @if (!string.Equals(article.TitleEn, article.TitleFi, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    <span class="aot-muted">(@article.TitleEn)</span>
+                                }
+                            }
+                            else if (_titleTranslations.TryGetValue(article.TitleFi, out var translatedTitle) && !string.IsNullOrWhiteSpace(translatedTitle))
+                            {
+                                <MtLabel Text="@translatedTitle" Original="@article.TitleFi" />
+                            }
+                            @if (i < _incident.Articles.Count - 1)
+                            {
+                                <span aria-hidden="true">,</span>
+                            }
+                        </span>
                     }
                 </div>
             }
@@ -127,7 +141,7 @@
                             Text="CurrentTextMode"
                             Lang="@CurrentLang"
                             EvidenceQuotes="@(_incident.Assessment?.Quotes ?? [])"
-                            OnModeChanged="HandleDiffModeChanged"
+                            OnModeChanged="HandleDiffModeChangedAsync"
                             Scope="@ScopeKey" />
             </section>
 
@@ -147,10 +161,16 @@
 </div>
 
 @code {
+    private readonly Dictionary<string, string> _titleTranslations = new(StringComparer.Ordinal);
     private ElementReference _wrapper;
+    private LanguagePreference? _langPreference;
     private CancellationTokenSource? _cts;
+    private CancellationTokenSource? _titleCts;
     private (string Topic, string IncidentId)? _loadedKey;
+    private (string Topic, string IncidentId)? _translatedIncidentKey;
     private bool _loading = true;
+    private bool _hasNavigated;
+    private bool _disposed;
     private IReadOnlyList<IncidentView>? _incidents;
     private IncidentView? _incident;
     private IncidentView? _prevIncident;
@@ -164,20 +184,32 @@
     [SupplyParameterFromQuery(Name = "text")] public string? TextQuery { get; set; }
     [SupplyParameterFromQuery(Name = "lang")] public string? LangQuery { get; set; }
 
+    private LanguagePreference LangPreference =>
+        _langPreference ??= Services.GetService<LanguagePreference>() ?? new LanguagePreference();
+
     private DiffMode CurrentDiffMode =>
-        string.Equals(ViewQuery ?? ReadQueryValue("view"), "split", StringComparison.OrdinalIgnoreCase)
+        string.Equals(ReadQueryValue("view") ?? (_hasNavigated ? null : ViewQuery), "split", StringComparison.OrdinalIgnoreCase)
             ? DiffMode.Split
             : DiffMode.Inline;
 
     private DiffTextMode CurrentTextMode =>
-        string.Equals(TextQuery ?? ReadQueryValue("text"), "wikitext", StringComparison.OrdinalIgnoreCase)
+        string.Equals(ReadQueryValue("text") ?? (_hasNavigated ? null : TextQuery), "wikitext", StringComparison.OrdinalIgnoreCase)
             ? DiffTextMode.Wikitext
             : DiffTextMode.Prose;
 
-    private string CurrentLang =>
-        string.Equals(LangQuery ?? ReadQueryValue("lang"), "fi", StringComparison.OrdinalIgnoreCase)
-            ? "fi"
-            : "en";
+    private string CurrentLang
+    {
+        get
+        {
+            var queryLang = ReadQueryValue("lang") ?? (_hasNavigated ? null : LangQuery);
+            if (!string.IsNullOrWhiteSpace(queryLang))
+            {
+                return NormalizeLang(queryLang);
+            }
+
+            return NormalizeLang(LangPreference.Lang);
+        }
+    }
 
     private string ScopeKey => TopicSlug.From(Topic) is { Length: > 0 } slug ? slug : Topic;
 
@@ -214,6 +246,11 @@
         }
     }
 
+    protected override void OnInitialized()
+    {
+        LangPreference.Changed += HandleLanguagePreferenceChanged;
+    }
+
     protected override async Task OnParametersSetAsync()
     {
         var key = (Topic ?? "", IncidentId ?? "");
@@ -221,6 +258,11 @@
         {
             return;
         }
+
+        _titleCts?.Cancel();
+        _titleCts?.Dispose();
+        _titleCts = null;
+        _translatedIncidentKey = null;
 
         _cts?.Cancel();
         _cts?.Dispose();
@@ -266,13 +308,108 @@
             {
                 // Ignore JS focus failures during disconnected circuit or test setups.
             }
+
+            var beforeLang = CurrentLang;
+            await LangPreference.LoadAsync(JS);
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (!string.Equals(beforeLang, CurrentLang, StringComparison.Ordinal))
+            {
+                StateHasChanged();
+            }
         }
+
+        await TranslateUntitledArticlesIfNeededAsync();
     }
 
     public void Dispose()
     {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
+        if (_langPreference is not null)
+        {
+            _langPreference.Changed -= HandleLanguagePreferenceChanged;
+        }
+
         _cts?.Cancel();
         _cts?.Dispose();
+        _titleCts?.Cancel();
+        _titleCts?.Dispose();
+    }
+
+    private void HandleLanguagePreferenceChanged()
+    {
+        if (!_disposed)
+        {
+            _ = InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task TranslateUntitledArticlesIfNeededAsync()
+    {
+        if (_disposed || _loading || _incident is null || _loadedKey is not { } key)
+        {
+            return;
+        }
+
+        if (_translatedIncidentKey == key)
+        {
+            return;
+        }
+
+        _translatedIncidentKey = key;
+
+        var articles = _incident.Articles
+            .Select(static a => (a.TitleFi, a.TitleEn))
+            .ToArray();
+
+        _titleCts?.Cancel();
+        _titleCts?.Dispose();
+        var run = _titleCts = new CancellationTokenSource();
+        var ct = run.Token;
+
+        try
+        {
+            var translated = await ArticleTitleTranslator.TranslateMissingAsync(
+                Services.GetService<IEvidenceTranslator>(),
+                articles,
+                existing: _titleTranslations,
+                scope: ScopeKey,
+                ct: ct);
+
+            if (_disposed || ct.IsCancellationRequested || !ReferenceEquals(run, _titleCts))
+            {
+                return;
+            }
+
+            var updated = false;
+            foreach (var (fi, en) in translated)
+            {
+                if (_titleTranslations.TryAdd(fi, en))
+                {
+                    updated = true;
+                }
+            }
+
+            if (updated)
+            {
+                StateHasChanged();
+            }
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+            if (ReferenceEquals(run, _titleCts))
+            {
+                _translatedIncidentKey = null;
+            }
+        }
     }
 
     private void ResolveCurrentIncident(IReadOnlyList<IncidentView>? list, string incidentId)
@@ -349,16 +486,37 @@
         }
     }
 
-    private void HandleDiffModeChanged((DiffMode Mode, DiffTextMode Text, string Lang) next)
+    private async Task HandleDiffModeChangedAsync((DiffMode Mode, DiffTextMode Text, string Lang) next)
     {
+        var nextLang = NormalizeLang(next.Lang);
+        var langToggled = !string.Equals(nextLang, CurrentLang, StringComparison.Ordinal)
+            || (next.Mode == CurrentDiffMode && next.Text == CurrentTextMode);
+
+        if (langToggled)
+        {
+            await LangPreference.SetAsync(JS, nextLang);
+        }
+
+        _hasNavigated = true;
+        var langParam = nextLang == LanguagePreference.Finnish
+            ? LanguagePreference.Finnish
+            : string.Equals(LangPreference.Lang, LanguagePreference.Finnish, StringComparison.Ordinal)
+                ? LanguagePreference.English
+                : null;
+
         var uri = Navigation.GetUriWithQueryParameters(new Dictionary<string, object?>
         {
             ["view"] = next.Mode == DiffMode.Split ? "split" : null,
             ["text"] = next.Text == DiffTextMode.Wikitext ? "wikitext" : null,
-            ["lang"] = string.Equals(next.Lang, "fi", StringComparison.OrdinalIgnoreCase) ? "fi" : null,
+            ["lang"] = langParam,
         });
         Navigation.NavigateTo(uri, replace: true);
     }
+
+    private static string NormalizeLang(string? lang) =>
+        string.Equals(lang?.Trim(), LanguagePreference.Finnish, StringComparison.OrdinalIgnoreCase)
+            ? LanguagePreference.Finnish
+            : LanguagePreference.English;
 
     private string IncidentHref(string id) =>
         $"/investigate/{Uri.EscapeDataString(Topic)}/incidents/{Uri.EscapeDataString(id)}{FullQuery}";

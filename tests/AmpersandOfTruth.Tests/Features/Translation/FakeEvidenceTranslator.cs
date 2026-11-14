@@ -16,6 +16,7 @@ public sealed class FakeEvidenceTranslator : IEvidenceTranslator
     public int TranslateCalls { get; private set; }
     public int TranslateManyCalls { get; private set; }
     public int TranslatePassageCalls { get; private set; }
+    public List<(IReadOnlyList<string> Texts, string SourceLang, string? Scope)> BatchRequests { get; } = [];
 
     public FakeEvidenceTranslator Returns(string original, string english)
     {
@@ -75,6 +76,7 @@ public sealed class FakeEvidenceTranslator : IEvidenceTranslator
         }
 
         TranslateManyCalls++;
+        BatchRequests.Add((texts.ToArray(), sourceLang, scope));
         var results = new TranslationResult[texts.Count];
         for (var i = 0; i < texts.Count; i++)
         {
