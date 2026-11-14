@@ -64,8 +64,8 @@ SIGNAL_CATALOG_IDS = {
 
 TIER_LABELS = {
     "reverted": "Removed by Wikipedia editors",
-    "contested": "Contested push",
-    "campaign": "Sustained push",
+    "contested": "Disputed and removed",
+    "campaign": "Pattern consistent with a coordinated attempt",
 }
 
 COPY_RULE_PATTERNS = [
