@@ -99,6 +99,14 @@ public class SampleIncidentsTests
         Assert.Same(topic, samples.Match("suomen-talvisota-1939"));
         Assert.Null(samples.Match("continuation-war"));
         Assert.Null(samples.Match("!!!"));
+
+        // The sample's title replaces the heading only for the topic itself, never for an alias
+        // (live bug: /investigate/mainila-shots was headed "Winter War").
+        Assert.Equal("Winter War", samples.TitleFor("winter-war"));
+        Assert.Equal("Winter War", samples.TitleFor("  winter war "));
+        Assert.Null(samples.TitleFor("talvisota"));
+        Assert.Null(samples.TitleFor("suomen-talvisota-1939"));
+        Assert.Null(samples.TitleFor("continuation-war"));
     }
 
     [Theory]

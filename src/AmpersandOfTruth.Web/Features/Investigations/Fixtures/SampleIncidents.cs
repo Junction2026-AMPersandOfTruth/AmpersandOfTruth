@@ -70,6 +70,16 @@ public sealed class SampleIncidents
         return key.Length == 0 ? null : _bySlug.GetValueOrDefault(key);
     }
 
+    /// <summary>The sample topic's display title, but only when <paramref name="topicOrSlug"/> names the topic itself
+    /// (its slug or title). An alias ("Mainila shots" → Winter War) keeps the user's own wording as the heading.</summary>
+    public string? TitleFor(string topicOrSlug)
+    {
+        var topic = Match(topicOrSlug);
+        if (topic is null) return null;
+        var key = TopicSlug.From(topicOrSlug);
+        return key == TopicSlug.From(topic.Slug) || key == TopicSlug.From(topic.Title) ? topic.Title : null;
+    }
+
     internal static IReadOnlyList<(string FileName, string Json)> ReadEmbeddedFiles(Assembly? assembly = null)
     {
         var asm = assembly ?? typeof(SampleIncidents).Assembly;

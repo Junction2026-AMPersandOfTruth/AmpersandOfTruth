@@ -271,7 +271,7 @@
     {
         get
         {
-            var sampleTitle = Services.GetService<SampleIncidents>()?.Match(Topic)?.Title;
+            var sampleTitle = Services.GetService<SampleIncidents>()?.TitleFor(Topic);
             if (!string.IsNullOrWhiteSpace(sampleTitle))
             {
                 return sampleTitle;
