@@ -347,18 +347,29 @@
     private static string FormatTimestamp(DateTimeOffset t) =>
         t.UtcDateTime.ToString("d MMM yyyy, HH:mm", CultureInfo.InvariantCulture) + " UTC";
 
-    private static string Shorten(string text, int max)
+    /// <summary>Collapses whitespace and cuts at a word boundary (never mid-word), adding "…" when cut.</summary>
+    internal static string Shorten(string text, int max)
     {
         var clean = string.Join(' ', text.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries));
-        return clean.Length <= max ? clean : clean[..max].TrimEnd() + "…";
+        if (clean.Length <= max) return clean;
+        var cut = clean.LastIndexOf(' ', max);
+        if (cut < max / 2) cut = max; // one very long token: a hard cut beats an empty quote
+        return clean[..cut].TrimEnd(' ', ',', ';', ':', '(', '[', '-', '–') + "…";
     }
 
-    /// <summary>Fetched text arrives as Markdown: show it as plain words (links → their text, no heading/emphasis marks).</summary>
-    private static string PlainText(string text)
+    /// <summary>Fetched text arrives as Markdown: show it as plain words (links → their text, footnote markers and
+    /// URLs dropped, no heading/emphasis marks). Also copes with passages cut inside a link.</summary>
+    internal static string PlainText(string text)
     {
-        var s = Regex.Replace(text, @"!?\[([^\]]*)\]\([^)]*\)", "$1");
+        // Links and images, with one level of nested brackets in the text ("[[4]](url)") and parentheses in the URL.
+        var s = Regex.Replace(text, @"!?\[((?:[^\[\]]|\[[^\[\]]*\])*)\]\((?:[^()\s]|\([^()\s]*\))*(?:\s+""[^""]*"")?\)", "$1");
+        s = Regex.Replace(s, @"!?\[([^\[\]]*)\]\([^)]*$", "$1");          // a link cut off by the passage's end
+        s = Regex.Replace(s, @"<https?://[^>\s]*>?|https?://\S+", "");  // bare and autolinked URLs
+        s = Regex.Replace(s, @"\[(?:\d{1,3}|[a-z]|edit|muokkaa|redigera|citation needed|lähde\?)\]", "", RegexOptions.IgnoreCase); // footnotes
+        s = Regex.Replace(s, @"\[\s*\]|\[(?=[^\]]*$)|(?<=^[^\[]*)\]", "");  // leftover empty or unmatched brackets
         s = Regex.Replace(s, @"(^|\s)#{1,6}\s+", "$1");
         s = Regex.Replace(s, @"\*\*|__|(?<!\w)[*_](?=\S)|(?<=\S)[*_](?!\w)", "");
+        s = Regex.Replace(s, @"\s+([.,;:!?])", "$1");                   // "claim [4]." → "claim."
         return s;
     }
 

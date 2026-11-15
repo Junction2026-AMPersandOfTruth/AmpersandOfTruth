@@ -148,4 +148,24 @@ public sealed class WebSpreadPanelTests : BunitContext
         Assert.Empty(cut.FindAll("[data-testid=webspread-headline]"));
         Assert.Null(_kit.Results.GetAsync("inc-1").GetAwaiter().GetResult());
     }
+
+    [Fact]
+    public void Shorten_cuts_at_a_word_boundary()
+    {
+        var text = "Neuvostoliitto hyökkäsi Suomeen ja Suomi puolusti itse lavealla rintamalla";
+        var shown = WebSpreadPanel.Shorten(text, 52);
+        Assert.Equal("Neuvostoliitto hyökkäsi Suomeen ja Suomi puolusti…", shown);
+        Assert.Equal(text, WebSpreadPanel.Shorten(text, 500));
+    }
+
+    [Theory]
+    [InlineData("The war began in 1939.[4] Next.", "The war began in 1939. Next.")]
+    [InlineData("The war began in 1939 [4].", "The war began in 1939.")]
+    [InlineData("The war began[[4]](https://example.org/wiki/X_(y)#cite) in 1939.", "The war began in 1939.")]
+    [InlineData("See [the report](https://example.org/a \"Title\") here.", "See the report here.")]
+    [InlineData("Cut inside a link: [the rep", "Cut inside a link: the rep")]
+    [InlineData("Cut in the url: [the report](https://exa", "Cut in the url: the report")]
+    [InlineData("Source: https://example.org/x and **bold** text", "Source: and bold text")]
+    public void PlainText_drops_link_and_footnote_markup(string markdown, string expected) =>
+        Assert.Equal(expected, WebSpreadPanel.Shorten(WebSpreadPanel.PlainText(markdown), 500));
 }

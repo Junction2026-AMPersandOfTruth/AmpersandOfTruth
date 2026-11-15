@@ -60,7 +60,12 @@ public static partial class LexicalMatcher
         var from = pageTokens[bestStart].Start;
         var lastToken = pageTokens[Math.Min(pageTokens.Count - 1, bestStart + claimTokens.Count + size)];
         var to = Math.Min(page.Length, Math.Max(lastToken.Start + lastToken.Length, from + 1));
-        if (to - from > passageChars) to = from + passageChars;
+        if (to - from > passageChars)
+        {
+            to = from + passageChars;
+            var space = page.LastIndexOfAny([' ', '\n', '\t'], to - 1, passageChars / 2);
+            if (space > from) to = space; // end on a word boundary, never mid-word
+        }
         return new(type, containment, page[from..to].Trim(), from);
     }
 
