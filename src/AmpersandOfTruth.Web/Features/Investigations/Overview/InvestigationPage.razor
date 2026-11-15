@@ -483,7 +483,7 @@
     private bool IsSafeMode =>
         Services.GetService<IOptionsMonitor<DemoOptions>>()?.CurrentValue.SafeMode == true;
 
-    private string TopicText => Services.GetService<AmpersandOfTruth.Web.Features.Investigations.Fixtures.SampleIncidents>()?.Match(Topic ?? "")?.Title
+    private string TopicText => Services.GetService<AmpersandOfTruth.Web.Features.Investigations.Fixtures.SampleIncidents>()?.TitleFor(Topic ?? "")
         ?? (TopicSlug.ToQuery(Topic ?? "") is { Length: > 0 } q ? char.ToUpperInvariant(q[0]) + q[1..] : "");
 
     private string EffectiveSlug
